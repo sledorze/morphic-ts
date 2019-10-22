@@ -1,0 +1,92 @@
+{
+  "name": "face-ts",
+  "version": "0.1.0",
+  "description": "Interpretable Generic Model Definition Encoding",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
+    "jest": "jest",
+    "jest-coverage": "jest --ci --coverage",
+    "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples}/**/*.ts\"",
+    "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples}/**/*.ts\"",
+    "test": "yarn run prettier && yarn run lint && yarn run jest && yarn run docs",
+    "test-old": "yarn run prettier && yarn run lint && yarn run dtslint && yarn run jest && yarn run docs",
+    "clean": "rm -rf lib/*",
+    "build": "yarn run clean && tsc",
+    "prepublish": "yarn run build",
+    "docs-fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser markdown --write \"README.md\"",
+    "dtslint": "dtslint dtslint",
+    "mocha": "TS_NODE_CACHE=false mocha -r ts-node/register test/*.ts",
+    "docs": "docs-ts",
+    "postinstall": "bash ./ensure-deduplicate.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sledorze/face-ts.git"
+  },
+  "author": "Stephane Le Dorze <stephane.ledorze@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sledorze/face-ts/issues"
+  },
+  "homepage": "https://github.com/sledorze/face-ts",
+  "dependencies": {
+    "@types/chai": "4.2.3",
+    "chai": "4.2.0",
+    "fast-check": "1.17.0",
+    "fearless-io": "14.6.0",
+    "fp-ts": "2.0.5",
+    "io-ts": "2.0.1",
+    "io-ts-types": "0.5.1",
+    "monocle-ts": "2.0.0",
+    "newtype-ts": "0.3.2"
+  },
+  "devDependencies": {
+    "@types/jest": "22.2.2",
+    "@types/node": "12.6.8",
+    "docs-ts": "github:gcanti/docs-ts",
+    "dtslint": "0.8.0",
+    "jest": "^24.8.0",
+    "mocha": "^6.2.1",
+    "prettier": "^1.18.2",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.0.2",
+    "tslint": "5.11.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "3.7.0-beta",
+    "yarn-deduplicate": "1.1.1"
+  },
+  "tags": [
+    "typescript",
+    "functional-programming",
+    "optics",
+    "lens",
+    "fp-ts"
+  ],
+  "keywords": [
+    "typescript",
+    "functional-programming",
+    "optics",
+    "lens",
+    "fp-ts"
+  ],
+  "jest": {
+    "collectCoverage": true,
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "test",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "testPathIgnorePatterns": [
+      "utils"
+    ]
+  }
+}
