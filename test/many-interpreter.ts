@@ -1,5 +1,4 @@
-// import * as chai from 'chai'
-
+import * as chai from 'chai'
 import { Program, defineAs } from './utils/program-no-union'
 import { eqInterpreter } from '../src/interpreters/eq/interpreters'
 import { showInterpreter } from '../src/interpreters/show/interpreters'
@@ -9,6 +8,8 @@ import { ioTsNonStrict } from '../src/interpreters/io-ts/interpreters'
 import { ioTsStringNonStrict } from '../src/interpreters/io-ts-string/interpreters'
 import { jsonSchemaInterpreter } from '../src/interpreters/json-schema/interpreters'
 import { matcherInterpreter } from '../src/interpreters/matcher/interpreters'
+import * as fc from 'fast-check'
+import { right } from 'fp-ts/lib/Either'
 
 export const materialize = <E, A>(program: Program<E, A>) => {
   const { fold, foldOn, foldOnWiden } = program(matcherInterpreter)
@@ -27,40 +28,49 @@ export const materialize = <E, A>(program: Program<E, A>) => {
   }
 }
 
-describe('Eq', () => {
-  it('returns false when comparing incomplete values', () => {
+describe('several interpreters', () => {
+  it('can be derived from a single definition', () => {
+    const FooDef = defineAs(F =>
+      F.interface({
+        type: F.stringLiteral('foo'),
+        date: F.date,
+        a: F.string
+      })
+    )
+
+    const BarDef = defineAs(F =>
+      F.interface({
+        type: F.stringLiteral('bar'),
+        items: F.array(F.interface({ name: F.string }))
+      })
+    )
+
     const TypeDef = defineAs(F =>
       F.taggedUnion('type', {
-        foo: F.interface({
-          type: F.stringLiteral('foo'), // <- Ici on ne détecte pas!
-          date: F.date,
-          a: F.string
-        }),
-        bar: F.interface({
-          type: F.stringLiteral('bar'),
-          items: F.array(F.interface({ name: F.string }))
-        })
+        foo: FooDef(F),
+        bar: BarDef(F)
       })
     )
 
     const Type = materialize(TypeDef)
 
-    const vFoo = Type.make({ type: 'foo', a: 'z', date: new Date() })
-    const vBar = Type.make({ type: 'bar', items: [] })
-    const x = Type.foldOn('type')({
-      bar: ({ items }) => items.length,
-      foo: ({ date }) => date.getTime()
-    })(vBar)
+    const [value1, value2] = fc.sample(Type.arb, 2)
 
-    console.log(`x ${x}`)
-    Type.eq.equals(vFoo, vBar)
-    console.log(`Swagger ${JSON.stringify(Type.jsonSchema)}`)
-    console.log(`Encoded  ${JSON.stringify(Type.type.encode(vBar))}`)
-    console.log(`Encoded  ${JSON.stringify(Type.type.encode(vFoo))}`)
+    chai.assert.isTrue(Type.type.is(value1), 'io-ts')
+    chai.assert.deepEqual(Type.type.decode(Type.type.encode(value1)), right(value1), 'io-ts encode / decode')
+    chai.assert.isString(Type.show.show(value1), 'Show')
+    chai.assert.isObject(Type.jsonSchema, 'JsonSchema')
+    chai.assert.isTrue(Type.eq.equals(value1, value1), 'Eq true')
+    chai.assert.isFalse(Type.eq.equals(value1, value2), 'Eq false')
 
-    // Type.arb.generate(...)
+    const value = Type.make({ type: 'foo', date: new Date(), a: 'a' })
+    chai.assert.isTrue(Type.type.is(value), 'make')
 
-    // const date = new Date(12345)
-    // chai.assert.strictEqual(eq.equals({ date, a: '' }, { date } as any), false)
+    const res = Type.foldOnWiden('type')({
+      bar: () => 1,
+      foo: x => x
+    })(value)
+
+    chai.assert.isTrue(Type.type.is(res), 'foldOnWiden')
   })
 })

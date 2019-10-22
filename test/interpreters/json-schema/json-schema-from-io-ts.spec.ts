@@ -15,7 +15,7 @@ describe('a json schema generator', function(this: any) {
     )
 
     const schema = toJsonSchema(decoder)
-    // console.log(JSON.stringify(schema))
+
     chai.expect(schema).to.deep.equal({
       required: ['toto'],
 
