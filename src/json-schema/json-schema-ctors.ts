@@ -133,11 +133,6 @@ export const ObjectTypeCtor = (isPartial: boolean, props: [string, OptionalJSONS
   )
 
   const obj = { type: 'object', properties } as js.ObjectSchema
-
-  // if (description !== undefined) {
-  //   obj['description'] = description
-  // }
-
   return notOptional(required.length === 0 ? obj : { ...obj, required })
 }
 
