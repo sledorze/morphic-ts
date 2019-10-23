@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/sh
 if yarn yarn-deduplicate -fl
 then
 echo "No duplicates found. Pursuing..."

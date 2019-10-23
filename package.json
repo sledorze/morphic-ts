@@ -22,7 +22,7 @@
     "dtslint": "dtslint dtslint",
     "mocha": "TS_NODE_CACHE=false mocha -r ts-node/register test/*.ts",
     "docs": "docs-ts",
-    "postinstall": "bash ./ensure-deduplicate.sh"
+    "prepare": "./ensure-deduplicate.sh"
   },
   "repository": {
     "type": "git",
@@ -37,18 +37,17 @@
   "dependencies": {
     "@types/chai": "4.2.3",
     "chai": "4.2.0",
-    "fast-check": "1.17.0",
-    "fearless-io": "14.6.0",
-    "fp-ts": "2.0.5",
-    "io-ts": "2.0.1",
-    "io-ts-types": "0.5.1",
-    "monocle-ts": "2.0.0",
-    "newtype-ts": "0.3.2"
+    "fast-check": "^1.17.0",
+    "fp-ts": "^2.0.0",
+    "io-ts": "^2.0.0",
+    "io-ts-types": "^0.5.0",
+    "monocle-ts": "^2.0.0",
+    "newtype-ts": "^0.3.0"
   },
   "devDependencies": {
     "@types/jest": "22.2.2",
     "@types/node": "12.6.8",
-    "docs-ts": "github:gcanti/docs-ts",
+    "docs-ts": "^0.2.1",
     "dtslint": "0.8.0",
     "jest": "^24.8.0",
     "mocha": "^6.2.1",
