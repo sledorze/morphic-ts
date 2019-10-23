@@ -60,24 +60,3 @@ export type TypeOf<P extends Program<any, any>> = P extends Program<any, infer A
 export const defineAs = <L, A>(F: (a: ModelAlgebra) => M<L, A>): Program<L, A> => cacheByKey(F as any)
 export const defineAsL = <L>() => <A>(F: (a: ModelAlgebra) => M<L, A>): Program<L, A> => cacheByKey(F as any)
 export const defineAsUnknown = defineAsL<unknown>()
-
-// import { URIS, Kind } from '../../src/HKT'
-// import { ModelAlgebraPrimitive1 } from '../../src/algebras/primitives'
-// import { ModelAlgebraIntersection1 } from '../../src/algebras/intersections'
-// import { ModelAlgebraTaggedUnions1 } from '../../src/algebras/tagged-unions'
-// import { ModelAlgebraObject1 } from '../../src/algebras/object'
-// import { ModelAlgebraStrMap1 } from '../../src/algebras/collections'
-// import { ModelAlgebraRecursive1 } from '../../src/algebras/recursive'
-// import { InterpreterFor, cacheByKey } from '../../src/core'
-
-// export interface ModelAlgebra<F extends URIS>
-//   extends ModelAlgebraPrimitive1<F>,
-//     ModelAlgebraIntersection1<F>,
-//     ModelAlgebraTaggedUnions1<F>,
-//     ModelAlgebraObject1<F>,
-//     ModelAlgebraStrMap1<F>,
-//     ModelAlgebraRecursive1<F>,
-//     InterpreterFor<F> {}
-
-// export type Program<A> = <F extends URIS>(F: ModelAlgebra<F>) => Kind<F, A>
-// export const defineAs = <A>(program: Program<A>): typeof program => cacheByKey(program)
