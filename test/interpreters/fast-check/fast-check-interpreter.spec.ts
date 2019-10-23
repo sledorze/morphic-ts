@@ -20,16 +20,7 @@ const build = <A>(program: <F extends URIS>(F: ModelAlgebra1<F>) => Kind<F, A>) 
 
 const testProgram = <A>(prog: <F extends URIS>(F: ModelAlgebra1<F>) => Kind<F, A>) => {
   const { arb, codec } = build(prog)
-  fc.assert(
-    fc.property(arb, x => {
-      const res = codec.is(x)
-
-      if (res === false) {
-        console.log(` TEST RESULT (codec: ${codec.name}): ${JSON.stringify(x)} ${res} `)
-      }
-      return res
-    })
-  )
+  fc.assert(fc.property(arb, codec.is))
 }
 
 describe('FastCheck interpreter', () => {

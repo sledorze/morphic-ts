@@ -54,9 +54,6 @@ export interface Program<E, A> {
   <G extends URIS>(a: ModelAlgebra1<G>): Kind<G, A>
   <G>(a: ModelAlgebra): M<E, A>
 }
-export type TypeOfE<P extends Program<any, any>> = P extends Program<infer E, any>
-  ? E
-  : 'Cannot infer TypeOf' & { error: never }
 export type TypeOf<P extends Program<any, any>> = P extends Program<any, infer A>
   ? A
   : 'Cannot infer TypeOf' & { error: never }
