@@ -6,7 +6,8 @@ import { fastCheckObjectInterpreter } from './object'
 import { fastCheckUnionInterpreter } from './unions'
 import { fastCheckTaggedUnionInterpreter } from './tagged-unions'
 import { fastCheckRecursiveInterpreter } from './recursive'
-import { fastCheckCollectionInterpreter } from './collections'
+import { fastCheckStrMapInterpreter } from './str-map'
+import { fastCheckSetInterpreter } from './set'
 
 export const defineFastCheckInterpreter = InterpreterFor('FastCheckType')
 
@@ -18,6 +19,7 @@ export const fastCheckInterpreter = defineFastCheckInterpreter(
     fastCheckUnionInterpreter,
     fastCheckTaggedUnionInterpreter,
     fastCheckRecursiveInterpreter,
-    fastCheckCollectionInterpreter
+    fastCheckStrMapInterpreter,
+    fastCheckSetInterpreter
   )
 )

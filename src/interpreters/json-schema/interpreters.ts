@@ -5,7 +5,8 @@ import { jsonSchemaIntersectionInterpreter } from './intersections'
 import { jsonSchemaObjectInterpreter } from './object'
 import { jsonSchemaTaggedUnionInterpreter } from './tagged-unions'
 import { jsonSchemaRecursiveInterpreter } from './recursive'
-import { jsonSchemaCollectionInterpreter } from './collections'
+import { jsonSchemaStrMapInterpreter } from './str-map'
+import { jsonSchemaSetInterpreter } from './set'
 import { jsonSchemaUnionInterpreter } from './unions'
 import { URI } from '.'
 
@@ -18,7 +19,8 @@ export const jsonSchemaInterpreter = defineJsonSchemaInterpreter(
     jsonSchemaObjectInterpreter,
     jsonSchemaTaggedUnionInterpreter,
     jsonSchemaRecursiveInterpreter,
-    jsonSchemaCollectionInterpreter,
+    jsonSchemaStrMapInterpreter,
+    jsonSchemaSetInterpreter,
     jsonSchemaUnionInterpreter
   )
 )

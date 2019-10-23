@@ -3,10 +3,17 @@ import { InterpreterFor } from '../../core'
 import { ordPrimitiveInterpreter } from './primitives'
 import { ordIntersectionInterpreter } from './intersections'
 import { ordTaggedUnionInterpreter } from './tagged-unions'
-import { ordCollectionInterpreter } from './collections'
+import { ordStrMapInterpreter } from './str-map'
+import { ordSetInterpreter } from './set'
 
 export const defineOrdInterpreter = InterpreterFor('OrdType')
 
 export const ordInterpreter = defineOrdInterpreter(
-  merge(ordPrimitiveInterpreter, ordIntersectionInterpreter, ordCollectionInterpreter, ordTaggedUnionInterpreter)
+  merge(
+    ordPrimitiveInterpreter,
+    ordIntersectionInterpreter,
+    ordSetInterpreter,
+    ordStrMapInterpreter,
+    ordTaggedUnionInterpreter
+  )
 )

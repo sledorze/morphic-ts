@@ -6,7 +6,8 @@ import { builderUnionInterpreter } from './unions'
 import { builderObjectInterpreter } from './object'
 import { builderTaggedUnionInterpreter } from './tagged-unions'
 import { builderRecursiveInterpreter } from './recursive'
-import { builderCollectionInterpreter } from './collections'
+import { builderStrMapInterpreter } from './str-map'
+import { builderSetInterpreter } from './set'
 
 export const defineBuilderInterpreter = InterpreterFor('Builder')
 
@@ -18,6 +19,7 @@ export const builderInterpreter = defineBuilderInterpreter(
     builderObjectInterpreter,
     builderTaggedUnionInterpreter,
     builderRecursiveInterpreter,
-    builderCollectionInterpreter
+    builderStrMapInterpreter,
+    builderSetInterpreter
   )
 )

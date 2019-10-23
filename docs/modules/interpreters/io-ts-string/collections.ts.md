@@ -17,5 +17,5 @@ parent: Modules
 **Signature**
 
 ```ts
-export const ioTsStringSetInterpreter: ModelAlgebraCollection2<URI> = ...
+export const ioTsStringSetInterpreter: ModelAlgebraStrMap2<URI> = ...
 ```

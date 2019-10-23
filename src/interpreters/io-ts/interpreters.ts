@@ -7,7 +7,9 @@ import { ioTsPrimitiveInterpreter } from './primitives'
 import { ioTsIntersectionInterpreter } from './intersections'
 import { ioTsUnionInterpreter } from './unions'
 import { ioTsTaggedUnionInterpreter } from './tagged-unions'
-import { ioTsSetInterpreter } from './collections'
+import { ioTsStrMapInterpreter } from './str-map'
+import { ioTsSetInterpreter } from './set'
+
 import { ioTsRecursiveInterpreter } from './recursive'
 
 export type IOTypes<Props> = { [k in keyof Props]: t.Type<Props[k], unknown> }
@@ -31,6 +33,7 @@ const base = merge(
   ioTsIntersectionInterpreter,
   ioTsUnionInterpreter,
   ioTsTaggedUnionInterpreter,
+  ioTsStrMapInterpreter,
   ioTsSetInterpreter,
   ioTsRecursiveInterpreter
 )

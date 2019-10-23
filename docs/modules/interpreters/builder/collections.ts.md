@@ -8,14 +8,14 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [builderCollectionInterpreter (constant)](#buildercollectioninterpreter-constant)
+- [builderStrMapInterpreter (constant)](#buildercollectioninterpreter-constant)
 
 ---
 
-# builderCollectionInterpreter (constant)
+# builderStrMapInterpreter (constant)
 
 **Signature**
 
 ```ts
-export const builderCollectionInterpreter: ModelAlgebraCollection1<URI> = ...
+export const builderStrMapInterpreter: ModelAlgebraStrMap1<URI> = ...
 ```

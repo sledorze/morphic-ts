@@ -6,12 +6,14 @@ import { ModelAlgebraIntersection1 } from '../../../src/algebras/intersections'
 import { ModelAlgebraTaggedUnions1 } from '../../../src/algebras/tagged-unions'
 import { InterpreterFor, cacheByKey } from '../../../src/core'
 import { lt, gt, ordNumber, ord } from 'fp-ts/lib/Ord'
-import { ModelAlgebraCollection1 } from '../../../src/algebras/collections'
+import { ModelAlgebraStrMap1 } from '../../../src/algebras/str-map'
+import { ModelAlgebraSet1 } from '../../../src/algebras/set'
 
 export interface ModelAlgebra<F extends URIS>
   extends ModelAlgebraPrimitive1<F>,
     ModelAlgebraIntersection1<F>,
-    ModelAlgebraCollection1<F>,
+    ModelAlgebraStrMap1<F>,
+    ModelAlgebraSet1<F>,
     ModelAlgebraTaggedUnions1<F>,
     InterpreterFor<F> {}
 

@@ -5,7 +5,8 @@ import { showIntersectionInterpreter } from './intersections'
 import { showObjectInterpreter } from './object'
 import { showTaggedUnionInterpreter } from './tagged-unions'
 import { showRecursiveInterpreter } from './recursive'
-import { showCollectionInterpreter } from './collections'
+import { showStrMapInterpreter } from './str-map'
+import { showSetInterpreter } from './set'
 
 export const defineShowInterpreter = InterpreterFor('ShowType')
 
@@ -16,6 +17,7 @@ export const showInterpreter = defineShowInterpreter(
     showObjectInterpreter,
     showTaggedUnionInterpreter,
     showRecursiveInterpreter,
-    showCollectionInterpreter
+    showSetInterpreter,
+    showStrMapInterpreter
   )
 )

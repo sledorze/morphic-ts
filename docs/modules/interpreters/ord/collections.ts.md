@@ -8,14 +8,14 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [ordCollectionInterpreter (constant)](#ordcollectioninterpreter-constant)
+- [ordStrMapInterpreter (constant)](#ordcollectioninterpreter-constant)
 
 ---
 
-# ordCollectionInterpreter (constant)
+# ordStrMapInterpreter (constant)
 
 **Signature**
 
 ```ts
-export const ordCollectionInterpreter: ModelAlgebraCollection1<URI> = ...
+export const ordStrMapInterpreter: ModelAlgebraStrMap1<URI> = ...
 ```

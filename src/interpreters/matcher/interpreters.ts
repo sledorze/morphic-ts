@@ -6,7 +6,8 @@ import { matcherUnionInterpreter } from './unions'
 import { matcherObjectInterpreter } from './object'
 import { matcherTaggedUnionInterpreter } from './tagged-unions'
 import { matcherRecursiveInterpreter } from './recursive'
-import { matcherCollectionInterpreter } from './collections'
+import { matcherStrMapInterpreter } from './str-map'
+import { matcherSetInterpreter } from './set'
 
 export const defineMatcherInterpreter = InterpreterFor('Matcher')
 
@@ -18,6 +19,7 @@ export const matcherInterpreter = defineMatcherInterpreter(
     matcherObjectInterpreter,
     matcherTaggedUnionInterpreter,
     matcherRecursiveInterpreter,
-    matcherCollectionInterpreter
+    matcherStrMapInterpreter,
+    matcherSetInterpreter
   )
 )

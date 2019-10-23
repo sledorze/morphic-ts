@@ -11,11 +11,8 @@ import {
   ModelAlgebraTaggedUnions2
 } from '../../src/algebras/tagged-unions'
 import { ModelAlgebraObject1, ModelAlgebraObject, ModelAlgebraObject2 } from '../../src/algebras/object'
-import {
-  ModelAlgebraCollection1,
-  ModelAlgebraCollection,
-  ModelAlgebraCollection2
-} from '../../src/algebras/collections'
+import { ModelAlgebraStrMap1, ModelAlgebraStrMap, ModelAlgebraStrMap2 } from '../../src/algebras/str-map'
+import { ModelAlgebraSet1, ModelAlgebraSet, ModelAlgebraSet2 } from '../../src/algebras/set'
 import { ModelAlgebraRecursive1, ModelAlgebraRecursive, ModelAlgebraRecursive2 } from '../../src/algebras/recursive'
 import { InterpreterFor, cacheByKey, InterpreterFor2, M } from '../../src/core'
 
@@ -24,7 +21,8 @@ export interface ModelAlgebra
     ModelAlgebraIntersection,
     ModelAlgebraTaggedUnions,
     ModelAlgebraObject,
-    ModelAlgebraCollection,
+    ModelAlgebraStrMap,
+    ModelAlgebraSet,
     ModelAlgebraRecursive {}
 
 export interface ModelAlgebra1<F extends URIS>
@@ -32,7 +30,8 @@ export interface ModelAlgebra1<F extends URIS>
     ModelAlgebraIntersection1<F>,
     ModelAlgebraTaggedUnions1<F>,
     ModelAlgebraObject1<F>,
-    ModelAlgebraCollection1<F>,
+    ModelAlgebraStrMap1<F>,
+    ModelAlgebraSet1<F>,
     ModelAlgebraRecursive1<F>,
     InterpreterFor<F> {}
 
@@ -41,7 +40,8 @@ export interface ModelAlgebra2<F extends URIS2>
     ModelAlgebraIntersection2<F>,
     ModelAlgebraTaggedUnions2<F>,
     ModelAlgebraObject2<F>,
-    ModelAlgebraCollection2<F>,
+    ModelAlgebraStrMap2<F>,
+    ModelAlgebraSet2<F>,
     ModelAlgebraRecursive2<F>,
     InterpreterFor2<F> {}
 
@@ -66,7 +66,7 @@ export const defineAsUnknown = defineAsL<unknown>()
 // import { ModelAlgebraIntersection1 } from '../../src/algebras/intersections'
 // import { ModelAlgebraTaggedUnions1 } from '../../src/algebras/tagged-unions'
 // import { ModelAlgebraObject1 } from '../../src/algebras/object'
-// import { ModelAlgebraCollection1 } from '../../src/algebras/collections'
+// import { ModelAlgebraStrMap1 } from '../../src/algebras/collections'
 // import { ModelAlgebraRecursive1 } from '../../src/algebras/recursive'
 // import { InterpreterFor, cacheByKey } from '../../src/core'
 
@@ -75,7 +75,7 @@ export const defineAsUnknown = defineAsL<unknown>()
 //     ModelAlgebraIntersection1<F>,
 //     ModelAlgebraTaggedUnions1<F>,
 //     ModelAlgebraObject1<F>,
-//     ModelAlgebraCollection1<F>,
+//     ModelAlgebraStrMap1<F>,
 //     ModelAlgebraRecursive1<F>,
 //     InterpreterFor<F> {}
 

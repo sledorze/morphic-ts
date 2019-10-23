@@ -13,17 +13,15 @@ import {
   ModelAlgebraTaggedUnions
 } from '../../src/algebras/tagged-unions'
 import { ModelAlgebraRecursive1, ModelAlgebraRecursive2, ModelAlgebraRecursive } from '../../src/algebras/recursive'
-import {
-  ModelAlgebraCollection1,
-  ModelAlgebraCollection2,
-  ModelAlgebraCollection
-} from '../../src/algebras/collections'
+import { ModelAlgebraStrMap1, ModelAlgebraStrMap, ModelAlgebraStrMap2 } from '../../src/algebras/str-map'
+import { ModelAlgebraSet1, ModelAlgebraSet, ModelAlgebraSet2 } from '../../src/algebras/set'
 import { InterpreterFor, cacheByKey, InterpreterFor2, M } from '../../src/core'
 
 export interface ModelAlgebra
   extends ModelAlgebraPrimitive,
     ModelAlgebraObject,
-    ModelAlgebraCollection,
+    ModelAlgebraStrMap,
+    ModelAlgebraSet,
     ModelAlgebraIntersection,
     ModelAlgebraRecursive,
     ModelAlgebraTaggedUnions,
@@ -32,7 +30,8 @@ export interface ModelAlgebra
 export interface ModelAlgebra1<F extends URIS>
   extends ModelAlgebraPrimitive1<F>,
     ModelAlgebraObject1<F>,
-    ModelAlgebraCollection1<F>,
+    ModelAlgebraStrMap1<F>,
+    ModelAlgebraSet1<F>,
     ModelAlgebraIntersection1<F>,
     ModelAlgebraRecursive1<F>,
     ModelAlgebraTaggedUnions1<F>,
@@ -42,7 +41,8 @@ export interface ModelAlgebra1<F extends URIS>
 export interface ModelAlgebra2<F extends URIS2>
   extends ModelAlgebraPrimitive2<F>,
     ModelAlgebraObject2<F>,
-    ModelAlgebraCollection2<F>,
+    ModelAlgebraStrMap2<F>,
+    ModelAlgebraSet2<F>,
     ModelAlgebraIntersection2<F>,
     ModelAlgebraRecursive2<F>,
     ModelAlgebraTaggedUnions2<F>,

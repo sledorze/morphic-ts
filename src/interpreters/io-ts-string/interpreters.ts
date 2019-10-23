@@ -5,7 +5,8 @@ import { ioTsStringPrimitiveInterpreter } from './primitives'
 import { ioTsStringIntersectionInterpreter } from './intersections'
 import { ioTsStringUnionInterpreter } from './unions'
 import { ioTsStringTaggedUnionInterpreter } from './tagged-unions'
-import { ioTsStringSetInterpreter } from './collections'
+import { ioTsStringStrMapInterpreter } from './str-map'
+import { ioTsStringSetInterpreter } from './set'
 import { ioTsStringRecursiveInterpreter } from './recursive'
 import { ioTsStringNonStrictObjectInterpreter } from './object'
 
@@ -16,6 +17,7 @@ const base = merge(
   ioTsStringIntersectionInterpreter,
   ioTsStringUnionInterpreter,
   ioTsStringTaggedUnionInterpreter,
+  ioTsStringStrMapInterpreter,
   ioTsStringSetInterpreter,
   ioTsStringRecursiveInterpreter
 )

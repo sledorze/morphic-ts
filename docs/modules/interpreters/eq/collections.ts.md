@@ -8,14 +8,14 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [eqCollectionInterpreter (constant)](#eqcollectioninterpreter-constant)
+- [eqStrMapInterpreter (constant)](#eqcollectioninterpreter-constant)
 
 ---
 
-# eqCollectionInterpreter (constant)
+# eqStrMapInterpreter (constant)
 
 **Signature**
 
 ```ts
-export const eqCollectionInterpreter: ModelAlgebraCollection1<URI> = ...
+export const eqStrMapInterpreter: ModelAlgebraStrMap1<URI> = ...
 ```
