@@ -18,7 +18,6 @@ describe('Builder', () => {
     )
 
     const { builder } = Foo(builderInterpreter)
-
     const date = new Date(12345)
     chai.assert.deepStrictEqual(builder({ date, a: '' }), { date, a: '' })
   })
@@ -99,14 +98,17 @@ describe('Builder', () => {
       })
     )
 
-    const builder = FooBar(builderInterpreter).builder
+    const { builder, byTag } = FooBar(builderInterpreter)
+    const make = byTag('type')('bar', 'foo')
 
     const fooA: Foo | Bar = builder({ type: 'foo', a: 'a', b: 12 })
-
     const barA: Foo | Bar = builder({ type: 'bar', c: 'a', d: 12 })
     const barB: Foo | Bar = builder({ type: 'bar', c: 'b', d: 12 })
 
     chai.assert.deepStrictEqual(builder(fooA), fooA)
     chai.assert.notDeepEqual(builder(barA), barB)
+
+    chai.assert.deepStrictEqual(make.bar({ c: 'b', d: 12 }), barB)
+    chai.assert.deepStrictEqual(make.foo({ a: 'a', b: 12 }), fooA)
   })
 })
