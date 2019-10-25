@@ -112,7 +112,7 @@ describe('Builder', () => {
     chai.assert.deepStrictEqual(builder(fooA), fooA)
     chai.assert.notDeepEqual(builder(barA), barB)
 
-    const { bar, foo } = fooBar
+    const { bar, foo } = fooBar.variants
 
     chai.assert.deepStrictEqual(bar.of({ c: 'b', d: 12 }), barB)
     chai.assert.deepStrictEqual(foo.of({ a: 'a', b: 12 }), fooA)

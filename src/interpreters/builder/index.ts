@@ -90,11 +90,9 @@ type Variants<A, Tag extends string, Tags extends string[]> = {
 /**
  * Narrow the Tagged Union to the actual tags by extracting the right Union components
  */
-type NarrowedTaggedAccessors<A, Tag extends string, Tags extends string[]> = Variants<
-  Extract<A, { [k in Tag]: any }>,
-  Tag,
-  Tags
->
+type NarrowedTaggedAccessors<A, Tag extends string, Tags extends string[]> = {
+  variants: Variants<Extract<A, { [k in Tag]: any }>, Tag, Tags>
+}
 
 type ByTag<A> = <Tag extends TagsOf<A> & string>(
   t: Tag
@@ -113,7 +111,7 @@ export const makeByTag = <A>(): ByTag<A> => tag => (...keys) => {
       ...staticMonocle
     }
   }
-  return variants as any
+  return { variants } as any
 }
 
 export class BuilderType<A> {
