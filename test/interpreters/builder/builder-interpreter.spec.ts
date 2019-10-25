@@ -2,6 +2,7 @@ import * as chai from 'chai'
 import { some, none } from 'fp-ts/lib/Option'
 import { builderInterpreter } from '../../../src/interpreters/builder/interpreters'
 import { defineAsUnknown } from '../../utils/program'
+import { makeByTag } from '../../../src/interpreters/builder'
 
 describe('Builder', () => {
   it('builder', () => {
@@ -99,7 +100,10 @@ describe('Builder', () => {
     )
 
     const { builder, byTag } = FooBar(builderInterpreter)
-    const make = byTag('type')('bar', 'foo')
+
+    makeByTag<Foo | Bar>()
+
+    const fooBar = byTag('type')('bar', 'foo')
 
     const fooA: Foo | Bar = builder({ type: 'foo', a: 'a', b: 12 })
     const barA: Foo | Bar = builder({ type: 'bar', c: 'a', d: 12 })
@@ -108,7 +112,13 @@ describe('Builder', () => {
     chai.assert.deepStrictEqual(builder(fooA), fooA)
     chai.assert.notDeepEqual(builder(barA), barB)
 
-    chai.assert.deepStrictEqual(make.bar({ c: 'b', d: 12 }), barB)
-    chai.assert.deepStrictEqual(make.foo({ a: 'a', b: 12 }), fooA)
+    const { bar, foo } = fooBar
+
+    chai.assert.deepStrictEqual(bar.of({ c: 'b', d: 12 }), barB)
+    chai.assert.deepStrictEqual(foo.of({ a: 'a', b: 12 }), fooA)
+
+    if (foo.isA(fooA)) {
+      chai.assert.deepStrictEqual(foo.fromProp('type').get(fooA), 'foo')
+    }
   })
 })
