@@ -1,4 +1,4 @@
-export type Compact<A> = { [k in keyof A]: A[k] }
+export type Compact<A> = A //{ [k in keyof A]: A[k] }
 
 export type FStruct<R extends Record<any, any>, K extends keyof R = keyof R> = {
   [k in K]: { [kv in R[k]]: R extends { [r in k]: kv } ? Compact<R> : never }

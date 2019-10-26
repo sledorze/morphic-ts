@@ -1,6 +1,7 @@
 import { identity, Predicate, Refinement } from 'fp-ts/lib/function'
 import * as m from 'monocle-ts'
 import { Option } from 'fp-ts/lib/Option'
+import { Match, FStruct } from '../matcher/function'
 
 export const URI = 'Builder'
 export type URI = typeof URI
@@ -54,7 +55,7 @@ interface MonocleFor<S> {
   fromAt: IndexFromAt<S>
   fromOptionProp: LenseFromOptionProp<S>
   fromNullableProp: LenseFromNullableProp<S>
-  some: m.Prism<Option<S>, S>
+  prism: m.Prism<Option<S>, S>
   fromPredicate: PrismFromPredicate<S>
 }
 
@@ -74,29 +75,35 @@ const makeMonocleFor = <S>(): MonocleFor<S> => ({
   fromAt: m.Index.fromAt,
   fromOptionProp: m.Optional.fromOptionProp(),
   fromNullableProp: m.Optional.fromNullableProp(),
-  some: m.Prism.some(),
+  prism: m.Prism.some(),
   fromPredicate: m.Prism.fromPredicate
 })
 
-interface VariantAccessor<A, V extends A, Tag extends string>
-  extends MonocleFor<V>,
-    Builders<A, V, Tag>,
-    Predicates<A, V> {}
+interface Variant<A, V extends A, Tag extends string> extends MonocleFor<V>, Builders<A, V, Tag>, Predicates<A, V> {}
 
 type Variants<A, Tag extends string, Tags extends string[]> = {
-  [Key in ElemType<Tags>]: VariantAccessor<A, VariantType<A, Tag, Key>, Tag>
+  [Key in ElemType<Tags>]: Variant<A, VariantType<A, Tag, Key>, Tag>
 }
 
-/**
- * Narrow the Tagged Union to the actual tags by extracting the right Union components
- */
-type NarrowedTaggedAccessors<A, Tag extends string, Tags extends string[]> = {
+type Folder<A> = <R>(f: (a: A) => R) => (a: A) => R
+type Matcher<A, Tag extends keyof A & string> = <R>(match: Match<FStruct<A>[Tag], R>) => (a: A) => R
+type MatcherWiden<A, Tag extends keyof A & string> = <M extends Match<FStruct<A>[Tag], any>>(
+  match: M
+) => (a: A) => ReturnType<M[keyof M]> extends infer R ? R : never
+
+interface Matchers<A, Tag extends keyof A & string> {
+  fold: Folder<A>
+  match: Matcher<A, Tag>
+  matchWiden: MatcherWiden<A, Tag>
+}
+
+interface ADT<A, Tag extends keyof A & string, Tags extends string[]> extends Matchers<A, Tag> {
   variants: Variants<Extract<A, { [k in Tag]: any }>, Tag, Tags>
 }
 
 type ByTag<A> = <Tag extends TagsOf<A> & string>(
   t: Tag
-) => <Tags extends (A[Tag] & string)[]>(...tags: Tags) => NarrowedTaggedAccessors<A, Tag, typeof tags>
+) => <Tags extends (A[Tag] & string)[]>(...tags: Tags) => ADT<A, Tag, typeof tags>
 
 const staticMonocle = makeMonocleFor<any>()
 
@@ -111,7 +118,10 @@ export const makeByTag = <A>(): ByTag<A> => tag => (...keys) => {
       ...staticMonocle
     }
   }
-  return { variants } as any
+
+  const match = (match: any) => (a: any) => match[a[tag]](a)
+
+  return { variants, fold: identity, match, matchWiden: match } as any
 }
 
 export class BuilderType<A> {
