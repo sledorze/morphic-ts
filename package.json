@@ -48,7 +48,7 @@
     "@types/jest": "22.2.2",
     "@types/node": "12.6.8",
     "docs-ts": "^0.2.1",
-    "dtslint": "0.8.0",
+    "dtslint": "github:gcanti/dtslint",
     "jest": "^24.8.0",
     "mocha": "^6.2.1",
     "prettier": "^1.18.2",
