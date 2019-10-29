@@ -16,7 +16,11 @@
     "suppressImplicitAnyIndexErrors": true,
     "stripInternal": true,
     "lib": ["es6"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true
   },
   "include": ["./src/**/*", "test/models/builder/builder-interpreter.spec.ts"]
 }

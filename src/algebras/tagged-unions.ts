@@ -1,6 +1,8 @@
 import { URIS, Kind, URIS2, Kind2 } from '../HKT'
 import { M } from '../core'
 
+// TODO: replace with explicit `TagKey` if no impact on inference
+// type TagKey<Tag extends string, o extends keyof any> = { [t in Tag]: o }
 export type TaggedValues<Tag extends string, O> = { [o in keyof O]: O[o] & { [t in Tag]: o } }
 
 export type TaggedTypes<Tag extends string, L, A> = {

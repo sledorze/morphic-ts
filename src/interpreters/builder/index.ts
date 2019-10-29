@@ -1,7 +1,7 @@
 import { identity, Predicate, Refinement } from 'fp-ts/lib/function'
 import * as m from 'monocle-ts'
 import { Option } from 'fp-ts/lib/Option'
-import { Match, FStruct } from '../matcher/function'
+import { CtorNarrowed, Ctor, IsA, ElemType, VariantType, TagsOf } from '../../common'
 
 export const URI = 'Builder'
 export type URI = typeof URI
@@ -9,21 +9,6 @@ export type URI = typeof URI
 export type Builder<T> = (x: T) => T
 export const makeBuilder = <A>() => new BuilderType<A>(identity)
 export type BuilderValue<B extends BuilderType<any>> = B extends BuilderType<infer A> ? A : never
-
-type Remove<A, Tag extends string> = { [k in Exclude<keyof A, Tag>]: A[k] }
-type ElemType<A> = A extends Array<infer E> ? E : never
-
-type VariantType<A, Tag extends string, Key> = Extract<A, { [t in Tag]: Key }>
-
-type IsLiteral<T extends string, V> = Exclude<string, T> extends never ? never : V
-
-export type TagsOf<A> = A extends Array<any>
-  ? never
-  : ({ [k in keyof A]-?: A[k] extends string ? IsLiteral<A[k], k> : never }[keyof A])
-
-type Ctor<S, V extends S, Tag extends string> = (x: Remove<V, Tag>) => S
-type CtorNarrowed<S, V extends S, Tag extends string> = (x: Remove<V, Tag>) => V
-type IsA<S, V extends S> = (x: S) => x is V
 
 type LenseFromProp<S> = <P extends keyof S>(prop: P) => m.Lens<S, S[P]>
 
@@ -85,6 +70,12 @@ type Variants<A, Tag extends string, Tags extends string[]> = {
   [Key in ElemType<Tags>]: Variant<A, VariantType<A, Tag, Key>, Tag>
 }
 
+type FStruct<R extends Record<any, any>, K extends keyof R = keyof R> = {
+  [k in K]: { [kv in R[k]]: R extends { [r in k]: kv } ? R : never }
+}
+
+type Match<StructK, R> = { [KV in keyof StructK]: (v: StructK[KV]) => R }
+
 type Folder<A> = <R>(f: (a: A) => R) => (a: A) => R
 type Matcher<A, Tag extends keyof A & string> = <R>(match: Match<FStruct<A>[Tag], R>) => (a: A) => R
 type MatcherWiden<A, Tag extends keyof A & string> = <M extends Match<FStruct<A>[Tag], any>>(
@@ -97,11 +88,14 @@ interface Matchers<A, Tag extends keyof A & string> {
   matchWiden: MatcherWiden<A, Tag>
 }
 
-interface ADT<A, Tag extends keyof A & string, Tags extends string[]> extends Matchers<A, Tag> {
-  variants: Variants<Extract<A, { [k in Tag]: any }>, Tag, Tags>
+interface ADTIntern<A, Tag extends keyof A & string, Tags extends string[]> extends Matchers<A, Tag> {
+  variants: Variants<A, Tag, Tags>
 }
 
-type ByTag<A> = <Tag extends TagsOf<A> & string>(
+interface ADT<A, Tag extends keyof A & string, Tags extends string[]>
+  extends ADTIntern<Extract<A, { [h in Tag]: ElemType<Tags> }>, Tag, Tags> {}
+
+export type ByTag<A> = <Tag extends TagsOf<A> & string>(
   t: Tag
 ) => <Tags extends (A[Tag] & string)[]>(...tags: Tags) => ADT<A, Tag, typeof tags>
 

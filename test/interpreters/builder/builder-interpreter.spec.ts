@@ -2,7 +2,7 @@ import * as chai from 'chai'
 import { some, none } from 'fp-ts/lib/Option'
 import { builderInterpreter } from '../../../src/interpreters/builder/interpreters'
 import { defineAsUnknown } from '../../utils/program'
-import { makeByTag } from '../../../src/interpreters/builder'
+import { ByTag } from '../../../src/interpreters/builder'
 
 describe('Builder', () => {
   it('builder', () => {
@@ -19,6 +19,7 @@ describe('Builder', () => {
     )
 
     const { builder } = Foo(builderInterpreter)
+
     const date = new Date(12345)
     chai.assert.deepStrictEqual(builder({ date, a: '' }), { date, a: '' })
   })
@@ -30,6 +31,11 @@ describe('Builder', () => {
 
   it('nullable', () => {
     const { builder } = defineAsUnknown(F => F.nullable(F.string))(builderInterpreter)
+    const y: ByTag<{ type: 'a' } | { type: 'b' }> = 1 as any
+    y('type')('a', 'b').matchWiden({
+      a: x => x,
+      b: x => x
+    })
     chai.assert.deepStrictEqual(builder(some('a')), some('a'))
     chai.assert.deepStrictEqual(builder(none), none)
   })
@@ -125,6 +131,7 @@ describe('Builder', () => {
       bar: ({ c }) => c,
       foo: ({ a }) => a
     })
+
     chai.assert.deepStrictEqual(matcher(barA), 'a')
     chai.assert.deepStrictEqual(matcher(barB), 'b')
     chai.assert.deepStrictEqual(matcher(fooA), 'a')
