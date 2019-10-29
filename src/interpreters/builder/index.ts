@@ -1,7 +1,7 @@
-import { identity, Predicate, Refinement } from 'fp-ts/lib/function'
-import * as m from 'monocle-ts'
-import { Option } from 'fp-ts/lib/Option'
+import { identity } from 'fp-ts/lib/function'
 import { CtorNarrowed, Ctor, IsA, ElemType, VariantType, TagsOf } from '../../common'
+import * as M from './index-monocle'
+import * as Ma from './index-matcher'
 
 export const URI = 'Builder'
 export type URI = typeof URI
@@ -9,40 +9,6 @@ export type URI = typeof URI
 export type Builder<T> = (x: T) => T
 export const makeBuilder = <A>() => new BuilderType<A>(identity)
 export type BuilderValue<B extends BuilderType<any>> = B extends BuilderType<infer A> ? A : never
-
-type LenseFromProp<S> = <P extends keyof S>(prop: P) => m.Lens<S, S[P]>
-
-type LenseFromProps<S> = <P extends keyof S>(
-  props: Array<P>
-) => m.Lens<
-  S,
-  {
-    [K in P]: S[K]
-  }
->
-declare type OptionPropertyNames<S> = {
-  [K in keyof S]-?: S[K] extends Option<any> ? K : never
-}[keyof S]
-declare type OptionPropertyType<S, K extends OptionPropertyNames<S>> = S[K] extends Option<infer A> ? A : never
-type LenseFromOptionProp<S> = <P extends OptionPropertyNames<S>>(prop: P) => m.Optional<S, OptionPropertyType<S, P>> //
-type LenseFromNullableProp<S> = <K extends keyof S>(k: K) => m.Optional<S, NonNullable<S[K]>>
-type IndexFromAt<T> = <J, B>(at: m.At<T, J, Option<B>>) => m.Index<T, J, B>
-
-interface PrismFromPredicate<S> {
-  <S>(predicate: Predicate<S>): m.Prism<S, S>
-  <S, A extends S>(refinement: Refinement<S, A>): m.Prism<S, A>
-}
-
-interface MonocleFor<S> {
-  fromProp: LenseFromProp<S>
-  fromProps: LenseFromProps<S>
-  fromPath: m.LensFromPath<S>
-  fromAt: IndexFromAt<S>
-  fromOptionProp: LenseFromOptionProp<S>
-  fromNullableProp: LenseFromNullableProp<S>
-  prism: m.Prism<Option<S>, S>
-  fromPredicate: PrismFromPredicate<S>
-}
 
 interface Builders<A, V extends A, Tag extends string> {
   of: Ctor<A, V, Tag>
@@ -53,42 +19,13 @@ interface Predicates<A, V extends A> {
   isA: IsA<A, V>
 }
 
-const makeMonocleFor = <S>(): MonocleFor<S> => ({
-  fromProp: m.Lens.fromProp(),
-  fromProps: m.Lens.fromProps(),
-  fromPath: m.Lens.fromPath(),
-  fromAt: m.Index.fromAt,
-  fromOptionProp: m.Optional.fromOptionProp(),
-  fromNullableProp: m.Optional.fromNullableProp(),
-  prism: m.Prism.some(),
-  fromPredicate: m.Prism.fromPredicate
-})
-
-interface Variant<A, V extends A, Tag extends string> extends MonocleFor<V>, Builders<A, V, Tag>, Predicates<A, V> {}
+interface Variant<A, V extends A, Tag extends string> extends M.MonocleFor<V>, Builders<A, V, Tag>, Predicates<A, V> {}
 
 type Variants<A, Tag extends string, Tags extends string[]> = {
   [Key in ElemType<Tags>]: Variant<A, VariantType<A, Tag, Key>, Tag>
 }
 
-type FStruct<R extends Record<any, any>, K extends keyof R = keyof R> = {
-  [k in K]: { [kv in R[k]]: R extends { [r in k]: kv } ? R : never }
-}
-
-type Match<StructK, R> = { [KV in keyof StructK]: (v: StructK[KV]) => R }
-
-type Folder<A> = <R>(f: (a: A) => R) => (a: A) => R
-type Matcher<A, Tag extends keyof A & string> = <R>(match: Match<FStruct<A>[Tag], R>) => (a: A) => R
-type MatcherWiden<A, Tag extends keyof A & string> = <M extends Match<FStruct<A>[Tag], any>>(
-  match: M
-) => (a: A) => ReturnType<M[keyof M]> extends infer R ? R : never
-
-interface Matchers<A, Tag extends keyof A & string> {
-  fold: Folder<A>
-  match: Matcher<A, Tag>
-  matchWiden: MatcherWiden<A, Tag>
-}
-
-interface ADTIntern<A, Tag extends keyof A & string, Tags extends string[]> extends Matchers<A, Tag> {
+interface ADTIntern<A, Tag extends keyof A & string, Tags extends string[]> extends Ma.Matchers<A, Tag> {
   variants: Variants<A, Tag, Tags>
 }
 
@@ -99,23 +36,32 @@ export type ByTag<A> = <Tag extends TagsOf<A> & string>(
   t: Tag
 ) => <Tags extends (A[Tag] & string)[]>(...tags: Tags) => ADT<A, Tag, typeof tags>
 
-const staticMonocle = makeMonocleFor<any>()
-
 export const makeByTag = <A>(): ByTag<A> => tag => (...keys) => {
-  const variants: any = {}
+  type ADec = Extract<
+    A,
+    {
+      [h in typeof tag]: ElemType<typeof keys>
+    }
+  >
+  const variants: Variants<ADec, typeof tag, typeof keys> = {} as any
   for (const key of keys) {
-    const ctor = (rest: object) => ({ [tag]: key, ...rest })
-    variants[key] = {
+    const ctor = (rest: object) => ({
+      [tag]: key,
+      ...rest
+    })
+    variants[key as any] = {
       of: ctor,
       narrowed: ctor,
       isA: (rest: any) => rest[tag] === key,
-      ...staticMonocle
+      ...M.staticMonocle
     }
   }
+  const matchers = Ma.makeMatchers<ADec, typeof tag>(tag)
 
-  const match = (match: any) => (a: any) => match[a[tag]](a)
-
-  return { variants, fold: identity, match, matchWiden: match } as any
+  return {
+    variants,
+    ...matchers
+  }
 }
 
 export class BuilderType<A> {

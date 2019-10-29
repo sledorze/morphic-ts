@@ -2,7 +2,6 @@ import * as chai from 'chai'
 import { some, none } from 'fp-ts/lib/Option'
 import { builderInterpreter } from '../../../src/interpreters/builder/interpreters'
 import { defineAsUnknown } from '../../utils/program'
-import { ByTag } from '../../../src/interpreters/builder'
 
 describe('Builder', () => {
   it('builder', () => {
@@ -31,11 +30,6 @@ describe('Builder', () => {
 
   it('nullable', () => {
     const { builder } = defineAsUnknown(F => F.nullable(F.string))(builderInterpreter)
-    const y: ByTag<{ type: 'a' } | { type: 'b' }> = 1 as any
-    y('type')('a', 'b').matchWiden({
-      a: x => x,
-      b: x => x
-    })
     chai.assert.deepStrictEqual(builder(some('a')), some('a'))
     chai.assert.deepStrictEqual(builder(none), none)
   })
