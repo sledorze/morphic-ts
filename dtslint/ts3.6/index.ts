@@ -1,4 +1,4 @@
-import { Remove, ElemType, VariantType, TagsOf, IfStringLiteral } from '../../src/common/index'
+import { Remove, ElemType, TagsOf, IfStringLiteral, VariantType } from '../../src/common/index'
 
 type IsLiteralA = IfStringLiteral<'a', 'ok', 'string', 'notString'> // $ExpectType "ok"
 type IsLiteralString = IfStringLiteral<string, 'ok', 'string', 'notString'> // $ExpectType "string"

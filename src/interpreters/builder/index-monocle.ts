@@ -47,4 +47,5 @@ const makeMonocleFor = <S>(): MonocleFor<S> => ({
   fromPredicate: m.Prism.fromPredicate
 })
 
-export const staticMonocle = makeMonocleFor<any>()
+const staticMonocle = makeMonocleFor<any>()
+export const getMonocleFor = <A>(): MonocleFor<A> => staticMonocle
