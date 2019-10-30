@@ -48,4 +48,4 @@ const makeMonocleFor = <S>(): MonocleFor<S> => ({
 })
 
 const staticMonocle = makeMonocleFor<any>()
-export const getMonocleFor = <A>(): MonocleFor<A> => staticMonocle
+export const MonocleFor = <A>(): MonocleFor<A> => staticMonocle

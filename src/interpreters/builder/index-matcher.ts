@@ -18,7 +18,7 @@ export interface Matchers<A, Tag extends keyof A & string> {
   matchWiden: MatcherWiden<A, Tag>
 }
 
-export const makeMatchers = <A, Tag extends keyof A & string>(tag: Tag): Matchers<A, Tag> => {
+export const Matchers = <A, Tag extends keyof A & string>(tag: Tag): Matchers<A, Tag> => {
   const match = (match: any) => (a: any) => match[a[tag]](a)
   const matchWiden = match
   const fold = identity

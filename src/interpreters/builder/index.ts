@@ -32,16 +32,15 @@ export type ByTag<A> = <Tag extends TagsOf<A> & string>(
 
 export const makeByTag = <A>(): ByTag<A> => tag => (..._keys) => {
   type Tag = typeof tag
-
   type Keys = ElemType<typeof _keys>
   const keys = (_keys as unknown) as Keys[]
 
   type Union = ExtractUnion<A, Tag, Keys>
   const variants = {} as Variants<A, Tag, Keys>
 
-  const ctors = C.makeCtors<A, Tag>(tag)
-  const predicates = P.makePredicates<A>()
-  const monocles = M.getMonocleFor<Union>()
+  const ctors = C.Ctors<A, Tag>(tag)
+  const predicates = P.Predicates<A>()
+  const monocles = M.MonocleFor<Union>()
 
   for (const key of keys) {
     const variant: Variant<A, VariantType<A, Tag, Keys>, Tag> = {
@@ -51,7 +50,7 @@ export const makeByTag = <A>(): ByTag<A> => tag => (..._keys) => {
     }
     variants[key] = variant
   }
-  const matchers = Ma.makeMatchers<Union, Tag>(tag)
+  const matchers = Ma.Matchers<Union, Tag>(tag)
 
   const res: ADT<A, Tag, Keys> = {
     variants,

@@ -6,7 +6,7 @@ export interface Predicates<A, V extends A> {
   isA: IsA<A, V>
 }
 
-export const makePredicates = <A = never>() => <Tag extends keyof A & string, Key extends A[Tag]>(
+export const Predicates = <A = never>() => <Tag extends keyof A & string, Key extends A[Tag]>(
   tag: Tag,
   key: Key
 ): Predicates<A, VariantType<A, Tag, Key>> => {
