@@ -1,4 +1,4 @@
-# Face-ts (temporary name)
+# Morphic-ts (temporary name)
 
 The Extensible Code First approach you've been dreaming of
 
