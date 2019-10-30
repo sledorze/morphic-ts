@@ -7,24 +7,18 @@ import { fastCheckInterpreter } from '../src/interpreters/fast-check/interpreter
 import { ioTsNonStrict } from '../src/interpreters/io-ts/interpreters'
 import { ioTsStringNonStrict } from '../src/interpreters/io-ts-string/interpreters'
 import { jsonSchemaInterpreter } from '../src/interpreters/json-schema/interpreters'
-import { matcherInterpreter } from '../src/interpreters/matcher/interpreters'
 import * as fc from 'fast-check'
 import { right } from 'fp-ts/lib/Either'
 
 export const materialize = <E, A>(program: Program<E, A>) => {
-  const { fold, foldOn, foldOnWiden } = program(matcherInterpreter)
-
   return {
     eq: program(eqInterpreter).eq,
     show: program(showInterpreter).show,
-    make: program(builderInterpreter).builder,
+    ...program(builderInterpreter),
     arb: program(fastCheckInterpreter).arb,
     strictType: program(ioTsNonStrict).type,
     type: program(ioTsStringNonStrict).type,
-    jsonSchema: program(jsonSchemaInterpreter).schema.json,
-    fold,
-    foldOn,
-    foldOnWiden
+    jsonSchema: program(jsonSchemaInterpreter).schema.json
   }
 }
 
@@ -63,10 +57,11 @@ describe('several interpreters', () => {
     chai.assert.isTrue(Type.eq.equals(value1, value1), 'Eq true')
     chai.assert.isFalse(Type.eq.equals(value1, value2), 'Eq false')
 
-    const value = Type.make({ type: 'foo', date: new Date(), a: 'a' })
+    const value = Type.of({ type: 'foo', date: new Date(), a: 'a' })
     chai.assert.isTrue(Type.type.is(value), 'make')
 
-    const res = Type.foldOnWiden('type')({
+    const barFoo = Type.byTag('type')('bar', 'foo')
+    const res = barFoo.matchWiden({
       bar: () => 1,
       foo: x => x
     })(value)

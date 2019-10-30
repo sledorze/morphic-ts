@@ -4,19 +4,12 @@ import { ordString, ord } from 'fp-ts/lib/Ord'
 import { Kind, URIS } from '../../../src/HKT'
 import { ioTsStrict } from '../../../src/interpreters/io-ts/interpreters'
 import { fastCheckInterpreter } from '../../../src/interpreters/fast-check/interpreters'
-import { matcherInterpreter } from '../../../src/interpreters/matcher/interpreters'
 import { ModelAlgebra1, defineAsUnknown, TypeOf, Program } from '../../utils/program'
 
-const build = <A>(program: <F extends URIS>(F: ModelAlgebra1<F>) => Kind<F, A>) => {
-  const { fold, foldOn, foldOnWiden } = program(matcherInterpreter)
-  return {
-    codec: program(ioTsStrict).type,
-    arb: program(fastCheckInterpreter).arb,
-    fold,
-    foldOn,
-    foldOnWiden
-  }
-}
+const build = <A>(program: <F extends URIS>(F: ModelAlgebra1<F>) => Kind<F, A>) => ({
+  codec: program(ioTsStrict).type,
+  arb: program(fastCheckInterpreter).arb
+})
 
 const testProgram = <A>(prog: <F extends URIS>(F: ModelAlgebra1<F>) => Kind<F, A>) => {
   const { arb, codec } = build(prog)

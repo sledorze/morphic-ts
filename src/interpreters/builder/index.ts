@@ -62,7 +62,7 @@ export const makeByTag = <A>(): ByTag<A> => tag => (..._keys) => {
 export class BuilderType<A> {
   byTag: ByTag<A>
 
-  constructor(public builder: Builder<A>) {
+  constructor(public of: Builder<A>) {
     this.byTag = makeByTag<A>()
   }
 }
