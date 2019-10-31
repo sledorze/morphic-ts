@@ -13,6 +13,17 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 0.1.1
+
+- New Feature
+
+  - add byTagAll (@sledorze)
+  - add assignFunction (@sledorze)
+
+- Polish
+  - import URI with interpreter signature (@sledorze)
+  - correctly narrow variance of Variants
+
 # 0.1.0
 
 Initial release
