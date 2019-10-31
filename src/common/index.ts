@@ -10,11 +10,12 @@ type TagsInKeys<T, K extends keyof T> = NonNullable<
 >
 export type TagsOf<T> = TagsInKeys<T, keyof T> // this indirection is necessary
 
-export type VariantType<A, Tag extends string, Key> = IfStringLiteral<Key, Extract<A, Record<Tag, Key>>, never, never>
+export type VariantType<A, Tag extends string, Key> = IfStringLiteral<Key, Extract<A, Record<Tag, Key>>, never, never> // Extract<A, Record<Tag, Key>>
 
-export type ExtractUnion<A, Tag extends keyof A & string, Tags extends string> = IfStringLiteral<
-  Tags,
-  Extract<A, Record<Tag, Tags>>,
-  never,
-  never
->
+export type ExtractUnion<A, Tag extends keyof A & string, Tags extends string> =
+  // IfStringLiteral<
+  // Tags,
+  Extract<A, Record<Tag, Tags>>
+//   never,
+//   never
+// >

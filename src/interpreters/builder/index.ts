@@ -21,23 +21,25 @@ type Variants<A, Tag extends string, Tags extends string> = {
   [Key in Tags]: Variant<A, VariantType<A, Tag, Key>, Tag>
 }
 
-interface ADT<A, Tag extends keyof A & string, Tags extends string>
-  extends Ma.Matchers<ExtractUnion<A, Tag, Tags>, Tag> {
-  variants: Variants<A, Tag, Tags>
+interface ADT<A, Tag extends keyof A & string, Keys extends string> extends Ma.Matchers<A, Tag> {
+  variants: Variants<A, Tag, Keys>
 }
+
+interface ADTUnion<A, Tag extends keyof A & string, Keys extends string>
+  extends ADT<ExtractUnion<A, Tag, Keys>, Tag, Keys> {}
 
 export interface ThereIsSomeMissingTags<A, B> {}
 
 export type ByTag<A> = <Tag extends TagsOf<A> & string>(
   t: Tag
-) => <Tags extends (A[Tag] & string)[]>(...tags: Tags) => ADT<A, Tag, ElemType<typeof tags>>
+) => <Tags extends (A[Tag] & string)[]>(...tags: Tags) => ADTUnion<A, Tag, ElemType<typeof tags>>
 
 export type ByTagAll<A> = <Tag extends TagsOf<A> & string>(
   t: Tag
 ) => <Tags extends (A[Tag] & string)[]>(
   ...tags: Tags
 ) => A[Tag] extends ElemType<typeof tags>
-  ? ADT<A, Tag, ElemType<typeof tags>>
+  ? ADTUnion<A, Tag, ElemType<typeof tags>>
   : ThereIsSomeMissingTags<A[Tag], ElemType<typeof tags>>
 
 export const makeByTag = <A>(): ByTag<A> => tag => (..._keys) => {
@@ -46,27 +48,28 @@ export const makeByTag = <A>(): ByTag<A> => tag => (..._keys) => {
   const keys = (_keys as unknown) as Keys[]
 
   type Union = ExtractUnion<A, Tag, Keys>
-  const variants = {} as Variants<A, Tag, Keys>
+  const variants = {} as Variants<Union, Tag, Keys>
+  type VariantType = (typeof variants)[keyof typeof variants]
 
-  const ctors = C.Ctors<A, Tag>(tag)
-  const predicates = P.Predicates<A>()
+  const ctors = C.Ctors<Union, Tag>(tag)
+  const predicates = P.Predicates<Union>()
   const monocles = M.MonocleFor<Union>()
 
   for (const key of keys) {
-    const variant: Variant<A, VariantType<A, Tag, Keys>, Tag> = {
-      ...ctors(key),
-      ...predicates(tag, key),
+    const variant: VariantType = {
+      ...ctors(key as any),
+      ...predicates(tag, key as any),
       ...monocles
-    }
+    } as any
     variants[key] = variant
   }
   const matchers = Ma.Matchers<Union, Tag>(tag)
 
-  const res: ADT<A, Tag, Keys> = {
+  const res: ADT<Union, Tag, Keys> = {
     variants,
     ...matchers
   }
-  return res as any
+  return res
 }
 
 export class BuilderType<A> {

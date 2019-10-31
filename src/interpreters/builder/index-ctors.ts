@@ -1,7 +1,7 @@
 import { Remove, ExtractUnion } from '../../common'
 
-export type Ctor<S, V extends S, Tag extends string> = (x: Remove<V, Tag>) => S
-export type CtorNarrowed<S, V extends S, Tag extends string> = (x: Remove<V, Tag>) => V
+export type Ctor<A, V extends A, Tag extends string> = (x: Remove<V, Tag>) => A
+export type CtorNarrowed<A, V extends A, Tag extends string> = (x: Remove<V, Tag>) => A
 
 export interface CtorsIntern<A, V extends A, Tag extends string> {
   of: Ctor<A, V, Tag>
