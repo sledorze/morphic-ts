@@ -38,14 +38,14 @@ const base = merge(
   ioTsRecursiveInterpreter
 )
 
-export const ioTsStrict = InterpreterFor('IOTSType')(
+export const ioTsStrict = InterpreterFor(URI)(
   merge(
     base,
     ioTsStrictObjectInterpreter // Strict
   )
 )
 
-export const defineIoTsInterpreter = InterpreterFor('IOTSType')
+export const defineIoTsInterpreter = InterpreterFor(URI)
 
 export const ioTsNonStrict = defineIoTsInterpreter(
   merge(

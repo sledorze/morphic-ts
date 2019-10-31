@@ -5,8 +5,9 @@ import { ordIntersectionInterpreter } from './intersections'
 import { ordTaggedUnionInterpreter } from './tagged-unions'
 import { ordStrMapInterpreter } from './str-map'
 import { ordSetInterpreter } from './set'
+import { URI } from '.'
 
-export const defineOrdInterpreter = InterpreterFor('OrdType')
+export const defineOrdInterpreter = InterpreterFor(URI)
 
 export const ordInterpreter = defineOrdInterpreter(
   merge(

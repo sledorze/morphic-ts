@@ -6,7 +6,7 @@ export const eqIntersectionInterpreter: ModelAlgebraIntersection1<URI> = {
   intersection: <A>(types: EqType<A>[]) => {
     const equals = types.map(({ eq }) => eq.equals)
     return new EqType<A>({
-      equals: (a: A, b: A) => fold(monoidAll)(equals.map(eq => eq(a, b)))
+      equals: (a: A, b: A) => fold(monoidAll)(equals.map(eq => eq(a, b))) // TODO: optimize
     })
   }
 }

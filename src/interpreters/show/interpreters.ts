@@ -7,8 +7,9 @@ import { showTaggedUnionInterpreter } from './tagged-unions'
 import { showRecursiveInterpreter } from './recursive'
 import { showStrMapInterpreter } from './str-map'
 import { showSetInterpreter } from './set'
+import { URI } from '.'
 
-export const defineShowInterpreter = InterpreterFor('ShowType')
+export const defineShowInterpreter = InterpreterFor(URI)
 
 export const showInterpreter = defineShowInterpreter(
   merge(
