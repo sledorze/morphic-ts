@@ -26,9 +26,19 @@ interface ADT<A, Tag extends keyof A & string, Tags extends string>
   variants: Variants<A, Tag, Tags>
 }
 
+export interface ThereIsSomeMissingTags<A, B> {}
+
 export type ByTag<A> = <Tag extends TagsOf<A> & string>(
   t: Tag
 ) => <Tags extends (A[Tag] & string)[]>(...tags: Tags) => ADT<A, Tag, ElemType<typeof tags>>
+
+export type ByTagAll<A> = <Tag extends TagsOf<A> & string>(
+  t: Tag
+) => <Tags extends (A[Tag] & string)[]>(
+  ...tags: Tags
+) => A[Tag] extends ElemType<typeof tags>
+  ? ADT<A, Tag, ElemType<typeof tags>>
+  : ThereIsSomeMissingTags<A[Tag], ElemType<typeof tags>>
 
 export const makeByTag = <A>(): ByTag<A> => tag => (..._keys) => {
   type Tag = typeof tag
@@ -56,14 +66,16 @@ export const makeByTag = <A>(): ByTag<A> => tag => (..._keys) => {
     variants,
     ...matchers
   }
-  return res
+  return res as any
 }
 
 export class BuilderType<A> {
   byTag: ByTag<A>
+  byTagAll: ByTagAll<A>
 
   constructor(public of: Builder<A>) {
     this.byTag = makeByTag<A>()
+    this.byTagAll = this.byTag as ByTagAll<A>
   }
 }
 

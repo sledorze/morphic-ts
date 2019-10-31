@@ -8,6 +8,7 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [ThereIsSomeMissingTags (interface)](#thereissomemissingtags-interface)
 - [Builder (type alias)](#builder-type-alias)
 - [BuilderValue (type alias)](#buildervalue-type-alias)
 - [URI (type alias)](#uri-type-alias)
@@ -16,6 +17,14 @@ parent: Modules
 - [makeBuilder (function)](#makebuilder-function)
 
 ---
+
+# ThereIsSomeMissingTags (interface)
+
+**Signature**
+
+```ts
+export interface ThereIsSomeMissingTags<A, B> {}
+```
 
 # Builder (type alias)
 
@@ -33,6 +42,23 @@ export type Builder<T> = (x: T) => T
 export type BuilderValue<B extends BuilderType<any>> = B extends BuilderType<infer A> ? A : never
 ```
 
+<<<<<<< Updated upstream
+=======
+# ByTag (type alias)
+
+**Signature**
+
+```ts
+export type ByTag<A> = <Tag extends TagsOf<A> & string>(
+  t: Tag
+) => <Tags extends (A[Tag] & string)[]>(
+  ...tags: Tags
+) => A[Tag] extends ElemType<typeof tags>
+  ? ADT<A, Tag, ElemType<typeof tags>>
+  : ThereIsSomeMissingTags<A[Tag], ElemType<typeof tags>>
+```
+
+>>>>>>> Stashed changes
 # URI (type alias)
 
 **Signature**
