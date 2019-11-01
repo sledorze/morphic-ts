@@ -163,11 +163,17 @@ describe('Builder', () => {
 
       const fooA = fooBar.of('foo', { a: 'a', b: 12 })
 
+      chai.assert.deepStrictEqual(fooBar.isA('foo')(fooA), true)
+      chai.assert.deepStrictEqual(fooBar.isAnyOf('foo')(fooA), true)
+      chai.assert.deepStrictEqual(fooBar.isAnyOf('bar', 'foo')(fooA), true)
+      chai.assert.deepStrictEqual(fooBar.isA('bar')(fooA), false)
+      chai.assert.deepStrictEqual(fooBar.isAnyOf('bar')(fooA), false)
+
       if (fooBar.isA('foo')(fooA)) {
         chai.assert.deepStrictEqual(
           fooBar('foo')
             .lenseFromProp('type')
-            .get(fooA),
+            .get(fooA), // ensure type narrowing
           'foo'
         )
       }
