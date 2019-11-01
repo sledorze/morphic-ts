@@ -16,8 +16,8 @@ declare type OptionPropertyNames<S> = {
   [K in keyof S]-?: S[K] extends Option<any> ? K : never
 }[keyof S]
 declare type OptionPropertyType<S, K extends OptionPropertyNames<S>> = S[K] extends Option<infer A> ? A : never
-type LenseFromOptionProp<S> = <P extends OptionPropertyNames<S>>(prop: P) => m.Optional<S, OptionPropertyType<S, P>> //
-type LenseFromNullableProp<S> = <K extends keyof S>(k: K) => m.Optional<S, NonNullable<S[K]>>
+type OptionalFromOptionProp<S> = <P extends OptionPropertyNames<S>>(prop: P) => m.Optional<S, OptionPropertyType<S, P>> //
+type OptionalFromNullableProp<S> = <K extends keyof S>(k: K) => m.Optional<S, NonNullable<S[K]>>
 type IndexFromAt<T> = <J, B>(at: m.At<T, J, Option<B>>) => m.Index<T, J, B>
 
 interface PrismFromPredicate<S> {
@@ -26,25 +26,25 @@ interface PrismFromPredicate<S> {
 }
 
 export interface MonocleFor<S> {
-  fromProp: LenseFromProp<S>
-  fromProps: LenseFromProps<S>
-  fromPath: m.LensFromPath<S>
-  fromAt: IndexFromAt<S>
-  fromOptionProp: LenseFromOptionProp<S>
-  fromNullableProp: LenseFromNullableProp<S>
+  lenseFromProp: LenseFromProp<S>
+  lenseFromProps: LenseFromProps<S>
+  lenseFromPath: m.LensFromPath<S>
+  indexFromAt: IndexFromAt<S>
+  optionalFromOptionProp: OptionalFromOptionProp<S>
+  optionalFromNullableProp: OptionalFromNullableProp<S>
   prism: m.Prism<Option<S>, S>
-  fromPredicate: PrismFromPredicate<S>
+  prismFromPredicate: PrismFromPredicate<S>
 }
 
 const makeMonocleFor = <S>(): MonocleFor<S> => ({
-  fromProp: m.Lens.fromProp(),
-  fromProps: m.Lens.fromProps(),
-  fromPath: m.Lens.fromPath(),
-  fromAt: m.Index.fromAt,
-  fromOptionProp: m.Optional.fromOptionProp(),
-  fromNullableProp: m.Optional.fromNullableProp(),
+  lenseFromProp: m.Lens.fromProp(),
+  lenseFromProps: m.Lens.fromProps(),
+  lenseFromPath: m.Lens.fromPath(),
+  indexFromAt: m.Index.fromAt,
+  optionalFromOptionProp: m.Optional.fromOptionProp(),
+  optionalFromNullableProp: m.Optional.fromNullableProp(),
   prism: m.Prism.some(),
-  fromPredicate: m.Prism.fromPredicate
+  prismFromPredicate: m.Prism.fromPredicate
 })
 
 const staticMonocle = makeMonocleFor<any>()

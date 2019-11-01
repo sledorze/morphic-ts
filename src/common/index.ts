@@ -13,3 +13,8 @@ export type TagsOf<T> = TagsInKeys<T, keyof T> // this indirection is necessary
 export type ExtractUnion<A, Tag extends keyof A & string, Tags extends string> = Extract<A, Record<Tag, Tags>>
 
 export type ExcludeUnion<A, Tag extends keyof A & string, Tags extends string> = Exclude<A, Record<Tag, Tags>>
+
+export const assignFunction = <F extends Function, C>(ab: F, c: C): F & C => {
+  const newF: typeof ab = ((...x: any[]) => ab(...x)) as any
+  return Object.assign(newF, c)
+}

@@ -1,11 +1,12 @@
 import { Remove, ExtractUnion } from '../../common'
+import { identity } from 'fp-ts/lib/function'
 
 export type Ctor<A, N extends A, Tag extends string> = (x: Remove<N, Tag>) => A
-export type CtorNarrowed<N, Tag extends string> = (x: Remove<N, Tag>) => N
 
 export interface Ctors<A, Tag extends keyof A & string> {
-  of: <Key extends A[Tag] & string>(key: Key) => Ctor<A, ExtractUnion<A, Tag, Key>, Tag>
-  as: <Key extends A[Tag] & string>(key: Key) => CtorNarrowed<ExtractUnion<A, Tag, Key>, Tag>
+  of: <Key extends A[Tag] & string>(key: Key, x: Remove<ExtractUnion<A, Tag, Key>, Tag>) => A
+  as: <Key extends A[Tag] & string>(key: Key, x: Remove<ExtractUnion<A, Tag, Key>, Tag>) => ExtractUnion<A, Tag, Key>
+  make: (a: A) => A
 }
 
 export const Ctors = <A, Tag extends keyof A & string>(tag: Tag): Ctors<A, Tag> => {
@@ -15,6 +16,7 @@ export const Ctors = <A, Tag extends keyof A & string>(tag: Tag): Ctors<A, Tag> 
   })
   return {
     of: ctor,
-    as: ctor
+    as: ctor,
+    make: identity
   }
 }

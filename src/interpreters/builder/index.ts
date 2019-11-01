@@ -1,5 +1,5 @@
 import { identity } from 'fp-ts/lib/function'
-import { ElemType, TagsOf, ExtractUnion, ExcludeUnion } from '../../common'
+import { ElemType, TagsOf, ExtractUnion, ExcludeUnion, assignFunction } from '../../common'
 import * as M from './index-monocle'
 import * as Ma from './index-matcher'
 import * as PU from './index-predicates'
@@ -17,8 +17,9 @@ interface ADT<A, Tag extends keyof A & string>
     PU.Predicates<A, Tag>,
     CU.Ctors<A, Tag>,
     M.MonocleFor<A> {
-  only: <Keys extends (A[Tag] & string)[]>(...keys: Keys) => ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag>
-  without: <Keys extends (A[Tag] & string)[]>(...keys: Keys) => ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag>
+  <Keys extends (A[Tag] & string)[]>(...keys: Keys): ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag>
+  select: <Keys extends (A[Tag] & string)[]>(...keys: Keys) => ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag>
+  exclude: <Keys extends (A[Tag] & string)[]>(...keys: Keys) => ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag>
 }
 
 export type ByTag<A> = <Tag extends TagsOf<A> & string>(t: Tag) => ADT<A, Tag>
@@ -30,11 +31,11 @@ export const makeByTag = <A>(): ByTag<A> => tag => {
   const predicates = PU.Predicates<A, Tag>(tag)
   const monocles = M.MonocleFor<A>()
   const matchers = Ma.Matchers<A, Tag>(tag)
-  const only = <Keys extends (A[Tag] & string)[]>(...keys: Keys): ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag> =>
+  const select = <Keys extends (A[Tag] & string)[]>(...keys: Keys): ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag> =>
     res as any
-  const without = <Keys extends (A[Tag] & string)[]>(...keys: Keys): ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag> =>
+  const exclude = <Keys extends (A[Tag] & string)[]>(...keys: Keys): ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag> =>
     res as any
-  const res = { ...ctors, ...predicates, ...monocles, ...matchers, only, without }
+  const res = assignFunction(select, { ...ctors, ...predicates, ...monocles, ...matchers, select, exclude })
   return res
 }
 
