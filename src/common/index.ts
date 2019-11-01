@@ -10,17 +10,6 @@ type TagsInKeys<T, K extends keyof T> = NonNullable<
 >
 export type TagsOf<T> = TagsInKeys<T, keyof T> // this indirection is necessary
 
-export type VariantType<A, Tag extends string, Key> = IfStringLiteral<Key, Extract<A, Record<Tag, Key>>, never, never> // Extract<A, Record<Tag, Key>>
+export type ExtractUnion<A, Tag extends keyof A & string, Tags extends string> = Extract<A, Record<Tag, Tags>>
 
-export type ExtractUnion<A, Tag extends keyof A & string, Tags extends string> =
-  // IfStringLiteral<
-  // Tags,
-  Extract<A, Record<Tag, Tags>>
-//   never,
-//   never
-// >
-
-export const assignFunction = <F extends Function, C>(ab: F, c: C): F & C => {
-  const newF: typeof ab = ((...x: any[]) => ab(...x)) as any
-  return Object.assign(newF, c)
-}
+export type ExcludeUnion<A, Tag extends keyof A & string, Tags extends string> = Exclude<A, Record<Tag, Tags>>

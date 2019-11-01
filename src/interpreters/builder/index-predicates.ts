@@ -1,16 +1,13 @@
-import { VariantType } from '../../common'
+import { ExtractUnion } from '../../common'
 
-export type IsA<A, V extends A> = (a: A) => a is V
+export type IsA<A, Tag extends keyof A & string> = <Key extends A[Tag] & string>(
+  k: Key
+) => (a: A) => a is ExtractUnion<A, Tag, Key>
 
-export interface Predicates<A, V extends A> {
-  isA: IsA<A, V>
+export interface Predicates<A, Tag extends keyof A & string> {
+  isA: IsA<A, Tag>
 }
 
-export const Predicates = <A = never>() => <Tag extends keyof A & string, Key extends A[Tag]>(
-  tag: Tag,
-  key: Key
-): Predicates<A, VariantType<A, Tag, Key>> => {
-  type V = VariantType<A, Tag, Key>
-  const isA: IsA<A, V> = (rest: A): rest is V => rest[tag] === key
-  return { isA }
-}
+export const Predicates = <A, Tag extends keyof A & string>(tag: Tag): Predicates<A, Tag> => ({
+  isA: <Key extends A[Tag] & string>(key: Key) => (rest: A): rest is ExtractUnion<A, Tag, Key> => rest[tag] === key
+})

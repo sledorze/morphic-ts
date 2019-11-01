@@ -21,8 +21,8 @@ type LenseFromNullableProp<S> = <K extends keyof S>(k: K) => m.Optional<S, NonNu
 type IndexFromAt<T> = <J, B>(at: m.At<T, J, Option<B>>) => m.Index<T, J, B>
 
 interface PrismFromPredicate<S> {
-  <S>(predicate: Predicate<S>): m.Prism<S, S>
-  <S, A extends S>(refinement: Refinement<S, A>): m.Prism<S, A>
+  (predicate: Predicate<S>): m.Prism<S, S>
+  <A extends S>(refinement: Refinement<S, A>): m.Prism<S, A>
 }
 
 export interface MonocleFor<S> {

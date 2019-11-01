@@ -60,7 +60,7 @@ describe('several interpreters', () => {
     const value = Type.of({ type: 'foo', date: new Date(), a: 'a' })
     chai.assert.isTrue(Type.type.is(value), 'make')
 
-    const barFoo = Type.byTag('type')('bar', 'foo')
+    const barFoo = Type.byTag('type')
     const res = barFoo.matchWiden({
       bar: () => 1,
       foo: x => x

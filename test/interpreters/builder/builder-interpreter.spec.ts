@@ -101,15 +101,13 @@ describe('Builder', () => {
   it('taggedUnion', () => {
     const { of, byTag } = FooBar(builderInterpreter)
 
-    const fooBar = byTag('type')('bar', 'foo')
+    const fooBar = byTag('type')
+    const foo = fooBar.of('foo')
+    const bar = fooBar.of('bar')
 
-    const {
-      variants: { bar, foo }
-    } = fooBar
-
-    const fooA = foo.of({ a: 'a', b: 12 })
-    const barA = bar.of({ c: 'a', d: 12 })
-    const barB = bar.of({ c: 'b', d: 13 })
+    const fooA = foo({ a: 'a', b: 12 })
+    const barA = bar({ c: 'a', d: 12 })
+    const barB = bar({ c: 'b', d: 13 })
 
     chai.assert.deepStrictEqual({ type: 'foo', a: 'a', b: 12 }, fooA)
     chai.assert.deepStrictEqual({ type: 'bar', c: 'a', d: 12 }, barA)
@@ -124,18 +122,13 @@ describe('Builder', () => {
     it('taggedUnion', () => {
       const { byTag } = FooBar(builderInterpreter)
 
-      const fooBar = byTag('type')('bar', 'foo')
+      const fooBar = byTag('type')
 
-      const {
-        variants: { bar, foo },
-        fold,
-        match,
-        matchWiden
-      } = fooBar
+      const { fold, match, matchWiden } = fooBar
 
-      const fooA = foo.of({ a: 'a', b: 12 })
-      const barA = bar.of({ c: 'a', d: 12 })
-      const barB = bar.of({ c: 'b', d: 13 })
+      const fooA = fooBar.of('foo')({ a: 'a', b: 12 })
+      const barA = fooBar.of('bar')({ c: 'a', d: 12 })
+      const barB = fooBar.of('bar')({ c: 'b', d: 13 })
 
       chai.assert.deepStrictEqual({ type: 'foo', a: 'a', b: 12 }, fooA)
       chai.assert.deepStrictEqual({ type: 'bar', c: 'a', d: 12 }, barA)
@@ -168,16 +161,18 @@ describe('Builder', () => {
     it('taggedUnion', () => {
       const { byTag } = FooBar(builderInterpreter)
 
-      const fooBar = byTag('type')('bar', 'foo')
+      const fooBar = byTag('type')
 
-      const {
-        variants: { foo }
-      } = fooBar
+      const fooA = fooBar.of('foo')({ a: 'a', b: 12 })
 
-      const fooA = foo.of({ a: 'a', b: 12 })
-
-      if (foo.isA(fooA)) {
-        chai.assert.deepStrictEqual(foo.fromProp('type').get(fooA), 'foo')
+      if (fooBar.isA('foo')(fooA)) {
+        chai.assert.deepStrictEqual(
+          fooBar
+            .only('foo')
+            .fromProp('type')
+            .get(fooA),
+          'foo'
+        )
       }
     })
   })
@@ -185,20 +180,22 @@ describe('Builder', () => {
   describe('Monocle', () => {
     it('modify', () => {
       const { byTag } = FooBar(builderInterpreter)
-      const fooBar = byTag('type')('bar', 'foo')
-
-      const {
-        variants: { bar }
-      } = fooBar
+      const fooBar = byTag('type')
 
       chai.assert.deepStrictEqual(
-        bar.fromProp('c').modify(s => `(${s})`)(bar.narrowed({ c: 'c', d: 1 })),
-        bar.of({ c: '(c)', d: 1 })
+        fooBar
+          .only('bar')
+          .fromProp('c')
+          .modify(s => `(${s})`)(fooBar.as('bar')({ c: 'c', d: 1 })),
+        fooBar.of('bar')({ c: '(c)', d: 1 })
       )
 
       chai.assert.deepStrictEqual(
-        bar.fromProps(['c', 'd']).modify(({ c, d }) => ({ c: `(${c})`, d: 1 + d }))(bar.narrowed({ c: 'c', d: 1 })),
-        bar.of({ c: '(c)', d: 2 })
+        fooBar
+          .only('bar')
+          .fromProps(['c', 'd'])
+          .modify(({ c, d }) => ({ c: `(${c})`, d: 1 + d }))(fooBar.as('bar')({ c: 'c', d: 1 })),
+        fooBar.of('bar')({ c: '(c)', d: 2 })
       )
     })
   })
