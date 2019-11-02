@@ -35,14 +35,21 @@ export const makeByTag = <A>(): ByTag<A> => tag => {
     res as any
   const exclude = <Keys extends (A[Tag] & string)[]>(...keys: Keys): ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag> =>
     res as any
-  const res = assignFunction(select, { ...ctors, ...predicates, ...monocles, ...matchers, select, exclude })
+  const res: ADT<A, Tag> = assignFunction(select, {
+    ...ctors,
+    ...predicates,
+    ...monocles,
+    ...matchers,
+    select,
+    exclude
+  })
   return res
 }
 
 export class BuilderType<A> {
   byTag: ByTag<A>
 
-  constructor(public of: Builder<A>) {
+  constructor(public build: Builder<A>) {
     this.byTag = makeByTag<A>()
   }
 }

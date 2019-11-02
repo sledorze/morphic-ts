@@ -13,13 +13,13 @@ export interface Ctors<A, Tag extends keyof A & string> {
 }
 
 export const Ctors = <A, Tag extends keyof A & string>(tag: Tag): Ctors<A, Tag> => {
-  const ctor: any = (key: string) => (props: object) => ({
+  const ctor = (key: any, props: any) => ({
     [tag]: key,
     ...props
   })
   return {
-    of: ctor,
-    as: ctor,
+    of: ctor as Ctors<A, Tag>['of'],
+    as: ctor as Ctors<A, Tag>['as'],
     make: identity
   }
 }

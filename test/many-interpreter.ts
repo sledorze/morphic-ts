@@ -57,7 +57,7 @@ describe('several interpreters', () => {
     chai.assert.isTrue(Type.eq.equals(value1, value1), 'Eq true')
     chai.assert.isFalse(Type.eq.equals(value1, value2), 'Eq false')
 
-    const value = Type.of({ type: 'foo', date: new Date(), a: 'a' })
+    const value = Type.build({ type: 'foo', date: new Date(), a: 'a' })
     chai.assert.isTrue(Type.type.is(value), 'make')
 
     const barFoo = Type.byTag('type')
