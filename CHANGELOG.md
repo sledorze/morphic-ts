@@ -13,6 +13,21 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 0.3.0
+
+- New Feature
+
+  - add isAnyOf
+  - add unionADT and intersectionADT
+
+- Breaking Change
+
+  - Move adt to its own space
+  - Builder is dumb again
+
+- Polish
+  - 'isA' renamed to 'is'
+
 # 0.2.0
 
 - Breaking Change
