@@ -1,4 +1,5 @@
-import { Remove, ElemType, TagsOf, IfStringLiteral, VariantType } from '../../src/common/index'
+import { Remove, ElemType, IfStringLiteral } from '../../src/common/index'
+import { ADT, unionADT, intersectADT } from '../../src/interpreters/builder/adt'
 
 type IsLiteralA = IfStringLiteral<'a', 'ok', 'string', 'notString'> // $ExpectType "ok"
 type IsLiteralString = IfStringLiteral<string, 'ok', 'string', 'notString'> // $ExpectType "string"
@@ -14,52 +15,20 @@ type ElemArrayA = ElemType<Dummy[]> // $ExpectType Dummy
 type ElemA = ElemType<Dummy> // $ExpectType never
 type ElemString = ElemType<string> // $ExpectType never
 
-interface VariantA {
-  type: 'A'
-  type2: 'A'
-  type3: 'A'
-  type4: 'A'
-  type5: 'A'
-  type6: 1
-
-  a: string
+interface ADTFoo0 {
+  type: 'ADTFoo0'
 }
-interface VariantB {
-  type: 'B'
-  type2: 'B'
-  type3: 'B'
-  type4: 'B'
-  type5: string
-  type6: 2
-
-  b: string
+interface ADTFoo1 {
+  type: 'ADTFoo1'
 }
-type VariantAB = VariantA | VariantB
-type VariantTypeA = VariantType<VariantAB, 'type', 'A'> // $ExpectType VariantA
-
-interface VariantC {
-  type?: 'C'
-  type2: 'C'
-  type3: 'C' | undefined
-  type4: 'C'
-  type5: 'C'
-  type6: number
-
-  b: string
+interface ADTFoo2 {
+  type: 'ADTFoo2'
 }
-type VariantABC = VariantA | VariantB | VariantC
-type VariantABCTags = TagsOf<VariantABC> // $ExpectType "type2" | "type4"
+type ADTTag = 'type'
+type ADTFoo01 = ADT<ADTFoo0 | ADTFoo1, ADTTag>
+type ADTFoo12 = ADT<ADTFoo1 | ADTFoo2, ADTTag>
+const ADTFoo01: ADTFoo01 = 1 as any
+const ADTFoo12: ADTFoo12 = 1 as any
 
-type SelectVariantTypeA = VariantType<VariantABC, 'type', 'A'> // $ExpectType VariantA
-type SelectVariantTypeB = VariantType<VariantABC, 'type', 'B'> // $ExpectType VariantB
-type SelectVariantTypeC = VariantType<VariantABC, 'type', 'C'> // $ExpectType never
-type SelectVariantType4C = VariantType<VariantABC, 'type4', 'C'> // $ExpectType VariantC
-type SelectVariantType4AC = VariantType<VariantABC, 'type4', 'A' | 'C'> // $ExpectType VariantA | VariantC
-type SelectVariantTypeNever = VariantType<VariantABC, 'type', never> // $ExpectType never
-type SelectVarianTypeNumber = VariantType<VariantABC, 'type', number> // $ExpectType never
-type SelectVarianTypeUndefined = VariantType<VariantABC, 'type', undefined> // $ExpectType never
-
-type SelectVariantTypeString = VariantType<VariantABC, 'type', string> // $ExpectType never
-type SelectVariantType4String = VariantType<VariantABC, 'type4', string> // $ExpectType never
-type SelectVariantNawakString = VariantType<VariantABC, 'nawak', string> // $ExpectType never
-type SelectVariantNawakLiteral = VariantType<VariantABC, 'nawak', 'A'> // $ExpectType never
+const unionADTRes = unionADT(ADTFoo01, ADTFoo12) // $ExpectType ADT<ADTFoo0 | ADTFoo1 | ADTFoo2, "type">
+const intersectADTRes = intersectADT(ADTFoo01, ADTFoo12) // $ExpectType ADT<ADTFoo1, "type">
