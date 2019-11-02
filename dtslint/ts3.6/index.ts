@@ -1,5 +1,5 @@
 import { Remove, ElemType, IfStringLiteral } from '../../src/common/index'
-import { ADT, unionADT, intersectADT } from '../../src/interpreters/builder/adt'
+import { ADT, unionADT, intersectADT } from '../../src/adt'
 
 type IsLiteralA = IfStringLiteral<'a', 'ok', 'string', 'notString'> // $ExpectType "ok"
 type IsLiteralString = IfStringLiteral<string, 'ok', 'string', 'notString'> // $ExpectType "string"

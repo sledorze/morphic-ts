@@ -1,4 +1,4 @@
-import { Remove, ExtractUnion } from '../../common'
+import { Remove, ExtractUnion } from '../common'
 import { identity } from 'fp-ts/lib/function'
 
 export type Ctor<A, N extends A, Tag extends string> = (x: Remove<N, Tag>) => A
