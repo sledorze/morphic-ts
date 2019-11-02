@@ -12,7 +12,7 @@ export type Builder<T> = (x: T) => T
 export const makeBuilder = <A>() => new BuilderType<A>(identity)
 export type BuilderValue<B extends BuilderType<any>> = B extends BuilderType<infer A> ? A : never
 
-interface ADT<A, Tag extends keyof A & string>
+export interface ADT<A, Tag extends keyof A & string>
   extends Ma.Matchers<A, Tag>,
     PU.Predicates<A, Tag>,
     CU.Ctors<A, Tag>,
