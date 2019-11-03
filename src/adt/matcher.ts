@@ -21,6 +21,11 @@ interface MatcherInter<A, Record> {
   <R>(match: Partial<Cases<Record, R>> & Default<A, R>): (a: A) => R
 }
 
+interface Transform<A, Tag extends keyof A & string> extends TransformInter<A, ValueByKeyByTag<A>[Tag]> {}
+interface TransformInter<A, Record> {
+  (match: Partial<Cases<Record, A>>): (a: A) => A
+}
+
 interface ReducerBuilder<S, A, Tag extends keyof A & string> {
   (match: Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>): Reducer<A, S>
   // tslint:disable-next-line: unified-signatures
@@ -46,6 +51,7 @@ export interface Reducer<A, S> {
 export interface Matchers<A, Tag extends keyof A & string> {
   fold: Folder<A>
   match: Matcher<A, Tag>
+  transform: Transform<A, Tag>
   matchWiden: MatcherWiden<A, Tag>
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
 }
@@ -54,6 +60,10 @@ export const Matchers = <A, Tag extends keyof A & string>(tag: Tag): Matchers<A,
   const match = (match: any) => (a: any): any => {
     const key = a[tag]
     return key in match ? match[key](a) : match['default'](a)
+  }
+  const transform = (match: any) => (a: any): any => {
+    const key = a[tag]
+    return key in match ? match[key](a) : a
   }
   const matchWiden = match
   const fold = identity
@@ -64,6 +74,7 @@ export const Matchers = <A, Tag extends keyof A & string>(tag: Tag): Matchers<A,
   return {
     match,
     matchWiden,
+    transform,
     fold,
     createReducer
   }

@@ -30,7 +30,7 @@ describe('Builder', () => {
   describe('Matcher', () => {
     const fooBar = adtByTag<Foo | Bar>()('type')
 
-    const { fold, match, matchWiden, createReducer } = fooBar
+    const { fold, match, matchWiden, createReducer, transform } = fooBar
     const fooA = fooBar.of('foo', { a: 'a', b: 12 })
     const barA = fooBar.of('bar', { c: 'a', d: 12 })
     const barB = fooBar.of('bar', { c: 'b', d: 13 })
@@ -43,8 +43,8 @@ describe('Builder', () => {
 
     it('fold', () => {
       const folder = fold(v => v.type)
-      chai.assert.deepStrictEqual(folder(fooA), 'foo', 'folder fooA')
-      chai.assert.deepStrictEqual(folder(barA), 'bar', 'folder barA')
+      chai.assert.deepStrictEqual(folder(fooA), 'foo', 'fooA')
+      chai.assert.deepStrictEqual(folder(barA), 'bar', 'barA')
     })
 
     it('match', () => {
@@ -53,9 +53,9 @@ describe('Builder', () => {
         foo: ({ a }) => a
       })
 
-      chai.assert.deepStrictEqual(matcher(barA), 'a', 'matcher barA')
-      chai.assert.deepStrictEqual(matcher(barB), 'b', 'matcher barB')
-      chai.assert.deepStrictEqual(matcher(fooA), 'a', 'matcher fooA')
+      chai.assert.deepStrictEqual(matcher(barA), 'a', 'barA')
+      chai.assert.deepStrictEqual(matcher(barB), 'b', 'barB')
+      chai.assert.deepStrictEqual(matcher(fooA), 'a', 'fooA')
     })
 
     it('match with default', () => {
@@ -63,8 +63,8 @@ describe('Builder', () => {
         bar: ({ c }) => c,
         default: () => 'defaultResult'
       })
-      chai.assert.deepStrictEqual(matcherDefault(barA), 'a', 'matcherDefault barA')
-      chai.assert.deepStrictEqual(matcherDefault(fooA), 'defaultResult', 'matcherDefault fooA')
+      chai.assert.deepStrictEqual(matcherDefault(barA), 'a', 'barA')
+      chai.assert.deepStrictEqual(matcherDefault(fooA), 'defaultResult', 'fooA')
     })
 
     it('matchWiden', () => {
@@ -72,17 +72,17 @@ describe('Builder', () => {
         bar: ({ d }) => d,
         foo: ({ a }) => a
       })
-      chai.assert.deepStrictEqual(matcherW(barA), 12, 'matcherW barA')
-      chai.assert.deepStrictEqual(matcherW(barB), 13, 'matcherW barb')
-      chai.assert.deepStrictEqual(matcherW(fooA), 'a', 'matcherW fooA')
+      chai.assert.deepStrictEqual(matcherW(barA), 12, 'barA')
+      chai.assert.deepStrictEqual(matcherW(barB), 13, 'barb')
+      chai.assert.deepStrictEqual(matcherW(fooA), 'a', 'fooA')
     })
     it('matchWiden with default', () => {
       const matcherDefaultW = matchWiden({
         bar: ({ c }) => c.length,
         default: () => 'defaultResult'
       })
-      chai.assert.deepStrictEqual(matcherDefaultW(barA), 1, 'matcherDefaultW bar')
-      chai.assert.deepStrictEqual(matcherDefaultW(fooA), 'defaultResult', 'matcherDefaultW fooA')
+      chai.assert.deepStrictEqual(matcherDefaultW(barA), 1, 'bar')
+      chai.assert.deepStrictEqual(matcherDefaultW(fooA), 'defaultResult', 'fooA')
     })
 
     it('matchWiden with default expose the action', () => {
@@ -111,6 +111,14 @@ describe('Builder', () => {
         default: () => identity
       })
       chai.assert.deepStrictEqual(reduce(barA)(undefined), { x: '0' })
+    })
+
+    it('transform', () => {
+      const matcherDefault = transform({
+        bar: ({ c }) => fooBar.of('bar', { c, d: 1 })
+      })
+      chai.assert.deepStrictEqual(matcherDefault(barA), { type: 'bar', c: 'a', d: 1 }, 'barA')
+      chai.assert.deepStrictEqual(matcherDefault(fooA), fooA, 'fooA')
     })
   })
 
