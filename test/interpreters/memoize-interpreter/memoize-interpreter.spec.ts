@@ -52,7 +52,7 @@ describe('memoize', () => {
     chai.assert.strictEqual(cCasted.props.a, cCasted.props.a2)
   })
 
-  it.only('can memoize io-ts interpreterin differents definitions', () => {
+  it('can memoize io-ts interpreterin differents definitions', () => {
     const C = defineAsUnknown(F => {
       const a = A(F)
       const a2 = A(F)
