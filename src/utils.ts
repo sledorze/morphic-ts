@@ -14,8 +14,6 @@ export const projectField = <T extends Record<any, Record<any, any>>>(t: T) => <
     [q in keyof T]: T[q][K]
   }
 
-export type NonNullValues<O> = { [k in keyof O]: O[k] extends undefined ? never : O[k] }
-
 export function conjunction<A, B>(...x: [A, B]): A & B
 export function conjunction<A, B, C>(...x: [A, B, C]): A & B & C
 export function conjunction<A, B, C, D>(...x: [A, B, C, D]): A & B & C & D
@@ -33,5 +31,3 @@ export function conjunction<R extends unknown[]>(...x: R): any[] {
 export const merge = conjunction
 
 export const collect = <K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B> => record.collect(f)(d)
-
-export const mapTupled = <T, U>(xs: [T, T, ...T[]], f: (x: T) => U): [U, U, ...U[]] => xs.map(f) as any
