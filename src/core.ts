@@ -35,8 +35,8 @@ export type InterpreterOf2<F extends URIS2, O extends object> = InterpreterFor2<
 export const InterpreterFor2 = <K extends URIS2>(k: K) => <O extends object>(o: O): InterpreterOf2<K, O> =>
   Object.assign({}, o, { InterpreterType: k })
 
-export const cacheByKey = <K, V>(f: (k: K) => V) => {
-  const mapping: Map<K, V> = new Map<K, V>()
+export const cacheUnaryFunction = <K, V>(f: (k: K) => V) => {
+  const mapping = new Map<K, V>()
   return (key: K): V => {
     const res = mapping.get(key)
     if (res !== undefined) {

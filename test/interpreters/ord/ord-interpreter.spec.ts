@@ -4,7 +4,7 @@ import { URIS, Kind } from '../../../src/HKT'
 import { ModelAlgebraPrimitive1 } from '../../../src/algebras/primitives'
 import { ModelAlgebraIntersection1 } from '../../../src/algebras/intersections'
 import { ModelAlgebraTaggedUnions1 } from '../../../src/algebras/tagged-unions'
-import { InterpreterFor, cacheByKey } from '../../../src/core'
+import { InterpreterFor, cacheUnaryFunction } from '../../../src/core'
 import { lt, gt, ordNumber, ord } from 'fp-ts/lib/Ord'
 import { ModelAlgebraStrMap1 } from '../../../src/algebras/str-map'
 import { ModelAlgebraSet1 } from '../../../src/algebras/set'
@@ -18,7 +18,7 @@ export interface ModelAlgebra<F extends URIS>
     InterpreterFor<F> {}
 
 export type Program<A> = <F extends URIS>(F: ModelAlgebra<F>) => Kind<F, A>
-export const defineAs = <A>(program: Program<A>): typeof program => cacheByKey(program)
+export const defineAs = <A>(program: Program<A>): typeof program => cacheUnaryFunction(program)
 
 describe('Ord', () => {
   it('returns true or false when comparing values for equality', () => {

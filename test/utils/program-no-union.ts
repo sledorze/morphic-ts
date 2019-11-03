@@ -14,7 +14,7 @@ import { ModelAlgebraObject1, ModelAlgebraObject, ModelAlgebraObject2 } from '..
 import { ModelAlgebraStrMap1, ModelAlgebraStrMap, ModelAlgebraStrMap2 } from '../../src/algebras/str-map'
 import { ModelAlgebraSet1, ModelAlgebraSet, ModelAlgebraSet2 } from '../../src/algebras/set'
 import { ModelAlgebraRecursive1, ModelAlgebraRecursive, ModelAlgebraRecursive2 } from '../../src/algebras/recursive'
-import { InterpreterFor, cacheByKey, InterpreterFor2, M } from '../../src/core'
+import { InterpreterFor, cacheUnaryFunction, InterpreterFor2, M } from '../../src/core'
 
 export interface ModelAlgebra
   extends ModelAlgebraPrimitive,
@@ -54,6 +54,6 @@ export type TypeOf<P extends Program<any, any>> = P extends Program<any, infer A
   ? A
   : 'Cannot infer TypeOf' & { error: never }
 
-export const defineAs = <L, A>(F: (a: ModelAlgebra) => M<L, A>): Program<L, A> => cacheByKey(F as any)
-export const defineAsL = <L>() => <A>(F: (a: ModelAlgebra) => M<L, A>): Program<L, A> => cacheByKey(F as any)
+export const defineAs = <L, A>(F: (a: ModelAlgebra) => M<L, A>): Program<L, A> => cacheUnaryFunction(F)
+export const defineAsL = <L>() => <A>(F: (a: ModelAlgebra) => M<L, A>): Program<L, A> => cacheUnaryFunction(F)
 export const defineAsUnknown = defineAsL<unknown>()
