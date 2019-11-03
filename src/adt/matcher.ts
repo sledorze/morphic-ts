@@ -27,9 +27,9 @@ interface TransformInter<A, Record> {
 }
 
 interface ReducerBuilder<S, A, Tag extends keyof A & string> {
-  (match: Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>): Reducer<A, S>
+  (match: Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>): Reducer<S, A>
   // tslint:disable-next-line: unified-signatures
-  (match: Partial<Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>> & Default<A, (s: S) => S>): Reducer<A, S>
+  (match: Partial<Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>> & Default<A, (s: S) => S>): Reducer<S, A>
 }
 
 /**
@@ -44,8 +44,8 @@ interface MatcherWidenIntern<A, Record> {
   ) => ReturnType<NonNullable<M[keyof M]>> extends infer R ? R : never
 }
 
-export interface Reducer<A, S> {
-  (a: A): (s: S | undefined) => S
+export interface Reducer<S, A> {
+  (state: S | undefined, action: A): S
 }
 
 export interface Matchers<A, Tag extends keyof A & string> {
@@ -69,7 +69,7 @@ export const Matchers = <A, Tag extends keyof A & string>(tag: Tag): Matchers<A,
   const fold = identity
   const createReducer = <S>(initialState: S): ReducerBuilder<S, A, Tag> => (m: any) => {
     const matcher = match(m)
-    return (a: any) => (s: any) => matcher(a)(s === undefined ? initialState : s)
+    return (s: any, a: any) => matcher(a)(s === undefined ? initialState : s)
   }
   return {
     match,

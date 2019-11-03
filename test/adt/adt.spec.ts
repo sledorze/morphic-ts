@@ -100,9 +100,9 @@ describe('Builder', () => {
         default: () => () => ({ x: `default` })
       })
 
-      chai.assert.deepStrictEqual(reduce(fooA)(undefined), { x: 'foo(0)' })
-      chai.assert.deepStrictEqual(reduce(fooA)({ x: '1' }), { x: 'foo(1)' })
-      chai.assert.deepStrictEqual(reduce(barA)(undefined), { x: 'default' })
+      chai.assert.deepStrictEqual(reduce(undefined, fooA), { x: 'foo(0)' })
+      chai.assert.deepStrictEqual(reduce({ x: '1' }, fooA), { x: 'foo(1)' })
+      chai.assert.deepStrictEqual(reduce(undefined, barA), { x: 'default' })
     })
 
     it('reduce return the previous state', () => {
@@ -110,7 +110,7 @@ describe('Builder', () => {
         foo: () => ({ x }) => ({ x: `foo(${x})` }),
         default: () => identity
       })
-      chai.assert.deepStrictEqual(reduce(barA)(undefined), { x: '0' })
+      chai.assert.deepStrictEqual(reduce(undefined, barA), { x: '0' })
     })
 
     it('transform', () => {
