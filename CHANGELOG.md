@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 0.3.2
+
+- New Feature
+
+  - `createReducer` on `Matchers` interface (so indirectly available on `ADT`s)
+
 # 0.3.1
 
 - New Feature

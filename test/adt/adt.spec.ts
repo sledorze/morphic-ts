@@ -29,7 +29,7 @@ describe('Builder', () => {
   describe('Matcher', () => {
     const fooBar = adtByTag<Foo | Bar>()('type')
 
-    const { fold, match, matchWiden } = fooBar
+    const { fold, match, matchWiden, createReducer } = fooBar
     const fooA = fooBar.of('foo', { a: 'a', b: 12 })
     const barA = fooBar.of('bar', { c: 'a', d: 12 })
     const barB = fooBar.of('bar', { c: 'b', d: 13 })
@@ -82,6 +82,16 @@ describe('Builder', () => {
       })
       chai.assert.deepStrictEqual(matcherDefaultW(barA), 1, 'matcherDefaultW fooA')
       chai.assert.deepStrictEqual(matcherDefaultW(fooA), 'defaultResult', 'matcherDefaultW barA')
+    })
+    it('reduce', () => {
+      const reduce = createReducer({ x: '0' })({
+        foo: () => ({ x }) => ({ x: `foo(${x})` }),
+        default: () => () => ({ x: `default` })
+      })
+
+      chai.assert.deepStrictEqual(reduce(fooA)(undefined), { x: 'foo(0)' })
+      chai.assert.deepStrictEqual(reduce(fooA)({ x: '1' }), { x: 'foo(1)' })
+      chai.assert.deepStrictEqual(reduce(barA)(undefined), { x: 'default' })
     })
   })
 

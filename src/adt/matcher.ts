@@ -20,6 +20,13 @@ interface MatcherInter<A, Record> {
   // tslint:disable-next-line: unified-signatures
   <R>(match: Partial<Cases<Record, R>> & Lazy<R>): (a: A) => R
 }
+
+interface ReducerBuilder<S, A, Tag extends keyof A & string> {
+  (match: Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>): Reducer<A, S>
+  // tslint:disable-next-line: unified-signatures
+  (match: Partial<Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>> & Lazy<(s: S) => S>): Reducer<A, S>
+}
+
 /**
  * Same purpose as `Matcher` but the result type is infered as a union of all branches results types
  */
@@ -32,27 +39,32 @@ interface MatcherWidenIntern<A, Record> {
   ) => ReturnType<NonNullable<M[keyof M]>> extends infer R ? R : never
 }
 
-/**
- * Dispatch calls for each tag value, ensuring a common result type `R`
- */
-// type PartialMatcher<A, Tag extends keyof A & string> = <R>(match: Cases<ValueByKeyByTag<A>[Tag], R>) => (a: A) => R
+export interface Reducer<A, S> {
+  (a: A): (s: S | undefined) => S
+}
 
 export interface Matchers<A, Tag extends keyof A & string> {
   fold: Folder<A>
   match: Matcher<A, Tag>
   matchWiden: MatcherWiden<A, Tag>
+  createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
 }
 
 export const Matchers = <A, Tag extends keyof A & string>(tag: Tag): Matchers<A, Tag> => {
-  const match = (match: any) => (a: any) => {
+  const match = (match: any) => (a: any): any => {
     const key = a[tag]
     return key in match ? match[key](a) : match['default'](a)
   }
   const matchWiden = match
   const fold = identity
+  const createReducer = <S>(initialState: S): ReducerBuilder<S, A, Tag> => (m: any) => {
+    const matcher = match(m)
+    return (a: any) => (s: any) => matcher(a)(s === undefined ? initialState : s)
+  }
   return {
     match,
     matchWiden,
-    fold
+    fold,
+    createReducer
   }
 }
