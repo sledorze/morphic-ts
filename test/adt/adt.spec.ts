@@ -46,12 +46,19 @@ describe('Builder', () => {
 
       const matcher = match({
         bar: ({ c }) => c,
-        foo: ({ a }) => a
+        foo: ({ a }) => '2'
       })
 
       chai.assert.deepStrictEqual(matcher(barA), 'a')
       chai.assert.deepStrictEqual(matcher(barB), 'b')
       chai.assert.deepStrictEqual(matcher(fooA), 'a')
+
+      const matcherDefault = match({
+        bar: ({ c }) => c,
+        default: () => 'defaultResult'
+      })
+      chai.assert.deepStrictEqual(matcherDefault(barA), 'a')
+      chai.assert.deepStrictEqual(matcherDefault(fooA), 'defaultResult')
 
       const matcherW = matchWiden({
         bar: ({ d }) => d,
@@ -60,6 +67,13 @@ describe('Builder', () => {
       chai.assert.deepStrictEqual(matcherW(barA), 12)
       chai.assert.deepStrictEqual(matcherW(barB), 13)
       chai.assert.deepStrictEqual(matcherW(fooA), 'a')
+
+      const matcherDefaultW = matchWiden({
+        bar: ({ c }) => 1,
+        default: () => 'defaultResult'
+      })
+      chai.assert.deepStrictEqual(matcherDefaultW(barA), 1)
+      chai.assert.deepStrictEqual(matcherDefaultW(fooA), 'defaultResult')
     })
   })
 
