@@ -13,6 +13,21 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 0.3.1
+
+- New Feature
+
+  - `default` optional clause for `match` and `matchWiden`
+  - Type level `CtorType` and `ADTType`
+  - Add some tests for `cacheUnaryFunction`
+
+- Bug Fix
+
+  - Correct order of overload for `prismFromPredicate`
+
+- Breaking Change
+  - (Internal) rename `cacheByKey` to `cacheUnaryFunction`
+
 # 0.3.0
 
 - New Feature
