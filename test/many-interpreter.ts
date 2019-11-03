@@ -59,13 +59,5 @@ describe('several interpreters', () => {
 
     const value = Type.build({ type: 'foo', date: new Date(), a: 'a' })
     chai.assert.isTrue(Type.type.is(value), 'make')
-
-    const barFoo = Type.byTag('type')
-    const res = barFoo.matchWiden({
-      bar: () => 1,
-      foo: x => x
-    })(value)
-
-    chai.assert.isTrue(Type.type.is(res), 'foldOnWiden')
   })
 })

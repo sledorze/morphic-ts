@@ -14,6 +14,8 @@ export interface ADT<A, Tag extends keyof A & string>
   exclude: <Keys extends (A[Tag] & string)[]>(...keys: Keys) => ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag>
 }
 
+export type ADTType<A extends ADT<any, any>> = CU.CtorType<A>
+
 export const unionADT = <A, B, Tag extends (keyof A & keyof B) & string>(
   a: ADT<A, Tag>,
   b: ADT<B, Tag>

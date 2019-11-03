@@ -3,6 +3,8 @@ import { identity } from 'fp-ts/lib/function'
 
 export type Ctor<A, N extends A, Tag extends string> = (x: Remove<N, Tag>) => A
 
+export type CtorType<C extends Ctors<any, any>> = C extends Ctors<infer A, any> ? A : never
+
 export interface Ctors<A, Tag extends keyof A & string> {
   of: <Key extends A[Tag] & string>(key: Key, props: Remove<ExtractUnion<A, Tag, Key>, Tag>) => A
   as: <Key extends A[Tag] & string>(

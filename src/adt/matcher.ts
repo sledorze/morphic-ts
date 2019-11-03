@@ -1,14 +1,22 @@
 import { identity } from 'fp-ts/lib/function'
 
-type FStruct<R extends Record<any, any>, K extends keyof R = keyof R> = {
-  [k in K]: { [kv in R[k]]: R extends { [r in k]: kv } ? R : never }
+type ValueByKeyByTag<Union extends Record<any, any>, Tags extends keyof Union = keyof Union> = {
+  [Tag in Tags]: { [Key in Union[Tag]]: Union extends { [r in Tag]: Key } ? Union : never }
 }
 
-type Match<StructK, R> = { [KV in keyof StructK]: (v: StructK[KV]) => R }
+type Cases<Record, R> = { [key in keyof Record]: (v: Record[key]) => R }
 
 type Folder<A> = <R>(f: (a: A) => R) => (a: A) => R
-type Matcher<A, Tag extends keyof A & string> = <R>(match: Match<FStruct<A>[Tag], R>) => (a: A) => R
-type MatcherWiden<A, Tag extends keyof A & string> = <M extends Match<FStruct<A>[Tag], any>>(
+
+/**
+ * Dispatch calls for each tag value, ensuring a common result type `R`
+ */
+type Matcher<A, Tag extends keyof A & string> = <R>(match: Cases<ValueByKeyByTag<A>[Tag], R>) => (a: A) => R
+
+/**
+ * Same purpose as `Matcher` but the result type is infered as a union of all branches results types
+ */
+type MatcherWiden<A, Tag extends keyof A & string> = <M extends Cases<ValueByKeyByTag<A>[Tag], any>>(
   match: M
 ) => (a: A) => ReturnType<M[keyof M]> extends infer R ? R : never
 
