@@ -8,8 +8,8 @@ type Cases<Record, R> = { [key in keyof Record]: (v: Record[key]) => R }
 
 type Folder<A> = <R>(f: (a: A) => R) => (a: A) => R
 
-interface Lazy<R> {
-  default: () => R
+interface Default<A, R> {
+  default: (a: A) => R
 }
 /**
  * Dispatch calls for each tag value, ensuring a common result type `R`
@@ -18,13 +18,13 @@ interface Matcher<A, Tag extends keyof A & string> extends MatcherInter<A, Value
 interface MatcherInter<A, Record> {
   <R>(match: Cases<Record, R>): (a: A) => R
   // tslint:disable-next-line: unified-signatures
-  <R>(match: Partial<Cases<Record, R>> & Lazy<R>): (a: A) => R
+  <R>(match: Partial<Cases<Record, R>> & Default<A, R>): (a: A) => R
 }
 
 interface ReducerBuilder<S, A, Tag extends keyof A & string> {
   (match: Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>): Reducer<A, S>
   // tslint:disable-next-line: unified-signatures
-  (match: Partial<Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>> & Lazy<(s: S) => S>): Reducer<A, S>
+  (match: Partial<Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>> & Default<A, (s: S) => S>): Reducer<A, S>
 }
 
 /**
@@ -34,7 +34,7 @@ interface MatcherWiden<A, Tag extends keyof A & string> extends MatcherWidenInte
 
 interface MatcherWidenIntern<A, Record> {
   <M extends Cases<Record, any>>(match: M): (a: A) => ReturnType<M[keyof M]> extends infer R ? R : never
-  <M extends Partial<Cases<Record, any>> & Lazy<any>>(match: M): (
+  <M extends Partial<Cases<Record, any>> & Default<A, any>>(match: M): (
     a: A
   ) => ReturnType<NonNullable<M[keyof M]>> extends infer R ? R : never
 }

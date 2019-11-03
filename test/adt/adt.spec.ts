@@ -1,5 +1,6 @@
 import * as chai from 'chai'
 import { adtByTag } from '../../src/adt'
+import { identity } from 'fp-ts/lib/function'
 
 describe('Builder', () => {
   interface Foo {
@@ -80,9 +81,19 @@ describe('Builder', () => {
         bar: ({ c }) => c.length,
         default: () => 'defaultResult'
       })
-      chai.assert.deepStrictEqual(matcherDefaultW(barA), 1, 'matcherDefaultW fooA')
-      chai.assert.deepStrictEqual(matcherDefaultW(fooA), 'defaultResult', 'matcherDefaultW barA')
+      chai.assert.deepStrictEqual(matcherDefaultW(barA), 1, 'matcherDefaultW bar')
+      chai.assert.deepStrictEqual(matcherDefaultW(fooA), 'defaultResult', 'matcherDefaultW fooA')
     })
+
+    it('matchWiden with default expose the action', () => {
+      const matcherDefaultW = matchWiden({
+        bar: ({ c }) => c.length,
+        default: a => a
+      })
+      chai.assert.deepStrictEqual(matcherDefaultW(barA), 1, 'barA')
+      chai.assert.deepStrictEqual(matcherDefaultW(fooA), fooA, 'fooA')
+    })
+
     it('reduce', () => {
       const reduce = createReducer({ x: '0' })({
         foo: () => ({ x }) => ({ x: `foo(${x})` }),
@@ -92,6 +103,14 @@ describe('Builder', () => {
       chai.assert.deepStrictEqual(reduce(fooA)(undefined), { x: 'foo(0)' })
       chai.assert.deepStrictEqual(reduce(fooA)({ x: '1' }), { x: 'foo(1)' })
       chai.assert.deepStrictEqual(reduce(barA)(undefined), { x: 'default' })
+    })
+
+    it('reduce return the previous state', () => {
+      const reduce = createReducer({ x: '0' })({
+        foo: () => ({ x }) => ({ x: `foo(${x})` }),
+        default: () => identity
+      })
+      chai.assert.deepStrictEqual(reduce(barA)(undefined), { x: '0' })
     })
   })
 
