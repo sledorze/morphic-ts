@@ -46,11 +46,7 @@ export interface Matchers<A, Tag extends keyof A & string> {
 export const Matchers = <A, Tag extends keyof A & string>(tag: Tag): Matchers<A, Tag> => {
   const match = (match: any) => (a: any) => {
     const key = a[tag]
-    if (key in match) {
-      match[key](a)
-    } else {
-      match['default'](a)
-    }
+    return key in match ? match[key](a) : match['default'](a)
   }
   const matchWiden = match
   const fold = identity
