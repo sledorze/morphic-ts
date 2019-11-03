@@ -27,77 +27,83 @@ describe('Builder', () => {
   })
 
   describe('Matcher', () => {
-    it('taggedUnion', () => {
-      const fooBar = adtByTag<Foo | Bar>()('type')
+    const fooBar = adtByTag<Foo | Bar>()('type')
 
-      const { fold, match, matchWiden } = fooBar
+    const { fold, match, matchWiden } = fooBar
+    const fooA = fooBar.of('foo', { a: 'a', b: 12 })
+    const barA = fooBar.of('bar', { c: 'a', d: 12 })
+    const barB = fooBar.of('bar', { c: 'b', d: 13 })
 
-      const fooA = fooBar.of('foo', { a: 'a', b: 12 })
-      const barA = fooBar.of('bar', { c: 'a', d: 12 })
-      const barB = fooBar.of('bar', { c: 'b', d: 13 })
+    it('prelude', () => {
+      chai.assert.deepStrictEqual({ type: 'foo', a: 'a', b: 12 }, fooA, 'fooA')
+      chai.assert.deepStrictEqual({ type: 'bar', c: 'a', d: 12 }, barA, 'barA')
+      chai.assert.deepStrictEqual({ type: 'bar', c: 'b', d: 13 }, barB, 'barB')
+    })
 
-      chai.assert.deepStrictEqual({ type: 'foo', a: 'a', b: 12 }, fooA)
-      chai.assert.deepStrictEqual({ type: 'bar', c: 'a', d: 12 }, barA)
-      chai.assert.deepStrictEqual({ type: 'bar', c: 'b', d: 13 }, barB)
-
+    it('fold', () => {
       const folder = fold(v => v.type)
-      chai.assert.deepStrictEqual(folder(fooA), 'foo')
-      chai.assert.deepStrictEqual(folder(barA), 'bar')
+      chai.assert.deepStrictEqual(folder(fooA), 'foo', 'folder fooA')
+      chai.assert.deepStrictEqual(folder(barA), 'bar', 'folder barA')
+    })
 
+    it('match', () => {
       const matcher = match({
         bar: ({ c }) => c,
-        foo: ({ a }) => '2'
+        foo: ({ a }) => a
       })
 
-      chai.assert.deepStrictEqual(matcher(barA), 'a')
-      chai.assert.deepStrictEqual(matcher(barB), 'b')
-      chai.assert.deepStrictEqual(matcher(fooA), 'a')
+      chai.assert.deepStrictEqual(matcher(barA), 'a', 'matcher barA')
+      chai.assert.deepStrictEqual(matcher(barB), 'b', 'matcher barB')
+      chai.assert.deepStrictEqual(matcher(fooA), 'a', 'matcher fooA')
+    })
 
+    it('match with default', () => {
       const matcherDefault = match({
         bar: ({ c }) => c,
         default: () => 'defaultResult'
       })
-      chai.assert.deepStrictEqual(matcherDefault(barA), 'a')
-      chai.assert.deepStrictEqual(matcherDefault(fooA), 'defaultResult')
+      chai.assert.deepStrictEqual(matcherDefault(barA), 'a', 'matcherDefault barA')
+      chai.assert.deepStrictEqual(matcherDefault(fooA), 'defaultResult', 'matcherDefault fooA')
+    })
 
+    it('matchWiden', () => {
       const matcherW = matchWiden({
         bar: ({ d }) => d,
         foo: ({ a }) => a
       })
-      chai.assert.deepStrictEqual(matcherW(barA), 12)
-      chai.assert.deepStrictEqual(matcherW(barB), 13)
-      chai.assert.deepStrictEqual(matcherW(fooA), 'a')
-
+      chai.assert.deepStrictEqual(matcherW(barA), 12, 'matcherW barA')
+      chai.assert.deepStrictEqual(matcherW(barB), 13, 'matcherW barb')
+      chai.assert.deepStrictEqual(matcherW(fooA), 'a', 'matcherW fooA')
+    })
+    it('matchWiden with default', () => {
       const matcherDefaultW = matchWiden({
-        bar: ({ c }) => 1,
+        bar: ({ c }) => c.length,
         default: () => 'defaultResult'
       })
-      chai.assert.deepStrictEqual(matcherDefaultW(barA), 1)
-      chai.assert.deepStrictEqual(matcherDefaultW(fooA), 'defaultResult')
+      chai.assert.deepStrictEqual(matcherDefaultW(barA), 1, 'matcherDefaultW fooA')
+      chai.assert.deepStrictEqual(matcherDefaultW(fooA), 'defaultResult', 'matcherDefaultW barA')
     })
   })
 
-  describe('Predicates', () => {
-    it('taggedUnion', () => {
-      const fooBar = adtByTag<Foo | Bar>()('type')
+  it('Predicates', () => {
+    const fooBar = adtByTag<Foo | Bar>()('type')
 
-      const fooA = fooBar.of('foo', { a: 'a', b: 12 })
+    const fooA = fooBar.of('foo', { a: 'a', b: 12 })
 
-      chai.assert.deepStrictEqual(fooBar.is('foo')(fooA), true)
-      chai.assert.deepStrictEqual(fooBar.isAnyOf('foo')(fooA), true)
-      chai.assert.deepStrictEqual(fooBar.isAnyOf('bar', 'foo')(fooA), true)
-      chai.assert.deepStrictEqual(fooBar.is('bar')(fooA), false)
-      chai.assert.deepStrictEqual(fooBar.isAnyOf('bar')(fooA), false)
+    chai.assert.deepStrictEqual(fooBar.is('foo')(fooA), true)
+    chai.assert.deepStrictEqual(fooBar.isAnyOf('foo')(fooA), true)
+    chai.assert.deepStrictEqual(fooBar.isAnyOf('bar', 'foo')(fooA), true)
+    chai.assert.deepStrictEqual(fooBar.is('bar')(fooA), false)
+    chai.assert.deepStrictEqual(fooBar.isAnyOf('bar')(fooA), false)
 
-      if (fooBar.is('foo')(fooA)) {
-        chai.assert.deepStrictEqual(
-          fooBar('foo')
-            .lenseFromProp('type')
-            .get(fooA), // ensure type narrowing
-          'foo'
-        )
-      }
-    })
+    if (fooBar.is('foo')(fooA)) {
+      chai.assert.deepStrictEqual(
+        fooBar('foo')
+          .lenseFromProp('type')
+          .get(fooA), // ensure type narrowing
+        'foo'
+      )
+    }
   })
 
   describe('Monocle', () => {
