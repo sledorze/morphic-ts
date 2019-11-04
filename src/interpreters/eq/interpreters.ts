@@ -8,6 +8,7 @@ import { eqRecursiveInterpreter } from './recursive'
 import { eqStrMapInterpreter } from './str-map'
 import { eqSetInterpreter } from './set'
 import { URI } from '.'
+export { URI }
 
 export const defineEqInterpreter = InterpreterFor(URI)
 

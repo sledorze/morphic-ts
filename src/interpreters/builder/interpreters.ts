@@ -9,6 +9,7 @@ import { builderRecursiveInterpreter } from './recursive'
 import { builderStrMapInterpreter } from './str-map'
 import { builderSetInterpreter } from './set'
 import { URI } from '.'
+export { URI }
 
 export const defineBuilderInterpreter = InterpreterFor(URI)
 

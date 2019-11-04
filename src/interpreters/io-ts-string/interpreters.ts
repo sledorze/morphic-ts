@@ -10,6 +10,7 @@ import { ioTsStringSetInterpreter } from './set'
 import { ioTsStringRecursiveInterpreter } from './recursive'
 import { ioTsStringNonStrictObjectInterpreter } from './object'
 import { URI } from '.'
+export { URI }
 
 export type IOTypes<Props> = { [k in keyof Props]: t.Type<Props[k], unknown> }
 

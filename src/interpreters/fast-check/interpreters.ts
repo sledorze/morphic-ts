@@ -9,6 +9,7 @@ import { fastCheckRecursiveInterpreter } from './recursive'
 import { fastCheckStrMapInterpreter } from './str-map'
 import { fastCheckSetInterpreter } from './set'
 import { URI } from './index'
+export { URI }
 
 export const defineFastCheckInterpreter = InterpreterFor<URI>(URI)
 

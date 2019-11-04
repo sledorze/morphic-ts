@@ -9,6 +9,7 @@ import { jsonSchemaStrMapInterpreter } from './str-map'
 import { jsonSchemaSetInterpreter } from './set'
 import { jsonSchemaUnionInterpreter } from './unions'
 import { URI } from '.'
+export { URI }
 
 export const defineJsonSchemaInterpreter = InterpreterFor(URI)
 

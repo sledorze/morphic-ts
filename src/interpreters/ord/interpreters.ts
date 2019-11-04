@@ -6,6 +6,7 @@ import { ordTaggedUnionInterpreter } from './tagged-unions'
 import { ordStrMapInterpreter } from './str-map'
 import { ordSetInterpreter } from './set'
 import { URI } from '.'
+export { URI }
 
 export const defineOrdInterpreter = InterpreterFor(URI)
 

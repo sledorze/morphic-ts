@@ -11,6 +11,7 @@ import { ioTsStrMapInterpreter } from './str-map'
 import { ioTsSetInterpreter } from './set'
 
 import { ioTsRecursiveInterpreter } from './recursive'
+export { URI }
 
 export type IOTypes<Props> = { [k in keyof Props]: t.Type<Props[k], unknown> }
 
