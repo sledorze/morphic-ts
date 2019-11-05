@@ -18,6 +18,7 @@ high state of flux, you're at risk of it changing without notice.
 - Breaking Change
 
   - Use `HKT2` type in place of custom `M`
+  - Change encoding of Algebra to help with custom setup (shorter, easier, safer)
 
 # 0.3.6
 

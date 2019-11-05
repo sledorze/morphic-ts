@@ -1,5 +1,20 @@
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
 
+export const URI = 'TaggedUnions'
+export type URI = typeof URI
+
+declare module './hkt' {
+  interface Algebra<F> {
+    TaggedUnions: ModelAlgebraTaggedUnions<F>
+  }
+  interface Algebra1<F extends URIS> {
+    TaggedUnions: ModelAlgebraTaggedUnions1<F>
+  }
+  interface Algebra2<F extends URIS2> {
+    TaggedUnions: ModelAlgebraTaggedUnions2<F>
+  }
+}
+
 // TODO: replace with explicit `TagKey` if no impact on inference
 // type TagKey<Tag extends string, o extends keyof any> = { [t in Tag]: o }
 export type TaggedValues<Tag extends string, O> = { [o in keyof O]: O[o] & { [t in Tag]: o } }

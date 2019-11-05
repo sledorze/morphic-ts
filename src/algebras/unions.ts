@@ -1,6 +1,21 @@
 import { OfType, OfType2 } from '../core'
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
 
+export const URI = 'Unions'
+export type URI = typeof URI
+
+declare module './hkt' {
+  interface Algebra<F> {
+    Unions: ModelAlgebraUnions<F>
+  }
+  interface Algebra1<F extends URIS> {
+    Unions: ModelAlgebraUnions1<F>
+  }
+  interface Algebra2<F extends URIS2> {
+    Unions: ModelAlgebraUnions2<F>
+  }
+}
+
 export interface ModelAlgebraUnions<F> {
   union<A, B, LA, LB>(types: [HKT2<F, LA, A>, HKT2<F, LB, B>]): HKT2<F, LA | LB, A | B>
   union<A, B, C, LA, LB, LC>(types: [HKT2<F, LA, A>, HKT2<F, LB, B>, HKT2<F, LC, C>]): HKT2<F, LA | LB | LC, A | B | C>

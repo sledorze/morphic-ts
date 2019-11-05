@@ -1,6 +1,21 @@
 import { OfType, OfType2 } from '../core'
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
 
+export const URI = 'Intersection'
+export type URI = typeof URI
+
+declare module './hkt' {
+  interface Algebra<F> {
+    Intersection: ModelAlgebraIntersection<F>
+  }
+  interface Algebra1<F extends URIS> {
+    Intersection: ModelAlgebraIntersection1<F>
+  }
+  interface Algebra2<F extends URIS2> {
+    Intersection: ModelAlgebraIntersection2<F>
+  }
+}
+
 export interface ModelAlgebraIntersection<F> {
   intersection<A, B, LA, LB>(types: [HKT2<F, LA, A>, HKT2<F, LB, B>]): HKT2<F, LA & LB, A & B>
   intersection<A, B, C, LA, LB, LC>(

@@ -2,6 +2,21 @@ import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
 
 type AnyMProps<F> = Record<string, HKT2<F, any, any>>
 
+export const URI = 'Object'
+export type URI = typeof URI
+
+declare module './hkt' {
+  interface Algebra<F> {
+    Object: ModelAlgebraObject<F>
+  }
+  interface Algebra1<F extends URIS> {
+    Object: ModelAlgebraObject1<F>
+  }
+  interface Algebra2<F extends URIS2> {
+    Object: ModelAlgebraObject2<F>
+  }
+}
+
 export interface ModelAlgebraObject<F> {
   interface: <Props extends AnyMProps<F>>(
     props: Props

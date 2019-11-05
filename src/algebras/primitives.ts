@@ -3,6 +3,21 @@ import { URIS2, Kind2, URIS, Kind, HKT2 } from '../HKT'
 
 export type Keys = Record<string, null>
 
+export const URI = 'Primitive'
+export type URI = typeof URI
+
+declare module './hkt' {
+  interface Algebra<F> {
+    Primitive: ModelAlgebraPrimitive<F>
+  }
+  interface Algebra1<F extends URIS> {
+    Primitive: ModelAlgebraPrimitive1<F>
+  }
+  interface Algebra2<F extends URIS2> {
+    Primitive: ModelAlgebraPrimitive2<F>
+  }
+}
+
 export interface ModelAlgebraPrimitive<F> {
   date: HKT2<F, string, Date>
   string: HKT2<F, string, string>
