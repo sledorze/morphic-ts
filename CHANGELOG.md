@@ -13,44 +13,44 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 0.3.7
+## 0.3.7
 
 - Breaking Change
 
   - Use `HKT2` type in place of custom `M`
   - Change encoding of Algebra to help with custom setup (shorter, easier, safer)
 
-# 0.3.6
+## 0.3.6
 
 - Polish
 
   - Reexport URI from interpreters
 
-# 0.3.5
+## 0.3.5
 
 - Breaking Change
 
   - Change Reducer signature to match Redux one
 
-# 0.3.4
+## 0.3.4
 
 - New Feature
 
   - Add `transform` a partial matcher acting as an Endomorphism
 
-# 0.3.3
+## 0.3.3
 
 - New Feature
 
   - Default case expose the `action` in matchers (and reducers)
 
-# 0.3.2
+## 0.3.2
 
 - New Feature
 
   - `createReducer` on `Matchers` interface (so indirectly available on `ADT`s)
 
-# 0.3.1
+## 0.3.1
 
 - New Feature
 
@@ -65,7 +65,7 @@ high state of flux, you're at risk of it changing without notice.
 - Breaking Change
   - (Internal) rename `cacheByKey` to `cacheUnaryFunction`
 
-# 0.3.0
+## 0.3.0
 
 - New Feature
 
@@ -80,7 +80,7 @@ high state of flux, you're at risk of it changing without notice.
 - Polish
   - 'isA' renamed to 'is'
 
-# 0.2.0
+## 0.2.0
 
 - Breaking Change
 
@@ -89,7 +89,7 @@ high state of flux, you're at risk of it changing without notice.
 - Polish
   - Lot of renaming and API changes in order to reduce boilerplate
 
-# 0.1.1
+## 0.1.1
 
 - New Feature
 
@@ -100,6 +100,6 @@ high state of flux, you're at risk of it changing without notice.
   - import URI with interpreter signature (@sledorze)
   - correctly narrow variance of Variants
 
-# 0.1.0
+## 0.1.0
 
 Initial release
