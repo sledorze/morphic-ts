@@ -1,8 +1,7 @@
-import { Kind, URIS, Kind2, URIS2 } from '../HKT'
-import { M } from '../core'
+import { Kind, URIS, Kind2, URIS2, HKT2 } from '../HKT'
 
-export interface ModelAlgebraStrMap {
-  strMap: <L, A>(codomain: M<L, A>) => M<Array<[string, L]>, Record<string, A>>
+export interface ModelAlgebraStrMap<F> {
+  strMap: <L, A>(codomain: HKT2<F, L, A>) => HKT2<F, Array<[string, L]>, Record<string, A>>
 }
 
 export interface ModelAlgebraStrMap1<F extends URIS> {

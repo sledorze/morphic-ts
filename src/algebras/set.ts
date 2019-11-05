@@ -1,9 +1,8 @@
 import { Ord } from 'fp-ts/lib/Ord'
-import { Kind, URIS, Kind2, URIS2 } from '../HKT'
-import { M } from '../core'
+import { Kind, URIS, Kind2, URIS2, HKT2 } from '../HKT'
 
-export interface ModelAlgebraSet {
-  set: <L, A>(a: M<L, A>, ord: Ord<A>) => M<Array<L>, Set<A>>
+export interface ModelAlgebraSet<F> {
+  set: <L, A>(a: HKT2<F, L, A>, ord: Ord<A>) => HKT2<F, Array<L>, Set<A>>
 }
 
 export interface ModelAlgebraSet1<F extends URIS> {

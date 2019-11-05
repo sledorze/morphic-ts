@@ -1,16 +1,16 @@
-import { OfType, OfType2, M } from '../core'
-import { URIS, Kind, URIS2, Kind2 } from '../HKT'
+import { OfType, OfType2 } from '../core'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
 
-export interface ModelAlgebraUnions {
-  union<A, B, LA, LB>(types: [M<LA, A>, M<LB, B>]): M<LA | LB, A | B>
-  union<A, B, C, LA, LB, LC>(types: [M<LA, A>, M<LB, B>, M<LC, C>]): M<LA | LB | LC, A | B | C>
+export interface ModelAlgebraUnions<F> {
+  union<A, B, LA, LB>(types: [HKT2<F, LA, A>, HKT2<F, LB, B>]): HKT2<F, LA | LB, A | B>
+  union<A, B, C, LA, LB, LC>(types: [HKT2<F, LA, A>, HKT2<F, LB, B>, HKT2<F, LC, C>]): HKT2<F, LA | LB | LC, A | B | C>
   union<A, B, C, D, LA, LB, LC, LD>(
-    types: [M<LA, A>, M<LB, B>, M<LC, C>, M<LD, D>]
-  ): M<LA | LB | LC | LD, A | B | C | D>
+    types: [HKT2<F, LA, A>, HKT2<F, LB, B>, HKT2<F, LC, C>, HKT2<F, LD, D>]
+  ): HKT2<F, LA | LB | LC | LD, A | B | C | D>
   union<A, B, C, D, E, LA, LB, LC, LD, LE>(
-    types: [M<LA, A>, M<LB, B>, M<LC, C>, M<LD, D>, M<LE, E>]
-  ): M<LA | LB | LC | LD | LE, A | B | C | D | E>
-  union<L, A>(types: Array<M<L, A>>): M<Array<L>, Array<A>>
+    types: [HKT2<F, LA, A>, HKT2<F, LB, B>, HKT2<F, LC, C>, HKT2<F, LD, D>, HKT2<F, LE, E>]
+  ): HKT2<F, LA | LB | LC | LD | LE, A | B | C | D | E>
+  union<L, A>(types: Array<HKT2<F, L, A>>): HKT2<F, Array<L>, Array<A>>
 }
 
 export interface ModelAlgebraUnions1<F extends URIS> {

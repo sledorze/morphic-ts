@@ -1,28 +1,28 @@
-import { URIS, Kind, URIS2, Kind2 } from '../HKT'
-import { M } from '../core'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
 
 // TODO: replace with explicit `TagKey` if no impact on inference
 // type TagKey<Tag extends string, o extends keyof any> = { [t in Tag]: o }
 export type TaggedValues<Tag extends string, O> = { [o in keyof O]: O[o] & { [t in Tag]: o } }
 
-export type TaggedTypes<Tag extends string, L, A> = {
-  [o in keyof A & keyof L]: M<L[o], (A & { [x in o]: { [k in Tag]: o } })[o]>
+export type TaggedTypes<F, Tag extends string, L, A> = {
+  [o in keyof A & keyof L]: HKT2<F, L[o], (A & { [x in o]: { [k in Tag]: o } })[o]>
 }
 
-type DecorateTag<X extends M<any, any>, Tag extends string, VTag> = X extends M<infer L, infer A>
-  ? M<L, A & { [k in Tag]: VTag }>
+type DecorateTag<X extends HKT2<any, any, any>, Tag extends string, VTag> = X extends HKT2<infer F, infer L, infer A>
+  ? HKT2<F, L, A & { [k in Tag]: VTag }>
   : never
 
-export interface ModelAlgebraTaggedUnions {
-  taggedUnion<Tag extends string, Types extends TaggedTypes<Tag, any, any>>(
+export interface ModelAlgebraTaggedUnions<F> {
+  taggedUnion<Tag extends string, Types extends TaggedTypes<F, Tag, any, any>>(
     tag: Tag,
     types: Types &
       {
         [o in keyof Types]: DecorateTag<Types[o], Tag, o>
       }
-  ): M<
+  ): HKT2<
+    F,
     {
-      [k in keyof Types]: Types[k]['_L']
+      [k in keyof Types]: Types[k]['_E']
     }[keyof Types],
     {
       [k in keyof Types]: Types[k]['_A']

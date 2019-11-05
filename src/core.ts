@@ -13,11 +13,6 @@ export interface AnyTypeDic<F extends URIS> {
   [k: string]: Kind<F, any>
 }
 
-export interface M<L, A> {
-  _L: L
-  _A: A
-}
-
 /**
  * This is necessary to help fixing F type for inference
  */

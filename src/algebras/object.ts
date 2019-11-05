@@ -1,15 +1,14 @@
-import { URIS, Kind, URIS2, Kind2 } from '../HKT'
-import { M } from '../core'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
 
-type AnyMProps = Record<string, M<any, any>>
+type AnyMProps<F> = Record<string, HKT2<F, any, any>>
 
-export interface ModelAlgebraObject {
-  interface: <Props extends AnyMProps>(
+export interface ModelAlgebraObject<F> {
+  interface: <Props extends AnyMProps<F>>(
     props: Props
-  ) => M<{ [k in keyof Props]: Props[k]['_L'] }, { [k in keyof Props]: Props[k]['_A'] }>
-  partial: <Props extends AnyMProps>(
+  ) => HKT2<F, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>
+  partial: <Props extends AnyMProps<F>>(
     props: Props
-  ) => M<Partial<{ [k in keyof Props]: Props[k]['_L'] }>, Partial<{ [k in keyof Props]: Props[k]['_A'] }>>
+  ) => HKT2<F, Partial<{ [k in keyof Props]: Props[k]['_E'] }>, Partial<{ [k in keyof Props]: Props[k]['_A'] }>>
 }
 
 export type PropsKind1<F extends URIS, PropsA> = { [k in keyof PropsA]: Kind<F, PropsA[k]> }

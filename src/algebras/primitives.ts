@@ -1,18 +1,17 @@
 import { Option } from 'fp-ts/lib/Option'
-import { URIS2, Kind2, URIS, Kind } from '../HKT'
-import { M } from '../core'
+import { URIS2, Kind2, URIS, Kind, HKT2 } from '../HKT'
 
 export type Keys = Record<string, null>
 
-export interface ModelAlgebraPrimitive {
-  date: M<string, Date>
-  string: M<string, string>
-  number: M<number, number>
-  boolean: M<boolean, boolean>
-  stringLiteral: <T extends string>(value: T) => M<string, typeof value>
-  keysOf: <K extends Keys>(keys: K) => M<string, keyof typeof keys>
-  nullable: <L, A>(T: M<L, A>) => M<null | L, Option<A>>
-  array: <L, A>(a: M<L, A>) => M<Array<L>, Array<A>>
+export interface ModelAlgebraPrimitive<F> {
+  date: HKT2<F, string, Date>
+  string: HKT2<F, string, string>
+  number: HKT2<F, number, number>
+  boolean: HKT2<F, boolean, boolean>
+  stringLiteral: <T extends string>(value: T) => HKT2<F, string, typeof value>
+  keysOf: <K extends Keys>(keys: K) => HKT2<F, string, keyof typeof keys>
+  nullable: <L, A>(T: HKT2<F, L, A>) => HKT2<F, null | L, Option<A>>
+  array: <L, A>(a: HKT2<F, L, A>) => HKT2<F, Array<L>, Array<A>>
 }
 
 export interface ModelAlgebraPrimitive1<F extends URIS> {

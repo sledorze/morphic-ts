@@ -1,8 +1,7 @@
-import { URIS, Kind, URIS2, Kind2 } from '../HKT'
-import { M } from '../core'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
 
-export interface ModelAlgebraRecursive {
-  recursive: <L, A>(a: () => M<L, A>) => M<L, A>
+export interface ModelAlgebraRecursive<F> {
+  recursive: <L, A>(a: () => HKT2<F, L, A>) => HKT2<F, L, A>
 }
 
 export interface ModelAlgebraRecursive1<F extends URIS> {

@@ -1,4 +1,4 @@
-import { URIS, Kind, URIS2, Kind2 } from '../../src/HKT'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from '../../src/HKT'
 import { ModelAlgebraPrimitive1, ModelAlgebraPrimitive, ModelAlgebraPrimitive2 } from '../../src/algebras/primitives'
 import {
   ModelAlgebraIntersection1,
@@ -14,16 +14,16 @@ import { ModelAlgebraObject1, ModelAlgebraObject, ModelAlgebraObject2 } from '..
 import { ModelAlgebraStrMap1, ModelAlgebraStrMap, ModelAlgebraStrMap2 } from '../../src/algebras/str-map'
 import { ModelAlgebraSet1, ModelAlgebraSet, ModelAlgebraSet2 } from '../../src/algebras/set'
 import { ModelAlgebraRecursive1, ModelAlgebraRecursive, ModelAlgebraRecursive2 } from '../../src/algebras/recursive'
-import { InterpreterFor, cacheUnaryFunction, InterpreterFor2, M } from '../../src/core'
+import { InterpreterFor, cacheUnaryFunction, InterpreterFor2 } from '../../src/core'
 
-export interface ModelAlgebra
-  extends ModelAlgebraPrimitive,
-    ModelAlgebraIntersection,
-    ModelAlgebraTaggedUnions,
-    ModelAlgebraObject,
-    ModelAlgebraStrMap,
-    ModelAlgebraSet,
-    ModelAlgebraRecursive {}
+export interface ModelAlgebra<F>
+  extends ModelAlgebraPrimitive<F>,
+    ModelAlgebraIntersection<F>,
+    ModelAlgebraTaggedUnions<F>,
+    ModelAlgebraObject<F>,
+    ModelAlgebraStrMap<F>,
+    ModelAlgebraSet<F>,
+    ModelAlgebraRecursive<F> {}
 
 export interface ModelAlgebra1<F extends URIS>
   extends ModelAlgebraPrimitive1<F>,
@@ -48,12 +48,13 @@ export interface ModelAlgebra2<F extends URIS2>
 export interface Program<E, A> {
   <G extends URIS2>(a: ModelAlgebra2<G>): Kind2<G, E, A>
   <G extends URIS>(a: ModelAlgebra1<G>): Kind<G, A>
-  <G>(a: ModelAlgebra): M<E, A>
+  <G>(a: ModelAlgebra<G>): HKT2<G, E, A>
 }
 export type TypeOf<P extends Program<any, any>> = P extends Program<any, infer A>
   ? A
   : 'Cannot infer TypeOf' & { error: never }
 
-export const defineAs = <L, A>(F: (a: ModelAlgebra) => M<L, A>): Program<L, A> => cacheUnaryFunction(F)
-export const defineAsL = <L>() => <A>(F: (a: ModelAlgebra) => M<L, A>): Program<L, A> => cacheUnaryFunction(F)
+export const defineAs = <L, A>(F: <F>(a: ModelAlgebra<F>) => HKT2<F, L, A>): Program<L, A> => cacheUnaryFunction(F)
+export const defineAsL = <L>() => <A>(F: <F>(a: ModelAlgebra<F>) => HKT2<F, L, A>): Program<L, A> =>
+  cacheUnaryFunction(F)
 export const defineAsUnknown = defineAsL<unknown>()
