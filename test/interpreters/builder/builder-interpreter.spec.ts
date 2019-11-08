@@ -1,7 +1,6 @@
 import * as chai from 'chai'
 import { some, none } from 'fp-ts/lib/Option'
-import { builderInterpreter } from '../../../src/interpreters/builder/interpreters'
-import { defineAsUnknown } from '../../utils/program'
+import { summon } from '../../../src/utils/summoner'
 
 describe('Builder', () => {
   it('builder', () => {
@@ -10,26 +9,24 @@ describe('Builder', () => {
       a: string
     }
 
-    const Foo = defineAsUnknown<Foo>(F =>
+    const Foo = summon<Foo>(F =>
       F.interface({
         date: F.date,
         a: F.string
       })
     )
 
-    const { build } = Foo(builderInterpreter)
-
     const date = new Date(12345)
-    chai.assert.deepStrictEqual(build({ date, a: '' }), { date, a: '' })
+    chai.assert.deepStrictEqual(Foo.build({ date, a: '' }), { date, a: '' })
   })
 
   it('keysOf', () => {
-    const { build } = defineAsUnknown(F => F.keysOf({ a: null, b: null }))(builderInterpreter)
+    const { build } = summon(F => F.keysOf({ a: null, b: null }))
     chai.assert.deepStrictEqual(build('a'), 'a')
   })
 
   it('nullable', () => {
-    const { build } = defineAsUnknown(F => F.nullable(F.string))(builderInterpreter)
+    const { build } = summon(F => F.nullable(F.string))
     chai.assert.deepStrictEqual(build(some('a')), some('a'))
     chai.assert.deepStrictEqual(build(none), none)
   })
@@ -38,7 +35,7 @@ describe('Builder', () => {
     interface Nested {
       date: Date
     }
-    const Nested = defineAsUnknown<Nested>(F =>
+    const Nested = summon<Nested>(F =>
       F.interface({
         date: F.date
       })
@@ -49,14 +46,14 @@ describe('Builder', () => {
       a: string
     }
 
-    const Foo = defineAsUnknown<Foo>(F =>
+    const Foo = summon<Foo>(F =>
       F.interface({
         dates: F.array(Nested(F)),
         a: F.string
       })
     )
 
-    const { build } = Foo(builderInterpreter)
+    const { build } = Foo
 
     const date = new Date(12345)
     chai.assert.deepStrictEqual(build({ dates: [{ date }, { date }], a: '' }), {

@@ -1,41 +1,34 @@
 import * as fc from 'fast-check'
 import { ordString, ord } from 'fp-ts/lib/Ord'
 
-import { Kind, URIS } from '../../../src/HKT'
-import { ioTsStrict } from '../../../src/interpreters/io-ts/interpreters'
-import { fastCheckInterpreter } from '../../../src/interpreters/fast-check/interpreters'
-import { ModelAlgebra1, defineAsUnknown, TypeOf, Program } from '../../utils/program'
+import { ProgramUnion } from '../../../src/utils/program'
+import { summon, M } from '../../../src/utils/summoner'
 
-const build = <A>(program: <F extends URIS>(F: ModelAlgebra1<F>) => Kind<F, A>) => ({
-  codec: program(ioTsStrict).type,
-  arb: program(fastCheckInterpreter).arb
-})
-
-const testProgram = <A>(prog: <F extends URIS>(F: ModelAlgebra1<F>) => Kind<F, A>) => {
-  const { arb, codec } = build(prog)
-  fc.assert(fc.property(arb, codec.is))
+const testProgram = <A>(prog: ProgramUnion<unknown, A>) => {
+  const { arb, type } = summon(prog)
+  fc.assert(fc.property(arb, type.is))
 }
 
 describe('FastCheck interpreter', () => {
   it('string', () => {
-    testProgram(defineAsUnknown(F => F.string))
+    testProgram(summon(F => F.string))
   })
 
   it('stringLiteral', () => {
-    testProgram(defineAsUnknown(F => F.stringLiteral('x')))
+    testProgram(summon(F => F.stringLiteral('x')))
   })
 
   it('keysOf', () => {
-    testProgram(defineAsUnknown(F => F.keysOf({ a: null, b: null })))
+    testProgram(summon(F => F.keysOf({ a: null, b: null })))
   })
 
   it('array', () => {
-    testProgram(defineAsUnknown(F => F.array(F.string)))
+    testProgram(summon(F => F.array(F.string)))
   })
 
   it('interface', () => {
     testProgram(
-      defineAsUnknown(F =>
+      summon(F =>
         F.interface({
           a: F.string,
           b: F.number
@@ -46,7 +39,7 @@ describe('FastCheck interpreter', () => {
 
   it('partial', () => {
     testProgram(
-      defineAsUnknown(F =>
+      summon(F =>
         F.partial({
           a: F.string,
           b: F.number
@@ -57,7 +50,7 @@ describe('FastCheck interpreter', () => {
 
   it('compose', () => {
     // type Foo
-    const Foo = defineAsUnknown(F =>
+    const Foo = summon(F =>
       F.interface({
         a: F.string,
         b: F.number
@@ -65,7 +58,7 @@ describe('FastCheck interpreter', () => {
     )
 
     // type Bar
-    const Bar = defineAsUnknown<BarType>(F =>
+    const Bar = summon<BarType>(F =>
       F.interface({
         a: Foo(F),
         b: F.number
@@ -84,7 +77,7 @@ describe('FastCheck interpreter', () => {
 
   it('date', () => {
     // type Foo
-    const Foo = defineAsUnknown<Foo>(F =>
+    const Foo = summon<Foo>(F =>
       F.interface({
         date: F.date,
         a: F.string
@@ -101,21 +94,21 @@ describe('FastCheck interpreter', () => {
 
   it('intersection', () => {
     // type Foo
-    const Foo = defineAsUnknown(F =>
+    const Foo = summon(F =>
       F.interface({
         a: F.string,
         b: F.number
       })
     )
 
-    const Bar = defineAsUnknown(F =>
+    const Bar = summon(F =>
       F.interface({
         c: F.string,
         d: F.number
       })
     )
 
-    const FooBar = defineAsUnknown(F => F.intersection([Foo(F), Bar(F)]))
+    const FooBar = summon(F => F.intersection([Foo(F), Bar(F)]))
 
     testProgram(FooBar)
   })
@@ -126,7 +119,7 @@ describe('FastCheck interpreter', () => {
       a: string
       b: number
     }
-    const Foo = defineAsUnknown(F =>
+    const Foo = summon(F =>
       F.interface({
         a: F.string,
         b: F.number
@@ -137,26 +130,26 @@ describe('FastCheck interpreter', () => {
       c: string
       d: number
     }
-    const Bar = defineAsUnknown(F =>
+    const Bar = summon(F =>
       F.interface({
         c: F.string,
         d: F.number
       })
     )
-    const Bara = defineAsUnknown(F =>
+    const Bara = summon(F =>
       F.interface({
         ca: F.string,
         d: F.number
       })
     )
-    const Barb = defineAsUnknown(F =>
+    const Barb = summon(F =>
       F.interface({
         cb: F.string,
         d: F.number
       })
     )
 
-    const FooBar = defineAsUnknown(F => F.union([Foo(F), Bar(F), Bara(F), Barb(F)]))
+    const FooBar = summon(F => F.union([Foo(F), Bar(F), Bara(F), Barb(F)]))
 
     testProgram(FooBar)
   })
@@ -168,7 +161,7 @@ describe('FastCheck interpreter', () => {
       a: string
       b: number
     }
-    const Foo = defineAsUnknown<Foo>(F =>
+    const Foo = summon<Foo>(F =>
       F.interface({
         type: F.stringLiteral('foo'),
         a: F.string,
@@ -181,7 +174,7 @@ describe('FastCheck interpreter', () => {
       c: string
       d: number
     }
-    const Bar = defineAsUnknown<Bar>(F =>
+    const Bar = summon<Bar>(F =>
       F.interface({
         type: F.stringLiteral('bar'),
         c: F.string,
@@ -189,7 +182,7 @@ describe('FastCheck interpreter', () => {
       })
     )
 
-    const FooBar = defineAsUnknown(F =>
+    const FooBar = summon(F =>
       F.taggedUnion('type', {
         foo: Foo(F),
         bar: Bar(F)
@@ -200,17 +193,17 @@ describe('FastCheck interpreter', () => {
   })
 
   it('set from array', () => {
-    const InterfA = defineAsUnknown(F =>
+    const InterfA = summon(F =>
       F.interface({
         a: F.string
       })
     )
 
-    type AType = TypeOf<typeof InterfA>
+    type AType = ReturnType<typeof InterfA.build>
 
     const ordA = ord.contramap(ordString, (x: AType) => x.a)
 
-    const SetInterfA = defineAsUnknown(F => F.set(InterfA(F), ordA))
+    const SetInterfA = summon(F => F.set(InterfA(F), ordA))
 
     testProgram(SetInterfA)
   })
@@ -226,10 +219,10 @@ describe('FastCheck interpreter', () => {
       v: string
     }
 
-    const List: Program<unknown, List> = defineAsUnknown<List>(F =>
-      F.recursive<unknown, List>(() =>
+    const List: M<unknown, List> = summon<List>(F =>
+      F.recursive<unknown, List>(Self =>
         F.taggedUnion('type', {
-          cons: F.interface({ type: F.stringLiteral('cons'), a: List(F) }),
+          cons: F.interface({ type: F.stringLiteral('cons'), a: Self }),
           leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string })
         })
       )

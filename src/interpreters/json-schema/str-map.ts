@@ -3,5 +3,5 @@ import { JsonSchema, URI } from '.'
 import { StrMapTypeCtor } from '../../json-schema/json-schema-ctors'
 
 export const jsonSchemaStrMapInterpreter: ModelAlgebraStrMap1<URI> = {
-  strMap: ({ schema }) => new JsonSchema(StrMapTypeCtor(schema))
+  strMap: ({ schema }) => new JsonSchema(() => StrMapTypeCtor(schema()))
 }

@@ -37,6 +37,16 @@ export const ArrayTypeCtor = (items: OptionalJSONSchema) => {
   })
 }
 
+// export const RecursiveTypeCtor = (items: (Ref: string) => OptionalJSONSchema) => {
+//   if (items.optional === true) {
+//     throw new Error(`JSON Schema convertion cannot handle optional in Arrays.`)
+//   }
+//   return notOptional<js.ArraySchema>({
+//     type: 'array',
+//     items: items.json
+//   })
+// }
+
 export const SetFromArrayTypeCtor = (items: OptionalJSONSchema) => {
   if (items.optional === true) {
     throw new Error(`JSON Schema convertion cannot handle optional in SetFromArrayType.`)

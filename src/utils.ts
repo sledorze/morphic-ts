@@ -14,6 +14,15 @@ export const projectField = <T extends Record<any, Record<any, any>>>(t: T) => <
     [q in keyof T]: T[q][K]
   }
 
+export const projectFieldApp = <T extends Record<any, Record<any, any>>>(t: T) => <K extends keyof T[keyof T]>(
+  k: K
+): {
+  [q in keyof T]: ReturnType<T[q][K]>
+} =>
+  record.record.map(t, p => p[k]()) as {
+    [q in keyof T]: T[q][K]
+  }
+
 export function conjunction<A, B>(...x: [A, B]): A & B
 export function conjunction<A, B, C>(...x: [A, B, C]): A & B & C
 export function conjunction<A, B, C, D>(...x: [A, B, C, D]): A & B & C & D
@@ -31,3 +40,13 @@ export function conjunction<R extends unknown[]>(...x: R): any[] {
 export const merge = conjunction
 
 export const collect = <K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B> => record.collect(f)(d)
+
+export const memo = <A>(get: () => A): (() => A) => {
+  let cache: A | undefined = undefined
+  return (): A => {
+    if (cache === undefined) {
+      cache = get()
+    }
+    return cache
+  }
+}

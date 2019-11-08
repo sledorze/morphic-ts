@@ -1,22 +1,17 @@
 import * as chai from 'chai'
-import { defineAsUnknown, Program } from '../../utils/program'
-import { jsonSchemaInterpreter } from '../../../src/interpreters/json-schema/interpreters'
-
-const toJsonSchema = <A>(p: Program<unknown, A>) => p(jsonSchemaInterpreter).schema.json
-
-const defineAs = defineAsUnknown
+import { summon } from '../../../src/utils/summoner'
 
 describe('a json schema generator', function(this: any) {
   it('generate an interface from a io-ts interface', () => {
-    const decoder = defineAs(F =>
+    const decoder = summon(F =>
       F.interface({
         toto: F.number
       })
     )
 
-    const schema = toJsonSchema(decoder)
+    const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
+    chai.expect(schema()).to.deep.equal({
       required: ['toto'],
 
       properties: {
@@ -29,15 +24,15 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('generate an interface from a partial', () => {
-    const decoder = defineAs(F =>
+    const decoder = summon(F =>
       F.partial({
         toto: F.number
       })
     )
 
-    const schema = toJsonSchema(decoder)
+    const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
+    chai.expect(schema()).to.deep.equal({
       properties: {
         toto: {
           type: 'number'
@@ -48,7 +43,7 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('generate an interface from an intersection', () => {
-    const decoder = defineAs(F =>
+    const decoder = summon(F =>
       F.intersection([
         F.partial({
           toto: F.number
@@ -59,9 +54,9 @@ describe('a json schema generator', function(this: any) {
       ])
     )
 
-    const schema = toJsonSchema(decoder)
+    const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
+    chai.expect(schema()).to.deep.equal({
       required: ['tata'],
       properties: {
         toto: {
@@ -76,7 +71,7 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('generate from a complex type', () => {
-    const decoder = defineAs(F =>
+    const decoder = summon(F =>
       F.interface({
         arr: F.array(
           F.interface({
@@ -85,9 +80,9 @@ describe('a json schema generator', function(this: any) {
         )
       })
     )
-    const schema = toJsonSchema(decoder)
+    const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
+    chai.expect(schema()).to.deep.equal({
       type: 'object',
       required: ['arr'],
 
@@ -110,7 +105,7 @@ describe('a json schema generator', function(this: any) {
   })
 
   // it('generate primitives datetime from jsjoda', () => {
-  //   const decoder = defineAs(F =>
+  //   const decoder = summon(F =>
   //     F.partial({
   //       dateTime: ZonedDateTimeFromString
   //     })
@@ -129,7 +124,7 @@ describe('a json schema generator', function(this: any) {
   //     //      return either.left(new Error(`unhandled tag ${x._tag}`))
   //   })
 
-  //   chai.expect(schema).to.deep.equal(
+  //   chai.expect(schema()).to.deep.equal(
   //     {
   //
   //       properties: {
@@ -145,7 +140,7 @@ describe('a json schema generator', function(this: any) {
   // })
 
   it('use name as description for intersection', () => {
-    const decoder = defineAs(F =>
+    const decoder = summon(F =>
       F.intersection(
         [
           F.interface({
@@ -159,9 +154,9 @@ describe('a json schema generator', function(this: any) {
       )
     )
 
-    const schema = toJsonSchema(decoder)
+    const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
+    chai.expect(schema()).to.deep.equal({
       properties: {
         a: {
           type: 'string'
@@ -176,7 +171,7 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('use underlying names as description for unnamed intersection', () => {
-    const decoder = defineAs(F =>
+    const decoder = summon(F =>
       F.intersection([
         F.interface(
           {
@@ -193,9 +188,9 @@ describe('a json schema generator', function(this: any) {
       ])
     )
 
-    const schema = toJsonSchema(decoder)
+    const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
+    chai.expect(schema()).to.deep.equal({
       properties: {
         a: {
           type: 'string'
@@ -210,7 +205,7 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('use underlying name as description for unnamed intersection', () => {
-    const decoder = defineAs(F =>
+    const decoder = summon(F =>
       F.intersection([
         F.interface(
           {
@@ -224,9 +219,9 @@ describe('a json schema generator', function(this: any) {
       ])
     )
 
-    const schema = toJsonSchema(decoder)
+    const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
+    chai.expect(schema()).to.deep.equal({
       properties: {
         a: {
           type: 'string'
@@ -241,7 +236,7 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('works with OptionFromNullable!', () => {
-    const decoder = defineAs(F =>
+    const decoder = summon(F =>
       F.interface(
         {
           a: F.nullable(F.string),
@@ -251,9 +246,9 @@ describe('a json schema generator', function(this: any) {
       )
     )
 
-    const schema = toJsonSchema(decoder)
+    const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
+    chai.expect(schema()).to.deep.equal({
       properties: {
         a: {
           type: 'string'
@@ -268,19 +263,19 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('does not work with OptionFromNullable in Array!', () => {
-    const decoder = defineAs(F =>
+    const decoder = summon(F =>
       F.interface({
         as: F.array(F.nullable(F.string))
       })
     )
 
-    const schema = () => toJsonSchema(decoder)
+    const schema = () => decoder.jsonSchema
 
-    chai.expect(schema).to.throw()
+    chai.expect(schema()).to.throw()
   })
 
   it('works for LiteralType', () => {
-    const decoder = defineAs(F =>
+    const decoder = summon(F =>
       F.interface(
         {
           type: F.stringLiteral('toto')
@@ -289,9 +284,9 @@ describe('a json schema generator', function(this: any) {
       )
     )
 
-    const schema = toJsonSchema(decoder)
+    const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
+    chai.expect(schema()).to.deep.equal({
       properties: {
         type: {
           type: 'string',
@@ -304,7 +299,7 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('encodes anonymous KeyOfType inplace ', () => {
-    const decoder = defineAs(F =>
+    const decoder = summon(F =>
       F.interface(
         {
           type: F.keysOf({
@@ -316,9 +311,9 @@ describe('a json schema generator', function(this: any) {
       )
     )
 
-    const schema = toJsonSchema(decoder)
+    const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
+    chai.expect(schema()).to.deep.equal({
       properties: {
         type: {
           type: 'string',
@@ -331,7 +326,7 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('encodes names with KeyOfType ', () => {
-    const decoder = defineAs(F =>
+    const decoder = summon(F =>
       F.interface(
         {
           type: F.keysOf(
@@ -346,9 +341,9 @@ describe('a json schema generator', function(this: any) {
       )
     )
 
-    const schema = toJsonSchema(decoder)
+    const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
+    chai.expect(schema()).to.deep.equal({
       properties: {
         type: {
           type: 'string',
@@ -379,7 +374,7 @@ describe('a json schema generator', function(this: any) {
 
 //     const schema = toExtendedJsonSchema([])(Type as any, x => either.left(new Error(`unhandled tag ${x._tag}`)))
 
-//     chai.expect(schema).to.deep.equal(
+//     chai.expect(schema()).to.deep.equal(
 //       {
 //
 //         properties: {

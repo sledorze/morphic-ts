@@ -16,13 +16,13 @@ declare module './hkt' {
 }
 
 export interface ModelAlgebraRecursive<F> {
-  recursive: <L, A>(a: () => HKT2<F, L, A>) => HKT2<F, L, A>
+  recursive: <L, A>(a: (x: HKT2<F, L, A>) => HKT2<F, L, A>) => HKT2<F, L, A>
 }
 
 export interface ModelAlgebraRecursive1<F extends URIS> {
-  recursive: <A>(a: () => Kind<F, A>) => Kind<F, A>
+  recursive: <A>(a: (x: Kind<F, A>) => Kind<F, A>) => Kind<F, A>
 }
 
 export interface ModelAlgebraRecursive2<F extends URIS2> {
-  recursive: <L, A>(a: () => Kind2<F, L, A>) => Kind2<F, L, A>
+  recursive: <L, A>(a: (x: Kind2<F, L, A>) => Kind2<F, L, A>) => Kind2<F, L, A>
 }

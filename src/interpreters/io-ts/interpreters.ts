@@ -2,7 +2,7 @@ import * as t from 'io-ts'
 import { InterpreterFor } from '../../core'
 import { IOTSType, URI } from '.'
 import { ModelAlgebraObject1, PropsKind1 } from '../../algebras/object'
-import { merge, projectField } from '../../utils'
+import { merge, projectFieldApp } from '../../utils'
 import { ioTsPrimitiveInterpreter } from './primitives'
 import { ioTsIntersectionInterpreter } from './intersections'
 import { ioTsUnionInterpreter } from './unions'
@@ -17,16 +17,20 @@ export type IOTypes<Props> = { [k in keyof Props]: t.Type<Props[k], unknown> }
 
 export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject1<URI> = {
   interface: <Props>(props: PropsKind1<URI, Props>) =>
-    new IOTSType<Props>((t.type(projectField(props)('type')) as t.Type<any, unknown>) as t.Type<Props, unknown>),
+    new IOTSType<Props>(
+      () => (t.type(projectFieldApp(props)('type')) as t.Type<any, unknown>) as t.Type<Props, unknown>
+    ),
   partial: <Props>(props: PropsKind1<URI, Props>) =>
-    new IOTSType<Partial<Props>>(t.partial(projectField(props)('type')))
+    new IOTSType<Partial<Props>>(() => t.partial(projectFieldApp(props)('type')))
 }
 
 export const ioTsStrictObjectInterpreter: ModelAlgebraObject1<URI> = {
   interface: <Props>(props: PropsKind1<URI, Props>) =>
-    new IOTSType<Props>((t.strict(projectField(props)('type')) as t.Type<any, unknown>) as t.Type<Props, unknown>),
+    new IOTSType<Props>(
+      () => (t.strict(projectFieldApp(props)('type')) as t.Type<any, unknown>) as t.Type<Props, unknown>
+    ),
   partial: <Props>(props: PropsKind1<URI, Props>) =>
-    new IOTSType<Partial<Props>>(t.exact(t.partial(projectField(props)('type'))))
+    new IOTSType<Partial<Props>>(() => t.exact(t.partial(projectFieldApp(props)('type'))))
 }
 
 const base = merge(

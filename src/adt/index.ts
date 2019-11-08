@@ -39,13 +39,13 @@ export const adtByTag = <A>(): ByTag<A> => tag => {
     res as any
   const exclude = <Keys extends (A[Tag] & string)[]>(...keys: Keys): ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag> =>
     res as any
-  const res: ADT<A, Tag> = assignFunction(select, {
+  const res: ADT<A, Tag> = assignFunction((...x: any) => select(...x), {
     ...ctors,
     ...predicates,
     ...monocles,
     ...matchers,
     select,
     exclude
-  })
+  }) as any
   return res
 }

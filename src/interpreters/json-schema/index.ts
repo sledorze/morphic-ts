@@ -4,7 +4,7 @@ export const URI = 'JsonSchema'
 export type URI = typeof URI
 
 export class JsonSchema<A> {
-  constructor(public schema: OptionalJSONSchema) {}
+  constructor(public schema: () => OptionalJSONSchema) {}
 }
 
 declare module '../../HKT' {

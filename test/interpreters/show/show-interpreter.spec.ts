@@ -1,39 +1,38 @@
 import * as chai from 'chai'
 
-import { defineAsUnknown, defineAs } from '../../utils/program-no-union'
-import { showInterpreter } from '../../../src/interpreters/show/interpreters'
+import { summonAs, summon } from '../../../src/utils/summoner-no-union'
 
 describe('Show', () => {
   it('returns false when comparing incomplete values', () => {
-    const Foo = defineAs(F =>
+    const Foo = summonAs(F =>
       F.interface({
         date: F.date,
         a: F.string
       })
     )
 
-    const { show } = Foo(showInterpreter)
+    const { show } = Foo
 
     const date = new Date(12345)
     chai.assert.strictEqual(show.show({ date, a: '' }), '{ date: 1970-01-01T00:00:12.345Z, a: "" }')
   })
 
   it('show', () => {
-    const Foo = defineAs(F =>
+    const Foo = summonAs(F =>
       F.interface({
         date: F.date,
         a: F.string
       })
     )
 
-    const { show } = Foo<'ShowType'>(showInterpreter)
+    const { show } = Foo
 
     const date = new Date(12345)
     chai.assert.strictEqual(show.show({ date, a: '' }), '{ date: 1970-01-01T00:00:12.345Z, a: "" }')
   })
 
   it('show', () => {
-    const Foo = defineAs(F =>
+    const Foo = summonAs(F =>
       F.interface({
         dates: F.array(
           F.interface({
@@ -44,7 +43,7 @@ describe('Show', () => {
       })
     )
 
-    const { show } = Foo<'ShowType'>(showInterpreter)
+    const { show } = Foo
 
     const date = new Date(12345)
     const date2 = new Date(12346)
@@ -65,7 +64,7 @@ describe('Show', () => {
       a: string
       b: number
     }
-    const Foo = defineAs(F =>
+    const Foo = summonAs(F =>
       F.partial({
         type: F.stringLiteral('foo'),
         a: F.string,
@@ -73,7 +72,7 @@ describe('Show', () => {
       })
     )
 
-    const { show } = Foo(showInterpreter)
+    const { show } = Foo
     chai.assert.deepStrictEqual(show.show({}), '{ type: undefined, a: undefined, b: undefined }')
     chai.assert.deepStrictEqual(show.show({ type: 'foo' }), `{ type: "foo", a: undefined, b: undefined }`)
     chai.assert.deepStrictEqual(show.show({ type: 'foo', a: 'foo' }), `{ type: "foo", a: "foo", b: undefined }`)
@@ -91,7 +90,7 @@ describe('Show', () => {
       a: string
       b: number
     }
-    const Foo = defineAs<FooRaw, Foo>(F =>
+    const Foo = summonAs<FooRaw, Foo>(F =>
       F.interface({
         type: F.stringLiteral('foo'),
         a: F.string,
@@ -104,7 +103,7 @@ describe('Show', () => {
       c: string
       d: number
     }
-    const Bar = defineAsUnknown<Bar>(F =>
+    const Bar = summon<Bar>(F =>
       F.interface({
         type: F.stringLiteral('bar'),
         c: F.string,
@@ -112,14 +111,14 @@ describe('Show', () => {
       })
     )
 
-    const FooBar = defineAs(F =>
+    const FooBar = summonAs(F =>
       F.taggedUnion('type', {
         foo: Foo(F),
         bar: Bar(F)
       })
     )
 
-    const { show } = FooBar<'ShowType'>(showInterpreter)
+    const { show } = FooBar
 
     const fooA: Foo | Bar = { type: 'foo', a: 'a', b: 12 }
     const fooB: Foo | Bar = { type: 'foo', a: 'b', b: 12 }

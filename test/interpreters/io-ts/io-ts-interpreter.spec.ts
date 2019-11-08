@@ -3,38 +3,36 @@ import { ordString, ord, Ord } from 'fp-ts/lib/Ord'
 import { fromArray } from 'fp-ts/lib/Set'
 import { right, isLeft } from 'fp-ts/lib/Either'
 
-import { Program, TypeOf, defineAsL } from '../../utils/program'
 import { ModelAlgebraPrimitive1 } from '../../../src/algebras/primitives'
 import { ModelAlgebraObject1 } from '../../../src/algebras/object'
 import { Kind, URIS } from '../../../src/HKT'
 import { some, none } from 'fp-ts/lib/Option'
 import { merge } from '../../../src/utils'
-import { ioTsNonStrict, ioTsStrict, ioTsNonStrictObjectInterpreter } from '../../../src/interpreters/io-ts/interpreters'
+import { ioTsStrict, ioTsNonStrictObjectInterpreter } from '../../../src/interpreters/io-ts/interpreters'
 import { ioTsPrimitiveInterpreter } from '../../../src/interpreters/io-ts/primitives'
 import { GTree, Tree } from '../../utils/tree'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Errors } from 'io-ts'
-
-const defineAs = defineAsL<unknown>()
+import { summon, summonAs, summonAsA, M } from '../../../src/utils/summoner'
 
 describe('IO-TS Alt Schema', () => {
   it('string', () => {
     // Definition
-    const codec = defineAs(F => F.string)(ioTsNonStrict).type
+    const codec = summon(F => F.string).type
     chai.assert.deepStrictEqual(codec.decode('b'), right('b'))
   })
 
   it('stringLiteral', () => {
     // Definition
-    const codec = defineAs(F => F.stringLiteral('x'))(ioTsNonStrict).type
+    const codec = summonAs(F => F.stringLiteral('x')).type
 
     chai.assert.deepStrictEqual(codec.decode('x'), right('x'))
   })
 
   it('keysOf', () => {
     // Definition
-    const codec = defineAs(F => F.keysOf({ a: null, b: null }))(ioTsNonStrict).type
+    const codec = summonAs(F => F.keysOf({ a: null, b: null })).type
 
     chai.assert.deepStrictEqual(codec.decode('a'), right('a'))
     chai.assert.deepStrictEqual(codec.decode('b'), right('b'))
@@ -42,7 +40,7 @@ describe('IO-TS Alt Schema', () => {
   })
 
   it('nullable', () => {
-    const codec = defineAs(F => F.nullable(F.string))(ioTsNonStrict).type
+    const codec = summonAs(F => F.nullable(F.string)).type
 
     chai.assert.deepStrictEqual(codec.decode('a'), right(some('a')))
     chai.assert.deepStrictEqual(codec.decode(null), right(none))
@@ -50,19 +48,19 @@ describe('IO-TS Alt Schema', () => {
   })
 
   it('array', () => {
-    const codec = defineAs(F => F.array(F.string))(ioTsNonStrict)
+    const codec = summonAs(F => F.array(F.string))
     chai.assert.deepStrictEqual(codec.type.decode(['a', 'b']), right(['a', 'b']))
   })
 
   it('partial', () => {
     // Definition
 
-    const codec = defineAs(F =>
+    const codec = summonAs(F =>
       F.partial({
         a: F.string,
         b: F.number
       })
-    )(ioTsNonStrict)
+    )
 
     chai.assert.deepStrictEqual(codec.type.decode({ a: 'a', b: 1 }), right({ a: 'a', b: 1 }))
     chai.assert.deepStrictEqual(codec.type.decode({ a: 'a', b: 1 }), right({ a: 'a', b: 1 }))
@@ -72,7 +70,7 @@ describe('IO-TS Alt Schema', () => {
 
   it('compose', () => {
     // type Foo
-    const Foo = defineAs(F =>
+    const Foo = summonAs(F =>
       F.interface({
         a: F.string,
         b: F.number
@@ -80,7 +78,7 @@ describe('IO-TS Alt Schema', () => {
     )
 
     // type Bar
-    const Bar = defineAs<Bar>(F =>
+    const Bar = summonAsA<Bar>()(F =>
       F.interface({
         a: Foo(F),
         b: F.number
@@ -95,16 +93,16 @@ describe('IO-TS Alt Schema', () => {
       b: number
     }
 
-    const eee = Bar(ioTsStrict)
-    either.either.map(eee.type.decode(1 as unknown), x => x.a)
-    const fff = Foo(ioTsStrict)
-    either.either.map(fff.type.decode(1 as unknown), x => {
+    const eee = Bar.strictType
+    either.either.map(eee.decode(1 as unknown), x => x.a)
+    const fff = Foo.strictType
+    either.either.map(fff.decode(1 as unknown), x => {
       const res = x.a.concat('a')
       return res
     })
 
-    const codec = Bar(ioTsNonStrict)
-    // const codec2 = Foo(ioTsNonStrict)
+    const codec = Bar
+    // const codec2 = Foo
 
     chai.assert.deepStrictEqual(
       codec.type.decode({ a: { a: 'z', b: 12 }, b: 12 }),
@@ -114,7 +112,7 @@ describe('IO-TS Alt Schema', () => {
 
   it('date', () => {
     // type Foo
-    const Foo = defineAs<Foo>(F =>
+    const Foo = summonAsA<Foo>()(F =>
       F.interface({
         date: F.date,
         a: F.string
@@ -126,7 +124,7 @@ describe('IO-TS Alt Schema', () => {
       a: string
     }
 
-    const codec = Foo(ioTsNonStrict)
+    const codec = Foo
 
     const date = new Date()
     chai.assert.deepStrictEqual(codec.type.decode({ date: date.toISOString(), a: 'z' }), right({ date, a: 'z' }))
@@ -134,23 +132,23 @@ describe('IO-TS Alt Schema', () => {
 
   it('intersection', () => {
     // type Foo
-    const Foo = defineAs(F =>
+    const Foo = summonAs(F =>
       F.interface({
         a: F.string,
         b: F.number
       })
     )
 
-    const Bar = defineAs(F =>
+    const Bar = summonAs(F =>
       F.interface({
         c: F.string,
         d: F.number
       })
     )
 
-    const FooBar = defineAs(F => F.intersection([Foo(F), Bar(F)]))
+    const FooBar = summonAs(F => F.intersection([Foo(F), Bar(F)]))
 
-    const codec = FooBar(ioTsNonStrict)
+    const codec = FooBar
 
     chai.assert.deepStrictEqual(
       codec.type.decode({ a: 'a', b: 12, c: 'a', d: 12 }),
@@ -164,7 +162,7 @@ describe('IO-TS Alt Schema', () => {
       a: string
       b: number
     }
-    const Foo = defineAs(F =>
+    const Foo = summonAs(F =>
       F.interface({
         a: F.string,
         b: F.number
@@ -175,16 +173,16 @@ describe('IO-TS Alt Schema', () => {
       c: string
       d: number
     }
-    const Bar = defineAs(F =>
+    const Bar = summonAs(F =>
       F.interface({
         c: F.string,
         d: F.number
       })
     )
 
-    const FooBar = defineAs(F => F.union([Foo(F), Bar(F)]))
+    const FooBar = summonAs(F => F.union([Foo(F), Bar(F)]))
 
-    const codec = FooBar(ioTsNonStrict)
+    const codec = FooBar
 
     chai.assert.deepStrictEqual(codec.type.decode({ a: 'a', b: 12 }), right({ a: 'a', b: 12 }))
     chai.assert.deepStrictEqual(codec.type.decode({ c: 'a', d: 12 }), right({ c: 'a', d: 12 }))
@@ -198,7 +196,7 @@ describe('IO-TS Alt Schema', () => {
       a: string
       b: number
     }
-    const Foo = defineAs<Foo>(F =>
+    const Foo = summonAsA<Foo>()(F =>
       F.interface({
         type: F.stringLiteral('foo1'),
         a: F.string,
@@ -211,7 +209,7 @@ describe('IO-TS Alt Schema', () => {
       c: string
       d: number
     }
-    const Bar = defineAs<Bar>(F =>
+    const Bar = summonAsA<Bar>()(F =>
       F.interface({
         type: F.stringLiteral('bar1'),
         c: F.string,
@@ -219,14 +217,14 @@ describe('IO-TS Alt Schema', () => {
       })
     )
 
-    const FooBar = defineAs(F =>
+    const FooBar = summonAs(F =>
       F.taggedUnion('type', {
         foo1: Foo(F),
         bar1: Bar(F)
       })
     )
 
-    const codec = FooBar(ioTsNonStrict)
+    const codec = FooBar
 
     chai.assert.deepStrictEqual(
       codec.type.decode({ type: 'foo1', a: 'a', b: 12 }),
@@ -240,28 +238,28 @@ describe('IO-TS Alt Schema', () => {
   })
 
   it('taggedUnion', () => {
-    const Foo = defineAs(F =>
+    const Foo = summonAs(F =>
       F.interface({
         type: F.stringLiteral('foo2'),
         a: F.string
       })
     )
 
-    const Baz = defineAs(F =>
+    const Baz = summonAs(F =>
       F.interface({
         type: F.stringLiteral('baz2'),
         b: F.number
       })
     )
 
-    const FooBar = defineAs(F =>
+    const FooBar = summonAs(F =>
       F.taggedUnion('type', {
         foo2: Foo(F),
         baz2: Baz(F)
       })
     )
 
-    const decoder = FooBar(ioTsNonStrict).type
+    const decoder = FooBar.type
 
     chai.assert.deepStrictEqual(decoder.decode({ type: 'foo2', a: 'a' }), right({ type: 'foo2' as 'foo2', a: 'a' }))
     chai.assert(isLeft(decoder.decode({ type: 'foo2', b: 3 })))
@@ -271,13 +269,13 @@ describe('IO-TS Alt Schema', () => {
   })
 
   it('set from array', () => {
-    const InterfA = defineAs(F =>
+    const InterfA = summonAs(F =>
       F.interface({
         a: F.string
       })
     )
 
-    defineAs(F =>
+    summonAs(F =>
       F.interface({
         a: F.string,
         b: F.array(
@@ -288,13 +286,13 @@ describe('IO-TS Alt Schema', () => {
       })
     )
 
-    type AType = TypeOf<typeof InterfA>
+    type AType = ReturnType<typeof InterfA.build>
 
     const ordA: Ord<AType> = ord.contramap(ordString, x => x.a)
 
-    const SetInterfA = defineAs(F => F.set(InterfA(F), ordA))
+    const SetInterfA = summonAs(F => F.set(InterfA(F), ordA))
 
-    const SetInterfAType = SetInterfA(ioTsNonStrict)
+    const SetInterfAType = SetInterfA
 
     const datas = [{ a: 'zz' }, { a: 'vv' }]
     const decoded = SetInterfAType.type.decode([{ a: 'zz' }, { a: 'vv' }])
@@ -340,11 +338,11 @@ describe('iotsObjectInterpreter', () => {
 
     it('interface does not keep extra values', () => {
       const codec = model<'IOTSType'>(strictInterpreter)
-      chai.assert.deepStrictEqual(codec.type.decode(valueWithExtras), right(valueWithoutExtras))
+      chai.assert.deepStrictEqual(codec.type().decode(valueWithExtras), right(valueWithoutExtras))
     })
     it('partial does not keep extra values', () => {
       const codec = partialModel<'IOTSType'>(strictInterpreter)
-      chai.assert.deepStrictEqual(codec.type.decode(valueWithExtras), right(valueWithoutExtras))
+      chai.assert.deepStrictEqual(codec.type().decode(valueWithExtras), right(valueWithoutExtras))
     })
   })
 
@@ -353,11 +351,11 @@ describe('iotsObjectInterpreter', () => {
 
     it('interface keeps extra values', () => {
       const codec = model<'IOTSType'>(nonStrictInterpreter)
-      chai.assert.deepStrictEqual(codec.type.decode(valueWithExtras), right(valueWithExtras))
+      chai.assert.deepStrictEqual(codec.type().decode(valueWithExtras), right(valueWithExtras))
     })
     it('partial keeps extra values', () => {
       const codec = partialModel<'IOTSType'>(nonStrictInterpreter)
-      chai.assert.deepStrictEqual(codec.type.decode(valueWithExtras), right(valueWithExtras))
+      chai.assert.deepStrictEqual(codec.type().decode(valueWithExtras), right(valueWithExtras))
     })
   })
 
@@ -366,18 +364,18 @@ describe('iotsObjectInterpreter', () => {
       let nbEvals = 0
       let nbRecEvals = 0
 
-      const Tree: Program<unknown, Tree> = defineAs(F => {
+      const Tree: M<unknown, Tree> = summonAs(F => {
         nbEvals += 1
-        return F.recursive(() => {
+        return F.recursive(Tree => {
           nbRecEvals += 1
           return F.taggedUnion('type', {
-            node: F.interface({ type: F.stringLiteral('node'), a: Tree(F), b: Tree(F) }),
+            node: F.interface({ type: F.stringLiteral('node'), a: Tree, b: Tree }),
             leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string })
           })
         })
       })
 
-      const { type } = Tree(ioTsNonStrict)
+      const { type } = Tree
       chai.assert.deepStrictEqual(type.is({ type: 'leaf', v: 'X' }), true)
       chai.assert.deepStrictEqual(
         type.is({ type: 'node', a: { type: 'leaf', v: 'AX' }, b: { type: 'leaf', v: 'BX' } }),
@@ -391,13 +389,13 @@ describe('iotsObjectInterpreter', () => {
       let nbEvals = 0
       let nbRecEvals = 0
 
-      const getTree = <A>(LeafValue: Program<unknown, A>): Program<unknown, GTree<A>> => {
-        const GTree: Program<unknown, GTree<A>> = defineAs(F => {
+      const getTree = <A>(LeafValue: M<unknown, A>): M<unknown, GTree<A>> => {
+        const GTree: M<unknown, GTree<A>> = summonAs(F => {
           nbEvals += 1
-          return F.recursive(() => {
+          return F.recursive(GTree => {
             nbRecEvals += 1
             return F.taggedUnion('type', {
-              node: F.interface({ type: F.stringLiteral('node'), a: GTree(F), b: GTree(F) }),
+              node: F.interface({ type: F.stringLiteral('node'), a: GTree, b: GTree }),
               leaf: F.interface({ type: F.stringLiteral('leaf'), v: LeafValue(F) })
             })
           })
@@ -405,9 +403,9 @@ describe('iotsObjectInterpreter', () => {
         return GTree
       }
 
-      const numberValue = defineAs(F => F.number)
+      const numberValue = summonAs(F => F.number)
 
-      const { type } = getTree(numberValue)(ioTsNonStrict)
+      const { type } = getTree(numberValue)
       chai.assert.deepStrictEqual(type.is({ type: 'leaf', v: 0 }), true)
       chai.assert.deepStrictEqual(type.is({ type: 'node', a: { type: 'leaf', v: 1 }, b: { type: 'leaf', v: 2 } }), true)
       chai.assert.deepStrictEqual(nbEvals, 1)

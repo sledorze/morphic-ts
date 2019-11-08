@@ -5,7 +5,7 @@ export const URI = 'FastCheckType'
 export type URI = typeof URI
 
 export class FastCheckType<A> {
-  constructor(public arb: fc.Arbitrary<A>) {}
+  constructor(public arb: () => fc.Arbitrary<A>) {}
 }
 
 declare module '../../HKT' {

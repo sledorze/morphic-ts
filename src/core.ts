@@ -31,9 +31,14 @@ export type InterpreterOf2<F extends URIS2, O extends object> = InterpreterFor2<
 export const InterpreterFor2 = <K extends URIS2>(k: K) => <O extends object>(o: O): InterpreterOf2<K, O> =>
   Object.assign({}, o, { InterpreterType: k })
 
-export const cacheUnaryFunction = <K, V>(f: (k: K) => V) => {
+type Function1 = (a: any) => any
+export type CacheType = <F extends Function1>(f: F) => F
+
+export const cacheUnaryFunction = <F extends Function1>(f: F) => {
+  type K = F extends (a: infer K) => any ? K : any
+  type V = F extends (a: any) => infer V ? V : any
   const mapping = new Map<K, V>()
-  return (key: K): V => {
+  const fres = (key: K): V => {
     const res = mapping.get(key)
     if (res !== undefined) {
       return res
@@ -43,6 +48,7 @@ export const cacheUnaryFunction = <K, V>(f: (k: K) => V) => {
       return v
     }
   }
+  return fres as F
 }
 
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never

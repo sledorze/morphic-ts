@@ -3,5 +3,5 @@ import { IOTSStringType, URI } from '.'
 import { ModelAlgebraStrMap2 } from '../../algebras/str-map'
 
 export const ioTsStringStrMapInterpreter: ModelAlgebraStrMap2<URI> = {
-  strMap: codomain => new IOTSStringType(record(string, codomain.type))
+  strMap: codomain => new IOTSStringType(() => record(string, codomain.type()))
 }
