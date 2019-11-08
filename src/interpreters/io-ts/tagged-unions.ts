@@ -4,5 +4,5 @@ import { ModelAlgebraTaggedUnions1 } from '../../algebras/tagged-unions'
 import { collect } from '../../utils'
 
 export const ioTsTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<URI> = {
-  taggedUnion: (_tag, dic) => new IOTSType(() => t.union(collect(dic, (_, { type }) => type()) as any))
+  taggedUnion: (_tag, dic) => new IOTSType(t.union(collect(dic, (_, { type }) => type) as any))
 }

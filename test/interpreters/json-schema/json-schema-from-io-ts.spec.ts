@@ -11,7 +11,7 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema()).to.deep.equal({
+    chai.expect(schema).to.deep.equal({
       required: ['toto'],
 
       properties: {
@@ -32,7 +32,7 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema()).to.deep.equal({
+    chai.expect(schema).to.deep.equal({
       properties: {
         toto: {
           type: 'number'
@@ -56,7 +56,7 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema()).to.deep.equal({
+    chai.expect(schema).to.deep.equal({
       required: ['tata'],
       properties: {
         toto: {
@@ -82,7 +82,7 @@ describe('a json schema generator', function(this: any) {
     )
     const schema = decoder.jsonSchema
 
-    chai.expect(schema()).to.deep.equal({
+    chai.expect(schema).to.deep.equal({
       type: 'object',
       required: ['arr'],
 
@@ -124,7 +124,7 @@ describe('a json schema generator', function(this: any) {
   //     //      return either.left(new Error(`unhandled tag ${x._tag}`))
   //   })
 
-  //   chai.expect(schema()).to.deep.equal(
+  //   chai.expect(schema).to.deep.equal(
   //     {
   //
   //       properties: {
@@ -156,7 +156,7 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema()).to.deep.equal({
+    chai.expect(schema).to.deep.equal({
       properties: {
         a: {
           type: 'string'
@@ -190,7 +190,7 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema()).to.deep.equal({
+    chai.expect(schema).to.deep.equal({
       properties: {
         a: {
           type: 'string'
@@ -221,7 +221,7 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema()).to.deep.equal({
+    chai.expect(schema).to.deep.equal({
       properties: {
         a: {
           type: 'string'
@@ -248,7 +248,7 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema()).to.deep.equal({
+    chai.expect(schema).to.deep.equal({
       properties: {
         a: {
           type: 'string'
@@ -271,7 +271,7 @@ describe('a json schema generator', function(this: any) {
 
     const schema = () => decoder.jsonSchema
 
-    chai.expect(schema()).to.throw()
+    chai.expect(schema).to.throw()
   })
 
   it('works for LiteralType', () => {
@@ -286,7 +286,7 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema()).to.deep.equal({
+    chai.expect(schema).to.deep.equal({
       properties: {
         type: {
           type: 'string',
@@ -313,7 +313,7 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema()).to.deep.equal({
+    chai.expect(schema).to.deep.equal({
       properties: {
         type: {
           type: 'string',
@@ -343,7 +343,7 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema()).to.deep.equal({
+    chai.expect(schema).to.deep.equal({
       properties: {
         type: {
           type: 'string',
@@ -374,7 +374,7 @@ describe('a json schema generator', function(this: any) {
 
 //     const schema = toExtendedJsonSchema([])(Type as any, x => either.left(new Error(`unhandled tag ${x._tag}`)))
 
-//     chai.expect(schema()).to.deep.equal(
+//     chai.expect(schema).to.deep.equal(
 //       {
 //
 //         properties: {

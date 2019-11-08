@@ -338,11 +338,11 @@ describe('iotsObjectInterpreter', () => {
 
     it('interface does not keep extra values', () => {
       const codec = model<'IOTSType'>(strictInterpreter)
-      chai.assert.deepStrictEqual(codec.type().decode(valueWithExtras), right(valueWithoutExtras))
+      chai.assert.deepStrictEqual(codec.type.decode(valueWithExtras), right(valueWithoutExtras))
     })
     it('partial does not keep extra values', () => {
       const codec = partialModel<'IOTSType'>(strictInterpreter)
-      chai.assert.deepStrictEqual(codec.type().decode(valueWithExtras), right(valueWithoutExtras))
+      chai.assert.deepStrictEqual(codec.type.decode(valueWithExtras), right(valueWithoutExtras))
     })
   })
 
@@ -351,11 +351,11 @@ describe('iotsObjectInterpreter', () => {
 
     it('interface keeps extra values', () => {
       const codec = model<'IOTSType'>(nonStrictInterpreter)
-      chai.assert.deepStrictEqual(codec.type().decode(valueWithExtras), right(valueWithExtras))
+      chai.assert.deepStrictEqual(codec.type.decode(valueWithExtras), right(valueWithExtras))
     })
     it('partial keeps extra values', () => {
       const codec = partialModel<'IOTSType'>(nonStrictInterpreter)
-      chai.assert.deepStrictEqual(codec.type().decode(valueWithExtras), right(valueWithExtras))
+      chai.assert.deepStrictEqual(codec.type.decode(valueWithExtras), right(valueWithExtras))
     })
   })
 
@@ -377,12 +377,16 @@ describe('iotsObjectInterpreter', () => {
 
       const { type } = Tree
       chai.assert.deepStrictEqual(type.is({ type: 'leaf', v: 'X' }), true)
+
+      const firstRunNbEvals = nbEvals
+      const firstRunNbRecEvals = nbRecEvals
+
       chai.assert.deepStrictEqual(
         type.is({ type: 'node', a: { type: 'leaf', v: 'AX' }, b: { type: 'leaf', v: 'BX' } }),
         true
       )
-      chai.assert.deepStrictEqual(nbEvals, 1)
-      chai.assert.deepStrictEqual(nbRecEvals, 1)
+      chai.assert.deepStrictEqual(firstRunNbEvals, nbEvals)
+      chai.assert.deepStrictEqual(firstRunNbRecEvals, nbRecEvals)
     })
 
     it('handles generic recursive types', () => {
@@ -407,9 +411,12 @@ describe('iotsObjectInterpreter', () => {
 
       const { type } = getTree(numberValue)
       chai.assert.deepStrictEqual(type.is({ type: 'leaf', v: 0 }), true)
+      const firstRunNbEvals = nbEvals
+      const firstRunNbRecEvals = nbRecEvals
+
       chai.assert.deepStrictEqual(type.is({ type: 'node', a: { type: 'leaf', v: 1 }, b: { type: 'leaf', v: 2 } }), true)
-      chai.assert.deepStrictEqual(nbEvals, 1)
-      chai.assert.deepStrictEqual(nbRecEvals, 1)
+      chai.assert.deepStrictEqual(firstRunNbEvals, nbEvals)
+      chai.assert.deepStrictEqual(firstRunNbRecEvals, nbRecEvals)
     })
   })
 })

@@ -4,7 +4,7 @@ export const URI = 'IOTSStringType'
 export type URI = typeof URI
 
 export class IOTSStringType<O, A> {
-  constructor(public type: () => t.Type<A, O>) {}
+  constructor(public type: t.Type<A, O>) {}
 }
 
 declare module '../../HKT' {

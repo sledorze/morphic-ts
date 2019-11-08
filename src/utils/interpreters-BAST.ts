@@ -17,7 +17,7 @@ interface BASTJInterpreter<E, A> {
   arb: Arbitrary<A>
   strictType: Type<A, unknown, unknown>
   type: Type<A, E, unknown>
-  jsonSchema: () => JSONSchema
+  jsonSchema: JSONSchema
 }
 
 export type BASTJInterpreterURI = 'BASTJInterpreter'
@@ -30,10 +30,7 @@ declare module '../../src/usage/interpreters-hkt' {
 export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpreterURI> = program => ({
   build: program(builderInterpreter).build,
   arb: program(fastCheckInterpreter).arb,
-  strictType: program(ioTsNonStrict).type(),
-  type: program(ioTsStringNonStrict).type(),
-  jsonSchema: (() => {
-    const { schema } = program(jsonSchemaInterpreter)
-    return () => schema().json
-  })()
+  strictType: program(ioTsNonStrict).type,
+  type: program(ioTsStringNonStrict).type,
+  jsonSchema: program(jsonSchemaInterpreter).schema.json
 })
