@@ -29,7 +29,7 @@ declare module '../../src/usage/interpreters-hkt' {
 }
 export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpreterURI> = program => ({
   build: program(builderInterpreter).build,
-  arb: program(fastCheckInterpreter).arb(),
+  arb: program(fastCheckInterpreter).arb,
   strictType: program(ioTsNonStrict).type(),
   type: program(ioTsStringNonStrict).type(),
   jsonSchema: (() => {

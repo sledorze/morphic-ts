@@ -39,7 +39,7 @@ export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJIn
   eq: program(eqInterpreter).eq,
   show: program(showInterpreter).show,
   build: program(builderInterpreter).build,
-  arb: program(fastCheckInterpreter).arb(),
+  arb: program(fastCheckInterpreter).arb,
   strictType: program(ioTsNonStrict).type(),
   type: program(ioTsStringNonStrict).type(),
   jsonSchema: program(jsonSchemaInterpreter).schema().json
