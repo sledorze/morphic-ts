@@ -18,12 +18,15 @@ type BuilderAndMorphes<E, A, InterpURI extends InterpretersURI> = BuilderType<A>
 const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
   assignFunction((...args: any) => F(...args), Object.assign({}, F, d))
 
-const interpreteWithProgram = <E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
+function interpreteWithProgram<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
   program: Program<E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
-): BuilderAndMorphes<E, A, InterpURI> & Programs<E, A>[ProgURI] =>
-  assignFunction((...args: any) => (program as any)(...args), programInterpreter(program as Programs<E, A>[ProgURI])) // this `as` is the White lie to escape complexes types
-
+): BuilderAndMorphes<E, A, InterpURI> & Programs<E, A>[ProgURI] {
+  return assignFunction(
+    (...args: any) => (program as any)(...args),
+    programInterpreter(program as Programs<E, A>[ProgURI])
+  ) // this `as` is the White lie to escape complexes types
+}
 type ADTWithMorphsWithProgram<
   E,
   A,
@@ -52,25 +55,29 @@ export type Materialized<E, A, ProgURI extends ProgramsURI, InterpURI extends In
   MonocleFor<A> &
   TaggableAsADT<E, A, ProgURI, InterpURI>
 
-export const materialize = <E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
+export function materialize<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
   program: Program<E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
-): Materialized<E, A, ProgURI, InterpURI> => withTaggableAndMonocle(interpreteWithProgram(program, programInterpreter))
+): Materialized<E, A, ProgURI, InterpURI> {
+  return withTaggableAndMonocle(interpreteWithProgram(program, programInterpreter))
+}
 
 /**
  * Expose tagged functions in addition to the type derived facilities
  */
-const asADT = <E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
+function asADT<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
   m: Materialized<E, A, ProgURI, InterpURI>
-) => <Tag extends TagsOf<A> & string>(tag: Tag): ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI> =>
-  assignCallable(adtByTag<A>()(tag), {
-    ...m,
-    program: m.apply
-  })
+): <Tag extends TagsOf<A> & string>(tag: Tag) => ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI> {
+  return tag =>
+    assignCallable(adtByTag<A>()(tag), {
+      ...m,
+      program: m.apply
+    })
+}
 
-const withTaggableAndMonocle = <E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
+function withTaggableAndMonocle<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
   morphes: BuilderAndMorphes<E, A, InterpURI> & Programs<E, A>[ProgURI]
-): Materialized<E, A, ProgURI, InterpURI> => {
+): Materialized<E, A, ProgURI, InterpURI> {
   const tagged = <Tag extends TagsOf<A> & string>(tag: Tag): ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI> =>
     asADT(res)(tag)
 

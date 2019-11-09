@@ -21,20 +21,21 @@ export interface InterpreterFor<F extends URIS> {
   readonly InterpreterType: F
 }
 export type InterpreterOf<F extends URIS, O extends object> = InterpreterFor<F> & O
-export const InterpreterFor = <K extends URIS>(k: K) => <O extends object>(o: O): InterpreterOf<K, O> =>
-  Object.assign({}, o, { InterpreterType: k })
-
+export function InterpreterFor<K extends URIS>(k: K): <O extends object>(o: O) => InterpreterOf<K, O> {
+  return o => Object.assign({}, o, { InterpreterType: k })
+}
 export interface InterpreterFor2<F extends URIS2> {
   readonly InterpreterType: F
 }
 export type InterpreterOf2<F extends URIS2, O extends object> = InterpreterFor2<F> & O
-export const InterpreterFor2 = <K extends URIS2>(k: K) => <O extends object>(o: O): InterpreterOf2<K, O> =>
-  Object.assign({}, o, { InterpreterType: k })
+export function InterpreterFor2<K extends URIS2>(k: K): <O extends object>(o: O) => InterpreterOf2<K, O> {
+  return o => Object.assign({}, o, { InterpreterType: k })
+}
 
 type Function1 = (a: any) => any
 export type CacheType = <F extends Function1>(f: F) => F
 
-export const cacheUnaryFunction = <F extends Function1>(f: F) => {
+export function cacheUnaryFunction<F extends Function1>(f: F) {
   type K = F extends (a: infer K) => any ? K : any
   type V = F extends (a: any) => infer V ? V : any
   const mapping = new Map<K, V>()

@@ -13,6 +13,10 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.3.9
+
+- Fix explicit type param specialization (use `function` instead of `const` functions)
+
 ## 0.3.8
 
 - Breaking Change

@@ -3,10 +3,10 @@ import { materialize, ProgramInterpreter, Materialized, Materialized_ } from './
 import { InterpretersURI } from './interpreters-hkt'
 import { CacheType } from '../core'
 
-export const makeSummoner = <ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
+export function makeSummoner<ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
   cacheProgramEval: CacheType,
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
-) => {
+) {
   type P<L, A> = Program<L, A>[ProgURI]
   type M<L, A> = Materialized<L, A, ProgURI, InterpURI>
   type M_<A> = Materialized_<A, ProgURI, InterpURI>
