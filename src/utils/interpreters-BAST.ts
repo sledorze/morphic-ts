@@ -12,12 +12,15 @@ import { jsonSchemaInterpreter } from '../../src/interpreters/json-schema/interp
 
 import { ProgramInterpreter } from '../../src/usage/materializer'
 import { ProgramUnionURI } from './program'
+import { either, Either } from 'fp-ts/lib/Either'
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { JsonSchemaError } from '../interpreters/json-schema'
 
 interface BASTJInterpreter<E, A> {
   arb: Arbitrary<A>
   strictType: Type<A, unknown, unknown>
   type: Type<A, E, unknown>
-  jsonSchema: JSONSchema
+  jsonSchema: Either<NonEmptyArray<JsonSchemaError>, JSONSchema>
 }
 
 export type BASTJInterpreterURI = 'BASTJInterpreter'
@@ -32,5 +35,5 @@ export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpre
   arb: program(fastCheckInterpreter).arb,
   strictType: program(ioTsNonStrict).type,
   type: program(ioTsStringNonStrict).type,
-  jsonSchema: program(jsonSchemaInterpreter).schema.json
+  jsonSchema: either.map(program(jsonSchemaInterpreter).schema, s => s.json)
 })

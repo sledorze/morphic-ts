@@ -19,13 +19,17 @@ import { jsonSchemaInterpreter } from '../../src/interpreters/json-schema/interp
 import { ProgramInterpreter } from '../../src/usage/materializer'
 import { ProgramNoUnionURI } from './program-no-union'
 
+import { either, Either } from 'fp-ts/lib/Either'
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { JsonSchemaError } from '../interpreters/json-schema'
+
 interface ESBASTJInterpreter<E, A> {
   eq: Eq<A>
   show: Show<A>
   arb: Arbitrary<A>
   strictType: Type<A, unknown, unknown>
   type: Type<A, E, unknown>
-  jsonSchema: JSONSchema
+  jsonSchema: Either<NonEmptyArray<JsonSchemaError>, JSONSchema>
 }
 
 export type ESBASTJInterpreterURI = 'ESBASTJInterpreter'
@@ -42,5 +46,5 @@ export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJIn
   arb: program(fastCheckInterpreter).arb,
   strictType: program(ioTsNonStrict).type,
   type: program(ioTsStringNonStrict).type,
-  jsonSchema: program(jsonSchemaInterpreter).schema.json
+  jsonSchema: either.map(program(jsonSchemaInterpreter).schema, s => s.json)
 })

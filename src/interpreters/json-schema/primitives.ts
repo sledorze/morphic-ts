@@ -8,14 +8,16 @@ import {
   optional,
   ArrayTypeCtor
 } from '../../json-schema/json-schema-ctors'
+import { right } from 'fp-ts/lib/Either'
+import { either } from 'fp-ts'
 
 export const jsonSchemaPrimitiveInterpreter: ModelAlgebraPrimitive1<URI> = {
-  date: new JsonSchema(StringTypeCtor({ format: 'date' })),
-  string: new JsonSchema(StringTypeCtor({})),
-  number: new JsonSchema(NumberTypeCtor()),
-  boolean: new JsonSchema(BooleanTypeCtor()),
-  stringLiteral: <T extends string>(v: T) => new JsonSchema<T>(LiteralTypeCtor(v)),
-  keysOf: _keys => new JsonSchema(StringTypeCtor({ enum: Object.keys(_keys) })),
-  nullable: ({ schema }) => new JsonSchema(optional(schema.json)),
-  array: ({ schema }) => new JsonSchema(ArrayTypeCtor(schema))
+  date: new JsonSchema(right(StringTypeCtor({ format: 'date' }))),
+  string: new JsonSchema(right(StringTypeCtor({}))),
+  number: new JsonSchema(right(NumberTypeCtor())),
+  boolean: new JsonSchema(right(BooleanTypeCtor())),
+  stringLiteral: <T extends string>(v: T) => new JsonSchema<T>(right(LiteralTypeCtor(v))),
+  keysOf: _keys => new JsonSchema(right(StringTypeCtor({ enum: Object.keys(_keys) }))),
+  nullable: ({ schema }) => new JsonSchema(either.either.map(schema, x => optional(x.json))),
+  array: ({ schema }) => new JsonSchema(either.either.chain(schema, ArrayTypeCtor))
 }

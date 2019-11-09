@@ -1,5 +1,9 @@
 import * as chai from 'chai'
 import { summon } from '../../../src/utils/summoner'
+import { right, left } from 'fp-ts/lib/Either'
+import { either } from 'fp-ts'
+import { JsonSchemaErrors } from '../../../src/json-schema/json-schema-ctors'
+import { of } from 'fp-ts/lib/NonEmptyArray'
 
 describe('a json schema generator', function(this: any) {
   it('generate an interface from a io-ts interface', () => {
@@ -11,16 +15,18 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
-      required: ['toto'],
-
-      properties: {
-        toto: {
-          type: 'number'
-        }
-      },
-      type: 'object'
-    })
+    chai.assert.deepStrictEqual(
+      schema,
+      right({
+        required: ['toto'],
+        properties: {
+          toto: {
+            type: 'number' as const
+          }
+        },
+        type: 'object' as const
+      })
+    )
   })
 
   it('generate an interface from a partial', () => {
@@ -32,14 +38,17 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
-      properties: {
-        toto: {
-          type: 'number'
-        }
-      },
-      type: 'object'
-    })
+    chai.assert.deepStrictEqual(
+      schema,
+      right({
+        properties: {
+          toto: {
+            type: 'number' as const
+          }
+        },
+        type: 'object' as const
+      })
+    )
   })
 
   it('generate an interface from an intersection', () => {
@@ -56,18 +65,21 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
-      required: ['tata'],
-      properties: {
-        toto: {
-          type: 'number'
+    chai.assert.deepStrictEqual(
+      schema,
+      right({
+        required: ['tata'],
+        properties: {
+          toto: {
+            type: 'number' as const
+          },
+          tata: {
+            type: 'number' as const
+          }
         },
-        tata: {
-          type: 'number'
-        }
-      },
-      type: 'object'
-    })
+        type: 'object' as const
+      })
+    )
   })
 
   it('generate from a complex type', () => {
@@ -82,62 +94,30 @@ describe('a json schema generator', function(this: any) {
     )
     const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
-      type: 'object',
-      required: ['arr'],
+    chai.assert.deepStrictEqual(
+      schema,
+      right({
+        type: 'object' as const,
+        required: ['arr'],
 
-      properties: {
-        arr: {
-          type: 'array',
-          items: {
-            type: 'object',
+        properties: {
+          arr: {
+            type: 'array' as const,
+            items: {
+              type: 'object' as const,
 
-            properties: {
-              x: {
-                type: 'string'
-              }
-            },
-            required: ['x']
+              properties: {
+                x: {
+                  type: 'string' as const
+                }
+              },
+              required: ['x']
+            }
           }
         }
-      }
-    })
+      })
+    )
   })
-
-  // it('generate primitives datetime from jsjoda', () => {
-  //   const decoder = summon(F =>
-  //     F.partial({
-  //       dateTime: ZonedDateTimeFromString
-  //     })
-  //   )
-
-  //   const schema = toExtendedJsonSchema([])(decoder, x => {
-  //     switch (x._tag) {
-  //       case 'ZonedDateTime':
-  //         return either.right<Error, JSONSchema>({
-  //           type: 'string',
-  //           format: 'date-time'
-  //         })
-  //       default:
-  //         return either.left(new Error(`unhandled tag ${x._tag}`))
-  //     }
-  //     //      return either.left(new Error(`unhandled tag ${x._tag}`))
-  //   })
-
-  //   chai.expect(schema).to.deep.equal(
-  //     {
-  //
-  //       properties: {
-  //         dateTime: {
-  //           type: 'string',
-  //           format: 'date-time'
-  //         }
-  //       },
-  //       required: ['dateTime'],
-  //       type: 'object'
-  //     })
-  //   )
-  // })
 
   it('use name as description for intersection', () => {
     const decoder = summon(F =>
@@ -156,18 +136,21 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
-      properties: {
-        a: {
-          type: 'string'
+    chai.assert.deepStrictEqual(
+      schema,
+      right({
+        properties: {
+          a: {
+            type: 'string' as const
+          },
+          b: {
+            type: 'number' as const
+          }
         },
-        b: {
-          type: 'number'
-        }
-      },
-      required: ['a', 'b'],
-      type: 'object'
-    })
+        required: ['a', 'b'],
+        type: 'object' as const
+      })
+    )
   })
 
   it('use underlying names as description for unnamed intersection', () => {
@@ -190,18 +173,21 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
-      properties: {
-        a: {
-          type: 'string'
+    chai.assert.deepStrictEqual(
+      schema,
+      right({
+        properties: {
+          a: {
+            type: 'string' as const
+          },
+          b: {
+            type: 'number' as const
+          }
         },
-        b: {
-          type: 'number'
-        }
-      },
-      required: ['a', 'b'],
-      type: 'object'
-    })
+        required: ['a', 'b'],
+        type: 'object' as const
+      })
+    )
   })
 
   it('use underlying name as description for unnamed intersection', () => {
@@ -221,18 +207,21 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
-      properties: {
-        a: {
-          type: 'string'
+    chai.assert.deepStrictEqual(
+      schema,
+      right({
+        properties: {
+          a: {
+            type: 'string' as const
+          },
+          b: {
+            type: 'number' as const
+          }
         },
-        b: {
-          type: 'number'
-        }
-      },
-      required: ['a', 'b'],
-      type: 'object'
-    })
+        required: ['a', 'b'],
+        type: 'object' as const
+      })
+    )
   })
 
   it('works with OptionFromNullable!', () => {
@@ -248,18 +237,21 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
-      properties: {
-        a: {
-          type: 'string'
+    chai.assert.deepStrictEqual(
+      schema,
+      right({
+        properties: {
+          a: {
+            type: 'string' as const
+          },
+          b: {
+            type: 'string' as const
+          }
         },
-        b: {
-          type: 'string'
-        }
-      },
-      required: ['b'],
-      type: 'object'
-    })
+        required: ['b'],
+        type: 'object' as const
+      })
+    )
   })
 
   it('does not work with OptionFromNullable in Array!', () => {
@@ -271,7 +263,10 @@ describe('a json schema generator', function(this: any) {
 
     const schema = () => decoder.jsonSchema
 
-    chai.expect(schema).to.throw()
+    chai.assert.deepStrictEqual(
+      either.either.mapLeft(schema(), v => v),
+      left(of(JsonSchemaErrors.ArrayConsumesNoOptional))
+    )
   })
 
   it('works for LiteralType', () => {
@@ -286,16 +281,19 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
-      properties: {
-        type: {
-          type: 'string',
-          enum: ['toto']
-        }
-      },
-      required: ['type'],
-      type: 'object'
-    })
+    chai.assert.deepStrictEqual(
+      schema,
+      right({
+        properties: {
+          type: {
+            type: 'string' as const,
+            enum: ['toto']
+          }
+        },
+        required: ['type'],
+        type: 'object' as const
+      })
+    )
   })
 
   it('encodes anonymous KeyOfType inplace ', () => {
@@ -313,16 +311,19 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
-      properties: {
-        type: {
-          type: 'string',
-          enum: ['toto', 'tutu']
-        }
-      },
-      required: ['type'],
-      type: 'object'
-    })
+    chai.assert.deepStrictEqual(
+      schema,
+      right({
+        properties: {
+          type: {
+            type: 'string' as const,
+            enum: ['toto', 'tutu']
+          }
+        },
+        required: ['type'],
+        type: 'object' as const
+      })
+    )
   })
 
   it('encodes names with KeyOfType ', () => {
@@ -343,53 +344,18 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.expect(schema).to.deep.equal({
-      properties: {
-        type: {
-          type: 'string',
-
-          enum: ['toto', 'tutu']
-        }
-      },
-      required: ['type'],
-      type: 'object'
-    })
+    chai.assert.deepStrictEqual(
+      schema,
+      right({
+        properties: {
+          type: {
+            type: 'string' as const,
+            enum: ['toto', 'tutu']
+          }
+        },
+        required: ['type'],
+        type: 'object' as const
+      })
+    )
   })
 })
-
-// describe('Opaque', () => {
-//   it("should expose a 'x-scala-type'", () => {
-//     interface Foo extends OpaqueTagged<string, 'TotoTagType'> {}
-//     const Foo: OpaqueWithTC<Foo> = opaqueOfString('TotoTagType')
-
-//     interface Bar extends OpaqueTagged<number, 'BarTagType'> {}
-//     const Bar: OpaqueWithTC<Bar> = opaqueOfNumber('BarTagType')
-
-//     const Type = asMixed(
-//       F.interface({
-//         foo: Foo.Type,
-//         bar: Bar.Type
-//       })
-//     )
-
-//     const schema = toExtendedJsonSchema([])(Type as any, x => either.left(new Error(`unhandled tag ${x._tag}`)))
-
-//     chai.expect(schema).to.deep.equal(
-//       {
-//
-//         properties: {
-//           foo: {
-//             type: 'string',
-//             'x-scala-type': 'String @@ TotoTagType'
-//           },
-//           bar: {
-//             type: 'number',
-//             'x-scala-type': 'BigDecimal @@ BarTagType'
-//           }
-//         },
-//         required: ['foo', 'bar'],
-//         type: 'object'
-//       })
-//     )
-//   })
-// })
