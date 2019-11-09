@@ -13,6 +13,16 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.3.8
+
+- Breaking Change
+
+  - JSONSchema report errors
+
+- New Feature
+
+  - Add `summon` (temporary name) ni order to ease DX
+
 ## 0.3.7
 
 - Breaking Change
