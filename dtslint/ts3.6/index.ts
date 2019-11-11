@@ -25,9 +25,11 @@ interface ADTFoo2 {
   type: 'ADTFoo2'
 }
 type ADTTag = 'type'
+
 type ADTFoo01 = ADT<ADTFoo0 | ADTFoo1, ADTTag>
-type ADTFoo12 = ADT<ADTFoo1 | ADTFoo2, ADTTag>
 const ADTFoo01: ADTFoo01 = 1 as any
+
+type ADTFoo12 = ADT<ADTFoo1 | ADTFoo2, ADTTag>
 const ADTFoo12: ADTFoo12 = 1 as any
 
 const unionADTRes = unionADT(ADTFoo01, ADTFoo12) // $ExpectType ADT<ADTFoo0 | ADTFoo1 | ADTFoo2, "type">
