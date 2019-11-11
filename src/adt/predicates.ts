@@ -1,9 +1,10 @@
 import { ExtractUnion, ElemType, TagsOf } from '../common'
 import { KeysDefinition } from '.'
+import { record } from 'fp-ts'
 
-export type IsA<A, Tag extends keyof A & string> = <Key extends A[Tag] & string>(
-  k: Key
-) => (a: A) => a is ExtractUnion<A, Tag, Key>
+export type Is<A, Tag extends keyof A & string> = {
+  [key in A[Tag] & string]: (a: A) => a is ExtractUnion<A, Tag, key>
+}
 
 export type IsAny<A, Tag extends keyof A & string> = <Keys extends (A[Tag] & string)[]>(
   ...keys: Keys
@@ -12,7 +13,7 @@ export type IsAny<A, Tag extends keyof A & string> = <Keys extends (A[Tag] & str
 export type Verified<A> = (a: A) => a is A
 
 export interface Predicates<A, Tag extends keyof A & string> {
-  is: IsA<A, Tag>
+  is: Is<A, Tag>
   verified: Verified<A>
   isAnyOf: IsAny<A, Tag>
 }
@@ -20,7 +21,7 @@ export interface Predicates<A, Tag extends keyof A & string> {
 export const Predicates = <A, Tag extends TagsOf<A> & string>(tag: Tag) => (
   keys: KeysDefinition<A, Tag>
 ): Predicates<A, Tag> => ({
-  is: <Key extends A[Tag] & string>(key: Key) => (rest: A): rest is ExtractUnion<A, Tag, Key> => rest[tag] === key,
+  is: record.mapWithIndex((key, _) => (rest: A) => (rest[tag] as any) === key)(keys) as any, // FIXME: typecheck that
   verified: (a: A): a is A => {
     const key = (a[tag] as unknown) as string
     return key in keys

@@ -75,7 +75,7 @@ export type ByTag<A> = <Tag extends TagsOf<A> & string>(t: Tag) => (keys: KeysDe
 export const adtByTag = <A>(): ByTag<A> => tag => keys => {
   type Tag = typeof tag
 
-  const ctors = CU.Ctors<A, Tag>(tag)
+  const ctors = CU.Ctors<A, Tag>(tag)(keys)
   const predicates = PU.Predicates<A, Tag>(tag)(keys)
   const monocles = M.MonocleFor<A>()
   const matchers = Ma.Matchers<A, Tag>(tag)(keys)

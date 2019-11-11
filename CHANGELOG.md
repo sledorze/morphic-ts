@@ -17,6 +17,7 @@ high state of flux, you're at risk of it changing without notice.
 
 - New Feature
 
+  - is, as and of use members and not string tag to identity ADT
   - expose `keys` and `tag` in ADT (Experimental, may revise that)
   - Reducer filters non conforming ADTs
   - Add verified
