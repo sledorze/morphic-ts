@@ -13,6 +13,15 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.3.10
+
+- New Feature
+
+  - expose `keys` and `tag` in ADT (Experimental, may revise that)
+  - Reducer filters non conforming ADTs
+  - Add verified
+  - updated `unionADT`, `intersectionADT`, `select` and `exclude` accordingly
+
 ## 0.3.9
 
 - Fix explicit type param specialization (use `function` instead of `const` functions)

@@ -2,7 +2,7 @@ import { ProgramsURI, Programs, Program } from './programs-hkt'
 import { InterpretersURI, Interpreters } from './interpreters-hkt'
 import { BuilderType } from '../interpreters/builder'
 import { assignFunction, TagsOf } from '../common'
-import { ADT, adtByTag } from '../adt'
+import { ADT, adtByTag, KeysDefinition } from '../adt'
 import { MonocleFor } from '../adt/monocle'
 
 interface WithProgram<E, A, ProgURI extends ProgramsURI> {
@@ -36,7 +36,9 @@ type ADTWithMorphsWithProgram<
 > = BuilderAndMorphes<E, A, InterpURI> & ADT<A, Tag> & WithProgram<E, A, ProgURI>
 
 interface TaggableAsADT<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI> {
-  tagged: <Tag extends TagsOf<A> & string>(tag: Tag) => ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI>
+  tagged: <Tag extends TagsOf<A> & string>(
+    tag: Tag
+  ) => (keys: KeysDefinition<A, Tag>) => ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI>
 }
 
 export type Materialized_<A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI> = Materialized<
@@ -67,9 +69,11 @@ export function materialize<E, A, ProgURI extends ProgramsURI, InterpURI extends
  */
 function asADT<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
   m: Materialized<E, A, ProgURI, InterpURI>
-): <Tag extends TagsOf<A> & string>(tag: Tag) => ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI> {
-  return tag =>
-    assignCallable(adtByTag<A>()(tag), {
+): <Tag extends TagsOf<A> & string>(
+  tag: Tag
+) => (keys: KeysDefinition<A, Tag>) => ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI> {
+  return tag => keys =>
+    assignCallable(adtByTag<A>()(tag)(keys), {
       ...m,
       program: m.apply
     })
@@ -78,8 +82,9 @@ function asADT<E, A, ProgURI extends ProgramsURI, InterpURI extends Interpreters
 function withTaggableAndMonocle<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
   morphes: BuilderAndMorphes<E, A, InterpURI> & Programs<E, A>[ProgURI]
 ): Materialized<E, A, ProgURI, InterpURI> {
-  const tagged = <Tag extends TagsOf<A> & string>(tag: Tag): ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI> =>
-    asADT(res)(tag)
+  const tagged = <Tag extends TagsOf<A> & string>(tag: Tag) => (
+    keys: KeysDefinition<A, Tag>
+  ): ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI> => asADT(res)(tag)(keys)
 
   const res: Materialized<E, A, ProgURI, InterpURI> = assignCallable(morphes, {
     tagged,

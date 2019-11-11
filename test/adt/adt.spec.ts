@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { adtByTag } from '../../src/adt'
+import { adtByTag, unionADT, intersectADT } from '../../src/adt'
 import { identity } from 'fp-ts/lib/function'
 
 describe('Builder', () => {
@@ -15,8 +15,14 @@ describe('Builder', () => {
     d: number
   }
 
+  interface Baz {
+    type: 'baz'
+    e: string
+    f: number
+  }
+
   it('taggedUnion', () => {
-    const fooBar = adtByTag<Foo | Bar>()('type')
+    const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
 
     const fooA = fooBar.of('foo', { a: 'a', b: 12 })
     const barA = fooBar.of('bar', { c: 'a', d: 12 })
@@ -28,7 +34,7 @@ describe('Builder', () => {
   })
 
   describe('Matcher', () => {
-    const fooBar = adtByTag<Foo | Bar>()('type')
+    const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
 
     const { fold, match, matchWiden, createReducer, transform } = fooBar
     const fooA = fooBar.of('foo', { a: 'a', b: 12 })
@@ -105,6 +111,24 @@ describe('Builder', () => {
       chai.assert.deepStrictEqual(reduce(undefined, barA), { x: 'default' })
     })
 
+    it('reduce without default does not change state on unknown Action', () => {
+      const reduce = createReducer({ x: '0' })({
+        foo: () => ({ x }) => ({ x: `foo(${x})` }),
+        bar: () => ({ x }) => ({ x: `bar(${x})` })
+      })
+      const wrongAction = { type: 'unknown' }
+      chai.assert.deepStrictEqual(reduce({ x: '1' }, wrongAction as any), { x: '1' })
+    })
+
+    it('reduce with default does not change state on unknown Action', () => {
+      const reduce = createReducer({ x: '0' })({
+        foo: () => ({ x }) => ({ x: `foo(${x})` }),
+        default: () => ({ x }) => ({ x: `default(${x})` })
+      })
+      const wrongAction = { type: 'unknown' }
+      chai.assert.deepStrictEqual(reduce({ x: '1' }, wrongAction as any), { x: '1' })
+    })
+
     it('reduce return the previous state', () => {
       const reduce = createReducer({ x: '0' })({
         foo: () => ({ x }) => ({ x: `foo(${x})` }),
@@ -120,10 +144,78 @@ describe('Builder', () => {
       chai.assert.deepStrictEqual(matcherDefault(barA), { type: 'bar', c: 'a', d: 1 }, 'barA')
       chai.assert.deepStrictEqual(matcherDefault(fooA), fooA, 'fooA')
     })
+
+    it('select', () => {
+      const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
+      const barOnly = fooBar.select('bar')
+      const foo = fooBar.as('foo', { a: 'a', b: 1 })
+      const bar = fooBar.as('bar', { c: 'a', d: 1 })
+
+      chai.assert.deepStrictEqual(barOnly.verified(foo as any), false, 'verified foo')
+      chai.assert.deepStrictEqual(barOnly.verified(bar), true, 'verified bar')
+    })
+
+    it('exclude', () => {
+      const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
+      const barOnly = fooBar.exclude('foo')
+      const foo = fooBar.as('foo', { a: 'a', b: 1 })
+      const bar = fooBar.as('bar', { c: 'a', d: 1 })
+
+      chai.assert.deepStrictEqual(barOnly.verified(foo as any), false, 'verified foo')
+      chai.assert.deepStrictEqual(barOnly.verified(bar), true, 'verified bar')
+    })
+
+    it('unionADT', () => {
+      const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
+      const fooBaz = adtByTag<Foo | Baz>()('type')({ foo: null, baz: null })
+      const fooBarBaz = unionADT(fooBar, fooBaz)
+
+      const reducer = fooBarBaz.createReducer({ tag: '' })({
+        foo: _ => _ => ({ tag: 'foo' }),
+        bar: _ => _ => ({ tag: 'bar' }),
+        baz: _ => _ => ({ tag: 'baz' })
+      })
+
+      const foo = fooBarBaz.of('foo', { a: 'a', b: 1 })
+      const bar = fooBar.of('bar', { c: 'a', d: 1 })
+      const baz = fooBaz.of('baz', { e: 'a', f: 1 })
+
+      chai.assert.deepStrictEqual(fooBarBaz.verified(foo), true, 'verified foo')
+      chai.assert.deepStrictEqual(fooBarBaz.verified(bar), true, 'verified bar')
+      chai.assert.deepStrictEqual(fooBarBaz.verified(baz), true, 'verified baz')
+
+      chai.assert.deepStrictEqual(reducer(undefined, foo), { tag: 'foo' }, 'foo')
+      chai.assert.deepStrictEqual(reducer(undefined, bar), { tag: 'bar' }, 'bar')
+      chai.assert.deepStrictEqual(reducer(undefined, baz), { tag: 'baz' }, 'baz')
+    })
+
+    it('intersectionADT', () => {
+      const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
+      const fooBaz = adtByTag<Foo | Baz>()('type')({ foo: null, baz: null })
+      const fooBarBaz = intersectADT(fooBar, fooBaz)
+
+      const reducer = fooBarBaz.createReducer({ tag: '' })({
+        foo: _ => _ => ({ tag: 'foo' })
+      })
+
+      const init = { tag: 'initial' }
+
+      const foo = fooBarBaz.of('foo', { a: 'a', b: 1 })
+      const bar = fooBar.of('bar', { c: 'a', d: 1 })
+      const baz = fooBaz.of('baz', { e: 'a', f: 1 })
+
+      chai.assert.deepStrictEqual(fooBarBaz.verified(foo), true, 'verified foo')
+      chai.assert.deepStrictEqual(fooBarBaz.verified(bar as any), false, 'verified bar')
+      chai.assert.deepStrictEqual(fooBarBaz.verified(baz as any), false, 'verified baz')
+
+      chai.assert.deepStrictEqual(reducer(init, foo), { tag: 'foo' }, 'foo')
+      chai.assert.deepStrictEqual(reducer(init, bar as any), init, 'bar')
+      chai.assert.deepStrictEqual(reducer(init, baz as any), init, 'baz')
+    })
   })
 
   it('Predicates', () => {
-    const fooBar = adtByTag<Foo | Bar>()('type')
+    const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
 
     const fooA = fooBar.of('foo', { a: 'a', b: 12 })
 
@@ -145,7 +237,7 @@ describe('Builder', () => {
 
   describe('Monocle', () => {
     it('modify', () => {
-      const fooBarByType = adtByTag<Foo | Bar>()('type')
+      const fooBarByType = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
 
       chai.assert.deepStrictEqual(
         fooBarByType('bar')

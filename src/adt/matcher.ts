@@ -1,4 +1,6 @@
 import { identity } from 'fp-ts/lib/function'
+import { KeysDefinition, isIn } from '.'
+import { TagsOf } from '../common'
 
 type ValueByKeyByTag<Union extends Record<any, any>, Tags extends keyof Union = keyof Union> = {
   [Tag in Tags]: { [Key in Union[Tag]]: Union extends { [r in Tag]: Key } ? Union : never }
@@ -56,7 +58,10 @@ export interface Matchers<A, Tag extends keyof A & string> {
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
 }
 
-export const Matchers = <A, Tag extends keyof A & string>(tag: Tag): Matchers<A, Tag> => {
+export const Matchers = <A, Tag extends TagsOf<A> & string>(tag: Tag) => (
+  keys: KeysDefinition<A, Tag>
+): Matchers<A, Tag> => {
+  const inKeys = isIn(keys)
   const match = (match: any) => (a: any): any => {
     const key = a[tag]
     return key in match ? match[key](a) : match['default'](a)
@@ -69,7 +74,14 @@ export const Matchers = <A, Tag extends keyof A & string>(tag: Tag): Matchers<A,
   const fold = identity
   const createReducer = <S>(initialState: S): ReducerBuilder<S, A, Tag> => (m: any) => {
     const matcher = match(m)
-    return (s: any, a: any) => matcher(a)(s === undefined ? initialState : s)
+    return (s: any, a: any) => {
+      const key = a[tag]
+      if (inKeys(key)) {
+        return matcher(a)(s === undefined ? initialState : s)
+      } else {
+        return s
+      }
+    }
   }
   return {
     match,
