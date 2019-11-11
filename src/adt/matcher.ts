@@ -76,10 +76,11 @@ export const Matchers = <A, Tag extends TagsOf<A> & string>(tag: Tag) => (
     const matcher = match(m)
     return (s: any, a: any) => {
       const key = a[tag]
+      const state = s === undefined ? initialState : s
       if (inKeys(key)) {
-        return matcher(a)(s === undefined ? initialState : s)
+        return matcher(a)(state)
       } else {
-        return s
+        return state
       }
     }
   }

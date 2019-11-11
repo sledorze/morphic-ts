@@ -129,6 +129,15 @@ describe('Builder', () => {
       chai.assert.deepStrictEqual(reduce({ x: '1' }, wrongAction as any), { x: '1' })
     })
 
+    it('reduce without default returns initalState if called with an unknown Action and undefined state', () => {
+      const reduce = createReducer({ x: '0' })({
+        foo: () => ({ x }) => ({ x: `foo(${x})` }),
+        bar: () => ({ x }) => ({ x: `bar(${x})` })
+      })
+      const wrongAction = { type: 'unknown' }
+      chai.assert.deepStrictEqual(reduce(undefined, wrongAction as any), { x: '0' })
+    })
+
     it('reduce return the previous state', () => {
       const reduce = createReducer({ x: '0' })({
         foo: () => ({ x }) => ({ x: `foo(${x})` }),

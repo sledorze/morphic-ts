@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.3.11
+
+- Bug Fix
+
+  - Reducer return initialState if called with an unknown action with an undefined state
+
 ## 0.3.10
 
 - New Feature
