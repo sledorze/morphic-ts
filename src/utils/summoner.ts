@@ -4,7 +4,7 @@ import { cacheUnaryFunction } from '../../src/core'
 import { BASTJInterpreterURI, BASTJInterpreter } from './interpreters-BAST'
 import { ProgramUnionURI, ProgramUnion } from './program'
 
-export interface M<L, A> extends Materialized<L, A, ProgramUnionURI, BASTJInterpreterURI> {}
+export interface M<E, A> extends Materialized<E, A, ProgramUnionURI, BASTJInterpreterURI> {}
 
 export interface Prog<L, A> extends ProgramUnion<L, A> {}
 
@@ -15,6 +15,9 @@ interface Summons {
   summon: <A>(F: Prog<unknown, A>) => M<unknown, A>
 }
 
-const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, BASTJInterpreter) as Summons
+const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(
+  cacheUnaryFunction,
+  BASTJInterpreter
+) as Summons
 
 export { summonAs, summonAsA, summonAsL, summon }

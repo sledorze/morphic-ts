@@ -9,16 +9,25 @@ interface WithProgram<E, A, ProgURI extends ProgramsURI> {
   program: Programs<E, A>[ProgURI]
 }
 
-export type ProgramInterpreter<ProgURI extends ProgramsURI, InterpURI extends InterpretersURI> = <E, A>(
+export type ProgramInterpreter<ProgURI extends ProgramsURI, InterpURI extends InterpretersURI> = <
+  E,
+  A
+>(
   program: Programs<E, A>[ProgURI]
 ) => BuilderType<A> & Interpreters<E, A>[InterpURI]
 
-type BuilderAndMorphes<E, A, InterpURI extends InterpretersURI> = BuilderType<A> & Interpreters<E, A>[InterpURI]
+type BuilderAndMorphes<E, A, InterpURI extends InterpretersURI> = BuilderType<A> &
+  Interpreters<E, A>[InterpURI]
 
 const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
   assignFunction((...args: any) => F(...args), Object.assign({}, F, d))
 
-function interpreteWithProgram<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
+function interpreteWithProgram<
+  E,
+  A,
+  ProgURI extends ProgramsURI,
+  InterpURI extends InterpretersURI
+>(
   program: Program<E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
 ): BuilderAndMorphes<E, A, InterpURI> & Programs<E, A>[ProgURI] {
@@ -27,7 +36,7 @@ function interpreteWithProgram<E, A, ProgURI extends ProgramsURI, InterpURI exte
     programInterpreter(program as Programs<E, A>[ProgURI])
   ) // this `as` is the White lie to escape complexes types
 }
-type ADTWithMorphsWithProgram<
+export type ADTWithMorphsWithProgram<
   E,
   A,
   Tag extends TagsOf<A> & string,
@@ -41,21 +50,39 @@ interface TaggableAsADT<E, A, ProgURI extends ProgramsURI, InterpURI extends Int
   ) => (keys: KeysDefinition<A, Tag>) => ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI>
 }
 
-export type Materialized_<A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI> = Materialized<
-  unknown,
+export type Materialized_<
   A,
-  ProgURI,
-  InterpURI
->
+  ProgURI extends ProgramsURI,
+  InterpURI extends InterpretersURI
+> = Materialized<unknown, A, ProgURI, InterpURI>
 
-export type Materialized<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI> = BuilderAndMorphes<
+export type Materialized<
   E,
   A,
-  InterpURI
-> &
+  ProgURI extends ProgramsURI,
+  InterpURI extends InterpretersURI
+> = BuilderAndMorphes<E, A, InterpURI> &
   Program<E, A>[ProgURI] &
   MonocleFor<A> &
-  TaggableAsADT<E, A, ProgURI, InterpURI>
+  TaggableAsADT<E, A, ProgURI, InterpURI> &
+  InhabitedTypes<E, A>
+
+export interface InhabitedTypes<E, A> {
+  // tslint:disable-next-line: no-unused-expression
+  _E: E
+  // tslint:disable-next-line: no-unused-expression
+  _A: A
+}
+export type AType<X extends InhabitedTypes<any, any>> = X['_A']
+export type EType<X extends InhabitedTypes<any, any>> = X['_E']
+export type ProgramURIOf<X extends Materialized<any, any, any, any>> = X extends Materialized<
+  any,
+  any,
+  infer URI,
+  any
+>
+  ? URI
+  : any
 
 export function materialize<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
   program: Program<E, A>[ProgURI],
@@ -75,21 +102,29 @@ function asADT<E, A, ProgURI extends ProgramsURI, InterpURI extends Interpreters
   return tag => keys =>
     assignCallable(adtByTag<A>()(tag)(keys), {
       ...m,
-      program: m.apply
+      program: (a: any) => (m as any)(a) // we cannot proove here that the `ProgURI` will index `Materialized` on a function call - via `Program<E, A>[ProgURI]`
     })
 }
 
-function withTaggableAndMonocle<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
+function withTaggableAndMonocle<
+  E,
+  A,
+  ProgURI extends ProgramsURI,
+  InterpURI extends InterpretersURI
+>(
   morphes: BuilderAndMorphes<E, A, InterpURI> & Programs<E, A>[ProgURI]
 ): Materialized<E, A, ProgURI, InterpURI> {
   const tagged = <Tag extends TagsOf<A> & string>(tag: Tag) => (
     keys: KeysDefinition<A, Tag>
   ): ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI> => asADT(res)(tag)(keys)
 
-  const res: Materialized<E, A, ProgURI, InterpURI> = assignCallable(morphes, {
-    tagged,
-    ...MonocleFor<A>()
-  })
+  const res: Materialized<E, A, ProgURI, InterpURI> = assignCallable(
+    morphes as typeof morphes & InhabitedTypes<E, A>,
+    {
+      tagged,
+      ...MonocleFor<A>()
+    }
+  )
 
   return res
 }

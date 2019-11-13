@@ -15,8 +15,12 @@ type LenseFromProps<S> = <P extends keyof S>(
 declare type OptionPropertyNames<S> = {
   [K in keyof S]-?: S[K] extends Option<any> ? K : never
 }[keyof S]
-declare type OptionPropertyType<S, K extends OptionPropertyNames<S>> = S[K] extends Option<infer A> ? A : never
-type OptionalFromOptionProp<S> = <P extends OptionPropertyNames<S>>(prop: P) => m.Optional<S, OptionPropertyType<S, P>> //
+declare type OptionPropertyType<S, K extends OptionPropertyNames<S>> = S[K] extends Option<infer A>
+  ? A
+  : never
+type OptionalFromOptionProp<S> = <P extends OptionPropertyNames<S>>(
+  prop: P
+) => m.Optional<S, OptionPropertyType<S, P>> //
 type OptionalFromNullableProp<S> = <K extends keyof S>(k: K) => m.Optional<S, NonNullable<S[K]>>
 type IndexFromAt<T> = <J, B>(at: m.At<T, J, Option<B>>) => m.Index<T, J, B>
 
