@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.3.13
+
+- Bug Fix
+
+  - Fix export (use function and not const)
+
 ## 0.3.12
 
 - Bug Fix
