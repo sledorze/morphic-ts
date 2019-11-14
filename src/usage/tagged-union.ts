@@ -1,10 +1,10 @@
-import { EType, AType, Materialized, ADTExt, InhabitedTypes } from '../../src/usage/materializer'
+import { EType, AType, Materialized, ADTExt, InhabitedTypes } from './materializer'
 import { record } from 'fp-ts'
-import { HKT2 } from '../../src/HKT'
-import { TagsOf } from '../../src/common'
-import { Program, ProgramsURI } from '../../src/usage/programs-hkt'
-import { Algebra } from '../../src/algebras/hkt'
-import { InterpretersURI } from '../../src/usage/interpreters-hkt'
+import { HKT2 } from '../HKT'
+import { TagsOf } from '../common'
+import { Program, ProgramsURI } from './programs-hkt'
+import { Algebra } from '../algebras/hkt'
+import { InterpretersURI } from './interpreters-hkt'
 
 type TaggedUnionProg<E, A, ProgURI extends ProgramsURI> = Program<E, A>[ProgURI] &
   (<G>(a: Algebra<G>['TaggedUnions']) => HKT2<G, E, A>)
