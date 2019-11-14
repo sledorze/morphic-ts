@@ -19,6 +19,11 @@ high state of flux, you're at risk of it changing without notice.
 
   - `program` exposed via `tagged` was not callable
 
+- New Feature
+
+  - `tagged-union` ADT builder
+  - expose ADTExt
+
 ## 0.3.11
 
 - Bug Fix

@@ -36,7 +36,7 @@ function interpreteWithProgram<
     programInterpreter(program as Programs<E, A>[ProgURI])
   ) // this `as` is the White lie to escape complexes types
 }
-export type ADTWithMorphsWithProgram<
+export type ADTExt<
   E,
   A,
   Tag extends TagsOf<A> & string,
@@ -47,7 +47,7 @@ export type ADTWithMorphsWithProgram<
 interface TaggableAsADT<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI> {
   tagged: <Tag extends TagsOf<A> & string>(
     tag: Tag
-  ) => (keys: KeysDefinition<A, Tag>) => ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI>
+  ) => (keys: KeysDefinition<A, Tag>) => ADTExt<E, A, Tag, ProgURI, InterpURI>
 }
 
 export type Materialized_<
@@ -98,7 +98,7 @@ function asADT<E, A, ProgURI extends ProgramsURI, InterpURI extends Interpreters
   m: Materialized<E, A, ProgURI, InterpURI>
 ): <Tag extends TagsOf<A> & string>(
   tag: Tag
-) => (keys: KeysDefinition<A, Tag>) => ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI> {
+) => (keys: KeysDefinition<A, Tag>) => ADTExt<E, A, Tag, ProgURI, InterpURI> {
   return tag => keys =>
     assignCallable(adtByTag<A>()(tag)(keys), {
       ...m,
@@ -116,7 +116,7 @@ function withTaggableAndMonocle<
 ): Materialized<E, A, ProgURI, InterpURI> {
   const tagged = <Tag extends TagsOf<A> & string>(tag: Tag) => (
     keys: KeysDefinition<A, Tag>
-  ): ADTWithMorphsWithProgram<E, A, Tag, ProgURI, InterpURI> => asADT(res)(tag)(keys)
+  ): ADTExt<E, A, Tag, ProgURI, InterpURI> => asADT(res)(tag)(keys)
 
   const res: Materialized<E, A, ProgURI, InterpURI> = assignCallable(
     morphes as typeof morphes & InhabitedTypes<E, A>,
