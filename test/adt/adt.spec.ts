@@ -117,7 +117,9 @@ describe('Builder', () => {
         bar: () => ({ x }) => ({ x: `bar(${x})` })
       })
       const wrongAction = { type: 'unknown' }
-      chai.assert.deepStrictEqual(reduce({ x: '1' }, wrongAction as any), { x: '1' })
+      chai.assert.deepStrictEqual(reduce({ x: '1' }, wrongAction as any), {
+        x: '1'
+      })
     })
 
     it('reduce with default does not change state on unknown Action', () => {
@@ -126,7 +128,9 @@ describe('Builder', () => {
         default: () => ({ x }) => ({ x: `default(${x})` })
       })
       const wrongAction = { type: 'unknown' }
-      chai.assert.deepStrictEqual(reduce({ x: '1' }, wrongAction as any), { x: '1' })
+      chai.assert.deepStrictEqual(reduce({ x: '1' }, wrongAction as any), {
+        x: '1'
+      })
     })
 
     it('reduce without default returns initalState if called with an unknown Action and undefined state', () => {
@@ -135,7 +139,9 @@ describe('Builder', () => {
         bar: () => ({ x }) => ({ x: `bar(${x})` })
       })
       const wrongAction = { type: 'unknown' }
-      chai.assert.deepStrictEqual(reduce(undefined, wrongAction as any), { x: '0' })
+      chai.assert.deepStrictEqual(reduce(undefined, wrongAction as any), {
+        x: '0'
+      })
     })
 
     it('reduce return the previous state', () => {
@@ -177,7 +183,7 @@ describe('Builder', () => {
     it('unionADT', () => {
       const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
       const fooBaz = adtByTag<Foo | Baz>()('type')({ foo: null, baz: null })
-      const fooBarBaz = unionADT(fooBar, fooBaz)
+      const fooBarBaz = unionADT([fooBar, fooBaz])
 
       const reducer = fooBarBaz.createReducer({ tag: '' })({
         foo: _ => _ => ({ tag: 'foo' }),
@@ -246,7 +252,10 @@ describe('Builder', () => {
 
   describe('Monocle', () => {
     it('modify', () => {
-      const fooBarByType = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
+      const fooBarByType = adtByTag<Foo | Bar>()('type')({
+        foo: null,
+        bar: null
+      })
 
       chai.assert.deepStrictEqual(
         fooBarByType('bar')

@@ -16,9 +16,6 @@ interface Summons {
   summon: <A>(F: Prog<unknown, A>) => UM<A>
 }
 
-const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(
-  cacheUnaryFunction,
-  BASTJInterpreter
-) as Summons
+const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, BASTJInterpreter) as Summons
 
 export { summonAs, summonAsA, summonAsL, summon }

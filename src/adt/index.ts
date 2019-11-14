@@ -14,8 +14,12 @@ export interface ADT<A, Tag extends keyof A & string>
     CU.Ctors<A, Tag>,
     M.MonocleFor<A> {
   <Keys extends (A[Tag] & string)[]>(...keys: Keys): ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag>
-  select: <Keys extends (A[Tag] & string)[]>(...keys: Keys) => ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag>
-  exclude: <Keys extends (A[Tag] & string)[]>(...keys: Keys) => ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag>
+  select: <Keys extends (A[Tag] & string)[]>(
+    ...keys: Keys
+  ) => ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag>
+  exclude: <Keys extends (A[Tag] & string)[]>(
+    ...keys: Keys
+  ) => ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag>
   tag: Tag
   keys: KeysDefinition<A, Tag>
 }
@@ -57,10 +61,12 @@ const keepKeys = <A, B, Tag extends (keyof A & keyof B) & string>(
   return res
 }
 
-export const unionADT = <A, B, Tag extends (keyof A & keyof B) & string>(
-  a: ADT<A, Tag>,
-  b: ADT<B, Tag>
-): ADT<A | B, Tag> => adtByTag<A | B>()(a.tag as any)(mergeKeys(a.keys, b.keys))
+export const unionADT = <AS extends [ADT<any, any>, ADT<any, any>, ...Array<ADT<any, any>>]>(
+  as: AS
+): ADT<ADTType<AS[number]>, AS[number]['tag']> => {
+  const newKeys = array.reduceRight(as[0].keys, (x: AS[number], y) => mergeKeys(x.keys, y))(as)
+  return adtByTag<ADTType<AS[number]>>()(as[0].tag)(newKeys as any) as any
+}
 
 export const intersectADT = <A, B, Tag extends (keyof A & keyof B) & string>(
   a: ADT<A, Tag>,
@@ -68,9 +74,13 @@ export const intersectADT = <A, B, Tag extends (keyof A & keyof B) & string>(
 ): ADT<Extract<A, B>, Tag> => adtByTag<Extract<A, B>>()(a.tag as any)(intersectKeys(a.keys, b.keys))
 
 export type KeysDefinition<A, Tag extends keyof A & string> = { [k in A[Tag] & string]: any }
-export const isIn = <A, Tag extends keyof A & string>(keys: KeysDefinition<A, Tag>) => (k: string) => k in keys
+export const isIn = <A, Tag extends keyof A & string>(keys: KeysDefinition<A, Tag>) => (
+  k: string
+) => k in keys
 
-export type ByTag<A> = <Tag extends TagsOf<A> & string>(t: Tag) => (keys: KeysDefinition<A, Tag>) => ADT<A, Tag>
+export type ByTag<A> = <Tag extends TagsOf<A> & string>(
+  t: Tag
+) => (keys: KeysDefinition<A, Tag>) => ADT<A, Tag>
 
 export const adtByTag = <A>(): ByTag<A> => tag => keys => {
   type Tag = typeof tag
@@ -82,12 +92,18 @@ export const adtByTag = <A>(): ByTag<A> => tag => keys => {
   const select = <Keys extends (A[Tag] & string)[]>(
     ...selectedKeys: Keys
   ): ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag> =>
-    adtByTag<ExtractUnion<A, Tag, ElemType<Keys>>>()(tag as any)(keepKeys(keys, selectedKeys) as any)
+    adtByTag<ExtractUnion<A, Tag, ElemType<Keys>>>()(tag as any)(keepKeys(
+      keys,
+      selectedKeys
+    ) as any)
 
   const exclude = <Keys extends (A[Tag] & string)[]>(
     ...excludedKeys: Keys
   ): ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag> =>
-    adtByTag<ExcludeUnion<A, Tag, ElemType<Keys>>>()(tag as any)(excludeKeys(keys, excludedKeys) as any)
+    adtByTag<ExcludeUnion<A, Tag, ElemType<Keys>>>()(tag as any)(excludeKeys(
+      keys,
+      excludedKeys
+    ) as any)
 
   const res: ADT<A, Tag> = assignFunction((...x: any) => select(...x), {
     ...ctors,
