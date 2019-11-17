@@ -14,15 +14,6 @@ export const projectField = <T extends Record<any, Record<any, any>>>(t: T) => <
     [q in keyof T]: T[q][K]
   }
 
-// export const projectFieldApp = <T extends Record<any, Record<any, any>>>(t: T) => <K extends keyof T[keyof T]>(
-//   k: K
-// ): {
-//   [q in keyof T]: ReturnType<T[q][K]>
-// } =>
-//   record.record.map(t, p => p[k]()) as {
-//     [q in keyof T]: T[q][K]
-//   }
-
 export function conjunction<A, B>(...x: [A, B]): A & B
 export function conjunction<A, B, C>(...x: [A, B, C]): A & B & C
 export function conjunction<A, B, C, D>(...x: [A, B, C, D]): A & B & C & D
