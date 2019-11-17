@@ -1,5 +1,7 @@
 import { Option } from 'fp-ts/lib/Option'
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '../HKT'
+import { PrimitiveArrayConfig } from './hkt'
+import { ByInterp, KeepNotUndefined } from '../core'
 
 export type Keys = Record<string, null>
 
@@ -16,7 +18,11 @@ declare module './hkt' {
   interface Algebra2<F extends URIS2> {
     Primitive: ModelAlgebraPrimitive2<F>
   }
+
+  export interface PrimitiveArrayConfig {}
 }
+
+type isOptionalConfig<C, Y, N> = keyof KeepNotUndefined<ByInterp<C, URIS | URIS2>> extends undefined ? Y : N
 
 export interface ModelAlgebraPrimitive<F> {
   date: HKT2<F, string, Date>
@@ -26,8 +32,19 @@ export interface ModelAlgebraPrimitive<F> {
   stringLiteral: <T extends string>(value: T) => HKT2<F, string, typeof value>
   keysOf: <K extends Keys>(keys: K) => HKT2<F, string, keyof typeof keys>
   nullable: <L, A>(T: HKT2<F, L, A>) => HKT2<F, null | L, Option<A>>
-  array: <L, A>(a: HKT2<F, L, A>) => HKT2<F, Array<L>, Array<A>>
+  array: isOptionalConfig<
+    PrimitiveArrayConfig,
+    <L, A>(a: HKT2<F, L, A>, config?: ByInterp<PrimitiveArrayConfig, URIS | URIS2>) => HKT2<F, Array<L>, Array<A>>,
+    <L, A>(a: HKT2<F, L, A>, config: ByInterp<PrimitiveArrayConfig, URIS | URIS2>) => HKT2<F, Array<L>, Array<A>>
+  >
 }
+
+const ddd = <A>(a: A, b: undefined): A => {
+  return a
+}
+
+type DDD<X> = X extends (a: infer A, b: infer B) => infer R ? Parameters X : 'ee'
+type RRr = DDD<typeof ddd>
 
 export interface ModelAlgebraPrimitive1<F extends URIS> {
   date: Kind<F, Date>
@@ -37,7 +54,7 @@ export interface ModelAlgebraPrimitive1<F extends URIS> {
   stringLiteral: <T extends string>(value: T) => Kind<F, typeof value>
   keysOf: <K extends Keys>(keys: K) => Kind<F, keyof typeof keys>
   nullable: <A>(T: Kind<F, A>) => Kind<F, Option<A>>
-  array: <A>(a: Kind<F, A>) => Kind<F, Array<A>>
+  array: <A>(a: Kind<F, A>, config: ByInterp<PrimitiveArrayConfig, F>) => Kind<F, Array<A>>
 }
 
 export interface ModelAlgebraPrimitive2<F extends URIS2> {
@@ -48,5 +65,5 @@ export interface ModelAlgebraPrimitive2<F extends URIS2> {
   stringLiteral: <T extends string>(value: T) => Kind2<F, string, typeof value>
   keysOf: <K extends Keys>(keys: K) => Kind2<F, string, keyof typeof keys>
   nullable: <L, A>(T: Kind2<F, L, A>) => Kind2<F, null | L, Option<A>>
-  array: <L, A>(a: Kind2<F, L, A>) => Kind2<F, Array<L>, Array<A>>
+  array: <L, A>(a: Kind2<F, L, A>, config: ByInterp<PrimitiveArrayConfig, F>) => Kind2<F, Array<L>, Array<A>>
 }

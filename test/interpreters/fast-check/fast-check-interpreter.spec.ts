@@ -23,7 +23,16 @@ describe('FastCheck interpreter', () => {
   })
 
   it('array', () => {
-    testProgram(summon(F => F.array(F.string)))
+    testProgram(summon(F => F.array(F.string, {})))
+  })
+
+  it('array is bounded by config', () => {
+    fc.check(
+      fc.property(
+        summon(F => F.array(F.string, { FastCheckType: { minLength: 2, maxLength: 4 } })).arb,
+        arr => arr.length >= 2 && arr.length <= 4
+      )
+    )
   })
 
   it('interface', () => {

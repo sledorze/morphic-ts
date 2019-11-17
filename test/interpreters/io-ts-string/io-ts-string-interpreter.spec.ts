@@ -49,7 +49,7 @@ describe('IO-TS-String Alt Schema', () => {
   })
 
   it('array', () => {
-    const codec = summonAs(F => F.array(F.string))
+    const codec = summonAs(F => F.array(F.string, {}))
     chai.assert.deepStrictEqual(codec.type.decode(['a', 'b']), right(['a', 'b']))
   })
 

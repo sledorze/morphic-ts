@@ -65,3 +65,24 @@ export type Algebra2<AllAlgebra extends alg.AlgebraURIS, Interp extends URIS2> =
   alg.Algebra2<Interp>[AllAlgebra]
 > &
   InterpreterFor2<Interp>
+
+type Compact<A> = {
+  [K in keyof A]: A[K]
+}
+
+export type KeepNotUndefined<O> = UnionToIntersection<
+  NonNullable<{ [k in keyof O]: undefined extends O[k] ? never : { [x in k]: O[k] } }[keyof O]>
+>
+type KeepOptionalIfUndefined<O> = UnionToIntersection<
+  NonNullable<{ [k in keyof O]: undefined extends O[k] ? { [x in k]?: O[k] } : never }[keyof O]>
+>
+export type OptionalIfUndefined<T> = Compact<KeepNotUndefined<T> & KeepOptionalIfUndefined<T>>
+
+/**
+ * Expose Configuration type for (a) specific interpreter(s) types
+ */
+export type ByInterp<Config, Interp extends URIS | URIS2> = OptionalIfUndefined<
+  {
+    [I in Interp]: I extends keyof Config ? Config[I] : undefined
+  }
+>

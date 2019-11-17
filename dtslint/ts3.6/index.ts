@@ -1,4 +1,5 @@
 import { Remove, ElemType, IfStringLiteral } from '../../src/common/index'
+import { OptionalIfUndefined } from '../../src/core'
 import { ADT, unionADT, intersectADT } from '../../src/adt'
 
 type IsLiteralA = IfStringLiteral<'a', 'ok', 'string', 'notString'> // $ExpectType "ok"
@@ -39,3 +40,6 @@ const unionADTRes = unionADT([ADTFoo01, ADTFoo12]) // $ExpectType ADT<ADTFoo0 | 
 const unionADTRes2 = unionADT([ADTFoo0, ADTFoo1, ADTFoo2]) // $ExpectType ADT<ADTFoo0 | ADTFoo1 | ADTFoo2, "type">
 
 const intersectADTRes = intersectADT(ADTFoo01, ADTFoo12) // $ExpectType ADT<ADTFoo1, "type">
+
+// tslint:disable-next-line: max-line-length
+type E = OptionalIfUndefined<{ x: string; y: string | undefined; z?: string; q?: string }> // $ExpectType Compact<{ x: string; } & { y?: string | undefined; } & { z?: string | undefined; } & { q?: string | undefined; }>

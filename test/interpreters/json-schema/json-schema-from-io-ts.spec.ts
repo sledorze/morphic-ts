@@ -88,7 +88,8 @@ describe('a json schema generator', function(this: any) {
         arr: F.array(
           F.interface({
             x: F.string
-          })
+          }),
+          {}
         )
       })
     )
@@ -257,7 +258,7 @@ describe('a json schema generator', function(this: any) {
   it('does not work with OptionFromNullable in Array!', () => {
     const decoder = summon(F =>
       F.interface({
-        as: F.array(F.nullable(F.string))
+        as: F.array(F.nullable(F.string), {})
       })
     )
 

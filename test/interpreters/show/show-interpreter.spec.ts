@@ -37,7 +37,8 @@ describe('Show', () => {
         dates: F.array(
           F.interface({
             date: F.date
-          })
+          }),
+          {}
         ),
         a: F.string
       })

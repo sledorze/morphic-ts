@@ -46,7 +46,7 @@ describe('Builder', () => {
       a: string
     }
 
-    const Foo = summon<Foo>(F =>
+    const Foo = summon(F =>
       F.interface({
         dates: F.array(Nested(F)),
         a: F.string

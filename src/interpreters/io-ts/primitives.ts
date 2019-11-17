@@ -4,6 +4,10 @@ import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 import { IOTSType, URI } from '.'
 import { ModelAlgebraPrimitive1 } from '../../algebras/primitives'
 
+declare module '../../algebras/hkt' {
+  interface PrimitiveArrayConfig {}
+}
+
 export const ioTsPrimitiveInterpreter: ModelAlgebraPrimitive1<URI> = {
   date: new IOTSType(DateFromISOString),
   boolean: new IOTSType(t.boolean),
