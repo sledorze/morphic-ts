@@ -37,7 +37,12 @@ describe('Ord', () => {
   })
 
   it('can compare set', () => {
-    const Foo = defineAs(F => F.set(F.date, ord.contramap(ordNumber, (d: Date) => d.getTime())))
+    const Foo = defineAs(F =>
+      F.set(
+        F.date,
+        ord.contramap(ordNumber, (d: Date) => d.getTime())
+      )
+    )
 
     const FooOrd = Foo(ordInterpreter)
 
