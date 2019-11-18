@@ -1,12 +1,11 @@
-import { JsonSchema, URI } from '.'
+import { JsonSchema, URI, JsonSchemaError } from '.'
 import { ModelAlgebraRecursive1 } from '../../algebras/recursive'
-import { StringTypeCtor } from '../../json-schema/json-schema-ctors'
-import { right } from 'fp-ts/lib/Either'
+import { left } from 'fp-ts/lib/Either'
 
 // FIXME: Create a reference JsonSchema => "$ref": "#/definitions/MySchemaRef" <- Track down how to do that!
 export const jsonSchemaRecursiveInterpreter: ModelAlgebraRecursive1<URI> = {
   recursive: <A>(a: (x: JsonSchema<A>) => JsonSchema<A>) => {
-    return a(new JsonSchema(right(StringTypeCtor())))
+    return a(new JsonSchema(left([JsonSchemaError('Recursivity not yet supported (W.I.P.)')]))) // right(StringTypeCtor())))
     // let cache: null | OptionalJSONSchema = null
     // return new JsonSchema(() => {
     //   if (cache === null) {

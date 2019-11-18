@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.3.16
+
+- New Feature
+
+  - support to implement interpreter specific Configs
+
 ## 0.3.15
 
 - New Feature

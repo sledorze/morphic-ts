@@ -9,7 +9,7 @@ describe('a json schema generator', function(this: any) {
   it('generate an interface from a io-ts interface', () => {
     const decoder = summon(F =>
       F.interface({
-        toto: F.number
+        toto: F.number()
       })
     )
 
@@ -32,7 +32,7 @@ describe('a json schema generator', function(this: any) {
   it('generate an interface from a partial', () => {
     const decoder = summon(F =>
       F.partial({
-        toto: F.number
+        toto: F.number()
       })
     )
 
@@ -55,10 +55,10 @@ describe('a json schema generator', function(this: any) {
     const decoder = summon(F =>
       F.intersection([
         F.partial({
-          toto: F.number
+          toto: F.number()
         }),
         F.interface({
-          tata: F.number
+          tata: F.number()
         })
       ])
     )
@@ -87,7 +87,7 @@ describe('a json schema generator', function(this: any) {
       F.interface({
         arr: F.array(
           F.interface({
-            x: F.string
+            x: F.string()
           }),
           {}
         )
@@ -125,10 +125,10 @@ describe('a json schema generator', function(this: any) {
       F.intersection(
         [
           F.interface({
-            a: F.string
+            a: F.string()
           }),
           F.interface({
-            b: F.number
+            b: F.number()
           })
         ]
         // 'Toto'
@@ -159,13 +159,13 @@ describe('a json schema generator', function(this: any) {
       F.intersection([
         F.interface(
           {
-            a: F.string
+            a: F.string()
           }
           // 'Toto'
         ),
         F.interface(
           {
-            b: F.number
+            b: F.number()
           }
           // 'Tata'
         )
@@ -196,12 +196,12 @@ describe('a json schema generator', function(this: any) {
       F.intersection([
         F.interface(
           {
-            a: F.string
+            a: F.string()
           }
           // 'Toto'
         ),
         F.interface({
-          b: F.number
+          b: F.number()
         })
       ])
     )
@@ -229,8 +229,8 @@ describe('a json schema generator', function(this: any) {
     const decoder = summon(F =>
       F.interface(
         {
-          a: F.nullable(F.string),
-          b: F.string
+          a: F.nullable(F.string()),
+          b: F.string()
         }
         // 'Toto'
       )
@@ -258,7 +258,7 @@ describe('a json schema generator', function(this: any) {
   it('does not work with OptionFromNullable in Array!', () => {
     const decoder = summon(F =>
       F.interface({
-        as: F.array(F.nullable(F.string), {})
+        as: F.array(F.nullable(F.string()), {})
       })
     )
 

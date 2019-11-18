@@ -81,8 +81,14 @@ export type OptionalIfUndefined<T> = Compact<KeepNotUndefined<T> & KeepOptionalI
 /**
  * Expose Configuration type for (a) specific interpreter(s) types
  */
-export type ByInterp<Config, Interp extends URIS | URIS2> = OptionalIfUndefined<
-  {
-    [I in Interp]: I extends keyof Config ? Config[I] : undefined
-  }
+export type ByInterp<Config, Interp extends URIS | URIS2> = MaybeUndefinedIfOptional<
+  OptionalIfUndefined<
+    {
+      [I in Interp]: I extends keyof Config ? Config[I] : undefined
+    }
+  >
 >
+
+export type MaybeUndefinedIfOptional<X> = keyof KeepNotUndefined<X> extends never ? X | undefined : X
+
+export type isOptionalConfig<C, Y, N> = keyof KeepNotUndefined<ByInterp<C, URIS | URIS2>> extends never ? Y : N

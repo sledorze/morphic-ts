@@ -22,7 +22,7 @@ export const defineAs = <A>(program: Program<A>): typeof program => cacheUnaryFu
 
 describe('Ord', () => {
   it('returns true or false when comparing values for equality', () => {
-    const Foo = defineAs(F => F.date)
+    const Foo = defineAs(F => F.date())
 
     const { ord } = Foo(ordInterpreter)
 
@@ -39,7 +39,7 @@ describe('Ord', () => {
   it('can compare set', () => {
     const Foo = defineAs(F =>
       F.set(
-        F.date,
+        F.date(),
         ord.contramap(ordNumber, (d: Date) => d.getTime())
       )
     )

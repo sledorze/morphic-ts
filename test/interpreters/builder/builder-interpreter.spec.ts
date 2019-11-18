@@ -11,8 +11,8 @@ describe('Builder', () => {
 
     const Foo = summon<Foo>(F =>
       F.interface({
-        date: F.date,
-        a: F.string
+        date: F.date(),
+        a: F.string()
       })
     )
 
@@ -26,7 +26,7 @@ describe('Builder', () => {
   })
 
   it('nullable', () => {
-    const { build } = summon(F => F.nullable(F.string))
+    const { build } = summon(F => F.nullable(F.string()))
     chai.assert.deepStrictEqual(build(some('a')), some('a'))
     chai.assert.deepStrictEqual(build(none), none)
   })
@@ -37,7 +37,7 @@ describe('Builder', () => {
     }
     const Nested = summon<Nested>(F =>
       F.interface({
-        date: F.date
+        date: F.date()
       })
     )
 
@@ -49,7 +49,7 @@ describe('Builder', () => {
     const Foo = summon(F =>
       F.interface({
         dates: F.array(Nested(F)),
-        a: F.string
+        a: F.string()
       })
     )
 

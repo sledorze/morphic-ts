@@ -20,7 +20,7 @@ import { summonAs, summonAsA, summon, M } from '../../../src/utils/summoner'
 describe('IO-TS-String Alt Schema', () => {
   it('string', () => {
     // Definition
-    const codec = summonAs(F => F.string).type
+    const codec = summonAs(F => F.string()).type
     chai.assert.deepStrictEqual(codec.decode('b'), right('b'))
   })
 
@@ -41,7 +41,7 @@ describe('IO-TS-String Alt Schema', () => {
   })
 
   it('nullable', () => {
-    const codec = summonAs(F => F.nullable(F.string)).type
+    const codec = summonAs(F => F.nullable(F.string())).type
 
     chai.assert.deepStrictEqual(codec.decode('a'), right(some('a')))
     chai.assert.deepStrictEqual(codec.decode(null), right(none))
@@ -49,7 +49,7 @@ describe('IO-TS-String Alt Schema', () => {
   })
 
   it('array', () => {
-    const codec = summonAs(F => F.array(F.string, {}))
+    const codec = summonAs(F => F.array(F.string(), {}))
     chai.assert.deepStrictEqual(codec.type.decode(['a', 'b']), right(['a', 'b']))
   })
 
@@ -58,8 +58,8 @@ describe('IO-TS-String Alt Schema', () => {
 
     const codec = summonAs(F =>
       F.partial({
-        a: F.string,
-        b: F.number
+        a: F.string(),
+        b: F.number()
       })
     )
 
@@ -73,8 +73,8 @@ describe('IO-TS-String Alt Schema', () => {
     // type Foo
     const Foo = summonAs(F =>
       F.interface({
-        a: F.string,
-        b: F.number
+        a: F.string(),
+        b: F.number()
       })
     )
 
@@ -82,7 +82,7 @@ describe('IO-TS-String Alt Schema', () => {
     const Bar = summonAs<Bar, Bar>(F =>
       F.interface({
         a: Foo(F),
-        b: F.number
+        b: F.number()
       })
     )
 
@@ -115,8 +115,8 @@ describe('IO-TS-String Alt Schema', () => {
     // type Foo
     const Foo = summonAsA<Foo>()(F =>
       F.interface({
-        date: F.date,
-        a: F.string
+        date: F.date(),
+        a: F.string()
       })
     )
 
@@ -135,15 +135,15 @@ describe('IO-TS-String Alt Schema', () => {
     // type Foo
     const Foo = summonAs(F =>
       F.interface({
-        a: F.string,
-        b: F.number
+        a: F.string(),
+        b: F.number()
       })
     )
 
     const Bar = summonAs(F =>
       F.interface({
-        c: F.string,
-        d: F.number
+        c: F.string(),
+        d: F.number()
       })
     )
 
@@ -165,8 +165,8 @@ describe('IO-TS-String Alt Schema', () => {
     }
     const Foo = summonAs(F =>
       F.interface({
-        a: F.string,
-        b: F.number
+        a: F.string(),
+        b: F.number()
       })
     )
 
@@ -176,8 +176,8 @@ describe('IO-TS-String Alt Schema', () => {
     }
     const Bar = summonAs(F =>
       F.interface({
-        c: F.string,
-        d: F.number
+        c: F.string(),
+        d: F.number()
       })
     )
 
@@ -200,8 +200,8 @@ describe('IO-TS-String Alt Schema', () => {
     const Foo = summon<Foo>(F =>
       F.interface({
         type: F.stringLiteral('foo1'),
-        a: F.string,
-        b: F.number
+        a: F.string(),
+        b: F.number()
       })
     )
 
@@ -213,8 +213,8 @@ describe('IO-TS-String Alt Schema', () => {
     const Bar = summon<Bar>(F =>
       F.interface({
         type: F.stringLiteral('bar1'),
-        c: F.string,
-        d: F.number
+        c: F.string(),
+        d: F.number()
       })
     )
 
@@ -242,14 +242,14 @@ describe('IO-TS-String Alt Schema', () => {
     const Foo = summonAs(F =>
       F.interface({
         type: F.stringLiteral('foo2'),
-        a: F.string
+        a: F.string()
       })
     )
 
     const Baz = summonAs(F =>
       F.interface({
         type: F.stringLiteral('baz2'),
-        b: F.number
+        b: F.number()
       })
     )
 
@@ -272,16 +272,16 @@ describe('IO-TS-String Alt Schema', () => {
   it('set from array', () => {
     const InterfA = summonAs(F =>
       F.interface({
-        a: F.string
+        a: F.string()
       })
     )
 
     summonAs(F =>
       F.interface({
-        a: F.string,
+        a: F.string(),
         b: F.array(
           F.interface({
-            x: F.nullable(F.string)
+            x: F.nullable(F.string())
           })
         )
       })
@@ -320,14 +320,14 @@ describe('iotsObjectInterpreter', () => {
 
   const model = define2(F =>
     F.interface({
-      a: F.string,
-      b: F.number
+      a: F.string(),
+      b: F.number()
     })
   )
   const partialModel = define2(F =>
     F.partial({
-      a: F.string,
-      b: F.number
+      a: F.string(),
+      b: F.number()
     })
   )
 
@@ -371,7 +371,7 @@ describe('iotsObjectInterpreter', () => {
           nbRecEvals += 1
           return F.taggedUnion('type', {
             node: F.interface({ type: F.stringLiteral('node'), a: Tree, b: Tree }),
-            leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string })
+            leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string() })
           })
         })
         return res
@@ -410,7 +410,7 @@ describe('iotsObjectInterpreter', () => {
         return GTree
       }
 
-      const numberValue = summonAs(F => F.number)
+      const numberValue = summonAs(F => F.number())
 
       const { type } = getTree(numberValue)
       chai.assert.deepStrictEqual(type.is({ type: 'leaf', v: 0 }), true)

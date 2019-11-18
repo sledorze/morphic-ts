@@ -6,8 +6,8 @@ describe('Show', () => {
   it('returns false when comparing incomplete values', () => {
     const Foo = summonAs(F =>
       F.interface({
-        date: F.date,
-        a: F.string
+        date: F.date(),
+        a: F.string()
       })
     )
 
@@ -20,8 +20,8 @@ describe('Show', () => {
   it('show', () => {
     const Foo = summonAs(F =>
       F.interface({
-        date: F.date,
-        a: F.string
+        date: F.date(),
+        a: F.string()
       })
     )
 
@@ -36,11 +36,11 @@ describe('Show', () => {
       F.interface({
         dates: F.array(
           F.interface({
-            date: F.date
+            date: F.date()
           }),
           {}
         ),
-        a: F.string
+        a: F.string()
       })
     )
 
@@ -68,8 +68,8 @@ describe('Show', () => {
     const Foo = summonAs(F =>
       F.partial({
         type: F.stringLiteral('foo'),
-        a: F.string,
-        b: F.number
+        a: F.string(),
+        b: F.number()
       })
     )
 
@@ -94,8 +94,8 @@ describe('Show', () => {
     const Foo = summonAs<FooRaw, Foo>(F =>
       F.interface({
         type: F.stringLiteral('foo'),
-        a: F.string,
-        b: F.number
+        a: F.string(),
+        b: F.number()
       })
     )
 
@@ -107,8 +107,8 @@ describe('Show', () => {
     const Bar = summon<Bar>(F =>
       F.interface({
         type: F.stringLiteral('bar'),
-        c: F.string,
-        d: F.number
+        c: F.string(),
+        d: F.number()
       })
     )
 
