@@ -4,8 +4,7 @@ import { Arbitrary } from 'fast-check/*'
 import { fastCheckInterpreter } from '../../src/interpreters/fast-check/interpreters'
 
 import { Type } from 'io-ts'
-import { ioTsNonStrict } from '../../src/interpreters/io-ts/interpreters'
-import { ioTsStringNonStrict } from '../../src/interpreters/io-ts-string/interpreters'
+import { ioTsStrict, ioTsNonStrict } from '../../src/interpreters/io-ts/interpreters'
 
 import { JSONSchema } from '../../src/json-schema/json-schema'
 import { jsonSchemaInterpreter } from '../../src/interpreters/json-schema/interpreters'
@@ -19,7 +18,7 @@ import { JsonSchemaError } from '../interpreters/json-schema'
 interface BASTJInterpreter<E, A> {
   arb: Arbitrary<A>
   strictType: Type<A, unknown, unknown>
-  type: Type<A, E, unknown>
+  type: Type<A, unknown, unknown>
   jsonSchema: Either<NonEmptyArray<JsonSchemaError>, JSONSchema>
 }
 
@@ -33,7 +32,7 @@ declare module '../../src/usage/interpreters-hkt' {
 export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpreterURI> = program => ({
   build: program(builderInterpreter).build,
   arb: program(fastCheckInterpreter).arb,
-  strictType: program(ioTsNonStrict).type,
-  type: program(ioTsStringNonStrict).type,
+  strictType: program(ioTsStrict).type,
+  type: program(ioTsNonStrict).type,
   jsonSchema: either.map(program(jsonSchemaInterpreter).schema, s => s.json)
 })

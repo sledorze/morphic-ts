@@ -4,14 +4,14 @@ import { ModelAlgebraObject2, PropsKind2 } from '../../algebras/object'
 import { projectField } from '../../utils'
 
 export const ioTsStringNonStrictObjectInterpreter: ModelAlgebraObject2<URI> = {
-  interface: <PropsE, PropsA>(props: PropsKind2<URI, PropsE, PropsA>) => {
+  interface: <PropsE, PropsA>(props: PropsKind2<URI, PropsE, PropsA>, name: string) => {
     const typeProps = projectField(props)('type')
-    const interfaceType: t.InterfaceType<typeof typeProps> = t.type(typeProps)
+    const interfaceType: t.InterfaceType<typeof typeProps> = t.type(typeProps, name)
     return new IOTSStringType<PropsE, PropsA>(interfaceType)
   },
-  partial: <PropsE, PropsA>(props: PropsKind2<URI, PropsE, PropsA>) => {
+  partial: <PropsE, PropsA>(props: PropsKind2<URI, PropsE, PropsA>, name: string) => {
     const typeProps = projectField(props)('type')
-    const interfaceType: t.PartialType<typeof typeProps> = t.partial(typeProps)
+    const interfaceType: t.PartialType<typeof typeProps> = t.partial(typeProps, name)
     return new IOTSStringType<Partial<PropsE>, Partial<PropsA>>(interfaceType)
   }
 }

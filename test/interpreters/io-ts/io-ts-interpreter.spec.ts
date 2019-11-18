@@ -3,13 +3,7 @@ import { ordString, ord, Ord } from 'fp-ts/lib/Ord'
 import { fromArray } from 'fp-ts/lib/Set'
 import { right, isLeft } from 'fp-ts/lib/Either'
 
-import { ModelAlgebraPrimitive1 } from '../../../src/algebras/primitives'
-import { ModelAlgebraObject1 } from '../../../src/algebras/object'
-import { Kind, URIS } from '../../../src/HKT'
 import { some, none } from 'fp-ts/lib/Option'
-import { merge } from '../../../src/utils'
-import { ioTsStrict, ioTsNonStrictObjectInterpreter } from '../../../src/interpreters/io-ts/interpreters'
-import { ioTsPrimitiveInterpreter } from '../../../src/interpreters/io-ts/primitives'
 import { GTree, Tree } from '../../utils/tree'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
@@ -56,10 +50,13 @@ describe('IO-TS Alt Schema', () => {
     // Definition
 
     const codec = summonAs(F =>
-      F.partial({
-        a: F.string(),
-        b: F.number()
-      })
+      F.partial(
+        {
+          a: F.string(),
+          b: F.number()
+        },
+        'Codec'
+      )
     )
 
     chai.assert.deepStrictEqual(codec.type.decode({ a: 'a', b: 1 }), right({ a: 'a', b: 1 }))
@@ -71,18 +68,24 @@ describe('IO-TS Alt Schema', () => {
   it('compose', () => {
     // type Foo
     const Foo = summonAs(F =>
-      F.interface({
-        a: F.string(),
-        b: F.number()
-      })
+      F.interface(
+        {
+          a: F.string(),
+          b: F.number()
+        },
+        'Foo'
+      )
     )
 
     // type Bar
     const Bar = summonAsA<Bar>()(F =>
-      F.interface({
-        a: Foo(F),
-        b: F.number()
-      })
+      F.interface(
+        {
+          a: Foo(F),
+          b: F.number()
+        },
+        'Bar'
+      )
     )
 
     interface Bar {
@@ -113,10 +116,13 @@ describe('IO-TS Alt Schema', () => {
   it('date', () => {
     // type Foo
     const Foo = summonAsA<Foo>()(F =>
-      F.interface({
-        date: F.date(),
-        a: F.string()
-      })
+      F.interface(
+        {
+          date: F.date(),
+          a: F.string()
+        },
+        'Foo'
+      )
     )
 
     interface Foo {
@@ -133,20 +139,26 @@ describe('IO-TS Alt Schema', () => {
   it('intersection', () => {
     // type Foo
     const Foo = summonAs(F =>
-      F.interface({
-        a: F.string(),
-        b: F.number()
-      })
+      F.interface(
+        {
+          a: F.string(),
+          b: F.number()
+        },
+        'Foo'
+      )
     )
 
     const Bar = summonAs(F =>
-      F.interface({
-        c: F.string(),
-        d: F.number()
-      })
+      F.interface(
+        {
+          c: F.string(),
+          d: F.number()
+        },
+        'Bar'
+      )
     )
 
-    const FooBar = summonAs(F => F.intersection([Foo(F), Bar(F)]))
+    const FooBar = summonAs(F => F.intersection([Foo(F), Bar(F)], 'FooBar'))
 
     const codec = FooBar
 
@@ -163,10 +175,13 @@ describe('IO-TS Alt Schema', () => {
       b: number
     }
     const Foo = summonAs(F =>
-      F.interface({
-        a: F.string(),
-        b: F.number()
-      })
+      F.interface(
+        {
+          a: F.string(),
+          b: F.number()
+        },
+        'Foo'
+      )
     )
 
     interface Bar {
@@ -174,13 +189,16 @@ describe('IO-TS Alt Schema', () => {
       d: number
     }
     const Bar = summonAs(F =>
-      F.interface({
-        c: F.string(),
-        d: F.number()
-      })
+      F.interface(
+        {
+          c: F.string(),
+          d: F.number()
+        },
+        'Bar'
+      )
     )
 
-    const FooBar = summonAs(F => F.union([Foo(F), Bar(F)]))
+    const FooBar = summonAs(F => F.union([Foo(F), Bar(F)], 'FooBar'))
 
     const codec = FooBar
 
@@ -197,11 +215,14 @@ describe('IO-TS Alt Schema', () => {
       b: number
     }
     const Foo = summonAsA<Foo>()(F =>
-      F.interface({
-        type: F.stringLiteral('foo1'),
-        a: F.string(),
-        b: F.number()
-      })
+      F.interface(
+        {
+          type: F.stringLiteral('foo1'),
+          a: F.string(),
+          b: F.number()
+        },
+        'Foo'
+      )
     )
 
     interface Bar {
@@ -210,18 +231,25 @@ describe('IO-TS Alt Schema', () => {
       d: number
     }
     const Bar = summonAsA<Bar>()(F =>
-      F.interface({
-        type: F.stringLiteral('bar1'),
-        c: F.string(),
-        d: F.number()
-      })
+      F.interface(
+        {
+          type: F.stringLiteral('bar1'),
+          c: F.string(),
+          d: F.number()
+        },
+        'Bar'
+      )
     )
 
     const FooBar = summonAs(F =>
-      F.taggedUnion('type', {
-        foo1: Foo(F),
-        bar1: Bar(F)
-      })
+      F.taggedUnion(
+        'type',
+        {
+          foo1: Foo(F),
+          bar1: Bar(F)
+        },
+        'FooBar'
+      )
     )
 
     const codec = FooBar
@@ -239,24 +267,34 @@ describe('IO-TS Alt Schema', () => {
 
   it('taggedUnion', () => {
     const Foo = summonAs(F =>
-      F.interface({
-        type: F.stringLiteral('foo2'),
-        a: F.string()
-      })
+      F.interface(
+        {
+          type: F.stringLiteral('foo2'),
+          a: F.string()
+        },
+        'Foo'
+      )
     )
 
     const Baz = summonAs(F =>
-      F.interface({
-        type: F.stringLiteral('baz2'),
-        b: F.number()
-      })
+      F.interface(
+        {
+          type: F.stringLiteral('baz2'),
+          b: F.number()
+        },
+        'Bar'
+      )
     )
 
     const FooBar = summonAs(F =>
-      F.taggedUnion('type', {
-        foo2: Foo(F),
-        baz2: Baz(F)
-      })
+      F.taggedUnion(
+        'type',
+        {
+          foo2: Foo(F),
+          baz2: Baz(F)
+        },
+        'FooBar'
+      )
     )
 
     const decoder = FooBar.type
@@ -270,21 +308,30 @@ describe('IO-TS Alt Schema', () => {
 
   it('set from array', () => {
     const InterfA = summonAs(F =>
-      F.interface({
-        a: F.string()
-      })
+      F.interface(
+        {
+          a: F.string()
+        },
+        'InterfA'
+      )
     )
 
     summonAs(F =>
-      F.interface({
-        a: F.string(),
-        b: F.array(
-          F.interface({
-            x: F.nullable(F.string())
-          }),
-          {}
-        )
-      })
+      F.interface(
+        {
+          a: F.string(),
+          b: F.array(
+            F.interface(
+              {
+                x: F.nullable(F.string())
+              },
+              'X'
+            ),
+            {}
+          )
+        },
+        'AB'
+      )
     )
 
     type AType = ReturnType<typeof InterfA.build>
@@ -314,49 +361,43 @@ describe('IO-TS Alt Schema', () => {
 })
 
 describe('iotsObjectInterpreter', () => {
-  const define2 = <A>(
-    program: <F extends URIS = never>(F: ModelAlgebraPrimitive1<F> & ModelAlgebraObject1<F>) => Kind<F, A>
-  ): typeof program => program as any
-
-  const model = define2(F =>
-    F.interface({
-      a: F.string(),
-      b: F.number()
-    })
+  const model = summonAs(F =>
+    F.interface(
+      {
+        a: F.string(),
+        b: F.number()
+      },
+      'AB'
+    )
   )
-  const partialModel = define2(F =>
-    F.partial({
-      a: F.string(),
-      b: F.number()
-    })
+  const partialModel = summonAs(F =>
+    F.partial(
+      {
+        a: F.string(),
+        b: F.number()
+      },
+      'AB'
+    )
   )
 
   const valueWithExtras = { a: 'a', b: 12, c: 33 }
   const valueWithoutExtras = { a: 'a', b: 12 }
 
   describe('ioTsStrictObjectInterpreter', () => {
-    const strictInterpreter = merge(ioTsStrict, ioTsPrimitiveInterpreter)
-
     it('interface does not keep extra values', () => {
-      const codec = model<'IOTSType'>(strictInterpreter)
-      chai.assert.deepStrictEqual(codec.type.decode(valueWithExtras), right(valueWithoutExtras))
+      chai.assert.deepStrictEqual(model.strictType.decode(valueWithExtras), right(valueWithoutExtras))
     })
     it('partial does not keep extra values', () => {
-      const codec = partialModel<'IOTSType'>(strictInterpreter)
-      chai.assert.deepStrictEqual(codec.type.decode(valueWithExtras), right(valueWithoutExtras))
+      chai.assert.deepStrictEqual(partialModel.strictType.decode(valueWithExtras), right(valueWithoutExtras))
     })
   })
 
   describe('ioTsNonStrictObjectInterpreter', () => {
-    const nonStrictInterpreter = merge(ioTsNonStrictObjectInterpreter, ioTsPrimitiveInterpreter)
-
     it('interface keeps extra values', () => {
-      const codec = model<'IOTSType'>(nonStrictInterpreter)
-      chai.assert.deepStrictEqual(codec.type.decode(valueWithExtras), right(valueWithExtras))
+      chai.assert.deepStrictEqual(model.type.decode(valueWithExtras), right(valueWithExtras))
     })
     it('partial keeps extra values', () => {
-      const codec = partialModel<'IOTSType'>(nonStrictInterpreter)
-      chai.assert.deepStrictEqual(codec.type.decode(valueWithExtras), right(valueWithExtras))
+      chai.assert.deepStrictEqual(model.type.decode(valueWithExtras), right(valueWithExtras))
     })
   })
 
@@ -369,10 +410,14 @@ describe('iotsObjectInterpreter', () => {
         nbEvals += 1
         return F.recursive(Tree => {
           nbRecEvals += 1
-          return F.taggedUnion('type', {
-            node: F.interface({ type: F.stringLiteral('node'), a: Tree, b: Tree }),
-            leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string() })
-          })
+          return F.taggedUnion(
+            'type',
+            {
+              node: F.interface({ type: F.stringLiteral('node'), a: Tree, b: Tree }, 'Node'),
+              leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string() }, 'Leaf')
+            },
+            'Tree'
+          )
         })
       })
 
@@ -399,10 +444,14 @@ describe('iotsObjectInterpreter', () => {
           nbEvals += 1
           return F.recursive(GTree => {
             nbRecEvals += 1
-            return F.taggedUnion('type', {
-              node: F.interface({ type: F.stringLiteral('node'), a: GTree, b: GTree }),
-              leaf: F.interface({ type: F.stringLiteral('leaf'), v: LeafValue(F) })
-            })
+            return F.taggedUnion(
+              'type',
+              {
+                node: F.interface({ type: F.stringLiteral('node'), a: GTree, b: GTree }, 'Node'),
+                leaf: F.interface({ type: F.stringLiteral('leaf'), v: LeafValue(F) }, 'Leaf')
+              },
+              'Tree'
+            )
           })
         })
         return GTree

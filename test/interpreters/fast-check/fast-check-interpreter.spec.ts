@@ -58,10 +58,13 @@ describe('FastCheck interpreter', () => {
   it('interface', () => {
     testProgram(
       summon(F =>
-        F.interface({
-          a: F.string(),
-          b: F.number()
-        })
+        F.interface(
+          {
+            a: F.string(),
+            b: F.number()
+          },
+          'AB'
+        )
       )
     )
   })
@@ -69,10 +72,13 @@ describe('FastCheck interpreter', () => {
   it('partial', () => {
     testProgram(
       summon(F =>
-        F.partial({
-          a: F.string(),
-          b: F.number()
-        })
+        F.partial(
+          {
+            a: F.string(),
+            b: F.number()
+          },
+          'AB'
+        )
       )
     )
   })
@@ -80,18 +86,24 @@ describe('FastCheck interpreter', () => {
   it('compose', () => {
     // type Foo
     const Foo = summon(F =>
-      F.interface({
-        a: F.string(),
-        b: F.number()
-      })
+      F.interface(
+        {
+          a: F.string(),
+          b: F.number()
+        },
+        'Foo'
+      )
     )
 
     // type Bar
     const Bar = summon<BarType>(F =>
-      F.interface({
-        a: Foo(F),
-        b: F.number()
-      })
+      F.interface(
+        {
+          a: Foo(F),
+          b: F.number()
+        },
+        'Bar'
+      )
     )
     interface BarType {
       a: {
@@ -107,10 +119,13 @@ describe('FastCheck interpreter', () => {
   it('date', () => {
     // type Foo
     const Foo = summon<Foo>(F =>
-      F.interface({
-        date: F.date(),
-        a: F.string()
-      })
+      F.interface(
+        {
+          date: F.date(),
+          a: F.string()
+        },
+        'Foo'
+      )
     )
 
     interface Foo {
@@ -124,20 +139,26 @@ describe('FastCheck interpreter', () => {
   it('intersection', () => {
     // type Foo
     const Foo = summon(F =>
-      F.interface({
-        a: F.string(),
-        b: F.number()
-      })
+      F.interface(
+        {
+          a: F.string(),
+          b: F.number()
+        },
+        'Foo'
+      )
     )
 
     const Bar = summon(F =>
-      F.interface({
-        c: F.string(),
-        d: F.number()
-      })
+      F.interface(
+        {
+          c: F.string(),
+          d: F.number()
+        },
+        'Bar'
+      )
     )
 
-    const FooBar = summon(F => F.intersection([Foo(F), Bar(F)]))
+    const FooBar = summon(F => F.intersection([Foo(F), Bar(F)], 'FooBar'))
 
     testProgram(FooBar)
   })
@@ -149,10 +170,13 @@ describe('FastCheck interpreter', () => {
       b: number
     }
     const Foo = summon(F =>
-      F.interface({
-        a: F.string(),
-        b: F.number()
-      })
+      F.interface(
+        {
+          a: F.string(),
+          b: F.number()
+        },
+        'Foo'
+      )
     )
 
     interface Bar {
@@ -160,25 +184,34 @@ describe('FastCheck interpreter', () => {
       d: number
     }
     const Bar = summon(F =>
-      F.interface({
-        c: F.string(),
-        d: F.number()
-      })
+      F.interface(
+        {
+          c: F.string(),
+          d: F.number()
+        },
+        'Bar'
+      )
     )
     const Bara = summon(F =>
-      F.interface({
-        ca: F.string(),
-        d: F.number()
-      })
+      F.interface(
+        {
+          ca: F.string(),
+          d: F.number()
+        },
+        'Bara'
+      )
     )
     const Barb = summon(F =>
-      F.interface({
-        cb: F.string(),
-        d: F.number()
-      })
+      F.interface(
+        {
+          cb: F.string(),
+          d: F.number()
+        },
+        'Barb'
+      )
     )
 
-    const FooBar = summon(F => F.union([Foo(F), Bar(F), Bara(F), Barb(F)]))
+    const FooBar = summon(F => F.union([Foo(F), Bar(F), Bara(F), Barb(F)], 'FooBar'))
 
     testProgram(FooBar)
   })
@@ -191,11 +224,14 @@ describe('FastCheck interpreter', () => {
       b: number
     }
     const Foo = summon<Foo>(F =>
-      F.interface({
-        type: F.stringLiteral('foo'),
-        a: F.string(),
-        b: F.number()
-      })
+      F.interface(
+        {
+          type: F.stringLiteral('foo'),
+          a: F.string(),
+          b: F.number()
+        },
+        'Foo'
+      )
     )
 
     interface Bar {
@@ -204,18 +240,25 @@ describe('FastCheck interpreter', () => {
       d: number
     }
     const Bar = summon<Bar>(F =>
-      F.interface({
-        type: F.stringLiteral('bar'),
-        c: F.string(),
-        d: F.number()
-      })
+      F.interface(
+        {
+          type: F.stringLiteral('bar'),
+          c: F.string(),
+          d: F.number()
+        },
+        'Bar'
+      )
     )
 
     const FooBar = summon(F =>
-      F.taggedUnion('type', {
-        foo: Foo(F),
-        bar: Bar(F)
-      })
+      F.taggedUnion(
+        'type',
+        {
+          foo: Foo(F),
+          bar: Bar(F)
+        },
+        'FooBar'
+      )
     )
 
     testProgram(FooBar)
@@ -223,9 +266,12 @@ describe('FastCheck interpreter', () => {
 
   it('set from array', () => {
     const InterfA = summon(F =>
-      F.interface({
-        a: F.string()
-      })
+      F.interface(
+        {
+          a: F.string()
+        },
+        'InterfA'
+      )
     )
 
     type AType = ReturnType<typeof InterfA.build>
@@ -250,10 +296,14 @@ describe('FastCheck interpreter', () => {
 
     const List: M<unknown, List> = summon<List>(F =>
       F.recursive<unknown, List>(Self =>
-        F.taggedUnion('type', {
-          cons: F.interface({ type: F.stringLiteral('cons'), a: Self }),
-          leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string() })
-        })
+        F.taggedUnion(
+          'type',
+          {
+            cons: F.interface({ type: F.stringLiteral('cons'), a: Self }, 'Cons'),
+            leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string() }, 'Leaf')
+          },
+          'List'
+        )
       )
     )
 

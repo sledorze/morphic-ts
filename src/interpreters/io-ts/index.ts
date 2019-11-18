@@ -12,3 +12,7 @@ declare module '../../HKT' {
     IOTSType: IOTSType<A>
   }
 }
+
+export interface IOTS<Configs> {
+  IOTSType: Configs
+}

@@ -1,4 +1,6 @@
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
+import { isOptionalConfig, ByInterp } from '../core'
+import { TaggedUnionConfig } from './hkt'
 
 export const URI = 'TaggedUnions'
 export type URI = typeof URI
@@ -13,6 +15,7 @@ declare module './hkt' {
   interface Algebra2<F extends URIS2> {
     TaggedUnions: ModelAlgebraTaggedUnions2<F>
   }
+  export interface TaggedUnionConfig {}
 }
 
 // TODO: replace with explicit `TagKey` if no impact on inference
@@ -30,25 +33,30 @@ type DecorateTag<X extends HKT2<any, any, any>, Tag extends string, VTag> = X ex
 export interface ModelAlgebraTaggedUnions<F> {
   taggedUnion<Tag extends string, Types extends TaggedTypes<F, Tag, any, any>>(
     tag: Tag,
-    types: Types &
-      {
-        [o in keyof Types]: DecorateTag<Types[o], Tag, o>
-      }
-  ): HKT2<
-    F,
-    {
-      [k in keyof Types]: Types[k]['_E']
-    }[keyof Types],
-    {
-      [k in keyof Types]: Types[k]['_A']
-    }[keyof Types]
+    types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
+    name: string
+  ): isOptionalConfig<
+    TaggedUnionConfig,
+    HKT2<F, { [k in keyof Types]: Types[k]['_E'] }[keyof Types], { [k in keyof Types]: Types[k]['_A'] }[keyof Types]>,
+    'Requiring some config via taggedUnion(..., { <Interp>: ...  })'
   >
+  taggedUnion<Tag extends string, Types extends TaggedTypes<F, Tag, any, any>>(
+    tag: Tag,
+    types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
+    name: string,
+    config: ByInterp<TaggedUnionConfig, URIS | URIS2>
+  ): HKT2<F, { [k in keyof Types]: Types[k]['_E'] }[keyof Types], { [k in keyof Types]: Types[k]['_A'] }[keyof Types]>
 }
 
 export type TaggedTypes1<F extends URIS, Tag extends string, O> = { [o in keyof O]: Kind<F, O[o] & { [t in Tag]: o }> }
 
 export interface ModelAlgebraTaggedUnions1<F extends URIS> {
-  taggedUnion<Tag extends string, O>(tag: Tag, types: TaggedTypes1<F, Tag, O>): Kind<F, TaggedValues<Tag, O>[keyof O]>
+  taggedUnion<Tag extends string, O>(
+    tag: Tag,
+    types: TaggedTypes1<F, Tag, O>,
+    name: string,
+    config: ByInterp<TaggedUnionConfig, F>
+  ): Kind<F, TaggedValues<Tag, O>[keyof O]>
 }
 
 export type TaggedTypes2<F extends URIS2, Tag extends string, L, A> = {
@@ -58,6 +66,8 @@ export type TaggedTypes2<F extends URIS2, Tag extends string, L, A> = {
 export interface ModelAlgebraTaggedUnions2<F extends URIS2> {
   taggedUnion<Tag extends string, A, L>(
     tag: Tag,
-    types: TaggedTypes2<F, Tag, A, L>
+    types: TaggedTypes2<F, Tag, A, L>,
+    name: string,
+    config: ByInterp<TaggedUnionConfig, F>
   ): Kind2<F, TaggedValues<Tag, A>[keyof A], TaggedValues<Tag, L>[keyof L]>
 }

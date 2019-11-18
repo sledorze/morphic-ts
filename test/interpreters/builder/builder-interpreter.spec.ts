@@ -10,10 +10,13 @@ describe('Builder', () => {
     }
 
     const Foo = summon<Foo>(F =>
-      F.interface({
-        date: F.date(),
-        a: F.string()
-      })
+      F.interface(
+        {
+          date: F.date(),
+          a: F.string()
+        },
+        'Foo'
+      )
     )
 
     const date = new Date(12345)
@@ -36,9 +39,12 @@ describe('Builder', () => {
       date: Date
     }
     const Nested = summon<Nested>(F =>
-      F.interface({
-        date: F.date()
-      })
+      F.interface(
+        {
+          date: F.date()
+        },
+        'Nested'
+      )
     )
 
     interface Foo {
@@ -47,10 +53,13 @@ describe('Builder', () => {
     }
 
     const Foo = summon(F =>
-      F.interface({
-        dates: F.array(Nested(F)),
-        a: F.string()
-      })
+      F.interface(
+        {
+          dates: F.array(Nested(F)),
+          a: F.string()
+        },
+        'Foo'
+      )
     )
 
     const { build } = Foo

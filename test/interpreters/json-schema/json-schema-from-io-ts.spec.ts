@@ -8,9 +8,12 @@ import { of } from 'fp-ts/lib/NonEmptyArray'
 describe('a json schema generator', function(this: any) {
   it('generate an interface from a io-ts interface', () => {
     const decoder = summon(F =>
-      F.interface({
-        toto: F.number()
-      })
+      F.interface(
+        {
+          toto: F.number()
+        },
+        'Toto'
+      )
     )
 
     const schema = decoder.jsonSchema
@@ -31,9 +34,12 @@ describe('a json schema generator', function(this: any) {
 
   it('generate an interface from a partial', () => {
     const decoder = summon(F =>
-      F.partial({
-        toto: F.number()
-      })
+      F.partial(
+        {
+          toto: F.number()
+        },
+        'Toto'
+      )
     )
 
     const schema = decoder.jsonSchema
@@ -53,14 +59,10 @@ describe('a json schema generator', function(this: any) {
 
   it('generate an interface from an intersection', () => {
     const decoder = summon(F =>
-      F.intersection([
-        F.partial({
-          toto: F.number()
-        }),
-        F.interface({
-          tata: F.number()
-        })
-      ])
+      F.intersection(
+        [F.partial({ toto: F.number() }, 'Toto'), F.interface({ tata: F.number() }, 'Tata')],
+        'TotoAndTata'
+      )
     )
 
     const schema = decoder.jsonSchema
@@ -70,12 +72,8 @@ describe('a json schema generator', function(this: any) {
       right({
         required: ['tata'],
         properties: {
-          toto: {
-            type: 'number' as const
-          },
-          tata: {
-            type: 'number' as const
-          }
+          toto: { type: 'number' as const },
+          tata: { type: 'number' as const }
         },
         type: 'object' as const
       })
@@ -83,16 +81,7 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('generate from a complex type', () => {
-    const decoder = summon(F =>
-      F.interface({
-        arr: F.array(
-          F.interface({
-            x: F.string()
-          }),
-          {}
-        )
-      })
-    )
+    const decoder = summon(F => F.interface({ arr: F.array(F.interface({ x: F.string() }, 'X'), {}) }, 'Arrs'))
     const schema = decoder.jsonSchema
 
     chai.assert.deepStrictEqual(
@@ -100,18 +89,12 @@ describe('a json schema generator', function(this: any) {
       right({
         type: 'object' as const,
         required: ['arr'],
-
         properties: {
           arr: {
             type: 'array' as const,
             items: {
               type: 'object' as const,
-
-              properties: {
-                x: {
-                  type: 'string' as const
-                }
-              },
+              properties: { x: { type: 'string' as const } },
               required: ['x']
             }
           }
@@ -122,17 +105,7 @@ describe('a json schema generator', function(this: any) {
 
   it('use name as description for intersection', () => {
     const decoder = summon(F =>
-      F.intersection(
-        [
-          F.interface({
-            a: F.string()
-          }),
-          F.interface({
-            b: F.number()
-          })
-        ]
-        // 'Toto'
-      )
+      F.intersection([F.interface({ a: F.string() }, 'A'), F.interface({ b: F.number() }, 'B')], 'AB')
     )
 
     const schema = decoder.jsonSchema
@@ -140,14 +113,7 @@ describe('a json schema generator', function(this: any) {
     chai.assert.deepStrictEqual(
       schema,
       right({
-        properties: {
-          a: {
-            type: 'string' as const
-          },
-          b: {
-            type: 'number' as const
-          }
-        },
+        properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
         required: ['a', 'b'],
         type: 'object' as const
       })
@@ -156,35 +122,14 @@ describe('a json schema generator', function(this: any) {
 
   it('use underlying names as description for unnamed intersection', () => {
     const decoder = summon(F =>
-      F.intersection([
-        F.interface(
-          {
-            a: F.string()
-          }
-          // 'Toto'
-        ),
-        F.interface(
-          {
-            b: F.number()
-          }
-          // 'Tata'
-        )
-      ])
+      F.intersection([F.interface({ a: F.string() }, 'A'), F.interface({ b: F.number() }, 'B')], 'AB')
     )
-
     const schema = decoder.jsonSchema
 
     chai.assert.deepStrictEqual(
       schema,
       right({
-        properties: {
-          a: {
-            type: 'string' as const
-          },
-          b: {
-            type: 'number' as const
-          }
-        },
+        properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
         required: ['a', 'b'],
         type: 'object' as const
       })
@@ -193,17 +138,7 @@ describe('a json schema generator', function(this: any) {
 
   it('use underlying name as description for unnamed intersection', () => {
     const decoder = summon(F =>
-      F.intersection([
-        F.interface(
-          {
-            a: F.string()
-          }
-          // 'Toto'
-        ),
-        F.interface({
-          b: F.number()
-        })
-      ])
+      F.intersection([F.interface({ a: F.string() }, 'A'), F.interface({ b: F.number() }, 'B')], 'AB')
     )
 
     const schema = decoder.jsonSchema
@@ -211,14 +146,7 @@ describe('a json schema generator', function(this: any) {
     chai.assert.deepStrictEqual(
       schema,
       right({
-        properties: {
-          a: {
-            type: 'string' as const
-          },
-          b: {
-            type: 'number' as const
-          }
-        },
+        properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
         required: ['a', 'b'],
         type: 'object' as const
       })
@@ -226,29 +154,14 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('works with OptionFromNullable!', () => {
-    const decoder = summon(F =>
-      F.interface(
-        {
-          a: F.nullable(F.string()),
-          b: F.string()
-        }
-        // 'Toto'
-      )
-    )
+    const decoder = summon(F => F.interface({ a: F.nullable(F.string()), b: F.string() }, 'AB'))
 
     const schema = decoder.jsonSchema
 
     chai.assert.deepStrictEqual(
       schema,
       right({
-        properties: {
-          a: {
-            type: 'string' as const
-          },
-          b: {
-            type: 'string' as const
-          }
-        },
+        properties: { a: { type: 'string' as const }, b: { type: 'string' as const } },
         required: ['b'],
         type: 'object' as const
       })
@@ -256,11 +169,7 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('does not work with OptionFromNullable in Array!', () => {
-    const decoder = summon(F =>
-      F.interface({
-        as: F.array(F.nullable(F.string()), {})
-      })
-    )
+    const decoder = summon(F => F.interface({ as: F.array(F.nullable(F.string()), {}) }, 'AS'))
 
     const schema = () => decoder.jsonSchema
 
@@ -271,26 +180,14 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('works for LiteralType', () => {
-    const decoder = summon(F =>
-      F.interface(
-        {
-          type: F.stringLiteral('toto')
-        }
-        // 'Toto'
-      )
-    )
+    const decoder = summon(F => F.interface({ type: F.stringLiteral('toto') }, 'Toto'))
 
     const schema = decoder.jsonSchema
 
     chai.assert.deepStrictEqual(
       schema,
       right({
-        properties: {
-          type: {
-            type: 'string' as const,
-            enum: ['toto']
-          }
-        },
+        properties: { type: { type: 'string' as const, enum: ['toto'] } },
         required: ['type'],
         type: 'object' as const
       })
@@ -305,8 +202,8 @@ describe('a json schema generator', function(this: any) {
             toto: null,
             tutu: null
           })
-        }
-        // 'Toto'
+        },
+        'Toto'
       )
     )
 
@@ -338,8 +235,8 @@ describe('a json schema generator', function(this: any) {
             }
             // 'TotoTypes'
           )
-        }
-        // 'Toto'
+        },
+        'Toto'
       )
     )
 

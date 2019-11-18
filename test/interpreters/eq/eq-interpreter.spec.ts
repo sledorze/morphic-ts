@@ -5,10 +5,13 @@ import { summon, summonAs } from '../../../src/utils/summoner-no-union'
 describe('Eq', () => {
   it('returns false when comparing incomplete values', () => {
     const Foo = summonAs(F =>
-      F.interface({
-        date: F.date(),
-        a: F.string()
-      })
+      F.interface(
+        {
+          date: F.date(),
+          a: F.string()
+        },
+        'Foo'
+      )
     )
 
     const { eq } = Foo
@@ -19,10 +22,13 @@ describe('Eq', () => {
 
   it('eq', () => {
     const Foo = summonAs(F =>
-      F.interface({
-        date: F.date(),
-        a: F.string()
-      })
+      F.interface(
+        {
+          date: F.date(),
+          a: F.string()
+        },
+        'Foo'
+      )
     )
 
     const { eq } = Foo
@@ -35,15 +41,21 @@ describe('Eq', () => {
 
   it('eq', () => {
     const Foo = summonAs(F =>
-      F.interface({
-        dates: F.array(
-          F.interface({
-            date: F.date()
-          }),
-          {}
-        ),
-        a: F.string()
-      })
+      F.interface(
+        {
+          dates: F.array(
+            F.interface(
+              {
+                date: F.date()
+              },
+              'HasDate'
+            ),
+            {}
+          ),
+          a: F.string()
+        },
+        'Foo'
+      )
     )
 
     const { eq } = Foo
@@ -68,11 +80,14 @@ describe('Eq', () => {
       b: number
     }
     const Foo = summonAs(F =>
-      F.partial({
-        type: F.stringLiteral('foo'),
-        a: F.string(),
-        b: F.number()
-      })
+      F.partial(
+        {
+          type: F.stringLiteral('foo'),
+          a: F.string(),
+          b: F.number()
+        },
+        'Foo'
+      )
     )
 
     const { eq } = Foo
@@ -92,11 +107,14 @@ describe('Eq', () => {
       b: number
     }
     const Foo = summon<Foo>(F =>
-      F.interface({
-        type: F.stringLiteral('foo'),
-        a: F.string(),
-        b: F.number()
-      })
+      F.interface(
+        {
+          type: F.stringLiteral('foo'),
+          a: F.string(),
+          b: F.number()
+        },
+        'Foo'
+      )
     )
 
     interface Bar {
@@ -105,18 +123,25 @@ describe('Eq', () => {
       d: number
     }
     const Bar = summon<Bar>(F =>
-      F.interface({
-        type: F.stringLiteral('bar'),
-        c: F.string(),
-        d: F.number()
-      })
+      F.interface(
+        {
+          type: F.stringLiteral('bar'),
+          c: F.string(),
+          d: F.number()
+        },
+        'Bar'
+      )
     )
 
     const FooBar = summonAs(F =>
-      F.taggedUnion('type', {
-        foo: Foo(F),
-        bar: Bar(F)
-      })
+      F.taggedUnion(
+        'type',
+        {
+          foo: Foo(F),
+          bar: Bar(F)
+        },
+        'FooBar'
+      )
     )
 
     const eq = FooBar.eq

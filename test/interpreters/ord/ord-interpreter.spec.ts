@@ -1,30 +1,50 @@
 import * as chai from 'chai'
 import { ordInterpreter } from '../../../src/interpreters/ord/interpreters'
-import { URIS, Kind } from '../../../src/HKT'
-import { ModelAlgebraPrimitive1 } from '../../../src/algebras/primitives'
-import { ModelAlgebraIntersection1 } from '../../../src/algebras/intersections'
-import { ModelAlgebraTaggedUnions1 } from '../../../src/algebras/tagged-unions'
-import { InterpreterFor, cacheUnaryFunction } from '../../../src/core'
-import { lt, gt, ordNumber, ord } from 'fp-ts/lib/Ord'
-import { ModelAlgebraStrMap1 } from '../../../src/algebras/str-map'
-import { ModelAlgebraSet1 } from '../../../src/algebras/set'
+import { lt, gt, ordNumber, ord, Ord } from 'fp-ts/lib/Ord'
+import { ProgramInterpreter, Materialized } from '../../../src/usage/materializer'
+import { builderInterpreter } from '../../../src/interpreters/builder/interpreters'
+import { ProgramOrderableURI } from '../../../src/utils/program-orderable'
+import { ProgramUnion } from '../../../src/utils/program'
+import { cacheUnaryFunction } from '../../../src/core'
+import { makeSummoner } from '../../../src/usage/summoner'
 
-export interface ModelAlgebra<F extends URIS>
-  extends ModelAlgebraPrimitive1<F>,
-    ModelAlgebraIntersection1<F>,
-    ModelAlgebraStrMap1<F>,
-    ModelAlgebraSet1<F>,
-    ModelAlgebraTaggedUnions1<F>,
-    InterpreterFor<F> {}
+interface OrdInterpreter<E, A> {
+  ord: Ord<A>
+}
 
-export type Program<A> = <F extends URIS>(F: ModelAlgebra<F>) => Kind<F, A>
-export const defineAs = <A>(program: Program<A>): typeof program => cacheUnaryFunction(program)
+export type OrdInterpreterURI = 'OrdInterpreter'
+
+declare module '../../../src/usage/interpreters-hkt' {
+  interface Interpreters<E, A> {
+    OrdInterpreter: OrdInterpreter<E, A>
+  }
+}
+export const OrdInterpreter: ProgramInterpreter<ProgramOrderableURI, OrdInterpreterURI> = program => ({
+  build: program(builderInterpreter).build,
+  ord: program(ordInterpreter).ord
+})
+
+export interface M<E, A> extends Materialized<E, A, ProgramOrderableURI, OrdInterpreterURI> {}
+export interface UM<A> extends Materialized<unknown, A, ProgramOrderableURI, OrdInterpreterURI> {}
+
+export interface Prog<L, A> extends ProgramUnion<L, A> {}
+
+interface Summons {
+  summonAs: <L, A>(F: Prog<L, A>) => M<L, A>
+  summonAsA: <A>() => <L>(F: Prog<L, A>) => M<L, A>
+  summonAsL: <L>() => <A>(F: Prog<L, A>) => M<L, A>
+  summon: <A>(F: Prog<unknown, A>) => UM<A>
+}
+
+const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, OrdInterpreter) as Summons
+
+export { summonAs, summonAsA, summonAsL, summon }
 
 describe('Ord', () => {
   it('returns true or false when comparing values for equality', () => {
-    const Foo = defineAs(F => F.date())
+    const Foo = summonAs(F => F.date())
 
-    const { ord } = Foo(ordInterpreter)
+    const { ord } = Foo
 
     const date = new Date(12345)
     const date2 = new Date(12346)
@@ -37,14 +57,12 @@ describe('Ord', () => {
   })
 
   it('can compare set', () => {
-    const Foo = defineAs(F =>
+    const Foo = summonAs(F =>
       F.set(
         F.date(),
         ord.contramap(ordNumber, (d: Date) => d.getTime())
       )
     )
-
-    const FooOrd = Foo(ordInterpreter)
 
     const date = new Date(12345)
     const date2 = new Date(12346)
@@ -52,12 +70,12 @@ describe('Ord', () => {
     const set1 = new Set([date, date2])
     const set2 = new Set([date2, date3])
     const set3 = new Set([date, date3])
-    const isLt = lt(FooOrd.ord)
+    const isLt = lt(Foo.ord)
     chai.assert.strictEqual(isLt(set1, set3), true)
     chai.assert.strictEqual(isLt(set1, set2), true)
     chai.assert.strictEqual(isLt(set2, set3), false)
 
-    const isGt = gt(FooOrd.ord)
+    const isGt = gt(Foo.ord)
     chai.assert.strictEqual(isGt(set3, set1), true)
     chai.assert.strictEqual(isGt(set2, set1), true)
     chai.assert.strictEqual(isGt(set3, set2), false)

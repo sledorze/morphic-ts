@@ -16,17 +16,19 @@ export { URI }
 export type IOTypes<Props> = { [k in keyof Props]: t.Type<Props[k], unknown> }
 
 export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject1<URI> = {
-  interface: <Props>(props: PropsKind1<URI, Props>) =>
-    new IOTSType<Props>((t.type(projectField(props)('type')) as t.Type<any, unknown>) as t.Type<Props, unknown>),
-  partial: <Props>(props: PropsKind1<URI, Props>) =>
-    new IOTSType<Partial<Props>>(t.partial(projectField(props)('type')))
+  interface: <Props>(props: PropsKind1<URI, Props>, name: string) =>
+    new IOTSType<Props>((t.type(projectField(props)('type'), name) as t.Type<any, unknown>) as t.Type<Props, unknown>),
+  partial: <Props>(props: PropsKind1<URI, Props>, name: string) =>
+    new IOTSType<Partial<Props>>(t.partial(projectField(props)('type'), name))
 }
 
 export const ioTsStrictObjectInterpreter: ModelAlgebraObject1<URI> = {
-  interface: <Props>(props: PropsKind1<URI, Props>) =>
-    new IOTSType<Props>((t.strict(projectField(props)('type')) as t.Type<any, unknown>) as t.Type<Props, unknown>),
-  partial: <Props>(props: PropsKind1<URI, Props>) =>
-    new IOTSType<Partial<Props>>(t.exact(t.partial(projectField(props)('type'))))
+  interface: <Props>(props: PropsKind1<URI, Props>, name: string) =>
+    new IOTSType<Props>(
+      (t.strict(projectField(props)('type'), name) as t.Type<any, unknown>) as t.Type<Props, unknown>
+    ),
+  partial: <Props>(props: PropsKind1<URI, Props>, name: string) =>
+    new IOTSType<Partial<Props>>(t.exact(t.partial(projectField(props)('type'), name)))
 }
 
 const base = merge(
