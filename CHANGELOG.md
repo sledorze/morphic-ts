@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.3.18
+
+- New Feature
+
+  - add optional name (IOTS) to 'keyOf' to ease with long Union names
+
 ## 0.3.17
 
 - New Feature

@@ -16,8 +16,8 @@ export const ioTsPrimitiveInterpreter: ModelAlgebraPrimitive1<URI> = {
   boolean: _ => constBoolean,
   string: _ => constString,
   number: _ => constNumber,
-  stringLiteral: l => new IOTSType(t.literal(l)),
-  keysOf: k => new IOTSType(t.keyof(k)),
+  stringLiteral: l => new IOTSType(t.literal(l, l)),
+  keysOf: (k, name) => new IOTSType(t.keyof(k, name)),
   nullable: T => new IOTSType(optionFromNullable(T.type)),
   array: T => new IOTSType(t.array(T.type))
 }

@@ -58,7 +58,7 @@ export interface ModelAlgebraPrimitive<F> {
   >
   boolean(config: ByInterp<PrimitiveBooleanConfig, URIS | URIS2>): HKT2<F, boolean, boolean>
   stringLiteral: <T extends string>(value: T) => HKT2<F, string, typeof value>
-  keysOf: <K extends Keys>(keys: K) => HKT2<F, string, keyof typeof keys>
+  keysOf: <K extends Keys>(keys: K, name?: string) => HKT2<F, string, keyof typeof keys>
   nullable: <L, A>(T: HKT2<F, L, A>) => HKT2<F, null | L, Option<A>>
   array<L, A>(
     a: HKT2<F, L, A>
@@ -76,7 +76,7 @@ export interface ModelAlgebraPrimitive1<F extends URIS> {
   number(config: ByInterp<PrimitiveNumberConfig, F>): Kind<F, number>
   boolean(config: ByInterp<PrimitiveBooleanConfig, F>): Kind<F, boolean>
   stringLiteral: <T extends string>(value: T) => Kind<F, typeof value>
-  keysOf: <K extends Keys>(keys: K) => Kind<F, keyof typeof keys>
+  keysOf: <K extends Keys>(keys: K, name?: string) => Kind<F, keyof typeof keys>
   nullable: <A>(T: Kind<F, A>) => Kind<F, Option<A>>
   array: <A>(a: Kind<F, A>, config: ByInterp<PrimitiveArrayConfig, F>) => Kind<F, Array<A>>
 }
@@ -87,7 +87,7 @@ export interface ModelAlgebraPrimitive2<F extends URIS2> {
   number(config: ByInterp<PrimitiveNumberConfig, F>): Kind2<F, number, number>
   boolean(config: ByInterp<PrimitiveBooleanConfig, F>): Kind2<F, boolean, boolean>
   stringLiteral: <T extends string>(value: T) => Kind2<F, string, typeof value>
-  keysOf: <K extends Keys>(keys: K) => Kind2<F, string, keyof typeof keys>
+  keysOf: <K extends Keys>(keys: K, name?: string) => Kind2<F, string, keyof typeof keys>
   nullable: <L, A>(T: Kind2<F, L, A>) => Kind2<F, null | L, Option<A>>
   array: <L, A>(a: Kind2<F, L, A>, config: ByInterp<PrimitiveArrayConfig, F>) => Kind2<F, Array<L>, Array<A>>
 }

@@ -9,8 +9,8 @@ export const ioTsStringPrimitiveInterpreter: ModelAlgebraPrimitive2<URI> = {
   boolean: _ => new IOTSStringType(t.boolean),
   string: _ => new IOTSStringType(t.string),
   number: _ => new IOTSStringType(t.number),
-  stringLiteral: l => new IOTSStringType(t.literal(l)),
-  keysOf: k => new IOTSStringType<string, keyof typeof k>(t.keyof(k) as any), // TODO: not pretty but output
+  stringLiteral: l => new IOTSStringType(t.literal(l, l)),
+  keysOf: (k, name) => new IOTSStringType<string, keyof typeof k>(t.keyof(k, name) as any), // TODO: not pretty but output
   nullable: T => new IOTSStringType(optionFromNullable(T.type)),
   array: T => new IOTSStringType(t.array(T.type))
 }
