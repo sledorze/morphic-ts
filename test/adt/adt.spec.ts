@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { adtByTag, unionADT, intersectADT } from '../../src/adt'
+import { unionADT, intersectADT, makeADT, ofType } from '../../src/adt'
 import { identity } from 'fp-ts/lib/function'
 
 describe('Builder', () => {
@@ -22,7 +22,10 @@ describe('Builder', () => {
   }
 
   it('taggedUnion', () => {
-    const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
+    const fooBar = makeADT('type')({
+      foo: ofType<Foo>(),
+      bar: ofType<Bar>()
+    })
 
     const fooA = fooBar.of.foo({ a: 'a', b: 12 })
     const barA = fooBar.of.bar({ c: 'a', d: 12 })
@@ -34,7 +37,10 @@ describe('Builder', () => {
   })
 
   describe('Matcher', () => {
-    const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
+    const fooBar = makeADT('type')({
+      foo: ofType<Foo>(),
+      bar: ofType<Bar>()
+    })
 
     const { fold, match, matchWiden, createReducer, transform } = fooBar
     const fooA = fooBar.of.foo({ a: 'a', b: 12 })
@@ -161,7 +167,10 @@ describe('Builder', () => {
     })
 
     it('select', () => {
-      const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
+      const fooBar = makeADT('type')({
+        foo: ofType<Foo>(),
+        bar: ofType<Bar>()
+      })
       const barOnly = fooBar.select('bar')
       const foo = fooBar.as.foo({ a: 'a', b: 1 })
       const bar = fooBar.as.bar({ c: 'a', d: 1 })
@@ -171,7 +180,10 @@ describe('Builder', () => {
     })
 
     it('exclude', () => {
-      const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
+      const fooBar = makeADT('type')({
+        foo: ofType<Foo>(),
+        bar: ofType<Bar>()
+      })
       const barOnly = fooBar.exclude('foo')
       const foo = fooBar.as.foo({ a: 'a', b: 1 })
       const bar = fooBar.as.bar({ c: 'a', d: 1 })
@@ -181,8 +193,14 @@ describe('Builder', () => {
     })
 
     it('unionADT', () => {
-      const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
-      const fooBaz = adtByTag<Foo | Baz>()('type')({ foo: null, baz: null })
+      const fooBar = makeADT('type')({
+        foo: ofType<Foo>(),
+        bar: ofType<Bar>()
+      })
+      const fooBaz = makeADT('type')({
+        foo: ofType<Foo>(),
+        baz: ofType<Baz>()
+      })
       const fooBarBaz = unionADT([fooBar, fooBaz])
 
       const reducer = fooBarBaz.createReducer({ tag: '' })({
@@ -205,8 +223,14 @@ describe('Builder', () => {
     })
 
     it('intersectionADT', () => {
-      const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
-      const fooBaz = adtByTag<Foo | Baz>()('type')({ foo: null, baz: null })
+      const fooBar = makeADT('type')({
+        foo: ofType<Foo>(),
+        bar: ofType<Bar>()
+      })
+      const fooBaz = makeADT('type')({
+        foo: ofType<Foo>(),
+        baz: ofType<Baz>()
+      })
       const fooBarBaz = intersectADT(fooBar, fooBaz)
 
       const reducer = fooBarBaz.createReducer({ tag: '' })({
@@ -230,7 +254,10 @@ describe('Builder', () => {
   })
 
   it('Predicates', () => {
-    const fooBar = adtByTag<Foo | Bar>()('type')({ foo: null, bar: null })
+    const fooBar = makeADT('type')({
+      foo: ofType<Foo>(),
+      bar: ofType<Bar>()
+    })
 
     const fooA = fooBar.of.foo({ a: 'a', b: 12 })
 
@@ -252,11 +279,10 @@ describe('Builder', () => {
 
   describe('Monocle', () => {
     it('modify', () => {
-      const fooBarByType = adtByTag<Foo | Bar>()('type')({
-        foo: null,
-        bar: null
+      const fooBarByType = makeADT('type')({
+        foo: ofType<Foo>(),
+        bar: ofType<Bar>()
       })
-
       chai.assert.deepStrictEqual(
         fooBarByType('bar')
           .lenseFromProp('c')

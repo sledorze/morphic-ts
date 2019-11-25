@@ -106,3 +106,13 @@ export const adtByTag = <A>(): ByTag<A> => tag => keys => {
   }) as any
   return res
 }
+
+interface TypeDef<T> {
+  _TD: T
+}
+type TypeOfDef<X extends TypeDef<any>> = X['_TD']
+
+export const ofType = <T>(): TypeDef<T> => 1 as any
+export const makeADT = <Tag extends string>(tag: Tag) => <R extends { [x in keyof R]: TypeDef<{ [t in Tag]: x }> }>(
+  r: R
+): ADT<TypeOfDef<R[keyof R]>, Tag> => adtByTag<TypeOfDef<R[keyof R]>>()(tag as any)(r as any)
