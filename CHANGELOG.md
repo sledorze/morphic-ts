@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.3.19
+
+- New Feature
+
+  - add configuration for iots interpreter of primitives algebra
+
 ## 0.3.18
 
 - New Feature

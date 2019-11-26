@@ -5,7 +5,7 @@ import { fromNullable } from 'fp-ts/lib/Option'
 import { identity } from 'fp-ts/lib/function'
 
 declare module '../../algebras/hkt' {
-  interface PrimitiveArrayConfig {
+  interface PrimitiveArrayConfig<A> {
     FastCheckType: MinMaxLength | undefined
   }
   interface PrimitiveConfig {

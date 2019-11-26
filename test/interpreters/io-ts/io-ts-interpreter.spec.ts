@@ -17,6 +17,13 @@ describe('IO-TS Alt Schema', () => {
     chai.assert.deepStrictEqual(codec.decode('b'), right('b'))
   })
 
+  it('boolean', () => {
+    // Definition
+    const codec = summon(F => F.boolean()).type
+    chai.assert.deepStrictEqual(codec.decode(true), right(true))
+    chai.assert.deepStrictEqual(codec.decode(false), right(false))
+  })
+
   it('stringLiteral', () => {
     // Definition
     const codec = summonAs(F => F.stringLiteral('x')).type

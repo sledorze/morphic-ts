@@ -29,7 +29,7 @@ declare module './hkt' {
   export interface PrimitiveStringConfig {}
   export interface PrimitiveNumberConfig {}
   export interface PrimitiveBooleanConfig {}
-  export interface PrimitiveArrayConfig {}
+  export interface PrimitiveArrayConfig<A> {}
 }
 
 export interface ModelAlgebraPrimitive<F> {
@@ -63,11 +63,11 @@ export interface ModelAlgebraPrimitive<F> {
   array<L, A>(
     a: HKT2<F, L, A>
   ): isOptionalConfig<
-    PrimitiveArrayConfig,
+    PrimitiveArrayConfig<A>,
     HKT2<F, Array<L>, Array<A>>,
     'Requiring some config via array({ <Interp>: ... })'
   >
-  array<L, A>(a: HKT2<F, L, A>, config: ByInterp<PrimitiveArrayConfig, URIS | URIS2>): HKT2<F, Array<L>, Array<A>>
+  array<L, A>(a: HKT2<F, L, A>, config: ByInterp<PrimitiveArrayConfig<A>, URIS | URIS2>): HKT2<F, Array<L>, Array<A>>
 }
 
 export interface ModelAlgebraPrimitive1<F extends URIS> {
@@ -78,7 +78,7 @@ export interface ModelAlgebraPrimitive1<F extends URIS> {
   stringLiteral: <T extends string>(value: T) => Kind<F, typeof value>
   keysOf: <K extends Keys>(keys: K, name?: string) => Kind<F, keyof typeof keys>
   nullable: <A>(T: Kind<F, A>) => Kind<F, Option<A>>
-  array: <A>(a: Kind<F, A>, config: ByInterp<PrimitiveArrayConfig, F>) => Kind<F, Array<A>>
+  array: <A>(a: Kind<F, A>, config: ByInterp<PrimitiveArrayConfig<A>, F>) => Kind<F, Array<A>>
 }
 
 export interface ModelAlgebraPrimitive2<F extends URIS2> {
@@ -89,5 +89,5 @@ export interface ModelAlgebraPrimitive2<F extends URIS2> {
   stringLiteral: <T extends string>(value: T) => Kind2<F, string, typeof value>
   keysOf: <K extends Keys>(keys: K, name?: string) => Kind2<F, string, keyof typeof keys>
   nullable: <L, A>(T: Kind2<F, L, A>) => Kind2<F, null | L, Option<A>>
-  array: <L, A>(a: Kind2<F, L, A>, config: ByInterp<PrimitiveArrayConfig, F>) => Kind2<F, Array<L>, Array<A>>
+  array: <L, A>(a: Kind2<F, L, A>, config: ByInterp<PrimitiveArrayConfig<A>, F>) => Kind2<F, Array<L>, Array<A>>
 }
