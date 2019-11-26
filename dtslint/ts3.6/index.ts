@@ -1,4 +1,4 @@
-import { Remove, ElemType, IfStringLiteral } from '../../src/common/index'
+import { Remove, ElemType, IfStringLiteral, ExtractUnion } from '../../src/common/index'
 import { OptionalIfUndefined } from '../../src/core'
 import { ADT, unionADT, intersectADT } from '../../src/adt'
 
@@ -43,3 +43,5 @@ const intersectADTRes = intersectADT(ADTFoo01, ADTFoo12) // $ExpectType ADT<ADTF
 
 // tslint:disable-next-line: max-line-length
 type E = OptionalIfUndefined<{ x: string; y: string | undefined; z?: string; q?: string }> // $ExpectType Compact<{ x: string; } & { y?: string | undefined; } & { z?: string | undefined; } & { q?: string | undefined; }>
+
+type Extracted = ExtractUnion<{ type: 'x'; b: string } | { type: 'y'; c: string }, 'type', 'x'> // $ExpectType { type: "x"; b: string; }
