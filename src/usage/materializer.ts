@@ -2,7 +2,7 @@ import { ProgramsURI, Programs, Program } from './programs-hkt'
 import { InterpretersURI, Interpreters } from './interpreters-hkt'
 import { BuilderType } from '../interpreters/builder'
 import { assignFunction, TagsOf } from '../common'
-import { ADT, adtByTag, KeysDefinition } from '../adt'
+import { ADT, KeysDefinition, makeADT } from '../adt'
 import { MonocleFor } from '../adt/monocle'
 
 interface WithProgram<E, A, ProgURI extends ProgramsURI> {
@@ -86,7 +86,7 @@ function asADT<E, A, ProgURI extends ProgramsURI, InterpURI extends Interpreters
   tag: Tag
 ) => (keys: KeysDefinition<A, Tag>) => ADTExt<E, A, Tag, ProgURI, InterpURI> {
   return tag => keys =>
-    assignCallable(adtByTag<A>()(tag)(keys), {
+    assignCallable(makeADT(tag)(keys), {
       ...m,
       program: (a: any) => (m as any)(a) // we cannot proove here that the `ProgURI` will index `Materialized` on a function call - via `Program<E, A>[ProgURI]`
     })
