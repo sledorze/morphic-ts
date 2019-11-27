@@ -1,4 +1,5 @@
 import { builderInterpreter } from '../../src/interpreters/builder/interpreters'
+import { builderInterpreter as algebraInterp } from '../../src/interpreters/algebra/interpreters'
 
 import { Arbitrary } from 'fast-check/*'
 import { fastCheckInterpreter } from '../../src/interpreters/fast-check/interpreters'
@@ -34,5 +35,6 @@ export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpre
   arb: program(fastCheckInterpreter).arb,
   strictType: program(ioTsStrict).type,
   type: program(ioTsNonStrict).type,
-  jsonSchema: either.map(program(jsonSchemaInterpreter).schema, s => s.json)
+  jsonSchema: either.map(program(jsonSchemaInterpreter).schema, s => s.json),
+  algebra: program(algebraInterp).build
 })

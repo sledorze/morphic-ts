@@ -88,7 +88,7 @@ function asADT<E, A, ProgURI extends ProgramsURI, InterpURI extends Interpreters
   return tag => keys =>
     assignCallable(makeADT(tag)(keys), {
       ...m,
-      program: (a: any) => (m as any)(a) // we cannot proove here that the `ProgURI` will index `Materialized` on a function call - via `Program<E, A>[ProgURI]`
+      program: (algebra: any) => (m as any)(algebra) // we cannot proove here that the `ProgURI` will index `Materialized` on a function call - via `Program<E, A>[ProgURI]`
     })
 }
 
