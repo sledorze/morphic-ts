@@ -13,6 +13,17 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.4.0
+
+- Breaking Change
+
+  - Rename ADTExt to MorphADT
+  - Ergonomic changes for composing MorphADT without relying on `program` member
+
+- Internal
+
+  - removed some type casting
+
 ## 0.3.19
 
 - New Feature

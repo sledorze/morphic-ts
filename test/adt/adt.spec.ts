@@ -269,7 +269,8 @@ describe('Builder', () => {
 
     if (fooBar.is.foo(fooA)) {
       chai.assert.deepStrictEqual(
-        fooBar('foo')
+        fooBar
+          .select('foo')
           .lenseFromProp('type')
           .get(fooA), // ensure type narrowing
         'foo'
@@ -284,14 +285,16 @@ describe('Builder', () => {
         bar: ofType<Bar>()
       })
       chai.assert.deepStrictEqual(
-        fooBarByType('bar')
+        fooBarByType
+          .select('bar')
           .lenseFromProp('c')
           .modify(s => `(${s})`)(fooBarByType.as.bar({ c: 'c', d: 1 })),
         fooBarByType.of.bar({ c: '(c)', d: 1 })
       )
 
       chai.assert.deepStrictEqual(
-        fooBarByType('bar')
+        fooBarByType
+          .select('bar')
           .lenseFromProps(['c', 'd'])
           .modify(({ c, d }) => ({ c: `(${c})`, d: 1 + d }))(fooBarByType.as.bar({ c: 'c', d: 1 })),
         fooBarByType.of.bar({ c: '(c)', d: 2 })

@@ -1,4 +1,4 @@
-import { EType, AType, Materialized, ADTExt, InhabitedTypes } from './materializer'
+import { EType, AType, Materialized, MorphADT, InhabitedTypes } from './materializer'
 import { record } from 'fp-ts'
 import { HKT2 } from '../HKT'
 import { TagsOf } from '../common'
@@ -33,7 +33,7 @@ export function makeTagged<ProgURI extends ProgramsURI, InterpURI extends Interp
 ) {
   return <Tag extends string>(tag: Tag) => <Types extends UnionTypes<Types, Tag, ProgURI, InterpURI>>(
     o: Types
-  ): ADTExt<unknown, AParam<Types>, TagType<Types>, ProgURI, InterpURI> => {
+  ): MorphADT<unknown, AParam<Types>, TagType<Types>, ProgURI, InterpURI> => {
     // Trust the outer signature - type lookup via unknown URI cannot have any semantic here
     const summoned = summ<AParam<Types>>(
       (F: any) => F.taggedUnion(tag, record.mapWithIndex((k, v: AnyM<ProgURI, InterpURI>) => (v as any)(F))(o)) // Trust
