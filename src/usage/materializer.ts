@@ -11,7 +11,7 @@ export type ProgramInterpreter<ProgURI extends ProgramsURI, InterpURI extends In
 
 type Morph<E, A, InterpURI extends InterpretersURI, ProgURI extends ProgramsURI> = BuilderType<A> &
   Interpreters<E, A>[InterpURI] &
-  Programs<E, A>[ProgURI]
+  Program<E, A>[ProgURI]
 
 const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
   assignFunction((...args: any) => F(...args), Object.assign({}, F, d))
