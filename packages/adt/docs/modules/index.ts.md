@@ -1,5 +1,5 @@
 ---
-title: adt/index.ts
+title: index.ts
 nav_order: 3
 parent: Modules
 ---

@@ -1,5 +1,5 @@
 ---
-title: adt/predicates.ts
+title: predicates.ts
 nav_order: 6
 parent: Modules
 ---
@@ -35,9 +35,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type Is<A, Tag extends keyof A & string> = {
-  [key in A[Tag] & string]: (a: A) => a is ExtractUnion<A, Tag, key>
-}
+export type Is<A, Tag extends keyof A & string> = { [key in A[Tag] & string]: (a: A) => a is ExtractUnion<A, Tag, key> }
 ```
 
 Added in v0.0.1

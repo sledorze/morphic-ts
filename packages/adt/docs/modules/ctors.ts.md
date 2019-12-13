@@ -1,5 +1,5 @@
 ---
-title: adt/ctors.ts
+title: ctors.ts
 nav_order: 2
 parent: Modules
 ---

@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { unionADT, intersectADT, makeADT, ofType } from '../src/adt'
+import { unionADT, intersectADT, makeADT, ofType } from '../src'
 import { identity } from 'fp-ts/lib/function'
 
 describe('Builder', () => {

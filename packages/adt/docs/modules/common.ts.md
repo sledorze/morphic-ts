@@ -1,5 +1,5 @@
 ---
-title: adt/common.ts
+title: common.ts
 nav_order: 1
 parent: Modules
 ---

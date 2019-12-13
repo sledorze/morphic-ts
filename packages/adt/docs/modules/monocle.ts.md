@@ -1,5 +1,5 @@
 ---
-title: adt/monocle.ts
+title: monocle.ts
 nav_order: 5
 parent: Modules
 ---
