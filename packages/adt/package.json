@@ -8,14 +8,15 @@
   "main": "lib/adt.js",
   "directories": {
     "lib": "lib",
-    "test": "__tests__"
+    "test": "test"
   },
   "files": [
     "lib"
   ],
   "devDependencies": {
     "typescript": "3.7.3",
-    "prettier": "1.19.1"
+    "prettier": "1.19.1",
+    "jest": "^24.9.0"
   },
   "peerDependencies": {
     "monocle-ts": "2.0.0"
@@ -36,5 +37,19 @@
     "mocha": "TS_NODE_CACHE=false mocha -r ts-node/register test/*.ts",
     "docs": "docs-ts",
     "prepare": "./ensure-deduplicate.sh"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "test",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "testPathIgnorePatterns": [
+      "utils"
+    ]
   }
 }

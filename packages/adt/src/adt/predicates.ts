@@ -2,22 +2,37 @@ import { ExtractUnion, ElemType, TagsOf } from './common'
 import { KeysDefinition } from '.'
 import { record } from 'fp-ts'
 
+/**
+ * @since 0.0.1
+ */
 export type Is<A, Tag extends keyof A & string> = {
   [key in A[Tag] & string]: (a: A) => a is ExtractUnion<A, Tag, key>
 }
 
+/**
+ * @since 0.0.1
+ */
 export type IsAny<A, Tag extends keyof A & string> = <Keys extends (A[Tag] & string)[]>(
   ...keys: Keys
 ) => (a: A) => a is ExtractUnion<A, Tag, ElemType<Keys>>
 
+/**
+ * @since 0.0.1
+ */
 export type Verified<A> = (a: A) => a is A
 
+/**
+ * @since 0.0.1
+ */
 export interface Predicates<A, Tag extends keyof A & string> {
   is: Is<A, Tag>
   verified: Verified<A>
   isAnyOf: IsAny<A, Tag>
 }
 
+/**
+ * @since 0.0.1
+ */
 export const Predicates = <A, Tag extends TagsOf<A> & string>(tag: Tag) => (
   keys: KeysDefinition<A, Tag>
 ): Predicates<A, Tag> => ({

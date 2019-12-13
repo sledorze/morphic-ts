@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "fp-ts": "2.2.0",
+    "fp-ts": "2.3.1",
     "lerna": "^3.19.0",
     "@types/jest": "24.0.23",
     "@types/node": "12.12.8",
@@ -11,12 +11,14 @@
     "jest": "^24.9.0",
     "mocha": "^6.2.2",
     "rimraf": "^3.0.0",
-    "ts-jest": "^24.1.0",
-    "ts-node": "^8.5.2",
+    "ts-jest": "^24.2.0",
+    "ts-node": "^8.5.4",
     "tslint": "5.20.1",
     "tslint-config-standard": "^9.0.0",
     "yarn-deduplicate": "1.1.1",
-    "monocle-ts": "2.0.0"
+    "monocle-ts": "2.0.0",
+    "chai": "4.2.0",
+    "@types/chai": "4.2.7"
   },
   "workspaces": {
     "packages": [

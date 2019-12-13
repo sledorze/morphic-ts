@@ -2,32 +2,59 @@ import { identity } from 'fp-ts/lib/function'
 import { KeysDefinition, isIn } from '.'
 import { TagsOf } from './common'
 
+/**
+ * @since 0.0.1
+ */
 type ValueByKeyByTag<Union extends Record<any, any>, Tags extends keyof Union = keyof Union> = {
   [Tag in Tags]: { [Key in Union[Tag]]: Union extends { [r in Tag]: Key } ? Union : never }
 }
 
+/**
+ * @since 0.0.1
+ */
 type Cases<Record, R> = { [key in keyof Record]: (v: Record[key]) => R }
 
+/**
+ * @since 0.0.1
+ */
 type Folder<A> = <R>(f: (a: A) => R) => (a: A) => R
 
+/**
+ * @since 0.0.1
+ */
 interface Default<A, R> {
   default: (a: A) => R
 }
 /**
+ * @since 0.0.1
  * Dispatch calls for each tag value, ensuring a common result type `R`
  */
 interface Matcher<A, Tag extends keyof A & string> extends MatcherInter<A, ValueByKeyByTag<A>[Tag]> {}
+
+/**
+ * @since 0.0.1
+ */
 interface MatcherInter<A, Record> {
   <R>(match: Cases<Record, R>): (a: A) => R
   // tslint:disable-next-line: unified-signatures
   <R>(match: Partial<Cases<Record, R>> & Default<A, R>): (a: A) => R
 }
 
+/**
+ * @since 0.0.1
+ */
 interface Transform<A, Tag extends keyof A & string> extends TransformInter<A, ValueByKeyByTag<A>[Tag]> {}
+
+/**
+ * @since 0.0.1
+ */
 interface TransformInter<A, Record> {
   (match: Partial<Cases<Record, A>>): (a: A) => A
 }
 
+/**
+ * @since 0.0.1
+ */
 interface ReducerBuilder<S, A, Tag extends keyof A & string> {
   (match: Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>): Reducer<S, A>
   // tslint:disable-next-line: unified-signatures
@@ -35,10 +62,14 @@ interface ReducerBuilder<S, A, Tag extends keyof A & string> {
 }
 
 /**
+ * @since 0.0.1
  * Same purpose as `Matcher` but the result type is infered as a union of all branches results types
  */
 interface MatcherWiden<A, Tag extends keyof A & string> extends MatcherWidenIntern<A, ValueByKeyByTag<A>[Tag]> {}
 
+/**
+ * @since 0.0.1
+ */
 interface MatcherWidenIntern<A, Record> {
   <M extends Cases<Record, any>>(match: M): (a: A) => ReturnType<M[keyof M]> extends infer R ? R : never
   <M extends Partial<Cases<Record, any>> & Default<A, any>>(match: M): (
@@ -46,10 +77,16 @@ interface MatcherWidenIntern<A, Record> {
   ) => ReturnType<NonNullable<M[keyof M]>> extends infer R ? R : never
 }
 
+/**
+ * @since 0.0.1
+ */
 export interface Reducer<S, A> {
   (state: S | undefined, action: A): S
 }
 
+/**
+ * @since 0.0.1
+ */
 export interface Matchers<A, Tag extends keyof A & string> {
   fold: Folder<A>
   match: Matcher<A, Tag>
@@ -58,6 +95,9 @@ export interface Matchers<A, Tag extends keyof A & string> {
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
 }
 
+/**
+ * @since 0.0.1
+ */
 export const Matchers = <A, Tag extends TagsOf<A> & string>(tag: Tag) => (
   keys: KeysDefinition<A, Tag>
 ): Matchers<A, Tag> => {
