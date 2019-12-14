@@ -1,6 +1,6 @@
-import { Materialized } from '../../src/usage/materializer'
-import { makeSummoner } from '../../src/usage/summoner'
-import { cacheUnaryFunction } from '../../src/core'
+import { Materialized } from '../usage/materializer'
+import { makeSummoner } from '../usage/summoner'
+import { cacheUnaryFunction } from '../core'
 
 import { ProgramNoUnionURI, ProgramNoUnion } from './program-no-union'
 import { ESBASTJInterpreter, ESBASTJInterpreterURI } from './interpreters-ESBAST'

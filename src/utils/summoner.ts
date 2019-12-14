@@ -1,6 +1,6 @@
-import { Materialized } from '../../src/usage/materializer'
-import { makeSummoner } from '../../src/usage/summoner'
-import { cacheUnaryFunction } from '../../src/core'
+import { Materialized } from '../usage/materializer'
+import { makeSummoner } from '../usage/summoner'
+import { cacheUnaryFunction } from '../core'
 import { BASTJInterpreterURI, BASTJInterpreter } from './interpreters-BAST'
 import { ProgramUnionURI, ProgramUnion } from './program'
 

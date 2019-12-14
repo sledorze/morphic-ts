@@ -1,5 +1,5 @@
 import { Kind, URIS, URIS2, Kind2, HKT2 } from '../../src/HKT'
-import { GetAlgebra, Algebra, Algebra1, Algebra2 } from '../../src/core'
+import { GetAlgebra, Algebra, Algebra1, Algebra2 } from '../core'
 import { Program } from '../../src/usage/programs-hkt'
 
 type AllAlgebra = GetAlgebra<

@@ -1,21 +1,21 @@
 import { Eq } from 'fp-ts/lib/Eq'
-import { eqInterpreter } from '../../src/interpreters/eq/interpreters'
+import { eqInterpreter } from '../interpreters/eq/interpreters'
 
 import { Show } from 'fp-ts/lib/Show'
-import { showInterpreter } from '../../src/interpreters/show/interpreters'
+import { showInterpreter } from '../interpreters/show/interpreters'
 
-import { builderInterpreter } from '../../src/interpreters/builder/interpreters'
+import { builderInterpreter } from '../interpreters/builder/interpreters'
 
 import { Arbitrary } from 'fast-check/*'
-import { fastCheckInterpreter } from '../../src/interpreters/fast-check/interpreters'
+import { fastCheckInterpreter } from '../interpreters/fast-check/interpreters'
 
 import { Type } from 'io-ts'
-import { ioTsStrict, ioTsNonStrict } from '../../src/interpreters/io-ts/interpreters'
+import { ioTsStrict, ioTsNonStrict } from '../interpreters/io-ts/interpreters'
 
-import { JSONSchema } from '../../src/json-schema/json-schema'
-import { jsonSchemaInterpreter } from '../../src/interpreters/json-schema/interpreters'
+import { JSONSchema } from '../json-schema/json-schema'
+import { jsonSchemaInterpreter } from '../interpreters/json-schema/interpreters'
 
-import { ProgramInterpreter } from '../../src/usage/materializer'
+import { ProgramInterpreter } from '../usage/materializer'
 import { ProgramNoUnionURI } from './program-no-union'
 
 import { either, Either } from 'fp-ts/lib/Either'

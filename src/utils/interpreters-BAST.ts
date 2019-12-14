@@ -1,16 +1,16 @@
-import { builderInterpreter } from '../../src/interpreters/builder/interpreters'
-import { builderInterpreter as algebraInterp } from '../../src/interpreters/algebra/interpreters'
+import { builderInterpreter } from '../interpreters/builder/interpreters'
+import { builderInterpreter as algebraInterp } from '../interpreters/algebra/interpreters'
 
 import { Arbitrary } from 'fast-check/*'
-import { fastCheckInterpreter } from '../../src/interpreters/fast-check/interpreters'
+import { fastCheckInterpreter } from '../interpreters/fast-check/interpreters'
 
 import { Type } from 'io-ts'
-import { ioTsStrict, ioTsNonStrict } from '../../src/interpreters/io-ts/interpreters'
+import { ioTsStrict, ioTsNonStrict } from '../interpreters/io-ts/interpreters'
 
-import { JSONSchema } from '../../src/json-schema/json-schema'
-import { jsonSchemaInterpreter } from '../../src/interpreters/json-schema/interpreters'
+import { JSONSchema } from '../json-schema/json-schema'
+import { jsonSchemaInterpreter } from '../interpreters/json-schema/interpreters'
 
-import { ProgramInterpreter } from '../../src/usage/materializer'
+import { ProgramInterpreter } from '../usage/materializer'
 import { ProgramUnionURI } from './program'
 import { either, Either } from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
