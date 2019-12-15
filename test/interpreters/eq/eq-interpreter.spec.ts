@@ -1,14 +1,123 @@
 import * as chai from 'chai'
 
-import { summon, summonAs } from '../../../src/utils/summoner-no-union'
+import {
+  Materialized,
+  materialize,
+  InhabitedTypes,
+  ProgramInterpreterRaw1,
+  ProgramInterpreterRaw2
+} from '../../../src/usage/materializer'
+import { makeSummoner } from '../../../src/usage/summoner'
+import { cacheUnaryFunction } from '../../../src/core'
 
+import {
+  ProgramNoUnionURI,
+  AlgebraNoUnion,
+  AlgebraNoUnion1,
+  AlgebraNoUnion2
+} from '../../../src/utils/program-no-union'
+import { ESBASTJInterpreter, ESBASTJInterpreterURI } from '../../../src/utils/interpreters-ESBAST'
+import { eqInterpreter, URI } from '../../../src/interpreters/eq/interpreters'
+import {
+  Program,
+  Program1,
+  Program1URI,
+  AllProgram,
+  Program2,
+  Program2URI,
+  ProgramURI
+} from '../../../src/usage/programs-hkt'
+import {
+  Interpreters,
+  Interpreter1URI,
+  Interpreter1,
+  Interpreter2,
+  Interpreter,
+  Interpreter2URI
+} from '../../../src/usage/interpreters-hkt'
+import { Eq } from 'fp-ts/lib/Eq'
+import { HKT2, Kind, URIS, URIS2, Kind2 } from '../../../src/HKT'
+import { PrimitiveStringConfig } from '../../../src/algebras/hkt'
+import { showInterpreter } from '../../../src/interpreters/show/interpreters'
+
+// export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
+
+// export interface Prog<L, A> extends Program<ESBASTJInterpreterURI, L, A> {}
+
+// interface Summons {
+//   summonAs: <L, A>(F: Prog<L, A>) => M<L, A>
+//   summonAsA: <A>() => <L>(F: Prog<L, A>) => M<L, A>
+//   summonAsL: <L>() => <A>(F: Prog<L, A>) => M<L, A>
+//   summon: <A>(F: Prog<unknown, A>) => M<unknown, A>
+// }
+
+// const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, ESBASTJInterpreter) as Summons
+
+// export { summonAs, summonAsA, summonAsL, summon }
+
+export type EqInterpreterURI = 'EqInterpreterURI'
+
+interface EqInterpreter<A> {
+  eq: Eq<A>
+}
+
+declare module '../../../src/usage/interpreters-hkt' {
+  interface Interpreter<E, A> {
+    EqInterpreterURI: EqInterpreter<A>
+  }
+  interface Interpreter1<E, A> {
+    EqInterpreterURI: EqInterpreter<A>
+  }
+}
+
+const makeDefines = <PURI extends ProgramURI>(prog: PURI) => {
+  type Prog<E, A> = Program<E, A>[PURI]
+  type Res<E, A> = AllProgram<E, A>[PURI]
+  const defineAs = <E, A>(program: Prog<E, A>): Res<E, A> => program as any // White lie
+  const define = <A>(program: Prog<unknown, A>): Res<unknown, A> => program as any
+  return { define, defineAs }
+}
+
+const { define, defineAs } = makeDefines('ProgramNoUnion')
+
+const eqInterp: ProgramInterpreterRaw1<ProgramNoUnionURI, EqInterpreterURI> = program => ({
+  eq: program(eqInterpreter).eq
+})
+
+const ee = eqInterp(F => F.array(F.string()))
+const myRes = define(F => F.array(F.string()))
+const ezzz = eqInterp(myRes)
+
+// eqInterpreter
+interface TTT {
+  a: string
+}
+const p = define<TTT>(F =>
+  F.interface(
+    {
+      a: F.string()
+    },
+    'Toto'
+  ))
+const p1 = define<TTT>(F =>
+  F.interface(
+    {
+      a: F.string()
+    },
+    'Toto'
+  ))
+const res = eqInterp(p)
+const res1 = eqInterp(p1)
+
+const summonAs = eqInterp // <E, A>(program: Program1<E, A>[ProgramNoUnionURI]) => program(eqInterpreter)
+const summon = eqInterp // <A>(program: Program1<unknown, A>[ProgramNoUnionURI]) => program(eqInterpreter)
 describe('Eq', () => {
   it('returns false when comparing incomplete values', () => {
-    const Foo = summonAs(F =>
+    const Foo = eqInterp(F =>
       F.interface(
         {
           date: F.date(),
-          a: F.string()
+          a: F.string({ EqType: undefined })
         },
         'Foo'
       )
@@ -49,8 +158,7 @@ describe('Eq', () => {
                 date: F.date()
               },
               'HasDate'
-            ),
-            {}
+            )
           ),
           a: F.string()
         },
@@ -106,7 +214,7 @@ describe('Eq', () => {
       a: string
       b: number
     }
-    const Foo = summon<Foo>(F =>
+    const Foo: EqInterpreter<Foo> = summon(F =>
       F.interface(
         {
           type: F.stringLiteral('foo'),
@@ -122,7 +230,7 @@ describe('Eq', () => {
       c: string
       d: number
     }
-    const Bar = summon<Bar>(F =>
+    const Bar: EqInterpreter<Bar> = summon(F =>
       F.interface(
         {
           type: F.stringLiteral('bar'),

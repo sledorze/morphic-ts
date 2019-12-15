@@ -15,7 +15,7 @@ import { ioTsStrict, ioTsNonStrict } from '../interpreters/io-ts/interpreters'
 import { JSONSchema } from '../json-schema/json-schema'
 import { jsonSchemaInterpreter } from '../interpreters/json-schema/interpreters'
 
-import { ProgramInterpreter } from '../usage/materializer'
+import { ProgramInterpreterRaw1 } from '../usage/materializer'
 import { ProgramNoUnionURI } from './program-no-union'
 
 import { either, Either } from 'fp-ts/lib/Either'
@@ -34,11 +34,11 @@ interface ESBASTJInterpreter<E, A> {
 export type ESBASTJInterpreterURI = 'ESBASTJInterpreter'
 
 declare module '../../src/usage/interpreters-hkt' {
-  interface Interpreters<E, A> {
+  interface Interpreter1<E, A> {
     ESBASTJInterpreter: ESBASTJInterpreter<E, A>
   }
 }
-export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJInterpreterURI> = program => ({
+export const ESBASTJInterpreter: ProgramInterpreterRaw1<ProgramNoUnionURI, ESBASTJInterpreterURI> = program => ({
   eq: program(eqInterpreter).eq,
   show: program(showInterpreter).show,
   build: program(builderInterpreter).build,

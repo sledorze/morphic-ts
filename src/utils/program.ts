@@ -1,6 +1,6 @@
 import { Kind, URIS, URIS2, Kind2, HKT2 } from '../../src/HKT'
 import { GetAlgebra, Algebra, Algebra1, Algebra2 } from '../core'
-import { Program } from '../../src/usage/programs-hkt'
+import { Program1, Program2 } from '../../src/usage/programs-hkt'
 
 type AllAlgebra = GetAlgebra<
   'Primitive' | 'Intersection' | 'Object' | 'Recursive' | 'Set' | 'StrMap' | 'TaggedUnions' | 'Unions'
@@ -16,10 +16,23 @@ export interface AlgebraUnion2<F extends URIS2> extends Algebra2<AllAlgebra, F> 
 
 export type ProgramUnionURI = 'ProgramUnion'
 
+export interface ProgramUnion<E, A> {
+  <G extends URIS>(a: AlgebraUnion1<G>): Kind<G, A>
+  <G extends URIS2>(a: AlgebraUnion2<G>): Kind2<G, E, A>
+  <G>(a: AlgebraUnion<G>): HKT2<G, E, A>
+}
+
 declare module '../../src/usage/programs-hkt' {
   interface Program<E, A> {
     ProgramUnion: <G>(a: AlgebraUnion<G>) => HKT2<G, E, A>
   }
+
+  interface AllProgram<E, A> {
+    _A: A
+    _E: E
+    ProgramUnion: ProgramUnion<E, A>
+  }
+
   interface Program1<E, A> {
     ProgramUnion: <G extends URIS>(a: AlgebraUnion1<G>) => Kind<G, A>
   }
@@ -28,4 +41,5 @@ declare module '../../src/usage/programs-hkt' {
   }
 }
 
-export type ProgramUnion<E, A> = Program<E, A>[ProgramUnionURI]
+export type ProgramUnion1<E, A> = Program1<E, A>[ProgramUnionURI]
+export type ProgramUnion2<E, A> = Program2<E, A>[ProgramUnionURI]

@@ -2,12 +2,13 @@ import { Materialized } from '../usage/materializer'
 import { makeSummoner } from '../usage/summoner'
 import { cacheUnaryFunction } from '../core'
 
-import { ProgramNoUnionURI, ProgramNoUnion } from './program-no-union'
+import { ProgramNoUnionURI } from './program-no-union'
 import { ESBASTJInterpreter, ESBASTJInterpreterURI } from './interpreters-ESBAST'
+import { Program } from '../usage/programs-hkt'
 
 export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
 
-export interface Prog<L, A> extends ProgramNoUnion<L, A> {}
+export interface Prog<L, A> extends Program<ProgramNoUnionURI, L, A> {}
 
 interface Summons {
   summonAs: <L, A>(F: Prog<L, A>) => M<L, A>

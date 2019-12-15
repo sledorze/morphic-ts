@@ -56,12 +56,12 @@ export interface ModelAlgebraObject1<F extends URIS> {
   interface: <Props>(
     props: PropsKind1<F, Props>,
     name: string,
-    config: ByInterp<ObjectInterfaceConfig, F>
+    config?: ByInterp<ObjectInterfaceConfig, F>
   ) => Kind<F, Props>
   partial: <Props>(
     props: PropsKind1<F, Props>,
     name: string,
-    config: ByInterp<ObjectPartialConfig, F>
+    config?: ByInterp<ObjectPartialConfig, F>
   ) => Kind<F, Partial<Props>>
 }
 

@@ -1,17 +1,29 @@
-import { ProgramsURI, Programs, Program } from './programs-hkt'
-import { InterpretersURI, Interpreters } from './interpreters-hkt'
+import { Program, Program1, Program1URI, Program2URI, Program2, ProgramURI } from './programs-hkt'
+import { Interpreter1URI, Interpreter2URI, Interpreter1, Interpreter2, InterpreterURI } from './interpreters-hkt'
 import { BuilderType } from '../interpreters/builder'
 import { assignFunction, TagsOf } from '../common'
 import { ADT, KeysDefinition, makeADT } from '../adt'
 import { MonocleFor } from '../adt/monocle'
 
-export type ProgramInterpreter<ProgURI extends ProgramsURI, InterpURI extends InterpretersURI> = <E, A>(
-  program: Programs<E, A>[ProgURI]
-) => BuilderType<A> & Interpreters<E, A>[InterpURI]
+// export type ProgramInterpreterRaw<ProgURI extends ProgramsURI, InterpURI extends InterpreterURI> = <E, A>(
+//   program: Programs<E, A>[ProgURI]
+// ) => Interpreter<E, A>[InterpURI]
 
-type Morph<E, A, InterpURI extends InterpretersURI, ProgURI extends ProgramsURI> = BuilderType<A> &
+export type ProgramInterpreterRaw1<ProgURI extends Program1URI, InterpURI extends Interpreter1URI> = <E, A>(
+  program: Program1<E, A>[ProgURI]
+) => Interpreter1<E, A>[InterpURI]
+
+export type ProgramInterpreterRaw2<ProgURI extends Program2URI, InterpURI extends Interpreter2URI> = <E, A>(
+  program: Program2<E, A>[ProgURI]
+) => Interpreter2<E, A>[InterpURI]
+
+// export type ProgramInterpreter<ProgURI extends ProgramsURI, InterpURI extends InterpretersURI> = <E, A>(
+//   program: Programs<E, A>[ProgURI]
+// ) => BuilderType<A> & Interpreters<E, A>[InterpURI]
+
+type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = BuilderType<A> &
   Interpreters<E, A>[InterpURI] &
-  Program<E, A>[ProgURI]
+  Program<ProgURI, E, A>[ProgURI]
 
 const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
   assignFunction((...args: any) => F(...args), Object.assign({}, F, d))
@@ -21,9 +33,9 @@ function interpreteWithProgram<E, A, ProgURI extends ProgramsURI, InterpURI exte
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
 ): Morph<E, A, InterpURI, ProgURI> {
   return assignFunction(
-    (...args: any) => (program as any)(...args),
-    programInterpreter(program as Programs<E, A>[ProgURI])
-  ) // this `as` is the White lie to escape complexes types
+    (...args: any) => (program as any)(...args), // TODO: simplify
+    programInterpreter(program as Programs<E, A>[ProgURI]) // this `as` is the White lie to interprete the program with the correct kind
+  )
 }
 export type MorphADT<
   E,

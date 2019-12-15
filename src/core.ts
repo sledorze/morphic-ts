@@ -66,7 +66,7 @@ export type Algebra2<AllAlgebra extends alg.AlgebraURIS, Interp extends URIS2> =
 > &
   InterpreterFor2<Interp>
 
-type Compact<A> = {
+export type Compact<A> = {
   [K in keyof A]: A[K]
 }
 
