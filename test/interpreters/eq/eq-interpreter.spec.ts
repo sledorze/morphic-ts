@@ -109,8 +109,8 @@ const p1 = define<TTT>(F =>
 const res = eqInterp(p)
 const res1 = eqInterp(p1)
 
-const summonAs = eqInterp // <E, A>(program: Program1<E, A>[ProgramNoUnionURI]) => program(eqInterpreter)
-const summon = eqInterp // <A>(program: Program1<unknown, A>[ProgramNoUnionURI]) => program(eqInterpreter)
+const summonAs = <E, A>(program: Program1<E, A>[ProgramNoUnionURI]) => program(eqInterpreter)
+const summon = <A>(program: Program1<unknown, A>[ProgramNoUnionURI]) => program(eqInterpreter)
 describe('Eq', () => {
   it('returns false when comparing incomplete values', () => {
     const Foo = eqInterp(F =>
@@ -214,7 +214,7 @@ describe('Eq', () => {
       a: string
       b: number
     }
-    const Foo: EqInterpreter<Foo> = summon(F =>
+    const Foo = summon<Foo>(F =>
       F.interface(
         {
           type: F.stringLiteral('foo'),
@@ -230,7 +230,7 @@ describe('Eq', () => {
       c: string
       d: number
     }
-    const Bar: EqInterpreter<Bar> = summon(F =>
+    const Bar = summon<Bar>(F =>
       F.interface(
         {
           type: F.stringLiteral('bar'),
