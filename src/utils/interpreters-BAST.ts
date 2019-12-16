@@ -10,13 +10,15 @@ import { ioTsStrict, ioTsNonStrict } from '../interpreters/io-ts/interpreters'
 import { JSONSchema } from '../json-schema/json-schema'
 import { jsonSchemaInterpreter } from '../interpreters/json-schema/interpreters'
 
-import { ProgramInterpreterRaw1 } from '../usage/materializer'
+import { ProgramInterpreter1 } from '../usage/materializer'
 import { ProgramUnionURI } from './program'
 import { either, Either } from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { JsonSchemaError } from '../interpreters/json-schema'
+import { Builder } from '../interpreters/builder'
 
 interface BASTJInterpreter<E, A> {
+  build: Builder<A>
   arb: Arbitrary<A>
   strictType: Type<A, unknown, unknown>
   type: Type<A, unknown, unknown>
@@ -30,7 +32,7 @@ declare module '../../src/usage/interpreters-hkt' {
     BASTJInterpreter: BASTJInterpreter<E, A>
   }
 }
-export const BASTJInterpreter: ProgramInterpreterRaw1<ProgramUnionURI, BASTJInterpreterURI> = program => ({
+export const BASTJInterpreter: ProgramInterpreter1<ProgramUnionURI, BASTJInterpreterURI> = program => ({
   build: program(builderInterpreter).build,
   arb: program(fastCheckInterpreter).arb,
   strictType: program(ioTsStrict).type,

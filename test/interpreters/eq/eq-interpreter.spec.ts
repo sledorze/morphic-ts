@@ -1,6 +1,6 @@
 import * as chai from 'chai'
 
-import { ProgramInterpreterRaw1 } from '../../../src/usage/materializer'
+import { ProgramInterpreter1 } from '../../../src/usage/materializer'
 import { makeSummoner } from '../../../src/usage/summoner'
 import { cacheUnaryFunction } from '../../../src/core'
 
@@ -23,7 +23,7 @@ declare module '../../../src/usage/interpreters-hkt' {
   }
 }
 
-const eqInterp: ProgramInterpreterRaw1<ProgramNoUnionURI, EqInterpreterURI> = program => ({
+const eqInterp: ProgramInterpreter1<ProgramNoUnionURI, EqInterpreterURI> = program => ({
   eq: program(eqInterpreter).eq
 })
 

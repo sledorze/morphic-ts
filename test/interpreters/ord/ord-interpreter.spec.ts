@@ -1,7 +1,7 @@
 import * as chai from 'chai'
 import { ordInterpreter } from '../../../src/interpreters/ord/interpreters'
 import { lt, gt, ordNumber, ord, Ord } from 'fp-ts/lib/Ord'
-import { ProgramInterpreterRaw1 } from '../../../src/usage/materializer'
+import { ProgramInterpreter1 } from '../../../src/usage/materializer'
 import { builderInterpreter } from '../../../src/interpreters/builder/interpreters'
 import { ProgramOrderableURI } from '../../../src/utils/program-orderable'
 import { cacheUnaryFunction } from '../../../src/core'
@@ -18,7 +18,7 @@ declare module '../../../src/usage/interpreters-hkt' {
     OrdInterpreter: OrdInterpreter<E, A>
   }
 }
-export const OrdInterpreter: ProgramInterpreterRaw1<ProgramOrderableURI, OrdInterpreterURI> = program => ({
+export const OrdInterpreter: ProgramInterpreter1<ProgramOrderableURI, OrdInterpreterURI> = program => ({
   build: program(builderInterpreter).build,
   ord: program(ordInterpreter).ord
 })

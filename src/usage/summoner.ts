@@ -1,5 +1,5 @@
 import { Program1URI, Program1, Program } from './programs-hkt'
-import { materialize, ProgramInterpreterRaw1, Materialized1, Materialized1_ } from './materializer'
+import { materialize, ProgramInterpreter1, Materialized1, Materialized1_ } from './materializer'
 import { Interpreter1URI } from './interpreters-hkt'
 import { CacheType } from '../core'
 
@@ -18,7 +18,7 @@ export type Summoned<ProgURI extends Program1URI, InterpURI extends Interpreter1
 
 export function makeSummoner<ProgURI extends Program1URI, InterpURI extends Interpreter1URI>(
   cacheProgramEval: CacheType,
-  programInterpreter: ProgramInterpreterRaw1<ProgURI, InterpURI>
+  programInterpreter: ProgramInterpreter1<ProgURI, InterpURI>
 ): Summoners<ProgURI, InterpURI> {
   type P<L, A> = Program<L, A>[ProgURI]
   type P1<L, A> = Program1<L, A>[ProgURI]
