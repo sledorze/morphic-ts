@@ -19,7 +19,6 @@ export type ProgramUnionURI = 'ProgramUnion'
 export interface ProgramUnion<E, A> {
   <G extends URIS>(a: AlgebraUnion1<G>): Kind<G, A>
   <G extends URIS2>(a: AlgebraUnion2<G>): Kind2<G, E, A>
-  <G>(a: AlgebraUnion<G>): HKT2<G, E, A>
 }
 
 declare module '../../src/usage/programs-hkt' {
@@ -28,8 +27,6 @@ declare module '../../src/usage/programs-hkt' {
   }
 
   interface AllProgram<E, A> {
-    _A: A
-    _E: E
     ProgramUnion: ProgramUnion<E, A>
   }
 

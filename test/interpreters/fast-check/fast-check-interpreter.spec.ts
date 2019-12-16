@@ -1,10 +1,11 @@
 import * as fc from 'fast-check'
 import { ordString, ord } from 'fp-ts/lib/Ord'
 
-import { ProgramUnion } from '../../../src/utils/program'
+import { ProgramUnionURI } from '../../../src/utils/program'
 import { summon, M } from '../../../src/utils/summoner'
+import { Program } from '../../../src/usage/programs-hkt'
 
-const testProgram = <A>(prog: ProgramUnion<unknown, A>) => {
+const testProgram = <A>(prog: Program<unknown, A>[ProgramUnionURI]) => {
   const { arb, type } = summon(prog)
   fc.assert(fc.property(arb, type.is))
 }

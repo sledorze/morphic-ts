@@ -1,59 +1,12 @@
 import * as chai from 'chai'
 
-import {
-  Materialized,
-  materialize,
-  InhabitedTypes,
-  ProgramInterpreterRaw1,
-  ProgramInterpreterRaw2
-} from '../../../src/usage/materializer'
+import { ProgramInterpreterRaw1 } from '../../../src/usage/materializer'
 import { makeSummoner } from '../../../src/usage/summoner'
 import { cacheUnaryFunction } from '../../../src/core'
 
-import {
-  ProgramNoUnionURI,
-  AlgebraNoUnion,
-  AlgebraNoUnion1,
-  AlgebraNoUnion2
-} from '../../../src/utils/program-no-union'
-import { ESBASTJInterpreter, ESBASTJInterpreterURI } from '../../../src/utils/interpreters-ESBAST'
-import { eqInterpreter, URI } from '../../../src/interpreters/eq/interpreters'
-import {
-  Program,
-  Program1,
-  Program1URI,
-  AllProgram,
-  Program2,
-  Program2URI,
-  ProgramURI
-} from '../../../src/usage/programs-hkt'
-import {
-  Interpreters,
-  Interpreter1URI,
-  Interpreter1,
-  Interpreter2,
-  Interpreter,
-  Interpreter2URI
-} from '../../../src/usage/interpreters-hkt'
+import { ProgramNoUnionURI } from '../../../src/utils/program-no-union'
+import { eqInterpreter } from '../../../src/interpreters/eq/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
-import { HKT2, Kind, URIS, URIS2, Kind2 } from '../../../src/HKT'
-import { PrimitiveStringConfig } from '../../../src/algebras/hkt'
-import { showInterpreter } from '../../../src/interpreters/show/interpreters'
-
-// export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
-
-// export interface Prog<L, A> extends Program<ESBASTJInterpreterURI, L, A> {}
-
-// interface Summons {
-//   summonAs: <L, A>(F: Prog<L, A>) => M<L, A>
-//   summonAsA: <A>() => <L>(F: Prog<L, A>) => M<L, A>
-//   summonAsL: <L>() => <A>(F: Prog<L, A>) => M<L, A>
-//   summon: <A>(F: Prog<unknown, A>) => M<unknown, A>
-// }
-
-// const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, ESBASTJInterpreter) as Summons
-
-// export { summonAs, summonAsA, summonAsL, summon }
 
 export type EqInterpreterURI = 'EqInterpreterURI'
 
@@ -70,47 +23,12 @@ declare module '../../../src/usage/interpreters-hkt' {
   }
 }
 
-const makeDefines = <PURI extends ProgramURI>(prog: PURI) => {
-  type Prog<E, A> = Program<E, A>[PURI]
-  type Res<E, A> = AllProgram<E, A>[PURI]
-  const defineAs = <E, A>(program: Prog<E, A>): Res<E, A> => program as any // White lie
-  const define = <A>(program: Prog<unknown, A>): Res<unknown, A> => program as any
-  return { define, defineAs }
-}
-
-const { define, defineAs } = makeDefines('ProgramNoUnion')
-
 const eqInterp: ProgramInterpreterRaw1<ProgramNoUnionURI, EqInterpreterURI> = program => ({
   eq: program(eqInterpreter).eq
 })
 
-const ee = eqInterp(F => F.array(F.string()))
-const myRes = define(F => F.array(F.string()))
-const ezzz = eqInterp(myRes)
+const { summon, summonAs } = makeSummoner(cacheUnaryFunction, eqInterp)
 
-// eqInterpreter
-interface TTT {
-  a: string
-}
-const p = define<TTT>(F =>
-  F.interface(
-    {
-      a: F.string()
-    },
-    'Toto'
-  ))
-const p1 = define<TTT>(F =>
-  F.interface(
-    {
-      a: F.string()
-    },
-    'Toto'
-  ))
-const res = eqInterp(p)
-const res1 = eqInterp(p1)
-
-const summonAs = <E, A>(program: Program1<E, A>[ProgramNoUnionURI]) => program(eqInterpreter)
-const summon = <A>(program: Program1<unknown, A>[ProgramNoUnionURI]) => program(eqInterpreter)
 describe('Eq', () => {
   it('returns false when comparing incomplete values', () => {
     const Foo = eqInterp(F =>

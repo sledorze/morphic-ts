@@ -1,4 +1,4 @@
-import { URIS, Kind, URIS2, Kind2, HKT, HKT2 } from '../../src/HKT'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from '../../src/HKT'
 import { GetAlgebra, Algebra, Algebra1, Algebra2 } from '../core'
 import { Program2, Program1 } from '../../src/usage/programs-hkt'
 
@@ -17,7 +17,6 @@ export type ProgramNoUnionURI = 'ProgramNoUnion'
 export interface ProgramNoUnion<E, A> {
   <G extends URIS>(a: AlgebraNoUnion1<G>): Kind<G, A>
   <G extends URIS2>(a: AlgebraNoUnion2<G>): Kind2<G, E, A>
-  // <G>(a: AlgebraNoUnion<G>): HKT2<G, E, A>
 }
 
 declare module '../../src/usage/programs-hkt' {

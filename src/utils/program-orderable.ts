@@ -17,12 +17,11 @@ export type ProgramOrderableURI = 'ProgramOrderable'
 export interface ProgramOrderable<E, A> {
   <G extends URIS>(a: AlgebraNoUnion1<G>): Kind<G, A>
   <G extends URIS2>(a: AlgebraNoUnion2<G>): Kind2<G, E, A>
-  <G>(a: AlgebraNoUnion<G>): HKT2<G, E, A>
 }
 
 declare module '../../src/usage/programs-hkt' {
   interface Program<E, A> {
-    ProgramOrderable: <G extends URIS>(a: AlgebraNoUnion1<G>) => Kind<G, A>
+    ProgramOrderable: <G>(a: AlgebraNoUnion<G>) => HKT2<G, E, A>
   }
   interface AllProgram<E, A> {
     ProgramOrderable: ProgramOrderable<E, A>

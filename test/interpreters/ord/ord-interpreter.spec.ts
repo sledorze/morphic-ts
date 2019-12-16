@@ -1,10 +1,9 @@
 import * as chai from 'chai'
 import { ordInterpreter } from '../../../src/interpreters/ord/interpreters'
 import { lt, gt, ordNumber, ord, Ord } from 'fp-ts/lib/Ord'
-import { ProgramInterpreter, Materialized } from '../../../src/usage/materializer'
+import { ProgramInterpreterRaw1 } from '../../../src/usage/materializer'
 import { builderInterpreter } from '../../../src/interpreters/builder/interpreters'
 import { ProgramOrderableURI } from '../../../src/utils/program-orderable'
-import { ProgramUnion } from '../../../src/utils/program'
 import { cacheUnaryFunction } from '../../../src/core'
 import { makeSummoner } from '../../../src/usage/summoner'
 
@@ -15,28 +14,21 @@ interface OrdInterpreter<E, A> {
 export type OrdInterpreterURI = 'OrdInterpreter'
 
 declare module '../../../src/usage/interpreters-hkt' {
-  interface Interpreters<E, A> {
+  interface Interpreter1<E, A> {
     OrdInterpreter: OrdInterpreter<E, A>
   }
 }
-export const OrdInterpreter: ProgramInterpreter<ProgramOrderableURI, OrdInterpreterURI> = program => ({
+export const OrdInterpreter: ProgramInterpreterRaw1<ProgramOrderableURI, OrdInterpreterURI> = program => ({
   build: program(builderInterpreter).build,
   ord: program(ordInterpreter).ord
 })
 
-export interface M<E, A> extends Materialized<E, A, ProgramOrderableURI, OrdInterpreterURI> {}
-export interface UM<A> extends Materialized<unknown, A, ProgramOrderableURI, OrdInterpreterURI> {}
+// export interface M<E, A> extends Materialized1<E, A, ProgramOrderableURI, OrdInterpreterURI> {}
+// export interface UM<A> extends Materialized1<unknown, A, ProgramOrderableURI, OrdInterpreterURI> {}
 
-export interface Prog<L, A> extends ProgramUnion<L, A> {}
+// export type Prog<L, A> = Program<L, A>[ProgramOrderableURI]
 
-interface Summons {
-  summonAs: <L, A>(F: Prog<L, A>) => M<L, A>
-  summonAsA: <A>() => <L>(F: Prog<L, A>) => M<L, A>
-  summonAsL: <L>() => <A>(F: Prog<L, A>) => M<L, A>
-  summon: <A>(F: Prog<unknown, A>) => UM<A>
-}
-
-const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, OrdInterpreter) as Summons
+const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, OrdInterpreter)
 
 export { summonAs, summonAsA, summonAsL, summon }
 
