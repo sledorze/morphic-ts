@@ -7,7 +7,6 @@ import {
   Interpreter,
   InterpreterURI
 } from './interpreters-hkt'
-import { BuilderType } from '../interpreters/builder'
 import { assignFunction, TagsOf } from '../common'
 import { ADT, KeysDefinition, makeADT } from '../adt'
 import { MonocleFor } from '../adt/monocle'
@@ -24,16 +23,13 @@ export type ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends Int
   program: Program<E, A>[ProgURI]
 ) => Interpreter<E, A>[InterpURI]
 
-type Morph1<E, A, InterpURI extends Interpreter1URI, ProgURI extends Program1URI> = BuilderType<A> &
-  Interpreter1<E, A>[InterpURI] &
+type Morph1<E, A, InterpURI extends Interpreter1URI, ProgURI extends Program1URI> = Interpreter1<E, A>[InterpURI] &
   Program<E, A>[ProgURI]
 
-type Morph2<E, A, InterpURI extends Interpreter2URI, ProgURI extends Program2URI> = BuilderType<A> &
-  Interpreter2<E, A>[InterpURI] &
+type Morph2<E, A, InterpURI extends Interpreter2URI, ProgURI extends Program2URI> = Interpreter2<E, A>[InterpURI] &
   Program<E, A>[ProgURI]
 
-type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = BuilderType<A> &
-  Interpreter<E, A>[InterpURI] &
+type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = Interpreter<E, A>[InterpURI] &
   Program<E, A>[ProgURI]
 
 const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
@@ -105,16 +101,6 @@ export type Materialized2_<A, ProgURI extends Program2URI, InterpURI extends Int
   ProgURI,
   InterpURI
 >
-
-// export type Materialized1<E, A, ProgURI extends Program1URI, InterpURI extends Interpreter1URI> = Morph1<
-//   E,
-//   A,
-//   InterpURI,
-//   ProgURI
-// > &
-//   MonocleFor<A> &
-//   TaggableAsADT1<E, A, ProgURI, InterpURI> &
-//   InhabitedTypes<E, A>
 
 export type Materialized1<E, A, ProgURI extends Program1URI, InterpURI extends Interpreter1URI> = Morph1<
   E,

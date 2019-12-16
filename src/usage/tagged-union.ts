@@ -60,8 +60,6 @@ type UnionTypes<
   [k in keyof Types]: M<EType<Types[k]>, AType<Types[k]> & { [t in Tag]: k }, ProgURI, InterpURI>
 }
 
-// type AnyM1<ProgURI extends Program1URI, InterpURI extends Interpreter1URI> = M1<any, any, ProgURI, InterpURI>
-// type AnyM2<ProgURI extends Program2URI, InterpURI extends Interpreter2URI> = M2<any, any, ProgURI, InterpURI>
 type AnyM<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = M<any, any, ProgURI, InterpURI>
 
 export function makeTagged<ProgURI extends Program1URI, InterpURI extends Interpreter1URI>(
