@@ -3,13 +3,7 @@ import { materialize, ProgramInterpreterRaw1, Materialized1, Materialized1_ } fr
 import { Interpreter1URI } from './interpreters-hkt'
 import { CacheType } from '../core'
 
-// export function makeSummoner<ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
-//   cacheProgramEval: CacheType,
-//   programInterpreter: ProgramInterpreterRaw1<ProgURI, InterpURI>
-// )
-
-//
-interface GenSummons<ProgURI extends Program1URI, InterpURI extends Interpreter1URI> {
+interface Summoners<ProgURI extends Program1URI, InterpURI extends Interpreter1URI> {
   summonAs: <L, A>(F: Program<L, A>[ProgURI]) => Materialized1<L, A, ProgURI, InterpURI>
   summonAsA: <A>() => <L>(F: Program<L, A>[ProgURI]) => Materialized1<L, A, ProgURI, InterpURI>
   summonAsL: <L>() => <A>(F: Program<L, A>[ProgURI]) => Materialized1<L, A, ProgURI, InterpURI>
@@ -25,7 +19,7 @@ export type Summoned<ProgURI extends Program1URI, InterpURI extends Interpreter1
 export function makeSummoner<ProgURI extends Program1URI, InterpURI extends Interpreter1URI>(
   cacheProgramEval: CacheType,
   programInterpreter: ProgramInterpreterRaw1<ProgURI, InterpURI>
-): GenSummons<ProgURI, InterpURI> {
+): Summoners<ProgURI, InterpURI> {
   type P<L, A> = Program<L, A>[ProgURI]
   type P1<L, A> = Program1<L, A>[ProgURI]
   type M<L, A> = Materialized1<L, A, ProgURI, InterpURI>

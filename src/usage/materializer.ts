@@ -45,24 +45,15 @@ type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> =
   Program<E, A>[ProgURI]
 
 const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
-  assignFunction((...args: any) => F(...args), Object.assign({}, F, d))
+  assignFunction(F, Object.assign({}, F, d))
 
-// function interpreteWithProgram<E, A, ProgURI extends Program1URI, InterpURI extends Interpreter1URI>(
-//   program: Program1<E, A>[ProgURI],
-//   programInterpreter: ProgramInterpreterRaw1<ProgURI, InterpURI>
-// ): Morph1<E, A, InterpURI, ProgURI>
-// function interpreteWithProgram<E, A, ProgURI extends Program2URI, InterpURI extends Interpreter2URI>(
-//   program: Program2<E, A>[ProgURI],
-//   programInterpreter: ProgramInterpreterRaw2<ProgURI, InterpURI>
-// ): Morph2<E, A, InterpURI, ProgURI>
+const wrapFun = <A, B, X>(g: ((a: A) => B) & X) => (x: A) => g(x)
+
 function interpreteWithProgram<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   program: Program<E, A>[ProgURI],
   programInterpreter: ProgramInterpreterRaw<ProgURI, InterpURI>
 ): Morph<E, A, InterpURI, ProgURI> {
-  return assignFunction(
-    (...args: any) => (program as any)(...args), // TODO: simplify
-    programInterpreter(program)
-  )
+  return assignFunction(wrapFun(program), programInterpreter(program))
 }
 
 export type MorphADT1<
@@ -208,7 +199,7 @@ function asADT<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterUR
   tag: Tag
 ) => (keys: KeysDefinition<A, Tag>) => MorphADT<E, A, Tag, ProgURI, InterpURI> {
   return tag => keys =>
-    assignCallable((algebra: any) => (m as any)(algebra), {
+    assignCallable(wrapFun(m), {
       ...(m as any),
       ...makeADT(tag)(keys)
     })
