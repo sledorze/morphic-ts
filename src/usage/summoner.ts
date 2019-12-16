@@ -1,5 +1,5 @@
 import { Program1URI, Program1, Program } from './programs-hkt'
-import { materialize, ProgramInterpreter1, Materialized1, Materialized1_ } from './materializer'
+import { materialize, ProgramInterpreter1, Materialized1, MaterializedU1 } from './materializer'
 import { Interpreter1URI } from './interpreters-hkt'
 import { CacheType } from '../core'
 
@@ -23,7 +23,7 @@ export function makeSummoner<ProgURI extends Program1URI, InterpURI extends Inte
   type P<L, A> = Program<L, A>[ProgURI]
   type P1<L, A> = Program1<L, A>[ProgURI]
   type M<L, A> = Materialized1<L, A, ProgURI, InterpURI>
-  type M_<A> = Materialized1_<A, ProgURI, InterpURI>
+  type UM<A> = MaterializedU1<A, ProgURI, InterpURI>
 
   const cached: <L, A>(x: P<L, A>) => P1<L, A> = cacheProgramEval as any
 
@@ -31,7 +31,7 @@ export function makeSummoner<ProgURI extends Program1URI, InterpURI extends Inte
 
   const summonAsA: <A>() => <L>(F: P<L, A>) => M<L, A> = () => summonAs
   const summonAsL: <L>() => <A>(F: P<L, A>) => M<L, A> = () => summonAs
-  const summon: <A>(F: P<unknown, A>) => M_<A> = summonAs
+  const summon: <A>(F: P<unknown, A>) => UM<A> = summonAs
 
   return {
     summonAs,

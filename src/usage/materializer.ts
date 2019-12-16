@@ -89,13 +89,13 @@ export interface TaggableAsADT<E, A, ProgURI extends ProgramURI, InterpURI exten
   ) => (keys: KeysDefinition<A, Tag>) => MorphADT<E, A, Tag, ProgURI, InterpURI>
 }
 
-export type Materialized1_<A, ProgURI extends Program1URI, InterpURI extends Interpreter1URI> = Materialized1<
+export type MaterializedU1<A, ProgURI extends Program1URI, InterpURI extends Interpreter1URI> = Materialized1<
   unknown,
   A,
   ProgURI,
   InterpURI
 >
-export type Materialized2_<A, ProgURI extends Program2URI, InterpURI extends Interpreter2URI> = Materialized2<
+export type MaterializedU2<A, ProgURI extends Program2URI, InterpURI extends Interpreter2URI> = Materialized2<
   unknown,
   A,
   ProgURI,
@@ -168,10 +168,8 @@ export function materialize<E, A, ProgURI extends ProgramURI, InterpURI extends 
  */
 function asADT<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   m: Morph<E, A, InterpURI, ProgURI>
-): <Tag extends TagsOf<A> & string>(
-  tag: Tag
-) => (keys: KeysDefinition<A, Tag>) => MorphADT<E, A, Tag, ProgURI, InterpURI> {
-  return tag => keys =>
+): <Tag extends TagsOf<A> & string>(tag: Tag, keys: KeysDefinition<A, Tag>) => MorphADT<E, A, Tag, ProgURI, InterpURI> {
+  return (tag, keys) =>
     assignCallable(wrapFun(m), {
       ...m,
       ...makeADT(tag)(keys)
@@ -182,7 +180,7 @@ function withTaggableAndMonocle<E, A, ProgURI extends ProgramURI, InterpURI exte
   morphes: Morph<E, A, InterpURI, ProgURI> & InhabitedTypes<E, A>
 ): Materialized<E, A, ProgURI, InterpURI> {
   const tagged = <Tag extends TagsOf<A> & string>(tag: Tag) => (keys: KeysDefinition<A, Tag>) =>
-    asADT(res as Morph<E, A, InterpURI, ProgURI>)(tag)(keys)
+    asADT(res as Morph<E, A, InterpURI, ProgURI>)(tag, keys)
   const res: Materialized<E, A, ProgURI, InterpURI> = assignCallable(morphes, {
     tagged,
     ...MonocleFor<A>()
