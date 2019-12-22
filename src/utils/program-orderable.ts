@@ -19,9 +19,12 @@ export interface ProgramOrderable<E, A> {
   <G extends URIS2>(a: AlgebraNoUnion2<G>): Kind2<G, E, A>
 }
 
+export interface P<E, A> {
+  <G>(a: AlgebraNoUnion<G>): HKT2<G, E, A>
+}
 declare module '../../src/usage/programs-hkt' {
   interface Program<E, A> {
-    ProgramOrderable: <G>(a: AlgebraNoUnion<G>) => HKT2<G, E, A>
+    ProgramOrderable: P<E, A>
   }
   interface AllProgram<E, A> {
     ProgramOrderable: ProgramOrderable<E, A>

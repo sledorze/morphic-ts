@@ -1,14 +1,15 @@
 import * as chai from 'chai'
 
-import { ProgramInterpreter1 } from '../../../src/usage/materializer'
-import { makeSummoner } from '../../../src/usage/summoner'
+import { ProgramInterpreter1, Materialized1 } from '../../../src/usage/materializer'
+import { makeSummoner, Summoners } from '../../../src/usage/summoner'
 import { cacheUnaryFunction } from '../../../src/core'
 
 import { ProgramNoUnionURI } from '../../../src/utils/program-no-union'
 import { eqInterpreter } from '../../../src/interpreters/eq/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
+import { Program } from '../../../src/usage/programs-hkt'
 
-export type EqInterpreterURI = 'EqInterpreterURI'
+export type EqInterpreterURI = 'EqInterpreter'
 
 interface EqInterpreter<A> {
   eq: Eq<A>
@@ -16,16 +17,48 @@ interface EqInterpreter<A> {
 
 declare module '../../../src/usage/interpreters-hkt' {
   interface Interpreter<E, A> {
-    EqInterpreterURI: EqInterpreter<A>
+    EqInterpreter: EqInterpreter<A>
   }
   interface Interpreter1<E, A> {
-    EqInterpreterURI: EqInterpreter<A>
+    EqInterpreter: EqInterpreter<A>
   }
 }
 
 const eqInterp: ProgramInterpreter1<ProgramNoUnionURI, EqInterpreterURI> = program => ({
   eq: program(eqInterpreter).eq
 })
+
+/** Type level override to keep Morph type name short */
+export interface M<L, A> extends Materialized1<L, A, ProgramNoUnionURI, EqInterpreterURI> {}
+export interface UM<A> extends Materialized1<unknown, A, ProgramNoUnionURI, EqInterpreterURI> {}
+
+export interface MorphAs {
+  <L, A>(F: Program<L, A>[ProgramNoUnionURI]): M<L, A>
+}
+export interface MorphAsA {
+  <A>(): <L>(F: Program<L, A>[ProgramNoUnionURI]) => M<L, A>
+}
+export interface MorphAsL {
+  <L>(): <A>(F: Program<L, A>[ProgramNoUnionURI]) => M<L, A>
+}
+export interface Morph {
+  <A>(F: Program<unknown, A>[ProgramNoUnionURI]): UM<A>
+}
+
+export interface Summoner extends Summoners<ProgramNoUnionURI, EqInterpreterURI> {
+  summonAs: MorphAs
+  summonAsA: MorphAsA
+  summonAsL: MorphAsL
+  summon: Morph
+}
+
+declare module '../../../src/usage/summoner' {
+  export interface IndexedSummoners {
+    ProgramNoUnion: {
+      EqInterpreter?: Summoners<ProgramNoUnionURI, EqInterpreterURI>
+    }
+  }
+}
 
 const { summon, summonAs } = makeSummoner(cacheUnaryFunction, eqInterp)
 

@@ -20,10 +20,13 @@ export interface ProgramUnion<E, A> {
   <G extends URIS>(a: AlgebraUnion1<G>): Kind<G, A>
   <G extends URIS2>(a: AlgebraUnion2<G>): Kind2<G, E, A>
 }
+export interface P<E, A> {
+  <G>(a: AlgebraUnion<G>): HKT2<G, E, A>
+}
 
 declare module '../../src/usage/programs-hkt' {
   interface Program<E, A> {
-    ProgramUnion: <G>(a: AlgebraUnion<G>) => HKT2<G, E, A>
+    ProgramUnion: P<E, A>
   }
 
   interface AllProgram<E, A> {
