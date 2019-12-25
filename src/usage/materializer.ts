@@ -18,9 +18,15 @@ export type ProgramInterpreter2<ProgURI extends Program2URI, InterpURI extends I
   program: Program2<E, A>[ProgURI]
 ) => Interpreter2<E, A>[InterpURI]
 
-export type ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = <E, A>(
-  program: Program<E, A>[ProgURI]
-) => Interpreter<E, A>[InterpURI]
+// export type ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = <E, A>(
+//   program: Program<E, A>[ProgURI]
+// ) => Interpreter<E, A>[InterpURI]
+
+export interface ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
+  // <E, A>(program: Program1<E, A>[ProgURI]): Interpreter1<E, A>[InterpURI]
+  // <E, A>(program: Program2<E, A>[ProgURI]): Interpreter2<E, A>[InterpURI]
+  <E, A>(program: Program<E, A>[ProgURI]): Interpreter<E, A>[InterpURI]
+}
 
 type Morph1<E, A, InterpURI extends Interpreter1URI, ProgURI extends Program1URI> = Interpreter1<E, A>[InterpURI] &
   Program<E, A>[ProgURI]
