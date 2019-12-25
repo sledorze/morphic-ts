@@ -52,6 +52,11 @@ declare module '../usage/interpreters-hkt' {
     ESBASTJInterpreter: ESBASTJInterpreter<E, A>
   }
 }
+declare module '../usage/programs-hkt' {
+  interface ProgramNoUnionInterpreters {
+    ESBASTJInterpreter: Summoner
+  }
+}
 
 /** Type level override to keep Morph type name short */
 export interface M<L, A> extends Materialized1<L, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
@@ -75,12 +80,4 @@ export interface Summoner extends Summoners<ProgramNoUnionURI, ESBASTJInterprete
   summonAsA: MorphAsA
   summonAsL: MorphAsL
   summon: Morph
-}
-
-declare module '../usage/summoner' {
-  export interface IndexedSummoners {
-    ProgramNoUnion: {
-      ESBASTJInterpreter: Summoner
-    }
-  }
 }

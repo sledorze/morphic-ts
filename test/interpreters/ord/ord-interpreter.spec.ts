@@ -1,11 +1,12 @@
 import * as chai from 'chai'
 import { ordInterpreter } from '../../../src/interpreters/ord/interpreters'
 import { lt, gt, ordNumber, ord, Ord } from 'fp-ts/lib/Ord'
-import { ProgramInterpreter1 } from '../../../src/usage/materializer'
+import { Materialized2, ProgramInterpreter2 } from '../../../src/usage/materializer'
 import { builderInterpreter } from '../../../src/interpreters/builder/interpreters'
 import { ProgramOrderableURI } from '../../../src/utils/program-orderable'
 import { cacheUnaryFunction } from '../../../src/core'
-import { makeSummoner } from '../../../src/usage/summoner'
+import { makeSummoner, Summoners2 } from '../../../src/usage/summoner'
+import { Program } from '../../../src/usage/programs-hkt'
 
 interface OrdInterpreter<E, A> {
   ord: Ord<A>
@@ -18,7 +19,37 @@ declare module '../../../src/usage/interpreters-hkt' {
     OrdInterpreter: OrdInterpreter<E, A>
   }
 }
-export const OrdInterpreter: ProgramInterpreter1<ProgramOrderableURI, OrdInterpreterURI> = program => ({
+declare module '../../../src/usage/programs-hkt' {
+  interface ProgramNoUnionInterpreters {
+    OrdInterpreter: Summoner
+  }
+}
+
+/** Type level override to keep Morph type name short */
+export interface M<L, A> extends Materialized2<L, A, ProgramOrderableURI, OrdInterpreterURI> {}
+export interface UM<A> extends Materialized2<unknown, A, ProgramOrderableURI, OrdInterpreterURI> {}
+
+export interface MorphAs {
+  <L, A>(F: Program<L, A>[ProgramOrderableURI]): M<L, A>
+}
+export interface MorphAsA {
+  <A>(): <L>(F: Program<L, A>[ProgramOrderableURI]) => M<L, A>
+}
+export interface MorphAsL {
+  <L>(): <A>(F: Program<L, A>[ProgramOrderableURI]) => M<L, A>
+}
+export interface Morph {
+  <A>(F: Program<unknown, A>[ProgramOrderableURI]): UM<A>
+}
+
+export interface Summoner extends Summoners2<ProgramOrderableURI, OrdInterpreterURI> {
+  summonAs: MorphAs
+  summonAsA: MorphAsA
+  summonAsL: MorphAsL
+  summon: Morph
+}
+
+export const OrdInterpreter: ProgramInterpreter2<ProgramOrderableURI, OrdInterpreterURI> = program => ({
   build: program(builderInterpreter).build,
   ord: program(ordInterpreter).ord
 })

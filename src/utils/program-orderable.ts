@@ -26,6 +26,12 @@ declare module '../../src/usage/programs-hkt' {
   interface Program<E, A> {
     ProgramOrderable: P<E, A>
   }
+
+  interface ProgramTypes {
+    ProgramOrderable: ProgramOrderableInterpreters
+  }
+  interface ProgramOrderableInterpreters {}
+
   interface AllProgram<E, A> {
     ProgramOrderable: ProgramOrderable<E, A>
   }

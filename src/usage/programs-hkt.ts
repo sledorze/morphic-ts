@@ -10,6 +10,8 @@ export type Program1URI = keyof Program1<any, any>
 export interface Program2<E, A> {}
 export type Program2URI = keyof Program2<any, any>
 
+export interface ProgramTypes {}
+
 /***
  * Provides Program builder for the given Program type (Exposing a specific Algebra)
  */

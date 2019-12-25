@@ -23,6 +23,11 @@ declare module '../../../src/usage/interpreters-hkt' {
     EqInterpreter: EqInterpreter<A>
   }
 }
+declare module '../../../src/usage/programs-hkt' {
+  interface ProgramNoUnionInterpreters {
+    EqInterpreter: Summoner
+  }
+}
 
 const eqInterp: ProgramInterpreter1<ProgramNoUnionURI, EqInterpreterURI> = program => ({
   eq: program(eqInterpreter).eq
@@ -50,14 +55,6 @@ export interface Summoner extends Summoners<ProgramNoUnionURI, EqInterpreterURI>
   summonAsA: MorphAsA
   summonAsL: MorphAsL
   summon: Morph
-}
-
-declare module '../../../src/usage/summoner' {
-  export interface IndexedSummoners {
-    ProgramNoUnion: {
-      EqInterpreter?: Summoners<ProgramNoUnionURI, EqInterpreterURI>
-    }
-  }
 }
 
 const { summon, summonAs } = makeSummoner(cacheUnaryFunction, eqInterp)

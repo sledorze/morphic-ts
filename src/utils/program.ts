@@ -29,6 +29,11 @@ declare module '../../src/usage/programs-hkt' {
     ProgramUnion: P<E, A>
   }
 
+  export interface ProgramTypes extends Record<Program1URI, any> {
+    ProgramUnion: ProgramUnionInterpreters
+  }
+  interface ProgramUnionInterpreters {}
+
   interface AllProgram<E, A> {
     ProgramUnion: ProgramUnion<E, A>
   }

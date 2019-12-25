@@ -27,6 +27,11 @@ declare module '../../src/usage/programs-hkt' {
     ProgramNoUnion: P<E, A>
   }
 
+  interface ProgramTypes {
+    ProgramNoUnion: ProgramNoUnionInterpreters
+  }
+  interface ProgramNoUnionInterpreters {}
+
   interface AllProgram<E, A> {
     ProgramNoUnion: ProgramNoUnion<E, A>
   }

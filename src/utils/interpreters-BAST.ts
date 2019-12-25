@@ -43,6 +43,11 @@ declare module '../../src/usage/interpreters-hkt' {
     BASTJInterpreter: BASTJInterpreter<E, A>
   }
 }
+declare module '../usage/programs-hkt' {
+  interface ProgramUnionInterpreters {
+    BASTJInterpreter: Summoner
+  }
+}
 
 /** Type level override to keep Morph type name short */
 export interface M<L, A> extends Materialized1<L, A, ProgramUnionURI, BASTJInterpreterURI> {}
@@ -66,12 +71,4 @@ export interface Summoner extends Summoners<ProgramUnionURI, BASTJInterpreterURI
   summonAsA: MorphAsA
   summonAsL: MorphAsL
   summon: Morph
-}
-
-declare module '../usage/summoner' {
-  export interface IndexedSummoners {
-    ProgramUnion: {
-      BASTJInterpreter: Summoner
-    }
-  }
 }

@@ -11,10 +11,9 @@ import { assignFunction, TagsOf } from '../common'
 import { ADT, KeysDefinition, makeADT } from '../adt'
 import { MonocleFor } from '../adt/monocle'
 
-export type ProgramInterpreter1<ProgURI extends Program1URI, InterpURI extends Interpreter1URI> = <E, A>(
-  program: Program1<E, A>[ProgURI]
-) => Interpreter1<E, A>[InterpURI]
-
+export interface ProgramInterpreter1<ProgURI extends Program1URI, InterpURI extends Interpreter1URI> {
+  <E, A>(program: Program1<E, A>[ProgURI]): Interpreter1<E, A>[InterpURI]
+}
 export type ProgramInterpreter2<ProgURI extends Program2URI, InterpURI extends Interpreter2URI> = <E, A>(
   program: Program2<E, A>[ProgURI]
 ) => Interpreter2<E, A>[InterpURI]
@@ -171,7 +170,7 @@ function asADT<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterUR
 ): <Tag extends TagsOf<A> & string>(tag: Tag, keys: KeysDefinition<A, Tag>) => MorphADT<E, A, Tag, ProgURI, InterpURI> {
   return (tag, keys) =>
     assignCallable(wrapFun(m), {
-      ...m,
+      ...(m as object),
       ...makeADT(tag)(keys)
     })
 }
