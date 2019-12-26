@@ -1,11 +1,11 @@
 import * as t from 'io-ts'
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
-import { IOTSStringType, URI } from '.'
+import { IOTSStringType, IoTsStringURI } from '.'
 import { ModelAlgebraPrimitive2 } from '../../algebras/primitives'
 import { Compact } from '../../core'
 
-export const ioTsStringPrimitiveInterpreter: ModelAlgebraPrimitive2<URI> = {
+export const ioTsStringPrimitiveInterpreter: ModelAlgebraPrimitive2<IoTsStringURI> = {
   date: _ => new IOTSStringType(DateFromISOString),
   boolean: _ => new IOTSStringType(t.boolean),
   string: _ => new IOTSStringType(t.string),

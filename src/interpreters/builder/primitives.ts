@@ -1,7 +1,7 @@
-import { URI, makeBuilder } from '.'
+import { BuilderURI, makeBuilder } from '.'
 import { ModelAlgebraPrimitive1 } from '../../algebras/primitives'
 
-export const builderPrimitiveInterpreter: ModelAlgebraPrimitive1<URI> = {
+export const builderPrimitiveInterpreter: ModelAlgebraPrimitive1<BuilderURI> = {
   date: _ => makeBuilder(),
   boolean: _ => makeBuilder(),
   string: _ => makeBuilder(),

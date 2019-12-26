@@ -2,9 +2,9 @@ import * as options from 'fp-ts/lib/Option'
 import { ordNumber, ordString, ord, ordBoolean } from 'fp-ts/lib/Ord'
 import { getOrd as getArrayOrd } from 'fp-ts/lib/Array'
 import { ModelAlgebraPrimitive1 } from '../../algebras/primitives'
-import { OrdType, URI } from '.'
+import { OrdType, OrdURI } from '.'
 
-export const ordPrimitiveInterpreter: ModelAlgebraPrimitive1<URI> = {
+export const ordPrimitiveInterpreter: ModelAlgebraPrimitive1<OrdURI> = {
   date: _ => new OrdType(ord.contramap(ordNumber, (date: Date) => date.getTime())),
   boolean: _ => new OrdType(ordBoolean),
   string: _ => new OrdType(ordString),

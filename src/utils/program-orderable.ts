@@ -12,7 +12,8 @@ export interface AlgebraNoUnion<F> extends Algebra<AllAlgebra, F> {}
 export interface AlgebraNoUnion1<F extends URIS> extends Algebra1<AllAlgebra, F> {}
 export interface AlgebraNoUnion2<F extends URIS2> extends Algebra2<AllAlgebra, F> {}
 
-export type ProgramOrderableURI = 'ProgramOrderable'
+export const ProgramOrderableURI = Symbol()
+export type ProgramOrderableURI = typeof ProgramOrderableURI
 
 export interface ProgramOrderable<E, A> {
   <G extends URIS>(a: AlgebraNoUnion1<G>): Kind<G, A>
@@ -25,15 +26,15 @@ export interface P<E, A> {
 
 declare module '../../src/usage/programs-hkt' {
   interface Program<E, A> {
-    ProgramOrderable: P<E, A>
+    [ProgramOrderableURI]: P<E, A>
   }
 
   interface ProgramTypes {
-    ProgramOrderable: ProgramOrderableInterpreters
+    [ProgramOrderableURI]: ProgramOrderableInterpreters
   }
   interface ProgramOrderableInterpreters {}
 
   interface AllProgram<E, A> {
-    ProgramOrderable: ProgramOrderable<E, A>
+    [ProgramOrderableURI]: ProgramOrderable<E, A>
   }
 }

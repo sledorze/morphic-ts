@@ -1,7 +1,7 @@
 import { Show } from 'fp-ts/lib/Show'
 
-export const URI = 'ShowType'
-export type URI = typeof URI
+export const ShowURI = 'ShowType'
+export type ShowURI = typeof ShowURI
 
 export class ShowType<A> {
   constructor(public show: Show<A>) {}
@@ -9,6 +9,6 @@ export class ShowType<A> {
 
 declare module '../../HKT' {
   interface URItoKind<A> {
-    [URI]: ShowType<A>
+    [ShowURI]: ShowType<A>
   }
 }

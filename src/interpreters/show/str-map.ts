@@ -1,7 +1,7 @@
 import { record } from 'fp-ts'
 import { ModelAlgebraStrMap1 } from '../../algebras/str-map'
-import { ShowType, URI } from '.'
+import { ShowType, ShowURI } from '.'
 
-export const showStrMapInterpreter: ModelAlgebraStrMap1<URI> = {
+export const showStrMapInterpreter: ModelAlgebraStrMap1<ShowURI> = {
   strMap: codomain => new ShowType(record.getShow(codomain.show))
 }

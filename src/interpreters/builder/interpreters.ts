@@ -8,10 +8,10 @@ import { builderTaggedUnionInterpreter } from './tagged-unions'
 import { builderRecursiveInterpreter } from './recursive'
 import { builderStrMapInterpreter } from './str-map'
 import { builderSetInterpreter } from './set'
-import { URI } from '.'
-export { URI }
+import { BuilderURI } from '.'
+export { BuilderURI }
 
-export const defineBuilderInterpreter = InterpreterFor(URI)
+export const defineBuilderInterpreter = InterpreterFor(BuilderURI)
 
 export const builderInterpreter = defineBuilderInterpreter(
   merge(

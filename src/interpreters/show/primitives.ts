@@ -2,9 +2,9 @@ import { showNumber, showString, Show, showBoolean } from 'fp-ts/lib/Show'
 import { getShow } from 'fp-ts/lib/Option'
 import { getShow as getShowA } from 'fp-ts/lib/Array'
 import { ModelAlgebraPrimitive1 } from '../../algebras/primitives'
-import { ShowType, URI } from '.'
+import { ShowType, ShowURI } from '.'
 
-export const showPrimitiveInterpreter: ModelAlgebraPrimitive1<URI> = {
+export const showPrimitiveInterpreter: ModelAlgebraPrimitive1<ShowURI> = {
   date: _ => new ShowType({ show: (date: Date) => date.toISOString() }),
   boolean: _ => new ShowType(showBoolean),
   string: _ => new ShowType(showString),

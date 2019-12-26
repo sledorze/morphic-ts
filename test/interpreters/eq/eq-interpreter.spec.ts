@@ -5,7 +5,7 @@ import { makeSummoner, Summoners } from '../../../src/usage/summoner'
 import { cacheUnaryFunction } from '../../../src/core'
 
 import { ProgramNoUnionURI } from '../../../src/utils/program-no-union'
-import { eqInterpreter } from '../../../src/interpreters/eq/interpreters'
+import { eqInterpreter, EqURI } from '../../../src/interpreters/eq/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
 import { Program, interpretable } from '../../../src/usage/programs-hkt'
 
@@ -65,7 +65,7 @@ describe('Eq', () => {
       F.interface(
         {
           date: F.date(),
-          a: F.string({ EqType: undefined })
+          a: F.string({ [EqURI]: undefined })
         },
         'Foo'
       )

@@ -1,7 +1,7 @@
 import * as t from 'io-ts'
 
-export const URI = 'IOTSStringType'
-export type URI = typeof URI
+export const IoTsStringURI = 'IOTSStringType'
+export type IoTsStringURI = typeof IoTsStringURI
 
 export class IOTSStringType<O, A> {
   constructor(public type: t.Type<A, O>) {}
@@ -9,6 +9,6 @@ export class IOTSStringType<O, A> {
 
 declare module '../../HKT' {
   interface URItoKind2<E, A> {
-    IOTSStringType: IOTSStringType<E, A>
+    [IoTsStringURI]: IOTSStringType<E, A>
   }
 }

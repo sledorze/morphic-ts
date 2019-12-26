@@ -1,5 +1,4 @@
 import { builderInterpreter } from '../interpreters/builder/interpreters'
-import { builderInterpreter as algebraInterp } from '../interpreters/algebra/interpreters'
 
 import { Arbitrary } from 'fast-check/*'
 import { fastCheckInterpreter } from '../interpreters/fast-check/interpreters'
@@ -27,7 +26,8 @@ interface BASTJInterpreter<E, A> {
   jsonSchema: Either<NonEmptyArray<JsonSchemaError>, JSONSchema>
 }
 
-export type BASTJInterpreterURI = 'BASTJInterpreter'
+const BASTJInterpreterURI = Symbol()
+export type BASTJInterpreterURI = typeof BASTJInterpreterURI
 
 export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpreterURI> = _program => {
   const program = interpretable(_program)
@@ -36,19 +36,18 @@ export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpre
     arb: program(fastCheckInterpreter).arb,
     strictType: program(ioTsStrict).type,
     type: program(ioTsNonStrict).type,
-    jsonSchema: either.map(program(jsonSchemaInterpreter).schema, s => s.json),
-    algebra: program(algebraInterp).build
+    jsonSchema: either.map(program(jsonSchemaInterpreter).schema, s => s.json)
   }
 }
 
 declare module '../../src/usage/interpreters-hkt' {
   interface Interpreter<E, A> {
-    BASTJInterpreter: BASTJInterpreter<E, A>
+    [BASTJInterpreterURI]: BASTJInterpreter<E, A>
   }
 }
 declare module '../usage/programs-hkt' {
   interface ProgramUnionInterpreters {
-    BASTJInterpreter: Summoner
+    [BASTJInterpreterURI]: Summoner
   }
 }
 

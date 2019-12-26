@@ -14,7 +14,8 @@ export interface AlgebraUnion<F> extends Algebra<AllAlgebra, F> {}
 export interface AlgebraUnion1<F extends URIS> extends Algebra1<AllAlgebra, F> {}
 export interface AlgebraUnion2<F extends URIS2> extends Algebra2<AllAlgebra, F> {}
 
-export type ProgramUnionURI = 'ProgramUnion'
+export const ProgramUnionURI = Symbol()
+export type ProgramUnionURI = typeof ProgramUnionURI
 
 export interface ProgramUnion<E, A> {
   <G extends URIS>(a: AlgebraUnion1<G>): Kind<G, A>
@@ -27,15 +28,15 @@ export interface P<E, A> {
 
 declare module '../../src/usage/programs-hkt' {
   interface Program<E, A> {
-    ProgramUnion: P<E, A>
+    [ProgramUnionURI]: P<E, A>
   }
 
   export interface ProgramTypes extends Record<ProgramURI, any> {
-    ProgramUnion: ProgramUnionInterpreters
+    [ProgramUnionURI]: ProgramUnionInterpreters
   }
   interface ProgramUnionInterpreters {}
 
   interface AllProgram<E, A> {
-    ProgramUnion: ProgramUnion<E, A>
+    [ProgramUnionURI]: ProgramUnion<E, A>
   }
 }

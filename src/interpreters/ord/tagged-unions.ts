@@ -1,5 +1,5 @@
 import { ordString } from 'fp-ts/lib/Ord'
-import { OrdType, URI } from '.'
+import { OrdType, OrdURI } from '.'
 import { ModelAlgebraTaggedUnions1 } from '../../algebras/tagged-unions'
 import { mapRecord } from '../../utils'
 import { Ordering } from 'fp-ts/lib/Ordering'
@@ -8,7 +8,7 @@ import { Ordering } from 'fp-ts/lib/Ordering'
  * This is kind of useless as required interfaces are not supported in Ord
  */
 
-export const ordTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<URI> = {
+export const ordTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<OrdURI> = {
   taggedUnion: (tag, types) => {
     const equals = mapRecord(types, a => a.ord.equals)
     const compares = mapRecord(types, a => a.ord.compare)

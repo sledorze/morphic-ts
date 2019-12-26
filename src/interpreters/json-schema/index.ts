@@ -2,8 +2,8 @@ import { OptionalJSONSchema } from '../../json-schema/json-schema-ctors'
 import { Either } from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 
-export const URI = 'JsonSchema'
-export type URI = typeof URI
+export const JsonSchemaURI = 'JsonSchema'
+export type JsonSchemaURI = typeof JsonSchemaURI
 
 export interface JsonSchemaError {
   msg: string
@@ -20,6 +20,6 @@ export class JsonSchema<A> {
 
 declare module '../../HKT' {
   interface URItoKind<A> {
-    [URI]: JsonSchema<A>
+    [JsonSchemaURI]: JsonSchema<A>
   }
 }

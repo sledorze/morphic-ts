@@ -1,8 +1,8 @@
 import { ModelAlgebraTaggedUnions1 } from '../../algebras/tagged-unions'
-import { ShowType, URI } from '.'
+import { ShowType, ShowURI } from '.'
 import { mapRecord } from '../../utils'
 
-export const showTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<URI> = {
+export const showTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<ShowURI> = {
   taggedUnion: (tag, types) => {
     const shows = mapRecord(types, a => a.show.show)
     return new ShowType({

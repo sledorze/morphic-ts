@@ -35,7 +35,8 @@ interface ESBASTJInterpreter<E, A> {
   jsonSchema: Either<NonEmptyArray<JsonSchemaError>, JSONSchema>
 }
 
-export type ESBASTJInterpreterURI = 'ESBASTJInterpreter'
+export const ESBASTJInterpreterURI = Symbol()
+export type ESBASTJInterpreterURI = typeof ESBASTJInterpreterURI
 
 export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJInterpreterURI> = _program => {
   const program = interpretable(_program)
@@ -52,12 +53,12 @@ export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJIn
 
 declare module '../usage/interpreters-hkt' {
   interface Interpreter<E, A> {
-    ESBASTJInterpreter: ESBASTJInterpreter<E, A>
+    [ESBASTJInterpreterURI]: ESBASTJInterpreter<E, A>
   }
 }
 declare module '../usage/programs-hkt' {
   interface ProgramNoUnionInterpreters {
-    ESBASTJInterpreter: Summoner
+    [ESBASTJInterpreterURI]: Summoner
   }
 }
 

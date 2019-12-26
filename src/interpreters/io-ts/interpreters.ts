@@ -1,6 +1,6 @@
 import * as t from 'io-ts'
 import { InterpreterFor } from '../../core'
-import { IOTSType, URI } from '.'
+import { IOTSType, IoTsURI } from '.'
 import { ModelAlgebraObject1, PropsKind1 } from '../../algebras/object'
 import { merge, projectField } from '../../utils'
 import { ioTsPrimitiveInterpreter } from './primitives'
@@ -11,23 +11,23 @@ import { ioTsStrMapInterpreter } from './str-map'
 import { ioTsSetInterpreter } from './set'
 
 import { ioTsRecursiveInterpreter } from './recursive'
-export { URI }
+export { IoTsURI }
 
 export type IOTypes<Props> = { [k in keyof Props]: t.Type<Props[k], unknown> }
 
-export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject1<URI> = {
-  interface: <Props>(props: PropsKind1<URI, Props>, name: string) =>
+export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject1<IoTsURI> = {
+  interface: <Props>(props: PropsKind1<IoTsURI, Props>, name: string) =>
     new IOTSType<Props>((t.type(projectField(props)('type'), name) as t.Type<any, unknown>) as t.Type<Props, unknown>),
-  partial: <Props>(props: PropsKind1<URI, Props>, name: string) =>
+  partial: <Props>(props: PropsKind1<IoTsURI, Props>, name: string) =>
     new IOTSType<Partial<Props>>(t.partial(projectField(props)('type'), name))
 }
 
-export const ioTsStrictObjectInterpreter: ModelAlgebraObject1<URI> = {
-  interface: <Props>(props: PropsKind1<URI, Props>, name: string) =>
+export const ioTsStrictObjectInterpreter: ModelAlgebraObject1<IoTsURI> = {
+  interface: <Props>(props: PropsKind1<IoTsURI, Props>, name: string) =>
     new IOTSType<Props>(
       (t.strict(projectField(props)('type'), name) as t.Type<any, unknown>) as t.Type<Props, unknown>
     ),
-  partial: <Props>(props: PropsKind1<URI, Props>, name: string) =>
+  partial: <Props>(props: PropsKind1<IoTsURI, Props>, name: string) =>
     new IOTSType<Partial<Props>>(t.exact(t.partial(projectField(props)('type'), name)))
 }
 
@@ -41,14 +41,14 @@ const base = merge(
   ioTsRecursiveInterpreter
 )
 
-export const ioTsStrict = InterpreterFor(URI)(
+export const ioTsStrict = InterpreterFor(IoTsURI)(
   merge(
     base,
     ioTsStrictObjectInterpreter // Strict
   )
 )
 
-export const defineIoTsInterpreter = InterpreterFor(URI)
+export const defineIoTsInterpreter = InterpreterFor(IoTsURI)
 
 export const ioTsNonStrict = defineIoTsInterpreter(
   merge(
