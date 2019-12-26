@@ -1,13 +1,13 @@
 import * as chai from 'chai'
 
-import { ProgramInterpreter1, Materialized1 } from '../../../src/usage/materializer'
+import { ProgramInterpreter, Materialized } from '../../../src/usage/materializer'
 import { makeSummoner, Summoners } from '../../../src/usage/summoner'
 import { cacheUnaryFunction } from '../../../src/core'
 
 import { ProgramNoUnionURI } from '../../../src/utils/program-no-union'
 import { eqInterpreter } from '../../../src/interpreters/eq/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
-import { Program } from '../../../src/usage/programs-hkt'
+import { Program, interpretable } from '../../../src/usage/programs-hkt'
 
 export type EqInterpreterURI = 'EqInterpreter'
 
@@ -19,9 +19,6 @@ declare module '../../../src/usage/interpreters-hkt' {
   interface Interpreter<E, A> {
     EqInterpreter: EqInterpreter<A>
   }
-  interface Interpreter1<E, A> {
-    EqInterpreter: EqInterpreter<A>
-  }
 }
 declare module '../../../src/usage/programs-hkt' {
   interface ProgramNoUnionInterpreters {
@@ -29,13 +26,16 @@ declare module '../../../src/usage/programs-hkt' {
   }
 }
 
-const eqInterp: ProgramInterpreter1<ProgramNoUnionURI, EqInterpreterURI> = program => ({
-  eq: program(eqInterpreter).eq
-})
+const eqInterp: ProgramInterpreter<ProgramNoUnionURI, EqInterpreterURI> = _program => {
+  const program = interpretable(_program)
+  return {
+    eq: program(eqInterpreter).eq
+  }
+}
 
 /** Type level override to keep Morph type name short */
-export interface M<L, A> extends Materialized1<L, A, ProgramNoUnionURI, EqInterpreterURI> {}
-export interface UM<A> extends Materialized1<unknown, A, ProgramNoUnionURI, EqInterpreterURI> {}
+export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, EqInterpreterURI> {}
+export interface UM<A> extends Materialized<unknown, A, ProgramNoUnionURI, EqInterpreterURI> {}
 
 export interface MorphAs {
   <L, A>(F: Program<L, A>[ProgramNoUnionURI]): M<L, A>

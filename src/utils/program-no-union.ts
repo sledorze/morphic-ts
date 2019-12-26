@@ -1,6 +1,6 @@
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '../../src/HKT'
 import { GetAlgebra, Algebra, Algebra1, Algebra2 } from '../core'
-import { Program2, Program1 } from '../../src/usage/programs-hkt'
+import { interpretSymb } from '../usage/programs-hkt'
 
 type AllAlgebra = GetAlgebra<'Primitive' | 'Intersection' | 'Object' | 'Recursive' | 'Set' | 'StrMap' | 'TaggedUnions'>
 
@@ -21,7 +21,9 @@ export interface ProgramNoUnion<E, A> {
 
 export interface P<E, A> {
   <G>(a: AlgebraNoUnion<G>): HKT2<G, E, A>
+  [interpretSymb]?: ProgramNoUnion<E, A>
 }
+
 declare module '../../src/usage/programs-hkt' {
   interface Program<E, A> {
     ProgramNoUnion: P<E, A>
@@ -35,14 +37,4 @@ declare module '../../src/usage/programs-hkt' {
   interface AllProgram<E, A> {
     ProgramNoUnion: ProgramNoUnion<E, A>
   }
-
-  interface Program1<E, A> {
-    ProgramNoUnion: <G extends URIS>(a: AlgebraNoUnion1<G>) => Kind<G, A>
-  }
-  interface Program2<E, A> {
-    ProgramNoUnion: <G extends URIS2>(a: AlgebraNoUnion2<G>) => Kind2<G, E, A>
-  }
 }
-
-export type ProgramNoUnion1<E, A> = Program1<E, A>[ProgramNoUnionURI]
-export type ProgramNoUnion2<E, A> = Program2<E, A>[ProgramNoUnionURI]

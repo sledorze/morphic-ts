@@ -1,38 +1,12 @@
-import { Program, Program1, Program1URI, Program2URI, Program2, ProgramURI } from './programs-hkt'
-import {
-  Interpreter1URI,
-  Interpreter2URI,
-  Interpreter1,
-  Interpreter2,
-  Interpreter,
-  InterpreterURI
-} from './interpreters-hkt'
+import { Program, ProgramURI } from './programs-hkt'
+import { Interpreter, InterpreterURI } from './interpreters-hkt'
 import { assignFunction, TagsOf } from '../common'
 import { ADT, KeysDefinition, makeADT } from '../adt'
 import { MonocleFor } from '../adt/monocle'
 
-export interface ProgramInterpreter1<ProgURI extends Program1URI, InterpURI extends Interpreter1URI> {
-  <E, A>(program: Program1<E, A>[ProgURI]): Interpreter1<E, A>[InterpURI]
-}
-export type ProgramInterpreter2<ProgURI extends Program2URI, InterpURI extends Interpreter2URI> = <E, A>(
-  program: Program2<E, A>[ProgURI]
-) => Interpreter2<E, A>[InterpURI]
-
-// export type ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = <E, A>(
-//   program: Program<E, A>[ProgURI]
-// ) => Interpreter<E, A>[InterpURI]
-
 export interface ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
-  // <E, A>(program: Program1<E, A>[ProgURI]): Interpreter1<E, A>[InterpURI]
-  // <E, A>(program: Program2<E, A>[ProgURI]): Interpreter2<E, A>[InterpURI]
   <E, A>(program: Program<E, A>[ProgURI]): Interpreter<E, A>[InterpURI]
 }
-
-type Morph1<E, A, InterpURI extends Interpreter1URI, ProgURI extends Program1URI> = Interpreter1<E, A>[InterpURI] &
-  Program<E, A>[ProgURI]
-
-type Morph2<E, A, InterpURI extends Interpreter2URI, ProgURI extends Program2URI> = Interpreter2<E, A>[InterpURI] &
-  Program<E, A>[ProgURI]
 
 type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = Interpreter<E, A>[InterpURI] &
   Program<E, A>[ProgURI]
@@ -54,22 +28,6 @@ function interpreteWithProgram<E, A, ProgURI extends ProgramURI, InterpURI exten
  */
 const inhabitTypes = <E, A, T>(t: T): T & InhabitedTypes<E, A> => t as any
 
-export type MorphADT1<
-  E,
-  A,
-  Tag extends TagsOf<A> & string,
-  ProgURI extends Program1URI,
-  InterpURI extends Interpreter1URI
-> = ADT<A, Tag> & Morph1<E, A, InterpURI, ProgURI>
-
-export type MorphADT2<
-  E,
-  A,
-  Tag extends TagsOf<A> & string,
-  ProgURI extends Program2URI,
-  InterpURI extends Interpreter2URI
-> = ADT<A, Tag> & Morph2<E, A, InterpURI, ProgURI>
-
 export type MorphADT<
   E,
   A,
@@ -78,54 +36,11 @@ export type MorphADT<
   InterpURI extends InterpreterURI
 > = ADT<A, Tag> & Morph<E, A, InterpURI, ProgURI>
 
-interface TaggableAsADT1<E, A, ProgURI extends Program1URI, InterpURI extends Interpreter1URI> {
-  tagged: <Tag extends TagsOf<A> & string>(
-    tag: Tag
-  ) => (keys: KeysDefinition<A, Tag>) => MorphADT1<E, A, Tag, ProgURI, InterpURI>
-}
-interface TaggableAsADT2<E, A, ProgURI extends Program2URI, InterpURI extends Interpreter2URI> {
-  tagged: <Tag extends TagsOf<A> & string>(
-    tag: Tag
-  ) => (keys: KeysDefinition<A, Tag>) => MorphADT2<E, A, Tag, ProgURI, InterpURI>
-}
 export interface TaggableAsADT<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
   tagged: <Tag extends TagsOf<A> & string>(
     tag: Tag
   ) => (keys: KeysDefinition<A, Tag>) => MorphADT<E, A, Tag, ProgURI, InterpURI>
 }
-
-export type MaterializedU1<A, ProgURI extends Program1URI, InterpURI extends Interpreter1URI> = Materialized1<
-  unknown,
-  A,
-  ProgURI,
-  InterpURI
->
-export type MaterializedU2<A, ProgURI extends Program2URI, InterpURI extends Interpreter2URI> = Materialized2<
-  unknown,
-  A,
-  ProgURI,
-  InterpURI
->
-
-export type Materialized1<E, A, ProgURI extends Program1URI, InterpURI extends Interpreter1URI> = Morph1<
-  E,
-  A,
-  InterpURI,
-  ProgURI
-> &
-  MonocleFor<A> &
-  TaggableAsADT1<E, A, ProgURI, InterpURI> &
-  InhabitedTypes<E, A>
-
-export type Materialized2<E, A, ProgURI extends Program2URI, InterpURI extends Interpreter2URI> = Morph2<
-  E,
-  A,
-  InterpURI,
-  ProgURI
-> &
-  MonocleFor<A> &
-  TaggableAsADT2<E, A, ProgURI, InterpURI> &
-  InhabitedTypes<E, A>
 
 export type Materialized<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Morph<
   E,
@@ -145,22 +60,7 @@ export interface InhabitedTypes<E, A> {
 }
 export type AType<X extends InhabitedTypes<any, any>> = X['_A']
 export type EType<X extends InhabitedTypes<any, any>> = X['_E']
-export type ProgramURIOf<
-  X extends Materialized1<any, any, any, never> | Materialized2<any, any, any, never>
-> = X extends Materialized1<any, any, infer URI, never>
-  ? URI
-  : X extends Materialized2<any, any, infer URI, never>
-  ? URI
-  : any
 
-export function materialize<E, A, ProgURI extends Program1URI, InterpURI extends Interpreter1URI>(
-  program: Program1<E, A>[ProgURI],
-  programInterpreter: ProgramInterpreter1<ProgURI, InterpURI>
-): Materialized1<E, A, ProgURI, InterpURI>
-export function materialize<E, A, ProgURI extends Program2URI, InterpURI extends Interpreter2URI>(
-  program: Program2<E, A>[ProgURI],
-  programInterpreter: ProgramInterpreter2<ProgURI, InterpURI>
-): Materialized2<E, A, ProgURI, InterpURI>
 export function materialize<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   program: Program<E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
@@ -176,7 +76,7 @@ function asADT<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterUR
 ): <Tag extends TagsOf<A> & string>(tag: Tag, keys: KeysDefinition<A, Tag>) => MorphADT<E, A, Tag, ProgURI, InterpURI> {
   return (tag, keys) =>
     assignCallable(wrapFun(m), {
-      ...(m as object),
+      ...m,
       ...makeADT(tag)(keys)
     })
 }

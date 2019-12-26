@@ -1,12 +1,12 @@
 import * as chai from 'chai'
 import { ordInterpreter } from '../../../src/interpreters/ord/interpreters'
 import { lt, gt, ordNumber, ord, Ord } from 'fp-ts/lib/Ord'
-import { Materialized2, ProgramInterpreter1 } from '../../../src/usage/materializer'
+import { ProgramInterpreter, Materialized } from '../../../src/usage/materializer'
 import { builderInterpreter } from '../../../src/interpreters/builder/interpreters'
 import { ProgramOrderableURI } from '../../../src/utils/program-orderable'
 import { cacheUnaryFunction } from '../../../src/core'
 import { makeSummoner, Summoners } from '../../../src/usage/summoner'
-import { Program } from '../../../src/usage/programs-hkt'
+import { Program, interpretable } from '../../../src/usage/programs-hkt'
 
 interface OrdInterpreter<E, A> {
   ord: Ord<A>
@@ -18,12 +18,6 @@ declare module '../../../src/usage/interpreters-hkt' {
   interface Interpreter<E, A> {
     OrdInterpreter: OrdInterpreter<E, A>
   }
-  interface Interpreter1<E, A> {
-    OrdInterpreter: OrdInterpreter<E, A>
-  }
-  interface Interpreter2<E, A> {
-    OrdInterpreter: OrdInterpreter<E, A>
-  }
 }
 declare module '../../../src/usage/programs-hkt' {
   interface ProgramOrderableInterpreters {
@@ -32,8 +26,8 @@ declare module '../../../src/usage/programs-hkt' {
 }
 
 /** Type level override to keep Morph type name short */
-export interface M<L, A> extends Materialized2<L, A, ProgramOrderableURI, OrdInterpreterURI> {}
-export interface UM<A> extends Materialized2<unknown, A, ProgramOrderableURI, OrdInterpreterURI> {}
+export interface M<L, A> extends Materialized<L, A, ProgramOrderableURI, OrdInterpreterURI> {}
+export interface UM<A> extends Materialized<unknown, A, ProgramOrderableURI, OrdInterpreterURI> {}
 
 export interface MorphAs {
   <L, A>(F: Program<L, A>[ProgramOrderableURI]): M<L, A>
@@ -55,7 +49,8 @@ export interface Summoner extends Summoners<ProgramOrderableURI, OrdInterpreterU
   summon: Morph
 }
 
-export const OrdInterpreter: ProgramInterpreter1<ProgramOrderableURI, OrdInterpreterURI> = program => {
+export const OrdInterpreter: ProgramInterpreter<ProgramOrderableURI, OrdInterpreterURI> = _program => {
+  const program = interpretable(_program)
   return {
     build: program(builderInterpreter).build,
     ord: program(ordInterpreter).ord

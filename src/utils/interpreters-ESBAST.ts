@@ -15,14 +15,14 @@ import { ioTsStrict, ioTsNonStrict } from '../interpreters/io-ts/interpreters'
 import { JSONSchema } from '../json-schema/json-schema'
 import { jsonSchemaInterpreter } from '../interpreters/json-schema/interpreters'
 
-import { ProgramInterpreter1, Materialized1 } from '../usage/materializer'
+import { Materialized, ProgramInterpreter } from '../usage/materializer'
 import { ProgramNoUnionURI } from './program-no-union'
 
 import { either, Either } from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { JsonSchemaError } from '../interpreters/json-schema'
 import { Builder } from '../interpreters/builder'
-import { Program } from '../usage/programs-hkt'
+import { Program, interpretable } from '../usage/programs-hkt'
 import { Summoners } from '../usage/summoner'
 
 interface ESBASTJInterpreter<E, A> {
@@ -37,18 +37,21 @@ interface ESBASTJInterpreter<E, A> {
 
 export type ESBASTJInterpreterURI = 'ESBASTJInterpreter'
 
-export const ESBASTJInterpreter: ProgramInterpreter1<ProgramNoUnionURI, ESBASTJInterpreterURI> = program => ({
-  build: program(builderInterpreter).build,
-  eq: program(eqInterpreter).eq,
-  show: program(showInterpreter).show,
-  arb: program(fastCheckInterpreter).arb,
-  strictType: program(ioTsStrict).type,
-  type: program(ioTsNonStrict).type,
-  jsonSchema: either.map(program(jsonSchemaInterpreter).schema, s => s.json)
-})
+export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJInterpreterURI> = _program => {
+  const program = interpretable(_program)
+  return {
+    build: program(builderInterpreter).build,
+    eq: program(eqInterpreter).eq,
+    show: program(showInterpreter).show,
+    arb: program(fastCheckInterpreter).arb,
+    strictType: program(ioTsStrict).type,
+    type: program(ioTsNonStrict).type,
+    jsonSchema: either.map(program(jsonSchemaInterpreter).schema, s => s.json)
+  }
+}
 
 declare module '../usage/interpreters-hkt' {
-  interface Interpreter1<E, A> {
+  interface Interpreter<E, A> {
     ESBASTJInterpreter: ESBASTJInterpreter<E, A>
   }
 }
@@ -59,8 +62,8 @@ declare module '../usage/programs-hkt' {
 }
 
 /** Type level override to keep Morph type name short */
-export interface M<L, A> extends Materialized1<L, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
-export interface UM<A> extends Materialized1<unknown, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
+export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
+export interface UM<A> extends Materialized<unknown, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
 
 export interface MorphAs {
   <L, A>(F: Program<L, A>[ProgramNoUnionURI]): M<L, A>
