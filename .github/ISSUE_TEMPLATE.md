@@ -6,4 +6,4 @@
 
 **What is the expected behavior?**
 
-**Which versions of monocle-ts, and which browser and OS are affected by this issue? Did this work in previous versions of monocle-ts?**
+**Which versions of morphic-ts, and which browser and OS are affected by this issue? Did this work in previous versions of morphic-ts?**

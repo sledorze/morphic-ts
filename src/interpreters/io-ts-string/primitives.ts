@@ -3,7 +3,6 @@ import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 import { IOTSStringType, IoTsStringURI } from '.'
 import { ModelAlgebraPrimitive2 } from '../../algebras/primitives'
-import { Compact } from '../../core'
 
 export const ioTsStringPrimitiveInterpreter: ModelAlgebraPrimitive2<IoTsStringURI> = {
   date: _ => new IOTSStringType(DateFromISOString),
@@ -14,14 +13,4 @@ export const ioTsStringPrimitiveInterpreter: ModelAlgebraPrimitive2<IoTsStringUR
   keysOf: (k, name) => new IOTSStringType<string, keyof typeof k>(t.keyof(k, name) as any), // TODO: not pretty but output
   nullable: T => new IOTSStringType(optionFromNullable(T.type)),
   array: T => new IOTSStringType(t.array(T.type))
-}
-
-export const ioTsStringPrimitiveInterpreterX = {
-  date: (
-    _:
-      | Compact<{
-          IOTSStringType?: undefined
-        }>
-      | undefined
-  ) => new IOTSStringType(DateFromISOString)
 }

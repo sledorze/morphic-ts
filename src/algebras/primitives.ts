@@ -72,7 +72,7 @@ export interface ModelAlgebraPrimitive<F> {
 
 export interface ModelAlgebraPrimitive1<F extends URIS> {
   date(config?: ByInterp<PrimitiveDateConfig, F>): Kind<F, Date>
-  string(config?: ByInterp<PrimitiveStringConfig, URIS>): Kind<F, string>
+  string(config?: ByInterp<PrimitiveStringConfig, F>): Kind<F, string>
   number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind<F, number>
   boolean(config?: ByInterp<PrimitiveBooleanConfig, F>): Kind<F, boolean>
   stringLiteral: <T extends string>(value: T) => Kind<F, typeof value>

@@ -8,7 +8,7 @@ import { showRecursiveInterpreter } from './recursive'
 import { showStrMapInterpreter } from './str-map'
 import { showSetInterpreter } from './set'
 import { ShowURI } from '.'
-export { ShowURI as URI }
+export { ShowURI }
 
 export const defineShowInterpreter = InterpreterFor(ShowURI)
 
