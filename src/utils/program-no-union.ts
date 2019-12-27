@@ -14,15 +14,13 @@ type AllAlgebra = GetAlgebra<
 >
 
 export interface AlgebraNoUnion<F> extends Algebra<AllAlgebra, F> {}
-export interface AlgebraNoUnion1<F extends URIS> extends Algebra1<AllAlgebra, F> {}
-export interface AlgebraNoUnion2<F extends URIS2> extends Algebra2<AllAlgebra, F> {}
 
 export const ProgramNoUnionURI = Symbol()
 export type ProgramNoUnionURI = typeof ProgramNoUnionURI
 
 export interface ProgramNoUnion<E, A> {
-  <G extends URIS>(a: AlgebraNoUnion1<G>): Kind<G, A>
-  <G extends URIS2>(a: AlgebraNoUnion2<G>): Kind2<G, E, A>
+  <G extends URIS>(a: Algebra1<AllAlgebra, G>): Kind<G, A>
+  <G extends URIS2>(a: Algebra2<AllAlgebra, G>): Kind2<G, E, A>
 }
 
 export interface P<E, A> {
@@ -39,8 +37,4 @@ declare module '../../src/usage/programs-hkt' {
     [ProgramNoUnionURI]: ProgramNoUnionInterpreters
   }
   interface ProgramNoUnionInterpreters {}
-
-  interface AllProgram<E, A> {
-    [ProgramNoUnionURI]: ProgramNoUnion<E, A>
-  }
 }

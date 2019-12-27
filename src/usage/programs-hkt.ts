@@ -15,7 +15,7 @@ export interface ProgramTypes {}
  */
 export const makeDefines = <PURI extends ProgramURI>(prog: PURI) => {
   type Prog<E, A> = Program<E, A>[PURI]
-  type Res<E, A> = AllProgram<E, A>[PURI]
+  type Res<E, A> = NonNullable<Prog<E, A>[typeof interpretSymb]>
   const defineAs = <E, A>(program: Prog<E, A>): Res<E, A> => program as any // White lie
   const define = <A>(program: Prog<unknown, A>): Res<unknown, A> => program as any
   return { define, defineAs }
