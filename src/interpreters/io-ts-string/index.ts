@@ -1,6 +1,6 @@
 import * as t from 'io-ts'
 
-export const IoTsStringURI = 'IOTSStringType'
+export const IoTsStringURI = Symbol()
 export type IoTsStringURI = typeof IoTsStringURI
 
 export class IOTSStringType<O, A> {

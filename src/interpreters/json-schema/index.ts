@@ -2,7 +2,7 @@ import { OptionalJSONSchema } from '../../json-schema/json-schema-ctors'
 import { Either } from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 
-export const JsonSchemaURI = 'JsonSchema'
+export const JsonSchemaURI = Symbol()
 export type JsonSchemaURI = typeof JsonSchemaURI
 
 export interface JsonSchemaError {

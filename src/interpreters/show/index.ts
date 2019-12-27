@@ -1,6 +1,6 @@
 import { Show } from 'fp-ts/lib/Show'
 
-export const ShowURI = 'ShowType'
+export const ShowURI = Symbol()
 export type ShowURI = typeof ShowURI
 
 export class ShowType<A> {

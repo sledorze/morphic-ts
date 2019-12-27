@@ -12,16 +12,17 @@ interface OrdInterpreter<E, A> {
   ord: Ord<A>
 }
 
-export type OrdInterpreterURI = 'OrdInterpreter'
+export const OrdInterpreterURI = Symbol()
+export type OrdInterpreterURI = typeof OrdInterpreterURI
 
 declare module '../../../src/usage/interpreters-hkt' {
   interface Interpreter<E, A> {
-    OrdInterpreter: OrdInterpreter<E, A>
+    [OrdInterpreterURI]: OrdInterpreter<E, A>
   }
 }
 declare module '../../../src/usage/programs-hkt' {
   interface ProgramOrderableInterpreters {
-    OrdInterpreter: Summoner
+    [OrdInterpreterURI]: Summoner
   }
 }
 

@@ -1,6 +1,6 @@
 import { Ord } from 'fp-ts/lib/Ord'
 
-export const OrdURI = 'OrdType'
+export const OrdURI = Symbol()
 export type OrdURI = typeof OrdURI
 
 export class OrdType<A> {

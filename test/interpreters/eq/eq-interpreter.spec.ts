@@ -9,7 +9,8 @@ import { eqInterpreter, EqURI } from '../../../src/interpreters/eq/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
 import { Program, interpretable } from '../../../src/usage/programs-hkt'
 
-export type EqInterpreterURI = 'EqInterpreter'
+export const EqInterpreterURI = Symbol()
+export type EqInterpreterURI = typeof EqInterpreterURI
 
 interface EqInterpreter<A> {
   eq: Eq<A>
@@ -17,12 +18,12 @@ interface EqInterpreter<A> {
 
 declare module '../../../src/usage/interpreters-hkt' {
   interface Interpreter<E, A> {
-    EqInterpreter: EqInterpreter<A>
+    [EqInterpreterURI]: EqInterpreter<A>
   }
 }
 declare module '../../../src/usage/programs-hkt' {
   interface ProgramNoUnionInterpreters {
-    EqInterpreter: Summoner
+    [EqInterpreterURI]: Summoner
   }
 }
 
