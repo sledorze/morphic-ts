@@ -1,18 +1,18 @@
 import { OfType, OfType2 } from '../core'
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
 
-export const URI = 'Unions'
-export type URI = typeof URI
+export const UnionsURI = Symbol()
+export type UnionsURI = typeof UnionsURI
 
 declare module './hkt' {
   interface Algebra<F> {
-    Unions: ModelAlgebraUnions<F>
+    [UnionsURI]: ModelAlgebraUnions<F>
   }
   interface Algebra1<F extends URIS> {
-    Unions: ModelAlgebraUnions1<F>
+    [UnionsURI]: ModelAlgebraUnions1<F>
   }
   interface Algebra2<F extends URIS2> {
-    Unions: ModelAlgebraUnions2<F>
+    [UnionsURI]: ModelAlgebraUnions2<F>
   }
 }
 

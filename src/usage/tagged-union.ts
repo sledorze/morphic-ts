@@ -5,9 +5,10 @@ import { TagsOf } from '../common'
 import { Program, ProgramURI } from './programs-hkt'
 import { Algebra } from '../algebras/hkt'
 import { InterpreterURI } from './interpreters-hkt'
+import { TaggedUnionsURI } from '../algebras/tagged-unions'
 
 type TaggedUnionProg<E, A, ProgURI extends ProgramURI> = Program<E, A>[ProgURI] &
-  (<G>(a: Algebra<G>['TaggedUnions']) => HKT2<G, E, A>)
+  (<G>(a: Algebra<G>[TaggedUnionsURI]) => HKT2<G, E, A>)
 
 type M<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Materialized<E, A, ProgURI, InterpURI>
 

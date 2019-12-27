@@ -2,18 +2,18 @@ import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
 import { isOptionalConfig, ByInterp } from '../core'
 import { TaggedUnionConfig } from './hkt'
 
-export const URI = 'TaggedUnions'
-export type URI = typeof URI
+export const TaggedUnionsURI = Symbol()
+export type TaggedUnionsURI = typeof TaggedUnionsURI
 
 declare module './hkt' {
   interface Algebra<F> {
-    TaggedUnions: ModelAlgebraTaggedUnions<F>
+    [TaggedUnionsURI]: ModelAlgebraTaggedUnions<F>
   }
   interface Algebra1<F extends URIS> {
-    TaggedUnions: ModelAlgebraTaggedUnions1<F>
+    [TaggedUnionsURI]: ModelAlgebraTaggedUnions1<F>
   }
   interface Algebra2<F extends URIS2> {
-    TaggedUnions: ModelAlgebraTaggedUnions2<F>
+    [TaggedUnionsURI]: ModelAlgebraTaggedUnions2<F>
   }
   export interface TaggedUnionConfig {}
 }

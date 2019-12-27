@@ -11,18 +11,18 @@ import { ByInterp, isOptionalConfig } from '../core'
 
 export type Keys = Record<string, null>
 
-export const URI = 'Primitive'
-export type URI = typeof URI
+export const PrimitiveURI = Symbol()
+export type PrimitiveURI = typeof PrimitiveURI
 
 declare module './hkt' {
   interface Algebra<F> {
-    Primitive: ModelAlgebraPrimitive<F>
+    [PrimitiveURI]: ModelAlgebraPrimitive<F>
   }
   interface Algebra1<F extends URIS> {
-    Primitive: ModelAlgebraPrimitive1<F>
+    [PrimitiveURI]: ModelAlgebraPrimitive1<F>
   }
   interface Algebra2<F extends URIS2> {
-    Primitive: ModelAlgebraPrimitive2<F>
+    [PrimitiveURI]: ModelAlgebraPrimitive2<F>
   }
 
   export interface PrimitiveDateConfig {}
