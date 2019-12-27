@@ -2,17 +2,7 @@ import { Kind, URIS, URIS2, Kind2 } from './HKT'
 import { Algebra as AlgAlgebra, Algebra1 as AlgAlgebra1, Algebra2 as AlgAlgebra2, AlgebraURIS } from './algebras/hkt'
 
 export type OfType<F extends URIS, A> = Kind<F, A>
-export type AnyType<F extends URIS> = Kind<F, any>
-export type TypeOfA<X extends any> = X extends OfType<infer _, infer A> ? A : never
-
 export type OfType2<F extends URIS2, L, A> = Kind2<F, L, A>
-export type AnyType2<F extends URIS2> = Kind2<F, any, any>
-export type TypeOfA2<X extends any> = X extends OfType2<infer _, infer A, any> ? A : never
-export type TypeOfL2<X extends any> = X extends OfType2<infer _, any, infer L> ? L : never
-
-export interface AnyTypeDic<F extends URIS> {
-  [k: string]: Kind<F, any>
-}
 
 /**
  * This is necessary to help fixing F type for inference
