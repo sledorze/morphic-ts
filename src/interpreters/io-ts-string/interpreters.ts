@@ -9,8 +9,8 @@ import { ioTsStringStrMapInterpreter } from './str-map'
 import { ioTsStringSetInterpreter } from './set'
 import { ioTsStringRecursiveInterpreter } from './recursive'
 import { ioTsStringNonStrictObjectInterpreter } from './object'
-import { URI } from '.'
-export { URI }
+import { IoTsStringURI } from '.'
+export { IoTsStringURI as URI }
 
 export type IOTypes<Props> = { [k in keyof Props]: t.Type<Props[k], unknown> }
 
@@ -24,7 +24,7 @@ const base = merge(
   ioTsStringRecursiveInterpreter
 )
 
-export const defineIoTsStringInterpreter = InterpreterFor2(URI)
+export const defineIoTsStringInterpreter = InterpreterFor2(IoTsStringURI)
 
 export const ioTsStringNonStrict = defineIoTsStringInterpreter(
   merge(

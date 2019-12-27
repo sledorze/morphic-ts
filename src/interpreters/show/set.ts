@@ -1,7 +1,7 @@
 import { set } from 'fp-ts'
 import { ModelAlgebraSet1 } from '../../algebras/set'
-import { ShowType, URI } from '.'
+import { ShowType, ShowURI } from '.'
 
-export const showSetInterpreter: ModelAlgebraSet1<URI> = {
+export const showSetInterpreter: ModelAlgebraSet1<ShowURI> = {
   set: ({ show }) => new ShowType(set.getShow(show))
 }

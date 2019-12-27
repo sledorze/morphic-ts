@@ -1,21 +1,7 @@
-import { Materialized } from '../../src/usage/materializer'
-import { makeSummoner } from '../../src/usage/summoner'
-import { cacheUnaryFunction } from '../../src/core'
-import { BASTJInterpreterURI, BASTJInterpreter } from './interpreters-BAST'
-import { ProgramUnionURI, ProgramUnion } from './program'
+import { makeSummoner } from '../usage/summoner'
+import { cacheUnaryFunction } from '../core'
+import { BASTJInterpreter, M } from './interpreters-BAST'
 
-export interface M<E, A> extends Materialized<E, A, ProgramUnionURI, BASTJInterpreterURI> {}
-export interface UM<A> extends Materialized<unknown, A, ProgramUnionURI, BASTJInterpreterURI> {}
-
-export interface Prog<L, A> extends ProgramUnion<L, A> {}
-
-interface Summons {
-  summonAs: <L, A>(F: Prog<L, A>) => M<L, A>
-  summonAsA: <A>() => <L>(F: Prog<L, A>) => M<L, A>
-  summonAsL: <L>() => <A>(F: Prog<L, A>) => M<L, A>
-  summon: <A>(F: Prog<unknown, A>) => UM<A>
-}
-
-const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, BASTJInterpreter) as Summons
-
-export { summonAs, summonAsA, summonAsL, summon }
+const summoner = makeSummoner(cacheUnaryFunction, BASTJInterpreter)
+export const { summonAs, summonAsA, summonAsL, summon } = summoner
+export { M }

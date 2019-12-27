@@ -1,7 +1,7 @@
 import { ModelAlgebraIntersection1 } from '../../algebras/intersections'
-import { ShowType, URI } from '.'
+import { ShowType, ShowURI } from '.'
 
-export const showIntersectionInterpreter: ModelAlgebraIntersection1<URI> = {
+export const showIntersectionInterpreter: ModelAlgebraIntersection1<ShowURI> = {
   intersection: <A>(types: Array<ShowType<A>>) => {
     const shows = types.map(({ show }) => show.show)
     return new ShowType<A>({

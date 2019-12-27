@@ -1,5 +1,5 @@
 import { Kind, URIS, URIS2, Kind2 } from './HKT'
-import * as alg from './algebras/hkt'
+import { Algebra as AlgAlgebra, Algebra1 as AlgAlgebra1, Algebra2 as AlgAlgebra2, AlgebraURIS } from './algebras/hkt'
 
 export type OfType<F extends URIS, A> = Kind<F, A>
 export type AnyType<F extends URIS> = Kind<F, any>
@@ -54,19 +54,19 @@ export function cacheUnaryFunction<F extends Function1>(f: F) {
 
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never
 
-export type GetAlgebra<A extends alg.AlgebraURIS> = A
+export type GetAlgebra<A extends AlgebraURIS> = A
 
-export type Algebra<AllAlgebra extends alg.AlgebraURIS, Interp> = UnionToIntersection<alg.Algebra<Interp>[AllAlgebra]>
-export type Algebra1<AllAlgebra extends alg.AlgebraURIS, Interp extends URIS> = UnionToIntersection<
-  alg.Algebra1<Interp>[AllAlgebra]
+export type Algebra<AllAlgebra extends AlgebraURIS, Interp> = UnionToIntersection<AlgAlgebra<Interp>[AllAlgebra]>
+export type Algebra1<AllAlgebra extends AlgebraURIS, Interp extends URIS> = UnionToIntersection<
+  AlgAlgebra1<Interp>[AllAlgebra]
 > &
   InterpreterFor<Interp>
-export type Algebra2<AllAlgebra extends alg.AlgebraURIS, Interp extends URIS2> = UnionToIntersection<
-  alg.Algebra2<Interp>[AllAlgebra]
+export type Algebra2<AllAlgebra extends AlgebraURIS, Interp extends URIS2> = UnionToIntersection<
+  AlgAlgebra2<Interp>[AllAlgebra]
 > &
   InterpreterFor2<Interp>
 
-type Compact<A> = {
+export type Compact<A> = {
   [K in keyof A]: A[K]
 }
 

@@ -1,7 +1,7 @@
 import { record } from 'fp-ts'
 import { ModelAlgebraStrMap1 } from '../../algebras/str-map'
-import { EqType, URI } from '.'
+import { EqType, EqURI } from '.'
 
-export const eqStrMapInterpreter: ModelAlgebraStrMap1<URI> = {
+export const eqStrMapInterpreter: ModelAlgebraStrMap1<EqURI> = {
   strMap: codomain => new EqType(record.getEq(codomain.eq))
 }

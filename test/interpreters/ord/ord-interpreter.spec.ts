@@ -4,39 +4,61 @@ import { lt, gt, ordNumber, ord, Ord } from 'fp-ts/lib/Ord'
 import { ProgramInterpreter, Materialized } from '../../../src/usage/materializer'
 import { builderInterpreter } from '../../../src/interpreters/builder/interpreters'
 import { ProgramOrderableURI } from '../../../src/utils/program-orderable'
-import { ProgramUnion } from '../../../src/utils/program'
 import { cacheUnaryFunction } from '../../../src/core'
-import { makeSummoner } from '../../../src/usage/summoner'
+import { makeSummoner, Summoners } from '../../../src/usage/summoner'
+import { Program, interpretable } from '../../../src/usage/programs-hkt'
 
 interface OrdInterpreter<E, A> {
   ord: Ord<A>
 }
 
-export type OrdInterpreterURI = 'OrdInterpreter'
+export const OrdInterpreterURI = Symbol()
+export type OrdInterpreterURI = typeof OrdInterpreterURI
 
 declare module '../../../src/usage/interpreters-hkt' {
-  interface Interpreters<E, A> {
-    OrdInterpreter: OrdInterpreter<E, A>
+  interface Interpreter<E, A> {
+    [OrdInterpreterURI]: OrdInterpreter<E, A>
   }
 }
-export const OrdInterpreter: ProgramInterpreter<ProgramOrderableURI, OrdInterpreterURI> = program => ({
-  build: program(builderInterpreter).build,
-  ord: program(ordInterpreter).ord
-})
-
-export interface M<E, A> extends Materialized<E, A, ProgramOrderableURI, OrdInterpreterURI> {}
-export interface UM<A> extends Materialized<unknown, A, ProgramOrderableURI, OrdInterpreterURI> {}
-
-export interface Prog<L, A> extends ProgramUnion<L, A> {}
-
-interface Summons {
-  summonAs: <L, A>(F: Prog<L, A>) => M<L, A>
-  summonAsA: <A>() => <L>(F: Prog<L, A>) => M<L, A>
-  summonAsL: <L>() => <A>(F: Prog<L, A>) => M<L, A>
-  summon: <A>(F: Prog<unknown, A>) => UM<A>
+declare module '../../../src/usage/programs-hkt' {
+  interface ProgramOrderableInterpreters {
+    [OrdInterpreterURI]: Summoner
+  }
 }
 
-const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, OrdInterpreter) as Summons
+/** Type level override to keep Morph type name short */
+export interface M<L, A> extends Materialized<L, A, ProgramOrderableURI, OrdInterpreterURI> {}
+export interface UM<A> extends Materialized<unknown, A, ProgramOrderableURI, OrdInterpreterURI> {}
+
+export interface MorphAs {
+  <L, A>(F: Program<L, A>[ProgramOrderableURI]): M<L, A>
+}
+export interface MorphAsA {
+  <A>(): <L>(F: Program<L, A>[ProgramOrderableURI]) => M<L, A>
+}
+export interface MorphAsL {
+  <L>(): <A>(F: Program<L, A>[ProgramOrderableURI]) => M<L, A>
+}
+export interface Morph {
+  <A>(F: Program<unknown, A>[ProgramOrderableURI]): UM<A>
+}
+
+export interface Summoner extends Summoners<ProgramOrderableURI, OrdInterpreterURI> {
+  summonAs: MorphAs
+  summonAsA: MorphAsA
+  summonAsL: MorphAsL
+  summon: Morph
+}
+
+export const OrdInterpreter: ProgramInterpreter<ProgramOrderableURI, OrdInterpreterURI> = _program => {
+  const program = interpretable(_program)
+  return {
+    build: program(builderInterpreter).build,
+    ord: program(ordInterpreter).ord
+  }
+}
+
+const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, OrdInterpreter)
 
 export { summonAs, summonAsA, summonAsL, summon }
 

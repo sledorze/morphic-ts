@@ -82,6 +82,7 @@ export const makeADT = <Tag extends string>(tag: Tag) => <R extends { [x in keyo
   const predicates = PU.Predicates<A, any>(tag)(keys) // any
   const monocles = M.MonocleFor<A>()
   const matchers = Ma.Matchers<A, any>(tag)(keys) // any
+
   const select = <Keys extends (A[Tag] & string)[]>(
     ...selectedKeys: Keys
   ): ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag> => makeADT(tag)(keepKeys(keys, selectedKeys) as any)

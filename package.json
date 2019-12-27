@@ -1,6 +1,6 @@
 {
   "name": "morphic-ts",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Interpretable Generic Model Definition Encoding",
   "files": [
     "lib"

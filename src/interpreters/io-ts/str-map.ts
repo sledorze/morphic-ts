@@ -1,7 +1,7 @@
 import { record, string } from 'io-ts'
-import { IOTSType, URI } from '.'
+import { IOTSType, IoTsURI } from '.'
 import { ModelAlgebraStrMap1 } from '../../algebras/str-map'
 
-export const ioTsStrMapInterpreter: ModelAlgebraStrMap1<URI> = {
+export const ioTsStrMapInterpreter: ModelAlgebraStrMap1<IoTsURI> = {
   strMap: codomain => new IOTSType(record(string, codomain.type))
 }

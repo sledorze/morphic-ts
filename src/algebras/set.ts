@@ -1,18 +1,18 @@
 import { Ord } from 'fp-ts/lib/Ord'
 import { Kind, URIS, Kind2, URIS2, HKT2 } from '../HKT'
 
-export const URI = 'Set'
-export type URI = typeof URI
+export const SetURI = Symbol()
+export type SetURI = typeof SetURI
 
 declare module './hkt' {
   interface Algebra<F> {
-    Set: ModelAlgebraSet<F>
+    [SetURI]: ModelAlgebraSet<F>
   }
   interface Algebra1<F extends URIS> {
-    Set: ModelAlgebraSet1<F>
+    [SetURI]: ModelAlgebraSet1<F>
   }
   interface Algebra2<F extends URIS2> {
-    Set: ModelAlgebraSet2<F>
+    [SetURI]: ModelAlgebraSet2<F>
   }
 }
 

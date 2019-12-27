@@ -11,18 +11,18 @@ import { ByInterp, isOptionalConfig } from '../core'
 
 export type Keys = Record<string, null>
 
-export const URI = 'Primitive'
-export type URI = typeof URI
+export const PrimitiveURI = Symbol()
+export type PrimitiveURI = typeof PrimitiveURI
 
 declare module './hkt' {
   interface Algebra<F> {
-    Primitive: ModelAlgebraPrimitive<F>
+    [PrimitiveURI]: ModelAlgebraPrimitive<F>
   }
   interface Algebra1<F extends URIS> {
-    Primitive: ModelAlgebraPrimitive1<F>
+    [PrimitiveURI]: ModelAlgebraPrimitive1<F>
   }
   interface Algebra2<F extends URIS2> {
-    Primitive: ModelAlgebraPrimitive2<F>
+    [PrimitiveURI]: ModelAlgebraPrimitive2<F>
   }
 
   export interface PrimitiveDateConfig {}
@@ -71,23 +71,23 @@ export interface ModelAlgebraPrimitive<F> {
 }
 
 export interface ModelAlgebraPrimitive1<F extends URIS> {
-  date(config: ByInterp<PrimitiveDateConfig, F>): Kind<F, Date>
-  string(config: ByInterp<PrimitiveStringConfig, F>): Kind<F, string>
-  number(config: ByInterp<PrimitiveNumberConfig, F>): Kind<F, number>
-  boolean(config: ByInterp<PrimitiveBooleanConfig, F>): Kind<F, boolean>
+  date(config?: ByInterp<PrimitiveDateConfig, F>): Kind<F, Date>
+  string(config?: ByInterp<PrimitiveStringConfig, URIS>): Kind<F, string>
+  number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind<F, number>
+  boolean(config?: ByInterp<PrimitiveBooleanConfig, F>): Kind<F, boolean>
   stringLiteral: <T extends string>(value: T) => Kind<F, typeof value>
   keysOf: <K extends Keys>(keys: K, name?: string) => Kind<F, keyof typeof keys>
   nullable: <A>(T: Kind<F, A>) => Kind<F, Option<A>>
-  array: <A>(a: Kind<F, A>, config: ByInterp<PrimitiveArrayConfig<A>, F>) => Kind<F, Array<A>>
+  array: <A>(a: Kind<F, A>, config?: ByInterp<PrimitiveArrayConfig<A>, F>) => Kind<F, Array<A>>
 }
 
 export interface ModelAlgebraPrimitive2<F extends URIS2> {
-  date(config: ByInterp<PrimitiveDateConfig, F>): Kind2<F, string, Date>
-  string(config: ByInterp<PrimitiveStringConfig, F>): Kind2<F, string, string>
-  number(config: ByInterp<PrimitiveNumberConfig, F>): Kind2<F, number, number>
-  boolean(config: ByInterp<PrimitiveBooleanConfig, F>): Kind2<F, boolean, boolean>
+  date(config?: ByInterp<PrimitiveDateConfig, F>): Kind2<F, string, Date>
+  string(config?: ByInterp<PrimitiveStringConfig, F>): Kind2<F, string, string>
+  number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind2<F, number, number>
+  boolean(config?: ByInterp<PrimitiveBooleanConfig, F>): Kind2<F, boolean, boolean>
   stringLiteral: <T extends string>(value: T) => Kind2<F, string, typeof value>
   keysOf: <K extends Keys>(keys: K, name?: string) => Kind2<F, string, keyof typeof keys>
   nullable: <L, A>(T: Kind2<F, L, A>) => Kind2<F, null | L, Option<A>>
-  array: <L, A>(a: Kind2<F, L, A>, config: ByInterp<PrimitiveArrayConfig<A>, F>) => Kind2<F, Array<L>, Array<A>>
+  array: <L, A>(a: Kind2<F, L, A>, config?: ByInterp<PrimitiveArrayConfig<A>, F>) => Kind2<F, Array<L>, Array<A>>
 }

@@ -1,27 +1,27 @@
 import * as fc from 'fast-check'
-import { FastCheckType, URI } from '.'
+import { FastCheckType, FastCheckURI } from '.'
 import { ModelAlgebraPrimitive1 } from '../../algebras/primitives'
 import { fromNullable } from 'fp-ts/lib/Option'
 import { identity } from 'fp-ts/lib/function'
 
 declare module '../../algebras/hkt' {
   interface PrimitiveArrayConfig<A> {
-    FastCheckType: MinMaxLength | undefined
+    [FastCheckURI]: MinMaxLength | undefined
   }
   interface PrimitiveConfig {
-    FastCheckType: Customize<string> | undefined
+    [FastCheckURI]: Customize<string> | undefined
   }
   export interface PrimitiveDateConfig {
-    FastCheckType: Customize<Date> | undefined
+    [FastCheckURI]: Customize<Date> | undefined
   }
   export interface PrimitiveStringConfig {
-    FastCheckType: Customize<string> | undefined
+    [FastCheckURI]: Customize<string> | undefined
   }
   export interface PrimitiveNumberConfig {
-    FastCheckType: Customize<number> | undefined
+    [FastCheckURI]: Customize<number> | undefined
   }
   export interface PrimitiveBooleanConfig {
-    FastCheckType: Customize<boolean> | undefined
+    [FastCheckURI]: Customize<boolean> | undefined
   }
 }
 
@@ -33,9 +33,10 @@ interface Customize<A> {
   (a: fc.Arbitrary<A>): fc.Arbitrary<A>
 }
 
-const applyCustomize = <A>(c: { FastCheckType?: Customize<A> } | undefined) => c?.FastCheckType ?? identity
+const applyCustomize = <A>(c: { [FastCheckURI]?: Customize<A> } | undefined) =>
+  c !== undefined ? c[FastCheckURI] ?? identity : identity
 
-export const fastCheckPrimitiveInterpreter: ModelAlgebraPrimitive1<URI> = {
+export const fastCheckPrimitiveInterpreter: ModelAlgebraPrimitive1<FastCheckURI> = {
   date: configs => new FastCheckType(applyCustomize(configs)(fc.integer().map(n => new Date(n)))),
   boolean: configs => new FastCheckType(applyCustomize(configs)(fc.boolean())),
   string: configs => new FastCheckType(applyCustomize(configs)(fc.string())),
@@ -44,7 +45,7 @@ export const fastCheckPrimitiveInterpreter: ModelAlgebraPrimitive1<URI> = {
   keysOf: k => new FastCheckType(fc.oneof(...(Object.keys(k) as (keyof typeof k)[]).map(k => fc.constant(k)))),
   nullable: T => new FastCheckType(fc.option(T.arb).map(fromNullable)),
   array: (T, configs) => {
-    const config = configs?.FastCheckType
+    const config = configs !== undefined ? configs[FastCheckURI] : undefined
     return new FastCheckType(
       config !== undefined ? fc.array(T.arb, config.minLength ?? 0, config.maxLength) : fc.array(T.arb)
     )

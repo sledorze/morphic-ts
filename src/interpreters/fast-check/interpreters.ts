@@ -8,10 +8,10 @@ import { fastCheckTaggedUnionInterpreter } from './tagged-unions'
 import { fastCheckRecursiveInterpreter } from './recursive'
 import { fastCheckStrMapInterpreter } from './str-map'
 import { fastCheckSetInterpreter } from './set'
-import { URI } from './index'
-export { URI }
+import { FastCheckURI } from './index'
+export { FastCheckURI as URI }
 
-export const defineFastCheckInterpreter = InterpreterFor<URI>(URI)
+export const defineFastCheckInterpreter = InterpreterFor(FastCheckURI)
 
 export const fastCheckInterpreter = defineFastCheckInterpreter(
   merge(

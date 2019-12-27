@@ -1,5 +1,5 @@
 import { ModelAlgebraObject1 } from '../../algebras/object'
-import { JsonSchema, URI } from '.'
+import { JsonSchema, JsonSchemaURI } from '.'
 import { ObjectTypeCtor } from '../../json-schema/json-schema-ctors'
 import { record, either, array } from 'fp-ts'
 import { tuple } from 'fp-ts/lib/function'
@@ -7,7 +7,7 @@ import { pipe } from 'fp-ts/lib/pipeable'
 
 const arrayTraverseEither = array.array.traverse(either.either)
 
-export const jsonSchemaObjectInterpreter: ModelAlgebraObject1<URI> = {
+export const jsonSchemaObjectInterpreter: ModelAlgebraObject1<JsonSchemaURI> = {
   interface: props =>
     new JsonSchema(
       pipe(

@@ -1,5 +1,5 @@
 import { ModelAlgebraPrimitive1 } from '../../algebras/primitives'
-import { JsonSchema, URI } from '.'
+import { JsonSchema, JsonSchemaURI } from '.'
 import {
   StringTypeCtor,
   NumberTypeCtor,
@@ -11,7 +11,7 @@ import {
 import { right } from 'fp-ts/lib/Either'
 import { either } from 'fp-ts'
 
-export const jsonSchemaPrimitiveInterpreter: ModelAlgebraPrimitive1<URI> = {
+export const jsonSchemaPrimitiveInterpreter: ModelAlgebraPrimitive1<JsonSchemaURI> = {
   date: _ => new JsonSchema(right(StringTypeCtor({ format: 'date' }))),
   string: _ => new JsonSchema(right(StringTypeCtor({}))),
   number: _ => new JsonSchema(right(NumberTypeCtor())),

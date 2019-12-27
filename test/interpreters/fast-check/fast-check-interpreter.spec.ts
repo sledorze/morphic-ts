@@ -1,10 +1,12 @@
 import * as fc from 'fast-check'
 import { ordString, ord } from 'fp-ts/lib/Ord'
 
-import { ProgramUnion } from '../../../src/utils/program'
+import { ProgramUnionURI } from '../../../src/utils/program'
 import { summon, M } from '../../../src/utils/summoner'
+import { Program } from '../../../src/usage/programs-hkt'
+import { FastCheckURI } from '../../../src/interpreters/fast-check'
 
-const testProgram = <A>(prog: ProgramUnion<unknown, A>) => {
+const testProgram = <A>(prog: Program<unknown, A>[ProgramUnionURI]) => {
   const { arb, type } = summon(prog)
   fc.assert(fc.property(arb, type.is))
 }
@@ -18,7 +20,7 @@ describe('FastCheck interpreter', () => {
     testProgram(
       summon(F =>
         F.string({
-          FastCheckType: A => A.noShrink()
+          [FastCheckURI]: A => A.noShrink()
         })
       )
     )
@@ -28,7 +30,7 @@ describe('FastCheck interpreter', () => {
     testProgram(
       summon(F =>
         F.string({
-          FastCheckType: _ => fc.constantFrom('scala', 'haskell', 'purescript', 'typescript', 'haxe')
+          [FastCheckURI]: _ => fc.constantFrom('scala', 'haskell', 'purescript', 'typescript', 'haxe')
         })
       )
     )
@@ -49,7 +51,7 @@ describe('FastCheck interpreter', () => {
   it('array is bounded by config', () => {
     fc.check(
       fc.property(
-        summon(F => F.array(F.string(), { FastCheckType: { minLength: 2, maxLength: 4 } })).arb,
+        summon(F => F.array(F.string(), { [FastCheckURI]: { minLength: 2, maxLength: 4 } })).arb,
         arr => arr.length >= 2 && arr.length <= 4
       )
     )

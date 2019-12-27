@@ -7,10 +7,10 @@ import { eqTaggedUnionInterpreter } from './tagged-unions'
 import { eqRecursiveInterpreter } from './recursive'
 import { eqStrMapInterpreter } from './str-map'
 import { eqSetInterpreter } from './set'
-import { URI } from '.'
-export { URI }
+import { EqURI } from '.'
+export { EqURI }
 
-export const defineEqInterpreter = InterpreterFor(URI)
+export const defineEqInterpreter = InterpreterFor(EqURI)
 
 export const eqInterpreter = defineEqInterpreter(
   merge(

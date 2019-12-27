@@ -1,7 +1,7 @@
 import { Eq } from 'fp-ts/lib/Eq'
 
-export const URI = 'EqType'
-export type URI = typeof URI
+export const EqURI = Symbol()
+export type EqURI = typeof EqURI
 
 export class EqType<A> {
   constructor(public eq: Eq<A>) {}
@@ -9,6 +9,6 @@ export class EqType<A> {
 
 declare module '../../HKT' {
   interface URItoKind<A> {
-    [URI]: EqType<A>
+    [EqURI]: EqType<A>
   }
 }

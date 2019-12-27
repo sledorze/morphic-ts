@@ -1,7 +1,7 @@
 import { identity } from 'fp-ts/lib/function'
 
-export const URI = 'Builder'
-export type URI = typeof URI
+export const BuilderURI = Symbol()
+export type BuilderURI = typeof BuilderURI
 
 export type Builder<T> = (x: T) => T
 export const makeBuilder = <A>() => new BuilderType<A>(identity)
@@ -13,6 +13,6 @@ export class BuilderType<A> {
 
 declare module '../../HKT' {
   interface URItoKind<A> {
-    Builder: BuilderType<A>
+    [BuilderURI]: BuilderType<A>
   }
 }

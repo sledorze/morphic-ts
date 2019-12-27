@@ -4,18 +4,18 @@ import { ObjectInterfaceConfig, ObjectPartialConfig } from './hkt'
 
 type AnyMProps<F> = Record<string, HKT2<F, any, any>>
 
-export const URI = 'Object'
-export type URI = typeof URI
+export const ObjectURI = Symbol()
+export type ObjectURI = typeof ObjectURI
 
 declare module './hkt' {
   interface Algebra<F> {
-    Object: ModelAlgebraObject<F>
+    [ObjectURI]: ModelAlgebraObject<F>
   }
   interface Algebra1<F extends URIS> {
-    Object: ModelAlgebraObject1<F>
+    [ObjectURI]: ModelAlgebraObject1<F>
   }
   interface Algebra2<F extends URIS2> {
-    Object: ModelAlgebraObject2<F>
+    [ObjectURI]: ModelAlgebraObject2<F>
   }
   export interface ObjectInterfaceConfig {}
   export interface ObjectPartialConfig {}
@@ -56,12 +56,12 @@ export interface ModelAlgebraObject1<F extends URIS> {
   interface: <Props>(
     props: PropsKind1<F, Props>,
     name: string,
-    config: ByInterp<ObjectInterfaceConfig, F>
+    config?: ByInterp<ObjectInterfaceConfig, F>
   ) => Kind<F, Props>
   partial: <Props>(
     props: PropsKind1<F, Props>,
     name: string,
-    config: ByInterp<ObjectPartialConfig, F>
+    config?: ByInterp<ObjectPartialConfig, F>
   ) => Kind<F, Partial<Props>>
 }
 

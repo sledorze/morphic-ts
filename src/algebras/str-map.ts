@@ -1,17 +1,17 @@
 import { Kind, URIS, Kind2, URIS2, HKT2 } from '../HKT'
 
-export const URI = 'StrMap'
-export type URI = typeof URI
+export const StrMapURI = Symbol()
+export type StrMapURI = typeof StrMapURI
 
 declare module './hkt' {
   interface Algebra<F> {
-    StrMap: ModelAlgebraStrMap<F>
+    [StrMapURI]: ModelAlgebraStrMap<F>
   }
   interface Algebra1<F extends URIS> {
-    StrMap: ModelAlgebraStrMap1<F>
+    [StrMapURI]: ModelAlgebraStrMap1<F>
   }
   interface Algebra2<F extends URIS2> {
-    StrMap: ModelAlgebraStrMap2<F>
+    [StrMapURI]: ModelAlgebraStrMap2<F>
   }
 }
 

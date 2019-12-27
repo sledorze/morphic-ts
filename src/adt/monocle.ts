@@ -41,7 +41,7 @@ const makeMonocleFor = <S>(): MonocleFor<S> => ({
   lenseFromProps: m.Lens.fromProps(),
   lenseFromPath: m.Lens.fromPath(),
   indexFromAt: m.Index.fromAt,
-  optionalFromOptionProp: m.Optional.fromOptionProp() as any, // caused by OptionPropertyNames
+  optionalFromOptionProp: m.Optional.fromOptionProp(), // caused by OptionPropertyNames
   optionalFromNullableProp: m.Optional.fromNullableProp(),
   prism: m.Prism.some(),
   prismFromPredicate: m.Prism.fromPredicate

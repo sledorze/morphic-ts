@@ -1,16 +1,16 @@
-import { EType, AType, Materialized, MorphADT, InhabitedTypes } from './materializer'
+import { EType, AType, InhabitedTypes, Materialized, MorphADT, TaggableAsADT } from './materializer'
 import { record } from 'fp-ts'
 import { HKT2 } from '../HKT'
 import { TagsOf } from '../common'
-import { Program, ProgramsURI } from './programs-hkt'
+import { Program, ProgramURI } from './programs-hkt'
 import { Algebra } from '../algebras/hkt'
-import { InterpretersURI } from './interpreters-hkt'
+import { InterpreterURI } from './interpreters-hkt'
+import { TaggedUnionsURI } from '../algebras/tagged-unions'
 
-type TaggedUnionProg<E, A, ProgURI extends ProgramsURI> = Program<E, A>[ProgURI] &
-  (<G>(a: Algebra<G>['TaggedUnions']) => HKT2<G, E, A>)
+type TaggedUnionProg<E, A, ProgURI extends ProgramURI> = Program<E, A>[ProgURI] &
+  (<G>(a: Algebra<G>[TaggedUnionsURI]) => HKT2<G, E, A>)
 
-type M<E, A, ProgURI extends ProgramsURI, InterpURI extends InterpretersURI> = Materialized<E, A, ProgURI, InterpURI>
-type AnyM<ProgURI extends ProgramsURI, InterpURI extends InterpretersURI> = M<any, any, ProgURI, InterpURI>
+type M<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Materialized<E, A, ProgURI, InterpURI>
 
 type AnyTypes = Record<string, InhabitedTypes<any, any>>
 type TagType<Types extends AnyTypes> = TagsOf<AType<Types[keyof Types]>> & string
@@ -22,15 +22,21 @@ type AParam<Types extends AnyTypes> = {
 type UnionTypes<
   Types extends AnyTypes,
   Tag extends keyof any,
-  ProgURI extends ProgramsURI,
-  InterpURI extends InterpretersURI
+  ProgURI extends ProgramURI,
+  InterpURI extends InterpreterURI
 > = {
   [k in keyof Types]: M<EType<Types[k]>, AType<Types[k]> & { [t in Tag]: k }, ProgURI, InterpURI>
 }
 
-export function makeTagged<ProgURI extends ProgramsURI, InterpURI extends InterpretersURI>(
+type AnyM<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = M<any, any, ProgURI, InterpURI>
+
+export function makeTagged<ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   summ: <A>(F: TaggedUnionProg<unknown, A, ProgURI>) => M<unknown, A, ProgURI, InterpURI>
-) {
+): <Tag extends string>(
+  tag: Tag
+) => <Types extends UnionTypes<Types, Tag, ProgURI, InterpURI>>(
+  o: Types
+) => MorphADT<unknown, AParam<Types>, TagType<Types>, ProgURI, InterpURI> {
   return <Tag extends string>(tag: Tag) => <Types extends UnionTypes<Types, Tag, ProgURI, InterpURI>>(
     o: Types
   ): MorphADT<unknown, AParam<Types>, TagType<Types>, ProgURI, InterpURI> => {
@@ -38,6 +44,8 @@ export function makeTagged<ProgURI extends ProgramsURI, InterpURI extends Interp
     const summoned = summ<AParam<Types>>(
       (F: any) => F.taggedUnion(tag, record.mapWithIndex((k, v: AnyM<ProgURI, InterpURI>) => (v as any)(F))(o)) // Trust
     )
-    return summoned.tagged<TagType<Types>>(tag as typeof tag & TagType<Types>)(o as any) // We're bending reality as bit
+    return (summoned as TaggableAsADT<unknown, AParam<Types>, ProgURI, InterpURI>).tagged<TagType<Types>>(
+      tag as typeof tag & TagType<Types>
+    )(o as any) // We're bending reality as bit
   }
 }
