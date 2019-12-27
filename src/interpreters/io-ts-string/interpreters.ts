@@ -1,5 +1,5 @@
 import * as t from 'io-ts'
-import { InterpreterFor2 } from '../../core'
+import { InterpreterFor } from '../../core'
 import { merge } from '../../utils'
 import { ioTsStringPrimitiveInterpreter } from './primitives'
 import { ioTsStringIntersectionInterpreter } from './intersections'
@@ -24,7 +24,7 @@ const base = merge(
   ioTsStringRecursiveInterpreter
 )
 
-export const defineIoTsStringInterpreter = InterpreterFor2(IoTsStringURI)
+export const defineIoTsStringInterpreter = InterpreterFor(IoTsStringURI)
 
 export const ioTsStringNonStrict = defineIoTsStringInterpreter(
   merge(

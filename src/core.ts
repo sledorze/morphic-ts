@@ -17,18 +17,12 @@ export interface AnyTypeDic<F extends URIS> {
 /**
  * This is necessary to help fixing F type for inference
  */
-export interface InterpreterFor<F extends URIS> {
+export interface InterpreterFor<F extends URIS | URIS2> {
   readonly InterpreterType: F
 }
-export type InterpreterOf<F extends URIS, O extends object> = InterpreterFor<F> & O
-export function InterpreterFor<K extends URIS>(k: K): <O extends object>(o: O) => InterpreterOf<K, O> {
-  return o => Object.assign({}, o, { InterpreterType: k })
-}
-export interface InterpreterFor2<F extends URIS2> {
-  readonly InterpreterType: F
-}
-export type InterpreterOf2<F extends URIS2, O extends object> = InterpreterFor2<F> & O
-export function InterpreterFor2<K extends URIS2>(k: K): <O extends object>(o: O) => InterpreterOf2<K, O> {
+export type InterpreterOf<F extends URIS | URIS2, O extends object> = InterpreterFor<F> & O
+
+export function InterpreterFor<K extends URIS | URIS2>(k: K): <O extends object>(o: O) => InterpreterOf<K, O> {
   return o => Object.assign({}, o, { InterpreterType: k })
 }
 
@@ -64,7 +58,7 @@ export type Algebra1<AllAlgebra extends AlgebraURIS, Interp extends URIS> = Unio
 export type Algebra2<AllAlgebra extends AlgebraURIS, Interp extends URIS2> = UnionToIntersection<
   AlgAlgebra2<Interp>[AllAlgebra]
 > &
-  InterpreterFor2<Interp>
+  InterpreterFor<Interp>
 
 export type Compact<A> = {
   [K in keyof A]: A[K]
