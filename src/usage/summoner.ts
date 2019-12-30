@@ -13,6 +13,11 @@ export interface Summoners<ProgURI extends ProgramURI, InterpURI extends Interpr
 // TODO: generalize to be able to extend several times, starting from just an Algebra
 // Starting from base Algebra and building..
 
+/**
+ * - Cache application of the given interpreter
+ * - Returns summoners giving the ability to constraint type parameters
+ * - Returns the interpreter extended with matchers, monocle definitions, etc..
+ */
 export function makeSummoner<
   ProgURI extends ProgramURI,
   InterpURI extends keyof ProgramTypes[ProgURI] & InterpreterURI
