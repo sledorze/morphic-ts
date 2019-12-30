@@ -28,6 +28,12 @@ export interface P<E, A> {
   [interpretSymb]?: ProgramUnion<E, A>
 }
 
+declare module '../../src/algebras/hkt' {
+  interface InterpreterAlgebra<F> {
+    [ProgramUnionURI]: AlgebraUnion<F>
+  }
+}
+
 declare module '../../src/usage/programs-hkt' {
   interface Program<E, A> {
     [ProgramUnionURI]: P<E, A>

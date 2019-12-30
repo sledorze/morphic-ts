@@ -10,6 +10,9 @@ export interface Summoners<ProgURI extends ProgramURI, InterpURI extends Interpr
   summon: <A>(F: Program<unknown, A>[ProgURI]) => Materialized<unknown, A, ProgURI, InterpURI>
 }
 
+// TODO: generalize to be able to extend several times, starting from just an Algebra
+// Starting from base Algebra and building..
+
 export function makeSummoner<
   ProgURI extends ProgramURI,
   InterpURI extends keyof ProgramTypes[ProgURI] & InterpreterURI

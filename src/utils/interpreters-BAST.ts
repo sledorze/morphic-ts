@@ -26,7 +26,7 @@ interface BASTJInterpreter<E, A> {
   jsonSchema: Either<NonEmptyArray<JsonSchemaError>, JSONSchema>
 }
 
-const BASTJInterpreterURI = Symbol()
+export const BASTJInterpreterURI = Symbol()
 export type BASTJInterpreterURI = typeof BASTJInterpreterURI
 
 export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpreterURI> = _program => {

@@ -23,6 +23,12 @@ export interface P<E, A> {
   [interpretSymb]?: ProgramOrderable<E, A>
 }
 
+declare module '../../src/algebras/hkt' {
+  interface InterpreterAlgebra<F> {
+    [ProgramOrderableURI]: AlgebraNoUnion<F>
+  }
+}
+
 declare module '../../src/usage/programs-hkt' {
   interface Program<E, A> {
     [ProgramOrderableURI]: P<E, A>
