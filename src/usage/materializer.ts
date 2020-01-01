@@ -7,6 +7,12 @@ import { MonocleFor } from '../adt/monocle'
 export interface ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
   <E, A>(program: Program<E, A>[ProgURI]): Interpreter<E, A>[InterpURI]
 }
+export type InterpreterURIOfProgramInterpreter<X extends ProgramInterpreter<any, any>> = X extends ProgramInterpreter<
+  any,
+  infer R
+>
+  ? R
+  : never
 
 type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = Interpreter<E, A>[InterpURI] &
   Program<E, A>[ProgURI]

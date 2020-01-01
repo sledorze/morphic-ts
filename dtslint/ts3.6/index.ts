@@ -1,6 +1,9 @@
 import { Remove, ElemType, IfStringLiteral, ExtractUnion } from '../../src/common/index'
 import { OptionalIfUndefined } from '../../src/core'
 import { ADT, unionADT, intersectADT } from '../../src/adt'
+import { Extension, ExtType } from '../../src/usage/extend'
+import { ProgramNoUnionURI } from '../../src/utils/program-no-union'
+import { BASTJInterpreter } from '../../src/utils/interpreters-BAST'
 
 type IsLiteralA = IfStringLiteral<'a', 'ok', 'string', 'notString'> // $ExpectType "ok"
 type IsLiteralString = IfStringLiteral<string, 'ok', 'string', 'notString'> // $ExpectType "string"
@@ -45,3 +48,10 @@ const intersectADTRes = intersectADT(ADTFoo01, ADTFoo12) // $ExpectType ADT<ADTF
 type E = OptionalIfUndefined<{ x: string; y: string | undefined; z?: string; q?: string }> // $ExpectType Compact<{ x: string; } & { y?: string | undefined; } & { z?: string | undefined; } & { q?: string | undefined; }>
 
 type Extracted = ExtractUnion<{ type: 'x'; b: string } | { type: 'y'; c: string }, 'type', 'x'> // $ExpectType { type: "x"; b: string; }
+
+// $ExpectType Extension<typeof ProgramNoUnionURI, {}>
+const extension = Extension.of(ProgramNoUnionURI)
+// $ExpectType ProgramInterpreter<typeof ProgramUnionURI, typeof BASTJInterpreterURI>
+const _BASTJInterpreter = BASTJInterpreter
+// $ExpectType <E, A>(program: <G>(x: AlgebraNoUnion<G>) => HKT2<G, E, A>) => BASTJInterpreter<E, A>
+const extended = extension.asType().interpretedBy(BASTJInterpreter)

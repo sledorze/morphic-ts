@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## WIP - 0.6.0
+
+- New Feature
+
+  - Gives the ability to extend an Algebra
+
 ## 0.5.0
 
 - Breaking Change

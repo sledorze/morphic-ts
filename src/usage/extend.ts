@@ -1,5 +1,5 @@
 import { Program, ProgramURI } from './programs-hkt'
-import { ProgramInterpreter } from './materializer'
+import { InterpreterURIOfProgramInterpreter } from './materializer'
 import { InterpreterURI, Interpreter } from './interpreters-hkt'
 import { HKT2 } from '../HKT'
 import { InterpreterAlgebra } from '../algebras/hkt'
@@ -31,9 +31,12 @@ export class Extension<ProgURI extends ProgramURI, Ext extends Record<string, Pr
   /**
    * Returns an interpreter extended with this new albegra
    */
-  interpretedBy<InterpURI extends InterpreterURI>(
-    int: ProgramInterpreter<ProgURI, InterpURI>
-  ): <E, A>(program: <G>(x: InterpreterAlgebra<G>[ProgURI] & Ext) => HKT2<G, E, A>) => Interpreter<E, A>[InterpURI] {
-    return (prog: any) => int((alg: any) => prog({ ...alg, ...this.ext }))
+
+  interpretedBy<Interp extends <E, A>(program: Program<E, A>[ProgURI]) => Interpreter<E, A>[InterpreterURI]>(
+    int: Interp
+  ): <E, A>(
+    program: <G>(x: InterpreterAlgebra<G>[ProgURI] & Ext) => HKT2<G, E, A>
+  ) => Interpreter<E, A>[InterpreterURIOfProgramInterpreter<typeof int>] {
+    return (prog: any) => int((alg: any) => prog({ ...alg, ...this.ext })) as any
   }
 }
