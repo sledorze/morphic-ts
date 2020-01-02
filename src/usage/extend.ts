@@ -1,11 +1,11 @@
-import { Program, ProgramURI, ProgramAlgebra } from './programs-hkt'
+import { ProgramType, ProgramURI, ProgramAlgebra } from './programs-hkt'
 import { InterpreterURIOfProgramInterpreter } from './materializer'
-import { InterpreterURI, Interpreter } from './interpreters-hkt'
+import { InterpreterURI, InterpreterResult } from './interpreters-hkt'
 import { HKT2 } from '../HKT'
 
 export type ExtType<E extends Extension<any, any>> = E['ext']
 
-export class Extension<ProgURI extends ProgramURI, Ext extends Record<string, Program<any, any>[ProgURI]>> {
+export class Extension<ProgURI extends ProgramURI, Ext extends Record<string, ProgramType<any, any>[ProgURI]>> {
   constructor(readonly ext: Ext) {}
   /**
    * Defines the base program type
@@ -31,11 +31,11 @@ export class Extension<ProgURI extends ProgramURI, Ext extends Record<string, Pr
    * Returns an interpreter extended with this new albegra
    */
 
-  interpretedBy<Interp extends <E, A>(program: Program<E, A>[ProgURI]) => Interpreter<E, A>[InterpreterURI]>(
+  interpretedBy<Interp extends <E, A>(program: ProgramType<E, A>[ProgURI]) => InterpreterResult<E, A>[InterpreterURI]>(
     int: Interp
   ): <E, A>(
     program: <G>(x: ProgramAlgebra<G>[ProgURI] & Ext) => HKT2<G, E, A>
-  ) => Interpreter<E, A>[InterpreterURIOfProgramInterpreter<typeof int>] {
+  ) => InterpreterResult<E, A>[InterpreterURIOfProgramInterpreter<typeof int>] {
     return (prog: any) => int((alg: any) => prog({ ...alg, ...this.ext })) as any
   }
 }

@@ -1,11 +1,11 @@
-import { Program, ProgramURI } from './programs-hkt'
-import { Interpreter, InterpreterURI } from './interpreters-hkt'
+import { ProgramType, ProgramURI } from './programs-hkt'
+import { InterpreterResult, InterpreterURI } from './interpreters-hkt'
 import { assignFunction, TagsOf } from '../common'
 import { ADT, KeysDefinition, makeADT } from '../adt'
 import { MonocleFor } from '../adt/monocle'
 
 export interface ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
-  <E, A>(program: Program<E, A>[ProgURI]): Interpreter<E, A>[InterpURI]
+  <E, A>(program: ProgramType<E, A>[ProgURI]): InterpreterResult<E, A>[InterpURI]
 }
 export type InterpreterURIOfProgramInterpreter<X extends ProgramInterpreter<any, any>> = X extends ProgramInterpreter<
   any,
@@ -14,8 +14,8 @@ export type InterpreterURIOfProgramInterpreter<X extends ProgramInterpreter<any,
   ? R
   : never
 
-type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = Interpreter<E, A>[InterpURI] &
-  Program<E, A>[ProgURI]
+type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = InterpreterResult<E, A>[InterpURI] &
+  ProgramType<E, A>[ProgURI]
 
 const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
   assignFunction(F, Object.assign({}, F, d))
@@ -23,7 +23,7 @@ const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
 const wrapFun = <A, B, X>(g: ((a: A) => B) & X): typeof g => ((x: any) => g(x)) as any
 
 function interpreteWithProgram<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
-  program: Program<E, A>[ProgURI],
+  program: ProgramType<E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
 ): Morph<E, A, InterpURI, ProgURI> & InhabitedTypes<E, A> {
   return inhabitTypes(assignFunction(wrapFun(program), programInterpreter(program)))
@@ -68,7 +68,7 @@ export type AType<X extends InhabitedTypes<any, any>> = X['_A']
 export type EType<X extends InhabitedTypes<any, any>> = X['_E']
 
 export function materialize<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
-  program: Program<E, A>[ProgURI],
+  program: ProgramType<E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
 ): Materialized<E, A, ProgURI, InterpURI> {
   return withTaggableAndMonocle(interpreteWithProgram(program, programInterpreter))

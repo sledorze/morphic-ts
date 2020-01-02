@@ -3,10 +3,10 @@ import { ordString, ord } from 'fp-ts/lib/Ord'
 
 import { ProgramUnionURI } from '../../../src/utils/program'
 import { summon, M } from '../../../src/utils/summoner'
-import { Program } from '../../../src/usage/programs-hkt'
+import { ProgramType } from '../../../src/usage/programs-hkt'
 import { FastCheckURI } from '../../../src/interpreters/fast-check'
 
-const testProgram = <A>(prog: Program<unknown, A>[ProgramUnionURI]) => {
+const testProgram = <A>(prog: ProgramType<unknown, A>[ProgramUnionURI]) => {
   const { arb, type } = summon(prog)
   fc.assert(fc.property(arb, type.is))
 }

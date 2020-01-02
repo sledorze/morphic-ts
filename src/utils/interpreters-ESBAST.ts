@@ -22,7 +22,7 @@ import { either, Either } from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { JsonSchemaError } from '../interpreters/json-schema'
 import { Builder } from '../interpreters/builder'
-import { Program, interpretable } from '../usage/programs-hkt'
+import { ProgramType, interpretable } from '../usage/programs-hkt'
 import { Summoners } from '../usage/summoner'
 
 interface ESBASTJInterpreter<E, A> {
@@ -52,7 +52,7 @@ export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJIn
 }
 
 declare module '../usage/interpreters-hkt' {
-  interface Interpreter<E, A> {
+  interface InterpreterResult<E, A> {
     [ESBASTJInterpreterURI]: ESBASTJInterpreter<E, A>
   }
 }
@@ -67,16 +67,16 @@ export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, ESBASTJIn
 export interface UM<A> extends Materialized<unknown, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
 
 export interface MorphAs {
-  <L, A>(F: Program<L, A>[ProgramNoUnionURI]): M<L, A>
+  <L, A>(F: ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
 }
 export interface MorphAsA {
-  <A>(): <L>(F: Program<L, A>[ProgramNoUnionURI]) => M<L, A>
+  <A>(): <L>(F: ProgramType<L, A>[ProgramNoUnionURI]) => M<L, A>
 }
 export interface MorphAsL {
-  <L>(): <A>(F: Program<L, A>[ProgramNoUnionURI]) => M<L, A>
+  <L>(): <A>(F: ProgramType<L, A>[ProgramNoUnionURI]) => M<L, A>
 }
 export interface Morph {
-  <A>(F: Program<unknown, A>[ProgramNoUnionURI]): UM<A>
+  <A>(F: ProgramType<unknown, A>[ProgramNoUnionURI]): UM<A>
 }
 
 export interface Summoner extends Summoners<ProgramNoUnionURI, ESBASTJInterpreterURI> {

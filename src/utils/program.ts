@@ -24,7 +24,7 @@ declare module '../../src/usage/programs-hkt' {
   interface ProgramAlgebra<F> {
     [ProgramUnionURI]: AlgebraUnion<F>
   }
-  interface Program<E, A> {
+  interface ProgramType<E, A> {
     [ProgramUnionURI]: P<E, A>
   }
   interface ProgramTypes extends Record<ProgramURI, any> {

@@ -7,7 +7,7 @@ import { cacheUnaryFunction } from '../../../src/core'
 import { ProgramNoUnionURI } from '../../../src/utils/program-no-union'
 import { eqInterpreter, EqURI } from '../../../src/interpreters/eq/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
-import { Program, interpretable } from '../../../src/usage/programs-hkt'
+import { ProgramType, interpretable } from '../../../src/usage/programs-hkt'
 
 export const EqInterpreterURI = Symbol()
 export type EqInterpreterURI = typeof EqInterpreterURI
@@ -17,7 +17,7 @@ interface EqInterpreter<A> {
 }
 
 declare module '../../../src/usage/interpreters-hkt' {
-  interface Interpreter<E, A> {
+  interface InterpreterResult<E, A> {
     [EqInterpreterURI]: EqInterpreter<A>
   }
 }
@@ -39,16 +39,16 @@ export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, EqInterpr
 export interface UM<A> extends Materialized<unknown, A, ProgramNoUnionURI, EqInterpreterURI> {}
 
 export interface MorphAs {
-  <L, A>(F: Program<L, A>[ProgramNoUnionURI]): M<L, A>
+  <L, A>(F: ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
 }
 export interface MorphAsA {
-  <A>(): <L>(F: Program<L, A>[ProgramNoUnionURI]) => M<L, A>
+  <A>(): <L>(F: ProgramType<L, A>[ProgramNoUnionURI]) => M<L, A>
 }
 export interface MorphAsL {
-  <L>(): <A>(F: Program<L, A>[ProgramNoUnionURI]) => M<L, A>
+  <L>(): <A>(F: ProgramType<L, A>[ProgramNoUnionURI]) => M<L, A>
 }
 export interface Morph {
-  <A>(F: Program<unknown, A>[ProgramNoUnionURI]): UM<A>
+  <A>(F: ProgramType<unknown, A>[ProgramNoUnionURI]): UM<A>
 }
 
 export interface Summoner extends Summoners<ProgramNoUnionURI, EqInterpreterURI> {

@@ -21,7 +21,7 @@ declare module '../../src/usage/programs-hkt' {
     [ProgramOrderableURI]: AlgebraNoUnion<F>
   }
 
-  interface Program<E, A> {
+  interface ProgramType<E, A> {
     [ProgramOrderableURI]: P<E, A>
   }
 

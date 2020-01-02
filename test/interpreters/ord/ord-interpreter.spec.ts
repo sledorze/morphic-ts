@@ -6,7 +6,7 @@ import { builderInterpreter } from '../../../src/interpreters/builder/interprete
 import { ProgramOrderableURI } from '../../../src/utils/program-orderable'
 import { cacheUnaryFunction } from '../../../src/core'
 import { makeSummoner, Summoners } from '../../../src/usage/summoner'
-import { Program, interpretable } from '../../../src/usage/programs-hkt'
+import { ProgramType, interpretable } from '../../../src/usage/programs-hkt'
 
 interface OrdInterpreter<E, A> {
   ord: Ord<A>
@@ -16,7 +16,7 @@ export const OrdInterpreterURI = Symbol()
 export type OrdInterpreterURI = typeof OrdInterpreterURI
 
 declare module '../../../src/usage/interpreters-hkt' {
-  interface Interpreter<E, A> {
+  interface InterpreterResult<E, A> {
     [OrdInterpreterURI]: OrdInterpreter<E, A>
   }
 }
@@ -31,16 +31,16 @@ export interface M<L, A> extends Materialized<L, A, ProgramOrderableURI, OrdInte
 export interface UM<A> extends Materialized<unknown, A, ProgramOrderableURI, OrdInterpreterURI> {}
 
 export interface MorphAs {
-  <L, A>(F: Program<L, A>[ProgramOrderableURI]): M<L, A>
+  <L, A>(F: ProgramType<L, A>[ProgramOrderableURI]): M<L, A>
 }
 export interface MorphAsA {
-  <A>(): <L>(F: Program<L, A>[ProgramOrderableURI]) => M<L, A>
+  <A>(): <L>(F: ProgramType<L, A>[ProgramOrderableURI]) => M<L, A>
 }
 export interface MorphAsL {
-  <L>(): <A>(F: Program<L, A>[ProgramOrderableURI]) => M<L, A>
+  <L>(): <A>(F: ProgramType<L, A>[ProgramOrderableURI]) => M<L, A>
 }
 export interface Morph {
-  <A>(F: Program<unknown, A>[ProgramOrderableURI]): UM<A>
+  <A>(F: ProgramType<unknown, A>[ProgramOrderableURI]): UM<A>
 }
 
 export interface Summoner extends Summoners<ProgramOrderableURI, OrdInterpreterURI> {

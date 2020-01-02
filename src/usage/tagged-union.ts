@@ -2,12 +2,12 @@ import { EType, AType, InhabitedTypes, Materialized, MorphADT, TaggableAsADT } f
 import { record } from 'fp-ts'
 import { HKT2 } from '../HKT'
 import { TagsOf } from '../common'
-import { Program, ProgramURI } from './programs-hkt'
+import { ProgramType, ProgramURI } from './programs-hkt'
 import { Algebra } from '../algebras/hkt'
 import { InterpreterURI } from './interpreters-hkt'
 import { TaggedUnionsURI } from '../algebras/tagged-unions'
 
-type TaggedUnionProg<E, A, ProgURI extends ProgramURI> = Program<E, A>[ProgURI] &
+type TaggedUnionProg<E, A, ProgURI extends ProgramURI> = ProgramType<E, A>[ProgURI] &
   (<G>(a: Algebra<G>[TaggedUnionsURI]) => HKT2<G, E, A>)
 
 type M<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Materialized<E, A, ProgURI, InterpURI>
