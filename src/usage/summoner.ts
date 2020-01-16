@@ -1,13 +1,13 @@
-import { ProgramType, ProgramTypes, ProgramURI } from './programs-hkt'
+import { ProgramType, ProgramTypes, ProgramURI, InferredProgram } from './programs-hkt'
 import { materialize, Materialized, ProgramInterpreter } from './materializer'
 import { InterpreterURI } from './interpreters-hkt'
 import { CacheType } from '../core'
 
 export interface Summoners<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
-  summonAs: <L, A>(F: ProgramType<L, A>[ProgURI]) => Materialized<L, A, ProgURI, InterpURI>
-  summonAsA: <A>() => <L>(F: ProgramType<L, A>[ProgURI]) => Materialized<L, A, ProgURI, InterpURI>
-  summonAsL: <L>() => <A>(F: ProgramType<L, A>[ProgURI]) => Materialized<L, A, ProgURI, InterpURI>
-  summon: <A>(F: ProgramType<unknown, A>[ProgURI]) => Materialized<unknown, A, ProgURI, InterpURI>
+  summonAs: <L, A>(F: InferredProgram<L, A, ProgURI>) => Materialized<L, A, ProgURI, InterpURI>
+  summonAsA: <A>() => <L>(F: InferredProgram<L, A, ProgURI>) => Materialized<L, A, ProgURI, InterpURI>
+  summonAsL: <L>() => <A>(F: InferredProgram<L, A, ProgURI>) => Materialized<L, A, ProgURI, InterpURI>
+  summon: <A>(F: InferredProgram<unknown, A, ProgURI>) => Materialized<unknown, A, ProgURI, InterpURI>
 }
 
 // TODO: generalize to be able to extend several times, starting from just an Algebra
@@ -24,7 +24,7 @@ export function makeSummoner<
 >(
   cacheProgramEval: CacheType,
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
-): ProgramTypes[ProgURI][InterpURI] {
+): Summoners<ProgURI, InterpURI> {
   type P<L, A> = ProgramType<L, A>[ProgURI]
   type M<L, A> = Materialized<L, A, ProgURI, InterpURI>
   type UM<A> = Materialized<unknown, A, ProgURI, InterpURI>

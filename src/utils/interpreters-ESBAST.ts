@@ -20,10 +20,11 @@ import { ProgramNoUnionURI } from './program-no-union'
 
 import { either, Either } from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import { JsonSchemaError } from '../interpreters/json-schema'
+import { JsonSchemaError, NamedSchemas } from '../interpreters/json-schema'
 import { Builder } from '../interpreters/builder'
 import { ProgramType, interpretable } from '../usage/programs-hkt'
 import { Summoners } from '../usage/summoner'
+import { tuple } from 'fp-ts/lib/function'
 
 interface ESBASTJInterpreter<E, A> {
   build: Builder<A>
@@ -32,7 +33,7 @@ interface ESBASTJInterpreter<E, A> {
   arb: Arbitrary<A>
   strictType: Type<A, unknown, unknown>
   type: Type<A, unknown, unknown>
-  jsonSchema: Either<NonEmptyArray<JsonSchemaError>, JSONSchema>
+  jsonSchema: Either<NonEmptyArray<JsonSchemaError>, [JSONSchema, NamedSchemas]>
 }
 
 export const ESBASTJInterpreterURI = Symbol()
@@ -47,7 +48,7 @@ export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJIn
     arb: program(fastCheckInterpreter).arb,
     strictType: program(ioTsStrict).type,
     type: program(ioTsNonStrict).type,
-    jsonSchema: either.map(program(jsonSchemaInterpreter).schema, s => s.json)
+    jsonSchema: either.map(program(jsonSchemaInterpreter).schema({}), ([s, dic]) => tuple(s.json, dic))
   }
 }
 

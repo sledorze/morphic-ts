@@ -1,17 +1,18 @@
 import { ModelAlgebraTaggedUnions1 } from '../../algebras/tagged-unions'
 import { JsonSchemaURI, JsonSchema } from '.'
 import { UnionTypeCtor } from '../../json-schema/json-schema-ctors'
-import { record, either, array } from 'fp-ts'
+import { record, array } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
+import * as SE from '../../StateEither'
 
-const arrayTraverseEither = array.array.traverse(either.either)
+const arrayTraverseStateEither = array.array.traverse(SE.stateEither)
 
 export const jsonSchemaTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<JsonSchemaURI> = {
   taggedUnion: (tag, types) =>
     new JsonSchema(
       pipe(
-        arrayTraverseEither(record.toArray(types), ([k, v]) => v.schema),
-        either.chain(UnionTypeCtor)
+        arrayTraverseStateEither(record.toArray(types), ([_, v]) => v.schema),
+        SE.chain(v => SE.fromEither(UnionTypeCtor(v)))
       )
     )
 }

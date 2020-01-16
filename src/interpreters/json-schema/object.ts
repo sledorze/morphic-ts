@@ -1,35 +1,36 @@
 import { ModelAlgebraObject1 } from '../../algebras/object'
 import { JsonSchema, JsonSchemaURI } from '.'
 import { ObjectTypeCtor } from '../../json-schema/json-schema-ctors'
-import { record, either, array } from 'fp-ts'
+import { record, array } from 'fp-ts'
 import { tuple } from 'fp-ts/lib/function'
 import { pipe } from 'fp-ts/lib/pipeable'
+import * as SE from '../../StateEither'
 
-const arrayTraverseEither = array.array.traverse(either.either)
+const arrayTraverseStateEither = array.array.traverse(SE.stateEither)
 
 export const jsonSchemaObjectInterpreter: ModelAlgebraObject1<JsonSchemaURI> = {
   interface: props =>
     new JsonSchema(
       pipe(
-        arrayTraverseEither(record.toArray(props), ([k, v]) =>
+        arrayTraverseStateEither(record.toArray(props), ([k, v]) =>
           pipe(
             v.schema,
-            either.map(schema => tuple(k, schema))
+            SE.map(schema => tuple(k, schema))
           )
         ),
-        either.map(props => ObjectTypeCtor(false, props))
+        SE.map(props => ObjectTypeCtor(false, props))
       )
     ),
   partial: props =>
     new JsonSchema(
       pipe(
-        arrayTraverseEither(record.toArray(props), ([k, v]) =>
+        arrayTraverseStateEither(record.toArray(props), ([k, v]) =>
           pipe(
             v.schema,
-            either.map(schema => tuple(k, schema))
+            SE.map(schema => tuple(k, schema))
           )
         ),
-        either.map(props => ObjectTypeCtor(true, props))
+        SE.map(props => ObjectTypeCtor(true, props))
       )
     )
 }

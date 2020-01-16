@@ -4,6 +4,7 @@ import { right, left } from 'fp-ts/lib/Either'
 import { either } from 'fp-ts'
 import { JsonSchemaErrors } from '../../../src/json-schema/json-schema-ctors'
 import { of } from 'fp-ts/lib/NonEmptyArray'
+import { tuple } from 'fp-ts/lib/function'
 
 describe('a json schema generator', function(this: any) {
   it('generate an interface from a io-ts interface', () => {
@@ -20,15 +21,20 @@ describe('a json schema generator', function(this: any) {
 
     chai.assert.deepStrictEqual(
       schema,
-      right({
-        required: ['toto'],
-        properties: {
-          toto: {
-            type: 'number' as const
-          }
-        },
-        type: 'object' as const
-      })
+      right(
+        tuple(
+          {
+            required: ['toto'],
+            properties: {
+              toto: {
+                type: 'number' as const
+              }
+            },
+            type: 'object' as const
+          },
+          {}
+        )
+      )
     )
   })
 
@@ -46,14 +52,19 @@ describe('a json schema generator', function(this: any) {
 
     chai.assert.deepStrictEqual(
       schema,
-      right({
-        properties: {
-          toto: {
-            type: 'number' as const
-          }
-        },
-        type: 'object' as const
-      })
+      right(
+        tuple(
+          {
+            properties: {
+              toto: {
+                type: 'number' as const
+              }
+            },
+            type: 'object' as const
+          },
+          {}
+        )
+      )
     )
   })
 
@@ -69,14 +80,19 @@ describe('a json schema generator', function(this: any) {
 
     chai.assert.deepStrictEqual(
       schema,
-      right({
-        required: ['tata'],
-        properties: {
-          toto: { type: 'number' as const },
-          tata: { type: 'number' as const }
-        },
-        type: 'object' as const
-      })
+      right(
+        tuple(
+          {
+            required: ['tata'],
+            properties: {
+              toto: { type: 'number' as const },
+              tata: { type: 'number' as const }
+            },
+            type: 'object' as const
+          },
+          {}
+        )
+      )
     )
   })
 
@@ -86,20 +102,25 @@ describe('a json schema generator', function(this: any) {
 
     chai.assert.deepStrictEqual(
       schema,
-      right({
-        type: 'object' as const,
-        required: ['arr'],
-        properties: {
-          arr: {
-            type: 'array' as const,
-            items: {
-              type: 'object' as const,
-              properties: { x: { type: 'string' as const } },
-              required: ['x']
+      right(
+        tuple(
+          {
+            type: 'object' as const,
+            required: ['arr'],
+            properties: {
+              arr: {
+                type: 'array' as const,
+                items: {
+                  type: 'object' as const,
+                  properties: { x: { type: 'string' as const } },
+                  required: ['x']
+                }
+              }
             }
-          }
-        }
-      })
+          },
+          {}
+        )
+      )
     )
   })
 
@@ -112,11 +133,16 @@ describe('a json schema generator', function(this: any) {
 
     chai.assert.deepStrictEqual(
       schema,
-      right({
-        properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
-        required: ['a', 'b'],
-        type: 'object' as const
-      })
+      right(
+        tuple(
+          {
+            properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
+            required: ['a', 'b'],
+            type: 'object' as const
+          },
+          {}
+        )
+      )
     )
   })
 
@@ -128,11 +154,16 @@ describe('a json schema generator', function(this: any) {
 
     chai.assert.deepStrictEqual(
       schema,
-      right({
-        properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
-        required: ['a', 'b'],
-        type: 'object' as const
-      })
+      right(
+        tuple(
+          {
+            properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
+            required: ['a', 'b'],
+            type: 'object' as const
+          },
+          {}
+        )
+      )
     )
   })
 
@@ -145,11 +176,16 @@ describe('a json schema generator', function(this: any) {
 
     chai.assert.deepStrictEqual(
       schema,
-      right({
-        properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
-        required: ['a', 'b'],
-        type: 'object' as const
-      })
+      right(
+        tuple(
+          {
+            properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
+            required: ['a', 'b'],
+            type: 'object' as const
+          },
+          {}
+        )
+      )
     )
   })
 
@@ -160,11 +196,16 @@ describe('a json schema generator', function(this: any) {
 
     chai.assert.deepStrictEqual(
       schema,
-      right({
-        properties: { a: { type: 'string' as const }, b: { type: 'string' as const } },
-        required: ['b'],
-        type: 'object' as const
-      })
+      right(
+        tuple(
+          {
+            properties: { a: { type: 'string' as const }, b: { type: 'string' as const } },
+            required: ['b'],
+            type: 'object' as const
+          },
+          {}
+        )
+      )
     )
   })
 
@@ -186,11 +227,16 @@ describe('a json schema generator', function(this: any) {
 
     chai.assert.deepStrictEqual(
       schema,
-      right({
-        properties: { type: { type: 'string' as const, enum: ['toto'] } },
-        required: ['type'],
-        type: 'object' as const
-      })
+      right(
+        tuple(
+          {
+            properties: { type: { type: 'string' as const, enum: ['toto'] } },
+            required: ['type'],
+            type: 'object' as const
+          },
+          {}
+        )
+      )
     )
   })
 
@@ -211,16 +257,21 @@ describe('a json schema generator', function(this: any) {
 
     chai.assert.deepStrictEqual(
       schema,
-      right({
-        properties: {
-          type: {
-            type: 'string' as const,
-            enum: ['toto', 'tutu']
-          }
-        },
-        required: ['type'],
-        type: 'object' as const
-      })
+      right(
+        tuple(
+          {
+            properties: {
+              type: {
+                type: 'string' as const,
+                enum: ['toto', 'tutu']
+              }
+            },
+            required: ['type'],
+            type: 'object' as const
+          },
+          {}
+        )
+      )
     )
   })
 
@@ -244,16 +295,21 @@ describe('a json schema generator', function(this: any) {
 
     chai.assert.deepStrictEqual(
       schema,
-      right({
-        properties: {
-          type: {
-            type: 'string' as const,
-            enum: ['toto', 'tutu']
-          }
-        },
-        required: ['type'],
-        type: 'object' as const
-      })
+      right(
+        tuple(
+          {
+            properties: {
+              type: {
+                type: 'string' as const,
+                enum: ['toto', 'tutu']
+              }
+            },
+            required: ['type'],
+            type: 'object' as const
+          },
+          {}
+        )
+      )
     )
   })
 })

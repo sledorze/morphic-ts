@@ -1,17 +1,18 @@
 import { ModelAlgebraIntersection1 } from '../../algebras/intersections'
 import { JsonSchema, JsonSchemaURI } from '.'
 import { IntersectionTypeCtor } from '../../json-schema/json-schema-ctors'
-import { either, array } from 'fp-ts'
+import { array } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
+import * as SE from '../../StateEither'
 
-const arrayTraverseEither = array.array.traverse(either.either)
+const arrayTraverseStateEither = array.array.traverse(SE.stateEither)
 
 export const jsonSchemaIntersectionInterpreter: ModelAlgebraIntersection1<JsonSchemaURI> = {
   intersection: <A>(types: Array<JsonSchema<A>>) =>
     new JsonSchema<A>(
       pipe(
-        arrayTraverseEither(types, v => v.schema),
-        either.chain(IntersectionTypeCtor)
+        arrayTraverseStateEither(types, v => v.schema),
+        SE.chain(v => SE.fromEither(IntersectionTypeCtor(v)))
       )
     )
 }

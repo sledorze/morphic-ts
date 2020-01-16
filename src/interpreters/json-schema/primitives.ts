@@ -8,16 +8,16 @@ import {
   optional,
   ArrayTypeCtor
 } from '../../json-schema/json-schema-ctors'
-import { right } from 'fp-ts/lib/Either'
-import { either } from 'fp-ts'
+import * as SE from '../../StateEither'
+import { stateEither } from '../../StateEither'
 
 export const jsonSchemaPrimitiveInterpreter: ModelAlgebraPrimitive1<JsonSchemaURI> = {
-  date: _ => new JsonSchema(right(StringTypeCtor({ format: 'date' }))),
-  string: _ => new JsonSchema(right(StringTypeCtor({}))),
-  number: _ => new JsonSchema(right(NumberTypeCtor())),
-  boolean: _ => new JsonSchema(right(BooleanTypeCtor())),
-  stringLiteral: <T extends string>(v: T) => new JsonSchema<T>(right(LiteralTypeCtor(v))),
-  keysOf: _keys => new JsonSchema(right(StringTypeCtor({ enum: Object.keys(_keys) }))),
-  nullable: ({ schema }) => new JsonSchema(either.either.map(schema, x => optional(x.json))),
-  array: ({ schema }) => new JsonSchema(either.either.chain(schema, ArrayTypeCtor))
+  date: _ => new JsonSchema(stateEither.of(StringTypeCtor({ format: 'date' }))),
+  string: _ => new JsonSchema(stateEither.of(StringTypeCtor({}))),
+  number: _ => new JsonSchema(stateEither.of(NumberTypeCtor())),
+  boolean: _ => new JsonSchema(stateEither.of(BooleanTypeCtor())),
+  stringLiteral: <T extends string>(v: T) => new JsonSchema<T>(stateEither.of(LiteralTypeCtor(v))),
+  keysOf: _keys => new JsonSchema(stateEither.of(StringTypeCtor({ enum: Object.keys(_keys) }))),
+  nullable: ({ schema }) => new JsonSchema(stateEither.map(schema, v => optional(v.json))),
+  array: ({ schema }) => new JsonSchema(stateEither.chain(schema, v => SE.StateEither(ArrayTypeCtor(v))))
 }
