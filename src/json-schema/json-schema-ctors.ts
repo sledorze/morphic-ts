@@ -9,17 +9,17 @@ import { left, right } from 'fp-ts/lib/Either'
 import { JsonSchemaError } from '../interpreters/json-schema'
 
 export interface OptionalJSONSchema {
-  json: js.JSONSchema
+  json: js.SubSchema
   optional: boolean
 }
 
 export const optionalJSONSchemaOnJson = m.Lens.fromProp<OptionalJSONSchema>()('json').asOptional()
 
-export const notOptional = <T extends js.JSONSchema>(json: T): OptionalJSONSchema => ({
+export const notOptional = <T extends js.SubSchema>(json: T): OptionalJSONSchema => ({
   json,
   optional: false
 })
-export const optional = <T extends js.JSONSchema>(json: T): OptionalJSONSchema => ({
+export const optional = <T extends js.SubSchema>(json: T): OptionalJSONSchema => ({
   json,
   optional: true
 })

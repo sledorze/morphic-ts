@@ -425,7 +425,7 @@ describe('iotsObjectInterpreter', () => {
             },
             'Tree'
           )
-        })
+        }, 'TreeRec')
       })
 
       const { type } = Tree
@@ -459,7 +459,7 @@ describe('iotsObjectInterpreter', () => {
               },
               'Tree'
             )
-          })
+          }, 'TreeRec')
         })
         return GTree
       }

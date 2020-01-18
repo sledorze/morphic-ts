@@ -420,7 +420,7 @@ describe('iotsObjectInterpreter', () => {
             },
             'Tree'
           )
-        })
+        }, 'TreeRec')
         return res
       })
 
@@ -456,7 +456,7 @@ describe('iotsObjectInterpreter', () => {
               },
               'Tree'
             )
-          })
+          }, 'TreeRec')
         })
         return GTree
       }

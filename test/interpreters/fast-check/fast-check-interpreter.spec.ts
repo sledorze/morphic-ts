@@ -297,15 +297,17 @@ describe('FastCheck interpreter', () => {
     }
 
     const List: M<unknown, List> = summon<List>(F =>
-      F.recursive<unknown, List>(Self =>
-        F.taggedUnion(
-          'type',
-          {
-            cons: F.interface({ type: F.stringLiteral('cons'), a: Self }, 'Cons'),
-            leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string() }, 'Leaf')
-          },
-          'List'
-        )
+      F.recursive<unknown, List>(
+        Self =>
+          F.taggedUnion(
+            'type',
+            {
+              cons: F.interface({ type: F.stringLiteral('cons'), a: Self }, 'Cons'),
+              leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string() }, 'Leaf')
+            },
+            'List'
+          ),
+        'ListRec'
       )
     )
 

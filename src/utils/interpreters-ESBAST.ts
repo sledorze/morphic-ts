@@ -18,13 +18,13 @@ import { jsonSchemaInterpreter } from '../interpreters/json-schema/interpreters'
 import { Materialized, ProgramInterpreter } from '../usage/materializer'
 import { ProgramNoUnionURI } from './program-no-union'
 
-import { either, Either } from 'fp-ts/lib/Either'
+import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import { JsonSchemaError, NamedSchemas } from '../interpreters/json-schema'
+import { JsonSchemaError, NamedSchemas, resolveSchema } from '../interpreters/json-schema'
 import { Builder } from '../interpreters/builder'
 import { ProgramType, interpretable } from '../usage/programs-hkt'
 import { Summoners } from '../usage/summoner'
-import { tuple } from 'fp-ts/lib/function'
+import { pipe } from 'fp-ts/lib/pipeable'
 
 interface ESBASTJInterpreter<E, A> {
   build: Builder<A>
@@ -33,7 +33,7 @@ interface ESBASTJInterpreter<E, A> {
   arb: Arbitrary<A>
   strictType: Type<A, unknown, unknown>
   type: Type<A, unknown, unknown>
-  jsonSchema: Either<NonEmptyArray<JsonSchemaError>, [JSONSchema, NamedSchemas]>
+  jsonSchema: E.Either<NonEmptyArray<JsonSchemaError>, [JSONSchema, NamedSchemas]>
 }
 
 export const ESBASTJInterpreterURI = Symbol()
@@ -48,7 +48,7 @@ export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJIn
     arb: program(fastCheckInterpreter).arb,
     strictType: program(ioTsStrict).type,
     type: program(ioTsNonStrict).type,
-    jsonSchema: either.map(program(jsonSchemaInterpreter).schema({}), ([s, dic]) => tuple(s.json, dic))
+    jsonSchema: pipe(program(jsonSchemaInterpreter).schema({}), E.chain(resolveSchema))
   }
 }
 

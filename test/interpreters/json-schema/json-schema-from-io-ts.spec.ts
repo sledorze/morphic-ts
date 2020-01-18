@@ -1,10 +1,13 @@
 import * as chai from 'chai'
-import { summon } from '../../../src/utils/summoner'
+import { summon, summonAs, M } from '../../../src/utils/summoner'
 import { right, left } from 'fp-ts/lib/Either'
 import { either } from 'fp-ts'
 import { JsonSchemaErrors } from '../../../src/json-schema/json-schema-ctors'
 import { of } from 'fp-ts/lib/NonEmptyArray'
 import { tuple } from 'fp-ts/lib/function'
+import { GTree } from '../../utils/tree'
+import { NamedSchemas } from '../../../src/interpreters/json-schema'
+import { JSONSchema } from '../../../src/json-schema/json-schema'
 
 describe('a json schema generator', function(this: any) {
   it('generate an interface from a io-ts interface', () => {
@@ -311,5 +314,68 @@ describe('a json schema generator', function(this: any) {
         )
       )
     )
+  })
+
+  it('handles generic recursive types', () => {
+    const getTree = <A>(LeafValue: M<unknown, A>): M<unknown, GTree<A>> =>
+      summonAs(F =>
+        F.recursive(
+          GTree =>
+            F.taggedUnion(
+              'type',
+              {
+                node: F.interface({ type: F.stringLiteral('node'), a: GTree, b: GTree }, 'Node'),
+                leaf: F.interface({ type: F.stringLiteral('leaf'), v: LeafValue(F) }, 'Leaf')
+              },
+              'Tree'
+            ),
+          'TreeRec'
+        )
+      )
+
+    const numberValue = summonAs(F => F.number())
+
+    const { jsonSchema } = getTree(numberValue)
+
+    const TreeRec: JSONSchema = {
+      oneOf: [
+        {
+          properties: {
+            type: {
+              enum: ['leaf'],
+              type: 'string'
+            },
+            v: {
+              type: 'number'
+            }
+          },
+          required: ['type', 'v'],
+          type: 'object'
+        },
+        {
+          properties: {
+            a: {
+              $ref: 'TreeRec'
+            },
+            b: {
+              $ref: 'TreeRec'
+            },
+            type: {
+              enum: ['node'],
+              type: 'string'
+            }
+          },
+          required: ['a', 'b', 'type'],
+          type: 'object'
+        }
+      ],
+      type: 'object'
+    }
+
+    const dic: NamedSchemas = {
+      TreeRec
+    }
+
+    chai.assert.deepStrictEqual(jsonSchema, right(tuple(TreeRec, dic)))
   })
 })

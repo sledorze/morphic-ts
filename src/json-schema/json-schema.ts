@@ -81,10 +81,10 @@ export const ObjectSchema = (x: {
   oneOf?: (ObjectSchema | Ref)[]
 }): ObjectSchema => ({ type: 'object' as 'object', ...x })
 
-export const isObjectSchema = (x: JSONSchema): x is ObjectSchema => x.type === 'object'
+export const isObjectSchema = (x: SubSchema): x is ObjectSchema => 'type' in x && x.type === 'object'
 export const jsonToObjectSchemaPrism = m.Prism.fromPredicate(isObjectSchema)
 
-export type SubSchema = StringSchema | NumberSchema | BooleanSchema | ArraySchema | ObjectSchema | EnumSchema | Ref
+export type SubSchema = JSONSchema | Ref
 export const SubSchema = (x: SubSchema) => x
 
 export type JSONSchema =
@@ -103,6 +103,7 @@ export const getOneOf = (obj: ObjectSchema): Option<(ObjectSchema | Ref)[]> => f
 export const isTypeArray = (schema: JSONSchema | SubSchema): schema is ArraySchema =>
   !isTypeRef(schema) && schema.type !== undefined && schema.type === 'array'
 export const isTypeRef = (schema: JSONSchema | SubSchema): schema is Ref => schema.hasOwnProperty('$ref')
+export const isnotTypeRef = (schema: JSONSchema | SubSchema): schema is JSONSchema => !schema.hasOwnProperty('$ref')
 
 export const isNotPrimitive = (schema: JSONSchema | SubSchema) =>
   isTypeObject(schema) || isTypeArray(schema) || isTypeRef(schema)
