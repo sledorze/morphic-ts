@@ -20,11 +20,12 @@ import { ProgramNoUnionURI } from './program-no-union'
 
 import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import { JsonSchemaError, NamedSchemas, resolveSchema } from '../interpreters/json-schema'
+import { NamedSchemas, resolveSchema } from '../interpreters/json-schema'
 import { Builder } from '../interpreters/builder'
 import { ProgramType, interpretable } from '../usage/programs-hkt'
 import { Summoners } from '../usage/summoner'
 import { pipe } from 'fp-ts/lib/pipeable'
+import { JsonSchemaError } from '../json-schema/json-schema-ctors'
 
 interface ESBASTJInterpreter<E, A> {
   build: Builder<A>

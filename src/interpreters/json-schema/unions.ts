@@ -12,7 +12,7 @@ export const jsonSchemaUnionInterpreter: ModelAlgebraUnions1<JsonSchemaURI> = {
     new JsonSchema(
       pipe(
         arrayTraverseStateEither(types, j => j.schema),
-        SE.chain(v => SE.fromEither(UnionTypeCtor(v)))
+        SE.chainEitherK(UnionTypeCtor)
       )
     )
 }

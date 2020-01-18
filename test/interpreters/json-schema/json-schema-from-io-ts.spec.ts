@@ -6,7 +6,6 @@ import { JsonSchemaErrors } from '../../../src/json-schema/json-schema-ctors'
 import { of } from 'fp-ts/lib/NonEmptyArray'
 import { tuple } from 'fp-ts/lib/function'
 import { GTree } from '../../utils/tree'
-import { NamedSchemas } from '../../../src/interpreters/json-schema'
 import { JSONSchema } from '../../../src/json-schema/json-schema'
 
 describe('a json schema generator', function(this: any) {
@@ -22,23 +21,16 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.assert.deepStrictEqual(
-      schema,
-      right(
-        tuple(
-          {
-            required: ['toto'],
-            properties: {
-              toto: {
-                type: 'number' as const
-              }
-            },
-            type: 'object' as const
-          },
-          {}
-        )
-      )
-    )
+    const Toto: JSONSchema = {
+      required: ['toto'],
+      properties: {
+        toto: {
+          type: 'number' as const
+        }
+      },
+      type: 'object' as const
+    }
+    chai.assert.deepStrictEqual(schema, right(tuple(Toto, { Toto })))
   })
 
   it('generate an interface from a partial', () => {
@@ -53,22 +45,15 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.assert.deepStrictEqual(
-      schema,
-      right(
-        tuple(
-          {
-            properties: {
-              toto: {
-                type: 'number' as const
-              }
-            },
-            type: 'object' as const
-          },
-          {}
-        )
-      )
-    )
+    const Toto: JSONSchema = {
+      properties: {
+        toto: {
+          type: 'number' as const
+        }
+      },
+      type: 'object' as const
+    }
+    chai.assert.deepStrictEqual(schema, right(tuple(Toto, { Toto })))
   })
 
   it('generate an interface from an intersection', () => {
@@ -81,115 +66,77 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.assert.deepStrictEqual(
-      schema,
-      right(
-        tuple(
-          {
-            required: ['tata'],
-            properties: {
-              toto: { type: 'number' as const },
-              tata: { type: 'number' as const }
-            },
-            type: 'object' as const
-          },
-          {}
-        )
-      )
-    )
+    const Toto: JSONSchema = {
+      properties: {
+        toto: { type: 'number' as const }
+      },
+      type: 'object' as const
+    }
+    const Tata: JSONSchema = {
+      required: ['tata'],
+      properties: {
+        tata: { type: 'number' as const }
+      },
+      type: 'object' as const
+    }
+    const TotoAndTata: JSONSchema = {
+      required: ['tata'],
+      properties: {
+        toto: { type: 'number' as const },
+        tata: { type: 'number' as const }
+      },
+      type: 'object' as const
+    }
+
+    chai.assert.deepStrictEqual(schema, right(tuple(TotoAndTata, { TotoAndTata, Toto, Tata })))
   })
 
   it('generate from a complex type', () => {
     const decoder = summon(F => F.interface({ arr: F.array(F.interface({ x: F.string() }, 'X'), {}) }, 'Arrs'))
     const schema = decoder.jsonSchema
 
-    chai.assert.deepStrictEqual(
-      schema,
-      right(
-        tuple(
-          {
-            type: 'object' as const,
-            required: ['arr'],
-            properties: {
-              arr: {
-                type: 'array' as const,
-                items: {
-                  type: 'object' as const,
-                  properties: { x: { type: 'string' as const } },
-                  required: ['x']
-                }
-              }
-            }
-          },
-          {}
-        )
-      )
-    )
+    const X: JSONSchema = {
+      type: 'object' as const,
+      properties: { x: { type: 'string' as const } },
+      required: ['x']
+    }
+    const Arrs: JSONSchema = {
+      type: 'object' as const,
+      required: ['arr'],
+      properties: {
+        arr: {
+          type: 'array' as const,
+          items: { $ref: 'X' }
+        }
+      }
+    }
+    chai.assert.deepStrictEqual(schema, right(tuple(Arrs, { X, Arrs })))
   })
 
-  it('use name as description for intersection', () => {
+  it('encodes an intersection', () => {
     const decoder = summon(F =>
       F.intersection([F.interface({ a: F.string() }, 'A'), F.interface({ b: F.number() }, 'B')], 'AB')
     )
 
     const schema = decoder.jsonSchema
 
-    chai.assert.deepStrictEqual(
-      schema,
-      right(
-        tuple(
-          {
-            properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
-            required: ['a', 'b'],
-            type: 'object' as const
-          },
-          {}
-        )
-      )
-    )
-  })
+    const A: JSONSchema = {
+      properties: { a: { type: 'string' as const } },
+      required: ['a'],
+      type: 'object' as const
+    }
+    const B: JSONSchema = {
+      properties: { b: { type: 'number' as const } },
+      required: ['b'],
+      type: 'object' as const
+    }
+    const AB: JSONSchema = {
+      properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
+      required: ['a', 'b'],
+      type: 'object' as const
+    }
 
-  it('use underlying names as description for unnamed intersection', () => {
-    const decoder = summon(F =>
-      F.intersection([F.interface({ a: F.string() }, 'A'), F.interface({ b: F.number() }, 'B')], 'AB')
-    )
-    const schema = decoder.jsonSchema
-
-    chai.assert.deepStrictEqual(
-      schema,
-      right(
-        tuple(
-          {
-            properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
-            required: ['a', 'b'],
-            type: 'object' as const
-          },
-          {}
-        )
-      )
-    )
-  })
-
-  it('use underlying name as description for unnamed intersection', () => {
-    const decoder = summon(F =>
-      F.intersection([F.interface({ a: F.string() }, 'A'), F.interface({ b: F.number() }, 'B')], 'AB')
-    )
-
-    const schema = decoder.jsonSchema
-
-    chai.assert.deepStrictEqual(
-      schema,
-      right(
-        tuple(
-          {
-            properties: { a: { type: 'string' as const }, b: { type: 'number' as const } },
-            required: ['a', 'b'],
-            type: 'object' as const
-          },
-          {}
-        )
-      )
-    )
+    chai.assert.deepStrictEqual(schema, right(tuple(AB, { AB, A, B })))
   })
 
   it('works with OptionFromNullable!', () => {
@@ -197,19 +144,13 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.assert.deepStrictEqual(
-      schema,
-      right(
-        tuple(
-          {
-            properties: { a: { type: 'string' as const }, b: { type: 'string' as const } },
-            required: ['b'],
-            type: 'object' as const
-          },
-          {}
-        )
-      )
-    )
+    const AB: JSONSchema = {
+      properties: { a: { type: 'string' as const }, b: { type: 'string' as const } },
+      required: ['b'],
+      type: 'object' as const
+    }
+
+    chai.assert.deepStrictEqual(schema, right(tuple(AB, { AB })))
   })
 
   it('does not work with OptionFromNullable in Array!', () => {
@@ -228,19 +169,13 @@ describe('a json schema generator', function(this: any) {
 
     const schema = decoder.jsonSchema
 
-    chai.assert.deepStrictEqual(
-      schema,
-      right(
-        tuple(
-          {
-            properties: { type: { type: 'string' as const, enum: ['toto'] } },
-            required: ['type'],
-            type: 'object' as const
-          },
-          {}
-        )
-      )
-    )
+    const Toto: JSONSchema = {
+      properties: { type: { type: 'string' as const, enum: ['toto'] } },
+      required: ['type'],
+      type: 'object' as const
+    }
+
+    chai.assert.deepStrictEqual(schema, right(tuple(Toto, { Toto })))
   })
 
   it('encodes anonymous KeyOfType inplace ', () => {
@@ -256,26 +191,20 @@ describe('a json schema generator', function(this: any) {
       )
     )
 
+    const Toto: JSONSchema = {
+      properties: {
+        type: {
+          type: 'string' as const,
+          enum: ['toto', 'tutu']
+        }
+      },
+      required: ['type'],
+      type: 'object' as const
+    }
+
     const schema = decoder.jsonSchema
 
-    chai.assert.deepStrictEqual(
-      schema,
-      right(
-        tuple(
-          {
-            properties: {
-              type: {
-                type: 'string' as const,
-                enum: ['toto', 'tutu']
-              }
-            },
-            required: ['type'],
-            type: 'object' as const
-          },
-          {}
-        )
-      )
-    )
+    chai.assert.deepStrictEqual(schema, right(tuple(Toto, { Toto })))
   })
 
   it('encodes names with KeyOfType ', () => {
@@ -294,26 +223,20 @@ describe('a json schema generator', function(this: any) {
       )
     )
 
+    const Toto: JSONSchema = {
+      properties: {
+        type: {
+          type: 'string' as const,
+          enum: ['toto', 'tutu']
+        }
+      },
+      required: ['type'],
+      type: 'object' as const
+    }
+
     const schema = decoder.jsonSchema
 
-    chai.assert.deepStrictEqual(
-      schema,
-      right(
-        tuple(
-          {
-            properties: {
-              type: {
-                type: 'string' as const,
-                enum: ['toto', 'tutu']
-              }
-            },
-            required: ['type'],
-            type: 'object' as const
-          },
-          {}
-        )
-      )
-    )
+    chai.assert.deepStrictEqual(schema, right(tuple(Toto, { Toto })))
   })
 
   it('handles generic recursive types', () => {
@@ -337,45 +260,42 @@ describe('a json schema generator', function(this: any) {
 
     const { jsonSchema } = getTree(numberValue)
 
-    const TreeRec: JSONSchema = {
-      oneOf: [
-        {
-          properties: {
-            type: {
-              enum: ['leaf'],
-              type: 'string'
-            },
-            v: {
-              type: 'number'
-            }
-          },
-          required: ['type', 'v'],
-          type: 'object'
+    const Leaf: JSONSchema = {
+      properties: {
+        type: {
+          enum: ['leaf'],
+          type: 'string'
         },
-        {
-          properties: {
-            a: {
-              $ref: 'TreeRec'
-            },
-            b: {
-              $ref: 'TreeRec'
-            },
-            type: {
-              enum: ['node'],
-              type: 'string'
-            }
-          },
-          required: ['a', 'b', 'type'],
-          type: 'object'
+        v: {
+          type: 'number'
         }
-      ],
+      },
+      required: ['type', 'v'],
       type: 'object'
     }
 
-    const dic: NamedSchemas = {
-      TreeRec
+    const Node: JSONSchema = {
+      properties: {
+        a: {
+          $ref: 'TreeRec'
+        },
+        b: {
+          $ref: 'TreeRec'
+        },
+        type: {
+          enum: ['node'],
+          type: 'string'
+        }
+      },
+      required: ['a', 'b', 'type'],
+      type: 'object'
     }
 
-    chai.assert.deepStrictEqual(jsonSchema, right(tuple(TreeRec, dic)))
+    const TreeRec: JSONSchema = {
+      oneOf: [{ $ref: 'Leaf' }, { $ref: 'Node' }],
+      type: 'object'
+    }
+
+    chai.assert.deepStrictEqual(jsonSchema, right(tuple(TreeRec, { TreeRec, Leaf, Node })))
   })
 })

@@ -6,7 +6,13 @@ import { Endomorphism } from 'fp-ts/lib/function'
 import { ordString } from 'fp-ts/lib/Ord'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { left, right } from 'fp-ts/lib/Either'
-import { JsonSchemaError } from '../interpreters/json-schema'
+
+export interface JsonSchemaError {
+  msg: string
+}
+export const JsonSchemaError = (msg: string): JsonSchemaError => ({
+  msg
+})
 
 export interface OptionalJSONSchema {
   json: js.SubSchema
@@ -15,14 +21,10 @@ export interface OptionalJSONSchema {
 
 export const optionalJSONSchemaOnJson = m.Lens.fromProp<OptionalJSONSchema>()('json').asOptional()
 
-export const notOptional = <T extends js.SubSchema>(json: T): OptionalJSONSchema => ({
-  json,
-  optional: false
-})
-export const optional = <T extends js.SubSchema>(json: T): OptionalJSONSchema => ({
-  json,
-  optional: true
-})
+export const makeOptional = (optional: boolean, json: js.SubSchema): OptionalJSONSchema => ({ optional, json })
+
+export const notOptional = <T extends js.SubSchema>(json: T): OptionalJSONSchema => makeOptional(false, json)
+export const optional = <T extends js.SubSchema>(json: T): OptionalJSONSchema => makeOptional(true, json)
 
 export const makePartialOptionalJsonObject: Endomorphism<OptionalJSONSchema> = optionalJSONSchemaOnJson
   .composePrism(js.jsonToObjectSchemaPrism)
@@ -81,7 +83,7 @@ export const NonEmptyArrayFromArrayTypeCtor = (items: OptionalJSONSchema) =>
       )
 
 export const UnionTypeCtor = (types: OptionalJSONSchema[]) => {
-  const oneOf: (js.ObjectSchema | js.Ref)[] = types.map(x => x.json).filter(js.isObjectSchema)
+  const oneOf: (js.ObjectSchema | js.Ref)[] = types.map(x => x.json).filter(js.isObjectOrRef)
   return oneOf.length !== types.length
     ? left(A.cons(JsonSchemaErrors.UnionConsumesOnlyObject, []))
     : right(

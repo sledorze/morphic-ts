@@ -63,7 +63,7 @@ export const itemsOfArrayLense = m.Lens.fromProp<ArraySchema>()('items')
 export interface Ref {
   $ref: string
 }
-export const Ref = ($ref: string) => ({ $ref })
+export const Ref = ($ref: string): Ref => ({ $ref })
 
 export interface ObjectSchema extends DescriptionSchema {
   type?: 'object'
