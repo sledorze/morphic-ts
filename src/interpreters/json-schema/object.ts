@@ -1,11 +1,11 @@
 import { ModelAlgebraObject1 } from '../../algebras/object'
-import { JsonSchema, JsonSchemaURI, addSchema } from '.'
+import { JsonSchema, JsonSchemaURI, addSchema, resolveRefJsonSchema } from '.'
 import { ObjectTypeCtor, notOptional } from '../../json-schema/json-schema-ctors'
 import { record, array } from 'fp-ts'
 import { tuple } from 'fp-ts/lib/function'
 import { pipe } from 'fp-ts/lib/pipeable'
 import * as SE from '../../StateEither'
-import { Ref, JSONSchema } from '../../json-schema/json-schema'
+import { Ref } from '../../json-schema/json-schema'
 
 const arrayTraverseStateEither = array.array.traverse(SE.stateEither)
 
@@ -19,7 +19,8 @@ export const jsonSchemaObjectInterpreter: ModelAlgebraObject1<JsonSchemaURI> = {
             SE.map(schema => tuple(k, schema))
           )
         ),
-        SE.chain(props => addSchema(name)(ObjectTypeCtor(false, props).json as JSONSchema)),
+        SE.chain(props => resolveRefJsonSchema(ObjectTypeCtor(false, props).json)),
+        SE.chain(addSchema(name)),
         SE.map(_ => notOptional(Ref(name)))
       )
     ),
@@ -32,7 +33,8 @@ export const jsonSchemaObjectInterpreter: ModelAlgebraObject1<JsonSchemaURI> = {
             SE.map(schema => tuple(k, schema))
           )
         ),
-        SE.chain(props => addSchema(name)(ObjectTypeCtor(true, props).json as JSONSchema)),
+        SE.chain(props => resolveRefJsonSchema(ObjectTypeCtor(true, props).json)),
+        SE.chain(addSchema(name)),
         SE.map(_ => notOptional(Ref(name)))
       )
     )

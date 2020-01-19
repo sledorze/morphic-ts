@@ -41,6 +41,11 @@ export const resolveRef = (
     ? SE.stateEither.map(getSchemaStrict(o.json.$ref), j => makeOptional(o.optional, j))
     : SE.stateEither.of(makeOptional(o.optional, o.json))
 
+export const resolveRefJsonSchema = (
+  s: SubSchema
+): SE.StateEither<NamedSchemas, nonEmptyArray.NonEmptyArray<JsonSchemaError>, JSONSchema> =>
+  isTypeRef(s) ? getSchemaStrict(s.$ref) : SE.stateEither.of(s)
+
 export const resolveSubSchema = (ns: NamedSchemas) => (ref: SubSchema): O.Option<JSONSchema> =>
   isTypeRef(ref) ? record.lookup(ref.$ref, ns) : O.some(ref)
 
