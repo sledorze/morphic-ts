@@ -1,13 +1,11 @@
 import { ModelAlgebraObject1 } from '../../algebras/object'
-import { JsonSchema, JsonSchemaURI, addSchema, resolveRefJsonSchema } from '.'
+import { JsonSchema, JsonSchemaURI, addSchema, resolveRefJsonSchema, arrayTraverseStateEither } from '.'
 import { ObjectTypeCtor, notOptional } from '../../json-schema/json-schema-ctors'
-import { record, array } from 'fp-ts'
+import { record } from 'fp-ts'
 import { tuple } from 'fp-ts/lib/function'
 import { pipe } from 'fp-ts/lib/pipeable'
 import * as SE from '../../StateEither'
 import { Ref } from '../../json-schema/json-schema'
-
-const arrayTraverseStateEither = array.array.traverse(SE.stateEither)
 
 export const jsonSchemaObjectInterpreter: ModelAlgebraObject1<JsonSchemaURI> = {
   interface: (props, name) =>

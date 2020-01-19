@@ -29,17 +29,10 @@ export const getSchemaStrict = (name: string): JsonSchemaResult<JSONSchema> =>
 
 export const arrayTraverseStateEither = array.array.traverse(SE.stateEither)
 
-export const resolveRefs = (
-  v: OptionalJSONSchema[]
-): SE.StateEither<NamedSchemas, nonEmptyArray.NonEmptyArray<JsonSchemaError>, OptionalJSONSchema[]> =>
-  arrayTraverseStateEither(v, resolveRef)
-
 export const resolveRef = (
   o: OptionalJSONSchema
 ): SE.StateEither<NamedSchemas, nonEmptyArray.NonEmptyArray<JsonSchemaError>, OptionalJSONSchema> =>
-  isTypeRef(o.json)
-    ? SE.stateEither.map(getSchemaStrict(o.json.$ref), j => makeOptional(o.optional, j))
-    : SE.stateEither.of(makeOptional(o.optional, o.json))
+  pipe(resolveRefJsonSchema(o.json), SE.map(makeOptional(o.optional)))
 
 export const resolveRefJsonSchema = (
   s: SubSchema

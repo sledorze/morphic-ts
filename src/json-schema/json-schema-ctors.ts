@@ -21,10 +21,13 @@ export interface OptionalJSONSchema {
 
 export const optionalJSONSchemaOnJson = m.Lens.fromProp<OptionalJSONSchema>()('json').asOptional()
 
-export const makeOptional = (optional: boolean, json: js.SubSchema): OptionalJSONSchema => ({ optional, json })
+export const makeOptional = (optional: boolean) => <T extends js.SubSchema>(json: T): OptionalJSONSchema => ({
+  optional,
+  json
+})
 
-export const notOptional = <T extends js.SubSchema>(json: T): OptionalJSONSchema => makeOptional(false, json)
-export const optional = <T extends js.SubSchema>(json: T): OptionalJSONSchema => makeOptional(true, json)
+export const notOptional = makeOptional(false)
+export const optional = makeOptional(true)
 
 export const makePartialOptionalJsonObject: Endomorphism<OptionalJSONSchema> = optionalJSONSchemaOnJson
   .composePrism(js.jsonToObjectSchemaPrism)
@@ -40,16 +43,6 @@ export const ArrayTypeCtor = (items: OptionalJSONSchema) =>
           items: items.json
         })
       )
-
-// export const RecursiveTypeCtor = (items: (Ref: string) => OptionalJSONSchema) => {
-//   if (items.optional === true) {
-//     throw JsonSchemaError(`JSON Schema convertion cannot handle optional in Arrays.`)
-//   }
-//   return notOptional<js.ArraySchema>({
-//     type: 'array',
-//     items: items.json
-//   })
-// }
 
 export const SetFromArrayTypeCtor = (items: OptionalJSONSchema) =>
   items.optional
