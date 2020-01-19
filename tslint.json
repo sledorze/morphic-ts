@@ -10,6 +10,7 @@
     "forin": true,
     "no-console": true,
     "array-type": [false, "generic"],
-    "deprecation": true
+    "deprecation": true,
+    "no-duplicate-imports": false
   }
 }

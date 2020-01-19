@@ -1,11 +1,12 @@
 import * as A from 'fp-ts/lib/Array'
 import * as js from './json-schema'
 import * as m from 'monocle-ts'
-import { array, record } from 'fp-ts'
+import { array, record, nonEmptyArray as NEA } from 'fp-ts'
 import { Endomorphism } from 'fp-ts/lib/function'
 import { ordString } from 'fp-ts/lib/Ord'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { left, right } from 'fp-ts/lib/Either'
+import { Magma } from 'fp-ts/lib/Magma'
 
 export interface JsonSchemaError {
   msg: string
@@ -34,51 +35,50 @@ export const makePartialOptionalJsonObject: Endomorphism<OptionalJSONSchema> = o
   .composeLens(js.objectSchemaOnRequired)
   .set([])
 
-export const ArrayTypeCtor = (items: OptionalJSONSchema) =>
-  items.optional
-    ? left(A.cons(JsonSchemaErrors.ArrayConsumesNoOptional, []))
+export const ArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
+  optional
+    ? left(NEA.of(JsonSchemaErrors.ArrayConsumesNoOptional))
     : right(
         notOptional<js.ArraySchema>({
           type: 'array',
-          items: items.json
+          items: json
         })
       )
 
-export const SetFromArrayTypeCtor = (items: OptionalJSONSchema) =>
-  items.optional
-    ? left(A.cons(JsonSchemaErrors.SetFromArrayTypeConsumesNoOptional, []))
+export const SetFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
+  optional
+    ? left(NEA.of(JsonSchemaErrors.SetFromArrayTypeConsumesNoOptional))
     : right(
         notOptional<js.ArraySchema>({
           type: 'array',
-          items: items.json
+          items: json
         })
       )
 
-export const StrMapTypeCtor = (items: OptionalJSONSchema) =>
-  items.optional
-    ? left(A.cons(JsonSchemaErrors.SetFromArrayTypeConsumesNoOptional, []))
+export const StrMapTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
+  optional
+    ? left(NEA.of(JsonSchemaErrors.SetFromArrayTypeConsumesNoOptional))
     : right(
         notOptional<js.ObjectSchema>({
           type: 'object',
-
-          additionalProperties: items.json
+          additionalProperties: json
         })
       )
 
-export const NonEmptyArrayFromArrayTypeCtor = (items: OptionalJSONSchema) =>
-  items.optional
-    ? left(A.cons(JsonSchemaErrors.ArrayConsumesNoOptional, []))
+export const NonEmptyArrayFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
+  optional
+    ? left(NEA.of(JsonSchemaErrors.ArrayConsumesNoOptional))
     : right(
         notOptional<js.ArraySchema>({
           type: 'array',
-          items: items.json
+          items: json
         })
       )
 
 export const UnionTypeCtor = (types: OptionalJSONSchema[]) => {
   const oneOf: (js.ObjectSchema | js.Ref)[] = types.map(x => x.json).filter(js.isObjectOrRef)
   return oneOf.length !== types.length
-    ? left(A.cons(JsonSchemaErrors.UnionConsumesOnlyObject, []))
+    ? left(NEA.of(JsonSchemaErrors.UnionConsumesOnlyObject))
     : right(
         notOptional<js.ObjectSchema>({
           type: 'object',
@@ -90,10 +90,10 @@ export const UnionTypeCtor = (types: OptionalJSONSchema[]) => {
 export const IntersectionTypeCtor = (types: OptionalJSONSchema[]) => {
   const objects: js.ObjectSchema[] = types.map(x => x.json).filter(js.isObjectSchema)
   return objects.length !== types.length
-    ? left(A.cons(JsonSchemaErrors.IntersectionConsumesOnlyObject, []))
+    ? left(NEA.of(JsonSchemaErrors.IntersectionConsumesOnlyObject))
     : right(
         notOptional<js.ObjectSchema>(
-          objects.reduce(mergeObjects, {
+          objects.reduce(magmaObjectSchema.concat, {
             type: 'object' as 'object'
           })
         )
@@ -144,31 +144,32 @@ export const ObjectTypeCtor = (isPartial: boolean, props: [string, OptionalJSONS
   return notOptional(required.length === 0 ? obj : { ...obj, required })
 }
 
-// Magma.. (Refactor)
-export const mergeObjects = (a: js.ObjectSchema, b: js.ObjectSchema): js.ObjectSchema => {
-  // tslint:disable-next-line: strict-boolean-expressions
-  const oneOf = [...(a.oneOf || []), ...(b.oneOf || [])]
-  const properties = {
+const magmaObjectSchema: Magma<js.ObjectSchema> = {
+  concat: (a: js.ObjectSchema, b: js.ObjectSchema): js.ObjectSchema => {
     // tslint:disable-next-line: strict-boolean-expressions
-    ...(a.properties || {}),
-    // tslint:disable-next-line: strict-boolean-expressions
-    ...(b.properties || {})
-  }
-  // tslint:disable-next-line: strict-boolean-expressions
-  const required = [...(a.required || []), ...(b.required || [])]
-  // tslint:disable-next-line: strict-boolean-expressions
-  return Object.assign(
-    {
-      type: 'object',
-      required
-    },
-    ...[
+    const oneOf = [...(a.oneOf || []), ...(b.oneOf || [])]
+    const properties = {
       // tslint:disable-next-line: strict-boolean-expressions
-      required.length > 0 ? { required } : {},
-      oneOf.length > 0 ? { oneOf } : {},
-      Object.keys(properties).length > 0 ? { properties } : {}
-    ]
-  ) as js.ObjectSchema
+      ...(a.properties || {}),
+      // tslint:disable-next-line: strict-boolean-expressions
+      ...(b.properties || {})
+    }
+    // tslint:disable-next-line: strict-boolean-expressions
+    const required = [...(a.required || []), ...(b.required || [])]
+    // tslint:disable-next-line: strict-boolean-expressions
+    return Object.assign(
+      {
+        type: 'object',
+        required
+      },
+      ...[
+        // tslint:disable-next-line: strict-boolean-expressions
+        required.length > 0 ? { required } : {},
+        oneOf.length > 0 ? { oneOf } : {},
+        Object.keys(properties).length > 0 ? { properties } : {}
+      ]
+    ) as js.ObjectSchema
+  }
 }
 
 const recordOfJsonSchemaError = <O extends Record<string, JsonSchemaError>>(o: O): O => o
