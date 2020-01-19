@@ -1,15 +1,15 @@
 import { Remove, ExtractUnion } from '../common'
 import { identity } from 'fp-ts/lib/function'
-import { KeysDefinition } from '.'
+import { KeysDefinition, Tagged } from '.'
 import { record } from 'fp-ts'
 
 export type CtorType<C extends Ctors<any, any>> = C extends Ctors<infer A, any> ? A : never
 
-export type Of<A, Tag extends keyof A & string> = {
+export type Of<A, Tag extends keyof A> = {
   [key in A[Tag] & string]: (a: Remove<ExtractUnion<A, Tag, key>, Tag>) => A
 }
 
-export type As<A, Tag extends keyof A & string> = {
+export type As<A, Tag extends keyof A> = {
   [key in A[Tag] & string]: (a: Remove<ExtractUnion<A, Tag, key>, Tag>) => ExtractUnion<A, Tag, key>
 }
 
@@ -19,8 +19,10 @@ export interface Ctors<A, Tag extends keyof A & string> {
   make: (a: A) => A
 }
 
-export const Ctors = <A, Tag extends keyof A & string>(tag: Tag) => (keys: KeysDefinition<A, Tag>): Ctors<A, Tag> => {
-  const ctors = record.mapWithIndex((key, _) => (props: any) => ({
+export const Ctors = <A extends Tagged<Tag>, Tag extends string>(tag: Tag) => (
+  keys: KeysDefinition<A, Tag>
+): Ctors<A, Tag> => {
+  const ctors = record.mapWithIndex((key, _) => (props: object) => ({
     [tag]: key,
     ...props
   }))(keys)

@@ -1,7 +1,7 @@
 import { ProgramType, ProgramURI } from './programs-hkt'
 import { InterpreterResult, InterpreterURI } from './interpreters-hkt'
 import { assignFunction, TagsOf } from '../common'
-import { ADT, KeysDefinition, makeADT } from '../adt'
+import { ADT, KeysDefinition, makeADT, Tagged } from '../adt'
 import { MonocleFor } from '../adt/monocle'
 
 export interface ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
@@ -37,15 +37,13 @@ const inhabitTypes = <E, A, T>(t: T): T & InhabitedTypes<E, A> => t as any
 export type MorphADT<
   E,
   A,
-  Tag extends TagsOf<A> & string,
+  Tag extends keyof A & string,
   ProgURI extends ProgramURI,
   InterpURI extends InterpreterURI
 > = ADT<A, Tag> & Morph<E, A, InterpURI, ProgURI>
 
 export interface TaggableAsADT<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
-  tagged: <Tag extends TagsOf<A> & string>(
-    tag: Tag
-  ) => (keys: KeysDefinition<A, Tag>) => MorphADT<E, A, Tag, ProgURI, InterpURI>
+  tagged: <Tag extends TagsOf<A>>(tag: Tag) => (keys: KeysDefinition<A, Tag>) => MorphADT<E, A, Tag, ProgURI, InterpURI>
 }
 
 export type Materialized<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Morph<
@@ -77,21 +75,28 @@ export function materialize<E, A, ProgURI extends ProgramURI, InterpURI extends 
 /**
  * Expose tagged functions in addition to the type derived facilities
  */
-function asADT<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
-  m: Morph<E, A, InterpURI, ProgURI>
-): <Tag extends TagsOf<A> & string>(tag: Tag, keys: KeysDefinition<A, Tag>) => MorphADT<E, A, Tag, ProgURI, InterpURI> {
-  return (tag, keys) =>
-    assignCallable(wrapFun(m), {
-      ...m,
-      ...makeADT(tag)(keys)
-    })
+function asADT<
+  E,
+  A extends Tagged<Tag>,
+  Tag extends string,
+  ProgURI extends ProgramURI,
+  InterpURI extends InterpreterURI
+>(m: Morph<E, A, InterpURI, ProgURI>, tag: Tag, keys: KeysDefinition<A, Tag>): MorphADT<E, A, Tag, ProgURI, InterpURI> {
+  return assignCallable(wrapFun(m), {
+    ...m,
+    ...makeADT(tag)(keys)
+  })
 }
 
 function withTaggableAndMonocle<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   morphes: Morph<E, A, InterpURI, ProgURI> & InhabitedTypes<E, A>
 ): Materialized<E, A, ProgURI, InterpURI> {
-  const tagged = <Tag extends TagsOf<A> & string>(tag: Tag) => (keys: KeysDefinition<A, Tag>) =>
-    asADT(res as Morph<E, A, InterpURI, ProgURI>)(tag, keys)
+  const tagged = <Tag extends TagsOf<A>>(tag: Tag) => {
+    type B = A & Tagged<Tag> // here A has really type B (as tag cannot be never..)
+    const resB = (res as Morph<E, any, InterpURI, ProgURI>) as Morph<E, B, InterpURI, ProgURI>
+    return (keys: KeysDefinition<A, Tag>): MorphADT<E, A, Tag, ProgURI, InterpURI> =>
+      (asADT(resB, tag, keys) as MorphADT<E, any, Tag, ProgURI, InterpURI>) as MorphADT<E, A, Tag, ProgURI, InterpURI>
+  }
   const res: Materialized<E, A, ProgURI, InterpURI> = assignCallable(morphes, {
     tagged,
     ...MonocleFor<A>()
