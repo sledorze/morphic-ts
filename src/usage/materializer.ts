@@ -1,6 +1,6 @@
 import { ProgramType, ProgramURI } from './programs-hkt'
 import { InterpreterResult, InterpreterURI } from './interpreters-hkt'
-import { assignFunction, TagsOf } from '../common'
+import { assignFunction, TagsOf } from './utils'
 import { ADT, KeysDefinition, makeADT, Tagged } from '../adt'
 import { MonocleFor } from '../adt/monocle'
 

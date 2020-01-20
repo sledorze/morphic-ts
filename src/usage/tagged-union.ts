@@ -1,7 +1,7 @@
 import { EType, AType, InhabitedTypes, Materialized, MorphADT, TaggableAsADT } from './materializer'
 import { record } from 'fp-ts'
 import { HKT2 } from '../HKT'
-import { TagsOf } from '../common'
+import { TagsOf } from './utils'
 import { ProgramType, ProgramURI } from './programs-hkt'
 import { Algebra } from '../algebras/hkt'
 import { InterpreterURI } from './interpreters-hkt'

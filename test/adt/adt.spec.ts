@@ -267,6 +267,7 @@ describe('Builder', () => {
     chai.assert.deepStrictEqual(fooBar.is.bar(fooA), false)
     chai.assert.deepStrictEqual(fooBar.isAnyOf('bar')(fooA), false)
 
+    // narrows to Foo
     if (fooBar.is.foo(fooA)) {
       chai.assert.deepStrictEqual(
         fooBar

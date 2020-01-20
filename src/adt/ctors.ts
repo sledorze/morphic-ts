@@ -1,4 +1,4 @@
-import { Remove, ExtractUnion } from '../common'
+import { Remove, ExtractUnion } from './utils'
 import { identity } from 'fp-ts/lib/function'
 import { KeysDefinition, Tagged } from '.'
 import { record } from 'fp-ts'

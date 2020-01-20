@@ -1,4 +1,4 @@
-import { ElemType, TagsOf, ExtractUnion, ExcludeUnion } from '../common'
+import { ElemType, ExtractUnion, ExcludeUnion } from './utils'
 import * as M from './monocle'
 import * as Ma from './matcher'
 import * as PU from './predicates'
@@ -66,8 +66,6 @@ export type KeysDefinition<A, Tag extends keyof A> = {
   [k in A[Tag] & string]: any
 }
 export const isIn = <A, Tag extends keyof A>(keys: KeysDefinition<A, Tag>) => (k: string) => k in keys
-
-export type ByTag<A> = <Tag extends TagsOf<A>>(t: Tag) => (keys: KeysDefinition<A, Tag>) => ADT<Tagged<Tag> & A, Tag>
 
 interface TypeDef<T> {
   _TD: T
