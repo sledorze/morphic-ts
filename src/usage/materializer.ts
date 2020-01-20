@@ -29,11 +29,6 @@ function interpreteWithProgram<E, A, ProgURI extends ProgramURI, InterpURI exten
   return inhabitTypes(assignFunction(wrapFun(program), programInterpreter(program)))
 }
 
-/**
- * Fake inhabitation of types
- */
-const inhabitTypes = <E, A, T>(t: T): T & InhabitedTypes<E, A> => t as any
-
 export type MorphADT<
   E,
   A,
@@ -64,6 +59,11 @@ export interface InhabitedTypes<E, A> {
 }
 export type AType<X extends InhabitedTypes<any, any>> = X['_A']
 export type EType<X extends InhabitedTypes<any, any>> = X['_E']
+
+/**
+ * Fake inhabitation of types
+ */
+const inhabitTypes = <E, A, T>(t: T): T & InhabitedTypes<E, A> => t as any
 
 export function materialize<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   program: ProgramType<E, A>[ProgURI],
