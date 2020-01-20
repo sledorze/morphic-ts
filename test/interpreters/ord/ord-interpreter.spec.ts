@@ -1,8 +1,8 @@
 import * as chai from 'chai'
-import { ordInterpreter } from '../../../src/interpreters/ord/interpreters'
+import { modelOrdInterpreter } from '../../../src/interpreters/ord/interpreters'
 import { lt, gt, ordNumber, ord, Ord } from 'fp-ts/lib/Ord'
 import { ProgramInterpreter, Materialized } from '../../../src/usage/materializer'
-import { ProgramOrderableURI } from '../../../src/utils/program-orderable'
+import { ProgramOrderableURI } from '../../../src/batteries/program-orderable'
 import { cacheUnaryFunction } from '../../../src/common/core'
 import { makeSummoner, Summoners } from '../../../src/usage/summoner'
 import { ProgramType, interpretable } from '../../../src/usage/programs-hkt'
@@ -54,7 +54,7 @@ export const OrdInterpreter: ProgramInterpreter<ProgramOrderableURI, OrdInterpre
   const program = interpretable(_program)
   return {
     build: identity,
-    ord: program(ordInterpreter).ord
+    ord: program(modelOrdInterpreter).ord
   }
 }
 

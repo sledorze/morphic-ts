@@ -1,8 +1,8 @@
 import * as chai from 'chai'
 import { Extension, ExtType } from '../../src/usage/extend'
-import { BASTJInterpreter } from '../../src/utils/interpreters-BAST'
+import { BASTJInterpreter } from '../../src/batteries/interpreters-BAST'
 import { either } from 'fp-ts'
-import { ProgramUnionURI } from '../../src/utils/program'
+import { ProgramUnionURI } from '../../src/batteries/program'
 
 describe('extend', () => {
   const extension = Extension.of(ProgramUnionURI)

@@ -1,6 +1,6 @@
 import * as chai from 'chai'
 import { some, none } from 'fp-ts/lib/Option'
-import { summon } from '../../../src/utils/summoner'
+import { summon } from '../../../src/batteries/summoner'
 
 describe('Builder', () => {
   it('builder', () => {

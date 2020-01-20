@@ -1,8 +1,8 @@
 import * as fc from 'fast-check'
 import { ordString, ord } from 'fp-ts/lib/Ord'
 
-import { ProgramUnionURI } from '../../../src/utils/program'
-import { summon, M } from '../../../src/utils/summoner'
+import { ProgramUnionURI } from '../../../src/batteries/program'
+import { summon, M } from '../../../src/batteries/summoner'
 import { ProgramType } from '../../../src/usage/programs-hkt'
 import { FastCheckURI } from '../../../src/interpreters/fast-check'
 

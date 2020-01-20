@@ -8,7 +8,7 @@ import { GTree, Tree } from '../../utils/tree'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Errors } from 'io-ts'
-import { summon, summonAs, summonAsA, M } from '../../../src/utils/summoner'
+import { summon, summonAs, summonAsA, M } from '../../../src/batteries/summoner'
 
 describe('IO-TS Alt Schema', () => {
   it('string', () => {

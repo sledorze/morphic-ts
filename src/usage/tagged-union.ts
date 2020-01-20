@@ -5,7 +5,7 @@ import { TagsOf } from './utils'
 import { ProgramType, ProgramURI } from './programs-hkt'
 import { Algebra } from '../algebras/hkt'
 import { InterpreterURI } from './interpreters-hkt'
-import { TaggedUnionsURI } from '../algebras/tagged-unions'
+import { TaggedUnionsURI } from '../model-algebras/tagged-unions'
 
 type TaggedUnionProg<E, A, ProgURI extends ProgramURI> = ProgramType<E, A>[ProgURI] &
   (<G>(a: Algebra<G>[TaggedUnionsURI]) => HKT2<G, E, A>)

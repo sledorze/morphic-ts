@@ -4,8 +4,8 @@ import { ProgramInterpreter, Materialized } from '../../../src/usage/materialize
 import { makeSummoner, Summoners } from '../../../src/usage/summoner'
 import { cacheUnaryFunction } from '../../../src/common/core'
 
-import { ProgramNoUnionURI } from '../../../src/utils/program-no-union'
-import { eqInterpreter, EqURI } from '../../../src/interpreters/eq/interpreters'
+import { ProgramNoUnionURI } from '../../../src/batteries/program-no-union'
+import { modelEqInterpreter, EqURI } from '../../../src/interpreters/eq/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
 import { ProgramType, interpretable } from '../../../src/usage/programs-hkt'
 
@@ -30,7 +30,7 @@ declare module '../../../src/usage/programs-hkt' {
 const eqInterp: ProgramInterpreter<ProgramNoUnionURI, EqInterpreterURI> = _program => {
   const program = interpretable(_program)
   return {
-    eq: program(eqInterpreter).eq
+    eq: program(modelEqInterpreter).eq
   }
 }
 

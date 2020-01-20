@@ -1,9 +1,10 @@
-import { Remove, ElemType, IfStringLiteral, ExtractUnion } from '../../src/common/index'
-import { OptionalIfUndefined } from '../../src/core'
 import { ADT, unionADT, intersectADT } from '../../src/adt'
 import { Extension, ExtType } from '../../src/usage/extend'
-import { ProgramNoUnionURI } from '../../src/utils/program-no-union'
-import { BASTJInterpreter } from '../../src/utils/interpreters-BAST'
+import { Remove, ElemType, ExtractUnion } from '../../src/adt/utils'
+import { IfStringLiteral } from '../../src/usage/utils'
+import { OptionalIfUndefined } from '../../src/common/core'
+import { BASTJInterpreter } from '../../src/batteries/interpreters-BAST'
+import { ProgramNoUnionURI } from '../../src/batteries/program-no-union'
 
 type IsLiteralA = IfStringLiteral<'a', 'ok', 'string', 'notString'> // $ExpectType "ok"
 type IsLiteralString = IfStringLiteral<string, 'ok', 'string', 'notString'> // $ExpectType "string"

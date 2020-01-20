@@ -1,6 +1,6 @@
 import * as chai from 'chai'
 
-import { summonAs, summon } from '../../../src/utils/summoner-no-union'
+import { summonAs, summon } from '../../../src/batteries/summoner-no-union'
 
 describe('Show', () => {
   it('returns false when comparing incomplete values', () => {

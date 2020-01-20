@@ -9,9 +9,9 @@ export type OfType2<F extends URIS2, L, A> = Kind2<F, L, A>
 export interface InterpreterFor<F extends URIS | URIS2> {
   readonly InterpreterType: F
 }
-export type InterpreterOf<F extends URIS | URIS2, O extends object> = InterpreterFor<F> & O
+// export type InterpreterOf<F extends URIS | URIS2, O extends object> =
 
-export function InterpreterFor<K extends URIS | URIS2>(k: K): <O extends object>(o: O) => InterpreterOf<K, O> {
+export function InterpreterFor<F extends URIS | URIS2>(k: F): <O extends object>(o: O) => InterpreterFor<F> & O {
   return o => Object.assign({}, o, { InterpreterType: k })
 }
 

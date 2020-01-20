@@ -7,7 +7,7 @@ import { Algebra1, Algebra2, Algebra } from '../algebras/core'
 export interface ProgramType<E, A> {}
 export type ProgramURI = keyof ProgramType<any, any>
 
-export const interpretSymb = Symbol()
+const interpretSymb = Symbol()
 export const interpretable = <T extends { [interpretSymb]?: any }>(program: T): NonNullable<T[typeof interpretSymb]> =>
   program as NonNullable<T[typeof interpretSymb]>
 
