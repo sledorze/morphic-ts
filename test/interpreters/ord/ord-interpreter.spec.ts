@@ -2,11 +2,11 @@ import * as chai from 'chai'
 import { ordInterpreter } from '../../../src/interpreters/ord/interpreters'
 import { lt, gt, ordNumber, ord, Ord } from 'fp-ts/lib/Ord'
 import { ProgramInterpreter, Materialized } from '../../../src/usage/materializer'
-import { builderInterpreter } from '../../../src/interpreters/builder/interpreters'
 import { ProgramOrderableURI } from '../../../src/utils/program-orderable'
 import { cacheUnaryFunction } from '../../../src/common/core'
 import { makeSummoner, Summoners } from '../../../src/usage/summoner'
 import { ProgramType, interpretable } from '../../../src/usage/programs-hkt'
+import { identity } from 'fp-ts/lib/function'
 
 interface OrdInterpreter<E, A> {
   ord: Ord<A>
@@ -53,7 +53,7 @@ export interface Summoner extends Summoners<ProgramOrderableURI, OrdInterpreterU
 export const OrdInterpreter: ProgramInterpreter<ProgramOrderableURI, OrdInterpreterURI> = _program => {
   const program = interpretable(_program)
   return {
-    build: program(builderInterpreter).build,
+    build: identity,
     ord: program(ordInterpreter).ord
   }
 }

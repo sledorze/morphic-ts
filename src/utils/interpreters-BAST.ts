@@ -1,5 +1,3 @@
-import { builderInterpreter } from '../interpreters/builder/interpreters'
-
 import { Arbitrary } from 'fast-check/*'
 import { fastCheckInterpreter } from '../interpreters/fast-check/interpreters'
 
@@ -13,15 +11,15 @@ import { ProgramUnionURI } from './program'
 import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { NamedSchemas, resolveSchema } from '../interpreters/json-schema'
-import { Builder } from '../interpreters/builder'
 import { Summoners } from '../usage/summoner'
 import { ProgramType, interpretable } from '../usage/programs-hkt'
 import { ProgramInterpreter, Materialized } from '../usage/materializer'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { JsonSchemaError } from '../json-schema/json-schema-ctors'
+import { identity } from 'fp-ts/lib/function'
 
 interface BASTJInterpreter<E, A> {
-  build: Builder<A>
+  build: (a: A) => A
   arb: Arbitrary<A>
   strictType: Type<A, unknown, unknown>
   type: Type<A, unknown, unknown>
@@ -34,7 +32,7 @@ export type BASTJInterpreterURI = typeof BASTJInterpreterURI
 export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpreterURI> = _program => {
   const program = interpretable(_program)
   return {
-    build: program(builderInterpreter).build,
+    build: identity,
     arb: program(fastCheckInterpreter).arb,
     strictType: program(ioTsStrict).type,
     type: program(ioTsNonStrict).type,

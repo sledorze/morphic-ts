@@ -4,8 +4,6 @@ import { eqInterpreter } from '../interpreters/eq/interpreters'
 import { Show } from 'fp-ts/lib/Show'
 import { showInterpreter } from '../interpreters/show/interpreters'
 
-import { builderInterpreter } from '../interpreters/builder/interpreters'
-
 import { Arbitrary } from 'fast-check/*'
 import { fastCheckInterpreter } from '../interpreters/fast-check/interpreters'
 
@@ -21,14 +19,14 @@ import { ProgramNoUnionURI } from './program-no-union'
 import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { NamedSchemas, resolveSchema } from '../interpreters/json-schema'
-import { Builder } from '../interpreters/builder'
 import { ProgramType, interpretable } from '../usage/programs-hkt'
 import { Summoners } from '../usage/summoner'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { JsonSchemaError } from '../json-schema/json-schema-ctors'
+import { identity } from 'fp-ts/lib/function'
 
 interface ESBASTJInterpreter<E, A> {
-  build: Builder<A>
+  build: (a: A) => A
   eq: Eq<A>
   show: Show<A>
   arb: Arbitrary<A>
@@ -43,7 +41,7 @@ export type ESBASTJInterpreterURI = typeof ESBASTJInterpreterURI
 export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJInterpreterURI> = _program => {
   const program = interpretable(_program)
   return {
-    build: program(builderInterpreter).build,
+    build: identity,
     eq: program(eqInterpreter).eq,
     show: program(showInterpreter).show,
     arb: program(fastCheckInterpreter).arb,
