@@ -4,7 +4,7 @@ import { ordString, ord } from 'fp-ts/lib/Ord'
 import { ProgramUnionURI } from '../../../src/batteries/program'
 import { summon, M } from '../../../src/batteries/summoner'
 import { ProgramType } from '../../../src/usage/programs-hkt'
-import { FastCheckURI } from '../../../src/interpreters/fast-check'
+import { FastCheckURI } from '../../../src/fast-check-interpreters/interpreters'
 
 const testProgram = <A>(prog: ProgramType<unknown, A>[ProgramUnionURI]) => {
   const { arb, type } = summon(prog)

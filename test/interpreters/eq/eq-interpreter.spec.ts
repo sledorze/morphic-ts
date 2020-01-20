@@ -5,7 +5,7 @@ import { makeSummoner, Summoners } from '../../../src/usage/summoner'
 import { cacheUnaryFunction } from '../../../src/common/core'
 
 import { ProgramNoUnionURI } from '../../../src/batteries/program-no-union'
-import { modelEqInterpreter, EqURI } from '../../../src/interpreters/eq/interpreters'
+import { modelEqInterpreter, EqURI } from '../../../src/eq-interpreters/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
 import { ProgramType, interpretable } from '../../../src/usage/programs-hkt'
 

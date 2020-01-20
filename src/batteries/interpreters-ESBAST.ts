@@ -1,30 +1,30 @@
 import { Eq } from 'fp-ts/lib/Eq'
-import { modelEqInterpreter } from '../interpreters/eq/interpreters'
+import { modelEqInterpreter } from '../eq-interpreters/interpreters'
 
 import { Show } from 'fp-ts/lib/Show'
-import { modelShowInterpreter } from '../interpreters/show/interpreters'
+import { modelShowInterpreter } from '../show-interpreters/interpreters'
 
 import { Arbitrary } from 'fast-check/*'
-import { modelFastCheckInterpreter } from '../interpreters/fast-check/interpreters'
+import { modelFastCheckInterpreter } from '../fast-check-interpreters/interpreters'
 
 import { Type } from 'io-ts'
-import { modelIoTsStrictInterpreter, modelIoTsNonStrictInterpreter } from '../interpreters/io-ts/interpreters'
+import { modelIoTsStrictInterpreter, modelIoTsNonStrictInterpreter } from '../io-ts-interpreters/interpreters'
 
 import { JSONSchema } from '../json-schema/json-schema'
-import { modelJsonSchemaInterpreter } from '../interpreters/json-schema/interpreters'
+import { modelJsonSchemaInterpreter } from '../json-schema-interpreters/interpreters'
 
 import { Materialized, ProgramInterpreter } from '../usage/materializer'
 import { ProgramNoUnionURI } from './program-no-union'
 
 import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import { NamedSchemas } from '../interpreters/json-schema'
+import { NamedSchemas } from '../json-schema-interpreters'
 import { ProgramType, interpretable } from '../usage/programs-hkt'
 import { Summoners } from '../usage/summoner'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { JsonSchemaError } from '../json-schema/json-schema-ctors'
 import { identity } from 'fp-ts/lib/function'
-import { resolveSchema } from '../interpreters/json-schema/utils'
+import { resolveSchema } from '../json-schema-interpreters/utils'
 
 interface ESBASTJInterpreter<E, A> {
   build: (a: A) => A

@@ -1,23 +1,23 @@
 import { Arbitrary } from 'fast-check/*'
-import { modelFastCheckInterpreter } from '../interpreters/fast-check/interpreters'
+import { modelFastCheckInterpreter } from '../fast-check-interpreters/interpreters'
 
 import { Type } from 'io-ts'
-import { modelIoTsStrictInterpreter, modelIoTsNonStrictInterpreter } from '../interpreters/io-ts/interpreters'
+import { modelIoTsStrictInterpreter, modelIoTsNonStrictInterpreter } from '../io-ts-interpreters/interpreters'
 
 import { JSONSchema } from '../json-schema/json-schema'
-import { modelJsonSchemaInterpreter } from '../interpreters/json-schema/interpreters'
+import { modelJsonSchemaInterpreter } from '../json-schema-interpreters/interpreters'
 
 import { ProgramUnionURI } from './program'
 import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import { NamedSchemas } from '../interpreters/json-schema'
+import { NamedSchemas } from '../json-schema-interpreters'
 import { Summoners } from '../usage/summoner'
 import { ProgramType, interpretable } from '../usage/programs-hkt'
 import { ProgramInterpreter, Materialized } from '../usage/materializer'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { JsonSchemaError } from '../json-schema/json-schema-ctors'
 import { identity } from 'fp-ts/lib/function'
-import { resolveSchema } from '../interpreters/json-schema/utils'
+import { resolveSchema } from '../json-schema-interpreters/utils'
 
 interface BASTJInterpreter<E, A> {
   build: (a: A) => A

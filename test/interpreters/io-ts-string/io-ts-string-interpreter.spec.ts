@@ -8,7 +8,13 @@ import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Errors } from 'io-ts'
 import { summonAs, summonAsA, summon, M } from '../../../src/batteries/summoner'
+import { IOTSStringType } from '../../../src/io-ts-string-interpreters/index'
+import { modelIoTsStringNonStrictInterpreter } from '../../../src/io-ts-string-interpreters/interpreters'
 
+// TODO: This is a work in progress; the code is *NOT* actually testing `IoTsString` and should be updated!
+
+export const y = IOTSStringType // to fix tslint complaining..
+export const z = modelIoTsStringNonStrictInterpreter
 describe('IO-TS-String Alt Schema', () => {
   it('string', () => {
     // Definition
