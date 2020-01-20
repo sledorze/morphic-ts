@@ -33,7 +33,7 @@ export const getSchemaStrict = (name: string): JsonSchemaResult<JSONSchema> =>
   pipe(
     getSchema(name),
     SE.chain<NamedSchemas, NonEmptyArray<JsonSchemaError>, O.Option<JSONSchema>, JSONSchema>(
-      SE.fromOption(() => nonEmptyArray.of(JsonSchemaError('e')))
+      SE.fromOption(() => nonEmptyArray.of(JsonSchemaError(`cannot find schema ${name}`)))
     )
   )
 
