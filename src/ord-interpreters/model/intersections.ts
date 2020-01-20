@@ -1,4 +1,4 @@
-import { getSemigroup, Ord } from 'fp-ts/lib/Ord'
+import { Ord, getMonoid } from 'fp-ts/lib/Ord'
 import { ModelAlgebraIntersection1 } from '../../model-algebras/intersections'
 import { OrdType, OrdURI } from '..'
 
@@ -9,7 +9,7 @@ const equalsOrd = <T>(): Ord<T> => ({
 
 export const ordIntersectionInterpreter: ModelAlgebraIntersection1<OrdURI> = {
   intersection: <A>(types: OrdType<A>[]) => {
-    const { concat } = getSemigroup<A>()
+    const { concat } = getMonoid<A>()
     const empty = equalsOrd<A>()
     return new OrdType<A>(types.map(t => t.ord).reduce(concat, empty))
   }
