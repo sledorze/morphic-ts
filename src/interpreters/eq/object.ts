@@ -1,6 +1,6 @@
 import { ModelAlgebraObject1, PropsKind1 } from '../../algebras/object'
 import { EqType, EqURI } from '.'
-import { projectField } from '../../utils'
+import { projectField } from '../../common/utils'
 import { getStructEq, Eq } from 'fp-ts/lib/Eq'
 
 export const eqObjectInterpreter: ModelAlgebraObject1<EqURI> = {

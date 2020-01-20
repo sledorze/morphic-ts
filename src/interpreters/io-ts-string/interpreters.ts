@@ -1,6 +1,6 @@
 import * as t from 'io-ts'
-import { InterpreterFor } from '../../core'
-import { merge } from '../../utils'
+import { InterpreterFor } from '../../common/core'
+import { merge } from '../../common/utils'
 import { ioTsStringPrimitiveInterpreter } from './primitives'
 import { ioTsStringIntersectionInterpreter } from './intersections'
 import { ioTsStringUnionInterpreter } from './unions'

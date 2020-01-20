@@ -1,7 +1,7 @@
 import * as t from 'io-ts'
 import { IOTSStringType, IoTsStringURI } from '.'
 import { ModelAlgebraObject2, PropsKind2 } from '../../algebras/object'
-import { projectField } from '../../utils'
+import { projectField } from '../../common/utils'
 
 export const ioTsStringNonStrictObjectInterpreter: ModelAlgebraObject2<IoTsStringURI> = {
   interface: <PropsE, PropsA>(props: PropsKind2<IoTsStringURI, PropsE, PropsA>, name: string) => {

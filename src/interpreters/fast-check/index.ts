@@ -8,7 +8,7 @@ export class FastCheckType<A> {
   constructor(public arb: fc.Arbitrary<A>) {}
 }
 
-declare module '../../HKT' {
+declare module '../../common/HKT' {
   interface URItoKind<A> {
     [FastCheckURI]: FastCheckType<A>
   }

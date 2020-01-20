@@ -1,6 +1,6 @@
 import { ModelAlgebraTaggedUnions1 } from '../../algebras/tagged-unions'
 import { EqType, EqURI } from '.'
-import { mapRecord } from '../../utils'
+import { mapRecord } from '../../common/utils'
 
 export const eqTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<EqURI> = {
   taggedUnion: (tag, types) => {

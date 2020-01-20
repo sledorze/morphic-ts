@@ -4,7 +4,7 @@ import { ObjectTypeCtor, notOptional } from '../../json-schema/json-schema-ctors
 import { record } from 'fp-ts'
 import { tuple } from 'fp-ts/lib/function'
 import { pipe } from 'fp-ts/lib/pipeable'
-import * as SE from '../../StateEither'
+import * as SE from './StateEither'
 import { Ref } from '../../json-schema/json-schema'
 
 export const jsonSchemaObjectInterpreter: ModelAlgebraObject1<JsonSchemaURI> = {

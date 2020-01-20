@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { cacheUnaryFunction } from '../src/core'
+import { cacheUnaryFunction } from '../src/common/core'
 
 describe('cacheUnaryFunction', () => {
   const inc = (x: number) => x + 1

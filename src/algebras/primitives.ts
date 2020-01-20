@@ -1,5 +1,5 @@
 import { Option } from 'fp-ts/lib/Option'
-import { URIS2, Kind2, URIS, Kind, HKT2 } from '../HKT'
+import { URIS2, Kind2, URIS, Kind, HKT2 } from '../common/HKT'
 import {
   PrimitiveArrayConfig,
   PrimitiveStringConfig,
@@ -7,7 +7,7 @@ import {
   PrimitiveNumberConfig,
   PrimitiveBooleanConfig
 } from './hkt'
-import { ByInterp, isOptionalConfig } from '../core'
+import { ByInterp, isOptionalConfig } from '../common/core'
 
 export type Keys = Record<string, null>
 

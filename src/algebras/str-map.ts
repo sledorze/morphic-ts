@@ -1,4 +1,4 @@
-import { Kind, URIS, Kind2, URIS2, HKT2 } from '../HKT'
+import { Kind, URIS, Kind2, URIS2, HKT2 } from '../common/HKT'
 
 export const StrMapURI = Symbol()
 export type StrMapURI = typeof StrMapURI

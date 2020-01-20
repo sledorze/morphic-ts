@@ -1,4 +1,4 @@
-import { URIS, URIS2 } from '../HKT'
+import { URIS, URIS2 } from '../common/HKT'
 
 export interface Algebra<F> {}
 export interface Algebra1<F extends URIS> {}

@@ -1,4 +1,4 @@
-import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from '../common/HKT'
 
 export const RecursiveURI = Symbol()
 export type RecursiveURI = typeof RecursiveURI

@@ -1,5 +1,5 @@
-import { merge } from '../../utils'
-import { InterpreterFor } from '../../core'
+import { merge } from '../../common/utils'
+import { InterpreterFor } from '../../common/core'
 import { showPrimitiveInterpreter } from './primitives'
 import { showIntersectionInterpreter } from './intersections'
 import { showObjectInterpreter } from './object'

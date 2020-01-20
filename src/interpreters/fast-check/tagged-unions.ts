@@ -1,7 +1,7 @@
 import * as fc from 'fast-check'
 import { FastCheckType, FastCheckURI } from '.'
 import { ModelAlgebraTaggedUnions1 } from '../../algebras/tagged-unions'
-import { collect } from '../../utils'
+import { collect } from '../../common/utils'
 
 /**
  * Beware: randomly generated recursive structure with high branching may not end early enough

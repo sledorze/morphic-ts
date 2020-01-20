@@ -1,10 +1,10 @@
 import { JsonSchema, JsonSchemaURI, addSchema, getSchemaStrict } from '.'
 import { ModelAlgebraRecursive1 } from '../../algebras/recursive'
-import { memo } from '../../utils'
+import { memo } from '../../common/utils'
 import { notOptional, JsonSchemaError } from '../../json-schema/json-schema-ctors'
 import { Ref, isnotTypeRef } from '../../json-schema/json-schema'
 import { pipe } from 'fp-ts/lib/pipeable'
-import * as SE from '../../StateEither'
+import * as SE from './StateEither'
 import { nonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 
 // FIXME: Create a reference JsonSchema => "$ref": "#/definitions/MySchemaRef" <- Track down how to do that!

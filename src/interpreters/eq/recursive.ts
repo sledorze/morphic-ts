@@ -1,6 +1,6 @@
 import { EqType, EqURI } from '.'
 import { ModelAlgebraRecursive1 } from '../../algebras/recursive'
-import { memo } from '../../utils'
+import { memo } from '../../common/utils'
 
 export const eqRecursiveInterpreter: ModelAlgebraRecursive1<EqURI> = {
   recursive: a => {

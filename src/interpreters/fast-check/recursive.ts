@@ -1,6 +1,6 @@
 import { FastCheckType, FastCheckURI } from '.'
 import { ModelAlgebraRecursive1 } from '../../algebras/recursive'
-import { memo } from '../../utils'
+import { memo } from '../../common/utils'
 import * as fc from 'fast-check'
 
 export const fastCheckRecursiveInterpreter: ModelAlgebraRecursive1<FastCheckURI> = {

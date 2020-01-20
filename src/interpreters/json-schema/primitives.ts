@@ -8,8 +8,8 @@ import {
   optional,
   ArrayTypeCtor
 } from '../../json-schema/json-schema-ctors'
-import * as SE from '../../StateEither'
-import { stateEither } from '../../StateEither'
+import * as SE from './StateEither'
+import { stateEither } from './StateEither'
 
 export const jsonSchemaPrimitiveInterpreter: ModelAlgebraPrimitive1<JsonSchemaURI> = {
   date: _ => new JsonSchema(stateEither.of(StringTypeCtor({ format: 'date' }))),

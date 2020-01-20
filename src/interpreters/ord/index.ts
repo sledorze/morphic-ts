@@ -7,7 +7,7 @@ export class OrdType<A> {
   constructor(public ord: Ord<A>) {}
 }
 
-declare module '../../HKT' {
+declare module '../../common/HKT' {
   interface URItoKind<A> {
     [OrdURI]: OrdType<A>
   }

@@ -1,7 +1,7 @@
 import { ProgramType, ProgramTypes, ProgramURI, InferredProgram } from './programs-hkt'
 import { materialize, Materialized, ProgramInterpreter } from './materializer'
 import { InterpreterURI } from './interpreters-hkt'
-import { CacheType } from '../core'
+import { CacheType } from '../common/core'
 
 export interface Summoners<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
   summonAs: <L, A>(F: InferredProgram<L, A, ProgURI>) => Materialized<L, A, ProgURI, InterpURI>

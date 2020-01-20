@@ -1,7 +1,7 @@
 import { ordString } from 'fp-ts/lib/Ord'
 import { OrdType, OrdURI } from '.'
 import { ModelAlgebraTaggedUnions1 } from '../../algebras/tagged-unions'
-import { mapRecord } from '../../utils'
+import { mapRecord } from '../../common/utils'
 import { Ordering } from 'fp-ts/lib/Ordering'
 
 /**

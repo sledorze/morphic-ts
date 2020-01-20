@@ -1,6 +1,6 @@
 import { OptionalJSONSchema, makeOptional, JsonSchemaError } from '../../json-schema/json-schema-ctors'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import * as SE from '../../StateEither'
+import * as SE from './StateEither'
 import { SubSchema, JSONSchema, isTypeRef, Ref } from '../../json-schema/json-schema'
 import { record, nonEmptyArray, array } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
@@ -69,7 +69,7 @@ export class JsonSchema<A> {
   constructor(public schema: JsonSchemaResult<OptionalJSONSchema>) {}
 }
 
-declare module '../../HKT' {
+declare module '../../common/HKT' {
   interface URItoKind<A> {
     [JsonSchemaURI]: JsonSchema<A>
   }

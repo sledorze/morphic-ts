@@ -1,4 +1,4 @@
-import { GetAlgebra } from '../core'
+import { GetAlgebra } from '../algebras/core'
 import { InferredAlgebra, InferredProgram } from '../usage/programs-hkt'
 import { IntersectionURI } from '../algebras/intersections'
 import { ObjectURI } from '../algebras/object'

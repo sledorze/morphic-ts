@@ -2,7 +2,7 @@ import * as chai from 'chai'
 
 import { ProgramInterpreter, Materialized } from '../../../src/usage/materializer'
 import { makeSummoner, Summoners } from '../../../src/usage/summoner'
-import { cacheUnaryFunction } from '../../../src/core'
+import { cacheUnaryFunction } from '../../../src/common/core'
 
 import { ProgramNoUnionURI } from '../../../src/utils/program-no-union'
 import { eqInterpreter, EqURI } from '../../../src/interpreters/eq/interpreters'

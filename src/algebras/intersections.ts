@@ -1,5 +1,5 @@
-import { OfType, OfType2 } from '../core'
-import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
+import { OfType, OfType2 } from '../common/core'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from '../common/HKT'
 
 export const IntersectionURI = Symbol()
 export type IntersectionURI = typeof IntersectionURI

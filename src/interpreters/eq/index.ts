@@ -7,7 +7,7 @@ export class EqType<A> {
   constructor(public eq: Eq<A>) {}
 }
 
-declare module '../../HKT' {
+declare module '../../common/HKT' {
   interface URItoKind<A> {
     [EqURI]: EqType<A>
   }

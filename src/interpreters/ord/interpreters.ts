@@ -1,5 +1,5 @@
-import { merge } from '../../utils'
-import { InterpreterFor } from '../../core'
+import { merge } from '../../common/utils'
+import { InterpreterFor } from '../../common/core'
 import { ordPrimitiveInterpreter } from './primitives'
 import { ordIntersectionInterpreter } from './intersections'
 import { ordTaggedUnionInterpreter } from './tagged-unions'

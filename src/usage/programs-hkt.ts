@@ -1,5 +1,5 @@
-import { HKT2, Kind, Kind2, URIS, URIS2 } from '../HKT'
-import { Algebra1, Algebra2, Algebra } from '../core'
+import { HKT2, Kind, Kind2, URIS, URIS2 } from '../common/HKT'
+import { Algebra1, Algebra2, Algebra } from '../algebras/core'
 
 /**
  * A Program is expressed within an Algebra to materialize a Morph

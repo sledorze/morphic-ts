@@ -1,7 +1,7 @@
 import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '.'
 import { ModelAlgebraObject1, PropsKind1 } from '../../algebras/object'
-import { projectField } from '../../utils'
+import { projectField } from '../../common/utils'
 import { ObjectInterfaceConfig, ObjectPartialConfig } from '../../algebras/hkt'
 
 declare module '../../algebras/hkt' {}

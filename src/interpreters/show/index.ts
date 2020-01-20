@@ -7,7 +7,7 @@ export class ShowType<A> {
   constructor(public show: Show<A>) {}
 }
 
-declare module '../../HKT' {
+declare module '../../common/HKT' {
   interface URItoKind<A> {
     [ShowURI]: ShowType<A>
   }

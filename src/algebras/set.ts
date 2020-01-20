@@ -1,5 +1,5 @@
 import { Ord } from 'fp-ts/lib/Ord'
-import { Kind, URIS, Kind2, URIS2, HKT2 } from '../HKT'
+import { Kind, URIS, Kind2, URIS2, HKT2 } from '../common/HKT'
 
 export const SetURI = Symbol()
 export type SetURI = typeof SetURI

@@ -7,7 +7,7 @@ export class IOTSType<A> {
   constructor(public type: t.Type<A, unknown>) {}
 }
 
-declare module '../../HKT' {
+declare module '../../common/HKT' {
   interface URItoKind<A> {
     [IoTsURI]: IOTSType<A>
   }

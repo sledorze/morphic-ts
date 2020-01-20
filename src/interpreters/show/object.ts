@@ -1,6 +1,6 @@
 import { ModelAlgebraObject1 } from '../../algebras/object'
 import { ShowType, ShowURI } from '.'
-import { projectField } from '../../utils'
+import { projectField } from '../../common/utils'
 import { getStructShow } from 'fp-ts/lib/Show'
 
 export const showObjectInterpreter: ModelAlgebraObject1<ShowURI> = {

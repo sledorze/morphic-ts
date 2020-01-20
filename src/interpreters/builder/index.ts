@@ -11,7 +11,7 @@ export class BuilderType<A> {
   constructor(public build: Builder<A>) {}
 }
 
-declare module '../../HKT' {
+declare module '../../common/HKT' {
   interface URItoKind<A> {
     [BuilderURI]: BuilderType<A>
   }

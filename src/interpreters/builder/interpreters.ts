@@ -1,5 +1,5 @@
-import { InterpreterFor } from '../../core'
-import { merge } from '../../utils'
+import { InterpreterFor } from '../../common/core'
+import { merge } from '../../common/utils'
 import { builderPrimitiveInterpreter } from './primitives'
 import { builderIntersectionInterpreter } from './intersections'
 import { builderUnionInterpreter } from './unions'

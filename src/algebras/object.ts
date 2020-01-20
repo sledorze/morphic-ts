@@ -1,5 +1,5 @@
-import { URIS, Kind, URIS2, Kind2, HKT2 } from '../HKT'
-import { isOptionalConfig, ByInterp } from '../core'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from '../common/HKT'
+import { isOptionalConfig, ByInterp } from '../common/core'
 import { ObjectInterfaceConfig, ObjectPartialConfig } from './hkt'
 
 type AnyMProps<F> = Record<string, HKT2<F, any, any>>

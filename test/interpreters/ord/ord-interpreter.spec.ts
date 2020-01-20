@@ -4,7 +4,7 @@ import { lt, gt, ordNumber, ord, Ord } from 'fp-ts/lib/Ord'
 import { ProgramInterpreter, Materialized } from '../../../src/usage/materializer'
 import { builderInterpreter } from '../../../src/interpreters/builder/interpreters'
 import { ProgramOrderableURI } from '../../../src/utils/program-orderable'
-import { cacheUnaryFunction } from '../../../src/core'
+import { cacheUnaryFunction } from '../../../src/common/core'
 import { makeSummoner, Summoners } from '../../../src/usage/summoner'
 import { ProgramType, interpretable } from '../../../src/usage/programs-hkt'
 
