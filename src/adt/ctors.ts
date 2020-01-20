@@ -27,8 +27,8 @@ export const Ctors = <A extends Tagged<Tag>, Tag extends string>(tag: Tag) => (
     ...props
   }))(keys)
   return {
-    of: ctors as Ctors<A, Tag>['of'],
-    as: ctors as Ctors<A, Tag>['as'],
+    of: ctors as Of<A, Tag>,
+    as: ctors as As<A, Tag>,
     make: identity
   }
 }
