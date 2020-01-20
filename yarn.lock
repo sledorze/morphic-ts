@@ -1181,7 +1181,7 @@ domexception@^1.0.1:
 
 "dtslint@github:gcanti/dtslint":
   version "0.4.2"
-  resolved "https://codeload.github.com/gcanti/dtslint/tar.gz/ca68c83d54dec21183288b37da1a873c27c92d53"
+  resolved "https://codeload.github.com/gcanti/dtslint/tar.gz/fc1e289597786080ce559b4f8cc8798bb537080e"
   dependencies:
     fs-extra "^6.0.1"
     parsimmon "^1.12.0"
