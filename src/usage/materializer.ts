@@ -92,7 +92,7 @@ function withTaggableAndMonocle<E, A, ProgURI extends ProgramURI, InterpURI exte
   morphes: Morph<E, A, InterpURI, ProgURI> & InhabitedTypes<E, A>
 ): Materialized<E, A, ProgURI, InterpURI> {
   const tagged = <Tag extends TagsOf<A>>(tag: Tag) => {
-    type B = A & Tagged<Tag> // here A has really type B (as tag cannot be never..)
+    type B = A & Tagged<Tag> // here A has really type B (Tag is TagsOf<A> and cannot be never..)
     const resB = (res as Morph<E, any, InterpURI, ProgURI>) as Morph<E, B, InterpURI, ProgURI>
     return (keys: KeysDefinition<A, Tag>): MorphADT<E, A, Tag, ProgURI, InterpURI> =>
       (asADT(resB, tag, keys) as MorphADT<E, any, Tag, ProgURI, InterpURI>) as MorphADT<E, A, Tag, ProgURI, InterpURI>
