@@ -1,18 +1,18 @@
 import { merge } from '../../common/utils'
-import { ioTsStringPrimitiveInterpreter } from './primitives'
-import { ioTsStringIntersectionInterpreter } from './intersections'
-import { ioTsStringUnionInterpreter } from './unions'
-import { ioTsStringTaggedUnionInterpreter } from './tagged-unions'
-import { ioTsStringStrMapInterpreter } from './str-map'
-import { ioTsStringSetInterpreter } from './set'
-import { ioTsStringRecursiveInterpreter } from './recursive'
+import { ioTs2PrimitiveInterpreter } from './primitives'
+import { ioTs2IntersectionInterpreter } from './intersections'
+import { ioTs2UnionInterpreter } from './unions'
+import { ioTs2TaggedUnionInterpreter } from './tagged-unions'
+import { ioTs2StrMapInterpreter } from './str-map'
+import { ioTs2SetInterpreter } from './set'
+import { ioTs2RecursiveInterpreter } from './recursive'
 
 export const allModelBaseIoTs = merge(
-  ioTsStringPrimitiveInterpreter,
-  ioTsStringIntersectionInterpreter,
-  ioTsStringUnionInterpreter,
-  ioTsStringTaggedUnionInterpreter,
-  ioTsStringStrMapInterpreter,
-  ioTsStringSetInterpreter,
-  ioTsStringRecursiveInterpreter
+  ioTs2PrimitiveInterpreter,
+  ioTs2IntersectionInterpreter,
+  ioTs2UnionInterpreter,
+  ioTs2TaggedUnionInterpreter,
+  ioTs2StrMapInterpreter,
+  ioTs2SetInterpreter,
+  ioTs2RecursiveInterpreter
 )

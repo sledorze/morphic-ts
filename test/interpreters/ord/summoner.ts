@@ -1,3 +1,4 @@
+import * as chai from 'chai'
 import { modelOrdInterpreter } from '../../../src/ord-interpreters/interpreters'
 import { Ord } from 'fp-ts/lib/Ord'
 import { ProgramInterpreter, Materialized } from '../../../src/usage/materializer'
@@ -60,3 +61,7 @@ export const OrdInterpreter: ProgramInterpreter<ProgramOrderableURI, OrdInterpre
 const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, OrdInterpreter)
 
 export { summonAs, summonAsA, summonAsL, summon }
+
+describe('Ord', () => {
+  it('dummy', () => chai.assert.equal(1, 1))
+})

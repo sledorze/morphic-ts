@@ -8,14 +8,14 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [ioTsStringPrimitiveInterpreter (constant)](#iotsstringprimitiveinterpreter-constant)
+- [ioTs2PrimitiveInterpreter (constant)](#iotsstringprimitiveinterpreter-constant)
 
 ---
 
-# ioTsStringPrimitiveInterpreter (constant)
+# ioTs2PrimitiveInterpreter (constant)
 
 **Signature**
 
 ```ts
-export const ioTsStringPrimitiveInterpreter: ModelAlgebraPrimitive2<URI> = ...
+export const ioTs2PrimitiveInterpreter: ModelAlgebraPrimitive2<URI> = ...
 ```

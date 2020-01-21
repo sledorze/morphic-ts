@@ -1,7 +1,7 @@
 import { setFromArray } from 'io-ts-types/lib/setFromArray'
-import { IOTSStringType, IoTsStringURI } from '..'
+import { IOTS2Type, IoTs2URI } from '..'
 import { ModelAlgebraSet2 } from '../../model-algebras/set'
 
-export const ioTsStringSetInterpreter: ModelAlgebraSet2<IoTsStringURI> = {
-  set: (a, ord) => new IOTSStringType(setFromArray(a.type, ord))
+export const ioTs2SetInterpreter: ModelAlgebraSet2<IoTs2URI> = {
+  set: (a, ord) => new IOTS2Type(setFromArray(a.type, ord))
 }

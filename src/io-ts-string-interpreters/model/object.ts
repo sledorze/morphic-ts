@@ -1,17 +1,22 @@
 import * as t from 'io-ts'
-import { IOTSStringType, IoTsStringURI } from '..'
+import { IOTS2Type, IoTs2URI } from '..'
 import { ModelAlgebraObject2, PropsKind2 } from '../../model-algebras/object'
 import { projectField } from '../../common/utils'
 
-export const ioTsStringNonStrictObjectInterpreter: ModelAlgebraObject2<IoTsStringURI> = {
-  interface: <PropsE, PropsA>(props: PropsKind2<IoTsStringURI, PropsE, PropsA>, name: string) => {
-    const typeProps = projectField(props)('type')
-    const interfaceType: t.InterfaceType<typeof typeProps> = t.type(typeProps, name)
-    return new IOTSStringType<PropsE, PropsA>(interfaceType)
+export const ioTs2NonStrictObjectInterpreter: ModelAlgebraObject2<IoTs2URI> = {
+  interface: <PropsE, PropsA>(props: PropsKind2<IoTs2URI, PropsE, PropsA>, name: string) => {
+    return new IOTS2Type<PropsE, PropsA>(t.type(projectField(props)('type'), name) as any)
   },
-  partial: <PropsE, PropsA>(props: PropsKind2<IoTsStringURI, PropsE, PropsA>, name: string) => {
-    const typeProps = projectField(props)('type')
-    const interfaceType: t.PartialType<typeof typeProps> = t.partial(typeProps, name)
-    return new IOTSStringType<Partial<PropsE>, Partial<PropsA>>(interfaceType)
+  partial: <PropsE, PropsA>(props: PropsKind2<IoTs2URI, PropsE, PropsA>, name: string) => {
+    return new IOTS2Type<Partial<PropsE>, Partial<PropsA>>(t.partial(projectField(props)('type'), name) as any)
+  }
+}
+
+export const ioTs2StrictObjectInterpreter: ModelAlgebraObject2<IoTs2URI> = {
+  interface: <PropsE, PropsA>(props: PropsKind2<IoTs2URI, PropsE, PropsA>, name: string) => {
+    return new IOTS2Type<PropsE, PropsA>(t.strict(projectField(props)('type'), name) as any)
+  },
+  partial: <PropsE, PropsA>(props: PropsKind2<IoTs2URI, PropsE, PropsA>, name: string) => {
+    return new IOTS2Type<Partial<PropsE>, Partial<PropsA>>(t.exact(t.partial(projectField(props)('type'), name)) as any)
   }
 }

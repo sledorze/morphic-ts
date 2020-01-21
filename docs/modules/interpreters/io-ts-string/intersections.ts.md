@@ -8,14 +8,14 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [ioTsStringIntersectionInterpreter (constant)](#iotsstringintersectioninterpreter-constant)
+- [ioTs2IntersectionInterpreter (constant)](#iotsstringintersectioninterpreter-constant)
 
 ---
 
-# ioTsStringIntersectionInterpreter (constant)
+# ioTs2IntersectionInterpreter (constant)
 
 **Signature**
 
 ```ts
-export const ioTsStringIntersectionInterpreter: ModelAlgebraIntersection2<URI> = ...
+export const ioTs2IntersectionInterpreter: ModelAlgebraIntersection2<URI> = ...
 ```
