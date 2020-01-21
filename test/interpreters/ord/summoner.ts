@@ -5,8 +5,9 @@ import { ProgramInterpreter, Materialized } from '../../../src/usage/materialize
 import { ProgramOrderableURI } from '../../../src/batteries/program-orderable'
 import { cacheUnaryFunction } from '../../../src/common/core'
 import { makeSummoner, Summoners } from '../../../src/usage/summoner'
-import { ProgramType, interpretable } from '../../../src/usage/programs-hkt'
+import { interpretable } from '../../../src/usage/programs-infer'
 import { identity } from 'fp-ts/lib/function'
+import { ProgramType } from '../../../src/usage/ProgramType'
 
 interface OrdInterpreter<E, A> {
   ord: Ord<A>
@@ -15,12 +16,12 @@ interface OrdInterpreter<E, A> {
 const OrdInterpreterURI = Symbol()
 export type OrdInterpreterURI = typeof OrdInterpreterURI
 
-declare module '../../../src/usage/interpreters-hkt' {
+declare module '../../../src/usage/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [OrdInterpreterURI]: OrdInterpreter<E, A>
   }
 }
-declare module '../../../src/usage/programs-hkt' {
+declare module '../../../src/usage/programs-infer' {
   interface ProgramOrderableInterpreters {
     [OrdInterpreterURI]: Summoner
   }

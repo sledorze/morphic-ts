@@ -1,7 +1,14 @@
-import { ProgramType, ProgramTypes, ProgramURI, InferredProgram } from './programs-hkt'
-import { materialize, Materialized, ProgramInterpreter } from './materializer'
-import { InterpreterURI } from './interpreters-hkt'
+import { InferredProgram } from './programs-infer'
+import {
+  materialize,
+  Materialized,
+  ProgramInterpreter,
+  InterpreterURIOfProgramInterpreter,
+  ProgramURIOfProgramInterpreter
+} from './materializer'
+import { InterpreterURI } from './InterpreterResult'
 import { CacheType } from '../common/core'
+import { ProgramURI, ProgramTypes, ProgramType } from './ProgramType'
 
 export interface Summoners<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
   summonAs: <L, A>(F: InferredProgram<L, A, ProgURI>) => Materialized<L, A, ProgURI, InterpURI>
@@ -18,7 +25,7 @@ export interface Summoners<ProgURI extends ProgramURI, InterpURI extends Interpr
  * - Returns summoners giving the ability to constraint type parameters
  * - Returns the interpreter extended with matchers, monocle definitions, etc..
  */
-export function makeSummoner<
+function makeSummonerInternal<
   ProgURI extends ProgramURI,
   InterpURI extends keyof ProgramTypes[ProgURI] & InterpreterURI
 >(
@@ -41,4 +48,14 @@ export function makeSummoner<
     summonAsL,
     summon
   } as any
+}
+
+export function makeSummoner<PI extends ProgramInterpreter<any, any>>(
+  cacheProgramEval: CacheType,
+  programInterpreter: PI
+) {
+  return makeSummonerInternal<ProgramURIOfProgramInterpreter<PI>, InterpreterURIOfProgramInterpreter<PI>>(
+    cacheProgramEval,
+    programInterpreter
+  )
 }

@@ -1,5 +1,5 @@
 import { GetAlgebra } from '../algebras/core'
-import { InferredAlgebra, InferredProgram } from '../usage/programs-hkt'
+import { InferredAlgebra, InferredProgram } from '../usage/programs-infer'
 import { IntersectionURI } from '../model-algebras/intersections'
 import { ObjectURI } from '../model-algebras/object'
 import { PrimitiveURI } from '../model-algebras/primitives'
@@ -14,7 +14,7 @@ export type ProgramNoUnionURI = typeof ProgramNoUnionURI
 export interface AlgebraNoUnion<F> extends InferredAlgebra<F, ProgramNoUnionURI> {}
 export interface P<E, A> extends InferredProgram<E, A, ProgramNoUnionURI> {}
 
-declare module '../../src/usage/programs-hkt' {
+declare module '../../src/usage/ProgramType' {
   interface ProgramAlgebraURI {
     [ProgramNoUnionURI]: GetAlgebra<
       PrimitiveURI | IntersectionURI | ObjectURI | RecursiveURI | SetURI | StrMapURI | TaggedUnionsURI

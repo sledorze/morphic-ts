@@ -1,7 +1,7 @@
-import { ProgramType, ProgramURI, ProgramAlgebra } from './programs-hkt'
 import { InterpreterURIOfProgramInterpreter } from './materializer'
-import { InterpreterURI, InterpreterResult } from './interpreters-hkt'
+import { InterpreterURI, InterpreterResult } from './InterpreterResult'
 import { HKT2 } from '../common/HKT'
+import { ProgramURI, ProgramType, ProgramAlgebra } from './ProgramType'
 
 export type ExtType<E extends Extension<any, any>> = E['ext']
 

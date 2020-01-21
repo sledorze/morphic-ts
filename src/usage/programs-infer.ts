@@ -1,20 +1,10 @@
 import { HKT2, Kind, Kind2, URIS, URIS2 } from '../common/HKT'
 import { Algebra1, Algebra2, Algebra } from '../algebras/core'
-
-/**
- * A Program is expressed within an Algebra to materialize a Morph
- */
-export interface ProgramType<E, A> {}
-export type ProgramURI = keyof ProgramType<any, any>
+import { ProgramURI, ProgramAlgebra, ProgramAlgebraURI, ProgramType } from './ProgramType'
 
 const interpretSymb = Symbol()
 export const interpretable = <T extends { [interpretSymb]?: any }>(program: T): NonNullable<T[typeof interpretSymb]> =>
   program as NonNullable<T[typeof interpretSymb]>
-
-export interface ProgramTypes {}
-
-export interface ProgramAlgebra<F> {}
-export interface ProgramAlgebraURI {}
 
 export type InferredAlgebra<F, X extends ProgramURI> = Algebra<ProgramAlgebraURI[X], F>
 

@@ -12,12 +12,13 @@ import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { NamedSchemas } from '../json-schema-interpreters'
 import { Summoners } from '../usage/summoner'
-import { ProgramType, interpretable } from '../usage/programs-hkt'
+import { interpretable } from '../usage/programs-infer'
 import { ProgramInterpreter, Materialized } from '../usage/materializer'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { JsonSchemaError } from '../json-schema/json-schema-ctors'
 import { identity } from 'fp-ts/lib/function'
 import { resolveSchema } from '../json-schema-interpreters/utils'
+import { ProgramType } from '../usage/ProgramType'
 
 interface BASTJInterpreter<E, A> {
   build: (a: A) => A
@@ -41,12 +42,12 @@ export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpre
   }
 }
 
-declare module '../../src/usage/interpreters-hkt' {
+declare module '../../src/usage/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [BASTJInterpreterURI]: BASTJInterpreter<E, A>
   }
 }
-declare module '../usage/programs-hkt' {
+declare module '../usage/programs-infer' {
   interface ProgramUnionInterpreters {
     [BASTJInterpreterURI]: Summoner
   }

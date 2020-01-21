@@ -1,12 +1,19 @@
-import { ProgramType, ProgramURI } from './programs-hkt'
-import { InterpreterResult, InterpreterURI } from './interpreters-hkt'
+import { InterpreterResult, InterpreterURI } from './InterpreterResult'
 import { assignFunction, TagsOf } from './utils'
-import { ADT, KeysDefinition, makeADT, Tagged } from '../adt'
+import { ADT, KeysDefinition, Tagged, makeADT } from '../adt'
 import { MonocleFor } from '../adt/monocle'
+import { ProgramURI, ProgramType } from './ProgramType'
 
 export interface ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
   <E, A>(program: ProgramType<E, A>[ProgURI]): InterpreterResult<E, A>[InterpURI]
 }
+export type ProgramURIOfProgramInterpreter<X extends ProgramInterpreter<any, any>> = X extends ProgramInterpreter<
+  infer P,
+  any
+>
+  ? P
+  : never
+
 export type InterpreterURIOfProgramInterpreter<X extends ProgramInterpreter<any, any>> = X extends ProgramInterpreter<
   any,
   infer R

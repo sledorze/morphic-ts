@@ -7,7 +7,8 @@ import { cacheUnaryFunction } from '../../../src/common/core'
 import { ProgramNoUnionURI } from '../../../src/batteries/program-no-union'
 import { modelEqInterpreter, EqURI } from '../../../src/eq-interpreters/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
-import { ProgramType, interpretable } from '../../../src/usage/programs-hkt'
+import { interpretable } from '../../../src/usage/programs-infer'
+import { ProgramType } from '../../../src/usage/ProgramType'
 
 export const EqInterpreterURI = Symbol()
 export type EqInterpreterURI = typeof EqInterpreterURI
@@ -16,12 +17,12 @@ interface EqInterpreter<A> {
   eq: Eq<A>
 }
 
-declare module '../../../src/usage/interpreters-hkt' {
+declare module '../../../src/usage/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [EqInterpreterURI]: EqInterpreter<A>
   }
 }
-declare module '../../../src/usage/programs-hkt' {
+declare module '../../../src/usage/programs-infer' {
   interface ProgramNoUnionInterpreters {
     [EqInterpreterURI]: Summoner
   }

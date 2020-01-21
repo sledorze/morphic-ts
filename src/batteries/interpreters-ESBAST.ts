@@ -19,12 +19,13 @@ import { ProgramNoUnionURI } from './program-no-union'
 import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { NamedSchemas } from '../json-schema-interpreters'
-import { ProgramType, interpretable } from '../usage/programs-hkt'
+import { interpretable } from '../usage/programs-infer'
 import { Summoners } from '../usage/summoner'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { JsonSchemaError } from '../json-schema/json-schema-ctors'
 import { identity } from 'fp-ts/lib/function'
 import { resolveSchema } from '../json-schema-interpreters/utils'
+import { ProgramType } from '../usage/ProgramType'
 
 interface ESBASTJInterpreter<E, A> {
   build: (a: A) => A
@@ -52,12 +53,12 @@ export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJIn
   }
 }
 
-declare module '../usage/interpreters-hkt' {
+declare module '../usage/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [ESBASTJInterpreterURI]: ESBASTJInterpreter<E, A>
   }
 }
-declare module '../usage/programs-hkt' {
+declare module '../usage/programs-infer' {
   interface ProgramNoUnionInterpreters {
     [ESBASTJInterpreterURI]: Summoner
   }
