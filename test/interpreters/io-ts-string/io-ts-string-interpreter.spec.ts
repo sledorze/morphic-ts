@@ -8,8 +8,8 @@ import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Errors } from 'io-ts'
 import { summonAs, summonAsA, summon, M } from '../../../src/batteries/summoner'
-import { IOTS2Type } from '../../../src/io-ts-string-interpreters/index'
-import { modelIoTs2NonStrictInterpreter } from '../../../src/io-ts-string-interpreters/interpreters'
+import { IOTS2Type } from '../../../src/io-ts-2-interpreters/index'
+import { modelIoTs2NonStrictInterpreter } from '../../../src/io-ts-2-interpreters/interpreters'
 
 // TODO: This is a work in progress; the code is *NOT* actually testing `IoTs2` and should be updated!
 
