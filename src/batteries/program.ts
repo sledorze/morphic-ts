@@ -15,7 +15,7 @@ export type ProgramUnionURI = typeof ProgramUnionURI
 export interface AlgebraUnion<F> extends InferredAlgebra<F, ProgramUnionURI> {}
 export interface P<E, A> extends InferredProgram<E, A, ProgramUnionURI> {}
 
-declare module '../../src/usage/ProgramType' {
+declare module '../usage/ProgramType' {
   interface ProgramAlgebraURI {
     [ProgramUnionURI]: GetAlgebra<
       PrimitiveURI | IntersectionURI | ObjectURI | RecursiveURI | SetURI | StrMapURI | TaggedUnionsURI | UnionsURI

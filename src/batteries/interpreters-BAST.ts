@@ -42,7 +42,7 @@ export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpre
   }
 }
 
-declare module '../../src/usage/InterpreterResult' {
+declare module '../usage/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [BASTJInterpreterURI]: BASTJInterpreter<E, A>
   }

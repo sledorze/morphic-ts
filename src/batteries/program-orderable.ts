@@ -12,7 +12,7 @@ export type ProgramOrderableURI = typeof ProgramOrderableURI
 export interface AlgebraNoUnion<F> extends InferredAlgebra<F, ProgramOrderableURI> {}
 export interface P<E, A> extends InferredProgram<E, A, ProgramOrderableURI> {}
 
-declare module '../../src/usage/ProgramType' {
+declare module '../usage/ProgramType' {
   interface ProgramAlgebraURI {
     [ProgramOrderableURI]: GetAlgebra<PrimitiveURI | IntersectionURI | SetURI | StrMapURI | TaggedUnionsURI>
   }

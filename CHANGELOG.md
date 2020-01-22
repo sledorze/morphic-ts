@@ -13,11 +13,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-## 0.6.4
+## 0.7.0-RC0
 
 - Breaking Change
 
-  - Move libs to peer dependencies
+  - Fix inference usage (interface augmentation was breaking due to path containing 'src' - was backtracking too much)
 
 ## 0.6.3
 
