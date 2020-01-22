@@ -9,7 +9,9 @@ import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Errors } from 'io-ts'
 import { summon, summonAs, summonAsA, M } from '../../../src/batteries/summoner'
-
+import { IoTsURI } from '../../../src/io-ts-interpreters' // Fake to please the test runner
+import { modelIoTsStrictInterpreter } from '../../../src/io-ts-interpreters/interpreters' // Fake to please the test runner
+export { IoTsURI, modelIoTsStrictInterpreter }
 describe('IO-TS Alt Schema', () => {
   it('string', () => {
     // Definition

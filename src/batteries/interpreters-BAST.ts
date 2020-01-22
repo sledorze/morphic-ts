@@ -2,7 +2,6 @@ import { Arbitrary } from 'fast-check/*'
 import { modelFastCheckInterpreter } from '../fast-check-interpreters/interpreters'
 
 import { Type } from 'io-ts'
-import { modelIoTsStrictInterpreter, modelIoTsNonStrictInterpreter } from '../io-ts-interpreters/interpreters'
 
 import { JSONSchema } from '../json-schema/json-schema'
 import { modelJsonSchemaInterpreter } from '../json-schema-interpreters/interpreters'
@@ -19,12 +18,13 @@ import { JsonSchemaError } from '../json-schema/json-schema-ctors'
 import { identity } from 'fp-ts/lib/function'
 import { resolveSchema } from '../json-schema-interpreters/utils'
 import { ProgramType } from '../usage/ProgramType'
+import { modelIoTs2StrictInterpreter, modelIoTs2NonStrictInterpreter } from '../io-ts-2-interpreters/interpreters'
 
 interface BASTJInterpreter<E, A> {
   build: (a: A) => A
   arb: Arbitrary<A>
-  strictType: Type<A, unknown, unknown>
-  type: Type<A, unknown, unknown>
+  strictType: Type<A, E, unknown>
+  type: Type<A, E, unknown>
   jsonSchema: E.Either<NonEmptyArray<JsonSchemaError>, [JSONSchema, NamedSchemas]>
 }
 
@@ -36,8 +36,8 @@ export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpre
   return {
     build: identity,
     arb: program(modelFastCheckInterpreter).arb,
-    strictType: program(modelIoTsStrictInterpreter).type,
-    type: program(modelIoTsNonStrictInterpreter).type,
+    strictType: program(modelIoTs2StrictInterpreter).type,
+    type: program(modelIoTs2NonStrictInterpreter).type,
     jsonSchema: pipe(program(modelJsonSchemaInterpreter).schema({}), E.chain(resolveSchema))
   }
 }

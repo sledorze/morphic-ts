@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.7.0-RC1
+
+- New Feature
+
+  - Default batteries interpreters use Kind2 io-ts definitions
+
 ## 0.7.0-RC0
 
 - Breaking Change

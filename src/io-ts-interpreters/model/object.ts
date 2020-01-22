@@ -4,8 +4,6 @@ import { ModelAlgebraObject1, PropsKind1 } from '../../model-algebras/object'
 import { projectField } from '../../common/utils'
 import { ObjectInterfaceConfig, ObjectPartialConfig } from '../../algebras/hkt'
 
-declare module '../../algebras/hkt' {}
-
 export type IOTypes<Props> = { [k in keyof Props]: t.Type<Props[k], unknown> }
 
 export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject1<IoTsURI> = {

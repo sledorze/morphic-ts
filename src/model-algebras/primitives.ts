@@ -5,7 +5,8 @@ import {
   PrimitiveStringConfig,
   PrimitiveDateConfig,
   PrimitiveNumberConfig,
-  PrimitiveBooleanConfig
+  PrimitiveBooleanConfig,
+  PrimitiveArrayConfig2
 } from '../algebras/hkt'
 import { ByInterp, isOptionalConfig } from '../common/core'
 
@@ -30,6 +31,7 @@ declare module '../algebras/hkt' {
   export interface PrimitiveNumberConfig {}
   export interface PrimitiveBooleanConfig {}
   export interface PrimitiveArrayConfig<A> {}
+  export interface PrimitiveArrayConfig2<E, A> {}
 }
 
 export interface ModelAlgebraPrimitive<F> {
@@ -89,5 +91,5 @@ export interface ModelAlgebraPrimitive2<F extends URIS2> {
   stringLiteral: <T extends string>(value: T) => Kind2<F, string, typeof value>
   keysOf: <K extends Keys>(keys: K, name?: string) => Kind2<F, string, keyof typeof keys>
   nullable: <L, A>(T: Kind2<F, L, A>) => Kind2<F, null | L, Option<A>>
-  array: <L, A>(a: Kind2<F, L, A>, config?: ByInterp<PrimitiveArrayConfig<A>, F>) => Kind2<F, Array<L>, Array<A>>
+  array: <L, A>(a: Kind2<F, L, A>, config?: ByInterp<PrimitiveArrayConfig2<L, A>, F>) => Kind2<F, Array<L>, Array<A>>
 }
