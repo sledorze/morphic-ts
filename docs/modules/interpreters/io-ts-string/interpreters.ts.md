@@ -9,8 +9,8 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [IOTypes (type alias)](#iotypes-type-alias)
-- [defineIoTs2Interpreter (constant)](#defineiotsstringinterpreter-constant)
-- [ioTs2NonStrict (constant)](#iotsstringnonstrict-constant)
+- [defineIoTsInterpreter (constant)](#defineiotsstringinterpreter-constant)
+- [ioTsNonStrict (constant)](#iotsstringnonstrict-constant)
 
 ---
 
@@ -22,18 +22,18 @@ parent: Modules
 export type IOTypes<Props> = { [k in keyof Props]: t.Type<Props[k], unknown> }
 ```
 
-# defineIoTs2Interpreter (constant)
+# defineIoTsInterpreter (constant)
 
 **Signature**
 
 ```ts
-export const defineIoTs2Interpreter = ...
+export const defineIoTsInterpreter = ...
 ```
 
-# ioTs2NonStrict (constant)
+# ioTsNonStrict (constant)
 
 **Signature**
 
 ```ts
-export const ioTs2NonStrict = ...
+export const ioTsNonStrict = ...
 ```

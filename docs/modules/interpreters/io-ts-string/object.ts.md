@@ -8,14 +8,14 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [ioTs2NonStrictObjectInterpreter (constant)](#iotsstringnonstrictobjectinterpreter-constant)
+- [ioTsNonStrictObjectInterpreter (constant)](#iotsstringnonstrictobjectinterpreter-constant)
 
 ---
 
-# ioTs2NonStrictObjectInterpreter (constant)
+# ioTsNonStrictObjectInterpreter (constant)
 
 **Signature**
 
 ```ts
-export const ioTs2NonStrictObjectInterpreter: ModelAlgebraObject2<URI> = ...
+export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject2<URI> = ...
 ```

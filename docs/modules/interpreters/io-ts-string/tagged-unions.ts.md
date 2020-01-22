@@ -8,14 +8,14 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [ioTs2TaggedUnionInterpreter (constant)](#iotsstringtaggedunioninterpreter-constant)
+- [ioTsTaggedUnionInterpreter (constant)](#iotsstringtaggedunioninterpreter-constant)
 
 ---
 
-# ioTs2TaggedUnionInterpreter (constant)
+# ioTsTaggedUnionInterpreter (constant)
 
 **Signature**
 
 ```ts
-export const ioTs2TaggedUnionInterpreter: ModelAlgebraTaggedUnions2<URI> = ...
+export const ioTsTaggedUnionInterpreter: ModelAlgebraTaggedUnions2<URI> = ...
 ```

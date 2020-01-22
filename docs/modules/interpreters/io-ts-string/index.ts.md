@@ -9,7 +9,7 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
-- [IOTS2Type (class)](#iotsstringtype-class)
+- [IOTSType (class)](#iotsstringtype-class)
 - [URI (constant)](#uri-constant)
 
 ---
@@ -22,12 +22,12 @@ parent: Modules
 export type URI = typeof URI
 ```
 
-# IOTS2Type (class)
+# IOTSType (class)
 
 **Signature**
 
 ```ts
-export class IOTS2Type<O, A> {
+export class IOTSType<O, A> {
   constructor(public type: t.Type<A, O>) { ... }
   ...
 }

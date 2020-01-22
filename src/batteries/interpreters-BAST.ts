@@ -18,7 +18,7 @@ import { JsonSchemaError } from '../json-schema/json-schema-ctors'
 import { identity } from 'fp-ts/lib/function'
 import { resolveSchema } from '../json-schema-interpreters/utils'
 import { ProgramType } from '../usage/ProgramType'
-import { modelIoTs2StrictInterpreter, modelIoTs2NonStrictInterpreter } from '../io-ts-2-interpreters/interpreters'
+import { modelIoTsStrictInterpreter, modelIoTsNonStrictInterpreter } from '../io-ts-interpreters/interpreters'
 
 interface BASTJInterpreter<E, A> {
   build: (a: A) => A
@@ -36,8 +36,8 @@ export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpre
   return {
     build: identity,
     arb: program(modelFastCheckInterpreter).arb,
-    strictType: program(modelIoTs2StrictInterpreter).type,
-    type: program(modelIoTs2NonStrictInterpreter).type,
+    strictType: program(modelIoTsStrictInterpreter).type,
+    type: program(modelIoTsNonStrictInterpreter).type,
     jsonSchema: pipe(program(modelJsonSchemaInterpreter).schema({}), E.chain(resolveSchema))
   }
 }

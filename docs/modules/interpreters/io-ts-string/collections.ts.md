@@ -8,14 +8,14 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [ioTs2SetInterpreter (constant)](#iotsstringsetinterpreter-constant)
+- [ioTsSetInterpreter (constant)](#iotsstringsetinterpreter-constant)
 
 ---
 
-# ioTs2SetInterpreter (constant)
+# ioTsSetInterpreter (constant)
 
 **Signature**
 
 ```ts
-export const ioTs2SetInterpreter: ModelAlgebraStrMap2<URI> = ...
+export const ioTsSetInterpreter: ModelAlgebraStrMap2<URI> = ...
 ```

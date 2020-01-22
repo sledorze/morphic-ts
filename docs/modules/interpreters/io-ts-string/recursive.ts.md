@@ -8,14 +8,14 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [ioTs2RecursiveInterpreter (constant)](#iotsstringrecursiveinterpreter-constant)
+- [ioTsRecursiveInterpreter (constant)](#iotsstringrecursiveinterpreter-constant)
 
 ---
 
-# ioTs2RecursiveInterpreter (constant)
+# ioTsRecursiveInterpreter (constant)
 
 **Signature**
 
 ```ts
-export const ioTs2RecursiveInterpreter: ModelAlgebraRecursive2<URI> = ...
+export const ioTsRecursiveInterpreter: ModelAlgebraRecursive2<URI> = ...
 ```

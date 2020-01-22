@@ -1,21 +1,22 @@
 import { InterpreterFor } from '../common/core'
-import { IoTsURI } from '.'
 import { merge } from '../common/utils'
-import { ioTsStrictObjectInterpreter, ioTsNonStrictObjectInterpreter } from './model/object'
+import { ioTsNonStrictObjectInterpreter, ioTsStrictObjectInterpreter } from './model/object'
+import { IoTsURI } from '.'
 import { allModelBaseIoTs } from './model'
+export { IoTsURI }
 
 export const defineIoTsInterpreter = InterpreterFor(IoTsURI)
-
-export const modelIoTsStrictInterpreter = defineIoTsInterpreter(
-  merge(
-    allModelBaseIoTs,
-    ioTsStrictObjectInterpreter // Strict
-  )
-)
 
 export const modelIoTsNonStrictInterpreter = defineIoTsInterpreter(
   merge(
     allModelBaseIoTs,
     ioTsNonStrictObjectInterpreter // NonStrict
+  )
+)
+
+export const modelIoTsStrictInterpreter = defineIoTsInterpreter(
+  merge(
+    allModelBaseIoTs,
+    ioTsStrictObjectInterpreter // Strict
   )
 )
