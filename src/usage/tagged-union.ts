@@ -18,6 +18,9 @@ type TagType<Types extends AnyTypes> = TagsOf<AType<Types[keyof Types]>> & strin
 type AParam<Types extends AnyTypes> = {
   [k in keyof Types]: AType<Types[k]>
 }[keyof Types]
+type EParam<Types extends AnyTypes> = {
+  [k in keyof Types]: EType<Types[k]>
+}[keyof Types]
 
 type UnionTypes<
   Types extends AnyTypes,
@@ -31,19 +34,33 @@ type UnionTypes<
 type AnyM<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = M<any, any, ProgURI, InterpURI>
 
 export function makeTagged<ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
+  summ: <E, A>(F: TaggedUnionProg<E, A, ProgURI>) => M<E, A, ProgURI, InterpURI>
+): <Tag extends string>(
+  tag: Tag
+) => <Types extends UnionTypes<Types, Tag, ProgURI, InterpURI>>(
+  o: Types
+) => MorphADT<EParam<Types>, AParam<Types>, TagType<Types>, ProgURI, InterpURI>
+export function makeTagged<ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   summ: <A>(F: TaggedUnionProg<unknown, A, ProgURI>) => M<unknown, A, ProgURI, InterpURI>
 ): <Tag extends string>(
   tag: Tag
 ) => <Types extends UnionTypes<Types, Tag, ProgURI, InterpURI>>(
   o: Types
-) => MorphADT<unknown, AParam<Types>, TagType<Types>, ProgURI, InterpURI> {
+) => MorphADT<unknown, AParam<Types>, TagType<Types>, ProgURI, InterpURI>
+export function makeTagged<ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
+  summ: <E, A>(F: TaggedUnionProg<E, A, ProgURI>) => M<E, A, ProgURI, InterpURI>
+): <Tag extends string>(
+  tag: Tag
+) => <Types extends UnionTypes<Types, Tag, ProgURI, InterpURI>>(
+  o: Types
+) => MorphADT<EParam<Types>, AParam<Types>, TagType<Types>, ProgURI, InterpURI> {
   return <Tag extends string>(tag: Tag) => <Types extends UnionTypes<Types, Tag, ProgURI, InterpURI>>(
     o: Types
   ): MorphADT<unknown, AParam<Types>, TagType<Types>, ProgURI, InterpURI> => {
     // Trust the outer signature - type lookup via unknown URI cannot have any semantic here
-    const summoned = summ<AParam<Types>>(
-      (F: any) => F.taggedUnion(tag, record.mapWithIndex((k, v: AnyM<ProgURI, InterpURI>) => (v as any)(F))(o)) // Trust
-    )
+    const summoned = summ<EParam<Types>, AParam<Types>>((F: any) =>
+      F.taggedUnion(tag, record.mapWithIndex((k, v: AnyM<ProgURI, InterpURI>) => (v as any)(F))(o))
+    ) // Trust
     return (summoned as TaggableAsADT<unknown, AParam<Types>, ProgURI, InterpURI>).tagged<TagType<Types>>(
       tag as typeof tag & TagType<Types>
     )(o as any) // We're bending reality as bit

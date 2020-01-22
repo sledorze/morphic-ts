@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { summon, M } from '../../src/batteries/summoner'
+import { summon, summonAs, M } from '../../src/batteries/summoner'
 import { isRight } from 'fp-ts/lib/Either'
 import { makeTagged } from '../../src/usage/tagged-union'
 
@@ -10,6 +10,18 @@ describe('tagged', () => {
     const tagged = makeTagged(summon)
     const Union = tagged('type')({ AType, BType })
     const Used = summon(F => F.interface({ x: Union(F) }, 'Used'))
+    chai.assert.deepStrictEqual(isRight(Used.jsonSchema), true)
+  })
+
+  it('Should infer E in addition of A when be used into another Morph', () => {
+    const AType = summonAs(F => F.interface({ type: F.stringLiteral('AType') }, 'AType'))
+    const BType = summonAs(F => F.interface({ type: F.stringLiteral('BType') }, 'BType'))
+    const tagged = makeTagged(summonAs)
+    const Union = tagged('type')({ AType, BType })
+    const Used = summonAs(F => F.interface({ x: Union(F) }, 'Used'))
+    const v = Used.build({ x: { type: 'AType' } })
+    const x: { x: { type: string } } = Used.type.encode(v) // Would error if Output type not inferred correctly
+    chai.assert.deepStrictEqual(x, v)
     chai.assert.deepStrictEqual(isRight(Used.jsonSchema), true)
   })
 
