@@ -47,7 +47,7 @@ declare module '../../src/usage/InterpreterResult' {
     [BASTJInterpreterURI]: BASTJInterpreter<E, A>
   }
 }
-declare module '../usage/programs-infer' {
+declare module '../usage/ProgramType' {
   interface ProgramUnionInterpreters {
     [BASTJInterpreterURI]: Summoner
   }

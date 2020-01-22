@@ -21,7 +21,7 @@ declare module '../../../src/usage/InterpreterResult' {
     [OrdInterpreterURI]: OrdInterpreter<E, A>
   }
 }
-declare module '../../../src/usage/programs-infer' {
+declare module '../../../src/usage/ProgramType' {
   interface ProgramOrderableInterpreters {
     [OrdInterpreterURI]: Summoner
   }

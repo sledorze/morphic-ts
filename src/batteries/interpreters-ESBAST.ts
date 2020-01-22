@@ -58,7 +58,7 @@ declare module '../usage/InterpreterResult' {
     [ESBASTJInterpreterURI]: ESBASTJInterpreter<E, A>
   }
 }
-declare module '../usage/programs-infer' {
+declare module '../usage/ProgramType' {
   interface ProgramNoUnionInterpreters {
     [ESBASTJInterpreterURI]: Summoner
   }

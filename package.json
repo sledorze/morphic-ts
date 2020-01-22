@@ -1,6 +1,6 @@
 {
   "name": "morphic-ts",
-  "version": "0.6.1",
+  "version": "0.6.3",
   "description": "Interpretable Generic Model Definition Encoding",
   "files": [
     "lib"
@@ -34,9 +34,8 @@
     "url": "https://github.com/sledorze/face-ts/issues"
   },
   "homepage": "https://github.com/sledorze/face-ts",
-  "dependencies": {
-    "@types/chai": "4.2.7",
-    "chai": "4.2.0",
+  "dependencies": {},
+  "peerDependencies": {
     "fast-check": "^1.21.0",
     "fp-ts": "^2.4.1",
     "io-ts": "^2.0.5",
@@ -45,6 +44,14 @@
     "newtype-ts": "^0.3.3"
   },
   "devDependencies": {
+    "@types/chai": "4.2.7",
+    "chai": "4.2.0",
+    "fast-check": "^1.21.0",
+    "fp-ts": "^2.4.1",
+    "io-ts": "^2.0.5",
+    "io-ts-types": "^0.5.5",
+    "monocle-ts": "^2.0.1",
+    "newtype-ts": "^0.3.3",
     "@types/jest": "24.9.0",
     "@types/node": "12.12.8",
     "docs-ts": "^0.2.1",

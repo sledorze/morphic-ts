@@ -13,6 +13,24 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.6.4
+
+- Breaking Change
+
+  - Move libs to peer dependencies
+
+## 0.6.3
+
+- Breaking Change
+
+  - Fix unmatching interface extension
+
+## 0.6.2
+
+- Breaking Change
+
+  - Work around type 'erasure'
+
 ## 0.6.1
 
 - New Feature

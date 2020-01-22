@@ -22,7 +22,7 @@ declare module '../../../src/usage/InterpreterResult' {
     [EqInterpreterURI]: EqInterpreter<A>
   }
 }
-declare module '../../../src/usage/programs-infer' {
+declare module '../../../src/usage/ProgramType' {
   interface ProgramNoUnionInterpreters {
     [EqInterpreterURI]: Summoner
   }
