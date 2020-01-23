@@ -6,11 +6,13 @@ export type Is<A, Tag extends keyof A> = {
   [key in A[Tag] & string]: (a: A) => a is ExtractUnion<A, Tag, key>
 }
 
-export type IsAny<A, Tag extends keyof A> = <Keys extends A[Tag][]>(
-  ...keys: Keys
-) => (a: A) => a is ExtractUnion<A, Tag, ElemType<Keys>>
+export interface IsAny<A, Tag extends keyof A> {
+  <Keys extends A[Tag][]>(...keys: Keys): (a: A) => a is ExtractUnion<A, Tag, ElemType<Keys>>
+}
 
-export type Verified<A> = (a: A) => a is A
+export interface Verified<A> {
+  (a: A): a is A
+}
 
 export interface Predicates<A, Tag extends keyof A & string> {
   is: Is<A, Tag>

@@ -7,7 +7,9 @@ type ValueByKeyByTag<Union extends Record<any, any>, Tags extends keyof Union = 
 
 type Cases<Record, R> = { [key in keyof Record]: (v: Record[key]) => R }
 
-type Folder<A> = <R>(f: (a: A) => R) => (a: A) => R
+interface Folder<A> {
+  <R>(f: (a: A) => R): (a: A) => R
+}
 
 interface Default<A, R> {
   default: (a: A) => R
