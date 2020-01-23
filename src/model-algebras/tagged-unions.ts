@@ -37,7 +37,7 @@ export interface ModelAlgebraTaggedUnions<F> {
     name: string
   ): isOptionalConfig<
     TaggedUnionConfig,
-    HKT2<F, { [k in keyof Types]: Types[k]['_E'] }[keyof Types], { [k in keyof Types]: Types[k]['_A'] }[keyof Types]>,
+    HKT2<F, Types[keyof Types]['_E'], Types[keyof Types]['_A']>,
     'Requiring some config via taggedUnion(..., { <Interp>: ...  })'
   >
   taggedUnion<Tag extends string, Types extends TaggedTypes<F, Tag, any, any>>(
@@ -45,7 +45,7 @@ export interface ModelAlgebraTaggedUnions<F> {
     types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
     name: string,
     config: ByInterp<TaggedUnionConfig, URIS | URIS2>
-  ): HKT2<F, { [k in keyof Types]: Types[k]['_E'] }[keyof Types], { [k in keyof Types]: Types[k]['_A'] }[keyof Types]>
+  ): HKT2<F, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
 }
 
 export type TaggedTypes1<F extends URIS, Tag extends string, O> = { [o in keyof O]: Kind<F, O[o] & { [t in Tag]: o }> }

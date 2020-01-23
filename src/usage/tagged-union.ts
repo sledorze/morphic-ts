@@ -15,12 +15,8 @@ type M<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Mat
 type AnyTypes = Record<string, InhabitedTypes<any, any>>
 type TagType<Types extends AnyTypes> = TagsOf<AType<Types[keyof Types]>> & string
 
-type AParam<Types extends AnyTypes> = {
-  [k in keyof Types]: AType<Types[k]>
-}[keyof Types]
-type EParam<Types extends AnyTypes> = {
-  [k in keyof Types]: EType<Types[k]>
-}[keyof Types]
+type AParam<Types extends AnyTypes> = AType<Types[keyof Types]>
+type EParam<Types extends AnyTypes> = EType<Types[keyof Types]>
 
 type UnionTypes<
   Types extends AnyTypes,
