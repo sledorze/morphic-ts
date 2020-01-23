@@ -61,26 +61,18 @@ export interface Matchers<A, Tag extends keyof A> {
 
 export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinition<A, Tag>): Matchers<A, Tag> => {
   const inKeys = isIn(keys)
-  const match = (match: any) => (a: any): any => {
-    const key = a[tag]
-    return key in match ? match[key](a) : match['default'](a)
-  }
+  const match = (match: any) => (a: any): any => (match[a[tag]] || match['default'])(a)
   const transform = (match: any) => (a: any): any => {
-    const key = a[tag]
-    return key in match ? match[key](a) : a
+    const c = match[a[tag]]
+    return c ? c(a) : a
   }
   const matchWiden = match
   const fold = identity
   const createReducer = <S>(initialState: S): ReducerBuilder<S, A, Tag> => (m: any) => {
     const matcher = match(m)
     return (s: any, a: any) => {
-      const key = a[tag]
       const state = s === undefined ? initialState : s
-      if (inKeys(key)) {
-        return matcher(a)(state)
-      } else {
-        return state
-      }
+      return inKeys(a[tag]) ? matcher(a)(state) : state
     }
   }
   return {

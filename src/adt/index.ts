@@ -15,8 +15,8 @@ export interface ADT<A, Tag extends keyof A & string>
     PU.Predicates<A, Tag>,
     CU.Ctors<A, Tag>,
     M.MonocleFor<A> {
-  select: <Keys extends A[Tag][]>(...keys: Keys) => ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag>
-  exclude: <Keys extends A[Tag][]>(...keys: Keys) => ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag>
+  select: <Keys extends A[Tag][]>(keys: Keys) => ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag>
+  exclude: <Keys extends A[Tag][]>(keys: Keys) => ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag>
   tag: Tag
   keys: KeysDefinition<A, Tag>
 }
@@ -86,10 +86,10 @@ export const makeADT = <Tag extends string>(tag: Tag) => <R extends { [x in keyo
   const monocles = M.MonocleFor<A>()
   const matchers = Ma.Matchers<B, any>(tag)(keys) // any
 
-  const select = <Keys extends A[Tag][]>(...selectedKeys: Keys): ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag> =>
+  const select = <Keys extends A[Tag][]>(selectedKeys: Keys): ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag> =>
     makeADT(tag)(keepKeys(keys, selectedKeys as string[]) as any)
 
-  const exclude = <Keys extends B[Tag][]>(...excludedKeys: Keys): ADT<ExcludeUnion<B, Tag, ElemType<Keys>>, Tag> =>
+  const exclude = <Keys extends B[Tag][]>(excludedKeys: Keys): ADT<ExcludeUnion<B, Tag, ElemType<Keys>>, Tag> =>
     makeADT(tag)(excludeKeys(keys, excludedKeys as string[]) as any)
 
   const res: ADT<B, Tag> = {

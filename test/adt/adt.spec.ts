@@ -171,7 +171,7 @@ describe('Builder', () => {
         foo: ofType<Foo>(),
         bar: ofType<Bar>()
       })
-      const barOnly = fooBar.select('bar')
+      const barOnly = fooBar.select(['bar'])
       const foo = fooBar.as.foo({ a: 'a', b: 1 })
       const bar = fooBar.as.bar({ c: 'a', d: 1 })
 
@@ -184,7 +184,7 @@ describe('Builder', () => {
         foo: ofType<Foo>(),
         bar: ofType<Bar>()
       })
-      const barOnly = fooBar.exclude('foo')
+      const barOnly = fooBar.exclude(['foo'])
       const foo = fooBar.as.foo({ a: 'a', b: 1 })
       const bar = fooBar.as.bar({ c: 'a', d: 1 })
 
@@ -262,16 +262,16 @@ describe('Builder', () => {
     const fooA = fooBar.of.foo({ a: 'a', b: 12 })
 
     chai.assert.deepStrictEqual(fooBar.is.foo(fooA), true)
-    chai.assert.deepStrictEqual(fooBar.isAnyOf('foo')(fooA), true)
-    chai.assert.deepStrictEqual(fooBar.isAnyOf('bar', 'foo')(fooA), true)
+    chai.assert.deepStrictEqual(fooBar.isAnyOf(['foo'])(fooA), true)
+    chai.assert.deepStrictEqual(fooBar.isAnyOf(['bar', 'foo'])(fooA), true)
     chai.assert.deepStrictEqual(fooBar.is.bar(fooA), false)
-    chai.assert.deepStrictEqual(fooBar.isAnyOf('bar')(fooA), false)
+    chai.assert.deepStrictEqual(fooBar.isAnyOf(['bar'])(fooA), false)
 
     // narrows to Foo
     if (fooBar.is.foo(fooA)) {
       chai.assert.deepStrictEqual(
         fooBar
-          .select('foo')
+          .select(['foo'])
           .lenseFromProp('type')
           .get(fooA), // ensure type narrowing
         'foo'
@@ -287,7 +287,7 @@ describe('Builder', () => {
       })
       chai.assert.deepStrictEqual(
         fooBarByType
-          .select('bar')
+          .select(['bar'])
           .lenseFromProp('c')
           .modify(s => `(${s})`)(fooBarByType.as.bar({ c: 'c', d: 1 })),
         fooBarByType.of.bar({ c: '(c)', d: 1 })
@@ -295,7 +295,7 @@ describe('Builder', () => {
 
       chai.assert.deepStrictEqual(
         fooBarByType
-          .select('bar')
+          .select(['bar'])
           .lenseFromProps(['c', 'd'])
           .modify(({ c, d }) => ({ c: `(${c})`, d: 1 + d }))(fooBarByType.as.bar({ c: 'c', d: 1 })),
         fooBarByType.of.bar({ c: '(c)', d: 2 })
