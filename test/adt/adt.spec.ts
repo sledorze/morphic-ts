@@ -171,6 +171,7 @@ describe('Builder', () => {
         foo: ofType<Foo>(),
         bar: ofType<Bar>()
       })
+
       const barOnly = fooBar.select(['bar'])
       const foo = fooBar.as.foo({ a: 'a', b: 1 })
       const bar = fooBar.as.bar({ c: 'a', d: 1 })
