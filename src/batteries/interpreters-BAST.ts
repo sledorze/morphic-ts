@@ -57,6 +57,9 @@ declare module '../usage/ProgramType' {
 export interface M<L, A> extends Materialized<L, A, ProgramUnionURI, BASTJInterpreterURI> {}
 export interface UM<A> extends Materialized<unknown, A, ProgramUnionURI, BASTJInterpreterURI> {}
 
+export const AsOpaque = <E, A>(x: M<E, A>): M<E, A> => x
+export const AsUOpaque = <A>(x: UM<A>): UM<A> => x
+
 export interface MorphAs {
   <L, A>(F: ProgramType<L, A>[ProgramUnionURI]): M<L, A>
 }

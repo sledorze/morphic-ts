@@ -13,6 +13,7 @@ describe('extend', () => {
     .with({
       PersonGroup: () => F => F.array(F.Person('a')(F))
     })
+
   interface Ext extends ExtType<typeof extension> {}
   const extended = extension.asType<Ext>().interpretedBy(BASTJInterpreter)
 

@@ -17,9 +17,6 @@ export interface Summoners<ProgURI extends ProgramURI, InterpURI extends Interpr
   summon: <A>(F: InferredProgram<unknown, A, ProgURI>) => Materialized<unknown, A, ProgURI, InterpURI>
 }
 
-// TODO: generalize to be able to extend several times, starting from just an Algebra
-// Starting from base Algebra and building..
-
 /**
  * - Cache application of the given interpreter
  * - Returns summoners giving the ability to constraint type parameters
