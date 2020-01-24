@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.7.0-RC4
+
+- New Feature
+
+  - better startup DX - exports AsOpaque and AsUOpaque from interpreters
+
 ## 0.7.0-RC3
 
 - Breaking Change
