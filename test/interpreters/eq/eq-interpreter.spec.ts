@@ -39,27 +39,13 @@ const eqInterp: ProgramInterpreter<ProgramNoUnionURI, EqInterpreterURI> = _progr
 export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, EqInterpreterURI> {}
 export interface UM<A> extends Materialized<unknown, A, ProgramNoUnionURI, EqInterpreterURI> {}
 
-export interface MorphAs {
+export interface Morph {
   <L, A>(F: ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
 }
-export interface MorphAsA {
-  <A>(): <L>(F: ProgramType<L, A>[ProgramNoUnionURI]) => M<L, A>
-}
-export interface MorphAsL {
-  <L>(): <A>(F: ProgramType<L, A>[ProgramNoUnionURI]) => M<L, A>
-}
-export interface Morph {
-  <A>(F: ProgramType<unknown, A>[ProgramNoUnionURI]): UM<A>
-}
 
-export interface Summoner extends Summoners<ProgramNoUnionURI, EqInterpreterURI> {
-  summonAs: MorphAs
-  summonAsA: MorphAsA
-  summonAsL: MorphAsL
-  summon: Morph
-}
+export interface Summoner extends Summoners<ProgramNoUnionURI, EqInterpreterURI>, Morph {}
 
-const { summon, summonAs } = makeSummoner(cacheUnaryFunction, eqInterp)
+const summonAs = makeSummoner(cacheUnaryFunction, eqInterp)
 
 describe('Eq', () => {
   it('returns false when comparing incomplete values', () => {
@@ -164,7 +150,7 @@ describe('Eq', () => {
       a: string
       b: number
     }
-    const Foo = summon<Foo>(F =>
+    const Foo = summonAs<unknown, Foo>(F =>
       F.interface(
         {
           type: F.stringLiteral('foo'),
@@ -180,7 +166,7 @@ describe('Eq', () => {
       c: string
       d: number
     }
-    const Bar = summon<Bar>(F =>
+    const Bar = summonAs<unknown, Bar>(F =>
       F.interface(
         {
           type: F.stringLiteral('bar'),

@@ -98,7 +98,7 @@ describe('FastCheck interpreter', () => {
     )
 
     // type Bar
-    const Bar = summon<BarType>(F =>
+    const Bar = summon<unknown, BarType>(F =>
       F.interface(
         {
           a: Foo(F),
@@ -120,7 +120,7 @@ describe('FastCheck interpreter', () => {
 
   it('date', () => {
     // type Foo
-    const Foo = summon<Foo>(F =>
+    const Foo = summon<unknown, Foo>(F =>
       F.interface(
         {
           date: F.date(),
@@ -225,7 +225,7 @@ describe('FastCheck interpreter', () => {
       a: string
       b: number
     }
-    const Foo = summon<Foo>(F =>
+    const Foo = summon<unknown, Foo>(F =>
       F.interface(
         {
           type: F.stringLiteral('foo'),
@@ -241,7 +241,7 @@ describe('FastCheck interpreter', () => {
       c: string
       d: number
     }
-    const Bar = summon<Bar>(F =>
+    const Bar = summon<unknown, Bar>(F =>
       F.interface(
         {
           type: F.stringLiteral('bar'),
@@ -296,7 +296,7 @@ describe('FastCheck interpreter', () => {
       v: string
     }
 
-    const List: M<unknown, List> = summon<List>(F =>
+    const List: M<unknown, List> = summon<unknown, List>(F =>
       F.recursive<unknown, List>(
         Self =>
           F.taggedUnion(

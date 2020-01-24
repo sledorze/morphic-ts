@@ -11,10 +11,7 @@ import { CacheType } from '../common/core'
 import { ProgramURI, ProgramTypes, ProgramType } from './ProgramType'
 
 export interface Summoners<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
-  summonAs: <L, A>(F: InferredProgram<L, A, ProgURI>) => Materialized<L, A, ProgURI, InterpURI>
-  summonAsA: <A>() => <L>(F: InferredProgram<L, A, ProgURI>) => Materialized<L, A, ProgURI, InterpURI>
-  summonAsL: <L>() => <A>(F: InferredProgram<L, A, ProgURI>) => Materialized<L, A, ProgURI, InterpURI>
-  summon: <A>(F: InferredProgram<unknown, A, ProgURI>) => Materialized<unknown, A, ProgURI, InterpURI>
+  <L, A>(F: InferredProgram<L, A, ProgURI>): Materialized<L, A, ProgURI, InterpURI>
 }
 
 /**
@@ -31,20 +28,9 @@ function makeSummonerInternal<
 ): Summoners<ProgURI, InterpURI> {
   type P<L, A> = ProgramType<L, A>[ProgURI]
   type M<L, A> = Materialized<L, A, ProgURI, InterpURI>
-  type UM<A> = Materialized<unknown, A, ProgURI, InterpURI>
 
-  const summonAs = <L, A>(F: P<L, A>): M<L, A> => materialize(cacheProgramEval(F), programInterpreter)
-
-  const summonAsA: <A>() => <L>(F: P<L, A>) => M<L, A> = () => summonAs
-  const summonAsL: <L>() => <A>(F: P<L, A>) => M<L, A> = () => summonAs
-  const summon: <A>(F: P<unknown, A>) => UM<A> = summonAs
-
-  return {
-    summonAs,
-    summonAsA,
-    summonAsL,
-    summon
-  } as any
+  const summon = <L, A>(F: P<L, A>): M<L, A> => materialize(cacheProgramEval(F), programInterpreter)
+  return summon as any
 }
 
 export function makeSummoner<PI extends ProgramInterpreter<any, any>>(

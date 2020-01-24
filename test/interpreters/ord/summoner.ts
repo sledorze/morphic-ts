@@ -31,25 +31,11 @@ declare module '../../../src/usage/ProgramType' {
 export interface M<L, A> extends Materialized<L, A, ProgramOrderableURI, OrdInterpreterURI> {}
 export interface UM<A> extends Materialized<unknown, A, ProgramOrderableURI, OrdInterpreterURI> {}
 
-export interface MorphAs {
+export interface Morph {
   <L, A>(F: ProgramType<L, A>[ProgramOrderableURI]): M<L, A>
 }
-export interface MorphAsA {
-  <A>(): <L>(F: ProgramType<L, A>[ProgramOrderableURI]) => M<L, A>
-}
-export interface MorphAsL {
-  <L>(): <A>(F: ProgramType<L, A>[ProgramOrderableURI]) => M<L, A>
-}
-export interface Morph {
-  <A>(F: ProgramType<unknown, A>[ProgramOrderableURI]): UM<A>
-}
 
-export interface Summoner extends Summoners<ProgramOrderableURI, OrdInterpreterURI> {
-  summonAs: MorphAs
-  summonAsA: MorphAsA
-  summonAsL: MorphAsL
-  summon: Morph
-}
+export interface Summoner extends Summoners<ProgramOrderableURI, OrdInterpreterURI>, Morph {}
 
 export const OrdInterpreter: ProgramInterpreter<ProgramOrderableURI, OrdInterpreterURI> = _program => {
   const program = interpretable(_program)
@@ -59,9 +45,7 @@ export const OrdInterpreter: ProgramInterpreter<ProgramOrderableURI, OrdInterpre
   }
 }
 
-const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, OrdInterpreter)
-
-export { summonAs, summonAsA, summonAsL, summon }
+export const summon = makeSummoner(cacheUnaryFunction, OrdInterpreter)
 
 describe('Ord', () => {
   it('dummy', () => chai.assert.equal(1, 1))

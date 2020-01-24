@@ -8,7 +8,7 @@ import { GTree, Tree } from '../../utils/tree'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Errors } from 'io-ts'
-import { summon, summonAs, summonAsA, M } from '../../../src/batteries/summoner'
+import { summon, M } from '../../../src/batteries/summoner'
 import { IoTsURI } from '../../../src/io-ts-interpreters' // Fake to please the test runner
 import { modelIoTsStrictInterpreter } from '../../../src/io-ts-interpreters/interpreters' // Fake to please the test runner
 export { IoTsURI, modelIoTsStrictInterpreter }
@@ -28,14 +28,14 @@ describe('IO-TS Alt Schema', () => {
 
   it('stringLiteral', () => {
     // Definition
-    const codec = summonAs(F => F.stringLiteral('x')).type
+    const codec = summon(F => F.stringLiteral('x')).type
 
     chai.assert.deepStrictEqual(codec.decode('x'), right('x'))
   })
 
   it('keysOf', () => {
     // Definition
-    const codec = summonAs(F => F.keysOf({ a: null, b: null })).type
+    const codec = summon(F => F.keysOf({ a: null, b: null })).type
 
     chai.assert.deepStrictEqual(codec.decode('a'), right('a'))
     chai.assert.deepStrictEqual(codec.decode('b'), right('b'))
@@ -43,7 +43,7 @@ describe('IO-TS Alt Schema', () => {
   })
 
   it('nullable', () => {
-    const codec = summonAs(F => F.nullable(F.string())).type
+    const codec = summon(F => F.nullable(F.string())).type
 
     chai.assert.deepStrictEqual(codec.decode('a'), right(some('a')))
     chai.assert.deepStrictEqual(codec.decode(null), right(none))
@@ -51,14 +51,14 @@ describe('IO-TS Alt Schema', () => {
   })
 
   it('array', () => {
-    const codec = summonAs(F => F.array(F.string(), {}))
+    const codec = summon(F => F.array(F.string(), {}))
     chai.assert.deepStrictEqual(codec.type.decode(['a', 'b']), right(['a', 'b']))
   })
 
   it('partial', () => {
     // Definition
 
-    const codec = summonAs(F =>
+    const codec = summon(F =>
       F.partial(
         {
           a: F.string(),
@@ -76,7 +76,7 @@ describe('IO-TS Alt Schema', () => {
 
   it('compose', () => {
     // type Foo
-    const Foo = summonAs(F =>
+    const Foo = summon(F =>
       F.interface(
         {
           a: F.string(),
@@ -87,7 +87,7 @@ describe('IO-TS Alt Schema', () => {
     )
 
     // type Bar
-    const Bar = summonAsA<Bar>()(F =>
+    const Bar = summon<unknown, Bar>(F =>
       F.interface(
         {
           a: Foo(F),
@@ -124,7 +124,7 @@ describe('IO-TS Alt Schema', () => {
 
   it('date', () => {
     // type Foo
-    const Foo = summonAsA<Foo>()(F =>
+    const Foo = summon<unknown, Foo>(F =>
       F.interface(
         {
           date: F.date(),
@@ -147,7 +147,7 @@ describe('IO-TS Alt Schema', () => {
 
   it('intersection', () => {
     // type Foo
-    const Foo = summonAs(F =>
+    const Foo = summon(F =>
       F.interface(
         {
           a: F.string(),
@@ -157,7 +157,7 @@ describe('IO-TS Alt Schema', () => {
       )
     )
 
-    const Bar = summonAs(F =>
+    const Bar = summon(F =>
       F.interface(
         {
           c: F.string(),
@@ -167,7 +167,7 @@ describe('IO-TS Alt Schema', () => {
       )
     )
 
-    const FooBar = summonAs(F => F.intersection([Foo(F), Bar(F)], 'FooBar'))
+    const FooBar = summon(F => F.intersection([Foo(F), Bar(F)], 'FooBar'))
 
     const codec = FooBar
 
@@ -183,7 +183,7 @@ describe('IO-TS Alt Schema', () => {
       a: string
       b: number
     }
-    const Foo = summonAs(F =>
+    const Foo = summon(F =>
       F.interface(
         {
           a: F.string(),
@@ -197,7 +197,7 @@ describe('IO-TS Alt Schema', () => {
       c: string
       d: number
     }
-    const Bar = summonAs(F =>
+    const Bar = summon(F =>
       F.interface(
         {
           c: F.string(),
@@ -207,7 +207,7 @@ describe('IO-TS Alt Schema', () => {
       )
     )
 
-    const FooBar = summonAs(F => F.union([Foo(F), Bar(F)], 'FooBar'))
+    const FooBar = summon(F => F.union([Foo(F), Bar(F)], 'FooBar'))
 
     const codec = FooBar
 
@@ -223,7 +223,7 @@ describe('IO-TS Alt Schema', () => {
       a: string
       b: number
     }
-    const Foo = summonAsA<Foo>()(F =>
+    const Foo = summon<unknown, Foo>(F =>
       F.interface(
         {
           type: F.stringLiteral('foo1'),
@@ -239,7 +239,7 @@ describe('IO-TS Alt Schema', () => {
       c: string
       d: number
     }
-    const Bar = summonAsA<Bar>()(F =>
+    const Bar = summon<unknown, Bar>(F =>
       F.interface(
         {
           type: F.stringLiteral('bar1'),
@@ -250,7 +250,7 @@ describe('IO-TS Alt Schema', () => {
       )
     )
 
-    const FooBar = summonAs(F =>
+    const FooBar = summon(F =>
       F.taggedUnion(
         'type',
         {
@@ -275,7 +275,7 @@ describe('IO-TS Alt Schema', () => {
   })
 
   it('taggedUnion', () => {
-    const Foo = summonAs(F =>
+    const Foo = summon(F =>
       F.interface(
         {
           type: F.stringLiteral('foo2'),
@@ -285,7 +285,7 @@ describe('IO-TS Alt Schema', () => {
       )
     )
 
-    const Baz = summonAs(F =>
+    const Baz = summon(F =>
       F.interface(
         {
           type: F.stringLiteral('baz2'),
@@ -295,7 +295,7 @@ describe('IO-TS Alt Schema', () => {
       )
     )
 
-    const FooBar = summonAs(F =>
+    const FooBar = summon(F =>
       F.taggedUnion(
         'type',
         {
@@ -316,7 +316,7 @@ describe('IO-TS Alt Schema', () => {
   })
 
   it('set from array', () => {
-    const InterfA = summonAs(F =>
+    const InterfA = summon(F =>
       F.interface(
         {
           a: F.string()
@@ -325,7 +325,7 @@ describe('IO-TS Alt Schema', () => {
       )
     )
 
-    summonAs(F =>
+    summon(F =>
       F.interface(
         {
           a: F.string(),
@@ -347,7 +347,7 @@ describe('IO-TS Alt Schema', () => {
 
     const ordA: Ord<AType> = ord.contramap(ordString, x => x.a)
 
-    const SetInterfA = summonAs(F => F.set(InterfA(F), ordA))
+    const SetInterfA = summon(F => F.set(InterfA(F), ordA))
 
     const SetInterfAType = SetInterfA
 
@@ -370,7 +370,7 @@ describe('IO-TS Alt Schema', () => {
 })
 
 describe('iotsObjectInterpreter', () => {
-  const model = summonAs(F =>
+  const model = summon(F =>
     F.interface(
       {
         a: F.string(),
@@ -379,7 +379,7 @@ describe('iotsObjectInterpreter', () => {
       'AB'
     )
   )
-  const partialModel = summonAs(F =>
+  const partialModel = summon(F =>
     F.partial(
       {
         a: F.string(),
@@ -415,7 +415,7 @@ describe('iotsObjectInterpreter', () => {
       let nbEvals = 0
       let nbRecEvals = 0
 
-      const Tree: M<unknown, Tree> = summonAs(F => {
+      const Tree: M<unknown, Tree> = summon(F => {
         nbEvals += 1
         return F.recursive(Tree => {
           nbRecEvals += 1
@@ -449,7 +449,7 @@ describe('iotsObjectInterpreter', () => {
       let nbRecEvals = 0
 
       const getTree = <A>(LeafValue: M<unknown, A>): M<unknown, GTree<A>> => {
-        const GTree: M<unknown, GTree<A>> = summonAs(F => {
+        const GTree: M<unknown, GTree<A>> = summon(F => {
           nbEvals += 1
           return F.recursive(GTree => {
             nbRecEvals += 1
@@ -466,7 +466,7 @@ describe('iotsObjectInterpreter', () => {
         return GTree
       }
 
-      const numberValue = summonAs(F => F.number())
+      const numberValue = summon(F => F.number())
 
       const { type } = getTree(numberValue)
       chai.assert.deepStrictEqual(type.is({ type: 'leaf', v: 0 }), true)

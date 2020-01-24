@@ -1,10 +1,10 @@
 import * as chai from 'chai'
 import { lt, gt, ordNumber, ord } from 'fp-ts/lib/Ord'
-import { summonAs } from './summoner'
+import { summon } from './summoner'
 
 describe('Ord', () => {
   it('returns true or false when comparing values for equality', () => {
-    const Foo = summonAs(F => F.date())
+    const Foo = summon(F => F.date())
 
     const { ord } = Foo
 
@@ -19,7 +19,7 @@ describe('Ord', () => {
   })
 
   it('can compare set', () => {
-    const Foo = summonAs(F =>
+    const Foo = summon(F =>
       F.set(
         F.date(),
         ord.contramap(ordNumber, (d: Date) => d.getTime())

@@ -1,10 +1,10 @@
 import * as chai from 'chai'
 
-import { summonAs, summon } from '../../../src/batteries/summoner-no-union'
+import { summon } from '../../../src/batteries/summoner-no-union'
 
 describe('Show', () => {
   it('returns false when comparing incomplete values', () => {
-    const Foo = summonAs(F =>
+    const Foo = summon(F =>
       F.interface(
         {
           date: F.date(),
@@ -21,7 +21,7 @@ describe('Show', () => {
   })
 
   it('show', () => {
-    const Foo = summonAs(F =>
+    const Foo = summon(F =>
       F.interface(
         {
           date: F.date(),
@@ -38,7 +38,7 @@ describe('Show', () => {
   })
 
   it('show', () => {
-    const Foo = summonAs(F =>
+    const Foo = summon(F =>
       F.interface(
         {
           dates: F.array(
@@ -77,7 +77,7 @@ describe('Show', () => {
       a: string
       b: number
     }
-    const Foo = summonAs(F =>
+    const Foo = summon(F =>
       F.partial(
         {
           type: F.stringLiteral('foo'),
@@ -106,7 +106,7 @@ describe('Show', () => {
       a: string
       b: number
     }
-    const Foo = summonAs<FooRaw, Foo>(F =>
+    const Foo = summon<FooRaw, Foo>(F =>
       F.interface(
         {
           type: F.stringLiteral('foo'),
@@ -122,7 +122,7 @@ describe('Show', () => {
       c: string
       d: number
     }
-    const Bar = summon<Bar>(F =>
+    const Bar = summon<unknown, Bar>(F =>
       F.interface(
         {
           type: F.stringLiteral('bar'),
@@ -133,7 +133,7 @@ describe('Show', () => {
       )
     )
 
-    const FooBar = summonAs(F =>
+    const FooBar = summon(F =>
       F.taggedUnion(
         'type',
         {

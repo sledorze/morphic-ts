@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { summon, summonAs, M } from '../../../src/batteries/summoner'
+import { summon, UM } from '../../../src/batteries/summoner'
 import { right, left } from 'fp-ts/lib/Either'
 import { either } from 'fp-ts'
 import { JsonSchemaErrors } from '../../../src/json-schema/json-schema-ctors'
@@ -240,8 +240,8 @@ describe('a json schema generator', function(this: any) {
   })
 
   it('handles generic recursive types', () => {
-    const getTree = <A>(LeafValue: M<unknown, A>): M<unknown, GTree<A>> =>
-      summonAs(F =>
+    const getTree = <A>(LeafValue: UM<A>): UM<GTree<A>> =>
+      summon(F =>
         F.recursive(
           GTree =>
             F.taggedUnion(
@@ -256,7 +256,7 @@ describe('a json schema generator', function(this: any) {
         )
       )
 
-    const numberValue = summonAs(F => F.number())
+    const numberValue = summon(F => F.number())
 
     const { jsonSchema } = getTree(numberValue)
 

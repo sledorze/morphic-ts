@@ -1,6 +1,8 @@
 import { makeSummoner } from '../usage/summoner'
 import { cacheUnaryFunction } from '../common/core'
 import { BASTJInterpreter, M, UM, AsOpaque, AsUOpaque } from './interpreters-BAST'
+import { makeTagged } from '../usage/tagged-union'
 
-export const { summonAs, summonAsA, summonAsL, summon } = makeSummoner(cacheUnaryFunction, BASTJInterpreter)
-export { M, UM, AsOpaque, AsUOpaque }
+const summon = makeSummoner(cacheUnaryFunction, BASTJInterpreter)
+const tagged = makeTagged(summon)
+export { M, UM, AsOpaque, AsUOpaque, summon, tagged }
