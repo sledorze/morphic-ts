@@ -149,6 +149,7 @@ This will help getting unique advantage of Typescript ability to refine Unions
 
 ```typescript
 const Motorised = Vehicle.select('Car', 'Motorbike') // ADT<Car | Motorbike, "type">
+
 const TrafficJamProof = Vehicle.exclude('Car') // ADT<Motorbike | Bicycle, "type">
 
 const Faster = intersectADT(Motorised, TrafficJamProof) // ADT<Motorbike, "type">
