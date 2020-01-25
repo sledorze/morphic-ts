@@ -48,6 +48,15 @@ export interface Summoner extends Summoners<ProgramNoUnionURI, EqInterpreterURI>
 const summonAs = makeSummoner(cacheUnaryFunction, eqInterp)
 
 describe('Eq', () => {
+  it('unknown', () => {
+    const { eq } = summonAs(F => F.unknown())
+    chai.assert.strictEqual(eq.equals('a', 'a'), true)
+    chai.assert.strictEqual(eq.equals('a', 'b'), false)
+    const arr1 = ['a', 'b']
+    const arr2 = ['a', 'b']
+    chai.assert.strictEqual(eq.equals(arr1, arr2), false)
+    chai.assert.strictEqual(eq.equals(arr1, arr1), true)
+  })
   it('returns false when comparing incomplete values', () => {
     const Foo = eqInterp(F =>
       F.interface(

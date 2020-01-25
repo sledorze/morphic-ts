@@ -87,6 +87,9 @@ export const jsonToObjectSchemaPrism = m.Prism.fromPredicate(isObjectSchema)
 export type SubSchema = JSONSchema | Ref
 export const SubSchema = (x: SubSchema) => x
 
+export type Anything = {}
+export const Anything: Anything = {}
+
 export type JSONSchema =
   | StringSchema
   | NumberSchema

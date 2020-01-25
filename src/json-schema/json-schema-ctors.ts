@@ -106,6 +106,8 @@ export const KeyofTypeCtor = (p: { keys: string[] }) =>
     enum: p.keys
   })
 
+export const AnythingTypeCtor = () => notOptional<js.Anything>({})
+
 export const StringTypeCtor = (extras?: { format?: 'date' | 'date-time'; enum?: string[] }) =>
   notOptional<js.StringSchema>({
     type: 'string' as 'string',

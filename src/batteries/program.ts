@@ -8,6 +8,7 @@ import { SetURI } from '../model-algebras/set'
 import { StrMapURI } from '../model-algebras/str-map'
 import { TaggedUnionsURI } from '../model-algebras/tagged-unions'
 import { UnionsURI } from '../model-algebras/unions'
+import { UnknownURI } from '../model-algebras/unknown'
 
 export const ProgramUnionURI = Symbol()
 export type ProgramUnionURI = typeof ProgramUnionURI
@@ -18,7 +19,15 @@ export interface P<E, A> extends InferredProgram<E, A, ProgramUnionURI> {}
 declare module '../usage/ProgramType' {
   interface ProgramAlgebraURI {
     [ProgramUnionURI]: GetAlgebra<
-      PrimitiveURI | IntersectionURI | ObjectURI | RecursiveURI | SetURI | StrMapURI | TaggedUnionsURI | UnionsURI
+      | PrimitiveURI
+      | IntersectionURI
+      | ObjectURI
+      | RecursiveURI
+      | SetURI
+      | StrMapURI
+      | TaggedUnionsURI
+      | UnionsURI
+      | UnknownURI
     >
   }
   interface ProgramAlgebra<F> {

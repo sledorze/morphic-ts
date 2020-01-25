@@ -8,8 +8,10 @@ import { fastCheckUnionInterpreter } from './unions'
 import { fastCheckRecursiveInterpreter } from './recursive'
 import { fastCheckStrMapInterpreter } from './str-map'
 import { fastCheckSetInterpreter } from './set'
+import { fastCheckUnknownInterpreter } from './unknown'
 
 export const allModelFastCheck = merge(
+  fastCheckUnknownInterpreter,
   fastCheckPrimitiveInterpreter,
   fastCheckIntersectionInterpreter,
   fastCheckObjectInterpreter,

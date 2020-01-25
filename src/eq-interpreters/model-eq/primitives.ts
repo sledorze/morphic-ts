@@ -2,6 +2,7 @@ import { option, array } from 'fp-ts'
 import { eq, eqNumber, eqString, strictEqual, eqBoolean } from 'fp-ts/lib/Eq'
 import { ModelAlgebraPrimitive1 } from '../../model-algebras/primitives'
 import { EqType, EqURI } from '..'
+import {} from 'fp-ts/lib/Eq'
 
 export const eqPrimitiveInterpreter: ModelAlgebraPrimitive1<EqURI> = {
   date: _ => new EqType(eq.contramap(eqNumber, (date: Date) => date.getTime())),

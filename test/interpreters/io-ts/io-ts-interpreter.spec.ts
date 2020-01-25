@@ -13,6 +13,13 @@ import { IoTsURI } from '../../../src/io-ts-interpreters' // Fake to please the 
 import { modelIoTsStrictInterpreter } from '../../../src/io-ts-interpreters/interpreters' // Fake to please the test runner
 export { IoTsURI, modelIoTsStrictInterpreter }
 describe('IO-TS Alt Schema', () => {
+  it('unknown', () => {
+    // Definition
+    const codec = summon(F => F.unknown()).type
+    chai.assert.deepStrictEqual(codec.decode('b'), right('b'))
+    chai.assert.deepStrictEqual(codec.decode(12), right(12))
+  })
+
   it('string', () => {
     // Definition
     const codec = summon(F => F.string()).type

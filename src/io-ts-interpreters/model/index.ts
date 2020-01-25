@@ -6,8 +6,10 @@ import { ioTsTaggedUnionInterpreter } from './tagged-unions'
 import { ioTsStrMapInterpreter } from './str-map'
 import { ioTsSetInterpreter } from './set'
 import { ioTsRecursiveInterpreter } from './recursive'
+import { ioTsUnknownInterpreter } from './unknown'
 
 export const allModelBaseIoTs = merge(
+  ioTsUnknownInterpreter,
   ioTsPrimitiveInterpreter,
   ioTsIntersectionInterpreter,
   ioTsUnionInterpreter,
