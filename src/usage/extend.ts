@@ -10,7 +10,7 @@ export class Extension<ProgURI extends ProgramURI, Ext extends Record<string, Pr
   /**
    * Defines the base program type
    */
-  static of<ProgURI extends ProgramURI>(p: ProgURI): Extension<ProgURI, {}> {
+  static of<ProgURI extends ProgramURI>(_p: ProgURI): Extension<ProgURI, {}> {
     return new Extension({})
   }
   /**

@@ -11,6 +11,7 @@ export type NamedSchemas = { [k: string]: JSONSchema }
 export type JsonSchemaResult<T> = SE.StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, T>
 
 export class JsonSchema<A> {
+  _A!: A
   constructor(public schema: JsonSchemaResult<OptionalJSONSchema>) {}
 }
 

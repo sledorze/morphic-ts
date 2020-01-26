@@ -7,7 +7,7 @@ import * as SE from '../StateEither'
 import { arrayTraverseStateEither } from '../utils'
 
 export const jsonSchemaTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<JsonSchemaURI> = {
-  taggedUnion: (tag, types) =>
+  taggedUnion: (_tag, types) =>
     new JsonSchema(
       pipe(
         arrayTraverseStateEither(record.toArray(types), ([_, v]) => v.schema),

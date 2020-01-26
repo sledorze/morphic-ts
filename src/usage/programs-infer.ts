@@ -19,7 +19,7 @@ export interface InferredProgram<E, A, X extends ProgramURI> {
 /***
  * Provides Program builder for the given Program type (Exposing a specific Algebra)
  */
-export const makeDefines = <PURI extends ProgramURI>(prog: PURI) => {
+export const makeDefines = <PURI extends ProgramURI>(_prog: PURI) => {
   type Prog<E, A> = ProgramType<E, A>[PURI]
   type Res<E, A> = NonNullable<Prog<E, A>[typeof interpretSymb]>
   const defineAs = <E, A>(program: Prog<E, A>): Res<E, A> => program as any // White lie

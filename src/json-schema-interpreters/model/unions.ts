@@ -6,8 +6,8 @@ import * as SE from '../StateEither'
 import { arrayTraverseStateEither } from '../utils'
 
 export const jsonSchemaUnionInterpreter: ModelAlgebraUnions1<JsonSchemaURI> = {
-  union: (types: JsonSchema<any>[]) =>
-    new JsonSchema(
+  union: <A>(types: JsonSchema<A>[]) =>
+    new JsonSchema<A>(
       pipe(
         arrayTraverseStateEither(types, j => j.schema),
         SE.chainEitherK(UnionTypeCtor)

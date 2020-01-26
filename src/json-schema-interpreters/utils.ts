@@ -12,7 +12,7 @@ import { JsonSchemaResult, NamedSchemas } from '.'
 export const addSchema = (name: string) => (schema: JSONSchema): JsonSchemaResult<void> =>
   SE.modify<NamedSchemas>(record.insertAt(name, schema))
 
-export const registerSchema = (name: string) => <R, E>(
+export const registerSchema = (name: string) => (
   v: OptionalJSONSchema
 ): SE.StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, OptionalJSONSchema> =>
   isTypeRef(v.json)

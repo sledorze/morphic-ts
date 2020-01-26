@@ -55,7 +55,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
   ): MorphADT<unknown, AParam<Types>, TagType<Types>, ProgURI, InterpURI> => {
     // Trust the outer signature - type lookup via unknown URI cannot have any semantic here
     const summoned = summ<EParam<Types>, AParam<Types>>((F: any) =>
-      F.taggedUnion(tag, record.mapWithIndex((k, v: AnyM<ProgURI, InterpURI>) => (v as any)(F))(o))
+      F.taggedUnion(tag, record.mapWithIndex((_k, v: AnyM<ProgURI, InterpURI>) => (v as any)(F))(o))
     ) // Trust
     return (summoned as TaggableAsADT<unknown, AParam<Types>, ProgURI, InterpURI>).tagged<TagType<Types>>(
       tag as typeof tag & TagType<Types>
