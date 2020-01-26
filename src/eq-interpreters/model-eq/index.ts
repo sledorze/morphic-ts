@@ -8,8 +8,10 @@ import { eqRecursiveInterpreter } from './recursive'
 import { eqStrMapInterpreter } from './str-map'
 import { eqSetInterpreter } from './set'
 import { eqUnknownInterpreter } from './unknown'
+import { eqNewtypeInterpreter } from './newtype'
 
 export const allModelEq = merge(
+  eqNewtypeInterpreter,
   eqUnknownInterpreter,
   eqPrimitiveInterpreter,
   eqIntersectionInterpreter,

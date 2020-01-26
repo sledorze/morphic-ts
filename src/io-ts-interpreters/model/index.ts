@@ -7,8 +7,10 @@ import { ioTsStrMapInterpreter } from './str-map'
 import { ioTsSetInterpreter } from './set'
 import { ioTsRecursiveInterpreter } from './recursive'
 import { ioTsUnknownInterpreter } from './unknown'
+import { ioTsNewtypeInterpreter } from './newtype'
 
 export const allModelBaseIoTs = merge(
+  ioTsNewtypeInterpreter,
   ioTsUnknownInterpreter,
   ioTsPrimitiveInterpreter,
   ioTsIntersectionInterpreter,

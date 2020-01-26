@@ -9,6 +9,7 @@ import { StrMapURI } from '../model-algebras/str-map'
 import { TaggedUnionsURI } from '../model-algebras/tagged-unions'
 import { UnionsURI } from '../model-algebras/unions'
 import { UnknownURI } from '../model-algebras/unknown'
+import { NewtypeURI } from '../model-algebras/newtype'
 
 export const ProgramUnionURI = Symbol()
 export type ProgramUnionURI = typeof ProgramUnionURI
@@ -28,6 +29,7 @@ declare module '../usage/ProgramType' {
       | TaggedUnionsURI
       | UnionsURI
       | UnknownURI
+      | NewtypeURI
     >
   }
   interface ProgramAlgebra<F> {

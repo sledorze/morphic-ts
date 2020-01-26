@@ -8,8 +8,10 @@ import { jsonSchemaStrMapInterpreter } from './str-map'
 import { jsonSchemaSetInterpreter } from './set'
 import { jsonSchemaUnionInterpreter } from './unions'
 import { jsonSchemaUnknownInterpreter } from './unknown'
+import { jsonSchemaNewtypeInterpreter } from './newtype'
 
 export const allModelJsonSchema = merge(
+  jsonSchemaNewtypeInterpreter,
   jsonSchemaUnknownInterpreter,
   jsonSchemaPrimitiveInterpreter,
   jsonSchemaIntersectionInterpreter,

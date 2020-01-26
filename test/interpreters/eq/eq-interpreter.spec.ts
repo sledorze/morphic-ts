@@ -9,6 +9,7 @@ import { modelEqInterpreter, EqURI } from '../../../src/eq-interpreters/interpre
 import { Eq } from 'fp-ts/lib/Eq'
 import { interpretable } from '../../../src/usage/programs-infer'
 import { ProgramType } from '../../../src/usage/ProgramType'
+import { Newtype, iso } from 'newtype-ts'
 
 export const EqInterpreterURI = Symbol()
 export type EqInterpreterURI = typeof EqInterpreterURI
@@ -48,6 +49,17 @@ export interface Summoner extends Summoners<ProgramNoUnionURI, EqInterpreterURI>
 const summonAs = makeSummoner(cacheUnaryFunction, eqInterp)
 
 describe('Eq', () => {
+  it('newtype', () => {
+    interface Test extends Newtype<{ readonly Test: unique symbol }, string> {}
+    const isoTest = iso<Test>()
+
+    const { eq } = summonAs(F => F.newtype<Test>('Test')(F.string()))
+
+    const testA = isoTest.wrap('a')
+    const testB = isoTest.wrap('b')
+    chai.assert.strictEqual(eq.equals(testA, testA), true)
+    chai.assert.strictEqual(eq.equals(testA, testB), false)
+  })
   it('unknown', () => {
     const { eq } = summonAs(F => F.unknown())
     chai.assert.strictEqual(eq.equals('a', 'a'), true)

@@ -7,8 +7,10 @@ import { showRecursiveInterpreter } from './recursive'
 import { showSetInterpreter } from './set'
 import { showStrMapInterpreter } from './str-map'
 import { showUnknownInterpreter } from './unknown'
+import { showNewtypeInterpreter } from './newtype'
 
 export const allModelShow = merge(
+  showNewtypeInterpreter,
   showUnknownInterpreter,
   showPrimitiveInterpreter,
   showIntersectionInterpreter,

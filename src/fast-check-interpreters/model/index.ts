@@ -9,8 +9,10 @@ import { fastCheckRecursiveInterpreter } from './recursive'
 import { fastCheckStrMapInterpreter } from './str-map'
 import { fastCheckSetInterpreter } from './set'
 import { fastCheckUnknownInterpreter } from './unknown'
+import { fastCheckNewtypeInterpreter } from './newtype'
 
 export const allModelFastCheck = merge(
+  fastCheckNewtypeInterpreter,
   fastCheckUnknownInterpreter,
   fastCheckPrimitiveInterpreter,
   fastCheckIntersectionInterpreter,

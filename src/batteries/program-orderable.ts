@@ -5,6 +5,7 @@ import { PrimitiveURI } from '../model-algebras/primitives'
 import { SetURI } from '../model-algebras/set'
 import { StrMapURI } from '../model-algebras/str-map'
 import { TaggedUnionsURI } from '../model-algebras/tagged-unions'
+import { NewtypeURI } from '../model-algebras/newtype'
 
 export const ProgramOrderableURI = Symbol()
 export type ProgramOrderableURI = typeof ProgramOrderableURI
@@ -14,7 +15,9 @@ export interface P<E, A> extends InferredProgram<E, A, ProgramOrderableURI> {}
 
 declare module '../usage/ProgramType' {
   interface ProgramAlgebraURI {
-    [ProgramOrderableURI]: GetAlgebra<PrimitiveURI | IntersectionURI | SetURI | StrMapURI | TaggedUnionsURI>
+    [ProgramOrderableURI]: GetAlgebra<
+      PrimitiveURI | IntersectionURI | SetURI | StrMapURI | TaggedUnionsURI | NewtypeURI
+    >
   }
 
   interface ProgramAlgebra<F> {

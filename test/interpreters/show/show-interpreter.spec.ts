@@ -1,8 +1,18 @@
 import * as chai from 'chai'
 
 import { summon } from '../../../src/batteries/summoner-no-union'
+import { Newtype, iso } from 'newtype-ts'
 
 describe('Show', () => {
+  it('newtype', () => {
+    interface Test extends Newtype<{ readonly Test: unique symbol }, string> {}
+    const isoTest = iso<Test>()
+
+    const { show } = summon(F => F.newtype<Test>('Test')(F.string()))
+
+    const testA = isoTest.wrap('abc')
+    chai.assert.strictEqual(show.show(testA), '<Test>("abc")')
+  })
   it('returns false when comparing incomplete values', () => {
     const Foo = summon(F =>
       F.interface(
