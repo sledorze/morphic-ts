@@ -94,7 +94,7 @@ describe('Eq', () => {
 
   it('recursive compare of non-circular unknown', () => {
     let calls = 0
-    const compare = eq.fromEquals((a, b) => {
+    const compare = eq.fromEquals((_a, _b) => {
       calls += 1
       return true
     })

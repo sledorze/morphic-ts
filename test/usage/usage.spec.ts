@@ -27,7 +27,7 @@ describe('tagged', () => {
 
   it('Can constraint A type param', () => {
     const CType = summon(F => F.interface({ tag: F.stringLiteral('CType') }, 'CType'))
-    const Action = <E, P>(p: M<E, P & { type?: never }>): void => undefined
+    const Action = <E, P>(_p: M<E, P & { type?: never }>): void => undefined
     Action(CType) // Should not become red
   })
 })
