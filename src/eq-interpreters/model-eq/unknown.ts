@@ -6,11 +6,11 @@ import { UnknownConfig } from '../../algebras/hkt'
 
 declare module '../../algebras/hkt' {
   interface UnknownConfig {
-    [EqURI]: Customize<string, string> | undefined
+    [EqURI]: Customize | undefined
   }
 }
 
-interface Customize<E, A> {
+interface Customize {
   compare: 'default-circular' | 'default-non-circular' | Eq<unknown>
 }
 
