@@ -50,7 +50,7 @@ Person.arb // fast-check
 Person.jsonSchema // JsonSchema-ish representation
 ```
 
-### Want discriminated, taggedUnion like models?
+### Discriminated, taggedUnion-like models
 
 ```typescript
 import { summon, tagged } from 'morphic-ts/lib/batteries/summoner-no-union'
@@ -81,7 +81,7 @@ const Vehicule = tagged('type')({ Car, Bicycle })
 // Now you have access to previously depicted derivation + ADT support (ctors, predicates, optics, matchers,reducers, etc.. see `ADT Manipulation` below)
 ```
 
-### Do not want Structural types but opaque nominal types?
+### Want opaque nominal (instead of structural) infered types
 
 You may use this pattern
 
@@ -103,7 +103,28 @@ export const Car = AsOpaque<CarRaw, Car>(Car_)
 
 We're sorry for the boilerplate, this is a current Typescript limitation but in our experience, this is worth the effort.
 
-## How it works?
+### Configurable
+
+As nice as a General DSL solution to specify your Schema is, there's still some specifics you would like to use.
+
+Morphic provides `Interpreter` to expose `Config` for a specific `Algebra` combinator.
+
+For example, we may want to specify how fastcheck should generate some arrays.
+We can add an extra parameter to a definition (last position) and use `Interpreter` specific function (named '*Interpreter*Config', here `fastCheckConfig`) and it will expose the ability to specify the configuration for this `Interpreter` and `combinator`.
+
+```typescript
+summon(F => F.array(F.string(), fastCheckConfig({ minLength: 2, maxLength: 4 })))
+```
+
+Note: _this is type guided and type safe, it's *not* an `any` in disguise_
+
+You may provide several Configuration
+
+```typescript
+summon(F => F.array(F.string(), { ...fastCheckConfig({ minLength: 2, maxLength: 4 }), ...showConfig(...)} ))
+```
+
+## How it works
 
 When you specify a Schema, you're using an API (eDSL implemented using final tagless).
 This `API` defines a `Program` (your schema) using an `Algebra` (the combinators exposed to do so).

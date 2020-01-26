@@ -9,7 +9,7 @@ describe('Builder', () => {
       a: string
     }
 
-    const Foo = summon<Foo>(F =>
+    const Foo = summon<unknown, Foo>(F =>
       F.interface(
         {
           date: F.date(),
@@ -38,7 +38,7 @@ describe('Builder', () => {
     interface Nested {
       date: Date
     }
-    const Nested = summon<Nested>(F =>
+    const Nested = summon<unknown, Nested>(F =>
       F.interface(
         {
           date: F.date()

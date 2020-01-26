@@ -1,4 +1,5 @@
 import * as t from 'io-ts'
+import { genConfig } from '../common/core'
 
 export const IoTsURI = Symbol()
 export type IoTsURI = typeof IoTsURI
@@ -12,3 +13,5 @@ declare module '../common/HKT' {
     [IoTsURI]: IOTSType<E, A>
   }
 }
+
+export const iotsConfig = genConfig(IoTsURI)

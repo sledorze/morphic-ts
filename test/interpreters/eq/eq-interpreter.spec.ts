@@ -5,11 +5,13 @@ import { makeSummoner, Summoners } from '../../../src/usage/summoner'
 import { cacheUnaryFunction } from '../../../src/common/core'
 
 import { ProgramNoUnionURI } from '../../../src/batteries/program-no-union'
-import { modelEqInterpreter, EqURI } from '../../../src/eq-interpreters/interpreters'
+import { modelEqInterpreter } from '../../../src/eq-interpreters/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
+import * as eq from 'fp-ts/lib/Eq'
 import { interpretable } from '../../../src/usage/programs-infer'
 import { ProgramType } from '../../../src/usage/ProgramType'
 import { Newtype, iso } from 'newtype-ts'
+import { eqConfig } from '../../../src/eq-interpreters'
 
 export const EqInterpreterURI = Symbol()
 export type EqInterpreterURI = typeof EqInterpreterURI
@@ -60,21 +62,68 @@ describe('Eq', () => {
     chai.assert.strictEqual(eq.equals(testA, testA), true)
     chai.assert.strictEqual(eq.equals(testA, testB), false)
   })
+
   it('unknown', () => {
     const { eq } = summonAs(F => F.unknown())
     chai.assert.strictEqual(eq.equals('a', 'a'), true)
     chai.assert.strictEqual(eq.equals('a', 'b'), false)
     const arr1 = ['a', 'b']
     const arr2 = ['a', 'b']
-    chai.assert.strictEqual(eq.equals(arr1, arr2), false)
     chai.assert.strictEqual(eq.equals(arr1, arr1), true)
+    chai.assert.strictEqual(eq.equals(arr1, arr2), true)
   })
+
+  it('recursive compare of circular unknown', () => {
+    const { eq } = summonAs(F => F.unknown(eqConfig({ compare: 'default-circular' })))
+
+    const recDataA = {
+      a: 'a',
+      b: null as any
+    }
+    recDataA.b = recDataA
+
+    const recDataB = {
+      a: 'b',
+      b: null as any
+    }
+    recDataB.b = recDataB
+
+    chai.assert.strictEqual(eq.equals(recDataA, recDataA), true)
+    chai.assert.strictEqual(eq.equals(recDataA, recDataB), false)
+  })
+
+  it('recursive compare of non-circular unknown', () => {
+    let calls = 0
+    const compare = eq.fromEquals((a, b) => {
+      calls += 1
+      return true
+    })
+    const morph = summonAs(F => F.unknown(eqConfig({ compare })))
+
+    const recDataA = {
+      a: 'a',
+      b: null as any
+    }
+    recDataA.b = recDataA
+
+    const recDataB = {
+      a: 'b',
+      b: null as any
+    }
+    recDataB.b = recDataB
+
+    chai.assert.strictEqual(morph.eq.equals(recDataA, recDataA), true)
+    chai.assert.strictEqual(morph.eq.equals(recDataA, recDataB), true)
+    chai.assert.strictEqual(morph.eq.equals(recDataB, recDataA), true)
+    chai.assert.strictEqual(calls, 2) // 2 because eq.fromEquals does a reference comparison automatically
+  })
+
   it('returns false when comparing incomplete values', () => {
     const Foo = eqInterp(F =>
       F.interface(
         {
           date: F.date(),
-          a: F.string({ [EqURI]: undefined })
+          a: F.string()
         },
         'Foo'
       )

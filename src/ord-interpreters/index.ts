@@ -1,4 +1,5 @@
 import { Ord } from 'fp-ts/lib/Ord'
+import { genConfig } from '../common/core'
 
 export const OrdURI = Symbol()
 export type OrdURI = typeof OrdURI
@@ -12,3 +13,5 @@ declare module '../common/HKT' {
     [OrdURI]: OrdType<A>
   }
 }
+
+export const ordConfig = genConfig(OrdURI)

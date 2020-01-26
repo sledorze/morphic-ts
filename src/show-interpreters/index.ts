@@ -1,4 +1,5 @@
 import { Show } from 'fp-ts/lib/Show'
+import { genConfig } from '../common/core'
 
 export const ShowURI = Symbol()
 export type ShowURI = typeof ShowURI
@@ -12,3 +13,5 @@ declare module '../common/HKT' {
     [ShowURI]: ShowType<A>
   }
 }
+
+export const showConfig = genConfig(ShowURI)

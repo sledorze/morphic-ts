@@ -13,6 +13,13 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.7.0-RC9
+
+- New Feature
+
+  - provides function to help with configuration specification.
+  - Eq for unknown is configurable (using fast-equals as default)
+
 ## 0.7.0-RC8
 
 - New Feature

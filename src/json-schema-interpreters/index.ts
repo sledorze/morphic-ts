@@ -2,6 +2,7 @@ import { OptionalJSONSchema, JsonSchemaError } from '../json-schema/json-schema-
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import * as SE from './StateEither'
 import { JSONSchema } from '../json-schema/json-schema'
+import { genConfig } from '../common/core'
 
 export const JsonSchemaURI = Symbol()
 export type JsonSchemaURI = typeof JsonSchemaURI
@@ -18,3 +19,5 @@ declare module '../common/HKT' {
     [JsonSchemaURI]: JsonSchema<A>
   }
 }
+
+export const jsonSchemaConfig = genConfig(JsonSchemaURI)

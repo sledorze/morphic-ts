@@ -1,4 +1,5 @@
 import { Eq } from 'fp-ts/lib/Eq'
+import { genConfig } from '../common/core'
 
 export const EqURI = Symbol()
 export type EqURI = typeof EqURI
@@ -12,3 +13,5 @@ declare module '../common/HKT' {
     [EqURI]: EqType<A>
   }
 }
+
+export const eqConfig = genConfig(EqURI)

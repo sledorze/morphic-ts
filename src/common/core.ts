@@ -63,3 +63,23 @@ export type ByInterp<Config, Interp extends URIS | URIS2> = MaybeUndefinedIfOpti
 export type MaybeUndefinedIfOptional<X> = keyof KeepNotUndefined<X> extends never ? X | undefined : X
 
 export type isOptionalConfig<C, Y, N> = keyof KeepNotUndefined<ByInterp<C, URIS | URIS2>> extends never ? Y : N
+
+/**
+ * generates a config wrapper:
+ *
+ * Example:
+ *
+ * ```typescript
+ *   const eqConfig = genConfig(EqURI)
+ * ```
+ *
+ * Usage:
+ *
+ * ```typescript
+ *   summonAs(F => F.unknown(eqConfig({ compare: 'default-circular' })))
+ *   summonAs(F => F.unknown({...eqConfig({ compare: 'default-circular' }), ...iotsConfig(x => x)}))
+ * ```
+ *
+ */
+export const genConfig = <K extends URIS | URIS2>(k: K) => <T>(c: T extends { [k in K]?: infer C } ? C : never): T =>
+  ({ [k]: c } as any)

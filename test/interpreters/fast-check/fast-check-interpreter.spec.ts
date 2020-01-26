@@ -3,8 +3,8 @@ import { ordString, ord } from 'fp-ts/lib/Ord'
 
 import { ProgramUnionURI } from '../../../src/batteries/program'
 import { summon, M } from '../../../src/batteries/summoner'
-import { FastCheckURI } from '../../../src/fast-check-interpreters/interpreters'
 import { ProgramType } from '../../../src/usage/ProgramType'
+import { fastCheckConfig } from '../../../src/fast-check-interpreters'
 
 const testProgram = <A>(prog: ProgramType<unknown, A>[ProgramUnionURI]) => {
   const { arb, type } = summon(prog)
@@ -17,21 +17,13 @@ describe('FastCheck interpreter', () => {
   })
 
   it('string can be customized for FastCheck', () => {
-    testProgram(
-      summon(F =>
-        F.string({
-          [FastCheckURI]: A => A.noShrink()
-        })
-      )
-    )
+    testProgram(summon(F => F.string(fastCheckConfig(A => A.noShrink()))))
   })
 
   it('string can be customized via a specific generator', () => {
     testProgram(
       summon(F =>
-        F.string({
-          [FastCheckURI]: _ => fc.constantFrom('scala', 'haskell', 'purescript', 'typescript', 'haxe')
-        })
+        F.string(fastCheckConfig(_ => fc.constantFrom('scala', 'haskell', 'purescript', 'typescript', 'haxe')))
       )
     )
   })
@@ -51,7 +43,7 @@ describe('FastCheck interpreter', () => {
   it('array is bounded by config', () => {
     fc.check(
       fc.property(
-        summon(F => F.array(F.string(), { [FastCheckURI]: { minLength: 2, maxLength: 4 } })).arb,
+        summon(F => F.array(F.string(), fastCheckConfig({ minLength: 2, maxLength: 4 }))).arb,
         arr => arr.length >= 2 && arr.length <= 4
       )
     )

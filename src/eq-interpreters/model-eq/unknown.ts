@@ -1,8 +1,40 @@
-import { strictEqual } from 'fp-ts/lib/Eq'
 import { ModelAlgebraUnknown1 } from '../../model-algebras/unknown'
 import { EqType, EqURI } from '..'
-import {} from 'fp-ts/lib/Eq'
+import { Eq } from 'fp-ts/lib/Eq'
+import { circularDeepEqual, deepEqual } from 'fast-equals'
+import { UnknownConfig } from '../../algebras/hkt'
+
+declare module '../../algebras/hkt' {
+  interface UnknownConfig {
+    [EqURI]: Customize<string, string> | undefined
+  }
+}
+
+interface Customize<E, A> {
+  compare: 'default-circular' | 'default-non-circular' | Eq<unknown>
+}
+
+const getAlgebraConfig = <AlgebraConfig>() => <ConfigKey extends keyof AlgebraConfig>(configKey: ConfigKey) => (
+  config: { [configKey in ConfigKey]?: AlgebraConfig[configKey] } | undefined
+) => (config !== undefined ? config[configKey] : undefined)
+
+const getUnkownConfig = getAlgebraConfig<UnknownConfig>()
+
+const getEqURIUnkownConfig = getUnkownConfig(EqURI)
 
 export const eqUnknownInterpreter: ModelAlgebraUnknown1<EqURI> = {
-  unknown: _ => new EqType({ equals: strictEqual })
+  unknown: cfg => {
+    const config = getEqURIUnkownConfig(cfg)
+
+    const equals =
+      config === undefined
+        ? circularDeepEqual
+        : config.compare === 'default-circular'
+        ? circularDeepEqual
+        : config.compare === 'default-non-circular'
+        ? deepEqual
+        : config.compare.equals
+
+    return new EqType({ equals })
+  }
 }
