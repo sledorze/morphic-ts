@@ -1,7 +1,7 @@
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '../common/HKT'
 import { ByInterp, isOptionalConfig } from '../common/core'
 import { Refinedfig } from '../algebras/hkt'
-import { Branded, Brand } from 'io-ts'
+import { Branded } from 'io-ts'
 import { Refinement } from 'fp-ts/lib/function'
 
 export const RefinedURI = Symbol()
@@ -20,11 +20,6 @@ declare module '../algebras/hkt' {
 
   export interface Refinedfig {}
 }
-
-// export interface HasBrandX<K extends string> {
-//   readonly [k in K]: symbol
-// }
-export type HasBrand<K extends string> = { readonly [k in K]: symbol }
 
 export interface ModelAlgebraRefined<F> {
   refined<E, A, N extends string, B extends { readonly [K in N]: symbol }>(
