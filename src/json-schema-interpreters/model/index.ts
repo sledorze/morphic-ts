@@ -9,8 +9,10 @@ import { jsonSchemaSetInterpreter } from './set'
 import { jsonSchemaUnionInterpreter } from './unions'
 import { jsonSchemaUnknownInterpreter } from './unknown'
 import { jsonSchemaNewtypeInterpreter } from './newtype'
+import { jsonSchemaRefinedInterpreter } from './refined'
 
 export const allModelJsonSchema = merge(
+  jsonSchemaRefinedInterpreter,
   jsonSchemaNewtypeInterpreter,
   jsonSchemaUnknownInterpreter,
   jsonSchemaPrimitiveInterpreter,

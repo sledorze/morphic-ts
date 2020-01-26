@@ -7,12 +7,24 @@ import { some, none } from 'fp-ts/lib/Option'
 import { GTree, Tree } from '../../utils/tree'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { Errors } from 'io-ts'
+import { Errors, Branded } from 'io-ts'
 import { summon, M } from '../../../src/batteries/summoner'
 import { IoTsURI } from '../../../src/io-ts-interpreters' // Fake to please the test runner
 import { modelIoTsStrictInterpreter } from '../../../src/io-ts-interpreters/interpreters' // Fake to please the test runner
 export { IoTsURI, modelIoTsStrictInterpreter }
 describe('IO-TS Alt Schema', () => {
+  it('refined', () => {
+    interface PositiveNumberBrand {
+      readonly PosNum: unique symbol
+    }
+
+    const codec = summon(F =>
+      F.refined(F.number(), (x: number): x is Branded<number, PositiveNumberBrand> => x > 0, 'PosNum')
+    ).type
+    chai.assert.deepStrictEqual(isLeft(codec.decode(-1)), true)
+    chai.assert.deepStrictEqual(codec.decode(12), right(12))
+  })
+
   it('unknown', () => {
     // Definition
     const codec = summon(F => F.unknown()).type

@@ -8,8 +8,10 @@ import { showSetInterpreter } from './set'
 import { showStrMapInterpreter } from './str-map'
 import { showUnknownInterpreter } from './unknown'
 import { showNewtypeInterpreter } from './newtype'
+import { showRefinedInterpreter } from './refined'
 
 export const allModelShow = merge(
+  showRefinedInterpreter,
   showNewtypeInterpreter,
   showUnknownInterpreter,
   showPrimitiveInterpreter,

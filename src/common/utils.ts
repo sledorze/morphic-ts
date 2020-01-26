@@ -27,6 +27,12 @@ export function conjunction<A, B, C, D, E, F, G, H, I>(
 export function conjunction<A, B, C, D, E, F, G, H, I, J>(
   ...x: [A, B, C, D, E, F, G, H, I, J]
 ): A & B & C & D & E & F & G & H & I & J
+export function conjunction<A, B, C, D, E, F, G, H, I, J, K>(
+  ...x: [A, B, C, D, E, F, G, H, I, J, K]
+): A & B & C & D & E & F & G & H & I & J & K
+export function conjunction<A, B, C, D, E, F, G, H, I, J, K, L>(
+  ...x: [A, B, C, D, E, F, G, H, I, J, K, L]
+): A & B & C & D & E & F & G & H & I & J & K & L
 export function conjunction<R extends unknown[]>(...x: R): any[] {
   return Object.assign({}, ...x)
 }

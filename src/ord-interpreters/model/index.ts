@@ -10,8 +10,10 @@ import { ordStrMapInterpreter } from './str-map'
 
 import { ordTaggedUnionInterpreter } from './tagged-unions'
 import { ordNewtypeInterpreter } from './newtype'
+import { ordRefinedInterpreter } from './refined'
 
 export const allModelOrd = merge(
+  ordRefinedInterpreter,
   ordNewtypeInterpreter,
   ordPrimitiveInterpreter,
   ordIntersectionInterpreter,

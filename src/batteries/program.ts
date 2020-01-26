@@ -10,6 +10,7 @@ import { TaggedUnionsURI } from '../model-algebras/tagged-unions'
 import { UnionsURI } from '../model-algebras/unions'
 import { UnknownURI } from '../model-algebras/unknown'
 import { NewtypeURI } from '../model-algebras/newtype'
+import { RefinedURI } from '../model-algebras/refined'
 
 export const ProgramUnionURI = Symbol()
 export type ProgramUnionURI = typeof ProgramUnionURI
@@ -30,6 +31,7 @@ declare module '../usage/ProgramType' {
       | UnionsURI
       | UnknownURI
       | NewtypeURI
+      | RefinedURI
     >
   }
   interface ProgramAlgebra<F> {

@@ -8,8 +8,10 @@ import { ioTsSetInterpreter } from './set'
 import { ioTsRecursiveInterpreter } from './recursive'
 import { ioTsUnknownInterpreter } from './unknown'
 import { ioTsNewtypeInterpreter } from './newtype'
+import { ioTsRefinedInterpreter } from './refined'
 
 export const allModelBaseIoTs = merge(
+  ioTsRefinedInterpreter,
   ioTsNewtypeInterpreter,
   ioTsUnknownInterpreter,
   ioTsPrimitiveInterpreter,

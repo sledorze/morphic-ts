@@ -10,8 +10,10 @@ import { fastCheckStrMapInterpreter } from './str-map'
 import { fastCheckSetInterpreter } from './set'
 import { fastCheckUnknownInterpreter } from './unknown'
 import { fastCheckNewtypeInterpreter } from './newtype'
+import { fastCheckRefinedInterpreter } from './refined'
 
 export const allModelFastCheck = merge(
+  fastCheckRefinedInterpreter,
   fastCheckNewtypeInterpreter,
   fastCheckUnknownInterpreter,
   fastCheckPrimitiveInterpreter,
