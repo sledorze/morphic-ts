@@ -1,5 +1,4 @@
 import * as fc from 'fast-check'
-import {} from 'fast-check/lib/types/check/arbitrary/Arbitrary'
 import { genConfig } from '../common/core'
 
 export const FastCheckURI = Symbol()
