@@ -34,7 +34,9 @@
     "url": "https://github.com/sledorze/face-ts/issues"
   },
   "homepage": "https://github.com/sledorze/face-ts",
-  "dependencies": {},
+  "dependencies": {
+    "tslib": "^1.10.0"
+  },
   "peerDependencies": {
     "fast-check": "^1.21.0",
     "fp-ts": "^2.4.1",
