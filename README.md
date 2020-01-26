@@ -2,7 +2,7 @@
 
 Business Models just got a lot easier
 
-This library adress the pain of writting _and maintaining_ code for business _without any Magic_
+This library adress the pain of writting _and maintaining_ code for business _without any Magic_ in Typescript
 
 The goal is to increase, in order of importance
 
@@ -81,6 +81,28 @@ const Vehicule = tagged('type')({ Car, Bicycle })
 // Now you have access to previously depicted derivation + ADT support (ctors, predicates, optics, matchers,reducers, etc.. see `ADT Manipulation` below)
 ```
 
+### Do not want Structural types but opaque nominal types?
+
+You may use this pattern
+
+```typescript
+const Car_ = summon(F =>
+  F.interface(
+    {
+      type: F.stringLiteral('Car'),
+      kind: F.keysOf({ electric: null, fuel: null, gaz: null }),
+      power: F.number()
+    },
+    'Car'
+  )
+)
+export interface Car extends AType<typeof Car_> {}
+export interface CarRaw extends EType<typeof Car_> {}
+export const Car = AsOpaque<CarRaw, Car>(Car_)
+```
+
+We're sorry for the boilerplate, this is a current Typescript limitation but in our experience, this is worth the effort.
+
 ## How it works?
 
 When you specify a Schema, you're using an API (eDSL implemented using final tagless).
@@ -126,28 +148,7 @@ The feature can be used standalone via the `makeADT` function with support for:
 - Reducers
 - Creation of new ADTs via selection, exclusion, intersection or union of existing ADTs
 
-Declaration:
-
-```typescript
-import { makeADT, ofType } from 'morphic-ts/lib/adt'
-
-interface Bicycle {
-  type: 'Bicycle'
-  color: string
-}
-interface Car {
-  type: 'Car'
-  kind: 'electric' | 'fuel' | 'gaz'
-  power: number
-}
-
-const Vehicle = makeADT('type')({
-  Car: ofType<Car>(),
-  Bicycle: ofType<Bicycle>()
-})
-```
-
-Usage
+Ad'hoc usage via `makeADT` (Morphic's `summon` already does that for you):
 
 Let's define some Types
 
@@ -227,7 +228,7 @@ Vehicle.matchWiden({
 })
 ```
 
-### Transforms
+### Transformers
 
 ```typescript
 // You may tranform matching a subset
