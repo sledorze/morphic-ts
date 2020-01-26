@@ -1,26 +1,130 @@
 # Morphic-ts
 
-The Extensible Code First approach you've been dreaming of.
+Business Models just got a lot easier
 
-This library adress the pain of writting and maintaining derived code for business logic _without any Magic_
+This library adress the pain of writting _and maintaining_ code for business _without any Magic_
 
-The goal is to increase, in order:
+The goal is to increase, in order of importance
 
-- Typesafety
+- Correctness
 - Productivity
 - Developper Experience
 
-It is has two side blended into one; generic ADT support AND Generic, customizable and extensible eDSL derivation
+It is has two side blended into one; generic ADT manipulation AND Generic, customizable and extensible derivations
 
-## ADT support
+## Two minutes intro
+
+```bash
+npm install 'morphic-ts'
+```
+
+Or
+
+```bash
+yarn add 'morphic-ts'
+```
+
+Then
+
+```typescript
+import { summon } from 'morphic-ts/lib/batteries/summoner'
+
+export const Person = summon(F =>
+  F.interface(
+    {
+      name: F.string(),
+      age: F.number()
+    },
+    'Person'
+  )
+)
+
+// You now have acces to everything to develop around this Type
+Person.build // basic build function (enforcing correct type)
+Person.show // Show from fp-ts
+Person.type // io-ts
+Person.strictType // io-ts
+Person.eq // Eq from fp-ts
+Person.lenseFromPath // and other optics (optionnals, prism, ) from monocle-ts
+Person.arb // fast-check
+Person.jsonSchema // JsonSchema-ish representation
+```
+
+### Want discriminated, taggedUnion like models?
+
+```typescript
+import { summon, tagged } from 'morphic-ts/lib/batteries/summoner-no-union'
+
+export const Bicycle = summon(F =>
+  F.interface(
+    {
+      type: F.stringLiteral('Bicycle'),
+      color: F.string()
+    },
+    'Bicycle'
+  )
+)
+
+export const Car = summon(F =>
+  F.interface(
+    {
+      type: F.stringLiteral('Car'),
+      kind: F.keysOf({ electric: null, fuel: null, gaz: null }),
+      power: F.number()
+    },
+    'Car'
+  )
+)
+
+const Vehicule = tagged('type')({ Car, Bicycle })
+
+// Now you have access to previously depicted derivation + ADT support (ctors, predicates, optics, matchers,reducers, etc.. see `ADT Manipulation` below)
+```
+
+## How it works?
+
+When you specify a Schema, you're using an API (eDSL implemented using final tagless).
+This `API` defines a `Program` (your schema) using an `Algebra` (the combinators exposed to do so).
+
+This `Algebra` you're using is actually composed of several `Algebras` merged together, some defines how to encode a `boolean`, some others a `strMap` (string Map), etc..
+
+Then for each possible derivation there's possibly an Ìnterpreter` implementing some Algebras.
+What Morphic does is orchestrating this machinery for you
+
+This pattern has some interesting properties; it is extensible in both the `Algebra` and the `Interpreter`
+
+## Generic Derivation
+
+Specify the structure of your Schema only once and automatically has access various supported implementations
+
+Participate into expanding implementation and/or schema capabilities
+
+Example of implementations:
+
+- Structural equality (via Eq from fp-ts)
+- Validators (io-ts)
+- Schema generation (JsonSchema flavor)
+- Pretty print of data structure (Show from fp-ts)
+- Generators (FastCheck)
+- ...
+- TypeOrm (WIP)
+
+This is not an exhaustive list, because the design of Morphic enables to define more and more `Interpreters` for your `Schemas` (composed of `Algebras`).
+
+## ADT Manipulation
+
+ADT stands for `Algebraic Data Types`, this may be strange, just think about it as the pattern to represent your casual Business objects
+
+ADT manipulation support maybe be used without relying on full Morphic objects.
+
+The feature can be used standalone via the `makeADT` function with support for:
 
 - Smart Ctors
 - Predicates
-- Optics
+- Optics (Arcane name for libraries helping manipulate immutable data structures in FP)
 - Matchers
 - Reducers
-- Derivation of ADT via selection or exclusion
-- Intersection and Union of ADT
+- Creation of new ADTs via selection, exclusion, intersection or union of existing ADTs
 
 Declaration:
 
@@ -171,53 +275,15 @@ const seatLense = Motorised.lenseFromProp('seats') // Lens<Car | Motorbike, numb
 const incSeat = seatLense.modify(increment) // (s: Car | Motorbike) => Car | Motorbike
 ```
 
-## Generic derivation
-
-The other aspect of Morphic is to provide a mean, in addition to its ADT support for the automatisation of Derivation
-
-Example:
-
-- Structural equality (Eq from fp-ts)
-- Validators (io-ts)
-- Schema generation (JsonSchema flavor)
-- Pretty print of data structure (Show)
-- ...
-- TypeOrm (WIP)
-
-This is not an exhaustive list, because the design of Morphic enables to define more and more `Interpreters` for your `Schemas` (composed of `Algebras`).
-
-## Two minutes intro
-
-```typescript
-```
-
-## Getting Started
-
-(TODO: add the steps)
-
-## How
-
-In order to be open to new kind of data (via Algebras) and derivation (via Interpreters) we use an approach via a (finally) tagless encoding
-
-On may define what Algebra he needs (either reusing some or writing some new one), writes it's schema and immediately benefits from derivation by interpreting the Schema by some interpreters
-In case no interepreter exist for a particular Algebra, the end user can extend it non intrusively thanks to the composable nature of the technic employed
-
-## Batteries included
-
-(TODO: add links to the libs implemented)
-
-## Examples
-
-(TODO: add some reassuring examples of creation and usages)
-
-## Limitations
-
 ## Roadmap
 
-- Stategy for a growing number of Algebras / Interpreters
+- Switch to Monorepo
+- Interpreter for persistency (TypeORM)
+- Implement Algebra for APIs
 
 ## Disclaimer
 
-BEWARE, THIS REPO IS A POC (WORK-IN-PROGRESS)
-THE API IS IN UNSTABLE STATE AND MAY CHANGE
-USE AT YOUR OWN RISK)
+THIS LIBRARY IS USED INTO TWO PROFESSIONAL PROJECTS IN DEVELPOMENT AT THE MOMENT
+
+BUT BEWARE, THIS REPO IS A POC (WORK-IN-PROGRESS)
+THE API IS UNLIKELY TO CHANGE TRENDEMOUSLY BUT YOU MAY BE SAFER TO CONSIDER IT UNSTABLE AND USE AT YOUR OWN RISK

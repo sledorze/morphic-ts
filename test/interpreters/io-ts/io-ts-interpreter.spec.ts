@@ -21,6 +21,7 @@ describe('IO-TS Alt Schema', () => {
     const codec = summon(F =>
       F.refined(F.number(), (x: number): x is Branded<number, PositiveNumberBrand> => x > 0, 'PosNum')
     ).type
+
     chai.assert.deepStrictEqual(isLeft(codec.decode(-1)), true)
     chai.assert.deepStrictEqual(codec.decode(12), right(12))
   })
