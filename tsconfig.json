@@ -20,7 +20,10 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
-    "strictFunctionTypes": true
+    "strictFunctionTypes": true,
+    "skipDefaultLibCheck": true,
+    "noStrictGenericChecks": false,
+    "importHelpers": true
   },
   "include": ["./src/**/*", "test/models/builder/builder-interpreter.spec.ts"]
 }
