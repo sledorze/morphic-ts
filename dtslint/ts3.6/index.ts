@@ -1,7 +1,7 @@
 import { ADT, unionADT, intersectADT } from '../../src/adt'
 import { Extension, ExtType } from '../../src/usage/extend'
 import { Remove, ElemType, ExtractUnion } from '../../src/adt/utils'
-import { IfStringLiteral } from '../../src/usage/utils'
+import { IfStringLiteral, SelectKeyOfMatchingValues } from '../../src/usage/utils'
 import { OptionalIfUndefined } from '../../src/common/core'
 import { BASTJInterpreter } from '../../src/batteries/interpreters-BAST'
 import { ProgramNoUnionURI } from '../../src/batteries/program-no-union'
@@ -56,3 +56,19 @@ const extension = Extension.of(ProgramNoUnionURI)
 const _BASTJInterpreter = BASTJInterpreter
 // $ExpectType <E, A>(program: <G>(x: AlgebraNoUnion<G>) => HKT2<G, E, A>) => BASTJInterpreter<E, A>
 const extended = extension.asType().interpretedBy(BASTJInterpreter)
+
+const symA = Symbol()
+const symB = Symbol()
+const symC = Symbol()
+
+interface Bag {
+  [symA]: { type: string }
+  [symB]: { tag: number }
+  [symC]: { tag: number; type: string }
+}
+
+type SelectKeyOfMatchingValuesA = SelectKeyOfMatchingValues<Bag, { type: string }> // $ExpectType typeof symA | typeof symC
+type SelectKeyOfMatchingValuesB = SelectKeyOfMatchingValues<Bag, { type: number }> // $ExpectType never
+type SelectKeyOfMatchingValuesC = SelectKeyOfMatchingValues<Bag, { tag: any }> // $ExpectType typeof symB | typeof symC
+type SelectKeyOfMatchingValuesD = SelectKeyOfMatchingValues<Bag, { tag: number; type: string }> // $ExpectType typeof symC
+type SelectKeyOfMatchingValuesE = SelectKeyOfMatchingValues<Bag, { atag: number }> // $ExpectType never

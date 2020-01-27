@@ -16,3 +16,7 @@ export const assignFunction = <F extends Function, C>(ab: F, c: C): F & C => {
   const newF: typeof ab = ((...x: any[]) => ab(...x)) as any
   return Object.assign(newF, c)
 }
+
+export type SelectKeyOfMatchingValues<KeyedValues, Constraint> = {
+  [k in keyof KeyedValues]: KeyedValues[k] extends Constraint ? k : never
+}[keyof KeyedValues]

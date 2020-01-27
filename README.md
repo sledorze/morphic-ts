@@ -297,6 +297,27 @@ const seatLense = Motorised.lenseFromProp('seats') // Lens<Car | Motorbike, numb
 const incSeat = seatLense.modify(increment) // (s: Car | Motorbike) => Car | Motorbike
 ```
 
+## Generic functions - Interepreters constraints [Advanced usage]
+
+When one want to make a generic code, available to several interpreters, he can constraint the Interpreters URI by using some type level function
+
+```typescript
+
+export function foo<
+    E,
+    A,
+    ProgURI extends ProgramURI,
+    InterpURI extends SelectInterpURI<E, A, { type: t.Type<A, E> }> // This will only accepts URIs of Interpreters defining a member `type` of type t.Type<A, E> (io-ts)
+  >(
+    S: MorphADT<E, A, Tag, ProgURI, InterpURI>
+  ) {
+
+    // Here S will completes all the available members of known Interpreters with the acceptable Interpreters URIs, so matching the constraint above
+    ...
+  }
+
+```
+
 ## Roadmap
 
 - Switch to Monorepo
