@@ -21,7 +21,10 @@ export type InterpreterURIOfProgramInterpreter<X extends ProgramInterpreter<any,
   ? R
   : never
 
-type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = InterpreterResult<E, A>[InterpURI] &
+export type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = InterpreterResult<
+  E,
+  A
+>[InterpURI] &
   ProgramType<E, A>[ProgURI]
 
 const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
