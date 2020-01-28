@@ -1,8 +1,8 @@
-import * as fc from 'fast-check'
 import { FastCheckType, FastCheckURI } from '..'
 import { ModelAlgebraPrimitive1 } from '../../model-algebras/primitives'
 import { fromNullable } from 'fp-ts/lib/Option'
 import { identity } from 'fp-ts/lib/function'
+import { Arbitrary, constant, integer, boolean, string, float, oneof, array, option } from 'fast-check'
 
 declare module '../../algebras/hkt' {
   interface PrimitiveArrayConfig<A> {
@@ -30,24 +30,24 @@ interface MinMaxLength {
   minLength?: number
 }
 interface Customize<A> {
-  (a: fc.Arbitrary<A>): fc.Arbitrary<A>
+  (a: Arbitrary<A>): Arbitrary<A>
 }
 
 const applyCustomize = <A>(c: { [FastCheckURI]?: Customize<A> } | undefined) =>
   c !== undefined ? c[FastCheckURI] ?? identity : identity
 
 export const fastCheckPrimitiveInterpreter: ModelAlgebraPrimitive1<FastCheckURI> = {
-  date: configs => new FastCheckType(applyCustomize(configs)(fc.integer().map(n => new Date(n)))),
-  boolean: configs => new FastCheckType(applyCustomize(configs)(fc.boolean())),
-  string: configs => new FastCheckType(applyCustomize(configs)(fc.string())),
-  number: configs => new FastCheckType(applyCustomize(configs)(fc.float())),
-  stringLiteral: l => new FastCheckType(fc.constant(l)),
-  keysOf: k => new FastCheckType(fc.oneof(...(Object.keys(k) as (keyof typeof k)[]).map(k => fc.constant(k)))),
-  nullable: T => new FastCheckType(fc.option(T.arb).map(fromNullable)),
+  date: configs => new FastCheckType(applyCustomize(configs)(integer().map(n => new Date(n)))),
+  boolean: configs => new FastCheckType(applyCustomize(configs)(boolean())),
+  string: configs => new FastCheckType(applyCustomize(configs)(string())),
+  number: configs => new FastCheckType(applyCustomize(configs)(float())),
+  stringLiteral: l => new FastCheckType(constant(l)),
+  keysOf: k => new FastCheckType(oneof(...(Object.keys(k) as (keyof typeof k)[]).map(k => constant(k)))),
+  nullable: T => new FastCheckType(option(T.arb).map(fromNullable)),
   array: (T, configs) => {
     const config = configs !== undefined ? configs[FastCheckURI] : undefined
     return new FastCheckType(
-      config !== undefined ? fc.array(T.arb, config.minLength ?? 0, config.maxLength) : fc.array(T.arb)
+      config !== undefined ? array(T.arb, config.minLength ?? 0, config.maxLength) : array(T.arb)
     )
   }
 }
