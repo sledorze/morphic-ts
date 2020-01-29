@@ -45,7 +45,7 @@ const excludeKeys = <A extends Tagged<Tag>, Tag extends string>(
   toRemove: Array<string>
 ): object => recordFromArray(difference(eqString)(Object.keys(a), toRemove).map(toTupleNull))
 
-const keepKeys = <A extends Tagged<Tag>, Tag extends string>(
+export const keepKeys = <A extends Tagged<Tag>, Tag extends string>(
   a: KeysDefinition<A, Tag>,
   toKeep: Array<string>
 ): object => recordFromArray(intersection(eqString)(Object.keys(a), toKeep).map(toTupleNull))

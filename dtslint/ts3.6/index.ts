@@ -5,6 +5,8 @@ import { IfStringLiteral, SelectKeyOfMatchingValues } from '../../src/usage/util
 import { OptionalIfUndefined } from '../../src/common/core'
 import { BASTJInterpreter } from '../../src/batteries/interpreters-BAST'
 import { ProgramNoUnionURI } from '../../src/batteries/program-no-union'
+import { summon, tagged } from '../../src/batteries/summoner'
+import { AOfMorhpADT, EOfMorhpADT } from '../../src/usage/tagged-union'
 
 type IsLiteralA = IfStringLiteral<'a', 'ok', 'string', 'notString'> // $ExpectType "ok"
 type IsLiteralString = IfStringLiteral<string, 'ok', 'string', 'notString'> // $ExpectType "string"
@@ -72,3 +74,47 @@ type SelectKeyOfMatchingValuesB = SelectKeyOfMatchingValues<Bag, { type: number 
 type SelectKeyOfMatchingValuesC = SelectKeyOfMatchingValues<Bag, { tag: any }> // $ExpectType typeof symB | typeof symC
 type SelectKeyOfMatchingValuesD = SelectKeyOfMatchingValues<Bag, { tag: number; type: string }> // $ExpectType typeof symC
 type SelectKeyOfMatchingValuesE = SelectKeyOfMatchingValues<Bag, { atag: number }> // $ExpectType never
+
+interface ARaw {
+  a: string
+  type: string
+}
+interface A {
+  a: string
+  type: 'A'
+}
+interface BRaw {
+  b: string
+  type: string
+}
+interface B {
+  b: string
+  type: 'B'
+}
+interface CRaw {
+  c: string
+  type: string
+}
+interface C {
+  c: string
+  type: 'C'
+}
+const A = summon<ARaw, A>(F => F.interface({ type: F.stringLiteral('A'), a: F.string() }, 'A'))
+const B = summon<BRaw, B>(F => F.interface({ type: F.stringLiteral('B'), b: F.string() }, 'B'))
+const C = summon<CRaw, C>(F => F.interface({ type: F.stringLiteral('C'), c: F.string() }, 'C'))
+
+// $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; C: [CRaw, C]; }, "type", typeof ProgramUnionURI, typeof BASTJInterpreterURI>
+const rr = tagged('type')({
+  A,
+  B,
+  C
+})
+
+// $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; }, "type", typeof ProgramUnionURI, typeof BASTJInterpreterURI>
+rr.selectMorph(['A', 'B'])
+
+// $ExpectType MorphADT<{ B: [BRaw, B]; C: [CRaw, C]; }, "type", typeof ProgramUnionURI, typeof BASTJInterpreterURI>
+rr.excludeMorph(['A'])
+
+type AM = AOfMorhpADT<typeof rr> // $ExpectType A | B | C
+type EM = EOfMorhpADT<typeof rr> // $ExpectType ARaw | BRaw | CRaw

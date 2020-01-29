@@ -20,3 +20,22 @@ export const assignFunction = <F extends Function, C>(ab: F, c: C): F & C => {
 export type SelectKeyOfMatchingValues<KeyedValues, Constraint> = {
   [k in keyof KeyedValues]: KeyedValues[k] extends Constraint ? k : never
 }[keyof KeyedValues]
+
+export const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
+  assignFunction(F, Object.assign({}, F, d))
+
+export const wrapFun = <A, B, X>(g: ((a: A) => B) & X): typeof g => ((x: any) => g(x)) as any
+
+export interface InhabitedTypes<E, A> {
+  // tslint:disable-next-line: no-unused-expression
+  _E: E
+  // tslint:disable-next-line: no-unused-expression
+  _A: A
+}
+export type AType<X extends InhabitedTypes<any, any>> = X['_A']
+export type EType<X extends InhabitedTypes<any, any>> = X['_E']
+
+/**
+ * Fake inhabitation of types
+ */
+export const inhabitTypes = <E, A, T>(t: T): T & InhabitedTypes<E, A> => t as any

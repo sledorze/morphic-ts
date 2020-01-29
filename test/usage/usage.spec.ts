@@ -30,4 +30,52 @@ describe('tagged', () => {
     const Action = <E, P>(_p: M<E, P & { type?: never }>): void => undefined
     Action(CType) // Should not become red
   })
+
+  it('Should infer E in addition of A when be used into another Morph', () => {
+    interface AType {
+      type: 'AType'
+    }
+    interface BType {
+      type: 'BType'
+    }
+    interface CType {
+      type: 'CType'
+    }
+    interface ARawType {
+      type: string
+    }
+    interface BRawType {
+      type: string
+    }
+    interface CRawType {
+      type: string
+    }
+    const AType = summon<ARawType, AType>(F => F.interface({ type: F.stringLiteral('AType') }, 'AType'))
+    const BType = summon<BRawType, BType>(F => F.interface({ type: F.stringLiteral('BType') }, 'BType'))
+    const CType = summon<CRawType, CType>(F => F.interface({ type: F.stringLiteral('CType') }, 'CType'))
+
+    const a = AType.build({ type: 'AType' })
+    const b = BType.build({ type: 'BType' })
+    const c = CType.build({ type: 'CType' })
+
+    const tagged = makeTagged(summon)
+
+    const UnionABC = tagged('type')({ AType, BType, CType })
+
+    chai.assert.deepStrictEqual(UnionABC.type.is(a), true)
+    chai.assert.deepStrictEqual(UnionABC.type.is(b), true)
+    chai.assert.deepStrictEqual(UnionABC.type.is(c), true)
+
+    const UnionAB = UnionABC.selectMorph(['AType', 'BType'])
+
+    chai.assert.deepStrictEqual(UnionAB.type.is(a), true)
+    chai.assert.deepStrictEqual(UnionAB.type.is(b), true)
+    chai.assert.deepStrictEqual(UnionAB.type.is(c), false)
+
+    const UnionBC = UnionABC.excludeMorph(['AType'])
+
+    chai.assert.deepStrictEqual(UnionBC.type.is(a), false)
+    chai.assert.deepStrictEqual(UnionBC.type.is(b), true)
+    chai.assert.deepStrictEqual(UnionBC.type.is(c), true)
+  })
 })
