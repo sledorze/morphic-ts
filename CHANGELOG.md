@@ -13,6 +13,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+## 0.8.0-rc.0
+
+- Breaking Change
+
+  - New MorphADT encoding enabling selectMorph / excludeMorph which both support correct (re)derivation
+
 ## 0.7.0
 
 - New Feature
