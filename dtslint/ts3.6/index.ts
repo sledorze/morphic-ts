@@ -7,6 +7,9 @@ import { BASTJInterpreter } from '../../src/batteries/interpreters-BAST'
 import { ProgramNoUnionURI } from '../../src/batteries/program-no-union'
 import { summon, tagged } from '../../src/batteries/summoner'
 import { AOfMorhpADT, EOfMorhpADT } from '../../src/usage/tagged-union'
+import { allModelFastCheck } from '../../src/fast-check-interpreters/model'
+import { modelFastCheckInterpreter } from '../../src/fast-check-interpreters/interpreters'
+import { interpretable } from '../../src/usage/programs-infer'
 
 type IsLiteralA = IfStringLiteral<'a', 'ok', 'string', 'notString'> // $ExpectType "ok"
 type IsLiteralString = IfStringLiteral<string, 'ok', 'string', 'notString'> // $ExpectType "string"
@@ -104,17 +107,20 @@ const B = summon<BRaw, B>(F => F.interface({ type: F.stringLiteral('B'), b: F.st
 const C = summon<CRaw, C>(F => F.interface({ type: F.stringLiteral('C'), c: F.string() }, 'C'))
 
 // $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; C: [CRaw, C]; }, "type", typeof ProgramUnionURI, typeof BASTJInterpreterURI>
-const rr = tagged('type')({
+const ABC = tagged('type')({
   A,
   B,
   C
 })
 
 // $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; }, "type", typeof ProgramUnionURI, typeof BASTJInterpreterURI>
-rr.selectMorph(['A', 'B'])
+ABC.selectMorph(['A', 'B'])
 
 // $ExpectType MorphADT<{ B: [BRaw, B]; C: [CRaw, C]; }, "type", typeof ProgramUnionURI, typeof BASTJInterpreterURI>
-rr.excludeMorph(['A'])
+ABC.excludeMorph(['A'])
 
-type AM = AOfMorhpADT<typeof rr> // $ExpectType A | B | C
-type EM = EOfMorhpADT<typeof rr> // $ExpectType ARaw | BRaw | CRaw
+type AM = AOfMorhpADT<typeof ABC> // $ExpectType A | B | C
+type EM = EOfMorhpADT<typeof ABC> // $ExpectType ARaw | BRaw | CRaw
+
+// $ExpectType FastCheckType<A | B | C>
+const fc = interpretable(ABC)(modelFastCheckInterpreter)
