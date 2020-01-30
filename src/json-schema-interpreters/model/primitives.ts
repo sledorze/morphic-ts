@@ -15,6 +15,7 @@ export const jsonSchemaPrimitiveInterpreter: ModelAlgebraPrimitive1<JsonSchemaUR
   date: _ => new JsonSchema(stateEither.of(StringTypeCtor({ format: 'date' }))),
   string: _ => new JsonSchema(stateEither.of(StringTypeCtor({}))),
   number: _ => new JsonSchema(stateEither.of(NumberTypeCtor())),
+  bigint: _ => new JsonSchema(stateEither.of(StringTypeCtor({ format: 'bigint' }))),
   boolean: _ => new JsonSchema(stateEither.of(BooleanTypeCtor())),
   stringLiteral: <T extends string>(v: T) => new JsonSchema<T>(stateEither.of(LiteralTypeCtor(v))),
   keysOf: _keys => new JsonSchema(stateEither.of(StringTypeCtor({ enum: Object.keys(_keys) }))),

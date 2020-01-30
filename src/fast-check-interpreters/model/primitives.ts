@@ -2,7 +2,7 @@ import { FastCheckType, FastCheckURI } from '..'
 import { ModelAlgebraPrimitive1 } from '../../model-algebras/primitives'
 import { fromNullable } from 'fp-ts/lib/Option'
 import { identity } from 'fp-ts/lib/function'
-import { Arbitrary, constant, integer, boolean, string, float, oneof, array, option } from 'fast-check'
+import { Arbitrary, constant, integer, boolean, string, float, oneof, array, option, bigInt } from 'fast-check'
 
 declare module '../../algebras/hkt' {
   interface PrimitiveArrayConfig<A> {
@@ -23,6 +23,9 @@ declare module '../../algebras/hkt' {
   export interface PrimitiveBooleanConfig {
     [FastCheckURI]: Customize<boolean> | undefined
   }
+  export interface PrimitiveBigIntConfig {
+    [FastCheckURI]: Customize<bigint> | undefined
+  }
 }
 
 interface MinMaxLength {
@@ -41,6 +44,7 @@ export const fastCheckPrimitiveInterpreter: ModelAlgebraPrimitive1<FastCheckURI>
   boolean: configs => new FastCheckType(applyCustomize(configs)(boolean())),
   string: configs => new FastCheckType(applyCustomize(configs)(string())),
   number: configs => new FastCheckType(applyCustomize(configs)(float())),
+  bigint: configs => new FastCheckType(applyCustomize(configs)(bigInt())),
   stringLiteral: l => new FastCheckType(constant(l)),
   keysOf: k => new FastCheckType(oneof(...(Object.keys(k) as (keyof typeof k)[]).map(k => constant(k)))),
   nullable: T => new FastCheckType(option(T.arb).map(fromNullable)),

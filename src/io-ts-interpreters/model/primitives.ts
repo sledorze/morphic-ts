@@ -4,6 +4,7 @@ import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 import { IOTSType, IoTsURI } from '..'
 import { ModelAlgebraPrimitive2 } from '../../model-algebras/primitives'
 import { identity } from 'fp-ts/lib/function'
+import { either } from 'fp-ts/lib/Either'
 
 declare module '../../algebras/hkt' {
   interface PrimitiveConfig {
@@ -17,6 +18,9 @@ declare module '../../algebras/hkt' {
   }
   export interface PrimitiveNumberConfig {
     [IoTsURI]: Customize<number, number> | undefined
+  }
+  export interface PrimitiveBigIntConfig {
+    [IoTsURI]: Customize<string, bigint> | undefined
   }
   export interface PrimitiveBooleanConfig {
     [IoTsURI]: Customize<boolean, boolean> | undefined
@@ -33,11 +37,29 @@ interface Customize<E, A> {
 const applyCustomize = <E, A>(c: { [IoTsURI]?: Customize<E, A> } | undefined) =>
   c !== undefined ? c[IoTsURI] ?? identity : identity
 
+export interface BigIntStringC extends t.Type<bigint, string, unknown> {}
+export const BigIntString: BigIntStringC = new t.Type<bigint, string, unknown>(
+  'BigIntString',
+  // tslint:disable-next-line: strict-type-predicates valid-typeof
+  (u): u is bigint => u !== undefined && u !== null && typeof u === 'bigint',
+  (u, c) =>
+    either.chain(t.string.validate(u, c), s => {
+      try {
+        const d = BigInt(s)
+        return t.success(d)
+      } catch {
+        return t.failure(u, c)
+      }
+    }),
+  a => a.toString(10)
+)
+
 export const ioTsPrimitiveInterpreter: ModelAlgebraPrimitive2<IoTsURI> = {
   date: config => new IOTSType(applyCustomize(config)(DateFromISOString)),
   boolean: config => new IOTSType(applyCustomize(config)(t.boolean)),
   string: config => new IOTSType(applyCustomize(config)(t.string)),
   number: config => new IOTSType(applyCustomize(config)(t.number)),
+  bigint: config => new IOTSType(applyCustomize(config)(BigIntString)),
   stringLiteral: l => new IOTSType(t.literal(l, l)),
   keysOf: (k, name) => new IOTSType<string, keyof typeof k>(t.keyof(k, name) as any), // TODO: not pretty but output
   nullable: T => new IOTSType(optionFromNullable(T.type)),

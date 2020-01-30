@@ -2,7 +2,6 @@ import * as chai from 'chai'
 import { ordString, ord, Ord } from 'fp-ts/lib/Ord'
 import { fromArray } from 'fp-ts/lib/Set'
 import { right, isLeft } from 'fp-ts/lib/Either'
-
 import { some, none } from 'fp-ts/lib/Option'
 import { GTree, Tree } from '../../utils/tree'
 import { either } from 'fp-ts'
@@ -12,6 +11,7 @@ import { summon, M } from '../../../src/batteries/summoner'
 import { IoTsURI } from '../../../src/io-ts-interpreters' // Fake to please the test runner
 import { modelIoTsStrictInterpreter } from '../../../src/io-ts-interpreters/interpreters' // Fake to please the test runner
 export { IoTsURI, modelIoTsStrictInterpreter }
+
 describe('IO-TS Alt Schema', () => {
   it('refined', () => {
     interface PositiveNumberBrand {
@@ -37,6 +37,14 @@ describe('IO-TS Alt Schema', () => {
     // Definition
     const codec = summon(F => F.string()).type
     chai.assert.deepStrictEqual(codec.decode('b'), right('b'))
+  })
+
+  it('bigint', () => {
+    // Definition
+    const codec = summon(F => F.bigint()).type
+    chai.assert.deepStrictEqual(codec.decode('10'), right(BigInt(10)))
+    chai.assert.deepStrictEqual(codec.encode(BigInt(10)), '10')
+    chai.assert.deepStrictEqual(isLeft(codec.decode('nope')), true)
   })
 
   it('boolean', () => {

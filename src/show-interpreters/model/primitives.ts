@@ -9,6 +9,7 @@ export const showPrimitiveInterpreter: ModelAlgebraPrimitive1<ShowURI> = {
   boolean: _ => new ShowType(showBoolean),
   string: _ => new ShowType(showString),
   number: _ => new ShowType(showNumber),
+  bigint: _ => new ShowType({ show: a => JSON.stringify(a) }),
   stringLiteral: <T extends string>(_: T) => new ShowType<T>(showString),
   keysOf: _keys => new ShowType(showString as Show<any>),
   nullable: ({ show }) => new ShowType(getShow(show)),

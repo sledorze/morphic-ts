@@ -8,6 +8,7 @@ export const eqPrimitiveInterpreter: ModelAlgebraPrimitive1<EqURI> = {
   boolean: _ => new EqType(eqBoolean),
   string: _ => new EqType(eqString),
   number: _ => new EqType(eqNumber),
+  bigint: _ => new EqType({ equals: strictEqual }),
   stringLiteral: <T extends string>(_: T) => new EqType<T>(eqString),
   keysOf: _keys => new EqType({ equals: strictEqual }),
   nullable: ({ eq }) => new EqType(option.getEq(eq)),
