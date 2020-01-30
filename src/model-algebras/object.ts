@@ -27,8 +27,7 @@ export interface ModelAlgebraObject<F> {
     name: string
   ): isOptionalConfig<
     ObjectInterfaceConfig,
-    HKT2<F, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>,
-    'Requiring some config via interface(..., { <Interp>: ...  })'
+    HKT2<F, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>
   >
   interface<Props extends AnyMProps<F>>(
     props: Props,
@@ -40,8 +39,7 @@ export interface ModelAlgebraObject<F> {
     name: string
   ): isOptionalConfig<
     ObjectPartialConfig,
-    HKT2<F, Partial<{ [k in keyof Props]: Props[k]['_E'] }>, Partial<{ [k in keyof Props]: Props[k]['_A'] }>>,
-    'Requiring some config via partial(..., { <Interp>: ...  })'
+    HKT2<F, Partial<{ [k in keyof Props]: Props[k]['_E'] }>, Partial<{ [k in keyof Props]: Props[k]['_A'] }>>
   >
   partial<Props extends AnyMProps<F>>(
     props: Props,

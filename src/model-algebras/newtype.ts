@@ -25,9 +25,7 @@ export type NewtypeA<N extends AnyNewtype> = N extends Newtype<any, infer A> ? A
 export interface ModelAlgebraNewtype<F> {
   newtype<N extends AnyNewtype = never>(
     name: string
-  ): <E>(
-    a: HKT2<F, E, NewtypeA<N>>
-  ) => isOptionalConfig<NewtypeConfig, HKT2<F, NewtypeA<N>, N>, 'Requiring some config via newtype({ <Interp>: ...  })'>
+  ): <E>(a: HKT2<F, E, NewtypeA<N>>) => isOptionalConfig<NewtypeConfig, HKT2<F, NewtypeA<N>, N>>
   newtype<N extends AnyNewtype = never>(
     name: string
   ): <E>(a: HKT2<F, E, NewtypeA<N>>, config: ByInterp<NewtypeConfig, URIS | URIS2>) => HKT2<F, E, N>

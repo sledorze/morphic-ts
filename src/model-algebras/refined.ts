@@ -26,7 +26,7 @@ export interface ModelAlgebraRefined<F> {
     a: HKT2<F, E, A>,
     refinement: Refinement<A, Branded<A, B>>,
     name: N
-  ): isOptionalConfig<Refinedfig, HKT2<F, E, Branded<A, B>>, 'Requiring some config via refined({ <Interp>: ...  })'>
+  ): isOptionalConfig<Refinedfig, HKT2<F, E, Branded<A, B>>>
   refined<E, A, N extends string, B extends { readonly [K in N]: symbol }>(
     a: HKT2<F, E, A>,
     refinement: Refinement<A, Branded<A, B>>,

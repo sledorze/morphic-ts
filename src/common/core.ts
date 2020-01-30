@@ -62,7 +62,9 @@ export type ByInterp<Config, Interp extends URIS | URIS2> = MaybeUndefinedIfOpti
 
 export type MaybeUndefinedIfOptional<X> = keyof KeepNotUndefined<X> extends never ? X | undefined : X
 
-export type isOptionalConfig<C, Y, N> = keyof KeepNotUndefined<ByInterp<C, URIS | URIS2>> extends never ? Y : N
+export type isOptionalConfig<C, Y> = keyof KeepNotUndefined<ByInterp<C, URIS | URIS2>> extends never
+  ? Y
+  : 'config required'
 
 /**
  * generates a config wrapper:

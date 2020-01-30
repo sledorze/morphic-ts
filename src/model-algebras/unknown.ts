@@ -22,11 +22,7 @@ declare module '../algebras/hkt' {
 }
 
 export interface ModelAlgebraUnknown<F> {
-  unknown(): isOptionalConfig<
-    UnknownConfig,
-    HKT2<F, unknown, unknown>,
-    'Requiring some config via unknown({ <Interp>: ...  })'
-  >
+  unknown(): isOptionalConfig<UnknownConfig, HKT2<F, unknown, unknown>>
   unknown(config: ByInterp<UnknownConfig, URIS | URIS2>): HKT2<F, unknown, unknown>
 }
 

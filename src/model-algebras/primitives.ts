@@ -35,40 +35,19 @@ declare module '../algebras/hkt' {
 }
 
 export interface ModelAlgebraPrimitive<F> {
-  date(): isOptionalConfig<
-    PrimitiveDateConfig,
-    HKT2<F, string, Date>,
-    'Requiring some config via date({ <Interp>: ...  })'
-  >
+  date(): isOptionalConfig<PrimitiveDateConfig, HKT2<F, string, Date>>
   date(config: ByInterp<PrimitiveDateConfig, URIS | URIS2>): HKT2<F, string, Date>
-  string(): isOptionalConfig<
-    PrimitiveStringConfig,
-    HKT2<F, string, string>,
-    'Requiring some config via string({ <Interp>: ...  })'
-  >
+
+  string(): isOptionalConfig<PrimitiveStringConfig, HKT2<F, string, string>>
   string(config: ByInterp<PrimitiveStringConfig, URIS | URIS2>): HKT2<F, string, string>
-  number(): isOptionalConfig<
-    PrimitiveNumberConfig,
-    HKT2<F, number, number>,
-    'Requiring some config via number({ <Interp>: ...  })'
-  >
+  number(): isOptionalConfig<PrimitiveNumberConfig, HKT2<F, number, number>>
   number(config: ByInterp<PrimitiveNumberConfig, URIS | URIS2>): HKT2<F, number, number>
-  boolean(): isOptionalConfig<
-    PrimitiveBooleanConfig,
-    HKT2<F, boolean, boolean>,
-    'Requiring some config via boolean({ <Interp>: ...  })'
-  >
+  boolean(): isOptionalConfig<PrimitiveBooleanConfig, HKT2<F, boolean, boolean>>
   boolean(config: ByInterp<PrimitiveBooleanConfig, URIS | URIS2>): HKT2<F, boolean, boolean>
   stringLiteral: <T extends string>(value: T) => HKT2<F, string, typeof value>
   keysOf: <K extends Keys>(keys: K, name?: string) => HKT2<F, string, keyof typeof keys>
   nullable: <L, A>(T: HKT2<F, L, A>) => HKT2<F, null | L, Option<A>>
-  array<L, A>(
-    a: HKT2<F, L, A>
-  ): isOptionalConfig<
-    PrimitiveArrayConfig<A>,
-    HKT2<F, Array<L>, Array<A>>,
-    'Requiring some config via array({ <Interp>: ... })'
-  >
+  array<L, A>(a: HKT2<F, L, A>): isOptionalConfig<PrimitiveArrayConfig<A>, HKT2<F, Array<L>, Array<A>>>
   array<L, A>(a: HKT2<F, L, A>, config: ByInterp<PrimitiveArrayConfig<A>, URIS | URIS2>): HKT2<F, Array<L>, Array<A>>
 }
 
