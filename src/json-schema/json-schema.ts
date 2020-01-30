@@ -54,7 +54,12 @@ export interface ArraySchema extends DescriptionSchema {
   type: 'array'
   items: SubSchema | SubSchema[]
 }
-export const ArraySchema = (p: { items: SubSchema; description?: string }) => ({
+export const ArraySchema = (p: {
+  items: SubSchema | SubSchema[]
+  description?: string
+  minItems?: number
+  maxItems?: number
+}) => ({
   type: 'array' as 'array',
   ...p
 })

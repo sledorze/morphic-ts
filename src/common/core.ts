@@ -83,5 +83,9 @@ export type isOptionalConfig<C, Y> = keyof KeepNotUndefined<ByInterp<C, URIS | U
  * ```
  *
  */
-export const genConfig = <K extends URIS | URIS2>(k: K) => <T>(c: T extends { [k in K]?: infer C } ? C : never): T =>
-  ({ [k]: c } as any)
+export const genConfig: <Uri extends URIS | URIS2>(uri: Uri) => ConfigWrapper<Uri> = uri => config =>
+  ({ [uri]: config } as any)
+
+export interface ConfigWrapper<Uri extends URIS | URIS2> {
+  <T>(config: T extends { [k in Uri]?: infer Config } ? Config : never): T
+}

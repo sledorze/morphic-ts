@@ -35,15 +35,27 @@ export const makePartialOptionalJsonObject: Endomorphism<OptionalJSONSchema> = o
   .composeLens(js.objectSchemaOnRequired)
   .set([])
 
-export const ArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
-  optional
+export const ArrayTypeCtor = ({
+  schemas,
+  ...rest
+}: {
+  schemas: OptionalJSONSchema | OptionalJSONSchema[]
+  minItems?: number
+  maxItems?: number
+}) => {
+  const schemasArr = Array.isArray(schemas) ? schemas : [schemas]
+  const anyOptional = A.array.reduceRight(schemasArr, false, (a, b) => a.optional && b)
+  const items = schemasArr.map(_ => _.json)
+  return anyOptional
     ? left(NEA.of(JsonSchemaErrors.ArrayConsumesNoOptional))
     : right(
         notOptional<js.ArraySchema>({
           type: 'array',
-          items: json
+          items: items.length === 1 ? items[0] : items,
+          ...rest
         })
       )
+}
 
 export const SetFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
   optional

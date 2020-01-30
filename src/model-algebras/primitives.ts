@@ -35,40 +35,43 @@ declare module '../algebras/hkt' {
 }
 
 export interface ModelAlgebraPrimitive<F> {
-  date(): isOptionalConfig<PrimitiveDateConfig, HKT2<F, string, Date>>
-  date(config: ByInterp<PrimitiveDateConfig, URIS | URIS2>): HKT2<F, string, Date>
-
-  string(): isOptionalConfig<PrimitiveStringConfig, HKT2<F, string, string>>
-  string(config: ByInterp<PrimitiveStringConfig, URIS | URIS2>): HKT2<F, string, string>
+  nullable: <L, A>(T: HKT2<F, L, A>) => HKT2<F, null | L, Option<A>>
+  boolean: {
+    (): isOptionalConfig<PrimitiveBooleanConfig, HKT2<F, boolean, boolean>>
+    (config: ByInterp<PrimitiveBooleanConfig, URIS | URIS2>): HKT2<F, boolean, boolean>
+  }
   number(): isOptionalConfig<PrimitiveNumberConfig, HKT2<F, number, number>>
   number(config: ByInterp<PrimitiveNumberConfig, URIS | URIS2>): HKT2<F, number, number>
-  boolean(): isOptionalConfig<PrimitiveBooleanConfig, HKT2<F, boolean, boolean>>
-  boolean(config: ByInterp<PrimitiveBooleanConfig, URIS | URIS2>): HKT2<F, boolean, boolean>
+  string(): isOptionalConfig<PrimitiveStringConfig, HKT2<F, string, string>>
+  string(config: ByInterp<PrimitiveStringConfig, URIS | URIS2>): HKT2<F, string, string>
   stringLiteral: <T extends string>(value: T) => HKT2<F, string, typeof value>
   keysOf: <K extends Keys>(keys: K, name?: string) => HKT2<F, string, keyof typeof keys>
-  nullable: <L, A>(T: HKT2<F, L, A>) => HKT2<F, null | L, Option<A>>
+
   array<L, A>(a: HKT2<F, L, A>): isOptionalConfig<PrimitiveArrayConfig<A>, HKT2<F, Array<L>, Array<A>>>
   array<L, A>(a: HKT2<F, L, A>, config: ByInterp<PrimitiveArrayConfig<A>, URIS | URIS2>): HKT2<F, Array<L>, Array<A>>
+
+  date(): isOptionalConfig<PrimitiveDateConfig, HKT2<F, string, Date>>
+  date(config: ByInterp<PrimitiveDateConfig, URIS | URIS2>): HKT2<F, string, Date>
 }
 
 export interface ModelAlgebraPrimitive1<F extends URIS> {
-  date(config?: ByInterp<PrimitiveDateConfig, F>): Kind<F, Date>
-  string(config?: ByInterp<PrimitiveStringConfig, F>): Kind<F, string>
-  number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind<F, number>
+  nullable: <A>(T: Kind<F, A>) => Kind<F, Option<A>>
   boolean(config?: ByInterp<PrimitiveBooleanConfig, F>): Kind<F, boolean>
+  number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind<F, number>
+  string(config?: ByInterp<PrimitiveStringConfig, F>): Kind<F, string>
   stringLiteral: <T extends string>(value: T) => Kind<F, typeof value>
   keysOf: <K extends Keys>(keys: K, name?: string) => Kind<F, keyof typeof keys>
-  nullable: <A>(T: Kind<F, A>) => Kind<F, Option<A>>
   array: <A>(a: Kind<F, A>, config?: ByInterp<PrimitiveArrayConfig<A>, F>) => Kind<F, Array<A>>
+  date(config?: ByInterp<PrimitiveDateConfig, F>): Kind<F, Date>
 }
 
 export interface ModelAlgebraPrimitive2<F extends URIS2> {
-  date(config?: ByInterp<PrimitiveDateConfig, F>): Kind2<F, string, Date>
-  string(config?: ByInterp<PrimitiveStringConfig, F>): Kind2<F, string, string>
-  number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind2<F, number, number>
+  nullable: <L, A>(T: Kind2<F, L, A>) => Kind2<F, null | L, Option<A>>
   boolean(config?: ByInterp<PrimitiveBooleanConfig, F>): Kind2<F, boolean, boolean>
+  number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind2<F, number, number>
+  string(config?: ByInterp<PrimitiveStringConfig, F>): Kind2<F, string, string>
   stringLiteral: <T extends string>(value: T) => Kind2<F, string, typeof value>
   keysOf: <K extends Keys>(keys: K, name?: string) => Kind2<F, string, keyof typeof keys>
-  nullable: <L, A>(T: Kind2<F, L, A>) => Kind2<F, null | L, Option<A>>
   array: <L, A>(a: Kind2<F, L, A>, config?: ByInterp<PrimitiveArrayConfig2<L, A>, F>) => Kind2<F, Array<L>, Array<A>>
+  date(config?: ByInterp<PrimitiveDateConfig, F>): Kind2<F, string, Date>
 }

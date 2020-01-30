@@ -19,5 +19,6 @@ export const jsonSchemaPrimitiveInterpreter: ModelAlgebraPrimitive1<JsonSchemaUR
   stringLiteral: <T extends string>(v: T) => new JsonSchema<T>(stateEither.of(LiteralTypeCtor(v))),
   keysOf: _keys => new JsonSchema(stateEither.of(StringTypeCtor({ enum: Object.keys(_keys) }))),
   nullable: ({ schema }) => new JsonSchema(stateEither.map(schema, v => optional(v.json))),
-  array: ({ schema }) => new JsonSchema(stateEither.chain(schema, v => SE.StateEither(ArrayTypeCtor(v))))
+  array: ({ schema }) =>
+    new JsonSchema(stateEither.chain(schema, schemas => SE.StateEither(ArrayTypeCtor({ schemas }))))
 }
