@@ -49,12 +49,12 @@ export const resolveRefJsonSchema = (
 ): SE.StateEither<NamedSchemas, nonEmptyArray.NonEmptyArray<JsonSchemaError>, JSONSchema> =>
   isTypeRef(s) ? getSchemaStrict(s.$ref) : SE.stateEither.of(s)
 
-export const resolveSubSchema = (ns: NamedSchemas) => (ref: SubSchema): O.Option<JSONSchema> =>
+export const resolveSubSchema = (ns: NamedSchemas, ref: SubSchema): O.Option<JSONSchema> =>
   isTypeRef(ref) ? record.lookup(ref.$ref, ns) : O.some(ref)
 
 export const resolveSchema = ([{ json }, dic]: [OptionalJSONSchema, NamedSchemas]) =>
   pipe(
-    resolveSubSchema(dic)(json),
+    resolveSubSchema(dic, json),
     O.map(j => tuple(j, dic)),
     E.fromOption(() => nonEmptyArray.of(JsonSchemaError('cannot resolve ref ')))
   )

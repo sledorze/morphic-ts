@@ -13,14 +13,15 @@ export const jsonSchemaRecursiveInterpreter: ModelAlgebraRecursive1<JsonSchemaUR
   recursive: <A>(rec: (x: JsonSchema<A>) => JsonSchema<A>, name: string): JsonSchema<A> => {
     const cache = memo(() =>
       pipe(
-        rec(new JsonSchema(SE.stateEither.of(notOptional(Ref(name))))).schema,
+        rec(new JsonSchema(SE.stateEither.of(notOptional(Ref(name))))).schema, // call `rec` definition with brand new Ref (named as per the recursion)
         SE.chain(_ =>
-          SE.fromPredicate(isnotTypeRef, _ =>
-            nonEmptyArray.of(JsonSchemaError('A type cannot be defined as a pure Ref'))
+          SE.fromPredicate(
+            isnotTypeRef,
+            _ => nonEmptyArray.of(JsonSchemaError('A type cannot be defined as a pure Ref')) // A Ref should not be resolved as another Ref
           )(_.json)
         ),
-        SE.chain(addSchema(name)),
-        SE.chain(_ => getSchemaStrict(name)),
+        SE.chain(addSchema(name)), // We add the newly created Schema to the dictionnary of Schemas
+        SE.chain(_ => getSchemaStrict(name)), // We resolve it and refuse to fail doing it
         SE.map(notOptional)
       )
     )
