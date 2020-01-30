@@ -44,7 +44,7 @@ export const ArrayTypeCtor = ({
   maxItems?: number
 }) => {
   const schemasArr = Array.isArray(schemas) ? schemas : [schemas]
-  const anyOptional = A.array.reduceRight(schemasArr, false, (a, b) => a.optional && b)
+  const anyOptional = A.array.reduceRight(schemasArr, false, (a, b) => a.optional || b)
   const items = schemasArr.map(_ => _.json)
   return anyOptional
     ? left(NEA.of(JsonSchemaErrors.ArrayConsumesNoOptional))
