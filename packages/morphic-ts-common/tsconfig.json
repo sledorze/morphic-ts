@@ -25,5 +25,5 @@
     "noStrictGenericChecks": false,
     "importHelpers": true
   },
-  "include": ["./src/**/*"]
+  "include": ["src/**/*"]
 }

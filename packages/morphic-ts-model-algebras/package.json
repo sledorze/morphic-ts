@@ -1,5 +1,5 @@
 {
-  "name": "@sledorze/adt",
+  "name": "@sledorze/morphic-ts-model-algebras",
   "version": "0.0.1",
   "description": "> TODO: description",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
@@ -13,13 +13,19 @@
   "files": [
     "lib"
   ],
+  "dependencies": {
+    "@sledorze/morphic-ts-common": "^0.0.1",
+    "@sledorze/morphic-ts-algebras": "^0.0.1"
+  },
   "devDependencies": {
     "typescript": "3.7.5",
     "prettier": "1.19.1",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "io-ts": "^2.0.6"
   },
   "peerDependencies": {
-    "monocle-ts": "2.0.0"
+    "monocle-ts": "2.0.0",
+    "io-ts": "^2.0.6"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",

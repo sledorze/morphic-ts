@@ -1,11 +1,11 @@
 {
-  "name": "@sledorze/adt",
+  "name": "@sledorze/morphic-ts-common",
   "version": "0.0.1",
   "description": "> TODO: description",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "lib/adt.js",
+  "main": "lib",
   "directories": {
     "lib": "lib",
     "test": "test"

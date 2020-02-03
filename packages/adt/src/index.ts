@@ -1,4 +1,4 @@
-import { ElemType, TagsOf, ExtractUnion, ExcludeUnion } from './common'
+import { ElemType, ExtractUnion, ExcludeUnion } from './utils'
 import * as M from './monocle'
 import * as Ma from './matcher'
 import * as PU from './predicates'
@@ -8,47 +8,30 @@ import { eqString } from 'fp-ts/lib/Eq'
 import { record, array } from 'fp-ts'
 import { tuple, identity } from 'fp-ts/lib/function'
 
-/**
- * @since 0.0.1
- */
+export type Tagged<Tag extends string> = { [t in Tag]: string }
+
 export interface ADT<A, Tag extends keyof A & string>
   extends Ma.Matchers<A, Tag>,
     PU.Predicates<A, Tag>,
     CU.Ctors<A, Tag>,
     M.MonocleFor<A> {
-  select: <Keys extends (A[Tag] & string)[]>(...keys: Keys) => ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag>
-  exclude: <Keys extends (A[Tag] & string)[]>(...keys: Keys) => ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag>
+  select: <Keys extends A[Tag][]>(keys: Keys) => ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag>
+  exclude: <Keys extends A[Tag][]>(keys: Keys) => ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag>
   tag: Tag
   keys: KeysDefinition<A, Tag>
 }
 
-/**
- * @since 0.0.1
- */
 export type ADTType<A extends ADT<any, any>> = CU.CtorType<A>
 
-/**
- * @since 0.0.1
- */
-const mergeKeys = <A, B, Tag extends (keyof A & keyof B) & string>(
+const mergeKeys = <A extends Tagged<Tag>, B extends Tagged<Tag>, Tag extends string>(
   a: KeysDefinition<A, Tag>,
   b: KeysDefinition<B, Tag>
 ): KeysDefinition<A | B, Tag> => ({ ...a, ...b } as any)
 
-/**
- * @since 0.0.1
- */
 const recordFromArray = record.fromFoldable({ concat: identity }, array.array)
-
-/**
- * @since 0.0.1
- */
 const toTupleNull = (k: string) => tuple(k, null)
 
-/**
- * @since 0.0.1
- */
-const intersectKeys = <A, B, Tag extends (keyof A & keyof B) & string>(
+const intersectKeys = <A extends Tagged<Tag>, B extends Tagged<Tag>, Tag extends string>(
   a: KeysDefinition<A, Tag>,
   b: KeysDefinition<B, Tag>
 ): KeysDefinition<Extract<A, B>, Tag> =>
@@ -57,25 +40,16 @@ const intersectKeys = <A, B, Tag extends (keyof A & keyof B) & string>(
     Tag
   >
 
-/**
- * @since 0.0.1
- */
-const excludeKeys = <A, B, Tag extends (keyof A & keyof B) & string>(
+const excludeKeys = <A extends Tagged<Tag>, Tag extends string>(
   a: KeysDefinition<A, Tag>,
   toRemove: Array<string>
 ): object => recordFromArray(difference(eqString)(Object.keys(a), toRemove).map(toTupleNull))
 
-/**
- * @since 0.0.1
- */
-const keepKeys = <A, B, Tag extends (keyof A & keyof B) & string>(
+export const keepKeys = <A extends Tagged<Tag>, Tag extends string>(
   a: KeysDefinition<A, Tag>,
   toKeep: Array<string>
 ): object => recordFromArray(intersection(eqString)(Object.keys(a), toKeep).map(toTupleNull))
 
-/**
- * @since 0.0.1
- */
 export const unionADT = <AS extends [ADT<any, any>, ADT<any, any>, ...Array<ADT<any, any>>]>(
   as: AS
 ): ADT<ADTType<AS[number]>, AS[number]['tag']> => {
@@ -83,69 +57,42 @@ export const unionADT = <AS extends [ADT<any, any>, ADT<any, any>, ...Array<ADT<
   return makeADT(as[0].tag)(newKeys)
 }
 
-/**
- * @since 0.0.1
- */
-export const intersectADT = <A, B, Tag extends (keyof A & keyof B) & string>(
+export const intersectADT = <A extends Tagged<Tag>, B extends Tagged<Tag>, Tag extends string>(
   a: ADT<A, Tag>,
   b: ADT<B, Tag>
 ): ADT<Extract<A, B>, Tag> => makeADT(a.tag)(intersectKeys(a.keys, b.keys))
 
-/**
- * @since 0.0.1
- */
-export type KeysDefinition<A, Tag extends keyof A & string> = { [k in A[Tag] & string]: any }
+export type KeysDefinition<A, Tag extends keyof A> = {
+  [k in A[Tag] & string]: any
+}
+export const isIn = <A, Tag extends keyof A>(keys: KeysDefinition<A, Tag>) => (k: string) => k in keys
 
-/**
- * @since 0.0.1
- */
-export const isIn = <A, Tag extends keyof A & string>(keys: KeysDefinition<A, Tag>) => (k: string) => k in keys
-
-/**
- * @since 0.0.1
- */
-export type ByTag<A> = <Tag extends TagsOf<A> & string>(t: Tag) => (keys: KeysDefinition<A, Tag>) => ADT<A, Tag>
-
-/**
- * @since 0.0.1
- */
 interface TypeDef<T> {
   _TD: T
 }
-
-/**
- * @since 0.0.1
- */
 type TypeOfDef<X extends TypeDef<any>> = X['_TD']
 
-/**
- * @since 0.0.1
- */
 export const ofType = <T>(): TypeDef<T> => 1 as any
-
-/**
- * @since 0.0.1
- */
 export const makeADT = <Tag extends string>(tag: Tag) => <R extends { [x in keyof R]: TypeDef<{ [t in Tag]: x }> }>(
   _keys: R
 ): ADT<TypeOfDef<R[keyof R]>, Tag> => {
   type Tag = typeof tag
   type A = TypeOfDef<R[keyof R]>
-  const keys: any = _keys // any
+  type B = A & Tagged<Tag>
+  const keys = _keys as any // any
 
-  const ctors = CU.Ctors<A, Tag>(tag)(keys)
+  const ctors = CU.Ctors(tag)(keys)
   const predicates = PU.Predicates<A, any>(tag)(keys) // any
   const monocles = M.MonocleFor<A>()
-  const matchers = Ma.Matchers<A, any>(tag)(keys) // any
-  const select = <Keys extends (A[Tag] & string)[]>(
-    ...selectedKeys: Keys
-  ): ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag> => makeADT(tag)(keepKeys(keys, selectedKeys) as any)
+  const matchers = Ma.Matchers<B, any>(tag)(keys) // any
 
-  const exclude = <Keys extends (A[Tag] & string)[]>(
-    ...excludedKeys: Keys
-  ): ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag> => makeADT(tag)(excludeKeys(keys, excludedKeys) as any)
+  const select = <Keys extends A[Tag][]>(selectedKeys: Keys): ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag> =>
+    makeADT(tag)(keepKeys(keys, selectedKeys as string[]) as any)
 
-  const res: ADT<A, Tag> = {
+  const exclude = <Keys extends B[Tag][]>(excludedKeys: Keys): ADT<ExcludeUnion<B, Tag, ElemType<Keys>>, Tag> =>
+    makeADT(tag)(excludeKeys(keys, excludedKeys as string[]) as any)
+
+  const res: ADT<B, Tag> = {
     ...ctors,
     ...predicates,
     ...monocles,
@@ -155,5 +102,5 @@ export const makeADT = <Tag extends string>(tag: Tag) => <R extends { [x in keyo
     select,
     exclude
   }
-  return res
+  return res as ADT<A, Tag>
 }
