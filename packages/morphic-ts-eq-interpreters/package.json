@@ -13,19 +13,17 @@
   "files": [
     "lib"
   ],
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "@sledorze/morphic-ts-common": "^0.0.1",
     "@sledorze/morphic-ts-model-algebras": "^0.0.1",
-    "@sledorze/morphic-ts-algebras": "^0.0.1"
-  },
-  "devDependencies": {
-    "typescript": "3.7.5",
-    "prettier": "1.19.1",
-    "jest": "^24.9.0",
+    "@sledorze/morphic-ts-algebras": "^0.0.1",
     "fast-equals": "^2.0.0"
   },
   "peerDependencies": {
-    "monocle-ts": "2.0.0",
+    "@sledorze/morphic-ts-common": "^0.0.1",
+    "@sledorze/morphic-ts-model-algebras": "^0.0.1",
+    "@sledorze/morphic-ts-algebras": "^0.0.1",
     "fast-equals": "^2.0.0"
   },
   "scripts": {

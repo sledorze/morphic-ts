@@ -1,7 +1,7 @@
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '@sledorze/morphic-ts-common/lib/HKT'
 import { ByInterp, isOptionalConfig } from '@sledorze/morphic-ts-common/lib/core'
 import { Refinedfig } from '@sledorze/morphic-ts-algebras/lib/hkt'
-import { Branded } from 'io-ts' // TODO: remove that dependency
+import { Branded } from 'io-ts' // TODO: question that dependency..
 import { Refinement } from 'fp-ts/lib/function'
 
 export const RefinedURI = Symbol()

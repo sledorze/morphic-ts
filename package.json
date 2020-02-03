@@ -18,10 +18,11 @@
     "monocle-ts": "2.0.1",
     "chai": "4.2.0",
     "@types/chai": "4.2.7",
-    "newtype-ts": "0.3.3",
     "typescript": "3.7.5",
     "prettier": "1.19.1",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "newtype-ts": "^0.3.3",
+    "io-ts": "^2.0.6"
   },
   "workspaces": {
     "packages": [
