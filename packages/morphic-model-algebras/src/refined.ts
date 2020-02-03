@@ -4,7 +4,13 @@ import { Refinedfig } from '@sledorze/morphic-algebras/lib/hkt'
 import { Branded } from 'io-ts' // TODO: question that dependency..
 import { Refinement } from 'fp-ts/lib/function'
 
+/**
+ *  @since 0.0.1
+ */
 export const RefinedURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type RefinedURI = typeof RefinedURI
 
 declare module '@sledorze/morphic-algebras/lib/hkt' {
@@ -18,9 +24,15 @@ declare module '@sledorze/morphic-algebras/lib/hkt' {
     [RefinedURI]: ModelAlgebraRefined2<F>
   }
 
+  /**
+   *  @since 0.0.1
+   */
   export interface Refinedfig {}
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraRefined<F> {
   _F: F
   refined: {
@@ -38,6 +50,9 @@ export interface ModelAlgebraRefined<F> {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraRefined1<F extends URIS> {
   _F: F
   refined<A, N extends string, B extends { readonly [K in N]: symbol }>(
@@ -48,6 +63,9 @@ export interface ModelAlgebraRefined1<F extends URIS> {
   ): Kind<F, Branded<A, B>>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraRefined2<F extends URIS2> {
   _F: F
   refined<E, A, N extends string, B extends { readonly [K in N]: symbol }>(

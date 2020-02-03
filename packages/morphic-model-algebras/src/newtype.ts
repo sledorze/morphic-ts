@@ -3,7 +3,13 @@ import { ByInterp, isOptionalConfig } from '@sledorze/morphic-common/lib/core'
 import { NewtypeConfig } from '@sledorze/morphic-algebras/lib/hkt'
 import { Newtype } from 'newtype-ts'
 
+/**
+ *  @since 0.0.1
+ */
 export const NewtypeURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type NewtypeURI = typeof NewtypeURI
 
 declare module '@sledorze/morphic-algebras/lib/hkt' {
@@ -17,11 +23,23 @@ declare module '@sledorze/morphic-algebras/lib/hkt' {
     [NewtypeURI]: ModelAlgebraNewtype2<F>
   }
 
+  /**
+   *  @since 0.0.1
+   */
   export interface NewtypeConfig {}
 }
+/**
+ *  @since 0.0.1
+ */
 export type AnyNewtype = Newtype<any, any>
+/**
+ *  @since 0.0.1
+ */
 export type NewtypeA<N extends AnyNewtype> = N extends Newtype<any, infer A> ? A : never
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraNewtype<F> {
   _F: F
   newtype: {
@@ -35,6 +53,9 @@ export interface ModelAlgebraNewtype<F> {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraNewtype1<F extends URIS> {
   _F: F
   newtype<N extends AnyNewtype = never>(
@@ -42,6 +63,9 @@ export interface ModelAlgebraNewtype1<F extends URIS> {
   ): (a: Kind<F, NewtypeA<N>>, config?: ByInterp<NewtypeConfig, F>) => Kind<F, N>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraNewtype2<F extends URIS2> {
   _F: F
   newtype<N extends AnyNewtype = never>(

@@ -1,7 +1,13 @@
 import { OfType, OfType2 } from '@sledorze/morphic-common/lib/core'
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '@sledorze/morphic-common/lib//HKT'
 
+/**
+ *  @since 0.0.1
+ */
 export const IntersectionURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type IntersectionURI = typeof IntersectionURI
 
 declare module '@sledorze/morphic-algebras/lib/hkt' {
@@ -16,6 +22,9 @@ declare module '@sledorze/morphic-algebras/lib/hkt' {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraIntersection<F> {
   _F: F
   intersection: {
@@ -37,6 +46,9 @@ export interface ModelAlgebraIntersection<F> {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraIntersection1<F extends URIS> {
   _F: F
   intersection: {
@@ -51,6 +63,9 @@ export interface ModelAlgebraIntersection1<F extends URIS> {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraIntersection2<F extends URIS2> {
   _F: F
   intersection: {

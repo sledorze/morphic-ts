@@ -1,7 +1,13 @@
 import { OfType, OfType2 } from '@sledorze/morphic-common/lib/core'
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '@sledorze/morphic-common/lib/HKT'
 
+/**
+ *  @since 0.0.1
+ */
 export const UnionsURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type UnionsURI = typeof UnionsURI
 
 declare module '@sledorze/morphic-algebras/lib/hkt' {
@@ -16,6 +22,9 @@ declare module '@sledorze/morphic-algebras/lib/hkt' {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraUnions<F> {
   _F: F
   union: {
@@ -37,6 +46,9 @@ export interface ModelAlgebraUnions<F> {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraUnions1<F extends URIS> {
   _F: F
   union: {
@@ -51,6 +63,9 @@ export interface ModelAlgebraUnions1<F extends URIS> {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraUnions2<F extends URIS2> {
   _F: F
   union: {
@@ -72,4 +87,7 @@ export interface ModelAlgebraUnions2<F extends URIS2> {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export type ArrayType<X> = X extends Array<infer A> ? A : never

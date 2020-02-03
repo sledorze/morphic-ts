@@ -1,10 +1,16 @@
 import { record } from 'fp-ts'
 
+/**
+ *  @since 0.0.1
+ */
 export const mapRecord = <Dic extends { [k in keyof Dic]: any }, B>(
   d: Dic,
   f: (v: Dic[keyof Dic]) => B
 ): { [k in keyof Dic]: B } => record.record.map(d, f) as { [k in keyof Dic]: B }
 
+/**
+ *  @since 0.0.1
+ */
 export const projectField = <T extends Record<any, Record<any, any>>>(t: T) => <K extends keyof T[keyof T]>(
   k: K
 ): {
@@ -14,6 +20,9 @@ export const projectField = <T extends Record<any, Record<any, any>>>(t: T) => <
     [q in keyof T]: T[q][K]
   }
 
+/**
+ *  @since 0.0.1
+ */
 export function conjunction<A, B>(...x: [A, B]): A & B
 export function conjunction<A, B, C>(...x: [A, B, C]): A & B & C
 export function conjunction<A, B, C, D>(...x: [A, B, C, D]): A & B & C & D
@@ -37,10 +46,19 @@ export function conjunction<R extends unknown[]>(...x: R): any[] {
   return Object.assign({}, ...x)
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const merge = conjunction
 
+/**
+ *  @since 0.0.1
+ */
 export const collect = <K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B> => record.collect(f)(d)
 
+/**
+ *  @since 0.0.1
+ */
 export const memo = <A>(get: () => A): (() => A) => {
   let cache: A | undefined = undefined
   return (): A => {

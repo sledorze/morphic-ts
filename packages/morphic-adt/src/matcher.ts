@@ -47,10 +47,16 @@ interface MatcherWidenIntern<A, Record> {
   ) => ReturnType<NonNullable<M[keyof M]>> extends infer R ? R : never
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface Reducer<S, A> {
   (state: S | undefined, action: A): S
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface Matchers<A, Tag extends keyof A> {
   fold: Folder<A>
   match: Matcher<A, Tag>
@@ -59,6 +65,9 @@ export interface Matchers<A, Tag extends keyof A> {
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinition<A, Tag>): Matchers<A, Tag> => {
   const inKeys = isIn(keys)
   const match = (match: any) => (a: any): any => (match[a[tag]] || match['default'])(a)

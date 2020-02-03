@@ -33,6 +33,9 @@ interface PrismFromPredicate<S> {
   (predicate: Predicate<S>): m.Prism<S, S>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface MonocleFor<S> {
   lenseFromProp: LenseFromProp<S>
   lenseFromProps: LenseFromProps<S>
@@ -56,4 +59,8 @@ const makeMonocleFor = <S>(): MonocleFor<S> => ({
 })
 
 const staticMonocle = makeMonocleFor<any>()
+
+/**
+ *  @since 0.0.1
+ */
 export const MonocleFor = <A>(): MonocleFor<A> => staticMonocle

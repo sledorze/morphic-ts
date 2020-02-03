@@ -3,7 +3,7 @@
  */
 /**
  * `* -> *` constructors
- * @since 2.0.0
+ * @since 0.0.1
  */
 export interface HKT<URI, A> {
   readonly _URI: URI
@@ -11,7 +11,7 @@ export interface HKT<URI, A> {
 }
 /**
  * `* -> * -> *` constructors
- * @since 2.0.0
+ * @since 0.0.1
  */
 export interface HKT2<URI, E, A> extends HKT<URI, A> {
   readonly _E: E
@@ -19,14 +19,14 @@ export interface HKT2<URI, E, A> extends HKT<URI, A> {
 
 /**
  * `* -> *` constructors
- * @since 2.0.0
+ * @since 0.0.1
  */
 export interface URItoKind<A> {
   _A: A
 }
 /**
  * `* -> * -> *` constructors
- * @since 2.0.0
+ * @since 0.0.1
  */
 export interface URItoKind2<E, A> {
   _A: A
@@ -35,22 +35,22 @@ export interface URItoKind2<E, A> {
 
 /**
  * `* -> *` constructors
- * @since 2.0.0
+ * @since 0.0.1
  */
 export declare type URIS = Exclude<keyof URItoKind<any>, '_A'>
 /**
  * `* -> * -> *` constructors
- * @since 2.0.0
+ * @since 0.0.1
  */
 export declare type URIS2 = Exclude<keyof URItoKind2<any, any>, '_A' | '_E'>
 
 /**
  * `* -> *` constructors
- * @since 2.0.0
+ * @since 0.0.1
  */
 export declare type Kind<URI extends URIS, A> = URI extends URIS ? URItoKind<A>[URI] : any
 /**
  * `* -> * -> *` constructors
- * @since 2.0.0
+ * @since 0.0.1
  */
 export declare type Kind2<URI extends URIS2, E, A> = URI extends URIS2 ? URItoKind2<E, A>[URI] : any

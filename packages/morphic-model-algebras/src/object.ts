@@ -4,7 +4,13 @@ import { ObjectInterfaceConfig, ObjectPartialConfig } from '@sledorze/morphic-al
 
 type AnyMProps<F> = Record<string, HKT2<F, any, any>>
 
+/**
+ *  @since 0.0.1
+ */
 export const ObjectURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type ObjectURI = typeof ObjectURI
 
 declare module '@sledorze/morphic-algebras/lib/hkt' {
@@ -17,10 +23,19 @@ declare module '@sledorze/morphic-algebras/lib/hkt' {
   interface Algebra2<F extends URIS2> {
     [ObjectURI]: ModelAlgebraObject2<F>
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface ObjectInterfaceConfig {}
+  /**
+   *  @since 0.0.1
+   */
   export interface ObjectPartialConfig {}
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraObject<F> {
   _F: F
   interface: {
@@ -47,8 +62,14 @@ export interface ModelAlgebraObject<F> {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export type PropsKind1<F extends URIS, PropsA> = { [k in keyof PropsA]: Kind<F, PropsA[k]> }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraObject1<F extends URIS> {
   _F: F
   interface: <Props>(
@@ -63,10 +84,16 @@ export interface ModelAlgebraObject1<F extends URIS> {
   ) => Kind<F, Partial<Props>>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export type PropsKind2<F extends URIS2, PropsA, PropsE> = {
   [k in keyof PropsA & keyof PropsE]: Kind2<F, PropsA[k], PropsE[k]>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraObject2<F extends URIS2> {
   _F: F
   interface: <PropsE, PropsA>(

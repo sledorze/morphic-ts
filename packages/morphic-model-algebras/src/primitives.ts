@@ -13,9 +13,18 @@ import {
 } from '@sledorze/morphic-algebras/lib/hkt'
 import { ByInterp, isOptionalConfig } from '@sledorze/morphic-common/lib/core'
 
+/**
+ *  @since 0.0.1
+ */
 export type Keys = Record<string, null>
 
+/**
+ *  @since 0.0.1
+ */
 export const PrimitiveURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type PrimitiveURI = typeof PrimitiveURI
 
 declare module '@sledorze/morphic-algebras/lib/hkt' {
@@ -29,17 +38,47 @@ declare module '@sledorze/morphic-algebras/lib/hkt' {
     [PrimitiveURI]: ModelAlgebraPrimitive2<F>
   }
 
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveDateConfig {}
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveStringConfig {}
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveStringLiteralConfig {}
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveKeysOfConfig {}
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveNumberConfig {}
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveBigIntConfig {}
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveBooleanConfig {}
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveArrayConfig<A> {}
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveArrayConfig2<E, A> {}
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraPrimitive<F> {
   _F: F
   nullable: <L, A>(T: HKT2<F, L, A>) => HKT2<F, null | L, Option<A>>
@@ -81,6 +120,9 @@ export interface ModelAlgebraPrimitive<F> {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraPrimitive1<F extends URIS> {
   _F: F
   nullable: <A>(T: Kind<F, A>) => Kind<F, Option<A>>
@@ -94,6 +136,9 @@ export interface ModelAlgebraPrimitive1<F extends URIS> {
   date(config?: ByInterp<PrimitiveDateConfig, F>): Kind<F, Date>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraPrimitive2<F extends URIS2> {
   _F: F
   nullable: <L, A>(T: Kind2<F, L, A>) => Kind2<F, null | L, Option<A>>

@@ -2,7 +2,13 @@ import { URIS, Kind, URIS2, Kind2, HKT2 } from '@sledorze/morphic-common/lib/HKT
 import { isOptionalConfig, ByInterp } from '@sledorze/morphic-common/lib/core'
 import { TaggedUnionConfig } from '@sledorze/morphic-algebras/lib/hkt'
 
+/**
+ *  @since 0.0.1
+ */
 export const TaggedUnionsURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type TaggedUnionsURI = typeof TaggedUnionsURI
 
 declare module '@sledorze/morphic-algebras/lib/hkt' {
@@ -15,13 +21,22 @@ declare module '@sledorze/morphic-algebras/lib/hkt' {
   interface Algebra2<F extends URIS2> {
     [TaggedUnionsURI]: ModelAlgebraTaggedUnions2<F>
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface TaggedUnionConfig {}
 }
 
 // TODO: replace with explicit `TagKey` if no impact on inference
 // type TagKey<Tag extends string, o extends keyof any> = { [t in Tag]: o }
+/**
+ *  @since 0.0.1
+ */
 export type TaggedValues<Tag extends string, O> = { [o in keyof O]: O[o] & { [t in Tag]: o } }
 
+/**
+ *  @since 0.0.1
+ */
 export type TaggedTypes<F, Tag extends string, L, A> = {
   [o in keyof A & keyof L]: HKT2<F, L[o], (A & { [x in o]: { [k in Tag]: o } })[o]>
 }
@@ -30,6 +45,9 @@ type DecorateTag<X extends HKT2<any, any, any>, Tag extends string, VTag> = X ex
   ? HKT2<F, L, A & { [k in Tag]: VTag }>
   : never
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraTaggedUnions<F> {
   _F: F
   taggedUnion: {
@@ -47,8 +65,14 @@ export interface ModelAlgebraTaggedUnions<F> {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export type TaggedTypes1<F extends URIS, Tag extends string, O> = { [o in keyof O]: Kind<F, O[o] & { [t in Tag]: o }> }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraTaggedUnions1<F extends URIS> {
   _F: F
   taggedUnion<Tag extends string, O>(
@@ -59,10 +83,16 @@ export interface ModelAlgebraTaggedUnions1<F extends URIS> {
   ): Kind<F, TaggedValues<Tag, O>[keyof O]>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export type TaggedTypes2<F extends URIS2, Tag extends string, L, A> = {
   [o in keyof A & keyof L]: Kind2<F, A[o] & { [t in Tag]: o }, L[o] & { [t in Tag]: o }>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraTaggedUnions2<F extends URIS2> {
   _F: F
   taggedUnion<Tag extends string, A, L>(
