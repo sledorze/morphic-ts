@@ -65,7 +65,7 @@ export const fastCheckPrimitiveInterpreter: ModelAlgebraPrimitive1<FastCheckURI>
   number: configs => new FastCheckType(applyCustomize(configs)(float())),
   bigint: configs => new FastCheckType(applyCustomize(configs)(bigInt())),
   stringLiteral: l => new FastCheckType(constant(l)),
-  keysOf: k => new FastCheckType(oneof(...(Object.keys(k) as (keyof typeof k)[]).map(k => constant(k)))),
+  keysOf: k => new FastCheckType(oneof(...(Object.keys(k) as (keyof typeof k)[]).map(constant))),
   nullable: T => new FastCheckType(option(T.arb).map(fromNullable)),
   array: (T, configs) => {
     const config = configs !== undefined ? configs[FastCheckURI] : undefined

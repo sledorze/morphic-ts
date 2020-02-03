@@ -161,7 +161,7 @@ export const SubSchema = (x: SubSchema) => x
 /**
  *  @since 0.0.1
  */
-export type Anything = {}
+export interface Anything {}
 /**
  *  @since 0.0.1
  */

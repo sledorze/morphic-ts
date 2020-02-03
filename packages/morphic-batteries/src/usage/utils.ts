@@ -13,7 +13,8 @@ type TagsInKeys<T, K extends keyof T> = NonNullable<
 export type TagsOf<T> = TagsInKeys<T, keyof T> & string // this indirection is necessary
 
 export const assignFunction = <F extends Function, C>(ab: F, c: C): F & C => {
-  const newF: typeof ab = ((...x: any[]) => ab(...x)) as any
+  // tslint:disable-next-line: no-unnecessary-callback-wrapper
+  const newF: typeof ab = ((...x: any[]) => ab(...x)) as any // force the creation of a new function to prevent mutation on the original
   return Object.assign(newF, c)
 }
 
@@ -24,7 +25,8 @@ export type SelectKeyOfMatchingValues<KeyedValues, Constraint> = {
 export const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
   assignFunction(F, Object.assign({}, F, d))
 
-export const wrapFun = <A, B, X>(g: ((a: A) => B) & X): typeof g => ((x: any) => g(x)) as any
+// tslint:disable-next-line: no-unnecessary-callback-wrapper
+export const wrapFun = <A, B, X>(g: ((a: A) => B) & X): typeof g => ((x: any) => g(x)) as any // force the creation of a new function to prevent mutation on the original
 
 export interface InhabitedTypes<E, A> {
   // tslint:disable-next-line: no-unused-expression
