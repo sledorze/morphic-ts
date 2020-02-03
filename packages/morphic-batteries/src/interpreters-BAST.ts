@@ -1,24 +1,27 @@
 import { Arbitrary } from 'fast-check/*'
-import { modelFastCheckInterpreter } from '@sledorze/morphic-fast-check-interpreters/lib/interpreters'
+import { modelFastCheckInterpreter } from '@sledorze/morphic-fastcheck-interpreters/lib/interpreters'
 
 import { Type } from 'io-ts'
 
-import { JSONSchema } from '@sledorze/morphic-json-schema-interpreters/lib/json-schema'
-import { modelJsonSchemaInterpreter } from '../json-schema-interpreters/interpreters'
+import { JSONSchema } from '@sledorze/morphic-json-schema-interpreters/lib/json-schema/json-schema'
+import { modelJsonSchemaInterpreter } from '@sledorze/morphic-json-schema-interpreters/lib/interpreters'
 
 import { ProgramUnionURI } from './program'
 import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import { NamedSchemas } from '../json-schema-interpreters'
-import { Summoners } from '@sledorze/morphic-usage/lib/summoner'
-import { interpretable } from '@sledorze/morphic-usage/lib/programs-infer'
-import { ProgramInterpreter, Materialized } from '@sledorze/morphic-usage/lib/materializer'
+import { NamedSchemas } from '@sledorze/morphic-json-schema-interpreters/lib/index'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { JsonSchemaError } from '../json-schema/json-schema-ctors'
+import { JsonSchemaError } from '@sledorze/morphic-json-schema-interpreters/lib/json-schema/json-schema-ctors'
 import { identity } from 'fp-ts/lib/function'
-import { resolveSchema } from '../json-schema-interpreters/utils'
-import { ProgramType } from '@sledorze/morphic-usage/lib/ProgramType'
-import { modelIoTsStrictInterpreter, modelIoTsNonStrictInterpreter } from '../io-ts-interpreters/interpreters'
+import { resolveSchema } from '@sledorze/morphic-json-schema-interpreters/lib/utils'
+import {
+  modelIoTsStrictInterpreter,
+  modelIoTsNonStrictInterpreter
+} from '@sledorze/morphic-io-ts-interpreters/lib/interpreters'
+import { ProgramInterpreter, Materialized } from './usage/materializer'
+import { interpretable } from './usage/programs-infer'
+import { ProgramType } from './usage/ProgramType'
+import { Summoners } from './usage/summoner'
 
 interface BASTJInterpreter<E, A> {
   build: (a: A) => A
@@ -42,12 +45,12 @@ export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpre
   }
 }
 
-declare module '@sledorze/morphic-usage/lib/InterpreterResult' {
+declare module './usage/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [BASTJInterpreterURI]: BASTJInterpreter<E, A>
   }
 }
-declare module '@sledorze/morphic-usage/lib/ProgramType' {
+declare module './usage/ProgramType' {
   interface ProgramUnionInterpreters {
     [BASTJInterpreterURI]: Summoner
   }

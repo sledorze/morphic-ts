@@ -23,8 +23,7 @@
     "@sledorze/morphic-show-interpreters": "^0.0.1",
     "@sledorze/morphic-ord-interpreters": "^0.0.1",
     "@sledorze/morphic-fastcheck-interpreters": "^0.0.1",
-    "@sledorze/morphic-json-schema-interpreters": "^0.0.1",
-    "@sledorze/morphic-usage": "^0.0.1"
+    "@sledorze/morphic-json-schema-interpreters": "^0.0.1"
   },
   "peerDependencies": {
     "@sledorze/morphic-common": "^0.0.1",
@@ -35,8 +34,7 @@
     "@sledorze/morphic-show-interpreters": "^0.0.1",
     "@sledorze/morphic-ord-interpreters": "^0.0.1",
     "@sledorze/morphic-fastcheck-interpreters": "^0.0.1",
-    "@sledorze/morphic-json-schema-interpreters": "^0.0.1",
-    "@sledorze/morphic-usage": "^0.0.1"
+    "@sledorze/morphic-json-schema-interpreters": "^0.0.1"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",

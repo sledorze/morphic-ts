@@ -1,31 +1,31 @@
 import { Eq } from 'fp-ts/lib/Eq'
-import { modelEqInterpreter } from '../eq-interpreters/interpreters'
+import { modelEqInterpreter } from '@sledorze/morphic-eq-interpreters/lib/interpreters'
 
 import { Show } from 'fp-ts/lib/Show'
-import { modelShowInterpreter } from '../show-interpreters/interpreters'
+import { modelShowInterpreter } from '@sledorze/morphic-show-interpreters/lib/interpreters'
 
 import { Arbitrary } from 'fast-check/*'
-import { modelFastCheckInterpreter } from '../fast-check-interpreters/interpreters'
+import { modelFastCheckInterpreter } from '@sledorze/morphic-fastcheck-interpreters/lib/interpreters'
 
 import { Type } from 'io-ts'
 
-import { JSONSchema } from '../json-schema/json-schema'
-import { modelJsonSchemaInterpreter } from '../json-schema-interpreters/interpreters'
+import { JSONSchema } from '@sledorze/morphic-json-schema-interpreters/lib/json-schema/json-schema'
+import { modelJsonSchemaInterpreter } from '@sledorze/morphic-json-schema-interpreters/lib/interpreters'
 
-import { Materialized, ProgramInterpreter } from '@sledorze/morphic-usage/lib/materializer'
 import { ProgramNoUnionURI } from './program-no-union'
 
 import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import { NamedSchemas } from '../json-schema-interpreters'
-import { interpretable } from '@sledorze/morphic-usage/lib/programs-infer'
-import { Summoners } from '@sledorze/morphic-usage/lib/summoner'
+import { NamedSchemas } from '@sledorze/morphic-json-schema-interpreters/lib/index'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { JsonSchemaError } from '../json-schema/json-schema-ctors'
+import { JsonSchemaError } from '@sledorze/morphic-json-schema-interpreters/lib/json-schema/json-schema-ctors'
 import { identity } from 'fp-ts/lib/function'
-import { resolveSchema } from '../json-schema-interpreters/utils'
-import { ProgramType } from '@sledorze/morphic-usage/lib/ProgramType'
-import { modelIoTsNonStrictInterpreter } from '../io-ts-interpreters/interpreters'
+import { resolveSchema } from '@sledorze/morphic-json-schema-interpreters/lib/utils'
+import { modelIoTsNonStrictInterpreter } from '@sledorze/morphic-io-ts-interpreters/lib/interpreters'
+import { ProgramInterpreter, Materialized } from './usage/materializer'
+import { interpretable } from './usage/programs-infer'
+import { ProgramType } from './usage/ProgramType'
+import { Summoners } from './usage/summoner'
 
 interface ESBASTJInterpreter<E, A> {
   build: (a: A) => A
@@ -53,12 +53,12 @@ export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJIn
   }
 }
 
-declare module '@sledorze/morphic-usage/lib/InterpreterResult' {
+declare module './usage/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [ESBASTJInterpreterURI]: ESBASTJInterpreter<E, A>
   }
 }
-declare module '@sledorze/morphic-usage/lib/ProgramType' {
+declare module './usage/ProgramType' {
   interface ProgramNoUnionInterpreters {
     [ESBASTJInterpreterURI]: Summoner
   }

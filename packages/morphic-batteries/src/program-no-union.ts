@@ -1,5 +1,4 @@
 import { GetAlgebra } from '@sledorze/morphic-algebras/lib/core'
-import { InferredAlgebra, InferredProgram } from '@sledorze/morphic-usage/lib/programs-infer'
 import { IntersectionURI } from '@sledorze/morphic-model-algebras/lib/intersections'
 import { ObjectURI } from '@sledorze/morphic-model-algebras/lib/object'
 import { PrimitiveURI } from '@sledorze/morphic-model-algebras/lib/primitives'
@@ -10,6 +9,7 @@ import { TaggedUnionsURI } from '@sledorze/morphic-model-algebras/lib/tagged-uni
 import { UnknownURI } from '@sledorze/morphic-model-algebras/lib/unknown'
 import { NewtypeURI } from '@sledorze/morphic-model-algebras/lib/newtype'
 import { RefinedURI } from '@sledorze/morphic-model-algebras/lib/refined'
+import { InferredAlgebra, InferredProgram } from './usage/programs-infer'
 
 export const ProgramNoUnionURI = Symbol()
 export type ProgramNoUnionURI = typeof ProgramNoUnionURI
@@ -17,7 +17,7 @@ export type ProgramNoUnionURI = typeof ProgramNoUnionURI
 export interface AlgebraNoUnion<F> extends InferredAlgebra<F, ProgramNoUnionURI> {}
 export interface P<E, A> extends InferredProgram<E, A, ProgramNoUnionURI> {}
 
-declare module '@sledorze/morphic-usage/lib/ProgramType' {
+declare module './usage/ProgramType' {
   interface ProgramAlgebraURI {
     [ProgramNoUnionURI]: GetAlgebra<
       | PrimitiveURI
