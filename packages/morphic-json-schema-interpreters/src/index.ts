@@ -4,12 +4,27 @@ import * as SE from './StateEither'
 import { JSONSchema } from './json-schema/json-schema'
 import { genConfig } from '@sledorze/morphic-common/lib/core'
 
+/**
+ *  @since 0.0.1
+ */
 export const JsonSchemaURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type JsonSchemaURI = typeof JsonSchemaURI
 
+/**
+ *  @since 0.0.1
+ */
 export type NamedSchemas = { [k: string]: JSONSchema }
+/**
+ *  @since 0.0.1
+ */
 export type JsonSchemaResult<T> = SE.StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, T>
 
+/**
+ *  @since 0.0.1
+ */
 export class JsonSchema<A> {
   _A!: A
   _URI!: JsonSchemaURI
@@ -22,4 +37,7 @@ declare module '@sledorze/morphic-common/lib/HKT' {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const jsonSchemaConfig = genConfig(JsonSchemaURI)

@@ -17,15 +17,24 @@ declare module 'fp-ts/lib/HKT' {
 /**
  * @since 0.1.0
  */
+/**
+ *  @since 0.0.1
+ */
 export const URI = 'StateEither'
 
 /**
  * @since 0.1.0
  */
+/**
+ *  @since 0.0.1
+ */
 export type URI = typeof URI
 
 /**
  * @since 0.1.0
+ */
+/**
+ *  @since 0.0.1
  */
 export interface StateEither<S, E, A> {
   (s: S): Either<E, [A, S]>
@@ -34,6 +43,9 @@ export interface StateEither<S, E, A> {
 /**
  * @since 0.1.0
  */
+/**
+ *  @since 0.0.1
+ */
 export function run<S, E, A>(ma: StateEither<S, E, A>, s: S): Either<E, [A, S]> {
   return ma(s)
 }
@@ -41,15 +53,24 @@ export function run<S, E, A>(ma: StateEither<S, E, A>, s: S): Either<E, [A, S]> 
 /**
  * @since 0.1.0
  */
+/**
+ *  @since 0.0.1
+ */
 export const evalState: <S, E, A>(ma: StateEither<S, E, A>, s: S) => Either<E, A> = T.evalState
 
 /**
  * @since 0.1.0
  */
+/**
+ *  @since 0.0.1
+ */
 export const execState: <S, E, A>(ma: StateEither<S, E, A>, s: S) => Either<E, S> = T.execState
 
 /**
  * @since 0.1.0
+ */
+/**
+ *  @since 0.0.1
  */
 export function left<S, E>(e: E): StateEither<S, E, never> {
   return StateEither(E.left(e))
@@ -58,20 +79,32 @@ export function left<S, E>(e: E): StateEither<S, E, never> {
 /**
  * @since 0.1.0
  */
+/**
+ *  @since 0.0.1
+ */
 export const right: <S, A>(a: A) => StateEither<S, never, A> = T.of
 
 /**
  * @since 0.1.0
+ */
+/**
+ *  @since 0.0.1
  */
 export const StateEither: <S, E, A>(ma: Either<E, A>) => StateEither<S, E, A> = T.fromM
 
 /**
  * @since 0.1.0
  */
+/**
+ *  @since 0.0.1
+ */
 export const rightState: <S, A>(ma: State<S, A>) => StateEither<S, never, A> = T.fromState
 
 /**
  * @since 0.1.0
+ */
+/**
+ *  @since 0.0.1
  */
 export function leftState<S, E>(me: State<S, E>): StateEither<S, E, never> {
   return s => E.left(me(s)[0])
@@ -80,25 +113,40 @@ export function leftState<S, E>(me: State<S, E>): StateEither<S, E, never> {
 /**
  * @since 0.1.0
  */
+/**
+ *  @since 0.0.1
+ */
 export const get: <S>() => StateEither<S, never, S> = T.get
 
 /**
  * @since 0.1.0
+ */
+/**
+ *  @since 0.0.1
  */
 export const put: <S>(s: S) => StateEither<S, never, void> = T.put
 
 /**
  * @since 0.1.0
  */
+/**
+ *  @since 0.0.1
+ */
 export const modify: <S>(f: (s: S) => S) => StateEither<S, never, void> = T.modify
 
 /**
  * @since 0.1.0
  */
+/**
+ *  @since 0.0.1
+ */
 export const gets: <S, A>(f: (s: S) => A) => StateEither<S, never, A> = T.gets
 
 /**
  * @since 0.1.10
+ */
+/**
+ *  @since 0.0.1
  */
 export function fromEitherK<E, A extends Array<unknown>, B>(
   f: (...a: A) => Either<E, B>
@@ -109,6 +157,9 @@ export function fromEitherK<E, A extends Array<unknown>, B>(
 /**
  * @since 0.1.10
  */
+/**
+ *  @since 0.0.1
+ */
 export function chainEitherK<E, A, B>(
   f: (a: A) => Either<E, B>
 ): <S>(ma: StateEither<S, E, A>) => StateEither<S, E, B> {
@@ -117,6 +168,9 @@ export function chainEitherK<E, A, B>(
 
 /**
  * @since 0.1.10
+ */
+/**
+ *  @since 0.0.1
  */
 export function StateEitherK<E, A extends Array<unknown>, B>(
   f: (...a: A) => Either<E, B>
@@ -127,6 +181,9 @@ export function StateEitherK<E, A extends Array<unknown>, B>(
 /**
  * @since 0.1.10
  */
+/**
+ *  @since 0.0.1
+ */
 export function StatekEitherK<E, A, B>(
   f: (a: A) => Either<E, B>
 ): <S>(ma: StateEither<S, E, A>) => StateEither<S, E, B> {
@@ -135,6 +192,9 @@ export function StatekEitherK<E, A, B>(
 
 /**
  * @since 0.1.0
+ */
+/**
+ *  @since 0.0.1
  */
 export const stateEither: Monad3<URI> & MonadThrow3<URI> = {
   URI,
@@ -148,6 +208,9 @@ export const stateEither: Monad3<URI> & MonadThrow3<URI> = {
 /**
  * Like `stateEither` but `ap` is sequential
  * @since 0.1.0
+ */
+/**
+ *  @since 0.0.1
  */
 export const stateEitherSeq: typeof stateEither = {
   ...stateEither,
@@ -168,6 +231,9 @@ const {
   fromPredicate
 } = pipeable(stateEither)
 
+/**
+ *  @since 0.0.1
+ */
 export {
   /**
    * @since 0.1.0

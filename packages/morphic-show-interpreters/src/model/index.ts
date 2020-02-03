@@ -10,6 +10,9 @@ import { showUnknownInterpreter } from './unknown'
 import { showNewtypeInterpreter } from './newtype'
 import { showRefinedInterpreter } from './refined'
 
+/**
+ *  @since 0.0.1
+ */
 export const allModelShow = merge(
   showRefinedInterpreter,
   showNewtypeInterpreter,

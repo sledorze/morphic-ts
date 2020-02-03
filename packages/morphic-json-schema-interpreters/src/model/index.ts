@@ -11,6 +11,9 @@ import { jsonSchemaUnknownInterpreter } from './unknown'
 import { jsonSchemaNewtypeInterpreter } from './newtype'
 import { jsonSchemaRefinedInterpreter } from './refined'
 
+/**
+ *  @since 0.0.1
+ */
 export const allModelJsonSchema = merge(
   jsonSchemaRefinedInterpreter,
   jsonSchemaNewtypeInterpreter,

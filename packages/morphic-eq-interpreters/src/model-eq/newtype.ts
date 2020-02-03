@@ -2,6 +2,9 @@ import { ModelAlgebraNewtype1 } from '@sledorze/morphic-model-algebras/lib/newty
 import { EqURI } from '..'
 import { identity } from 'fp-ts/lib/function'
 
+/**
+ *  @since 0.0.1
+ */
 export const eqNewtypeInterpreter: ModelAlgebraNewtype1<EqURI> = {
   _F: EqURI,
   newtype: () => identity as any

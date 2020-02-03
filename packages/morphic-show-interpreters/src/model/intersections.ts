@@ -1,6 +1,9 @@
 import { ModelAlgebraIntersection1 } from '@sledorze/morphic-model-algebras/lib/intersections'
 import { ShowType, ShowURI } from '..'
 
+/**
+ *  @since 0.0.1
+ */
 export const showIntersectionInterpreter: ModelAlgebraIntersection1<ShowURI> = {
   _F: ShowURI,
   intersection: <A>(types: Array<ShowType<A>>) => {

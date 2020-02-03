@@ -1,9 +1,18 @@
 import * as t from 'io-ts'
 import { genConfig } from '@sledorze/morphic-common/lib/core'
 
+/**
+ *  @since 0.0.1
+ */
 export const IoTsURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type IoTsURI = typeof IoTsURI
 
+/**
+ *  @since 0.0.1
+ */
 export class IOTSType<O, A> {
   _A!: A
   _E!: O
@@ -17,4 +26,7 @@ declare module '@sledorze/morphic-common/lib/HKT' {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const iotsConfig = genConfig(IoTsURI)

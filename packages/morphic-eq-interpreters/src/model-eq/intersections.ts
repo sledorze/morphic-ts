@@ -2,6 +2,9 @@ import { ModelAlgebraIntersection1 } from '@sledorze/morphic-model-algebras/lib/
 import { monoidAll, fold } from 'fp-ts/lib/Monoid'
 import { EqType, EqURI } from '..'
 
+/**
+ *  @since 0.0.1
+ */
 export const eqIntersectionInterpreter: ModelAlgebraIntersection1<EqURI> = {
   _F: EqURI,
   intersection: <A>(types: EqType<A>[]) => {

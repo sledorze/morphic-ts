@@ -4,6 +4,9 @@ import { getShow as getShowA } from 'fp-ts/lib/Array'
 import { ModelAlgebraPrimitive1 } from '@sledorze/morphic-model-algebras/lib/primitives'
 import { ShowType, ShowURI } from '..'
 
+/**
+ *  @since 0.0.1
+ */
 export const showPrimitiveInterpreter: ModelAlgebraPrimitive1<ShowURI> = {
   _F: ShowURI,
   date: _ => new ShowType({ show: (date: Date) => date.toISOString() }),

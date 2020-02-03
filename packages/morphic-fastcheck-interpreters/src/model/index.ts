@@ -12,6 +12,9 @@ import { fastCheckUnknownInterpreter } from './unknown'
 import { fastCheckNewtypeInterpreter } from './newtype'
 import { fastCheckRefinedInterpreter } from './refined'
 
+/**
+ *  @since 0.0.1
+ */
 export const allModelFastCheck = merge(
   fastCheckRefinedInterpreter,
   fastCheckNewtypeInterpreter,

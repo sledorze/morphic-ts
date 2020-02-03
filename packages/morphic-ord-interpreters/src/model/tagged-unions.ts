@@ -8,6 +8,9 @@ import { Ordering } from 'fp-ts/lib/Ordering'
  * This is kind of useless as required interfaces are not supported in Ord
  */
 
+/**
+ *  @since 0.0.1
+ */
 export const ordTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<OrdURI> = {
   _F: OrdURI,
   taggedUnion: (tag, types) => {

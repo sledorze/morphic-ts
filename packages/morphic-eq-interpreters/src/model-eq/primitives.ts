@@ -3,6 +3,9 @@ import { eq, eqNumber, eqString, strictEqual, eqBoolean } from 'fp-ts/lib/Eq'
 import { ModelAlgebraPrimitive1 } from '@sledorze/morphic-model-algebras/lib/primitives'
 import { EqType, EqURI } from '..'
 
+/**
+ *  @since 0.0.1
+ */
 export const eqPrimitiveInterpreter: ModelAlgebraPrimitive1<EqURI> = {
   _F: EqURI,
   date: _ => new EqType(eq.contramap(eqNumber, (date: Date) => date.getTime())),

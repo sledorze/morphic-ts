@@ -11,6 +11,9 @@ import { eqUnknownInterpreter } from './unknown'
 import { eqNewtypeInterpreter } from './newtype'
 import { eqRefinedInterpreter } from './refined'
 
+/**
+ *  @since 0.0.1
+ */
 export const allModelEq = merge(
   eqRefinedInterpreter,
   eqNewtypeInterpreter,

@@ -8,33 +8,60 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { left, right } from 'fp-ts/lib/Either'
 import { Magma } from 'fp-ts/lib/Magma'
 
+/**
+ *  @since 0.0.1
+ */
 export interface JsonSchemaError {
   msg: string
 }
+/**
+ *  @since 0.0.1
+ */
 export const JsonSchemaError = (msg: string): JsonSchemaError => ({
   msg
 })
 
+/**
+ *  @since 0.0.1
+ */
 export interface OptionalJSONSchema {
   json: js.SubSchema
   optional: boolean
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const optionalJSONSchemaOnJson = m.Lens.fromProp<OptionalJSONSchema>()('json').asOptional()
 
+/**
+ *  @since 0.0.1
+ */
 export const makeOptional = (optional: boolean) => <T extends js.SubSchema>(json: T): OptionalJSONSchema => ({
   optional,
   json
 })
 
+/**
+ *  @since 0.0.1
+ */
 export const notOptional = makeOptional(false)
+/**
+ *  @since 0.0.1
+ */
 export const optional = makeOptional(true)
 
+/**
+ *  @since 0.0.1
+ */
 export const makePartialOptionalJsonObject: Endomorphism<OptionalJSONSchema> = optionalJSONSchemaOnJson
   .composePrism(js.jsonToObjectSchemaPrism)
   .composeLens(js.objectSchemaOnRequired)
   .set([])
 
+/**
+ *  @since 0.0.1
+ */
 export const ArrayTypeCtor = ({
   schemas,
   ...rest
@@ -57,6 +84,9 @@ export const ArrayTypeCtor = ({
       )
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const SetFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
   optional
     ? left(NEA.of(JsonSchemaErrors.SetFromArrayTypeConsumesNoOptional))
@@ -67,6 +97,9 @@ export const SetFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
         })
       )
 
+/**
+ *  @since 0.0.1
+ */
 export const StrMapTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
   optional
     ? left(NEA.of(JsonSchemaErrors.SetFromArrayTypeConsumesNoOptional))
@@ -77,6 +110,9 @@ export const StrMapTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
         })
       )
 
+/**
+ *  @since 0.0.1
+ */
 export const NonEmptyArrayFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
   optional
     ? left(NEA.of(JsonSchemaErrors.ArrayConsumesNoOptional))
@@ -87,6 +123,9 @@ export const NonEmptyArrayFromArrayTypeCtor = ({ optional, json }: OptionalJSONS
         })
       )
 
+/**
+ *  @since 0.0.1
+ */
 export const UnionTypeCtor = (types: OptionalJSONSchema[]) => {
   const oneOf: (js.ObjectSchema | js.Ref)[] = types.map(x => x.json).filter(js.isObjectOrRef)
   return oneOf.length !== types.length
@@ -99,6 +138,9 @@ export const UnionTypeCtor = (types: OptionalJSONSchema[]) => {
       )
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const IntersectionTypeCtor = (types: OptionalJSONSchema[]) => {
   const objects: js.ObjectSchema[] = types.map(x => x.json).filter(js.isObjectSchema)
   return objects.length !== types.length
@@ -112,36 +154,57 @@ export const IntersectionTypeCtor = (types: OptionalJSONSchema[]) => {
       )
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const KeyofTypeCtor = (p: { keys: string[] }) =>
   notOptional<js.EnumSchema>({
     type: 'string',
     enum: p.keys
   })
 
+/**
+ *  @since 0.0.1
+ */
 export const AnythingTypeCtor = () => notOptional<js.Anything>({})
 
+/**
+ *  @since 0.0.1
+ */
 export const StringTypeCtor = (extras?: { format?: 'date' | 'date-time' | 'bigint'; enum?: string[] }) =>
   notOptional<js.StringSchema>({
     type: 'string' as 'string',
     ...(extras !== undefined ? extras : {})
   })
 
+/**
+ *  @since 0.0.1
+ */
 export const NumberTypeCtor = () =>
   notOptional<js.NumberSchema>({
     type: 'number' as 'number'
   })
 
+/**
+ *  @since 0.0.1
+ */
 export const BooleanTypeCtor = () =>
   notOptional<js.BooleanSchema>({
     type: 'boolean' as 'boolean'
   })
 
+/**
+ *  @since 0.0.1
+ */
 export const LiteralTypeCtor = (value: string) =>
   notOptional<js.EnumSchema>({
     type: 'string',
     enum: [value]
   })
 
+/**
+ *  @since 0.0.1
+ */
 export const ObjectTypeCtor = (isPartial: boolean, props: [string, OptionalJSONSchema][]): OptionalJSONSchema => {
   const required = pipe(
     props,
@@ -187,6 +250,9 @@ const magmaObjectSchema: Magma<js.ObjectSchema> = {
 }
 
 const recordOfJsonSchemaError = <O extends Record<string, JsonSchemaError>>(o: O): O => o
+/**
+ *  @since 0.0.1
+ */
 export const JsonSchemaErrors = recordOfJsonSchemaError({
   IntersectionConsumesOnlyObject: JsonSchemaError(`JSON Schema Intersection conversion only support Object types`),
   UnionConsumesOnlyObject: JsonSchemaError(`JSON Schema Union conversion only support Object types`),

@@ -5,6 +5,9 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import * as SE from '../StateEither'
 import { arrayTraverseStateEither, resolveRef, registerSchema } from '../utils'
 
+/**
+ *  @since 0.0.1
+ */
 export const jsonSchemaIntersectionInterpreter: ModelAlgebraIntersection1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
   intersection: <A>(types: Array<JsonSchema<A>>, name: string) =>

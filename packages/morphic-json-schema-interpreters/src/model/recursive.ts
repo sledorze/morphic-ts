@@ -9,6 +9,9 @@ import { nonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { addSchema, getSchemaStrict } from '../utils'
 
 // FIXME: Create a reference JsonSchema => "$ref": "#/definitions/MySchemaRef" <- Track down how to do that!
+/**
+ *  @since 0.0.1
+ */
 export const jsonSchemaRecursiveInterpreter: ModelAlgebraRecursive1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
   recursive: <A>(rec: (x: JsonSchema<A>) => JsonSchema<A>, name: string): JsonSchema<A> => {

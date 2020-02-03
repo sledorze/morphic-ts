@@ -11,18 +11,33 @@ declare module '@sledorze/morphic-algebras/lib/hkt' {
   interface PrimitiveConfig {
     [FastCheckURI]: Customize<string> | undefined
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveDateConfig {
     [FastCheckURI]: Customize<Date> | undefined
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveStringConfig {
     [FastCheckURI]: Customize<string> | undefined
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveNumberConfig {
     [FastCheckURI]: Customize<number> | undefined
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveBooleanConfig {
     [FastCheckURI]: Customize<boolean> | undefined
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveBigIntConfig {
     [FastCheckURI]: Customize<bigint> | undefined
   }
@@ -39,6 +54,9 @@ interface Customize<A> {
 const applyCustomize = <A>(c: { [FastCheckURI]?: Customize<A> } | undefined) =>
   c !== undefined ? c[FastCheckURI] ?? identity : identity
 
+/**
+ *  @since 0.0.1
+ */
 export const fastCheckPrimitiveInterpreter: ModelAlgebraPrimitive1<FastCheckURI> = {
   _F: FastCheckURI,
   date: configs => new FastCheckType(applyCustomize(configs)(integer().map(n => new Date(n)))),

@@ -2,6 +2,9 @@ import { ShowType, ShowURI } from '..'
 import { ModelAlgebraRecursive1 } from '@sledorze/morphic-model-algebras/lib/recursive'
 import { memo } from '@sledorze/morphic-common/lib/utils'
 
+/**
+ *  @since 0.0.1
+ */
 export const showRecursiveInterpreter: ModelAlgebraRecursive1<ShowURI> = {
   _F: ShowURI,
   recursive: a => {

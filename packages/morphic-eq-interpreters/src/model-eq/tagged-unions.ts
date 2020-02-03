@@ -2,6 +2,9 @@ import { ModelAlgebraTaggedUnions1 } from '@sledorze/morphic-model-algebras/lib/
 import { EqType, EqURI } from '..'
 import { mapRecord } from '@sledorze/morphic-common/lib/utils'
 
+/**
+ *  @since 0.0.1
+ */
 export const eqTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<EqURI> = {
   _F: EqURI,
   taggedUnion: (tag, types) => {

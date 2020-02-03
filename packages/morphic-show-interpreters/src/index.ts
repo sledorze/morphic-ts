@@ -1,9 +1,18 @@
 import { Show } from 'fp-ts/lib/Show'
 import { genConfig } from '@sledorze/morphic-common/lib/core'
 
+/**
+ *  @since 0.0.1
+ */
 export const ShowURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type ShowURI = typeof ShowURI
 
+/**
+ *  @since 0.0.1
+ */
 export class ShowType<A> {
   _A!: A
   _URI!: ShowURI
@@ -16,4 +25,7 @@ declare module '@sledorze/morphic-common/lib/HKT' {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const showConfig = genConfig(ShowURI)

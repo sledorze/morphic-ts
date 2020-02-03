@@ -3,6 +3,9 @@ import { IOTSType, IoTsURI } from '..'
 import { ModelAlgebraObject2, PropsKind2 } from '@sledorze/morphic-model-algebras/lib/object'
 import { projectField } from '@sledorze/morphic-common/lib/utils'
 
+/**
+ *  @since 0.0.1
+ */
 export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = {
   _F: IoTsURI,
   interface: <PropsE, PropsA>(props: PropsKind2<IoTsURI, PropsE, PropsA>, name: string) => {
@@ -13,6 +16,9 @@ export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const ioTsStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = {
   _F: IoTsURI,
   interface: <PropsE, PropsA>(props: PropsKind2<IoTsURI, PropsE, PropsA>, name: string) => {

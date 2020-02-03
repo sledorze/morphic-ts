@@ -1,9 +1,18 @@
 import { Ord } from 'fp-ts/lib/Ord'
 import { genConfig } from '@sledorze/morphic-common/lib/core'
 
+/**
+ *  @since 0.0.1
+ */
 export const OrdURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type OrdURI = typeof OrdURI
 
+/**
+ *  @since 0.0.1
+ */
 export class OrdType<A> {
   _A!: A
   _URI!: OrdURI
@@ -16,4 +25,7 @@ declare module '@sledorze/morphic-common/lib/HKT' {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const ordConfig = genConfig(OrdURI)

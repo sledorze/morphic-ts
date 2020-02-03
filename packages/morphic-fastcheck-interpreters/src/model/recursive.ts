@@ -3,6 +3,9 @@ import { ModelAlgebraRecursive1 } from '@sledorze/morphic-model-algebras/lib/rec
 import { memo } from '@sledorze/morphic-common/lib/utils'
 import { constant } from 'fast-check'
 
+/**
+ *  @since 0.0.1
+ */
 export const fastCheckRecursiveInterpreter: ModelAlgebraRecursive1<FastCheckURI> = {
   _F: FastCheckURI,
   recursive: f => {

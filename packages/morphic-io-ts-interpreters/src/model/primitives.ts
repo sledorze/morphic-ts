@@ -10,21 +10,39 @@ declare module '@sledorze/morphic-algebras/lib/hkt' {
   interface PrimitiveConfig {
     [IoTsURI]: Customize<string, string> | undefined
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveDateConfig {
     [IoTsURI]: Customize<string, Date> | undefined
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveStringConfig {
     [IoTsURI]: Customize<string, string> | undefined
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveNumberConfig {
     [IoTsURI]: Customize<number, number> | undefined
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveBigIntConfig {
     [IoTsURI]: Customize<string, bigint> | undefined
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveBooleanConfig {
     [IoTsURI]: Customize<boolean, boolean> | undefined
   }
+  /**
+   *  @since 0.0.1
+   */
   export interface PrimitiveArrayConfig2<E, A> {
     [IoTsURI]: Customize<E[], A[]> | undefined
   }
@@ -37,7 +55,13 @@ interface Customize<E, A> {
 const applyCustomize = <E, A>(c: { [IoTsURI]?: Customize<E, A> } | undefined) =>
   c !== undefined ? c[IoTsURI] ?? identity : identity
 
+/**
+ *  @since 0.0.1
+ */
 export interface BigIntStringC extends t.Type<bigint, string, unknown> {}
+/**
+ *  @since 0.0.1
+ */
 export const BigIntString: BigIntStringC = new t.Type<bigint, string, unknown>(
   'BigIntString',
   // tslint:disable-next-line: strict-type-predicates valid-typeof
@@ -54,6 +78,9 @@ export const BigIntString: BigIntStringC = new t.Type<bigint, string, unknown>(
   a => a.toString(10)
 )
 
+/**
+ *  @since 0.0.1
+ */
 export const ioTsPrimitiveInterpreter: ModelAlgebraPrimitive2<IoTsURI> = {
   _F: IoTsURI,
   date: config => new IOTSType(applyCustomize(config)(DateFromISOString)),

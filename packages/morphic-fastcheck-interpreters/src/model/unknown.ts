@@ -16,6 +16,9 @@ interface Customize<A> {
 const applyCustomize = <A>(c: { [FastCheckURI]?: Customize<A> } | undefined) =>
   c !== undefined ? c[FastCheckURI] ?? identity : identity
 
+/**
+ *  @since 0.0.1
+ */
 export const fastCheckUnknownInterpreter: ModelAlgebraUnknown1<FastCheckURI> = {
   _F: FastCheckURI,
   unknown: configs => new FastCheckType(applyCustomize(configs)(anything()))

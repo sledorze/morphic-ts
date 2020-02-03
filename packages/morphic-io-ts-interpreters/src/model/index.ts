@@ -10,6 +10,9 @@ import { ioTsUnknownInterpreter } from './unknown'
 import { ioTsNewtypeInterpreter } from './newtype'
 import { ioTsRefinedInterpreter } from './refined'
 
+/**
+ *  @since 0.0.1
+ */
 export const allModelBaseIoTs = merge(
   ioTsRefinedInterpreter,
   ioTsNewtypeInterpreter,

@@ -2,6 +2,9 @@ import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '..'
 import { ModelAlgebraUnions2 } from '@sledorze/morphic-model-algebras/lib/unions'
 
+/**
+ *  @since 0.0.1
+ */
 export const ioTsUnionInterpreter: ModelAlgebraUnions2<IoTsURI> = {
   _F: IoTsURI,
   union: <L, A>(items: Array<IOTSType<L, A>>, name: string) =>

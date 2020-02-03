@@ -12,6 +12,9 @@ import { ordTaggedUnionInterpreter } from './tagged-unions'
 import { ordNewtypeInterpreter } from './newtype'
 import { ordRefinedInterpreter } from './refined'
 
+/**
+ *  @since 0.0.1
+ */
 export const allModelOrd = merge(
   ordRefinedInterpreter,
   ordNewtypeInterpreter,

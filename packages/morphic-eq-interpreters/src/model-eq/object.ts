@@ -3,6 +3,9 @@ import { EqType, EqURI } from '..'
 import { projectField } from '@sledorze/morphic-common/lib/utils'
 import { getStructEq, Eq } from 'fp-ts/lib/Eq'
 
+/**
+ *  @since 0.0.1
+ */
 export const eqObjectInterpreter: ModelAlgebraObject1<EqURI> = {
   _F: EqURI,
   interface: props => new EqType(getStructEq(projectField(props)('eq'))),

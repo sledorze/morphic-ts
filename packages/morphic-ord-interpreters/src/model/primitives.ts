@@ -5,6 +5,9 @@ import { ModelAlgebraPrimitive1 } from '@sledorze/morphic-model-algebras/lib/pri
 import { OrdType, OrdURI } from '..'
 import { strictEqual } from 'fp-ts/lib/Eq'
 
+/**
+ *  @since 0.0.1
+ */
 export const ordPrimitiveInterpreter: ModelAlgebraPrimitive1<OrdURI> = {
   _F: OrdURI,
   date: _ => new OrdType(ord.contramap(ordNumber, (date: Date) => date.getTime())),

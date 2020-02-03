@@ -8,6 +8,9 @@ import * as SE from '../StateEither'
 import { Ref } from '../json-schema/json-schema'
 import { arrayTraverseStateEither, resolveRefJsonSchema, addSchema } from '../utils'
 
+/**
+ *  @since 0.0.1
+ */
 export const jsonSchemaObjectInterpreter: ModelAlgebraObject1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
   interface: (props, name) =>

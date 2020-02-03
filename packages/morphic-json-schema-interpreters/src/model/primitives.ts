@@ -11,6 +11,9 @@ import {
 import * as SE from '../StateEither'
 import { stateEither } from '../StateEither'
 
+/**
+ *  @since 0.0.1
+ */
 export const jsonSchemaPrimitiveInterpreter: ModelAlgebraPrimitive1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
   date: _ => new JsonSchema(stateEither.of(StringTypeCtor({ format: 'date' }))),

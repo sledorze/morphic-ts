@@ -6,6 +6,9 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import * as SE from '../StateEither'
 import { arrayTraverseStateEither } from '../utils'
 
+/**
+ *  @since 0.0.1
+ */
 export const jsonSchemaTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
   taggedUnion: (_tag, types) =>

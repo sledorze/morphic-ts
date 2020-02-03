@@ -3,6 +3,9 @@ import { ModelAlgebraObject1, PropsKind1 } from '@sledorze/morphic-model-algebra
 import { projectField } from '@sledorze/morphic-common/lib/utils'
 import { RecordConstraints, record } from 'fast-check'
 
+/**
+ *  @since 0.0.1
+ */
 export const fastCheckObjectInterpreter: ModelAlgebraObject1<FastCheckURI> = {
   _F: FastCheckURI,
   partial: <Props>(props: PropsKind1<FastCheckURI, Props>) =>

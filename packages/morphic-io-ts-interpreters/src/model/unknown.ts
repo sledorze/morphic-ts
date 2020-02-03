@@ -16,6 +16,9 @@ interface Customize<E, A> {
 const applyCustomize = <E, A>(c: { [IoTsURI]?: Customize<E, A> } | undefined) =>
   c !== undefined ? c[IoTsURI] ?? identity : identity
 
+/**
+ *  @since 0.0.1
+ */
 export const ioTsUnknownInterpreter: ModelAlgebraUnknown2<IoTsURI> = {
   _F: IoTsURI,
   unknown: config => new IOTSType(applyCustomize(config)(t.unknown))

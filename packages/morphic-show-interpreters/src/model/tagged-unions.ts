@@ -2,6 +2,9 @@ import { ModelAlgebraTaggedUnions1 } from '@sledorze/morphic-model-algebras/lib/
 import { ShowType, ShowURI } from '..'
 import { mapRecord } from '@sledorze/morphic-common/lib/utils'
 
+/**
+ *  @since 0.0.1
+ */
 export const showTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<ShowURI> = {
   _F: ShowURI,
   taggedUnion: (tag, types) => {

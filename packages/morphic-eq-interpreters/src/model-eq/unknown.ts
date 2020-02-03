@@ -22,6 +22,9 @@ const getUnkownConfig = getAlgebraConfig<UnknownConfig>()
 
 const getEqURIUnkownConfig = getUnkownConfig(EqURI)
 
+/**
+ *  @since 0.0.1
+ */
 export const eqUnknownInterpreter: ModelAlgebraUnknown1<EqURI> = {
   _F: EqURI,
   unknown: cfg => {

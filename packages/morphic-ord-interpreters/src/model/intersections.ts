@@ -7,6 +7,9 @@ const equalsOrd = <T>(): Ord<T> => ({
   compare: (_a: T, _b: T) => 0
 })
 
+/**
+ *  @since 0.0.1
+ */
 export const ordIntersectionInterpreter: ModelAlgebraIntersection1<OrdURI> = {
   _F: OrdURI,
   intersection: <A>(types: OrdType<A>[]) => {

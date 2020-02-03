@@ -3,6 +3,9 @@ import { ShowType, ShowURI } from '..'
 import { projectField } from '@sledorze/morphic-common/lib/utils'
 import { getStructShow } from 'fp-ts/lib/Show'
 
+/**
+ *  @since 0.0.1
+ */
 export const showObjectInterpreter: ModelAlgebraObject1<ShowURI> = {
   _F: ShowURI,
   interface: props => new ShowType(getStructShow(projectField(props)('show'))),

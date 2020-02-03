@@ -1,9 +1,18 @@
 import { Eq } from 'fp-ts/lib/Eq'
 import { genConfig } from '@sledorze/morphic-common/lib/core'
 
+/**
+ *  @since 0.0.1
+ */
 export const EqURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type EqURI = typeof EqURI
 
+/**
+ *  @since 0.0.1
+ */
 export class EqType<A> {
   _A!: A
   _URI!: EqURI
@@ -16,4 +25,7 @@ declare module '@sledorze/morphic-common/lib/HKT' {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const eqConfig = genConfig(EqURI)
