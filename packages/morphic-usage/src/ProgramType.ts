@@ -5,7 +5,7 @@ export interface ProgramType<E, A> {
   _E: E
   _A: A
 }
-export declare type ProgramURI = keyof ProgramType<any, any>
+export declare type ProgramURI = Exclude<keyof ProgramType<any, any>, '_E' | '_A'>
 
 export interface ProgramTypes {}
 

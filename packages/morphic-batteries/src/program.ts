@@ -1,5 +1,5 @@
 import { GetAlgebra } from '@sledorze/morphic-algebras/lib/core'
-import { InferredProgram, InferredAlgebra } from '../usage/programs-infer'
+import { InferredProgram, InferredAlgebra } from '@sledorze/morphic-usage/lib/programs-infer'
 import { IntersectionURI } from '@sledorze/morphic-model-algebras/lib/intersections'
 import { ObjectURI } from '@sledorze/morphic-model-algebras/lib/object'
 import { PrimitiveURI } from '@sledorze/morphic-model-algebras/lib/primitives'
@@ -18,7 +18,7 @@ export type ProgramUnionURI = typeof ProgramUnionURI
 export interface AlgebraUnion<F> extends InferredAlgebra<F, ProgramUnionURI> {}
 export interface P<E, A> extends InferredProgram<E, A, ProgramUnionURI> {}
 
-declare module '../usage/ProgramType' {
+declare module '@sledorze/morphic-usage/lib/ProgramType' {
   interface ProgramAlgebraURI {
     [ProgramUnionURI]: GetAlgebra<
       | PrimitiveURI

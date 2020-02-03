@@ -1,7 +1,7 @@
-import { makeSummoner } from '../usage/summoner'
+import { makeSummoner } from '@sledorze/morphic-usage/lib/summoner'
 import { cacheUnaryFunction } from '@sledorze/morphic-common/lib/core'
 import { ESBASTJInterpreter, M, UM, AsOpaque, AsUOpaque } from './interpreters-ESBAST'
-import { makeTagged } from '../usage/tagged-union'
+import { makeTagged } from '@sledorze/morphic-usage/lib/tagged-union'
 
 const summon = makeSummoner(cacheUnaryFunction, ESBASTJInterpreter)
 const tagged = makeTagged(summon)

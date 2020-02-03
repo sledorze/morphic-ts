@@ -12,19 +12,19 @@ import { Type } from 'io-ts'
 import { JSONSchema } from '../json-schema/json-schema'
 import { modelJsonSchemaInterpreter } from '../json-schema-interpreters/interpreters'
 
-import { Materialized, ProgramInterpreter } from '../usage/materializer'
+import { Materialized, ProgramInterpreter } from '@sledorze/morphic-usage/lib/materializer'
 import { ProgramNoUnionURI } from './program-no-union'
 
 import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { NamedSchemas } from '../json-schema-interpreters'
-import { interpretable } from '../usage/programs-infer'
-import { Summoners } from '../usage/summoner'
+import { interpretable } from '@sledorze/morphic-usage/lib/programs-infer'
+import { Summoners } from '@sledorze/morphic-usage/lib/summoner'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { JsonSchemaError } from '../json-schema/json-schema-ctors'
 import { identity } from 'fp-ts/lib/function'
 import { resolveSchema } from '../json-schema-interpreters/utils'
-import { ProgramType } from '../usage/ProgramType'
+import { ProgramType } from '@sledorze/morphic-usage/lib/ProgramType'
 import { modelIoTsNonStrictInterpreter } from '../io-ts-interpreters/interpreters'
 
 interface ESBASTJInterpreter<E, A> {
@@ -53,12 +53,12 @@ export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJIn
   }
 }
 
-declare module '../usage/InterpreterResult' {
+declare module '@sledorze/morphic-usage/lib/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [ESBASTJInterpreterURI]: ESBASTJInterpreter<E, A>
   }
 }
-declare module '../usage/ProgramType' {
+declare module '@sledorze/morphic-usage/lib/ProgramType' {
   interface ProgramNoUnionInterpreters {
     [ESBASTJInterpreterURI]: Summoner
   }

@@ -11,13 +11,13 @@ import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { NamedSchemas } from '../json-schema-interpreters'
 import { Summoners } from '@sledorze/morphic-usage/lib/summoner'
-import { interpretable } from '../usage/programs-infer'
-import { ProgramInterpreter, Materialized } from '../usage/materializer'
+import { interpretable } from '@sledorze/morphic-usage/lib/programs-infer'
+import { ProgramInterpreter, Materialized } from '@sledorze/morphic-usage/lib/materializer'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { JsonSchemaError } from '../json-schema/json-schema-ctors'
 import { identity } from 'fp-ts/lib/function'
 import { resolveSchema } from '../json-schema-interpreters/utils'
-import { ProgramType } from '../usage/ProgramType'
+import { ProgramType } from '@sledorze/morphic-usage/lib/ProgramType'
 import { modelIoTsStrictInterpreter, modelIoTsNonStrictInterpreter } from '../io-ts-interpreters/interpreters'
 
 interface BASTJInterpreter<E, A> {
@@ -42,12 +42,12 @@ export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpre
   }
 }
 
-declare module '../usage/InterpreterResult' {
+declare module '@sledorze/morphic-usage/lib/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [BASTJInterpreterURI]: BASTJInterpreter<E, A>
   }
 }
-declare module '../usage/ProgramType' {
+declare module '@sledorze/morphic-usage/lib/ProgramType' {
   interface ProgramUnionInterpreters {
     [BASTJInterpreterURI]: Summoner
   }
