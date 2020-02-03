@@ -1,0 +1,22 @@
+import { FastCheckType, FastCheckURI } from '..'
+import { ModelAlgebraUnknown1 } from '@sledorze/morphic-model-algebras/lib/unknown'
+import { identity } from 'fp-ts/lib/function'
+import { Arbitrary, anything } from 'fast-check'
+
+declare module '@sledorze/morphic-algebras/lib/hkt' {
+  interface UnknownConfig {
+    [FastCheckURI]: Customize<unknown> | undefined
+  }
+}
+
+interface Customize<A> {
+  (a: Arbitrary<A>): Arbitrary<A>
+}
+
+const applyCustomize = <A>(c: { [FastCheckURI]?: Customize<A> } | undefined) =>
+  c !== undefined ? c[FastCheckURI] ?? identity : identity
+
+export const fastCheckUnknownInterpreter: ModelAlgebraUnknown1<FastCheckURI> = {
+  _F: FastCheckURI,
+  unknown: configs => new FastCheckType(applyCustomize(configs)(anything()))
+}
