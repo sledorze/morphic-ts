@@ -3,9 +3,15 @@ import { assignFunction, wrapFun, assignCallable, InhabitedTypes, inhabitTypes }
 import { MonocleFor } from '@sledorze/morphic-adt/lib/monocle'
 import { ProgramURI, ProgramType } from './ProgramType'
 
+/**
+ *  @since 0.0.1
+ */
 export interface ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
   <E, A>(program: ProgramType<E, A>[ProgURI]): InterpreterResult<E, A>[InterpURI]
 }
+/**
+ *  @since 0.0.1
+ */
 export type ProgramURIOfProgramInterpreter<X extends ProgramInterpreter<any, any>> = X extends ProgramInterpreter<
   infer P,
   any
@@ -13,6 +19,9 @@ export type ProgramURIOfProgramInterpreter<X extends ProgramInterpreter<any, any
   ? P
   : never
 
+/**
+ *  @since 0.0.1
+ */
 export type InterpreterURIOfProgramInterpreter<X extends ProgramInterpreter<any, any>> = X extends ProgramInterpreter<
   any,
   infer R
@@ -20,6 +29,9 @@ export type InterpreterURIOfProgramInterpreter<X extends ProgramInterpreter<any,
   ? R
   : never
 
+/**
+ *  @since 0.0.1
+ */
 export type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = InterpreterResult<
   E,
   A
@@ -33,6 +45,9 @@ function interpreteWithProgram<E, A, ProgURI extends ProgramURI, InterpURI exten
   return inhabitTypes(assignFunction(wrapFun(program), programInterpreter(program)))
 }
 
+/**
+ *  @since 0.0.1
+ */
 export type Materialized<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Morph<
   E,
   A,
@@ -42,6 +57,9 @@ export type Materialized<E, A, ProgURI extends ProgramURI, InterpURI extends Int
   MonocleFor<A> &
   InhabitedTypes<E, A>
 
+/**
+ *  @since 0.0.1
+ */
 export function materialize<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   program: ProgramType<E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>

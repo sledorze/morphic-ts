@@ -12,6 +12,9 @@ import { identity, tuple } from 'fp-ts/lib/function'
 import { intersection, difference } from 'fp-ts/lib/Array'
 import { eqString } from 'fp-ts/lib/Eq'
 
+/**
+ *  @since 0.0.1
+ */
 export type TaggedUnionProg<E, A, ProgURI extends ProgramURI> = ProgramType<E, A>[ProgURI] &
   (<G>(a: Algebra<G>[TaggedUnionsURI]) => HKT2<G, E, A>)
 
@@ -23,6 +26,9 @@ type TagType<Types extends AnyTypes> = TagsOf<AType<Types[keyof Types]>> & strin
 type AParam<Types extends AnyTypes> = AType<Types[keyof Types]>
 type EParam<Types extends AnyTypes> = EType<Types[keyof Types]>
 
+/**
+ *  @since 0.0.1
+ */
 export type UnionTypes<
   Types extends AnyTypes,
   Tag extends keyof any,
@@ -41,6 +47,9 @@ const keepKeys = (a: object, toKeep: Array<string>): object =>
 const excludeKeys = (a: object, toExclude: Array<string>): object =>
   recordFromArray(difference(eqString)(Object.keys(a), toExclude).map((k: string) => tuple(k, a[k])))
 
+/**
+ *  @since 0.0.1
+ */
 export function makeTagged<ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   summ: <E, A>(F: TaggedUnionProg<E, A, ProgURI>) => M<E, A, ProgURI, InterpURI>
 ): <Tag extends string>(
@@ -55,6 +64,9 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
   ProgURI,
   InterpURI
 >
+/**
+ *  @since 0.0.1
+ */
 export function makeTagged<ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   summ: <E, A>(F: TaggedUnionProg<E, A, ProgURI>) => M<E, A, ProgURI, InterpURI>
 ): <Tag extends string>(
@@ -141,12 +153,18 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
 //   [k in Extract<keyof Types, Keys>]: Types[k]
 // }
 
+/**
+ *  @since 0.0.1
+ */
 export type EOfTypes<
   Types extends {
     [k in keyof Types]: [any, any]
   }
 > = Types[keyof Types][0]
 
+/**
+ *  @since 0.0.1
+ */
 export type AOfTypes<
   Types extends {
     [k in keyof Types]: [any, any]
@@ -155,6 +173,9 @@ export type AOfTypes<
 
 /**
  * Extracts the type of `A` for a given Morph type
+ */
+/**
+ *  @since 0.0.1
  */
 export type AOfMorhpADT<T extends MorphADT<any, any, any, any>> = T extends MorphADT<
   infer Types,
@@ -168,6 +189,9 @@ export type AOfMorhpADT<T extends MorphADT<any, any, any, any>> = T extends Morp
 /**
  * Extracts the type of `E` for a given Morph type
  */
+/**
+ *  @since 0.0.1
+ */
 export type EOfMorhpADT<T extends MorphADT<any, any, any, any>> = T extends MorphADT<
   infer Types,
   infer _T,
@@ -177,6 +201,9 @@ export type EOfMorhpADT<T extends MorphADT<any, any, any, any>> = T extends Morp
   ? EOfTypes<Types>
   : never
 
+/**
+ *  @since 0.0.1
+ */
 export type MorphADT<
   Types extends { [k in keyof Types]: [any, any] },
   Tag extends string,

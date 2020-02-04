@@ -12,10 +12,22 @@ import { NewtypeURI } from '@sledorze/morphic-model-algebras/lib/newtype'
 import { RefinedURI } from '@sledorze/morphic-model-algebras/lib/refined'
 import { InferredAlgebra, InferredProgram } from './usage/programs-infer'
 
+/**
+ *  @since 0.0.1
+ */
 export const ProgramUnionURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type ProgramUnionURI = typeof ProgramUnionURI
 
+/**
+ *  @since 0.0.1
+ */
 export interface AlgebraUnion<F> extends InferredAlgebra<F, ProgramUnionURI> {}
+/**
+ *  @since 0.0.1
+ */
 export interface P<E, A> extends InferredProgram<E, A, ProgramUnionURI> {}
 
 declare module './usage/ProgramType' {

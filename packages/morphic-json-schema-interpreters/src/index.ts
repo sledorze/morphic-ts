@@ -16,7 +16,9 @@ export type JsonSchemaURI = typeof JsonSchemaURI
 /**
  *  @since 0.0.1
  */
-export type NamedSchemas = { [k: string]: JSONSchema }
+export interface NamedSchemas {
+  [k: string]: JSONSchema
+}
 /**
  *  @since 0.0.1
  */

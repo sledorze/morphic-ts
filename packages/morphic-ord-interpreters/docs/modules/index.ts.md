@@ -43,7 +43,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const OrdURI = ...
+export const OrdURI: typeof OrdURI = ...
 ```
 
 Added in v0.0.1
@@ -53,7 +53,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const ordConfig = ...
+export const ordConfig: ConfigWrapper<typeof OrdURI> = ...
 ```
 
 Added in v0.0.1

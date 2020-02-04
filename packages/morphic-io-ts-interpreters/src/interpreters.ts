@@ -1,11 +1,6 @@
 import { merge } from '@sledorze/morphic-common/lib/utils'
 import { ioTsNonStrictObjectInterpreter, ioTsStrictObjectInterpreter } from './model/object'
-import { IoTsURI } from '.'
 import { allModelBaseIoTs } from './model'
-/**
- *  @since 0.0.1
- */
-export { IoTsURI }
 
 /**
  *  @since 0.0.1

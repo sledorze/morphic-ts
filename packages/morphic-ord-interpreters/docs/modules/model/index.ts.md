@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const allModelOrd = ...
+export const allModelOrd: ModelAlgebraRefined1<typeof OrdURI> & ModelAlgebraNewtype1<typeof OrdURI> & ModelAlgebraPrimitive1<typeof OrdURI> & ModelAlgebraIntersection1<typeof OrdURI> & ModelAlgebraSet1<typeof OrdURI> & ModelAlgebraStrMap1<typeof OrdURI> & ModelAlgebraTaggedUnions1<typeof OrdURI> = ...
 ```
 
 Added in v0.0.1

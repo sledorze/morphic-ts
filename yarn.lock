@@ -2446,7 +2446,7 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-docs-ts@^0.2.1:
+docs-ts@0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/docs-ts/-/docs-ts-0.2.1.tgz#484c497994daac4ba128a1418a8a7ef8c6c264fe"
   integrity sha512-ewBCcx9t3VIKHTfN0e3CjL46nLSQ0BvusMvzh0fGn9tf3rEh5l9MgrTv0yoU5G/XNGEoO7MY6sJ185sz9aDVEg==
@@ -6885,15 +6885,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@3.7.5:
+typescript@3.7.5, typescript@^3.0.1:
   version "3.7.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
   integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
-
-typescript@^3.0.1:
-  version "3.7.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.3.tgz#b36840668a16458a7025b9eabfad11b66ab85c69"
-  integrity sha512-Mcr/Qk7hXqFBXMN7p7Lusj1ktCBydylfQM/FZCk5glCNQJrCUKPkMHdo9R0MTFWsC/4kPFvDS0fDPvukfCkFsw==
 
 typescript@next:
   version "3.8.0-dev.20191206"

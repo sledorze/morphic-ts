@@ -10,6 +10,9 @@ import { InterpreterURI } from './InterpreterResult'
 import { CacheType } from '@sledorze/morphic-common/lib/core'
 import { ProgramURI, ProgramTypes, ProgramType } from './ProgramType'
 
+/**
+ *  @since 0.0.1
+ */
 export interface Summoners<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
   <L, A>(F: InferredProgram<L, A, ProgURI>): Materialized<L, A, ProgURI, InterpURI>
 }
@@ -33,6 +36,9 @@ function makeSummonerInternal<
   return summon as any
 }
 
+/**
+ *  @since 0.0.1
+ */
 export function makeSummoner<PI extends ProgramInterpreter<any, any>>(
   cacheProgramEval: CacheType,
   programInterpreter: PI

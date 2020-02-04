@@ -5,6 +5,7 @@ import { genConfig } from '@sledorze/morphic-common/lib/core'
  *  @since 0.0.1
  */
 export const OrdURI = Symbol()
+
 /**
  *  @since 0.0.1
  */

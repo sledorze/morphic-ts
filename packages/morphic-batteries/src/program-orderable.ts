@@ -8,10 +8,22 @@ import { NewtypeURI } from '@sledorze/morphic-model-algebras/lib/newtype'
 import { RefinedURI } from '@sledorze/morphic-model-algebras/lib/refined'
 import { InferredAlgebra, InferredProgram } from './usage/programs-infer'
 
+/**
+ *  @since 0.0.1
+ */
 export const ProgramOrderableURI = Symbol()
+/**
+ *  @since 0.0.1
+ */
 export type ProgramOrderableURI = typeof ProgramOrderableURI
 
+/**
+ *  @since 0.0.1
+ */
 export interface AlgebraNoUnion<F> extends InferredAlgebra<F, ProgramOrderableURI> {}
+/**
+ *  @since 0.0.1
+ */
 export interface P<E, A> extends InferredProgram<E, A, ProgramOrderableURI> {}
 
 declare module './usage/ProgramType' {
