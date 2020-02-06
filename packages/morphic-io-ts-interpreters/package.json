@@ -1,6 +1,6 @@
 {
   "name": "morphic-io-ts-interpreters",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Morphic io-ts package for encoding / decoding",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -18,19 +18,19 @@
     "lib"
   ],
   "devDependencies": {
-    "morphic-algebras": "^0.1.6",
-    "morphic-common": "^0.1.5",
-    "morphic-model-algebras": "^0.1.6",
-    "io-ts": "^2.0.6",
-    "io-ts-types": "^0.5.5"
-  },
-  "peerDependencies": {
-    "morphic-algebras": "^0.0.1",
-    "morphic-common": "^0.0.1",
-    "morphic-model-algebras": "^0.0.1",
     "io-ts": "^2.0.6",
     "io-ts-types": "^0.5.5",
-    "morphic-batteries": "^0.1.6"
+    "morphic-algebras": "^0.2.0",
+    "morphic-common": "^0.2.0",
+    "morphic-model-algebras": "^0.2.0"
+  },
+  "peerDependencies": {
+    "io-ts": "^2.0.6",
+    "io-ts-types": "^0.5.5",
+    "morphic-algebras": "^0.0.1",
+    "morphic-batteries": "^0.1.6",
+    "morphic-common": "^0.0.1",
+    "morphic-model-algebras": "^0.0.1"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
