@@ -24,9 +24,7 @@
     "newtype-ts": "^0.3.3",
     "io-ts": "^2.0.6"
   },
-  "workspaces": {
-    "packages": [
-      "./packages/*"
-    ]
-  }
+  "workspaces": [
+    "packages/*"
+  ]
 }
