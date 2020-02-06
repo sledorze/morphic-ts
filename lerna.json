@@ -1,8 +1,6 @@
 {
-  "name": "morphic-ts",
-  "packages": [
-    "packages/*"
-  ],
-  "version": "0.1.0",
-  "npmClient": "yarn"
+  "packages": ["packages/*"],
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "version": "independent"
 }
