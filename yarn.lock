@@ -2446,7 +2446,7 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-docs-ts@0.2.1:
+docs-ts@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/docs-ts/-/docs-ts-0.2.1.tgz#484c497994daac4ba128a1418a8a7ef8c6c264fe"
   integrity sha512-ewBCcx9t3VIKHTfN0e3CjL46nLSQ0BvusMvzh0fGn9tf3rEh5l9MgrTv0yoU5G/XNGEoO7MY6sJ185sz9aDVEg==

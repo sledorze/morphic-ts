@@ -54,7 +54,7 @@
     "dtslint": "dtslint dtslint",
     "mocha": "TS_NODE_CACHE=false mocha -r ts-node/register test/*.ts",
     "docs": "docs-ts",
-    "prepare": "./ensure-deduplicate.sh"
+    "prepare": "../ensure-deduplicate.sh"
   },
   "jest": {
     "collectCoverage": true,
@@ -69,5 +69,6 @@
     "testPathIgnorePatterns": [
       "utils"
     ]
-  }
+  },
+  "gitHead": "12034f35255b7fb22616b3dcfff1d9535087df3e"
 }
