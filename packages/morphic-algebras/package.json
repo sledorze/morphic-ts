@@ -1,6 +1,6 @@
 {
   "name": "@sledorze/morphic-algebras",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Morphic core Algebra package",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -18,7 +18,7 @@
     "lib"
   ],
   "devDependencies": {
-    "@sledorze/morphic-common": "^0.1.4"
+    "@sledorze/morphic-common": "^0.1.5"
   },
   "peerDependencies": {
     "@sledorze/morphic-common": "^0.0.1"
