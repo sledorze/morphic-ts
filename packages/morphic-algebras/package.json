@@ -17,10 +17,11 @@
   "files": [
     "lib"
   ],
-  "devDependencies": {},
   "dependencies": {
-    "morphic-common": "^0.1.5"
+    "morphic-common": "^0.2.0"
   },
+  "devDependencies": {},
+  "peerDdependencies": {},
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
     "jest": "jest",

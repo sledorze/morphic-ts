@@ -17,7 +17,6 @@
   "files": [
     "lib"
   ],
-  "devDependencies": {},
   "dependencies": {
     "fp-ts": "^2.4.1",
     "monocle-ts": "^2.0.1"

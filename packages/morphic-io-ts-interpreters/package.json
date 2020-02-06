@@ -32,7 +32,7 @@
     "newtype-ts": "^0.3.3",
     "io-ts": "^2.0.6",
     "io-ts-types": "^0.5.5",
-    "morphic-batteries": "^0.1.6"
+    "morphic-batteries": "^0.2.0"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
