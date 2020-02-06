@@ -1,6 +1,6 @@
 {
   "name": "@sledorze/morphic-model-algebras",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Morphic definitions for models",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -18,8 +18,8 @@
     "lib"
   ],
   "devDependencies": {
-    "@sledorze/morphic-algebras": "^0.1.4",
-    "@sledorze/morphic-common": "^0.1.3"
+    "@sledorze/morphic-algebras": "^0.1.5",
+    "@sledorze/morphic-common": "^0.1.4"
   },
   "peerDependencies": {
     "@sledorze/morphic-algebras": "^0.0.1",
