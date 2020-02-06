@@ -1,6 +1,10 @@
 {
   "name": "root",
   "private": true,
+  "repository": "https://github.com/sledorze/morphic-ts.git",
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "fp-ts": "2.4.1",
     "lerna": "^3.20.2",
@@ -23,8 +27,5 @@
     "jest": "^24.9.0",
     "newtype-ts": "^0.3.3",
     "io-ts": "^2.0.6"
-  },
-  "workspaces": [
-    "packages/*"
-  ]
+  }
 }

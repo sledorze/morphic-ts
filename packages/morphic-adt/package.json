@@ -9,7 +9,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "lib/adt.js",
+  "main": "lib/index.js",
   "directories": {
     "lib": "lib",
     "test": "test"
