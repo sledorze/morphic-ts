@@ -1,6 +1,6 @@
 {
   "name": "@sledorze/morphic-common",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Morphic core common package",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -13,8 +13,6 @@
   "files": [
     "lib"
   ],
-  "devDependencies": {},
-  "peerDependencies": {},
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
     "jest": "jest",

@@ -1,6 +1,6 @@
 {
   "name": "@sledorze/morphic-batteries",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Morphic batteries package to bootstrap projects",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -13,28 +13,27 @@
   "files": [
     "lib"
   ],
-  "dependencies": {},
   "devDependencies": {
-    "@sledorze/morphic-common": "^0.0.1",
-    "@sledorze/morphic-model-algebras": "^0.0.1",
-    "@sledorze/morphic-algebras": "^0.0.1",
-    "@sledorze/morphic-eq-interpreters": "^0.0.1",
-    "@sledorze/morphic-io-ts-interpreters": "^0.0.1",
-    "@sledorze/morphic-show-interpreters": "^0.0.1",
-    "@sledorze/morphic-ord-interpreters": "^0.0.1",
-    "@sledorze/morphic-fastcheck-interpreters": "^0.0.1",
-    "@sledorze/morphic-json-schema-interpreters": "^0.0.1"
+    "@sledorze/morphic-algebras": "^0.1.0",
+    "@sledorze/morphic-common": "^0.1.0",
+    "@sledorze/morphic-eq-interpreters": "^0.1.0",
+    "@sledorze/morphic-fastcheck-interpreters": "^0.1.0",
+    "@sledorze/morphic-io-ts-interpreters": "^0.1.0",
+    "@sledorze/morphic-json-schema-interpreters": "^0.1.0",
+    "@sledorze/morphic-model-algebras": "^0.1.0",
+    "@sledorze/morphic-ord-interpreters": "^0.1.0",
+    "@sledorze/morphic-show-interpreters": "^0.1.0"
   },
   "peerDependencies": {
-    "@sledorze/morphic-common": "^0.0.1",
-    "@sledorze/morphic-model-algebras": "^0.0.1",
     "@sledorze/morphic-algebras": "^0.0.1",
+    "@sledorze/morphic-common": "^0.0.1",
     "@sledorze/morphic-eq-interpreters": "^0.0.1",
-    "@sledorze/morphic-io-ts-interpreters": "^0.0.1",
-    "@sledorze/morphic-show-interpreters": "^0.0.1",
-    "@sledorze/morphic-ord-interpreters": "^0.0.1",
     "@sledorze/morphic-fastcheck-interpreters": "^0.0.1",
-    "@sledorze/morphic-json-schema-interpreters": "^0.0.1"
+    "@sledorze/morphic-io-ts-interpreters": "^0.0.1",
+    "@sledorze/morphic-json-schema-interpreters": "^0.0.1",
+    "@sledorze/morphic-model-algebras": "^0.0.1",
+    "@sledorze/morphic-ord-interpreters": "^0.0.1",
+    "@sledorze/morphic-show-interpreters": "^0.0.1"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",

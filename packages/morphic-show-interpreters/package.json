@@ -1,6 +1,6 @@
 {
   "name": "@sledorze/morphic-show-interpreters",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Morphic show (fp-ts) package to derive show instances",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -13,16 +13,15 @@
   "files": [
     "lib"
   ],
-  "dependencies": {},
   "devDependencies": {
-    "@sledorze/morphic-common": "^0.0.1",
-    "@sledorze/morphic-model-algebras": "^0.0.1",
-    "@sledorze/morphic-algebras": "^0.0.1"
+    "@sledorze/morphic-algebras": "^0.1.0",
+    "@sledorze/morphic-common": "^0.1.0",
+    "@sledorze/morphic-model-algebras": "^0.1.0"
   },
   "peerDependencies": {
+    "@sledorze/morphic-algebras": "^0.0.1",
     "@sledorze/morphic-common": "^0.0.1",
-    "@sledorze/morphic-model-algebras": "^0.0.1",
-    "@sledorze/morphic-algebras": "^0.0.1"
+    "@sledorze/morphic-model-algebras": "^0.0.1"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
