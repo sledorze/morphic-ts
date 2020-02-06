@@ -1,6 +1,6 @@
 {
   "name": "@morphic/batteries",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Morphic batteries package to bootstrap projects",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -17,24 +17,22 @@
   "files": [
     "lib"
   ],
-  "devDependencies": {},
-  "peerDependencies": {},
   "dependencies": {
+    "@morphic/algebras": "^0.3.0",
+    "@morphic/common": "^0.3.0",
+    "@morphic/eq-interpreters": "^0.3.0",
+    "@morphic/fastcheck-interpreters": "^0.3.0",
+    "@morphic/io-ts-interpreters": "^0.3.0",
+    "@morphic/json-schema-interpreters": "^0.3.0",
+    "@morphic/model-algebras": "^0.3.0",
+    "@morphic/ord-interpreters": "^0.3.0",
+    "@morphic/show-interpreters": "^0.3.0",
     "fast-equals": "^2.0.0",
-    "newtype-ts": "^0.3.3",
-    "io-ts": "^2.0.6",
     "fp-ts": "^2.4.1",
-    "monocle-ts": "^2.0.1",
+    "io-ts": "^2.0.6",
     "io-ts-types": "^0.5.5",
-    "@morphic/algebras": "^0.2.0",
-    "@morphic/common": "^0.2.0",
-    "@morphic/eq-interpreters": "^0.2.0",
-    "@morphic/fastcheck-interpreters": "^0.2.0",
-    "@morphic/io-ts-interpreters": "^0.2.0",
-    "@morphic/json-schema-interpreters": "^0.2.0",
-    "@morphic/model-algebras": "^0.2.0",
-    "@morphic/ord-interpreters": "^0.2.0",
-    "@morphic/show-interpreters": "^0.2.0"
+    "monocle-ts": "^2.0.1",
+    "newtype-ts": "^0.3.3"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
