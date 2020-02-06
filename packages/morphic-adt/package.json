@@ -18,11 +18,25 @@
     "lib"
   ],
   "devDependencies": {
+    "fast-equals": "^2.0.0",
+    "newtype-ts": "^0.3.3",
+    "io-ts": "^2.0.6",
+    "fp-ts": "^2.4.1",
+    "monocle-ts": "^2.0.1",
+    "io-ts-types": "^0.5.5",
+
     "jest": "^24.9.0",
     "prettier": "1.19.1",
     "typescript": "3.7.5"
   },
   "peerDependencies": {
+    "fast-equals": "^2.0.0",
+    "newtype-ts": "^0.3.3",
+    "io-ts": "^2.0.6",
+    "fp-ts": "^2.4.1",
+    "monocle-ts": "^2.0.1",
+    "io-ts-types": "^0.5.5"
+
     "monocle-ts": "2.0.0"
   },
   "scripts": {

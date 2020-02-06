@@ -6,7 +6,12 @@
     "packages/*"
   ],
   "devDependencies": {
-    "fp-ts": "2.4.1",
+    "fast-equals": "^2.0.0",
+    "newtype-ts": "^0.3.3",
+    "io-ts": "^2.0.6",
+    "fp-ts": "^2.4.1",
+    "monocle-ts": "^2.0.1",
+    "io-ts-types": "^0.5.5",
     "lerna": "^3.20.2",
     "@types/jest": "24.9.0",
     "@types/node": "12.12.8",
@@ -19,14 +24,15 @@
     "tslint": "5.20.1",
     "tslint-config-standard": "^9.0.0",
     "yarn-deduplicate": "1.1.1",
-    "monocle-ts": "2.0.1",
     "chai": "4.2.0",
     "@types/chai": "4.2.7",
     "typescript": "3.7.5",
     "prettier": "1.19.1",
     "jest": "^24.9.0",
     "newtype-ts": "^0.3.3",
-    "io-ts": "^2.0.6"
+    "io-ts": "^2.0.6",
+    "fp-ts": "^2.4.1",
+    "monocle-ts": "^2.0.1"
   },
   "husky": {
     "hooks": {

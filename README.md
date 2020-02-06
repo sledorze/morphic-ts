@@ -1,5 +1,3 @@
-# BEWARE: MONOREPO RESTRUCTURATION IN PROGRESS
-
 # Morphic-ts
 
 Business Models just got a lot easier
@@ -14,16 +12,28 @@ The goal is to increase, in order of importance
 
 It is has two side blended into one; generic ADT manipulation AND Generic, customizable and extensible derivations
 
+## NOTE: The repo has changed to a monorepo
+
+As such previous package `morphic-ts`has been replaced by
+
+```typescript
+'morphic-adt'
+'morphic-algebras'
+'morphic-batteries'
+'morphic-common'
+'morphic-eq-interpreters'
+'morphic-fastcheck-interpreters'
+'morphic-io-ts-interpreters'
+'morphic-json-schema-interpreters'
+'morphic-model-algebras'
+'morphic-ord-interpreters'
+'morphic-show-interpreters`
+```
+
 ## Two minutes intro
 
 ```bash
-npm install 'morphic-ts'
-```
-
-Or
-
-```bash
-yarn add 'morphic-ts'
+yarn add 'morphic-batteries'
 ```
 
 Then

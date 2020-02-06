@@ -18,12 +18,20 @@
     "lib"
   ],
   "devDependencies": {
+    "newtype-ts": "^0.3.3",
+    "io-ts": "^2.0.6",
+    "fp-ts": "^2.4.1",
+    "io-ts-types": "^0.5.5",
     "fast-check": "^1.22.1",
     "morphic-algebras": "^0.2.0",
     "morphic-common": "^0.2.0",
     "morphic-model-algebras": "^0.2.0"
   },
   "peerDependencies": {
+    "newtype-ts": "^0.3.3",
+    "io-ts": "^2.0.6",
+    "fp-ts": "^2.4.1",
+    "io-ts-types": "^0.5.5",
     "fast-check": "^1.22.1",
     "morphic-algebras": "^0.0.1",
     "morphic-batteries": "^0.1.6",
