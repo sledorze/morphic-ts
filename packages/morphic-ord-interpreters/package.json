@@ -17,24 +17,22 @@
   "files": [
     "lib"
   ],
-  "devDependencies": {
-    "newtype-ts": "^0.3.3",
-    "io-ts": "^2.0.6",
+  "dependencies": {
     "fp-ts": "^2.4.1",
-    "io-ts-types": "^0.5.5",
     "morphic-algebras": "^0.2.0",
     "morphic-common": "^0.2.0",
     "morphic-model-algebras": "^0.2.0"
   },
+  "devDependencies": {
+    "newtype-ts": "^0.3.3",
+    "io-ts": "^2.0.6",
+    "io-ts-types": "^0.5.5"
+  },
   "peerDependencies": {
     "newtype-ts": "^0.3.3",
     "io-ts": "^2.0.6",
-    "fp-ts": "^2.4.1",
     "io-ts-types": "^0.5.5",
-    "morphic-algebras": "^0.0.1",
-    "morphic-batteries": "^0.1.6",
-    "morphic-common": "^0.0.1",
-    "morphic-model-algebras": "^0.0.1"
+    "morphic-batteries": "^0.1.6"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
