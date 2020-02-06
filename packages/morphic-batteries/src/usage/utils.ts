@@ -40,10 +40,10 @@ export type SelectKeyOfMatchingValues<KeyedValues, Constraint> = {
 export const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
   assignFunction(F, Object.assign({}, F, d))
 
-// tslint:disable-next-line: no-unnecessary-callback-wrapper
 /**
  *  @since 0.0.1
  */
+// tslint:disable-next-line: no-unnecessary-callback-wrapper
 export const wrapFun = <A, B, X>(g: ((a: A) => B) & X): typeof g => ((x: any) => g(x)) as any // force the creation of a new function to prevent mutation on the original
 
 /**

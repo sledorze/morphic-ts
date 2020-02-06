@@ -21,7 +21,7 @@
     "morphic-common": "^0.1.5"
   },
   "peerDependencies": {
-    "morphic-common": "^0.0.1"
+    "morphic-common": "^0.1.5"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",

@@ -14,10 +14,7 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { JsonSchemaError } from 'morphic-json-schema-interpreters/lib/json-schema/json-schema-ctors'
 import { identity } from 'fp-ts/lib/function'
 import { resolveSchema } from 'morphic-json-schema-interpreters/lib/utils'
-import {
-  modelIoTsStrictInterpreter,
-  modelIoTsNonStrictInterpreter
-} from 'morphic-io-ts-interpreters/lib/interpreters'
+import { modelIoTsStrictInterpreter, modelIoTsNonStrictInterpreter } from 'morphic-io-ts-interpreters/lib/interpreters'
 import { ProgramInterpreter, Materialized } from './usage/materializer'
 import { interpretable } from './usage/programs-infer'
 import { ProgramType } from './usage/ProgramType'
