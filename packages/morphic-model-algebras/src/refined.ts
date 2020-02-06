@@ -1,6 +1,6 @@
-import { URIS2, Kind2, URIS, Kind, HKT2 } from '@sledorze/morphic-common/lib/HKT'
-import { ByInterp, isOptionalConfig } from '@sledorze/morphic-common/lib/core'
-import { Refinedfig } from '@sledorze/morphic-algebras/lib/hkt'
+import { URIS2, Kind2, URIS, Kind, HKT2 } from 'morphic-common/lib/HKT'
+import { ByInterp, isOptionalConfig } from 'morphic-common/lib/core'
+import { Refinedfig } from 'morphic-algebras/lib/hkt'
 import { Branded } from 'io-ts' // TODO: question that dependency..
 import { Refinement } from 'fp-ts/lib/function'
 
@@ -13,7 +13,7 @@ export const RefinedURI = Symbol()
  */
 export type RefinedURI = typeof RefinedURI
 
-declare module '@sledorze/morphic-algebras/lib/hkt' {
+declare module 'morphic-algebras/lib/hkt' {
   interface Algebra<F> {
     [RefinedURI]: ModelAlgebraRefined<F>
   }

@@ -1,6 +1,6 @@
 import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '..'
-import { ModelAlgebraRefined2 } from '@sledorze/morphic-model-algebras/lib/refined'
+import { ModelAlgebraRefined2 } from 'morphic-model-algebras/lib/refined'
 
 /**
  *  @since 0.0.1

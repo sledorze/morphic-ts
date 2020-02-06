@@ -1,5 +1,5 @@
 import { Ord, getMonoid } from 'fp-ts/lib/Ord'
-import { ModelAlgebraIntersection1 } from '@sledorze/morphic-model-algebras/lib/intersections'
+import { ModelAlgebraIntersection1 } from 'morphic-model-algebras/lib/intersections'
 import { OrdType, OrdURI } from '..'
 
 const equalsOrd = <T>(): Ord<T> => ({

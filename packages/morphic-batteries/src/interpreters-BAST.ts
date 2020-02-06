@@ -1,23 +1,23 @@
 import { Arbitrary } from 'fast-check/*'
-import { modelFastCheckInterpreter } from '@sledorze/morphic-fastcheck-interpreters/lib/interpreters'
+import { modelFastCheckInterpreter } from 'morphic-fastcheck-interpreters/lib/interpreters'
 
 import { Type } from 'io-ts'
 
-import { JSONSchema } from '@sledorze/morphic-json-schema-interpreters/lib/json-schema/json-schema'
-import { modelJsonSchemaInterpreter } from '@sledorze/morphic-json-schema-interpreters/lib/interpreters'
+import { JSONSchema } from 'morphic-json-schema-interpreters/lib/json-schema/json-schema'
+import { modelJsonSchemaInterpreter } from 'morphic-json-schema-interpreters/lib/interpreters'
 
 import { ProgramUnionURI } from './program'
 import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import { NamedSchemas } from '@sledorze/morphic-json-schema-interpreters/lib/index'
+import { NamedSchemas } from 'morphic-json-schema-interpreters/lib/index'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { JsonSchemaError } from '@sledorze/morphic-json-schema-interpreters/lib/json-schema/json-schema-ctors'
+import { JsonSchemaError } from 'morphic-json-schema-interpreters/lib/json-schema/json-schema-ctors'
 import { identity } from 'fp-ts/lib/function'
-import { resolveSchema } from '@sledorze/morphic-json-schema-interpreters/lib/utils'
+import { resolveSchema } from 'morphic-json-schema-interpreters/lib/utils'
 import {
   modelIoTsStrictInterpreter,
   modelIoTsNonStrictInterpreter
-} from '@sledorze/morphic-io-ts-interpreters/lib/interpreters'
+} from 'morphic-io-ts-interpreters/lib/interpreters'
 import { ProgramInterpreter, Materialized } from './usage/materializer'
 import { interpretable } from './usage/programs-infer'
 import { ProgramType } from './usage/ProgramType'

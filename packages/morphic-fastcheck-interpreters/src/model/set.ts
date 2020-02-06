@@ -1,7 +1,7 @@
 import { set } from 'fast-check'
 import { FastCheckType, FastCheckURI } from '..'
 import { fromArray } from 'fp-ts/lib/Set'
-import { ModelAlgebraSet1 } from '@sledorze/morphic-model-algebras/lib/set'
+import { ModelAlgebraSet1 } from 'morphic-model-algebras/lib/set'
 
 /**
  *  @since 0.0.1

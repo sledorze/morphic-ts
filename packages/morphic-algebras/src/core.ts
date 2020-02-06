@@ -1,7 +1,7 @@
-import { URIS, URIS2 } from '@sledorze/morphic-common/lib/HKT'
+import { URIS, URIS2 } from 'morphic-common/lib/HKT'
 import { Algebra as AlgAlgebra, Algebra1 as AlgAlgebra1, Algebra2 as AlgAlgebra2, AlgebraURIS } from './hkt'
 
-import { UnionToIntersection } from '@sledorze/morphic-common/lib/core'
+import { UnionToIntersection } from 'morphic-common/lib/core'
 
 /**
  *  @since 0.0.1

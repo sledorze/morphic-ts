@@ -1,4 +1,4 @@
-import { cacheUnaryFunction } from '@sledorze/morphic-common/lib/core'
+import { cacheUnaryFunction } from 'morphic-common/lib/core'
 import { ESBASTJInterpreter, M, UM, AsOpaque, AsUOpaque } from './interpreters-ESBAST'
 import { makeSummoner } from './usage/summoner'
 import { makeTagged } from './usage/tagged-union'

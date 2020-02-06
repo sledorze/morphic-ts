@@ -1,13 +1,13 @@
 import * as chai from 'chai'
 import { modelOrdInterpreter } from '../src/interpreters'
 import { Ord } from 'fp-ts/lib/Ord'
-import { ProgramInterpreter, Materialized } from '@sledorze/morphic-batteries/lib/usage/materializer'
-import { ProgramOrderableURI } from '@sledorze/morphic-batteries/lib/program-orderable'
-import { cacheUnaryFunction } from '@sledorze/morphic-common/lib/core'
-import { makeSummoner, Summoners } from '@sledorze/morphic-batteries/lib/usage/summoner'
-import { interpretable } from '@sledorze/morphic-batteries/lib/usage/programs-infer'
+import { ProgramInterpreter, Materialized } from 'morphic-batteries/lib/usage/materializer'
+import { ProgramOrderableURI } from 'morphic-batteries/lib/program-orderable'
+import { cacheUnaryFunction } from 'morphic-common/lib/core'
+import { makeSummoner, Summoners } from 'morphic-batteries/lib/usage/summoner'
+import { interpretable } from 'morphic-batteries/lib/usage/programs-infer'
 import { identity } from 'fp-ts/lib/function'
-import { ProgramType } from '@sledorze/morphic-batteries/lib/usage/ProgramType'
+import { ProgramType } from 'morphic-batteries/lib/usage/ProgramType'
 
 interface OrdInterpreter<E, A> {
   ord: Ord<A>
@@ -16,12 +16,12 @@ interface OrdInterpreter<E, A> {
 const OrdInterpreterURI = Symbol()
 export type OrdInterpreterURI = typeof OrdInterpreterURI
 
-declare module '@sledorze/morphic-batteries/lib/usage/InterpreterResult' {
+declare module 'morphic-batteries/lib/usage/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [OrdInterpreterURI]: OrdInterpreter<E, A>
   }
 }
-declare module '@sledorze/morphic-batteries/lib/usage/ProgramType' {
+declare module 'morphic-batteries/lib/usage/ProgramType' {
   interface ProgramOrderableInterpreters {
     [OrdInterpreterURI]: Summoner
   }

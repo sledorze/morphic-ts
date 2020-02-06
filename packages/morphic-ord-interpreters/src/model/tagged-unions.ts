@@ -1,7 +1,7 @@
 import { ordString } from 'fp-ts/lib/Ord'
 import { OrdType, OrdURI } from '..'
-import { ModelAlgebraTaggedUnions1 } from '@sledorze/morphic-model-algebras/lib/tagged-unions'
-import { mapRecord } from '@sledorze/morphic-common/lib/utils'
+import { ModelAlgebraTaggedUnions1 } from 'morphic-model-algebras/lib/tagged-unions'
+import { mapRecord } from 'morphic-common/lib/utils'
 import { Ordering } from 'fp-ts/lib/Ordering'
 
 /**

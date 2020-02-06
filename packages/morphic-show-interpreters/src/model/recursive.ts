@@ -1,6 +1,6 @@
 import { ShowType, ShowURI } from '..'
-import { ModelAlgebraRecursive1 } from '@sledorze/morphic-model-algebras/lib/recursive'
-import { memo } from '@sledorze/morphic-common/lib/utils'
+import { ModelAlgebraRecursive1 } from 'morphic-model-algebras/lib/recursive'
+import { memo } from 'morphic-common/lib/utils'
 
 /**
  *  @since 0.0.1

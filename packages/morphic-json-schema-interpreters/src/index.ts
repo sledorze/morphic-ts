@@ -2,7 +2,7 @@ import { OptionalJSONSchema, JsonSchemaError } from './json-schema/json-schema-c
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import * as SE from './StateEither'
 import { JSONSchema } from './json-schema/json-schema'
-import { genConfig } from '@sledorze/morphic-common/lib/core'
+import { genConfig } from 'morphic-common/lib/core'
 
 /**
  *  @since 0.0.1
@@ -33,7 +33,7 @@ export class JsonSchema<A> {
   constructor(public schema: JsonSchemaResult<OptionalJSONSchema>) {}
 }
 
-declare module '@sledorze/morphic-common/lib/HKT' {
+declare module 'morphic-common/lib/HKT' {
   interface URItoKind<A> {
     [JsonSchemaURI]: JsonSchema<A>
   }

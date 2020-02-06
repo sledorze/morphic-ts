@@ -1,5 +1,5 @@
-import { OfType, OfType2 } from '@sledorze/morphic-common/lib/core'
-import { URIS, Kind, URIS2, Kind2, HKT2 } from '@sledorze/morphic-common/lib/HKT'
+import { OfType, OfType2 } from 'morphic-common/lib/core'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from 'morphic-common/lib/HKT'
 
 /**
  *  @since 0.0.1
@@ -10,7 +10,7 @@ export const UnionsURI = Symbol()
  */
 export type UnionsURI = typeof UnionsURI
 
-declare module '@sledorze/morphic-algebras/lib/hkt' {
+declare module 'morphic-algebras/lib/hkt' {
   interface Algebra<F> {
     [UnionsURI]: ModelAlgebraUnions<F>
   }

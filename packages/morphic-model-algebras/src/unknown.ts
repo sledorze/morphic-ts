@@ -1,6 +1,6 @@
-import { URIS2, Kind2, URIS, Kind, HKT2 } from '@sledorze/morphic-common/lib/HKT'
-import { ByInterp, isOptionalConfig } from '@sledorze/morphic-common/lib/core'
-import { UnknownConfig } from '@sledorze/morphic-algebras/lib/hkt'
+import { URIS2, Kind2, URIS, Kind, HKT2 } from 'morphic-common/lib/HKT'
+import { ByInterp, isOptionalConfig } from 'morphic-common/lib/core'
+import { UnknownConfig } from 'morphic-algebras/lib/hkt'
 
 /**
  *  @since 0.0.1
@@ -16,7 +16,7 @@ export const UnknownURI = Symbol()
  */
 export type UnknownURI = typeof UnknownURI
 
-declare module '@sledorze/morphic-algebras/lib/hkt' {
+declare module 'morphic-algebras/lib/hkt' {
   interface Algebra<F> {
     [UnknownURI]: ModelAlgebraUnknown<F>
   }

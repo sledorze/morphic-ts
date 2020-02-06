@@ -2,11 +2,11 @@ import * as t from 'io-ts'
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 import { IOTSType, IoTsURI } from '..'
-import { ModelAlgebraPrimitive2 } from '@sledorze/morphic-model-algebras/lib/primitives'
+import { ModelAlgebraPrimitive2 } from 'morphic-model-algebras/lib/primitives'
 import { identity } from 'fp-ts/lib/function'
 import { either } from 'fp-ts/lib/Either'
 
-declare module '@sledorze/morphic-algebras/lib/hkt' {
+declare module 'morphic-algebras/lib/hkt' {
   interface PrimitiveConfig {
     [IoTsURI]: Customize<string, string> | undefined
   }

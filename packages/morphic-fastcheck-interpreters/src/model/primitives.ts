@@ -1,10 +1,10 @@
 import { FastCheckType, FastCheckURI } from '..'
-import { ModelAlgebraPrimitive1 } from '@sledorze/morphic-model-algebras/lib/primitives'
+import { ModelAlgebraPrimitive1 } from 'morphic-model-algebras/lib/primitives'
 import { fromNullable } from 'fp-ts/lib/Option'
 import { identity } from 'fp-ts/lib/function'
 import { Arbitrary, constant, integer, boolean, string, float, oneof, array, option, bigInt } from 'fast-check'
 
-declare module '@sledorze/morphic-algebras/lib/hkt' {
+declare module 'morphic-algebras/lib/hkt' {
   interface PrimitiveArrayConfig<A> {
     [FastCheckURI]: MinMaxLength | undefined
   }

@@ -1,4 +1,4 @@
-import { ModelAlgebraPrimitive1 } from '@sledorze/morphic-model-algebras/lib/primitives'
+import { ModelAlgebraPrimitive1 } from 'morphic-model-algebras/lib/primitives'
 import { JsonSchema, JsonSchemaURI } from '..'
 import {
   StringTypeCtor,

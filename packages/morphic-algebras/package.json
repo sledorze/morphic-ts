@@ -1,5 +1,5 @@
 {
-  "name": "@sledorze/morphic-algebras",
+  "name": "morphic-algebras",
   "version": "0.1.6",
   "description": "Morphic core Algebra package",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
@@ -18,10 +18,10 @@
     "lib"
   ],
   "devDependencies": {
-    "@sledorze/morphic-common": "^0.1.5"
+    "morphic-common": "^0.1.5"
   },
   "peerDependencies": {
-    "@sledorze/morphic-common": "^0.0.1"
+    "morphic-common": "^0.0.1"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",

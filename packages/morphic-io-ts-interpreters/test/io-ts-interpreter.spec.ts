@@ -6,7 +6,7 @@ import { some, none } from 'fp-ts/lib/Option'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Errors, Branded } from 'io-ts'
-import { summon, M } from '@sledorze/morphic-batteries/lib/summoner'
+import { summon, M } from 'morphic-batteries/lib/summoner'
 import { IoTsURI } from '../src/index' // Fake to please the test runner
 import { modelIoTsStrictInterpreter } from '../src/interpreters' // Fake to please the test runner
 export { IoTsURI, modelIoTsStrictInterpreter }

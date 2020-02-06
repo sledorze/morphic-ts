@@ -1,5 +1,5 @@
 import { IoTsURI } from '..'
-import { ModelAlgebraNewtype2 } from '@sledorze/morphic-model-algebras/lib/newtype'
+import { ModelAlgebraNewtype2 } from 'morphic-model-algebras/lib/newtype'
 import { identity } from 'fp-ts/lib/function'
 
 /**

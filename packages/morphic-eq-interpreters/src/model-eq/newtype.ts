@@ -1,4 +1,4 @@
-import { ModelAlgebraNewtype1 } from '@sledorze/morphic-model-algebras/lib/newtype'
+import { ModelAlgebraNewtype1 } from 'morphic-model-algebras/lib/newtype'
 import { EqURI } from '..'
 import { identity } from 'fp-ts/lib/function'
 

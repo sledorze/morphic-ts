@@ -1,8 +1,8 @@
 import { FastCheckURI } from '..'
-import { ModelAlgebraNewtype1 } from '@sledorze/morphic-model-algebras/lib/newtype'
+import { ModelAlgebraNewtype1 } from 'morphic-model-algebras/lib/newtype'
 import { identity } from 'fp-ts/lib/function'
 
-declare module '@sledorze/morphic-algebras/lib/hkt' {}
+declare module 'morphic-algebras/lib/hkt' {}
 
 /**
  *  @since 0.0.1

@@ -1,4 +1,4 @@
-import { ModelAlgebraIntersection1 } from '@sledorze/morphic-model-algebras/lib/intersections'
+import { ModelAlgebraIntersection1 } from 'morphic-model-algebras/lib/intersections'
 import { JsonSchema, JsonSchemaURI } from '..'
 import { IntersectionTypeCtor } from '../json-schema/json-schema-ctors'
 import { pipe } from 'fp-ts/lib/pipeable'

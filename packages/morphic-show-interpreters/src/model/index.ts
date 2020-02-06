@@ -1,4 +1,4 @@
-import { merge } from '@sledorze/morphic-common/lib/utils'
+import { merge } from 'morphic-common/lib/utils'
 import { showPrimitiveInterpreter } from './primitives'
 import { showIntersectionInterpreter } from './intersections'
 import { showObjectInterpreter } from './object'

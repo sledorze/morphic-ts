@@ -1,15 +1,15 @@
 import * as chai from 'chai'
 
-import { ProgramInterpreter, Materialized } from '@sledorze/morphic-batteries/lib/usage/materializer'
-import { makeSummoner, Summoners } from '@sledorze/morphic-batteries/lib/usage/summoner'
-import { cacheUnaryFunction } from '@sledorze/morphic-common/lib/core'
+import { ProgramInterpreter, Materialized } from 'morphic-batteries/lib/usage/materializer'
+import { makeSummoner, Summoners } from 'morphic-batteries/lib/usage/summoner'
+import { cacheUnaryFunction } from 'morphic-common/lib/core'
 
-import { ProgramNoUnionURI } from '@sledorze/morphic-batteries/lib/program-no-union'
+import { ProgramNoUnionURI } from 'morphic-batteries/lib/program-no-union'
 import { modelEqInterpreter } from '../src/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
 import * as eq from 'fp-ts/lib/Eq'
-import { interpretable } from '@sledorze/morphic-batteries/lib/usage/programs-infer'
-import { ProgramType } from '@sledorze/morphic-batteries/lib/usage/ProgramType'
+import { interpretable } from 'morphic-batteries/lib/usage/programs-infer'
+import { ProgramType } from 'morphic-batteries/lib/usage/ProgramType'
 import { Newtype, iso } from 'newtype-ts'
 import { eqConfig } from '../src/index'
 
@@ -20,12 +20,12 @@ interface EqInterpreter<A> {
   eq: Eq<A>
 }
 
-declare module '@sledorze/morphic-batteries/lib/usage/InterpreterResult' {
+declare module 'morphic-batteries/lib/usage/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [EqInterpreterURI]: EqInterpreter<A>
   }
 }
-declare module '@sledorze/morphic-batteries/lib/usage/ProgramType' {
+declare module 'morphic-batteries/lib/usage/ProgramType' {
   interface ProgramNoUnionInterpreters {
     [EqInterpreterURI]: Summoner
   }

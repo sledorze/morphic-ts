@@ -1,6 +1,6 @@
-import { URIS2, Kind2, URIS, Kind, HKT2 } from '@sledorze/morphic-common/lib/HKT'
-import { ByInterp, isOptionalConfig } from '@sledorze/morphic-common/lib/core'
-import { NewtypeConfig } from '@sledorze/morphic-algebras/lib/hkt'
+import { URIS2, Kind2, URIS, Kind, HKT2 } from 'morphic-common/lib/HKT'
+import { ByInterp, isOptionalConfig } from 'morphic-common/lib/core'
+import { NewtypeConfig } from 'morphic-algebras/lib/hkt'
 import { Newtype } from 'newtype-ts'
 
 /**
@@ -12,7 +12,7 @@ export const NewtypeURI = Symbol()
  */
 export type NewtypeURI = typeof NewtypeURI
 
-declare module '@sledorze/morphic-algebras/lib/hkt' {
+declare module 'morphic-algebras/lib/hkt' {
   interface Algebra<F> {
     [NewtypeURI]: ModelAlgebraNewtype<F>
   }

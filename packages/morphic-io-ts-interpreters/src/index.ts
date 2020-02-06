@@ -1,5 +1,5 @@
 import * as t from 'io-ts'
-import { genConfig } from '@sledorze/morphic-common/lib/core'
+import { genConfig } from 'morphic-common/lib/core'
 
 /**
  *  @since 0.0.1
@@ -20,7 +20,7 @@ export class IOTSType<O, A> {
   constructor(public type: t.Type<A, O>) {}
 }
 
-declare module '@sledorze/morphic-common/lib/HKT' {
+declare module 'morphic-common/lib/HKT' {
   interface URItoKind2<E, A> {
     [IoTsURI]: IOTSType<E, A>
   }

@@ -1,4 +1,4 @@
-import { URIS, Kind, URIS2, Kind2, HKT2 } from '@sledorze/morphic-common/lib/HKT'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from 'morphic-common/lib/HKT'
 
 /**
  *  @since 0.0.1
@@ -9,7 +9,7 @@ export const RecursiveURI = Symbol()
  */
 export type RecursiveURI = typeof RecursiveURI
 
-declare module '@sledorze/morphic-algebras/lib/hkt' {
+declare module 'morphic-algebras/lib/hkt' {
   interface Algebra<F> {
     [RecursiveURI]: ModelAlgebraRecursive<F>
   }

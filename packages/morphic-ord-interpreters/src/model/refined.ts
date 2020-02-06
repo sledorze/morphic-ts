@@ -1,4 +1,4 @@
-import { ModelAlgebraRefined1 } from '@sledorze/morphic-model-algebras/lib/refined'
+import { ModelAlgebraRefined1 } from 'morphic-model-algebras/lib/refined'
 import { OrdURI } from '..'
 import { identity } from 'fp-ts/lib/function'
 

@@ -1,5 +1,5 @@
 {
-  "name": "@sledorze/morphic-batteries",
+  "name": "morphic-batteries",
   "version": "0.1.6",
   "description": "Morphic batteries package to bootstrap projects",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
@@ -18,26 +18,26 @@
     "lib"
   ],
   "devDependencies": {
-    "@sledorze/morphic-algebras": "^0.1.6",
-    "@sledorze/morphic-common": "^0.1.5",
-    "@sledorze/morphic-eq-interpreters": "^0.1.6",
-    "@sledorze/morphic-fastcheck-interpreters": "^0.1.6",
-    "@sledorze/morphic-io-ts-interpreters": "^0.1.6",
-    "@sledorze/morphic-json-schema-interpreters": "^0.1.6",
-    "@sledorze/morphic-model-algebras": "^0.1.6",
-    "@sledorze/morphic-ord-interpreters": "^0.1.6",
-    "@sledorze/morphic-show-interpreters": "^0.1.6"
+    "morphic-algebras": "^0.1.6",
+    "morphic-common": "^0.1.5",
+    "morphic-eq-interpreters": "^0.1.6",
+    "morphic-fastcheck-interpreters": "^0.1.6",
+    "morphic-io-ts-interpreters": "^0.1.6",
+    "morphic-json-schema-interpreters": "^0.1.6",
+    "morphic-model-algebras": "^0.1.6",
+    "morphic-ord-interpreters": "^0.1.6",
+    "morphic-show-interpreters": "^0.1.6"
   },
   "peerDependencies": {
-    "@sledorze/morphic-algebras": "^0.0.1",
-    "@sledorze/morphic-common": "^0.0.1",
-    "@sledorze/morphic-eq-interpreters": "^0.0.1",
-    "@sledorze/morphic-fastcheck-interpreters": "^0.0.1",
-    "@sledorze/morphic-io-ts-interpreters": "^0.0.1",
-    "@sledorze/morphic-json-schema-interpreters": "^0.0.1",
-    "@sledorze/morphic-model-algebras": "^0.0.1",
-    "@sledorze/morphic-ord-interpreters": "^0.0.1",
-    "@sledorze/morphic-show-interpreters": "^0.0.1"
+    "morphic-algebras": "^0.0.1",
+    "morphic-common": "^0.0.1",
+    "morphic-eq-interpreters": "^0.0.1",
+    "morphic-fastcheck-interpreters": "^0.0.1",
+    "morphic-io-ts-interpreters": "^0.0.1",
+    "morphic-json-schema-interpreters": "^0.0.1",
+    "morphic-model-algebras": "^0.0.1",
+    "morphic-ord-interpreters": "^0.0.1",
+    "morphic-show-interpreters": "^0.0.1"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
