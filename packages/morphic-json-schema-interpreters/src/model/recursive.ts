@@ -1,6 +1,6 @@
 import { JsonSchema, JsonSchemaURI } from '..'
-import { ModelAlgebraRecursive1 } from 'morphic-model-algebras/lib/recursive'
-import { memo } from 'morphic-common/lib/utils'
+import { ModelAlgebraRecursive1 } from '@morphic/model-algebras/lib/recursive'
+import { memo } from '@morphic/common/lib/utils'
 import { notOptional, JsonSchemaError } from '../json-schema/json-schema-ctors'
 import { Ref, isnotTypeRef } from '../json-schema/json-schema'
 import { pipe } from 'fp-ts/lib/pipeable'

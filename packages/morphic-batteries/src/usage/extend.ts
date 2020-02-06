@@ -1,6 +1,6 @@
 import { InterpreterURIOfProgramInterpreter } from './materializer'
 import { InterpreterURI, InterpreterResult } from './InterpreterResult'
-import { HKT2 } from 'morphic-common/lib/HKT'
+import { HKT2 } from '@morphic/common/lib/HKT'
 import { ProgramURI, ProgramType, ProgramAlgebra } from './ProgramType'
 
 /**

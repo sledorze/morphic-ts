@@ -1,5 +1,5 @@
 import { JsonSchemaURI } from '..'
-import { ModelAlgebraNewtype1 } from 'morphic-model-algebras/lib/newtype'
+import { ModelAlgebraNewtype1 } from '@morphic/model-algebras/lib/newtype'
 import { identity } from 'fp-ts/lib/function'
 
 /**

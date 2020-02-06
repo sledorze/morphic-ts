@@ -1,5 +1,5 @@
 import { FastCheckType, FastCheckURI } from '..'
-import { ModelAlgebraUnions1 } from 'morphic-model-algebras/lib/unions'
+import { ModelAlgebraUnions1 } from '@morphic/model-algebras/lib/unions'
 import { oneof } from 'fast-check'
 
 /**

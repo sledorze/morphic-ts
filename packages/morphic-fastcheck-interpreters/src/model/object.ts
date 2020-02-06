@@ -1,6 +1,6 @@
 import { FastCheckType, FastCheckURI } from '..'
-import { ModelAlgebraObject1, PropsKind1 } from 'morphic-model-algebras/lib/object'
-import { projectField } from 'morphic-common/lib/utils'
+import { ModelAlgebraObject1, PropsKind1 } from '@morphic/model-algebras/lib/object'
+import { projectField } from '@morphic/common/lib/utils'
 import { RecordConstraints, record } from 'fast-check'
 
 /**

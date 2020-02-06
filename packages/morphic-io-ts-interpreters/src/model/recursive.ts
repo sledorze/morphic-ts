@@ -1,6 +1,6 @@
 import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '..'
-import { ModelAlgebraRecursive2 } from 'morphic-model-algebras/lib/recursive'
+import { ModelAlgebraRecursive2 } from '@morphic/model-algebras/lib/recursive'
 
 /**
  *  @since 0.0.1

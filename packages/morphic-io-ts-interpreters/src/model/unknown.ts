@@ -1,9 +1,9 @@
 import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '..'
-import { ModelAlgebraUnknown2 } from 'morphic-model-algebras/lib/unknown'
+import { ModelAlgebraUnknown2 } from '@morphic/model-algebras/lib/unknown'
 import { identity } from 'fp-ts/lib/function'
 
-declare module 'morphic-algebras/lib/hkt' {
+declare module '@morphic/algebras/lib/hkt' {
   interface UnknownConfig {
     [IoTsURI]: Customize<unknown, unknown> | undefined
   }

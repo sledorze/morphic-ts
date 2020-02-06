@@ -20,7 +20,7 @@ As such previous package `morphic-ts`has been replaced by
 'morphic-adt'
 'morphic-algebras'
 'morphic-batteries'
-'morphic-common'
+'@morphic/common'
 'morphic-eq-interpreters'
 'morphic-fastcheck-interpreters'
 'morphic-io-ts-interpreters'

@@ -1,4 +1,4 @@
-import { ModelAlgebraSet1 } from 'morphic-model-algebras/lib/set'
+import { ModelAlgebraSet1 } from '@morphic/model-algebras/lib/set'
 import { JsonSchema, JsonSchemaURI } from '..'
 import { SetFromArrayTypeCtor } from '../json-schema/json-schema-ctors'
 import * as SE from '../StateEither'

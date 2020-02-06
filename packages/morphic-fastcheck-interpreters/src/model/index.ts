@@ -1,4 +1,4 @@
-import { merge } from 'morphic-common/lib/utils'
+import { merge } from '@morphic/common/lib/utils'
 
 import { fastCheckPrimitiveInterpreter } from './primitives'
 import { fastCheckIntersectionInterpreter } from './intersections'

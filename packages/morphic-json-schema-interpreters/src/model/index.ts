@@ -1,4 +1,4 @@
-import { merge } from 'morphic-common/lib/utils'
+import { merge } from '@morphic/common/lib/utils'
 import { jsonSchemaPrimitiveInterpreter } from './primitives'
 import { jsonSchemaIntersectionInterpreter } from './intersections'
 import { jsonSchemaObjectInterpreter } from './object'

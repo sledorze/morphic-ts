@@ -1,5 +1,5 @@
 import { FastCheckType, FastCheckURI } from '..'
-import { ModelAlgebraStrMap1 } from 'morphic-model-algebras/lib/str-map'
+import { ModelAlgebraStrMap1 } from '@morphic/model-algebras/lib/str-map'
 import { array, record, semigroup } from 'fp-ts'
 import { tuple, array as FCArray, string } from 'fast-check'
 

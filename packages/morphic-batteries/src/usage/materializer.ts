@@ -1,6 +1,6 @@
 import { InterpreterResult, InterpreterURI } from './InterpreterResult'
 import { assignFunction, wrapFun, assignCallable, InhabitedTypes, inhabitTypes } from './utils'
-import { MonocleFor } from 'morphic-adt/lib/monocle'
+import { MonocleFor } from '@morphic/adt/lib/monocle'
 import { ProgramURI, ProgramType } from './ProgramType'
 
 /**

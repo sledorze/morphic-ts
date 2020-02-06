@@ -1,5 +1,5 @@
 import { record } from 'fp-ts'
-import { ModelAlgebraStrMap1 } from 'morphic-model-algebras/lib/str-map'
+import { ModelAlgebraStrMap1 } from '@morphic/model-algebras/lib/str-map'
 import { ShowType, ShowURI } from '..'
 
 /**

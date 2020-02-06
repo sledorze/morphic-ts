@@ -1,6 +1,6 @@
 import { record, string } from 'io-ts'
 import { IOTSType, IoTsURI } from '..'
-import { ModelAlgebraStrMap2 } from 'morphic-model-algebras/lib/str-map'
+import { ModelAlgebraStrMap2 } from '@morphic/model-algebras/lib/str-map'
 
 /**
  *  @since 0.0.1

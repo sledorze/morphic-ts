@@ -1,5 +1,5 @@
-import { HKT2, Kind, Kind2, URIS, URIS2 } from 'morphic-common/lib/HKT'
-import { Algebra1, Algebra2, Algebra } from 'morphic-algebras/lib/core'
+import { HKT2, Kind, Kind2, URIS, URIS2 } from '@morphic/common/lib/HKT'
+import { Algebra1, Algebra2, Algebra } from '@morphic/algebras/lib/core'
 import { ProgramURI, ProgramAlgebra, ProgramAlgebraURI, ProgramType } from './ProgramType'
 
 /**

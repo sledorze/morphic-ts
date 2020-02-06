@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { summon, UM } from 'morphic-batteries/lib/summoner'
+import { summon, UM } from '@morphic/batteries/lib/summoner'
 import { right, left } from 'fp-ts/lib/Either'
 import { either } from 'fp-ts'
 import { JsonSchemaErrors } from '../src/json-schema/json-schema-ctors'

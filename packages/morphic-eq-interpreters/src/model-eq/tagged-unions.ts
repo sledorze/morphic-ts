@@ -1,6 +1,6 @@
-import { ModelAlgebraTaggedUnions1 } from 'morphic-model-algebras/lib/tagged-unions'
+import { ModelAlgebraTaggedUnions1 } from '@morphic/model-algebras/lib/tagged-unions'
 import { EqType, EqURI } from '..'
-import { mapRecord } from 'morphic-common/lib/utils'
+import { mapRecord } from '@morphic/common/lib/utils'
 
 /**
  *  @since 0.0.1

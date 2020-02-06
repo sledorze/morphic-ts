@@ -1,5 +1,5 @@
 import { Ord } from 'fp-ts/lib/Ord'
-import { Kind, URIS, Kind2, URIS2, HKT2 } from 'morphic-common/lib/HKT'
+import { Kind, URIS, Kind2, URIS2, HKT2 } from '@morphic/common/lib/HKT'
 
 /**
  *  @since 0.0.1
@@ -10,7 +10,7 @@ export const SetURI = Symbol()
  */
 export type SetURI = typeof SetURI
 
-declare module 'morphic-algebras/lib/hkt' {
+declare module '@morphic/algebras/lib/hkt' {
   interface Algebra<F> {
     [SetURI]: ModelAlgebraSet<F>
   }

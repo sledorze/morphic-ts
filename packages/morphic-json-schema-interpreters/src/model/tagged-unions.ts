@@ -1,4 +1,4 @@
-import { ModelAlgebraTaggedUnions1 } from 'morphic-model-algebras/lib/tagged-unions'
+import { ModelAlgebraTaggedUnions1 } from '@morphic/model-algebras/lib/tagged-unions'
 import { JsonSchemaURI, JsonSchema } from '..'
 import { UnionTypeCtor } from '../json-schema/json-schema-ctors'
 import { record } from 'fp-ts'

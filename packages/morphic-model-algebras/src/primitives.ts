@@ -1,5 +1,5 @@
 import { Option } from 'fp-ts/lib/Option'
-import { URIS2, Kind2, URIS, Kind, HKT2 } from 'morphic-common/lib/HKT'
+import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic/common/lib/HKT'
 import {
   PrimitiveArrayConfig,
   PrimitiveStringConfig,
@@ -10,8 +10,8 @@ import {
   PrimitiveBigIntConfig,
   PrimitiveStringLiteralConfig,
   PrimitiveKeysOfConfig
-} from 'morphic-algebras/lib/hkt'
-import { ByInterp, isOptionalConfig } from 'morphic-common/lib/core'
+} from '@morphic/algebras/lib/hkt'
+import { ByInterp, isOptionalConfig } from '@morphic/common/lib/core'
 
 /**
  *  @since 0.0.1
@@ -27,7 +27,7 @@ export const PrimitiveURI = Symbol()
  */
 export type PrimitiveURI = typeof PrimitiveURI
 
-declare module 'morphic-algebras/lib/hkt' {
+declare module '@morphic/algebras/lib/hkt' {
   interface Algebra<F> {
     [PrimitiveURI]: ModelAlgebraPrimitive<F>
   }

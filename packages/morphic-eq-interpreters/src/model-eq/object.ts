@@ -1,6 +1,6 @@
-import { ModelAlgebraObject1, PropsKind1 } from 'morphic-model-algebras/lib/object'
+import { ModelAlgebraObject1, PropsKind1 } from '@morphic/model-algebras/lib/object'
 import { EqType, EqURI } from '..'
-import { projectField } from 'morphic-common/lib/utils'
+import { projectField } from '@morphic/common/lib/utils'
 import { getStructEq, Eq } from 'fp-ts/lib/Eq'
 
 /**

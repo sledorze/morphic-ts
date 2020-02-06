@@ -1,6 +1,6 @@
-import { URIS, Kind, URIS2, Kind2, HKT2 } from 'morphic-common/lib/HKT'
-import { isOptionalConfig, ByInterp } from 'morphic-common/lib/core'
-import { ObjectInterfaceConfig, ObjectPartialConfig } from 'morphic-algebras/lib/hkt'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic/common/lib/HKT'
+import { isOptionalConfig, ByInterp } from '@morphic/common/lib/core'
+import { ObjectInterfaceConfig, ObjectPartialConfig } from '@morphic/algebras/lib/hkt'
 
 type AnyMProps<F> = Record<string, HKT2<F, any, any>>
 
@@ -13,7 +13,7 @@ export const ObjectURI = Symbol()
  */
 export type ObjectURI = typeof ObjectURI
 
-declare module 'morphic-algebras/lib/hkt' {
+declare module '@morphic/algebras/lib/hkt' {
   interface Algebra<F> {
     [ObjectURI]: ModelAlgebraObject<F>
   }

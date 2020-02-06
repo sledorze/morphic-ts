@@ -7,7 +7,7 @@ import {
   ProgramURIOfProgramInterpreter
 } from './materializer'
 import { InterpreterURI } from './InterpreterResult'
-import { CacheType } from 'morphic-common/lib/core'
+import { CacheType } from '@morphic/common/lib/core'
 import { ProgramURI, ProgramTypes, ProgramType } from './ProgramType'
 
 /**

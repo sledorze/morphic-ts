@@ -1,5 +1,5 @@
 import { set } from 'fp-ts'
-import { ModelAlgebraSet1 } from 'morphic-model-algebras/lib/set'
+import { ModelAlgebraSet1 } from '@morphic/model-algebras/lib/set'
 import { EqType, EqURI } from '..'
 
 /**

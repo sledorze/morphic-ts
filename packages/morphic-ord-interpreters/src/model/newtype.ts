@@ -1,4 +1,4 @@
-import { ModelAlgebraNewtype1 } from 'morphic-model-algebras/lib/newtype'
+import { ModelAlgebraNewtype1 } from '@morphic/model-algebras/lib/newtype'
 import { OrdURI } from '..'
 import { identity } from 'fp-ts/lib/function'
 

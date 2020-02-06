@@ -1,4 +1,4 @@
-import { merge } from 'morphic-common/lib/utils'
+import { merge } from '@morphic/common/lib/utils'
 import { ioTsPrimitiveInterpreter } from './primitives'
 import { ioTsIntersectionInterpreter } from './intersections'
 import { ioTsUnionInterpreter } from './unions'

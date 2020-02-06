@@ -1,4 +1,4 @@
-import { ModelAlgebraObject1 } from 'morphic-model-algebras/lib/object'
+import { ModelAlgebraObject1 } from '@morphic/model-algebras/lib/object'
 import { JsonSchema, JsonSchemaURI } from '..'
 import { ObjectTypeCtor, notOptional } from '../json-schema/json-schema-ctors'
 import { record } from 'fp-ts'

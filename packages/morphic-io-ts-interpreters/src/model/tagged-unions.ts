@@ -1,7 +1,7 @@
 import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '..'
-import { ModelAlgebraTaggedUnions2 } from 'morphic-model-algebras/lib/tagged-unions'
-import { collect } from 'morphic-common/lib/utils'
+import { ModelAlgebraTaggedUnions2 } from '@morphic/model-algebras/lib/tagged-unions'
+import { collect } from '@morphic/common/lib/utils'
 
 /**
  *  @since 0.0.1

@@ -1,6 +1,6 @@
 import { FastCheckType, FastCheckURI } from '..'
-import { ModelAlgebraTaggedUnions1 } from 'morphic-model-algebras/lib/tagged-unions'
-import { collect } from 'morphic-common/lib/utils'
+import { ModelAlgebraTaggedUnions1 } from '@morphic/model-algebras/lib/tagged-unions'
+import { collect } from '@morphic/common/lib/utils'
 import { oneof } from 'fast-check'
 
 /**

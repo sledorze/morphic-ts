@@ -1,5 +1,5 @@
-import { OfType, OfType2 } from 'morphic-common/lib/core'
-import { URIS, Kind, URIS2, Kind2, HKT2 } from 'morphic-common/lib//HKT'
+import { OfType, OfType2 } from '@morphic/common/lib/core'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic/common/lib//HKT'
 
 /**
  *  @since 0.0.1
@@ -10,7 +10,7 @@ export const IntersectionURI = Symbol()
  */
 export type IntersectionURI = typeof IntersectionURI
 
-declare module 'morphic-algebras/lib/hkt' {
+declare module '@morphic/algebras/lib/hkt' {
   interface Algebra<F> {
     [IntersectionURI]: ModelAlgebraIntersection<F>
   }

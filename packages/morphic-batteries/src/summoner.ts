@@ -1,4 +1,4 @@
-import { cacheUnaryFunction } from 'morphic-common/lib/core'
+import { cacheUnaryFunction } from '@morphic/common/lib/core'
 import { BASTJInterpreter, M, UM, AsOpaque, AsUOpaque } from './interpreters-BAST'
 import { makeSummoner } from './usage/summoner'
 import { makeTagged } from './usage/tagged-union'

@@ -1,4 +1,4 @@
-import { ModelAlgebraUnions1 } from 'morphic-model-algebras/lib/unions'
+import { ModelAlgebraUnions1 } from '@morphic/model-algebras/lib/unions'
 import { JsonSchemaURI, JsonSchema } from '..'
 import { UnionTypeCtor } from '../json-schema/json-schema-ctors'
 import { pipe } from 'fp-ts/lib/pipeable'

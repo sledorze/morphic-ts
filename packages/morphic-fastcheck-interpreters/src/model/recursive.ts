@@ -1,6 +1,6 @@
 import { FastCheckType, FastCheckURI } from '..'
-import { ModelAlgebraRecursive1 } from 'morphic-model-algebras/lib/recursive'
-import { memo } from 'morphic-common/lib/utils'
+import { ModelAlgebraRecursive1 } from '@morphic/model-algebras/lib/recursive'
+import { memo } from '@morphic/common/lib/utils'
 import { constant } from 'fast-check'
 
 /**

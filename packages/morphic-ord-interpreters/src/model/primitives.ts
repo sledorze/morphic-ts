@@ -1,7 +1,7 @@
 import * as options from 'fp-ts/lib/Option'
 import { ordNumber, ordString, ord, ordBoolean } from 'fp-ts/lib/Ord'
 import { getOrd as getArrayOrd } from 'fp-ts/lib/Array'
-import { ModelAlgebraPrimitive1 } from 'morphic-model-algebras/lib/primitives'
+import { ModelAlgebraPrimitive1 } from '@morphic/model-algebras/lib/primitives'
 import { OrdType, OrdURI } from '..'
 import { strictEqual } from 'fp-ts/lib/Eq'
 

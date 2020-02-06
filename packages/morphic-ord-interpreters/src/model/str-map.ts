@@ -1,6 +1,6 @@
 import { array, record } from 'fp-ts'
 import { ord, ordString, getTupleOrd } from 'fp-ts/lib/Ord'
-import { ModelAlgebraStrMap1 } from 'morphic-model-algebras/lib/str-map'
+import { ModelAlgebraStrMap1 } from '@morphic/model-algebras/lib/str-map'
 import { OrdType, OrdURI } from '..'
 
 /**
