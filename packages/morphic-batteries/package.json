@@ -1,7 +1,7 @@
 {
   "name": "@sledorze/morphic-batteries",
   "version": "0.0.1",
-  "description": "> TODO: description",
+  "description": "Morphic batteries package to bootstrap projects",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
   "license": "ISC",

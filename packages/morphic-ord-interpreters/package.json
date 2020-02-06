@@ -1,7 +1,7 @@
 {
   "name": "@sledorze/morphic-ord-interpreters",
   "version": "0.0.1",
-  "description": "> TODO: description",
+  "description": "Morphic Ord (fp-ts) package for ordering derivation",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
   "license": "ISC",

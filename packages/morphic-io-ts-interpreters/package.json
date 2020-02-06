@@ -1,7 +1,7 @@
 {
   "name": "@sledorze/morphic-io-ts-interpreters",
   "version": "0.0.1",
-  "description": "> TODO: description",
+  "description": "Morphic io-ts package for encoding / decoding",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
   "license": "ISC",

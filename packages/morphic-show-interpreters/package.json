@@ -1,7 +1,7 @@
 {
   "name": "@sledorze/morphic-show-interpreters",
   "version": "0.0.1",
-  "description": "> TODO: description",
+  "description": "Morphic show (fp-ts) package to derive show instances",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
   "license": "ISC",
