@@ -27,5 +27,10 @@
     "jest": "^24.9.0",
     "newtype-ts": "^0.3.3",
     "io-ts": "^2.0.6"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "./ensure-deduplicate.sh"
+    }
   }
 }
