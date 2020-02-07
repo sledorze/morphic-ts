@@ -33,13 +33,13 @@ As such previous package `morphic-ts`has been replaced by
 ## Two minutes intro
 
 ```bash
-yarn add 'morphic-batteries'
+yarn add '@morphic-ts/batteries'
 ```
 
 Then
 
 ```typescript
-import { summon } from 'morphic-ts/lib/batteries/summoner'
+import { summon } from '@morphic-ts/batteries/lib/summoner'
 
 export const Person = summon(F =>
   F.interface(
@@ -65,7 +65,7 @@ Person.jsonSchema // JsonSchema-ish representation
 ### Discriminated, taggedUnion-like models
 
 ```typescript
-import { summon, tagged } from 'morphic-ts/lib/batteries/summoner-no-union'
+import { summon, tagged } from '@morphic-ts/batteries/lib/summoner-no-union'
 
 export const Bicycle = summon(F =>
   F.interface(
