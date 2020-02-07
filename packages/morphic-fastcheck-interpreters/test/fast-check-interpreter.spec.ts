@@ -1,9 +1,9 @@
 import * as fc from 'fast-check'
 import { ordString, ord } from 'fp-ts/lib/Ord'
 
-import { ProgramUnionURI } from '@morphic/batteries/lib/program'
-import { summon, M } from '@morphic/batteries/lib/summoner'
-import { ProgramType } from '@morphic/batteries/lib/usage/ProgramType'
+import { ProgramUnionURI } from '@morphic-ts/batteries/lib/program'
+import { summon, M } from '@morphic-ts/batteries/lib/summoner'
+import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { fastCheckConfig } from '../src/index'
 import { fastCheckPrimitiveInterpreter } from '../src/model/primitives'
 fastCheckPrimitiveInterpreter

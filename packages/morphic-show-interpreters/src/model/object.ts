@@ -1,6 +1,6 @@
-import { ModelAlgebraObject1 } from '@morphic/model-algebras/lib/object'
+import { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
 import { ShowType, ShowURI } from '..'
-import { projectField } from '@morphic/common/lib/utils'
+import { projectField } from '@morphic-ts/common/lib/utils'
 import { getStructShow } from 'fp-ts/lib/Show'
 
 /**

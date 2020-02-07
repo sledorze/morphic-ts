@@ -1,6 +1,6 @@
 import { genericTuple } from 'fast-check'
 import { FastCheckType, FastCheckURI } from '..'
-import { ModelAlgebraIntersection1 } from '@morphic/model-algebras/lib/intersections'
+import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
 
 /**
  *  @since 0.0.1

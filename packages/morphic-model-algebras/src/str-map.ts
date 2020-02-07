@@ -1,4 +1,4 @@
-import { Kind, URIS, Kind2, URIS2, HKT2 } from '@morphic/common/lib/HKT'
+import { Kind, URIS, Kind2, URIS2, HKT2 } from '@morphic-ts/common/lib/HKT'
 
 /**
  *  @since 0.0.1
@@ -9,7 +9,7 @@ export const StrMapURI = Symbol()
  */
 export type StrMapURI = typeof StrMapURI
 
-declare module '@morphic/algebras/lib/hkt' {
+declare module '@morphic-ts/algebras/lib/hkt' {
   interface Algebra<F> {
     [StrMapURI]: ModelAlgebraStrMap<F>
   }

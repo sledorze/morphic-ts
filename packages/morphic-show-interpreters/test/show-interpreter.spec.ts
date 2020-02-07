@@ -1,6 +1,6 @@
 import * as chai from 'chai'
 
-import { summon } from '@morphic/batteries/lib/summoner-no-union'
+import { summon } from '@morphic-ts/batteries/lib/summoner-no-union'
 import { Newtype, iso } from 'newtype-ts'
 
 describe('Show', () => {

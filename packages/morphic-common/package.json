@@ -1,5 +1,5 @@
 {
-  "name": "@morphic/common",
+  "name": "@morphic-ts/common",
   "version": "0.3.1",
   "description": "Morphic core common package",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
@@ -47,5 +47,5 @@
       "utils"
     ]
   },
-  "gitHead": "12034f35255b7fb22616b3dcfff1d9535087df3e"
+  "gitHead": "90dd8cc7d6292cabd867d0a48e042cc27aefc939"
 }

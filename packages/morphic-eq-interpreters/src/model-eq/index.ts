@@ -1,4 +1,4 @@
-import { merge } from '@morphic/common/lib/utils'
+import { merge } from '@morphic-ts/common/lib/utils'
 
 import { eqPrimitiveInterpreter } from './primitives'
 import { eqIntersectionInterpreter } from './intersections'

@@ -1,5 +1,5 @@
 {
-  "name": "@morphic/batteries",
+  "name": "@morphic-ts/batteries",
   "version": "0.3.1",
   "description": "Morphic batteries package to bootstrap projects",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
@@ -18,15 +18,15 @@
     "lib"
   ],
   "dependencies": {
-    "@morphic/algebras": "^0.3.1",
-    "@morphic/common": "^0.3.1",
-    "@morphic/eq-interpreters": "^0.3.1",
-    "@morphic/fastcheck-interpreters": "^0.3.1",
-    "@morphic/io-ts-interpreters": "^0.3.1",
-    "@morphic/json-schema-interpreters": "^0.3.1",
-    "@morphic/model-algebras": "^0.3.1",
-    "@morphic/ord-interpreters": "^0.3.1",
-    "@morphic/show-interpreters": "^0.3.1",
+    "@morphic-ts/algebras": "^0.3.1",
+    "@morphic-ts/common": "^0.3.1",
+    "@morphic-ts/eq-interpreters": "^0.3.1",
+    "@morphic-ts/fastcheck-interpreters": "^0.3.1",
+    "@morphic-ts/io-ts-interpreters": "^0.3.1",
+    "@morphic-ts/json-schema-interpreters": "^0.3.1",
+    "@morphic-ts/model-algebras": "^0.3.1",
+    "@morphic-ts/ord-interpreters": "^0.3.1",
+    "@morphic-ts/show-interpreters": "^0.3.1",
     "fast-equals": "^2.0.0",
     "fp-ts": "^2.4.1",
     "io-ts": "^2.0.6",
@@ -64,5 +64,5 @@
       "utils"
     ]
   },
-  "gitHead": "12034f35255b7fb22616b3dcfff1d9535087df3e"
+  "gitHead": "90dd8cc7d6292cabd867d0a48e042cc27aefc939"
 }

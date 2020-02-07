@@ -1,5 +1,5 @@
 import { ShowURI, ShowType } from '..'
-import { ModelAlgebraNewtype1 } from '@morphic/model-algebras/lib/newtype'
+import { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
 
 /**
  *  @since 0.0.1

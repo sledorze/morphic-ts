@@ -1,5 +1,5 @@
 import { ShowType, ShowURI } from '..'
-import { ModelAlgebraRefined1 } from '@morphic/model-algebras/lib/refined'
+import { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
 
 /**
  *  @since 0.0.1

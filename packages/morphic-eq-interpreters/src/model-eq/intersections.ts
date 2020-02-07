@@ -1,4 +1,4 @@
-import { ModelAlgebraIntersection1 } from '@morphic/model-algebras/lib/intersections'
+import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
 import { monoidAll, fold } from 'fp-ts/lib/Monoid'
 import { EqType, EqURI } from '..'
 

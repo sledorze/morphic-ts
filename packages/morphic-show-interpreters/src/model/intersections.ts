@@ -1,4 +1,4 @@
-import { ModelAlgebraIntersection1 } from '@morphic/model-algebras/lib/intersections'
+import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
 import { ShowType, ShowURI } from '..'
 
 /**

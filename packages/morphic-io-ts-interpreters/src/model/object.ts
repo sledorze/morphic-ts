@@ -1,7 +1,7 @@
 import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '..'
-import { ModelAlgebraObject2, PropsKind2 } from '@morphic/model-algebras/lib/object'
-import { projectField } from '@morphic/common/lib/utils'
+import { ModelAlgebraObject2, PropsKind2 } from '@morphic-ts/model-algebras/lib/object'
+import { projectField } from '@morphic-ts/common/lib/utils'
 
 /**
  *  @since 0.0.1

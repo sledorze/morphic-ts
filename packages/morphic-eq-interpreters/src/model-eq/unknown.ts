@@ -1,10 +1,10 @@
-import { ModelAlgebraUnknown1 } from '@morphic/model-algebras/lib/unknown'
+import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
 import { EqType, EqURI } from '..'
 import { Eq } from 'fp-ts/lib/Eq'
 import { circularDeepEqual, deepEqual } from 'fast-equals'
-import { UnknownConfig } from '@morphic/algebras/lib/hkt'
+import { UnknownConfig } from '@morphic-ts/algebras/lib/hkt'
 
-declare module '@morphic/algebras/lib/hkt' {
+declare module '@morphic-ts/algebras/lib/hkt' {
   interface UnknownConfig {
     [EqURI]: Customize | undefined
   }

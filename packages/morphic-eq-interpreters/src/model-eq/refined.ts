@@ -1,4 +1,4 @@
-import { ModelAlgebraRefined1 } from '@morphic/model-algebras/lib/refined'
+import { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
 import { EqURI } from '..'
 import { identity } from 'fp-ts/lib/function'
 

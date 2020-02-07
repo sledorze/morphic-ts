@@ -1,9 +1,9 @@
 import { FastCheckType, FastCheckURI } from '..'
-import { ModelAlgebraUnknown1 } from '@morphic/model-algebras/lib/unknown'
+import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
 import { identity } from 'fp-ts/lib/function'
 import { Arbitrary, anything } from 'fast-check'
 
-declare module '@morphic/algebras/lib/hkt' {
+declare module '@morphic-ts/algebras/lib/hkt' {
   interface UnknownConfig {
     [FastCheckURI]: Customize<unknown> | undefined
   }

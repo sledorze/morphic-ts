@@ -1,5 +1,5 @@
 {
-  "name": "@morphic/json-schema-interpreters",
+  "name": "@morphic-ts/json-schema-interpreters",
   "version": "0.3.1",
   "description": "Morphic json schema-ish derivation",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
@@ -18,9 +18,9 @@
     "lib"
   ],
   "dependencies": {
-    "@morphic/algebras": "^0.3.1",
-    "@morphic/common": "^0.3.1",
-    "@morphic/model-algebras": "^0.3.1",
+    "@morphic-ts/algebras": "^0.3.1",
+    "@morphic-ts/common": "^0.3.1",
+    "@morphic-ts/model-algebras": "^0.3.1",
     "fp-ts": "^2.4.1"
   },
   "devDependencies": {
@@ -29,7 +29,7 @@
     "newtype-ts": "^0.3.3"
   },
   "peerDependencies": {
-    "@morphic/batteries": "^0.2.0",
+    "@morphic-ts/batteries": "^0.3.0",
     "io-ts": "^2.0.6",
     "io-ts-types": "^0.5.5",
     "newtype-ts": "^0.3.3"
@@ -64,5 +64,5 @@
       "utils"
     ]
   },
-  "gitHead": "12034f35255b7fb22616b3dcfff1d9535087df3e"
+  "gitHead": "90dd8cc7d6292cabd867d0a48e042cc27aefc939"
 }

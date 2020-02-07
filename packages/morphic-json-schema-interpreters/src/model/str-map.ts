@@ -1,4 +1,4 @@
-import { ModelAlgebraStrMap1 } from '@morphic/model-algebras/lib/str-map'
+import { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
 import { JsonSchema, JsonSchemaURI } from '..'
 import { StrMapTypeCtor } from '../json-schema/json-schema-ctors'
 import * as SE from '../StateEither'

@@ -1,5 +1,5 @@
 import { Show } from 'fp-ts/lib/Show'
-import { genConfig } from '@morphic/common/lib/core'
+import { genConfig } from '@morphic-ts/common/lib/core'
 
 /**
  *  @since 0.0.1
@@ -19,7 +19,7 @@ export class ShowType<A> {
   constructor(public show: Show<A>) {}
 }
 
-declare module '@morphic/common/lib/HKT' {
+declare module '@morphic-ts/common/lib/HKT' {
   interface URItoKind<A> {
     [ShowURI]: ShowType<A>
   }

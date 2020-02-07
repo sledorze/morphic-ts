@@ -1,6 +1,6 @@
-import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic/common/lib/HKT'
-import { isOptionalConfig, ByInterp } from '@morphic/common/lib/core'
-import { TaggedUnionConfig } from '@morphic/algebras/lib/hkt'
+import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic-ts/common/lib/HKT'
+import { isOptionalConfig, ByInterp } from '@morphic-ts/common/lib/core'
+import { TaggedUnionConfig } from '@morphic-ts/algebras/lib/hkt'
 
 /**
  *  @since 0.0.1
@@ -11,7 +11,7 @@ export const TaggedUnionsURI = Symbol()
  */
 export type TaggedUnionsURI = typeof TaggedUnionsURI
 
-declare module '@morphic/algebras/lib/hkt' {
+declare module '@morphic-ts/algebras/lib/hkt' {
   interface Algebra<F> {
     [TaggedUnionsURI]: ModelAlgebraTaggedUnions<F>
   }

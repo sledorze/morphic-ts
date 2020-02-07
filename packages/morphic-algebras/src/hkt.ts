@@ -1,4 +1,4 @@
-import { URIS, URIS2 } from '@morphic/common/lib/HKT'
+import { URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
 
 /**
  *  @since 0.0.1
