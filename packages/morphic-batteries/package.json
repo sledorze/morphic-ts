@@ -18,6 +18,7 @@
     "lib"
   ],
   "dependencies": {
+    "@morphic-ts/adt": "^0.3.1",
     "@morphic-ts/algebras": "^0.3.2",
     "@morphic-ts/common": "^0.3.2",
     "@morphic-ts/eq-interpreters": "^0.3.2",
