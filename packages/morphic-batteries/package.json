@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/batteries",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Morphic batteries package to bootstrap projects",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -18,7 +18,7 @@
     "lib"
   ],
   "dependencies": {
-    "@morphic-ts/adt": "^0.3.1",
+    "@morphic-ts/adt": "^0.3.2",
     "@morphic-ts/algebras": "^0.3.2",
     "@morphic-ts/common": "^0.3.2",
     "@morphic-ts/eq-interpreters": "^0.3.2",
