@@ -17,17 +17,17 @@ It is has two side blended into one; generic ADT manipulation AND Generic, custo
 As such previous package `morphic-ts`has been replaced by
 
 ```typescript
-'morphic-adt'
-'morphic-algebras'
-'morphic-batteries'
+'@morphic-ts/adt'
+'@morphic-ts/algebras'
+'@morphic-ts/batteries'
 '@morphic-ts/common'
-'morphic-eq-interpreters'
-'morphic-fastcheck-interpreters'
-'morphic-io-ts-interpreters'
-'morphic-json-schema-interpreters'
-'morphic-model-algebras'
-'morphic-ord-interpreters'
-'morphic-show-interpreters`
+'@morphic-ts/eq-interpreters'
+'@morphic-ts/fastcheck-interpreters'
+'@morphic-ts/io-ts-interpreters'
+'@morphic-ts/json-schema-interpreters'
+'@morphic-ts/model-algebras'
+'@morphic-ts/ord-interpreters'
+'@morphic-ts/show-interpreters`
 ```
 
 ## Two minutes intro
