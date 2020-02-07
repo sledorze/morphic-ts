@@ -86,7 +86,7 @@ export type MaybeUndefinedIfOptional<X> = keyof KeepNotUndefined<X> extends neve
  */
 export type isOptionalConfig<C, Y> = keyof KeepNotUndefined<ByInterp<C, URIS | URIS2>> extends never
   ? Y
-  : 'sorry, a configuration is required'
+  : 'a configuration is required'
 
 /**
  * generates a config wrapper:
