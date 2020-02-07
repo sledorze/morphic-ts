@@ -1,5 +1,5 @@
 import { identity } from 'fp-ts/lib/function'
-import { KeysDefinition, isIn } from '../src'
+import { KeysDefinition, isIn } from '.'
 
 type ValueByKeyByTag<Union extends Record<any, any>, Tags extends keyof Union = keyof Union> = {
   [Tag in Tags]: { [Key in Union[Tag]]: Union extends { [r in Tag]: Key } ? Union : never }

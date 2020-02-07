@@ -1,5 +1,5 @@
 import { ExtractUnion, ElemType } from './utils'
-import { KeysDefinition } from '../src'
+import { KeysDefinition } from '.'
 import { record } from 'fp-ts'
 
 /**
