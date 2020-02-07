@@ -1,6 +1,6 @@
 {
   "name": "@morphic/common",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Morphic core common package",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
