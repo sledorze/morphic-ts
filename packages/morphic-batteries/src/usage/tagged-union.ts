@@ -1,7 +1,7 @@
 import { Materialized, Morph } from './materializer'
 import { record, array } from 'fp-ts'
 import { HKT2 } from '@morphic-ts/common/lib/HKT'
-import { TagsOf, assignCallable, wrapFun, InhabitedTypes, AType, EType } from './utils'
+import { assignCallable, wrapFun, InhabitedTypes, AType, EType } from './utils'
 import { Algebra } from '@morphic-ts/algebras/lib/hkt'
 import { InterpreterURI } from './InterpreterResult'
 import { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
@@ -11,6 +11,26 @@ import { ElemType } from '@morphic-ts/adt/lib/utils'
 import { identity, tuple } from 'fp-ts/lib/function'
 import { intersection, difference } from 'fp-ts/lib/Array'
 import { eqString } from 'fp-ts/lib/Eq'
+
+/**
+ *  @since 0.0.1
+ */
+export type IfStringLiteral<T, IfLiteral, IfString, IfNotString> = T extends string
+  ? string extends T
+    ? IfString
+    : IfLiteral
+  : IfNotString
+
+/**
+ * Keeps the common key in a union that are discriminants (Holds values which *are* literals)
+ */
+type TagsInKeys<T, K extends keyof T> = NonNullable<
+  { [k in K]: undefined extends T[k] ? undefined : IfStringLiteral<T[k], k, never, never> }[K]
+>
+/**
+ *  @since 0.0.1
+ */
+export type TagsOf<T> = TagsInKeys<T, keyof T> & string // this indirection is necessary
 
 /**
  *  @since 0.0.1

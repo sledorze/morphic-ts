@@ -1,26 +1,6 @@
 /**
  *  @since 0.0.1
  */
-export type IfStringLiteral<T, IfLiteral, IfString, IfNotString> = T extends string
-  ? string extends T
-    ? IfString
-    : IfLiteral
-  : IfNotString
-
-/**
- * Keeps the common key in a union that are discriminants (Holds values which *are* literals)
- */
-type TagsInKeys<T, K extends keyof T> = NonNullable<
-  { [k in K]: undefined extends T[k] ? undefined : IfStringLiteral<T[k], k, never, never> }[K]
->
-/**
- *  @since 0.0.1
- */
-export type TagsOf<T> = TagsInKeys<T, keyof T> & string // this indirection is necessary
-
-/**
- *  @since 0.0.1
- */
 export const assignFunction = <F extends Function, C>(ab: F, c: C): F & C => {
   // tslint:disable-next-line: no-unnecessary-callback-wrapper
   const newF: typeof ab = ((...x: any[]) => ab(...x)) as any // force the creation of a new function to prevent mutation on the original
