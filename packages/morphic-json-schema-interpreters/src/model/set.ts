@@ -1,7 +1,7 @@
 import { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
 import { JsonSchema, JsonSchemaURI } from '..'
 import { SetFromArrayTypeCtor } from '../json-schema/json-schema-ctors'
-import * as SE from '../StateEither'
+import * as SE from 'fp-ts-contrib/lib/StateEither'
 import { pipe } from 'fp-ts/lib/pipeable'
 
 /**

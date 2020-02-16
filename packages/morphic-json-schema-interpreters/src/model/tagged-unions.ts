@@ -3,7 +3,7 @@ import { JsonSchemaURI, JsonSchema } from '..'
 import { UnionTypeCtor } from '../json-schema/json-schema-ctors'
 import { record } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
-import * as SE from '../StateEither'
+import * as SE from 'fp-ts-contrib/lib/StateEither'
 import { arrayTraverseStateEither } from '../utils'
 
 /**

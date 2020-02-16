@@ -21,7 +21,8 @@
     "@morphic-ts/algebras": "^0.3.2",
     "@morphic-ts/common": "^0.3.2",
     "@morphic-ts/model-algebras": "^0.3.2",
-    "fp-ts": "^2.4.1"
+    "fp-ts": "^2.4.1",
+    "fp-ts-contrib": "^0.1.12"
   },
   "devDependencies": {
     "io-ts": "^2.0.6",
