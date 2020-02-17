@@ -2925,6 +2925,11 @@ form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
+fp-ts-contrib@^0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/fp-ts-contrib/-/fp-ts-contrib-0.1.12.tgz#d790a7254e0461bd9d55e392c95be388deb567c2"
+  integrity sha512-2PsPgjhYArigbCNzxgA5QQXFYAESULgO1LhOgAtxjaW+FUhZYrM3so484qDVjjqII2x9OGAdwWXxUJBtz7GfnQ==
+
 fp-ts@^2.0.2:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.2.0.tgz#7a442c6389e9b8424a5deb55eb099a8840072f4a"

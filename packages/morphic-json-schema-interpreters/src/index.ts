@@ -1,6 +1,6 @@
 import { OptionalJSONSchema, JsonSchemaError } from './json-schema/json-schema-ctors'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import * as SE from './StateEither'
+import * as SE from 'fp-ts-contrib/lib/StateEither'
 import { JSONSchema } from './json-schema/json-schema'
 import { genConfig } from '@morphic-ts/common/lib/core'
 

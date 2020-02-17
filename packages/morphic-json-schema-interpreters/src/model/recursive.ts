@@ -4,7 +4,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 import { notOptional, JsonSchemaError } from '../json-schema/json-schema-ctors'
 import { Ref, isnotTypeRef } from '../json-schema/json-schema'
 import { pipe } from 'fp-ts/lib/pipeable'
-import * as SE from '../StateEither'
+import * as SE from 'fp-ts-contrib/lib/StateEither'
 import { nonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { addSchema, getSchemaStrict } from '../utils'
 

@@ -2,7 +2,7 @@ import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/inters
 import { JsonSchema, JsonSchemaURI } from '..'
 import { IntersectionTypeCtor } from '../json-schema/json-schema-ctors'
 import { pipe } from 'fp-ts/lib/pipeable'
-import * as SE from '../StateEither'
+import * as SE from 'fp-ts-contrib/lib/StateEither'
 import { arrayTraverseStateEither, resolveRef, registerSchema } from '../utils'
 
 /**
