@@ -32,7 +32,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "./ensure-deduplicate.sh"
+      "pre-commit": "./ensure-deduplicate.sh",
+      "pre-push": "lerna run test"
     }
   }
 }
