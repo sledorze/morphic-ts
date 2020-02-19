@@ -1,0 +1,31 @@
+name: Test CI
+
+on:
+  push:
+    branches:
+      - issue/**
+      - features/**
+      - generic/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: npm install, build, and test
+        run: |
+          npm install -g lerna
+          npm install -g yarn
+          lerna bootstrap
+          lerna run build
+          lerna run prettier --parallel
+          lerna run lint --parallel
+          lerna run jest --parallel
+        env:
+          CI: 'true'
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -30,7 +30,7 @@
     "newtype-ts": "^0.3.3"
   },
   "peerDependencies": {
-    "@morphic-ts/batteries": "^0.3.0",
+    "@morphic-ts/batteries": "^0.4.0",
     "io-ts": "^2.0.6",
     "io-ts-types": "^0.5.5",
     "newtype-ts": "^0.3.3"
