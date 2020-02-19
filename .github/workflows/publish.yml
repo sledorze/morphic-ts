@@ -22,7 +22,9 @@ jobs:
           npm install -g yarn
           lerna bootstrap
           lerna run build
-          lerna run test
+          lerna run prettier --parallel
+          lerna run lint --parallel
+          lerna run jest --parallel
           cp .ci.npmrc .npmrc
           lerna publish from-package --yes
         env:
