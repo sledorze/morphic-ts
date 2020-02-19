@@ -6,11 +6,9 @@ import { some, none } from 'fp-ts/lib/Option'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Errors, Branded } from 'io-ts'
-import { failure } from 'io-ts/lib/PathReporter'
 import { summon, M } from '@morphic-ts/batteries/lib/summoner'
-import { IoTsURI, iotsConfig } from '../src/index' // Fake to please the test runner
+import { IoTsURI } from '../src/index' // Fake to please the test runner
 import { modelIoTsStrictInterpreter } from '../src/interpreters' // Fake to please the test runner
-import { withMessage } from 'io-ts-types/lib/withMessage'
 export { IoTsURI, modelIoTsStrictInterpreter }
 
 export type Tree = Node | Leaf

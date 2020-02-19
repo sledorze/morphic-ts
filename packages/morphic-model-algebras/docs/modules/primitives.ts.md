@@ -42,16 +42,20 @@ export interface ModelAlgebraPrimitive<F> {
     (config: ByInterp<PrimitiveStringConfig, URIS | URIS2>): HKT2<F, string, string>
   }
   stringLiteral: {
-    <T extends string>(value: T): isOptionalConfig<PrimitiveStringLiteralConfig, HKT2<F, string, typeof value>>
-    <T extends string>(value: T, config: ByInterp<PrimitiveStringLiteralConfig, URIS | URIS2>): HKT2<
+    <T extends string>(value: T): isOptionalConfig<PrimitiveStringLiteralConfig<T>, HKT2<F, string, typeof value>>
+    <T extends string>(value: T, config: ByInterp<PrimitiveStringLiteralConfig<T>, URIS | URIS2>): HKT2<
       F,
       string,
       typeof value
     >
   }
   keysOf: {
-    <K extends Keys>(keys: K): isOptionalConfig<PrimitiveKeysOfConfig, HKT2<F, string, keyof typeof keys>>
-    <K extends Keys>(keys: K, config: ByInterp<PrimitiveKeysOfConfig, URIS | URIS2>): HKT2<F, string, keyof typeof keys>
+    <K extends Keys>(keys: K): isOptionalConfig<PrimitiveKeysOfConfig<keyof K>, HKT2<F, string, keyof typeof keys>>
+    <K extends Keys>(keys: K, config: ByInterp<PrimitiveKeysOfConfig<keyof K>, URIS | URIS2>): HKT2<
+      F,
+      string,
+      keyof typeof keys
+    >
   }
   array: {
     <L, A>(a: HKT2<F, L, A>): isOptionalConfig<PrimitiveArrayConfig<A>, HKT2<F, Array<L>, Array<A>>>
@@ -78,8 +82,11 @@ export interface ModelAlgebraPrimitive1<F extends URIS> {
   number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind<F, number>
   bigint(config?: ByInterp<PrimitiveBigIntConfig, F>): Kind<F, bigint>
   string(config?: ByInterp<PrimitiveStringConfig, F>): Kind<F, string>
-  stringLiteral: <T extends string>(value: T) => Kind<F, typeof value>
-  keysOf: <K extends Keys>(keys: K, config?: ByInterp<PrimitiveStringConfig, F>) => Kind<F, keyof typeof keys>
+  stringLiteral: <T extends string>(
+    value: T,
+    config?: ByInterp<PrimitiveStringLiteralConfig<T>, F>
+  ) => Kind<F, typeof value>
+  keysOf: <K extends Keys>(keys: K, config?: ByInterp<PrimitiveKeysOfConfig<keyof K>, F>) => Kind<F, keyof typeof keys>
   array: <A>(a: Kind<F, A>, config?: ByInterp<PrimitiveArrayConfig<A>, F>) => Kind<F, Array<A>>
   date(config?: ByInterp<PrimitiveDateConfig, F>): Kind<F, Date>
 }
@@ -99,8 +106,14 @@ export interface ModelAlgebraPrimitive2<F extends URIS2> {
   number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind2<F, number, number>
   bigint(config?: ByInterp<PrimitiveBigIntConfig, F>): Kind2<F, string, bigint>
   string(config?: ByInterp<PrimitiveStringConfig, F>): Kind2<F, string, string>
-  stringLiteral: <T extends string>(value: T) => Kind2<F, string, typeof value>
-  keysOf: <K extends Keys>(keys: K, config?: ByInterp<PrimitiveStringConfig, F>) => Kind2<F, string, keyof typeof keys>
+  stringLiteral: <T extends string>(
+    value: T,
+    config?: ByInterp<PrimitiveStringLiteralConfig<T>, F>
+  ) => Kind2<F, string, typeof value>
+  keysOf: <K extends Keys>(
+    keys: K,
+    config?: ByInterp<PrimitiveKeysOfConfig<keyof K>, F>
+  ) => Kind2<F, string, keyof typeof keys>
   array: <L, A>(a: Kind2<F, L, A>, config?: ByInterp<PrimitiveArrayConfig2<L, A>, F>) => Kind2<F, Array<L>, Array<A>>
   date(config?: ByInterp<PrimitiveDateConfig, F>): Kind2<F, string, Date>
 }
