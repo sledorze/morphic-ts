@@ -36,20 +36,6 @@ export interface GLeaf<A> {
 }
 
 describe('IO-TS Alt Schema', () => {
-  it('customize keyof', () => {
-    const codec = summon(F =>
-      F.keysOf(
-        { foo: null, bar: null },
-        iotsConfig(x => withMessage(x, () => 'not ok'))
-      )
-    ).type
-
-    const result = codec.decode('baz')
-
-    chai.assert.deepStrictEqual(isLeft(result), true)
-    chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
-  })
-
   it('refined', () => {
     interface PositiveNumberBrand {
       readonly PosNum: unique symbol
