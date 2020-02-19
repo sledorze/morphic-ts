@@ -46,6 +46,18 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   export interface PrimitiveArrayConfig2<E, A> {
     [IoTsURI]: Customize<E[], A[]> | undefined
   }
+  /**
+   *  @since 0.0.2
+   */
+  export interface PrimitiveKeysOfConfig<K> {
+    [IoTsURI]: Customize<string, K> | undefined
+  }
+  /**
+   *  @since 0.0.2
+   */
+  export interface PrimitiveStringLiteralConfig<K> {
+    [IoTsURI]: Customize<string, K> | undefined
+  }
 }
 
 interface Customize<E, A> {
@@ -88,8 +100,8 @@ export const ioTsPrimitiveInterpreter: ModelAlgebraPrimitive2<IoTsURI> = {
   string: config => new IOTSType(applyCustomize(config)(t.string)),
   number: config => new IOTSType(applyCustomize(config)(t.number)),
   bigint: config => new IOTSType(applyCustomize(config)(BigIntString)),
-  stringLiteral: l => new IOTSType(t.literal(l, l)),
-  keysOf: k => new IOTSType<string, keyof typeof k>(t.keyof(k) as any), // TODO: not pretty but output
+  stringLiteral: (l, config) => new IOTSType(applyCustomize(config)(t.literal(l, l))),
+  keysOf: (k, config) => new IOTSType<string, keyof typeof k>(applyCustomize(config)(t.keyof(k) as any)), // TODO: not pretty but output
   nullable: T => new IOTSType(optionFromNullable(T.type)),
   array: (T, config) => new IOTSType(applyCustomize(config)(t.array(T.type)))
 }
