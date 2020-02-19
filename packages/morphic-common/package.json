@@ -25,7 +25,7 @@
     "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples}/**/*.ts\"",
     "test": "yarn run prettier && yarn run lint && yarn run jest && yarn run docs",
     "test-old": "yarn run prettier && yarn run lint && yarn run dtslint && yarn run jest && yarn run docs",
-    "clean": "rm -rf lib/*",
+    "clean": "rimraf lib/*",
     "build": "yarn run clean && tsc --build tsconfig.build.json",
     "prepublish": "yarn run build",
     "docs-fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser markdown --write \"README.md\"",
