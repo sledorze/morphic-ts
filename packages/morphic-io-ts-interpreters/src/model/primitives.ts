@@ -5,6 +5,7 @@ import { IOTSType, IoTsURI } from '..'
 import { ModelAlgebraPrimitive2 } from '@morphic-ts/model-algebras/lib/primitives'
 import { identity } from 'fp-ts/lib/function'
 import { either } from 'fp-ts/lib/Either'
+import { Option } from 'fp-ts/lib/Option'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
   interface PrimitiveConfig {
@@ -58,6 +59,12 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   export interface PrimitiveStringLiteralConfig<K> {
     [IoTsURI]: Customize<string, K> | undefined
   }
+  /**
+   *  @since 0.0.2
+   */
+  export interface PrimitiveNullableConfig<L, A> {
+    [IoTsURI]: Customize<L | null, Option<A>> | undefined
+  }
 }
 
 interface Customize<E, A> {
@@ -102,6 +109,6 @@ export const ioTsPrimitiveInterpreter: ModelAlgebraPrimitive2<IoTsURI> = {
   bigint: config => new IOTSType(applyCustomize(config)(BigIntString)),
   stringLiteral: (l, config) => new IOTSType(applyCustomize(config)(t.literal(l, l))),
   keysOf: (k, config) => new IOTSType<string, keyof typeof k>(applyCustomize(config)(t.keyof(k) as any)), // TODO: not pretty but output
-  nullable: T => new IOTSType(optionFromNullable(T.type)),
+  nullable: (T, config) => new IOTSType(applyCustomize(config)(optionFromNullable(T.type))),
   array: (T, config) => new IOTSType(applyCustomize(config)(t.array(T.type)))
 }
