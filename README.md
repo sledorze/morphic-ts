@@ -12,24 +12,6 @@ The goal is to increase, in order of importance
 
 It is has two side blended into one; generic ADT manipulation AND Generic, customizable and extensible derivations
 
-## NOTE: The repo has changed to a monorepo
-
-As such previous package `morphic-ts`has been replaced by
-
-```typescript
-'@morphic-ts/adt'
-'@morphic-ts/algebras'
-'@morphic-ts/batteries'
-'@morphic-ts/common'
-'@morphic-ts/eq-interpreters'
-'@morphic-ts/fastcheck-interpreters'
-'@morphic-ts/io-ts-interpreters'
-'@morphic-ts/json-schema-interpreters'
-'@morphic-ts/model-algebras'
-'@morphic-ts/ord-interpreters'
-'@morphic-ts/show-interpreters`
-```
-
 ## Two minutes intro
 
 ```bash
