@@ -4,7 +4,7 @@ import { genConfig } from '@morphic-ts/common/lib/core'
 /**
  *  @since 0.0.1
  */
-export const ShowURI = Symbol()
+export const ShowURI = 'ShowURI' as const
 /**
  *  @since 0.0.1
  */

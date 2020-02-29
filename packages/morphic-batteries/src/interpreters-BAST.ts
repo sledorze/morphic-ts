@@ -34,7 +34,7 @@ interface BASTJInterpreter<E, A> {
 /**
  *  @since 0.0.1
  */
-export const BASTJInterpreterURI = Symbol()
+export const BASTJInterpreterURI = 'BASTJInterpreterURI' as const
 /**
  *  @since 0.0.1
  */

@@ -10,7 +10,7 @@ export type Keys = Record<string, null>
 /**
  *  @since 0.0.1
  */
-export const UnknownURI = Symbol()
+export const UnknownURI = 'UnknownURI' as const
 /**
  *  @since 0.0.1
  */

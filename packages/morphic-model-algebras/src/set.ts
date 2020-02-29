@@ -4,7 +4,7 @@ import { Kind, URIS, Kind2, URIS2, HKT2 } from '@morphic-ts/common/lib/HKT'
 /**
  *  @since 0.0.1
  */
-export const SetURI = Symbol()
+export const SetURI = 'SetURI' as const
 /**
  *  @since 0.0.1
  */

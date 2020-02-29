@@ -6,7 +6,7 @@ import { Newtype } from 'newtype-ts'
 /**
  *  @since 0.0.1
  */
-export const NewtypeURI = Symbol()
+export const NewtypeURI = 'NewtypeURI' as const
 /**
  *  @since 0.0.1
  */

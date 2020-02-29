@@ -4,7 +4,7 @@ import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic-ts/common/lib/HKT'
 /**
  *  @since 0.0.1
  */
-export const UnionsURI = Symbol()
+export const UnionsURI = 'UnionsURI' as const
 /**
  *  @since 0.0.1
  */

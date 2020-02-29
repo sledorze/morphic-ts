@@ -4,7 +4,7 @@ import { genConfig } from '@morphic-ts/common/lib/core'
 /**
  *  @since 0.0.1
  */
-export const IoTsURI = Symbol()
+export const IoTsURI = 'IoTsURI' as const
 /**
  *  @since 0.0.1
  */

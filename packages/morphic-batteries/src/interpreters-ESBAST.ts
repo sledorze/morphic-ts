@@ -40,7 +40,7 @@ interface ESBASTJInterpreter<E, A> {
 /**
  *  @since 0.0.1
  */
-export const ESBASTJInterpreterURI = Symbol()
+export const ESBASTJInterpreterURI = 'ESBASTJInterpreterURI' as const
 /**
  *  @since 0.0.1
  */

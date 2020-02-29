@@ -14,7 +14,7 @@ import { InferredAlgebra, InferredProgram } from './usage/programs-infer'
 /**
  *  @since 0.0.1
  */
-export const ProgramNoUnionURI = Symbol()
+export const ProgramNoUnionURI = 'ProgramNoUnionURI' as const
 /**
  *  @since 0.0.1
  */

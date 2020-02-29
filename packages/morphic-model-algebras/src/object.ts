@@ -7,7 +7,7 @@ type AnyMProps<F> = Record<string, HKT2<F, any, any>>
 /**
  *  @since 0.0.1
  */
-export const ObjectURI = Symbol()
+export const ObjectURI = 'ObjectURI' as const
 /**
  *  @since 0.0.1
  */

@@ -3,7 +3,7 @@ import { Kind, URIS, Kind2, URIS2, HKT2 } from '@morphic-ts/common/lib/HKT'
 /**
  *  @since 0.0.1
  */
-export const StrMapURI = Symbol()
+export const StrMapURI = 'StrMapURI' as const
 /**
  *  @since 0.0.1
  */

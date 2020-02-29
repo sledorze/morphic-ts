@@ -13,7 +13,7 @@ interface OrdInterpreter<E, A> {
   ord: Ord<A>
 }
 
-const OrdInterpreterURI = Symbol()
+const OrdInterpreterURI = 'OrdInterpreterURI' as const
 export type OrdInterpreterURI = typeof OrdInterpreterURI
 
 declare module '@morphic-ts/batteries/lib/usage/InterpreterResult' {

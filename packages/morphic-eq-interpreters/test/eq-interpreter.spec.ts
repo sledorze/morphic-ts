@@ -13,7 +13,7 @@ import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { Newtype, iso } from 'newtype-ts'
 import { eqConfig } from '../src/index'
 
-export const EqInterpreterURI = Symbol()
+export const EqInterpreterURI = 'EqInterpreterURI' as const
 export type EqInterpreterURI = typeof EqInterpreterURI
 
 interface EqInterpreter<A> {
