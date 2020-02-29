@@ -9,7 +9,8 @@ import {
   PrimitiveArrayConfig2,
   PrimitiveBigIntConfig,
   PrimitiveStringLiteralConfig,
-  PrimitiveKeysOfConfig
+  PrimitiveKeysOfConfig,
+  PrimitiveNullableConfig
 } from '@morphic-ts/algebras/lib/hkt'
 import { ByInterp, isOptionalConfig } from '@morphic-ts/common/lib/core'
 
@@ -74,6 +75,10 @@ declare module '@morphic-ts/algebras/lib/hkt' {
    *  @since 0.0.1
    */
   export interface PrimitiveArrayConfig2<E, A> {}
+  /**
+   *  @since 0.0.1
+   */
+  export interface PrimitiveNullableConfig<L, A> {}
 }
 
 /**
@@ -81,7 +86,14 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export interface ModelAlgebraPrimitive<F> {
   _F: F
-  nullable: <L, A>(T: HKT2<F, L, A>) => HKT2<F, null | L, Option<A>>
+  nullable: {
+    <L, A>(T: HKT2<F, L, A>): isOptionalConfig<PrimitiveNullableConfig<L, A>, HKT2<F, null | L, Option<A>>>
+    <L, A>(T: HKT2<F, L, A>, config: ByInterp<PrimitiveNullableConfig<L, A>, URIS | URIS2>): HKT2<
+      F,
+      null | L,
+      Option<A>
+    >
+  }
   boolean: {
     (): isOptionalConfig<PrimitiveBooleanConfig, HKT2<F, boolean, boolean>>
     (config: ByInterp<PrimitiveBooleanConfig, URIS | URIS2>): HKT2<F, boolean, boolean>
@@ -129,7 +141,7 @@ export interface ModelAlgebraPrimitive<F> {
  */
 export interface ModelAlgebraPrimitive1<F extends URIS> {
   _F: F
-  nullable: <A>(T: Kind<F, A>) => Kind<F, Option<A>>
+  nullable: <A>(T: Kind<F, A>, config?: ByInterp<PrimitiveNullableConfig<unknown, A>, F>) => Kind<F, Option<A>>
   boolean(config?: ByInterp<PrimitiveBooleanConfig, F>): Kind<F, boolean>
   number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind<F, number>
   bigint(config?: ByInterp<PrimitiveBigIntConfig, F>): Kind<F, bigint>
@@ -148,7 +160,10 @@ export interface ModelAlgebraPrimitive1<F extends URIS> {
  */
 export interface ModelAlgebraPrimitive2<F extends URIS2> {
   _F: F
-  nullable: <L, A>(T: Kind2<F, L, A>) => Kind2<F, null | L, Option<A>>
+  nullable: <L, A>(
+    T: Kind2<F, L, A>,
+    config?: ByInterp<PrimitiveNullableConfig<L, A>, F>
+  ) => Kind2<F, null | L, Option<A>>
   boolean(config?: ByInterp<PrimitiveBooleanConfig, F>): Kind2<F, boolean, boolean>
   number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind2<F, number, number>
   bigint(config?: ByInterp<PrimitiveBigIntConfig, F>): Kind2<F, string, bigint>
