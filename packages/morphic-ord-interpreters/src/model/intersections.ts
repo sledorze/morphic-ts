@@ -1,6 +1,6 @@
 import { Ord, getMonoid } from 'fp-ts/lib/Ord'
 import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
-import { OrdType, OrdURI } from '..'
+import { OrdType, OrdURI } from '../hkt'
 
 const equalsOrd = <T>(): Ord<T> => ({
   equals: (_a: T, _b: T) => true,

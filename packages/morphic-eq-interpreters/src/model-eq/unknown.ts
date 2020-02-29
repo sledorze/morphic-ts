@@ -1,5 +1,5 @@
 import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
-import { EqType, EqURI } from '..'
+import { EqType, EqURI } from '../hkt'
 import { Eq } from 'fp-ts/lib/Eq'
 import { circularDeepEqual, deepEqual } from 'fast-equals'
 import { UnknownConfig } from '@morphic-ts/algebras/lib/hkt'

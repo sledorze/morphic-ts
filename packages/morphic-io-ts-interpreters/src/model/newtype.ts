@@ -1,4 +1,4 @@
-import { IoTsURI } from '..'
+import { IoTsURI } from '../hkt'
 import { ModelAlgebraNewtype2 } from '@morphic-ts/model-algebras/lib/newtype'
 import { identity } from 'fp-ts/lib/function'
 

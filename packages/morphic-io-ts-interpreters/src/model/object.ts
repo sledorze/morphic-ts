@@ -1,5 +1,5 @@
 import * as t from 'io-ts'
-import { IOTSType, IoTsURI } from '..'
+import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraObject2, PropsKind2 } from '@morphic-ts/model-algebras/lib/object'
 import { projectField } from '@morphic-ts/common/lib/utils'
 

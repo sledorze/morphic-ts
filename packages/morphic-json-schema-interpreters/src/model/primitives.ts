@@ -1,5 +1,5 @@
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
-import { JsonSchema, JsonSchemaURI } from '..'
+import { JsonSchema, JsonSchemaURI } from '../hkt'
 import {
   StringTypeCtor,
   NumberTypeCtor,

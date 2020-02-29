@@ -9,11 +9,12 @@ import { Errors, Branded } from 'io-ts'
 import { failure } from 'io-ts/lib/PathReporter'
 import { summon, M } from '@morphic-ts/batteries/lib/summoner'
 
-import { IoTsURI, iotsConfig } from '../src/index' // Fake to please the test runner
-import { modelIoTsStrictInterpreter } from '../src/interpreters' // Fake to please the test runner
+import { iotsConfig } from '../src/index'
 
-export { IoTsURI, modelIoTsStrictInterpreter }
 import { withMessage } from 'io-ts-types/lib/withMessage'
+
+// import { ioTsPrimitiveInterpreter } from '@morphic-ts/io-ts-interpreters/lib/model/primitives'
+// export { ioTsPrimitiveInterpreter }
 
 export type Tree = Node | Leaf
 export interface Node {

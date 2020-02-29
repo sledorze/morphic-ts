@@ -1,5 +1,5 @@
 import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
-import { ShowType, ShowURI } from '..'
+import { ShowType, ShowURI } from '../hkt'
 
 /**
  *  @since 0.0.1

@@ -1,6 +1,6 @@
 ---
 title: model-eq/refined.ts
-nav_order: 9
+nav_order: 11
 parent: Modules
 ---
 

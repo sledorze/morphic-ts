@@ -140,7 +140,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const TaggedUnionsURI: typeof TaggedUnionsURI = ...
+export const TaggedUnionsURI: "TaggedUnionsURI" = ...
 ```
 
 Added in v0.0.1

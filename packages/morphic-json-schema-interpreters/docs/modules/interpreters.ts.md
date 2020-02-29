@@ -1,6 +1,6 @@
 ---
 title: interpreters.ts
-nav_order: 2
+nav_order: 4
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelJsonSchemaInterpreter: ModelAlgebraRefined1<typeof JsonSchemaURI> & ModelAlgebraNewtype1<typeof JsonSchemaURI> & ModelAlgebraUnknown1<typeof JsonSchemaURI> & ModelAlgebraPrimitive1<typeof JsonSchemaURI> & ModelAlgebraIntersection1<typeof JsonSchemaURI> & ModelAlgebraObject1<typeof JsonSchemaURI> & ModelAlgebraTaggedUnions1<typeof JsonSchemaURI> & ModelAlgebraRecursive1<typeof JsonSchemaURI> & ModelAlgebraStrMap1<typeof JsonSchemaURI> & ModelAlgebraSet1<typeof JsonSchemaURI> & ModelAlgebraUnions1<typeof JsonSchemaURI> = ...
+export const modelJsonSchemaInterpreter: ModelAlgebraRefined1<"JsonSchemaURI"> & ModelAlgebraNewtype1<"JsonSchemaURI"> & ModelAlgebraUnknown1<"JsonSchemaURI"> & ModelAlgebraPrimitive1<"JsonSchemaURI"> & ModelAlgebraIntersection1<"JsonSchemaURI"> & ModelAlgebraObject1<"JsonSchemaURI"> & ModelAlgebraTaggedUnions1<"JsonSchemaURI"> & ModelAlgebraRecursive1<"JsonSchemaURI"> & ModelAlgebraStrMap1<"JsonSchemaURI"> & ModelAlgebraSet1<"JsonSchemaURI"> & ModelAlgebraUnions1<"JsonSchemaURI"> = ...
 ```
 
 Added in v0.0.1

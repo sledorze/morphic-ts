@@ -111,7 +111,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const IntersectionURI: typeof IntersectionURI = ...
+export const IntersectionURI: "IntersectionURI" = ...
 ```
 
 Added in v0.0.1

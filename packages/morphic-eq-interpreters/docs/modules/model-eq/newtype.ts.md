@@ -1,6 +1,6 @@
 ---
 title: model-eq/newtype.ts
-nav_order: 5
+nav_order: 7
 parent: Modules
 ---
 

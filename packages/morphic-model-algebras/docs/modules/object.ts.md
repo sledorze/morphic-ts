@@ -133,7 +133,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const ObjectURI: typeof ObjectURI = ...
+export const ObjectURI: "ObjectURI" = ...
 ```
 
 Added in v0.0.1

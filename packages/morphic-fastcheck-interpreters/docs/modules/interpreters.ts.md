@@ -1,6 +1,6 @@
 ---
 title: interpreters.ts
-nav_order: 2
+nav_order: 4
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelFastCheckInterpreter: ModelAlgebraRefined1<typeof FastCheckURI> & ModelAlgebraNewtype1<typeof FastCheckURI> & ModelAlgebraUnknown1<typeof FastCheckURI> & ModelAlgebraPrimitive1<typeof FastCheckURI> & ModelAlgebraIntersection1<typeof FastCheckURI> & ModelAlgebraObject1<typeof FastCheckURI> & ModelAlgebraUnions1<typeof FastCheckURI> & ModelAlgebraTaggedUnions1<typeof FastCheckURI> & ModelAlgebraRecursive1<typeof FastCheckURI> & ModelAlgebraStrMap1<typeof FastCheckURI> & ModelAlgebraSet1<typeof FastCheckURI> = ...
+export const modelFastCheckInterpreter: ModelAlgebraRefined1<"FastCheckURI"> & ModelAlgebraNewtype1<"FastCheckURI"> & ModelAlgebraUnknown1<"FastCheckURI"> & ModelAlgebraPrimitive1<"FastCheckURI"> & ModelAlgebraIntersection1<"FastCheckURI"> & ModelAlgebraObject1<"FastCheckURI"> & ModelAlgebraUnions1<"FastCheckURI"> & ModelAlgebraTaggedUnions1<"FastCheckURI"> & ModelAlgebraRecursive1<"FastCheckURI"> & ModelAlgebraStrMap1<"FastCheckURI"> & ModelAlgebraSet1<"FastCheckURI"> = ...
 ```
 
 Added in v0.0.1

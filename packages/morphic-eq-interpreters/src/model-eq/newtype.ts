@@ -1,5 +1,5 @@
 import { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
-import { EqURI } from '..'
+import { EqURI } from '../hkt'
 import { identity } from 'fp-ts/lib/function'
 
 /**

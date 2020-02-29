@@ -104,7 +104,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const NewtypeURI: typeof NewtypeURI = ...
+export const NewtypeURI: "NewtypeURI" = ...
 ```
 
 Added in v0.0.1

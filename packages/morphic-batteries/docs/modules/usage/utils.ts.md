@@ -11,9 +11,7 @@ parent: Modules
 - [InhabitedTypes (interface)](#inhabitedtypes-interface)
 - [AType (type alias)](#atype-type-alias)
 - [EType (type alias)](#etype-type-alias)
-- [IfStringLiteral (type alias)](#ifstringliteral-type-alias)
 - [SelectKeyOfMatchingValues (type alias)](#selectkeyofmatchingvalues-type-alias)
-- [TagsOf (type alias)](#tagsof-type-alias)
 - [assignCallable (function)](#assigncallable-function)
 - [assignFunction (function)](#assignfunction-function)
 - [inhabitTypes (function)](#inhabittypes-function)
@@ -56,20 +54,6 @@ export type EType<X extends InhabitedTypes<any, any>> = X['_E']
 
 Added in v0.0.1
 
-# IfStringLiteral (type alias)
-
-**Signature**
-
-```ts
-export type IfStringLiteral<T, IfLiteral, IfString, IfNotString> = T extends string
-  ? string extends T
-    ? IfString
-    : IfLiteral
-  : IfNotString
-```
-
-Added in v0.0.1
-
 # SelectKeyOfMatchingValues (type alias)
 
 **Signature**
@@ -78,16 +62,6 @@ Added in v0.0.1
 export type SelectKeyOfMatchingValues<KeyedValues, Constraint> = {
   [k in keyof KeyedValues]: KeyedValues[k] extends Constraint ? k : never
 }[keyof KeyedValues]
-```
-
-Added in v0.0.1
-
-# TagsOf (type alias)
-
-**Signature**
-
-```ts
-export type TagsOf<T> = TagsInKeys<T, keyof T> & string
 ```
 
 Added in v0.0.1

@@ -1,6 +1,6 @@
 ---
 title: model-eq/tagged-unions.ts
-nav_order: 12
+nav_order: 14
 parent: Modules
 ---
 

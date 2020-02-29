@@ -1,5 +1,5 @@
 import { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
-import { EqURI } from '..'
+import { EqURI } from '../hkt'
 import { identity } from 'fp-ts/lib/function'
 
 /**

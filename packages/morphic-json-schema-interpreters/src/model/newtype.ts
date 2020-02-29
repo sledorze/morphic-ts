@@ -1,4 +1,4 @@
-import { JsonSchemaURI } from '..'
+import { JsonSchemaURI } from '../hkt'
 import { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
 import { identity } from 'fp-ts/lib/function'
 

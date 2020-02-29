@@ -1,5 +1,5 @@
 import { record, string } from 'io-ts'
-import { IOTSType, IoTsURI } from '..'
+import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraStrMap2 } from '@morphic-ts/model-algebras/lib/str-map'
 
 /**

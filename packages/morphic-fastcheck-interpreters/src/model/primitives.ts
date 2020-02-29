@@ -1,4 +1,4 @@
-import { FastCheckType, FastCheckURI } from '..'
+import { FastCheckType, FastCheckURI } from '../hkt'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { fromNullable } from 'fp-ts/lib/Option'
 import { identity } from 'fp-ts/lib/function'

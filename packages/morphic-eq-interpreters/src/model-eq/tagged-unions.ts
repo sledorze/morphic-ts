@@ -1,5 +1,5 @@
 import { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
-import { EqType, EqURI } from '..'
+import { EqType, EqURI } from '../hkt'
 import { mapRecord } from '@morphic-ts/common/lib/utils'
 
 /**

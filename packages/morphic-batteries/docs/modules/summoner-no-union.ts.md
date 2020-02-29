@@ -62,7 +62,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-Summoners<typeof ProgramNoUnionURI, typeof ESBASTJInterpreterURI>
+Summoners<"ProgramNoUnionURI", "ESBASTJInterpreterURI">
 ```
 
 Added in v0.0.1
@@ -72,7 +72,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-<Tag>(tag: Tag) => <Types>(o: Types) => MorphADT<{ [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never; }, TagsOf<Types[keyof Types]["_A"]>, typeof ProgramNoUnionURI, typeof ESBASTJInterpreterURI>
+<Tag>(tag: Tag) => <Types>(o: Types) => MorphADT<{ [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never; }, TagsOf<Types[keyof Types]["_A"]>, "ProgramNoUnionURI", "ESBASTJInterpreterURI">
 ```
 
 Added in v0.0.1

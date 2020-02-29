@@ -1,4 +1,4 @@
-import { JsonSchemaURI } from '..'
+import { JsonSchemaURI } from '../hkt'
 import { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
 
 /**

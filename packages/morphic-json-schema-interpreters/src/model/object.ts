@@ -1,5 +1,5 @@
 import { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
-import { JsonSchema, JsonSchemaURI } from '..'
+import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { ObjectTypeCtor, notOptional } from '../json-schema/json-schema-ctors'
 import { record } from 'fp-ts'
 import { tuple } from 'fp-ts/lib/function'

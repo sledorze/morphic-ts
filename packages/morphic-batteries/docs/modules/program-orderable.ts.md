@@ -50,7 +50,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const ProgramOrderableURI: typeof ProgramOrderableURI = ...
+export const ProgramOrderableURI: "ProgramOrderableURI" = ...
 ```
 
 Added in v0.0.1

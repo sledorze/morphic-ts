@@ -50,7 +50,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const ProgramUnionURI: typeof ProgramUnionURI = ...
+export const ProgramUnionURI: "ProgramUnionURI" = ...
 ```
 
 Added in v0.0.1

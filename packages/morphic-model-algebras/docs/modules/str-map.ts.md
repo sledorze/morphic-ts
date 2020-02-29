@@ -70,7 +70,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const StrMapURI: typeof StrMapURI = ...
+export const StrMapURI: "StrMapURI" = ...
 ```
 
 Added in v0.0.1

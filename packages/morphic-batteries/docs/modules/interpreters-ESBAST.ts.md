@@ -124,7 +124,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const ESBASTJInterpreterURI: typeof ESBASTJInterpreterURI = ...
+export const ESBASTJInterpreterURI: "ESBASTJInterpreterURI" = ...
 ```
 
 Added in v0.0.1

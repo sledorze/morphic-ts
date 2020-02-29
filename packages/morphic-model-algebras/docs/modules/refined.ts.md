@@ -92,7 +92,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const RefinedURI: typeof RefinedURI = ...
+export const RefinedURI: "RefinedURI" = ...
 ```
 
 Added in v0.0.1

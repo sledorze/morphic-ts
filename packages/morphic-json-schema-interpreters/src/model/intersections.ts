@@ -1,5 +1,5 @@
 import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
-import { JsonSchema, JsonSchemaURI } from '..'
+import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { IntersectionTypeCtor } from '../json-schema/json-schema-ctors'
 import { pipe } from 'fp-ts/lib/pipeable'
 import * as SE from 'fp-ts-contrib/lib/StateEither'

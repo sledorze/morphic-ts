@@ -1,4 +1,4 @@
-import { JsonSchema, JsonSchemaURI } from '..'
+import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { ModelAlgebraRecursive1 } from '@morphic-ts/model-algebras/lib/recursive'
 import { memo } from '@morphic-ts/common/lib/utils'
 import { notOptional, JsonSchemaError } from '../json-schema/json-schema-ctors'
