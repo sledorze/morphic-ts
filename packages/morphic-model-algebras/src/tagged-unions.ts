@@ -5,7 +5,7 @@ import { TaggedUnionConfig } from '@morphic-ts/algebras/lib/hkt'
 /**
  *  @since 0.0.1
  */
-export const TaggedUnionsURI = Symbol()
+export const TaggedUnionsURI = 'TaggedUnionsURI' as const
 /**
  *  @since 0.0.1
  */

@@ -22,7 +22,7 @@ export type Keys = Record<string, null>
 /**
  *  @since 0.0.1
  */
-export const PrimitiveURI = Symbol()
+export const PrimitiveURI = 'PrimitiveURI' as const
 /**
  *  @since 0.0.1
  */

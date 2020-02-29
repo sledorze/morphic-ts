@@ -7,7 +7,7 @@ import { Refinement } from 'fp-ts/lib/function'
 /**
  *  @since 0.0.1
  */
-export const RefinedURI = Symbol()
+export const RefinedURI = 'RefinedURI' as const
 /**
  *  @since 0.0.1
  */

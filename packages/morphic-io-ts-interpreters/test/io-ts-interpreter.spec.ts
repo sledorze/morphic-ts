@@ -6,10 +6,14 @@ import { some, none } from 'fp-ts/lib/Option'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Errors, Branded } from 'io-ts'
+import { failure } from 'io-ts/lib/PathReporter'
 import { summon, M } from '@morphic-ts/batteries/lib/summoner'
-import { IoTsURI } from '../src/index' // Fake to please the test runner
+
+import { IoTsURI, iotsConfig } from '../src/index' // Fake to please the test runner
 import { modelIoTsStrictInterpreter } from '../src/interpreters' // Fake to please the test runner
+
 export { IoTsURI, modelIoTsStrictInterpreter }
+import { withMessage } from 'io-ts-types/lib/withMessage'
 
 export type Tree = Node | Leaf
 export interface Node {
@@ -34,6 +38,20 @@ export interface GLeaf<A> {
 }
 
 describe('IO-TS Alt Schema', () => {
+  it('customize keyof', () => {
+    const codec = summon(F =>
+      F.keysOf(
+        { foo: null, bar: null },
+        iotsConfig(x => withMessage(x, () => 'not ok'))
+      )
+    ).type
+
+    const result = codec.decode('baz')
+
+    chai.assert.deepStrictEqual(isLeft(result), true)
+    chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
+  })
+
   it('refined', () => {
     interface PositiveNumberBrand {
       readonly PosNum: unique symbol

@@ -4,7 +4,7 @@ import { genConfig } from '@morphic-ts/common/lib/core'
 /**
  *  @since 0.0.1
  */
-export const OrdURI = Symbol()
+export const OrdURI = 'OrdURI' as const
 
 /**
  *  @since 0.0.1
