@@ -1053,6 +1053,17 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
+"@morphic-ts/io-ts-interpreters@^0.5.2-alpha.0":
+  version "0.5.2-alpha.0"
+  resolved "https://registry.yarnpkg.com/@morphic-ts/io-ts-interpreters/-/io-ts-interpreters-0.5.2-alpha.0.tgz#4ddbdea2e23cea9643649e7b03329220adf52e96"
+  integrity sha512-Vt1Wm+sKDbMBBB9qeaed0FF2lCcsLiCoFTX1FOGaXlwPgtgtMVJsEoOjI6qiFiz2tKAjUXGSLZGJQm1ezI6XxA==
+  dependencies:
+    "@morphic-ts/algebras" "^0.4.1"
+    "@morphic-ts/common" "^0.4.1"
+    "@morphic-ts/model-algebras" "^0.5.2-alpha.0"
+    fp-ts "^2.4.1"
+    io-ts "^2.0.6"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
