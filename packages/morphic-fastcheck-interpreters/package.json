@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/fastcheck-interpreters",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Morphic fastcheck package for property based testing",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",

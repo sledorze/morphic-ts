@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/io-ts-interpreters",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Morphic io-ts package for encoding / decoding",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
