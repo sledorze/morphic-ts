@@ -23,7 +23,17 @@ parent: Modules
 ```ts
 export interface ModelAlgebraStrMap<F> {
   _F: F
-  strMap: <L, A>(codomain: HKT2<F, L, A>) => HKT2<F, Array<[string, L]>, Record<string, A>>
+  strMap: {
+    <L, A>(codomain: HKT2<F, L, A>): isOptionalConfig<
+      StrMapConfig<L, A>,
+      HKT2<F, Array<[string, L]>, Record<string, A>>
+    >
+    <L, A>(codomain: HKT2<F, L, A>, config?: ByInterp<StrMapConfig<L, A>, URIS | URIS2>): HKT2<
+      F,
+      Array<[string, L]>,
+      Record<string, A>
+    >
+  }
 }
 ```
 
@@ -36,7 +46,7 @@ Added in v0.0.1
 ```ts
 export interface ModelAlgebraStrMap1<F extends URIS> {
   _F: F
-  strMap: <A>(codomain: Kind<F, A>) => Kind<F, Record<string, A>>
+  strMap: <A>(codomain: Kind<F, A>, config?: ByInterp<StrMapConfig<unknown, A>, F>) => Kind<F, Record<string, A>>
 }
 ```
 
@@ -49,7 +59,10 @@ Added in v0.0.1
 ```ts
 export interface ModelAlgebraStrMap2<F extends URIS2> {
   _F: F
-  strMap: <L, A>(codomain: Kind2<F, L, A>) => Kind2<F, Record<string, L>, Record<string, A>>
+  strMap: <L, A>(
+    codomain: Kind2<F, L, A>,
+    config?: ByInterp<StrMapConfig<L, A>, F>
+  ) => Kind2<F, Record<string, L>, Record<string, A>>
 }
 ```
 

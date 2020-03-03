@@ -23,7 +23,7 @@
     "@morphic-ts/common": "^0.4.1",
     "@morphic-ts/eq-interpreters": "^0.5.2-alpha.0",
     "@morphic-ts/fastcheck-interpreters": "^0.5.2-alpha.0",
-    "@morphic-ts/io-ts-interpreters": "^0.5.2-alpha.0",
+    "@morphic-ts/io-ts-interpreters": "^0.6.0-alpha.1",
     "@morphic-ts/json-schema-interpreters": "^0.5.2-alpha.0",
     "@morphic-ts/model-algebras": "^0.5.2-alpha.0",
     "@morphic-ts/ord-interpreters": "^0.5.2-alpha.0",

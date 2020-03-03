@@ -1,7 +1,7 @@
 import * as chai from 'chai'
 import { ordString, ord, Ord } from 'fp-ts/lib/Ord'
 import { fromArray } from 'fp-ts/lib/Set'
-import { right, isLeft } from 'fp-ts/lib/Either'
+import { right, isLeft, isRight } from 'fp-ts/lib/Either'
 import { some, none } from 'fp-ts/lib/Option'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
@@ -57,28 +57,12 @@ describe('IO-TS Alt Schema', () => {
     const codec = summon(F =>
       F.strMap(
         F.string(),
-        iotsConfig(x => {
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          console.log("HERE")
-          return withMessage(x, () => 'not ok')
-        })
+        iotsConfig(x => withMessage(x, () => 'not ok'))
       )
     ).type
+
+    const result1 = codec.decode({ a: 'a' })
+    chai.assert.deepStrictEqual(isRight(result1) && result1.right, { a: 'a' })
 
     const result = codec.decode([])
 
