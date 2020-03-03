@@ -9,7 +9,7 @@ import { Errors, Branded } from 'io-ts'
 import { failure } from 'io-ts/lib/PathReporter'
 import { summon, M } from '@morphic-ts/batteries/lib/summoner'
 
-import { iotsConfig, IoTsURI } from '../src/index'
+import { iotsConfig } from '../src/index'
 
 import { withMessage } from 'io-ts-types/lib/withMessage'
 
