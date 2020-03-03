@@ -53,6 +53,39 @@ describe('IO-TS Alt Schema', () => {
     chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
   })
 
+  it('customize strMap', () => {
+    const codec = summon(F =>
+      F.strMap(
+        F.string(),
+        iotsConfig(x => {
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          console.log("HERE")
+          return withMessage(x, () => 'not ok')
+        })
+      )
+    ).type
+
+    const result = codec.decode([])
+
+    chai.assert.deepStrictEqual(isLeft(result), true)
+    chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
+  })
+
   it('refined', () => {
     interface PositiveNumberBrand {
       readonly PosNum: unique symbol
