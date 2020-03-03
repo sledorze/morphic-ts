@@ -10,14 +10,14 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.1
    */
-  export interface ObjectInterfaceConfig {
-    [IoTsURI]: Customize<any, any> | undefined
+  export interface ObjectInterfaceConfig<E, A> {
+    [IoTsURI]: Customize<E, A> | undefined
   }
   /**
    *  @since 0.0.1
    */
-  export interface ObjectPartialConfig {
-    [IoTsURI]: Customize<any, any> | undefined
+  export interface ObjectPartialConfig<E, A> {
+    [IoTsURI]: Customize<E, A> | undefined
   }
 }
 
@@ -36,15 +36,15 @@ export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = {
   interface: <PropsE, PropsA>(
     props: PropsKind2<IoTsURI, PropsE, PropsA>,
     name: string,
-    config: ByInterp<ObjectInterfaceConfig, IoTsURI>
+    config: ByInterp<ObjectInterfaceConfig<PropsE, PropsA>, IoTsURI>
   ) => new IOTSType<PropsE, PropsA>(applyCustomize(config)(t.type(projectField(props)('type'), name) as any)),
   partial: <PropsE, PropsA>(
     props: PropsKind2<IoTsURI, PropsE, PropsA>,
     name: string,
-    config: ByInterp<ObjectInterfaceConfig, IoTsURI>
+    config: ByInterp<ObjectInterfaceConfig<PropsE, PropsA>, IoTsURI>
   ) =>
     new IOTSType<Partial<PropsE>, Partial<PropsA>>(
-      applyCustomize(config)(t.partial(projectField(props)('type'), name) as any)
+      applyCustomize(config)(t.partial(projectField(props)('type'), name) as any) as any
     )
 }
 
@@ -56,14 +56,14 @@ export const ioTsStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = {
   interface: <PropsE, PropsA>(
     props: PropsKind2<IoTsURI, PropsE, PropsA>,
     name: string,
-    config: ByInterp<ObjectInterfaceConfig, IoTsURI>
+    config: ByInterp<ObjectInterfaceConfig<PropsE, PropsA>, IoTsURI>
   ) => new IOTSType<PropsE, PropsA>(applyCustomize(config)(t.strict(projectField(props)('type'), name) as any)),
   partial: <PropsE, PropsA>(
     props: PropsKind2<IoTsURI, PropsE, PropsA>,
     name: string,
-    config: ByInterp<ObjectInterfaceConfig, IoTsURI>
+    config: ByInterp<ObjectInterfaceConfig<PropsE, PropsA>, IoTsURI>
   ) =>
     new IOTSType<Partial<PropsE>, Partial<PropsA>>(
-      applyCustomize(config)(t.exact(t.partial(projectField(props)('type'), name)) as any)
+      applyCustomize(config)(t.exact(t.partial(projectField(props)('type'), name)) as any) as any
     )
 }
