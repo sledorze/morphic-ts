@@ -1,5 +1,5 @@
 import { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
-import { ShowType, ShowURI } from '..'
+import { ShowType, ShowURI } from '../hkt'
 import { projectField } from '@morphic-ts/common/lib/utils'
 import { getStructShow } from 'fp-ts/lib/Show'
 

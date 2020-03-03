@@ -1,4 +1,4 @@
-import { FastCheckType, FastCheckURI } from '..'
+import { FastCheckType, FastCheckURI } from '../hkt'
 import { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
 import { array, record, semigroup } from 'fp-ts'
 import { tuple, array as FCArray, string } from 'fast-check'

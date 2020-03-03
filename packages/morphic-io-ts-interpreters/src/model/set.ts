@@ -1,5 +1,5 @@
 import { setFromArray } from 'io-ts-types/lib/setFromArray'
-import { IOTSType, IoTsURI } from '..'
+import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraSet2 } from '@morphic-ts/model-algebras/lib/set'
 
 /**

@@ -1,7 +1,7 @@
 import * as t from 'io-ts'
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
-import { IOTSType, IoTsURI } from '..'
+import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraPrimitive2 } from '@morphic-ts/model-algebras/lib/primitives'
 import { identity } from 'fp-ts/lib/function'
 import { either } from 'fp-ts/lib/Either'

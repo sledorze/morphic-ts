@@ -1,4 +1,4 @@
-import { FastCheckType, FastCheckURI } from '..'
+import { FastCheckType, FastCheckURI } from '../hkt'
 import { ModelAlgebraUnions1 } from '@morphic-ts/model-algebras/lib/unions'
 import { oneof } from 'fast-check'
 

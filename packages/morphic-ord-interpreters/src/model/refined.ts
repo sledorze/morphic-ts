@@ -1,5 +1,5 @@
 import { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
-import { OrdURI } from '..'
+import { OrdURI } from '../hkt'
 import { identity } from 'fp-ts/lib/function'
 
 /**

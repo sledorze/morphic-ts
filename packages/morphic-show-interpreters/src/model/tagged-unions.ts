@@ -1,5 +1,5 @@
 import { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
-import { ShowType, ShowURI } from '..'
+import { ShowType, ShowURI } from '../hkt'
 import { mapRecord } from '@morphic-ts/common/lib/utils'
 
 /**

@@ -1,5 +1,5 @@
 import { ModelAlgebraUnions1 } from '@morphic-ts/model-algebras/lib/unions'
-import { JsonSchemaURI, JsonSchema } from '..'
+import { JsonSchemaURI, JsonSchema } from '../hkt'
 import { UnionTypeCtor } from '../json-schema/json-schema-ctors'
 import { pipe } from 'fp-ts/lib/pipeable'
 import * as SE from 'fp-ts-contrib/lib/StateEither'

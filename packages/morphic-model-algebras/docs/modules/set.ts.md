@@ -70,7 +70,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const SetURI: typeof SetURI = ...
+export const SetURI: "SetURI" = ...
 ```
 
 Added in v0.0.1

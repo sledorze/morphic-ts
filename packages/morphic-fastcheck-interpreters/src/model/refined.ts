@@ -1,4 +1,4 @@
-import { FastCheckURI } from '..'
+import { FastCheckURI } from '../hkt'
 import { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
 import { identity } from 'fp-ts/lib/function'
 

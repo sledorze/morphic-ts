@@ -84,7 +84,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const UnknownURI: typeof UnknownURI = ...
+export const UnknownURI: "UnknownURI" = ...
 ```
 
 Added in v0.0.1

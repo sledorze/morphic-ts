@@ -1,5 +1,5 @@
 import { ordString } from 'fp-ts/lib/Ord'
-import { OrdType, OrdURI } from '..'
+import { OrdType, OrdURI } from '../hkt'
 import { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import { mapRecord } from '@morphic-ts/common/lib/utils'
 import { Ordering } from 'fp-ts/lib/Ordering'

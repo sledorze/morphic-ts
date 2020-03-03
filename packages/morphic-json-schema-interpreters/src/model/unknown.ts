@@ -1,4 +1,4 @@
-import { JsonSchema, JsonSchemaURI } from '..'
+import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { AnythingTypeCtor } from '../json-schema/json-schema-ctors'
 import * as SE from 'fp-ts-contrib/lib/StateEither'
 import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'

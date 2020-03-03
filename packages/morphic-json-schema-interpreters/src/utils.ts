@@ -7,7 +7,7 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import * as O from 'fp-ts/lib/Option'
 import * as E from 'fp-ts/lib/Either'
 import { tuple } from 'fp-ts/lib/function'
-import { JsonSchemaResult, NamedSchemas } from '.'
+import { JsonSchemaResult, NamedSchemas } from './hkt'
 
 /**
  *  @since 0.0.1

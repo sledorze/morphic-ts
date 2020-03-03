@@ -1,6 +1,6 @@
 import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
 import { monoidAll, fold } from 'fp-ts/lib/Monoid'
-import { EqType, EqURI } from '..'
+import { EqType, EqURI } from '../hkt'
 
 /**
  *  @since 0.0.1

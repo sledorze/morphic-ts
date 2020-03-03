@@ -1,5 +1,5 @@
 import { set } from 'fast-check'
-import { FastCheckType, FastCheckURI } from '..'
+import { FastCheckType, FastCheckURI } from '../hkt'
 import { fromArray } from 'fp-ts/lib/Set'
 import { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
 

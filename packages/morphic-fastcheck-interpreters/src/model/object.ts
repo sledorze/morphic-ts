@@ -1,4 +1,4 @@
-import { FastCheckType, FastCheckURI } from '..'
+import { FastCheckType, FastCheckURI } from '../hkt'
 import { ModelAlgebraObject1, PropsKind1 } from '@morphic-ts/model-algebras/lib/object'
 import { projectField } from '@morphic-ts/common/lib/utils'
 import { RecordConstraints, record } from 'fast-check'

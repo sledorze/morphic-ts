@@ -1,4 +1,4 @@
-import { EqType, EqURI } from '..'
+import { EqType, EqURI } from '../hkt'
 import { ModelAlgebraRecursive1 } from '@morphic-ts/model-algebras/lib/recursive'
 import { memo } from '@morphic-ts/common/lib/utils'
 

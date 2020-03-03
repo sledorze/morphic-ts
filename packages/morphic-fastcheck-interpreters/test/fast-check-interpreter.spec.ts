@@ -5,8 +5,6 @@ import { ProgramUnionURI } from '@morphic-ts/batteries/lib/program'
 import { summon, M } from '@morphic-ts/batteries/lib/summoner'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { fastCheckConfig } from '../src/index'
-import { fastCheckPrimitiveInterpreter } from '../src/model/primitives'
-fastCheckPrimitiveInterpreter
 
 const testProgram = <A>(prog: ProgramType<unknown, A>[ProgramUnionURI]) => {
   const { arb, type } = summon(prog)

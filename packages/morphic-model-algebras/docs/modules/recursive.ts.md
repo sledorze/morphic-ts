@@ -70,7 +70,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const RecursiveURI: typeof RecursiveURI = ...
+export const RecursiveURI: "RecursiveURI" = ...
 ```
 
 Added in v0.0.1

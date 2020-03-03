@@ -1,5 +1,5 @@
 import { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
-import { JsonSchemaURI, JsonSchema } from '..'
+import { JsonSchemaURI, JsonSchema } from '../hkt'
 import { UnionTypeCtor } from '../json-schema/json-schema-ctors'
 import { record } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'

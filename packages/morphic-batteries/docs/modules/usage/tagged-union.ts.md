@@ -12,8 +12,10 @@ parent: Modules
 - [AOfTypes (type alias)](#aoftypes-type-alias)
 - [EOfMorhpADT (type alias)](#eofmorhpadt-type-alias)
 - [EOfTypes (type alias)](#eoftypes-type-alias)
+- [IfStringLiteral (type alias)](#ifstringliteral-type-alias)
 - [MorphADT (type alias)](#morphadt-type-alias)
 - [TaggedUnionProg (type alias)](#taggedunionprog-type-alias)
+- [TagsOf (type alias)](#tagsof-type-alias)
 - [UnionTypes (type alias)](#uniontypes-type-alias)
 - [makeTagged (function)](#maketagged-function)
 
@@ -89,6 +91,20 @@ export type EOfTypes<
 
 Added in v0.0.1
 
+# IfStringLiteral (type alias)
+
+**Signature**
+
+```ts
+export type IfStringLiteral<T, IfLiteral, IfString, IfNotString> = T extends string
+  ? string extends T
+    ? IfString
+    : IfLiteral
+  : IfNotString
+```
+
+Added in v0.0.1
+
 # MorphADT (type alias)
 
 **Signature**
@@ -133,6 +149,16 @@ Added in v0.0.1
 ```ts
 export type TaggedUnionProg<E, A, ProgURI extends ProgramURI> = ProgramType<E, A>[ProgURI] &
   (<G>(a: Algebra<G>[TaggedUnionsURI]) => HKT2<G, E, A>)
+```
+
+Added in v0.0.1
+
+# TagsOf (type alias)
+
+**Signature**
+
+```ts
+export type TagsOf<T> = TagsInKeys<T, keyof T> & string
 ```
 
 Added in v0.0.1

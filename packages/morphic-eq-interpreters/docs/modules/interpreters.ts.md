@@ -1,6 +1,6 @@
 ---
 title: interpreters.ts
-nav_order: 2
+nav_order: 4
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelEqInterpreter: ModelAlgebraRefined1<typeof EqURI> & ModelAlgebraNewtype1<typeof EqURI> & ModelAlgebraUnknown1<typeof EqURI> & ModelAlgebraPrimitive1<typeof EqURI> & ModelAlgebraIntersection1<typeof EqURI> & ModelAlgebraObject1<typeof EqURI> & ModelAlgebraTaggedUnions1<typeof EqURI> & ModelAlgebraRecursive1<typeof EqURI> & ModelAlgebraStrMap1<typeof EqURI> & ModelAlgebraSet1<typeof EqURI> = ...
+export const modelEqInterpreter: ModelAlgebraRefined1<"EqURI"> & ModelAlgebraNewtype1<"EqURI"> & ModelAlgebraUnknown1<"EqURI"> & ModelAlgebraPrimitive1<"EqURI"> & ModelAlgebraIntersection1<"EqURI"> & ModelAlgebraObject1<"EqURI"> & ModelAlgebraTaggedUnions1<"EqURI"> & ModelAlgebraRecursive1<"EqURI"> & ModelAlgebraStrMap1<"EqURI"> & ModelAlgebraSet1<"EqURI"> = ...
 ```
 
 Added in v0.0.1

@@ -1,4 +1,4 @@
-import { ShowType, ShowURI } from '..'
+import { ShowType, ShowURI } from '../hkt'
 import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
 
 /**

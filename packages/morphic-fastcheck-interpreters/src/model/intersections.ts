@@ -1,5 +1,5 @@
 import { genericTuple } from 'fast-check'
-import { FastCheckType, FastCheckURI } from '..'
+import { FastCheckType, FastCheckURI } from '../hkt'
 import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
 
 /**

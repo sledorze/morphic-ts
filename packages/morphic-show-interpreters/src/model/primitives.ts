@@ -2,7 +2,7 @@ import { showNumber, showString, Show, showBoolean } from 'fp-ts/lib/Show'
 import { getShow } from 'fp-ts/lib/Option'
 import { getShow as getShowA } from 'fp-ts/lib/Array'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
-import { ShowType, ShowURI } from '..'
+import { ShowType, ShowURI } from '../hkt'
 
 /**
  *  @since 0.0.1

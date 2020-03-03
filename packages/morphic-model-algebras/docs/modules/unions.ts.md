@@ -122,7 +122,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const UnionsURI: typeof UnionsURI = ...
+export const UnionsURI: "UnionsURI" = ...
 ```
 
 Added in v0.0.1

@@ -1,5 +1,5 @@
 import * as t from 'io-ts'
-import { IOTSType, IoTsURI } from '../index'
+import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraIntersection2 } from '@morphic-ts/model-algebras/lib/intersections'
 
 /**

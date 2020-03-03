@@ -1,7 +1,7 @@
 import { array } from 'fp-ts'
 import { ord } from 'fp-ts/lib/Ord'
 import { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
-import { OrdType, OrdURI } from '..'
+import { OrdType, OrdURI } from '../hkt'
 import { toArray } from 'fp-ts/lib/Set'
 
 /**

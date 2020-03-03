@@ -1,5 +1,5 @@
 import * as t from 'io-ts'
-import { IOTSType, IoTsURI } from '..'
+import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraUnions2 } from '@morphic-ts/model-algebras/lib/unions'
 
 /**

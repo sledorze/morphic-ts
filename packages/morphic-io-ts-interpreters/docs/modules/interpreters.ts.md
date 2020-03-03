@@ -1,6 +1,6 @@
 ---
 title: interpreters.ts
-nav_order: 2
+nav_order: 4
 parent: Modules
 ---
 
@@ -18,7 +18,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelIoTsNonStrictInterpreter: ModelAlgebraRefined2<typeof IoTsURI> & ModelAlgebraNewtype2<typeof IoTsURI> & ModelAlgebraUnknown2<typeof IoTsURI> & ModelAlgebraPrimitive2<typeof IoTsURI> & ModelAlgebraIntersection2<typeof IoTsURI> & ModelAlgebraUnions2<typeof IoTsURI> & ModelAlgebraTaggedUnions2<typeof IoTsURI> & ModelAlgebraStrMap2<typeof IoTsURI> & ModelAlgebraSet2<typeof IoTsURI> & ModelAlgebraRecursive2<typeof IoTsURI> & ModelAlgebraObject2<typeof IoTsURI> = ...
+export const modelIoTsNonStrictInterpreter: ModelAlgebraRefined2<"IoTsURI"> & ModelAlgebraNewtype2<"IoTsURI"> & ModelAlgebraUnknown2<"IoTsURI"> & ModelAlgebraPrimitive2<"IoTsURI"> & ModelAlgebraIntersection2<"IoTsURI"> & ModelAlgebraUnions2<"IoTsURI"> & ModelAlgebraTaggedUnions2<"IoTsURI"> & ModelAlgebraStrMap2<"IoTsURI"> & ModelAlgebraSet2<"IoTsURI"> & ModelAlgebraRecursive2<"IoTsURI"> & ModelAlgebraObject2<"IoTsURI"> = ...
 ```
 
 Added in v0.0.1
@@ -28,7 +28,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const modelIoTsStrictInterpreter: ModelAlgebraRefined2<typeof IoTsURI> & ModelAlgebraNewtype2<typeof IoTsURI> & ModelAlgebraUnknown2<typeof IoTsURI> & ModelAlgebraPrimitive2<typeof IoTsURI> & ModelAlgebraIntersection2<typeof IoTsURI> & ModelAlgebraUnions2<typeof IoTsURI> & ModelAlgebraTaggedUnions2<typeof IoTsURI> & ModelAlgebraStrMap2<typeof IoTsURI> & ModelAlgebraSet2<typeof IoTsURI> & ModelAlgebraRecursive2<typeof IoTsURI> & ModelAlgebraObject2<typeof IoTsURI> = ...
+export const modelIoTsStrictInterpreter: ModelAlgebraRefined2<"IoTsURI"> & ModelAlgebraNewtype2<"IoTsURI"> & ModelAlgebraUnknown2<"IoTsURI"> & ModelAlgebraPrimitive2<"IoTsURI"> & ModelAlgebraIntersection2<"IoTsURI"> & ModelAlgebraUnions2<"IoTsURI"> & ModelAlgebraTaggedUnions2<"IoTsURI"> & ModelAlgebraStrMap2<"IoTsURI"> & ModelAlgebraSet2<"IoTsURI"> & ModelAlgebraRecursive2<"IoTsURI"> & ModelAlgebraObject2<"IoTsURI"> = ...
 ```
 
 Added in v0.0.1

@@ -1,7 +1,7 @@
 import { option, array } from 'fp-ts'
 import { eq, eqNumber, eqString, strictEqual, eqBoolean } from 'fp-ts/lib/Eq'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
-import { EqType, EqURI } from '..'
+import { EqType, EqURI } from '../hkt'
 
 /**
  *  @since 0.0.1
