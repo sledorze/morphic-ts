@@ -13,9 +13,6 @@ import { iotsConfig } from '../src/index'
 
 import { withMessage } from 'io-ts-types/lib/withMessage'
 
-// import { ioTsPrimitiveInterpreter } from '@morphic-ts/io-ts-interpreters/lib/model/primitives'
-// export { ioTsPrimitiveInterpreter }
-
 export type Tree = Node | Leaf
 export interface Node {
   type: 'node'
