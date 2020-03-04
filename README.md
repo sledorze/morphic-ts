@@ -1,5 +1,7 @@
 # Morphic-ts
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/sledorze/morphic-ts.svg)](https://greenkeeper.io/)
+
 Business Models just got a lot easier
 
 This library adress the pain of writting _and maintaining_ code for business _without any Magic_ in Typescript
