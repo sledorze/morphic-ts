@@ -16,5 +16,6 @@
         "packages/morphic-show-interpreters/package.json"
       ]
     }
-  }
+  },
+  "ignore": ["docs-ts"]
 }
