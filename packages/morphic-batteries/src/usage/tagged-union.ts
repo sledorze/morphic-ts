@@ -153,14 +153,6 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
 
 // Patterns
 
-// type ExtractTypes<T extends UnionTypes<any, any, any, any>> = {
-//   [k in keyof T]: T[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never
-// }
-
-// type Select<Types extends { [k in keyof Types]: any }, Keys extends keyof Types> = {
-//   [k in Extract<keyof Types, Keys>]: Types[k]
-// }
-
 /**
  *  @since 0.0.1
  */
