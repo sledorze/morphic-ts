@@ -15,7 +15,6 @@ parent: Modules
 - [IfStringLiteral (type alias)](#ifstringliteral-type-alias)
 - [MorphADT (type alias)](#morphadt-type-alias)
 - [TaggedUnionProg (type alias)](#taggedunionprog-type-alias)
-- [TagsOf (type alias)](#tagsof-type-alias)
 - [UnionTypes (type alias)](#uniontypes-type-alias)
 - [makeTagged (function)](#maketagged-function)
 
@@ -153,16 +152,6 @@ export type TaggedUnionProg<E, A, ProgURI extends ProgramURI> = ProgramType<E, A
 
 Added in v0.0.1
 
-# TagsOf (type alias)
-
-**Signature**
-
-```ts
-export type TagsOf<T> = TagsInKeys<T, keyof T> & string
-```
-
-Added in v0.0.1
-
 # UnionTypes (type alias)
 
 **Signature**
@@ -195,7 +184,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
   {
     [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never
   },
-  TagType<Types>,
+  Tag,
   ProgURI,
   InterpURI
 > { ... }

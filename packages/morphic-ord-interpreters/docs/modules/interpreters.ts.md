@@ -1,6 +1,6 @@
 ---
 title: interpreters.ts
-nav_order: 2
+nav_order: 4
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelOrdInterpreter: ModelAlgebraRefined1<typeof OrdURI> & ModelAlgebraNewtype1<typeof OrdURI> & ModelAlgebraPrimitive1<typeof OrdURI> & ModelAlgebraIntersection1<typeof OrdURI> & ModelAlgebraSet1<typeof OrdURI> & ModelAlgebraStrMap1<typeof OrdURI> & ModelAlgebraTaggedUnions1<typeof OrdURI> = ...
+export const modelOrdInterpreter: ModelAlgebraRefined1<"OrdURI"> & ModelAlgebraNewtype1<"OrdURI"> & ModelAlgebraPrimitive1<"OrdURI"> & ModelAlgebraIntersection1<"OrdURI"> & ModelAlgebraSet1<"OrdURI"> & ModelAlgebraStrMap1<"OrdURI"> & ModelAlgebraTaggedUnions1<"OrdURI"> = ...
 ```
 
 Added in v0.0.1
