@@ -1,0 +1,20 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "package.json",
+        "packages/morphic-adt/package.json",
+        "packages/morphic-algebras/package.json",
+        "packages/morphic-batteries/package.json",
+        "packages/morphic-common/package.json",
+        "packages/morphic-eq-interpreters/package.json",
+        "packages/morphic-fastcheck-interpreters/package.json",
+        "packages/morphic-io-ts-interpreters/package.json",
+        "packages/morphic-json-schema-interpreters/package.json",
+        "packages/morphic-model-algebras/package.json",
+        "packages/morphic-ord-interpreters/package.json",
+        "packages/morphic-show-interpreters/package.json"
+      ]
+    }
+  }
+}
