@@ -22,17 +22,6 @@ export type IfStringLiteral<T, IfLiteral, IfString, IfNotString> = T extends str
   : IfNotString
 
 /**
- * Keeps the common key in a union that are discriminants (Holds values which *are* literals)
- */
-type TagsInKeys<T, K extends keyof T> = NonNullable<
-  { [k in K]: undefined extends T[k] ? undefined : IfStringLiteral<T[k], k, never, never> }[K]
->
-/**
- *  @since 0.0.1
- */
-export type TagsOf<T> = TagsInKeys<T, keyof T> & string // this indirection is necessary
-
-/**
  *  @since 0.0.1
  */
 export type TaggedUnionProg<E, A, ProgURI extends ProgramURI> = ProgramType<E, A>[ProgURI] &
@@ -41,7 +30,6 @@ export type TaggedUnionProg<E, A, ProgURI extends ProgramURI> = ProgramType<E, A
 type M<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Materialized<E, A, ProgURI, InterpURI>
 
 type AnyTypes = Record<string, InhabitedTypes<any, any>>
-type TagType<Types extends AnyTypes> = TagsOf<AType<Types[keyof Types]>> & string
 
 type AParam<Types extends AnyTypes> = AType<Types[keyof Types]>
 type EParam<Types extends AnyTypes> = EType<Types[keyof Types]>
@@ -80,7 +68,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
   {
     [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never
   },
-  TagType<Types>,
+  Tag,
   ProgURI,
   InterpURI
 >
@@ -97,7 +85,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
   {
     [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never
   },
-  TagType<Types>,
+  Tag,
   ProgURI,
   InterpURI
 > {
@@ -107,7 +95,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
     {
       [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never
     },
-    TagType<Types>,
+    Tag,
     ProgURI,
     InterpURI
   > => {
@@ -149,7 +137,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
       {
         [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never
       },
-      TagType<Types>,
+      Tag,
       ProgURI,
       InterpURI
     > = assignCallable(wrapFun(summoned), {
