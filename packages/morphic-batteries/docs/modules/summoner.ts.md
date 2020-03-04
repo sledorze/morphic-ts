@@ -72,7 +72,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-<Tag>(tag: Tag) => <Types>(o: Types) => MorphADT<{ [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never; }, TagsOf<Types[keyof Types]["_A"]>, "ProgramUnionURI", "BASTJInterpreterURI">
+<Tag>(tag: Tag) => <Types>(o: Types) => MorphADT<{ [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never; }, Tag, "ProgramUnionURI", "BASTJInterpreterURI">
 ```
 
 Added in v0.0.1

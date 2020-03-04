@@ -49,10 +49,10 @@ export type UnionTypes<
 type AnyM<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = M<any, any, ProgURI, InterpURI>
 
 const recordFromArray = record.fromFoldable({ concat: identity }, array.array)
-const keepKeys = (a: object, toKeep: Array<string>): object =>
+const keepKeys = (a: Record<string, any>, toKeep: Array<string>): object =>
   recordFromArray(intersection(eqString)(Object.keys(a), toKeep).map((k: string) => tuple(k, a[k])))
 
-const excludeKeys = (a: object, toExclude: Array<string>): object =>
+const excludeKeys = (a: Record<string, any>, toExclude: Array<string>): object =>
   recordFromArray(difference(eqString)(Object.keys(a), toExclude).map((k: string) => tuple(k, a[k])))
 
 /**
