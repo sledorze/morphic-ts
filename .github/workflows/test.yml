@@ -6,6 +6,7 @@ on:
       - issue/**
       - features/**
       - generic/**
+      - greenkeeper/**
 
 jobs:
   build:
@@ -27,5 +28,5 @@ jobs:
           lerna run lint --parallel
           lerna run jest --parallel
         env:
-          CI: 'true'
+          CI: "true"
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
