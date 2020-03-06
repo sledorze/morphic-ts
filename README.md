@@ -295,7 +295,6 @@ const incSeat = seatLense.modify(increment) // (s: Car | Motorbike) => Car | Mot
 
 ## Roadmap
 
-- Switch to Monorepo
 - Interpreter for persistency (TypeORM)
 - Implement Algebra for APIs
 
