@@ -28,7 +28,8 @@
     "tslint": "6.0.0",
     "tslint-config-standard": "^9.0.0",
     "typescript": "3.8.3",
-    "yarn-deduplicate": "2.0.0"
+    "yarn-deduplicate": "2.0.0",
+    "import-path-rewrite": "github:mikearnaldi/import-path-rewrite"
   },
   "husky": {
     "hooks": {

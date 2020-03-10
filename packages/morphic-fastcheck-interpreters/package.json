@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/fastcheck-interpreters",
-  "version": "0.6.4",
+  "version": "0.6.5-alpha.2",
   "description": "Morphic fastcheck package for property based testing",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -10,6 +10,8 @@
     "access": "public"
   },
   "main": "lib",
+  "module": "es6",
+  "typings": "lib",
   "directories": {
     "lib": "lib",
     "test": "test"
@@ -18,9 +20,9 @@
     "lib"
   ],
   "dependencies": {
-    "@morphic-ts/algebras": "^0.4.3",
-    "@morphic-ts/common": "^0.4.3",
-    "@morphic-ts/model-algebras": "^0.6.3",
+    "@morphic-ts/algebras": "^0.4.4-alpha.2",
+    "@morphic-ts/common": "^0.4.4-alpha.2",
+    "@morphic-ts/model-algebras": "^0.6.4-alpha.2",
     "fast-check": "^1.22.1",
     "fp-ts": "^2.4.1"
   },
@@ -42,8 +44,9 @@
     "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples}/**/*.ts\"",
     "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples}/**/*.ts\"",
     "test": "yarn run prettier && yarn run lint && yarn run dtslint && yarn run jest && yarn run docs",
-    "clean": "rimraf lib/*",
-    "build": "yarn run clean && tsc --build tsconfig.build.json",
+    "clean": "rimraf lib/* && rimraf es6/*",
+    "build": "yarn run clean && tsc --build tsconfig.build.json && tsc --build tsconfig.es6.json && yarn import-path-rewrite",
+    "import-path-rewrite": "import-path-rewrite",
     "prepublish": "yarn run build",
     "docs-fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser markdown --write \"README.md\"",
     "dtslint": "dtslint dtslint",
