@@ -45,7 +45,7 @@ export interface ModelAlgebraNewtype<F> {
   newtype: {
     <N extends AnyNewtype = never>(name: string): <E>(
       a: HKT2<F, E, NewtypeA<N>>
-    ) => isOptionalConfig<NewtypeConfig, HKT2<F, NewtypeA<N>, N>>
+    ) => isOptionalConfig<NewtypeConfig, HKT2<F, E, N>>
     <N extends AnyNewtype = never>(name: string): <E>(
       a: HKT2<F, E, NewtypeA<N>>,
       config: ByInterp<NewtypeConfig, URIS | URIS2>
