@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/algebras",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Morphic core Algebra package",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -21,7 +21,7 @@
     "es6"
   ],
   "dependencies": {
-    "@morphic-ts/common": "^0.5.0"
+    "@morphic-ts/common": "^0.5.1"
   },
   "peerDdependencies": {},
   "scripts": {
@@ -54,5 +54,5 @@
       "utils"
     ]
   },
-  "gitHead": "90dd8cc7d6292cabd867d0a48e042cc27aefc939"
+  "gitHead": "503b7ace0b01234227a5da889638bbc7f8036243"
 }

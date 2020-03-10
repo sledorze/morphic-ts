@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/fastcheck-interpreters",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Morphic fastcheck package for property based testing",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -20,9 +20,9 @@
     "lib"
   ],
   "dependencies": {
-    "@morphic-ts/algebras": "^0.5.0",
-    "@morphic-ts/common": "^0.5.0",
-    "@morphic-ts/model-algebras": "^0.7.0",
+    "@morphic-ts/algebras": "^0.5.1",
+    "@morphic-ts/common": "^0.5.1",
+    "@morphic-ts/model-algebras": "^0.7.1",
     "fast-check": "^1.22.1",
     "fp-ts": "^2.4.1"
   },
@@ -67,5 +67,5 @@
       "utils"
     ]
   },
-  "gitHead": "90dd8cc7d6292cabd867d0a48e042cc27aefc939"
+  "gitHead": "503b7ace0b01234227a5da889638bbc7f8036243"
 }
