@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/io-ts-interpreters",
-  "version": "0.6.5-alpha.1",
+  "version": "0.6.5-alpha.2",
   "description": "Morphic io-ts package for encoding / decoding",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -21,9 +21,9 @@
     "es6"
   ],
   "dependencies": {
-    "@morphic-ts/algebras": "^0.4.4-alpha.1",
-    "@morphic-ts/common": "^0.4.4-alpha.1",
-    "@morphic-ts/model-algebras": "^0.6.4-alpha.1",
+    "@morphic-ts/algebras": "^0.4.4-alpha.2",
+    "@morphic-ts/common": "^0.4.4-alpha.2",
+    "@morphic-ts/model-algebras": "^0.6.4-alpha.2",
     "fp-ts": "^2.4.1",
     "io-ts": "^2.0.6"
   },
