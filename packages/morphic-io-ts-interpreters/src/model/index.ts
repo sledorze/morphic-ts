@@ -1,4 +1,5 @@
 export * from './primitives'
+export * from './object'
 export * from './intersections'
 export * from './unions'
 export * from './tagged-unions'

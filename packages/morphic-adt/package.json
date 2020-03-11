@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/adt",
-  "version": "0.5.1",
+  "version": "0.5.2-alpha.0",
   "description": "Morphic ADT provides Algebraic Data Type manipulation in Typescript",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
