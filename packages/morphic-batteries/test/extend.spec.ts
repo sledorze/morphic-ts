@@ -2,13 +2,14 @@ import * as chai from 'chai'
 import { Extension, ExtType } from '../src/usage/extend'
 import { BASTJInterpreter } from '../src/interpreters-BAST'
 import { either } from 'fp-ts'
-import { ProgramUnionURI } from '../src/program'
+import { ProgramUnionURI, AlgebraUnion } from '../src/program'
 
 describe('extend', () => {
   const extension = Extension.of(ProgramUnionURI)
     .with({
-      Person: <K extends string>(name: K) => F =>
-        F.interface({ name: F.string(), age: F.number(), tag: F.stringLiteral(name) }, 'Person')
+      Person: <K extends string>(name: K) => <G>(
+        F: AlgebraUnion<G> // workaround https://github.com/microsoft/TypeScript/issues/37110
+      ) => F.interface({ name: F.string(), age: F.number(), tag: F.stringLiteral(name) }, 'Person')
     })
     .with({
       PersonGroup: () => F => F.array(F.Person('a')(F))

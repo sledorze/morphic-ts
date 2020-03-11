@@ -1,5 +1,7 @@
 # Morphic-ts
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/sledorze/morphic-ts.svg)](https://greenkeeper.io/)
+
 Business Models just got a lot easier
 
 This library adress the pain of writting _and maintaining_ code for business _without any Magic_ in Typescript
@@ -11,24 +13,6 @@ The goal is to increase, in order of importance
 - Developper Experience
 
 It is has two side blended into one; generic ADT manipulation AND Generic, customizable and extensible derivations
-
-## NOTE: The repo has changed to a monorepo
-
-As such previous package `morphic-ts`has been replaced by
-
-```typescript
-'@morphic-ts/adt'
-'@morphic-ts/algebras'
-'@morphic-ts/batteries'
-'@morphic-ts/common'
-'@morphic-ts/eq-interpreters'
-'@morphic-ts/fastcheck-interpreters'
-'@morphic-ts/io-ts-interpreters'
-'@morphic-ts/json-schema-interpreters'
-'@morphic-ts/model-algebras'
-'@morphic-ts/ord-interpreters'
-'@morphic-ts/show-interpreters`
-```
 
 ## Two minutes intro
 
@@ -311,7 +295,6 @@ const incSeat = seatLense.modify(increment) // (s: Car | Motorbike) => Car | Mot
 
 ## Roadmap
 
-- Switch to Monorepo
 - Interpreter for persistency (TypeORM)
 - Implement Algebra for APIs
 

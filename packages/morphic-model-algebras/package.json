@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/model-algebras",
-  "version": "0.5.2-alpha.0",
+  "version": "0.7.1",
   "description": "Morphic definitions for models",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -10,16 +10,19 @@
     "access": "public"
   },
   "main": "lib",
+  "module": "es6",
+  "typings": "lib",
   "directories": {
     "lib": "lib",
     "test": "test"
   },
   "files": [
-    "lib"
+    "lib",
+    "es6"
   ],
   "dependencies": {
-    "@morphic-ts/algebras": "^0.4.1",
-    "@morphic-ts/common": "^0.4.1",
+    "@morphic-ts/algebras": "^0.5.1",
+    "@morphic-ts/common": "^0.5.1",
     "fp-ts": "^2.4.1"
   },
   "devDependencies": {
@@ -38,10 +41,10 @@
     "jest-coverage": "jest --ci --coverage",
     "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples}/**/*.ts\"",
     "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples}/**/*.ts\"",
-    "test": "yarn run prettier && yarn run lint && yarn run jest && yarn run docs",
-    "test-old": "yarn run prettier && yarn run lint && yarn run dtslint && yarn run jest && yarn run docs",
-    "clean": "rimraf lib/*",
-    "build": "yarn run clean && tsc --build tsconfig.build.json",
+    "test": "yarn run prettier && yarn run lint && yarn run dtslint && yarn run jest && yarn run docs",
+    "clean": "rimraf lib/* && rimraf es6/*",
+    "build": "yarn run clean && tsc --build tsconfig.build.json && tsc --build tsconfig.es6.json && yarn import-path-rewrite",
+    "import-path-rewrite": "import-path-rewrite",
     "prepublish": "yarn run build",
     "docs-fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser markdown --write \"README.md\"",
     "dtslint": "dtslint dtslint",
@@ -62,5 +65,5 @@
       "utils"
     ]
   },
-  "gitHead": "90dd8cc7d6292cabd867d0a48e042cc27aefc939"
+  "gitHead": "503b7ace0b01234227a5da889638bbc7f8036243"
 }

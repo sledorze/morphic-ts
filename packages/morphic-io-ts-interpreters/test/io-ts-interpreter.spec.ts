@@ -1,7 +1,7 @@
 import * as chai from 'chai'
 import { ordString, ord, Ord } from 'fp-ts/lib/Ord'
 import { fromArray } from 'fp-ts/lib/Set'
-import { right, isLeft } from 'fp-ts/lib/Either'
+import { right, isLeft, isRight, Either } from 'fp-ts/lib/Either'
 import { some, none } from 'fp-ts/lib/Option'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
@@ -12,6 +12,8 @@ import { summon, M } from '@morphic-ts/batteries/lib/summoner'
 import { iotsConfig } from '../src/index'
 
 import { withMessage } from 'io-ts-types/lib/withMessage'
+import { Newtype, iso } from 'newtype-ts'
+import { EType, AType } from '@morphic-ts/batteries/lib/usage/utils'
 
 // import { ioTsPrimitiveInterpreter } from '@morphic-ts/io-ts-interpreters/lib/model/primitives'
 // export { ioTsPrimitiveInterpreter }
@@ -48,6 +50,32 @@ describe('IO-TS Alt Schema', () => {
     ).type
 
     const result = codec.decode('baz')
+
+    chai.assert.deepStrictEqual(isLeft(result), true)
+    chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
+  })
+
+  it('newtype raw type should work', () => {
+    interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
+    const NT = summon(F => F.newtype<NT>('NT')(F.date()))
+    const dec = (_: EType<typeof NT>): Either<Errors, AType<typeof NT>> => NT.type.decode(_)
+    const date = new Date()
+
+    chai.assert.deepStrictEqual(dec(date.toISOString()), right(iso<NT>().wrap(date)))
+  })
+
+  it('customize strMap', () => {
+    const codec = summon(F =>
+      F.strMap(
+        F.string(),
+        iotsConfig(x => withMessage(x, () => 'not ok'))
+      )
+    ).type
+
+    const result1 = codec.decode({ a: 'a' })
+    chai.assert.deepStrictEqual(isRight(result1) && result1.right, { a: 'a' })
+
+    const result = codec.decode([])
 
     chai.assert.deepStrictEqual(isLeft(result), true)
     chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
