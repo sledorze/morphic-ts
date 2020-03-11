@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/batteries",
-  "version": "0.7.2-alpha.0",
+  "version": "0.8.0-alpha.0",
   "description": "Morphic batteries package to bootstrap projects",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -26,7 +26,7 @@
     "@morphic-ts/common": "^0.5.2-alpha.0",
     "@morphic-ts/eq-interpreters": "^0.7.2-alpha.0",
     "@morphic-ts/fastcheck-interpreters": "^0.7.2-alpha.0",
-    "@morphic-ts/io-ts-interpreters": "^0.7.2-alpha.0",
+    "@morphic-ts/io-ts-interpreters": "^0.8.0-alpha.0",
     "@morphic-ts/json-schema-interpreters": "^0.7.2-alpha.0",
     "@morphic-ts/model-algebras": "^0.7.2-alpha.0",
     "@morphic-ts/ord-interpreters": "^0.7.2-alpha.0",
