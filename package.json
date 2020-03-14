@@ -7,6 +7,7 @@
   ],
   "devDependencies": {
     "@types/chai": "4.2.10",
+    "@types/graphql": "^14.5.0",
     "@types/jest": "25.1.4",
     "@types/node": "13.9.1",
     "chai": "4.2.0",
@@ -14,6 +15,8 @@
     "dtslint": "github:gcanti/dtslint",
     "fast-equals": "^2.0.0",
     "fp-ts": "^2.4.1",
+    "graphql": "^14.6.0",
+    "import-path-rewrite": "github:mikearnaldi/import-path-rewrite",
     "io-ts": "^2.0.6",
     "io-ts-types": "^0.5.5",
     "jest": "^25.1.0",
@@ -28,8 +31,7 @@
     "tslint": "6.0.0",
     "tslint-config-standard": "^9.0.0",
     "typescript": "3.8.3",
-    "yarn-deduplicate": "2.0.0",
-    "import-path-rewrite": "github:mikearnaldi/import-path-rewrite"
+    "yarn-deduplicate": "2.0.0"
   },
   "husky": {
     "hooks": {
