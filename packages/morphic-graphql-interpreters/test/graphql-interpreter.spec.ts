@@ -49,4 +49,32 @@ describe('Graphql', () => {
       ['type Person {', '  name: String!', '  surname: String!', '}', 'type Query {', '  s: Person!', '}'].join('')
     )
   })
+
+  it('partial', () => {
+    const s = summon(F =>
+      F.partial(
+        {
+          name: F.string(),
+          surname: F.string()
+        },
+        'Person'
+      )
+    )
+
+    const schema = new GraphQLSchema({
+      query: new GraphQLObjectType({
+        name: 'Query',
+        fields: {
+          s: {
+            type: s.schema
+          }
+        }
+      })
+    })
+
+    chai.assert.strictEqual(
+      printSchema(schema).replace(new RegExp('\n', 'g'), ''),
+      ['type Person {', '  name: String', '  surname: String', '}', 'type Query {', '  s: Person!', '}'].join('')
+    )
+  })
 })
