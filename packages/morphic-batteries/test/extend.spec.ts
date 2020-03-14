@@ -1,6 +1,6 @@
 import * as chai from 'chai'
 import { Extension, ExtType } from '../src/usage/extend'
-import { BASTJInterpreter } from '../src/interpreters-BAST'
+import { BASTJInterpreter } from '../src/interpreters-BASTJ'
 import { either } from 'fp-ts'
 import { ProgramUnionURI, AlgebraUnion } from '../src/program'
 

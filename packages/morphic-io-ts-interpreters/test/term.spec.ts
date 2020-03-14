@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { summon } from '@morphic-ts/batteries/lib/summoner-T'
+import { summon } from '@morphic-ts/batteries/lib/summoner-ESBAST'
 import { UUID } from 'io-ts-types/lib/UUID'
 import { EqURI } from '@morphic-ts/eq-interpreters/lib/hkt'
 import { eqString } from 'fp-ts/lib/Eq'

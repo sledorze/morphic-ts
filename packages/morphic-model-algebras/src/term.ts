@@ -21,9 +21,15 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 // @ts-ignore
 export interface TermConstructor<A, E> {}
 
+/**
+ *  @since 0.0.1
+ */
 export type TermConstructorByInterp<F extends URIS | URIS2, A, E> = {
   [k in keyof TermConstructor<A, E> & F]: TermConstructor<A, E>[k]
 }

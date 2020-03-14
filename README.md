@@ -23,7 +23,7 @@ yarn add '@morphic-ts/batteries'
 Then
 
 ```typescript
-import { summon } from '@morphic-ts/batteries/lib/summoner'
+import { summon } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 
 export const Person = summon(F =>
   F.interface(
@@ -49,7 +49,7 @@ Person.jsonSchema // JsonSchema-ish representation
 ### Discriminated, taggedUnion-like models
 
 ```typescript
-import { summon, tagged } from '@morphic-ts/batteries/lib/summoner-no-union'
+import { summon, tagged } from '@morphic-ts/batteries/lib/summoner-ESBASTJ'
 
 export const Bicycle = summon(F =>
   F.interface(

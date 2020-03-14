@@ -3,6 +3,9 @@ import { ModelAlgebraTerm2 } from '@morphic-ts/model-algebras/lib/term'
 import * as t from 'io-ts'
 
 declare module '@morphic-ts/model-algebras/lib/term' {
+  /**
+   *  @since 0.0.1
+   */
   interface TermConstructor<A, E> {
     [IoTsURI]: t.Type<A, E>
   }

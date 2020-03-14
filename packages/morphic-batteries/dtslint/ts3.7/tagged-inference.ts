@@ -1,4 +1,4 @@
-import { summon, AsOpaque, tagged } from '../../src/summoner'
+import { summon, AsOpaque, tagged } from '../../src/summoner-BASTJ'
 import { AType, EType } from '../../src/usage/utils'
 
 const CommonType = summon(F =>

@@ -1,14 +1,15 @@
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
+import { ESBASTJInterpreter, M, UM, AsOpaque, AsUOpaque } from './interpreters-ESBASTJ'
 import { makeSummoner } from './usage/summoner'
 import { makeTagged } from './usage/tagged-union'
-import { TInterpreter, M, UM, AsOpaque, AsUOpaque } from './interpreters-T'
 
-export {} from '@morphic-ts/eq-interpreters/lib/model-eq/term'
-export {} from '@morphic-ts/io-ts-interpreters/lib/model/term'
-export {} from '@morphic-ts/fastcheck-interpreters/lib/model/term'
-export {} from '@morphic-ts/show-interpreters/lib/model/term'
+export {} from '@morphic-ts/eq-interpreters/lib'
+export {} from '@morphic-ts/io-ts-interpreters/lib'
+export {} from '@morphic-ts/fastcheck-interpreters/lib'
+export {} from '@morphic-ts/show-interpreters/lib'
+export {} from '@morphic-ts/json-schema-interpreters/lib'
 
-const summon = makeSummoner(cacheUnaryFunction, TInterpreter)
+const summon = makeSummoner(cacheUnaryFunction, ESBASTJInterpreter)
 const tagged = makeTagged(summon)
 export {
   /**

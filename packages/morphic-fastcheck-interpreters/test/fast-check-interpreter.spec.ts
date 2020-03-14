@@ -2,7 +2,7 @@ import * as fc from 'fast-check'
 import { ordString, ord } from 'fp-ts/lib/Ord'
 
 import { ProgramUnionURI } from '@morphic-ts/batteries/lib/program'
-import { summon, M } from '@morphic-ts/batteries/lib/summoner'
+import { summon, M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { fastCheckConfig } from '../src/index'
 

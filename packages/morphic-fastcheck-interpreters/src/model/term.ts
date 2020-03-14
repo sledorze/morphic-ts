@@ -3,6 +3,9 @@ import { ModelAlgebraTerm1 } from '@morphic-ts/model-algebras/lib/term'
 import { Arbitrary } from 'fast-check'
 
 declare module '@morphic-ts/model-algebras/lib/term' {
+  /**
+   *  @since 0.0.1
+   */
   interface TermConstructor<A, E> {
     [FastCheckURI]: Arbitrary<A>
   }

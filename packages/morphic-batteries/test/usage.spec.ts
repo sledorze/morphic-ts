@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { summon, M } from '../src/summoner'
+import { summon, M } from '../src/summoner-ESBASTJ'
 import { isRight } from 'fp-ts/lib/Either'
 import { makeTagged } from '../src/usage/tagged-union'
 

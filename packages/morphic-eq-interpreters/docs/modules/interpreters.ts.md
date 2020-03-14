@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelEqInterpreter: ModelAlgebraRefined1<"EqURI"> & ModelAlgebraNewtype1<"EqURI"> & ModelAlgebraUnknown1<"EqURI"> & ModelAlgebraPrimitive1<"EqURI"> & ModelAlgebraIntersection1<"EqURI"> & ModelAlgebraObject1<"EqURI"> & ModelAlgebraTaggedUnions1<"EqURI"> & ModelAlgebraRecursive1<"EqURI"> & ModelAlgebraStrMap1<"EqURI"> & ModelAlgebraSet1<"EqURI"> = ...
+export const modelEqInterpreter: ModelAlgebraRefined1<"EqURI"> & ModelAlgebraNewtype1<"EqURI"> & ModelAlgebraUnknown1<"EqURI"> & ModelAlgebraPrimitive1<"EqURI"> & ModelAlgebraIntersection1<"EqURI"> & ModelAlgebraObject1<"EqURI"> & ModelAlgebraTaggedUnions1<"EqURI"> & ModelAlgebraRecursive1<"EqURI"> & ModelAlgebraStrMap1<"EqURI"> & ModelAlgebraSet1<"EqURI"> & ModelAlgebraTerm1<"EqURI"> = ...
 ```
 
 Added in v0.0.1

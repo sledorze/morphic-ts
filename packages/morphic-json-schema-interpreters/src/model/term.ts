@@ -3,6 +3,9 @@ import { ModelAlgebraTerm1 } from '@morphic-ts/model-algebras/lib/term'
 import { OptionalJSONSchema } from '../json-schema/json-schema-ctors'
 
 declare module '@morphic-ts/model-algebras/lib/term' {
+  /**
+   *  @since 0.0.1
+   */
   interface TermConstructor<A, E> {
     [JsonSchemaURI]: JsonSchemaResult<OptionalJSONSchema>
   }
