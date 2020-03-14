@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/show-interpreters",
-  "version": "0.7.3-alpha.2",
+  "version": "0.8.0",
   "description": "Morphic show (fp-ts) package to derive show instances",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -21,9 +21,9 @@
     "es6"
   ],
   "dependencies": {
-    "@morphic-ts/algebras": "^0.5.3-alpha.1",
-    "@morphic-ts/common": "^0.5.3-alpha.1",
-    "@morphic-ts/model-algebras": "^0.7.3-alpha.2",
+    "@morphic-ts/algebras": "^0.6.0",
+    "@morphic-ts/common": "^0.6.0",
+    "@morphic-ts/model-algebras": "^0.8.0",
     "fp-ts": "^2.4.1"
   },
   "devDependencies": {
