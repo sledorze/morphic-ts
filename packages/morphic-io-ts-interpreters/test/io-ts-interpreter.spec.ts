@@ -7,7 +7,7 @@ import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Errors, Branded } from 'io-ts'
 import { failure } from 'io-ts/lib/PathReporter'
-import { summon, M } from '@morphic-ts/batteries/lib/summoner'
+import { summon, M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 
 import { iotsConfig } from '../src/index'
 

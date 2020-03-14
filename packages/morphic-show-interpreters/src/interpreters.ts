@@ -20,6 +20,8 @@ import { showSetInterpreter } from './model/set'
 
 import { showStrMapInterpreter } from './model/str-map'
 
+import { showTermInterpreter } from './model/term'
+
 export * from './hkt'
 
 /**
@@ -35,7 +37,8 @@ const allModelShow = merge(
   showTaggedUnionInterpreter,
   showRecursiveInterpreter,
   showSetInterpreter,
-  showStrMapInterpreter
+  showStrMapInterpreter,
+  showTermInterpreter
 )
 
 /**

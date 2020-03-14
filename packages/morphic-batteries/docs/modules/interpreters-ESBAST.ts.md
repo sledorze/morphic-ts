@@ -15,11 +15,11 @@ parent: Modules
 - [MorphAsL (interface)](#morphasl-interface)
 - [Summoner (interface)](#summoner-interface)
 - [UM (interface)](#um-interface)
-- [ESBASTJInterpreterURI (type alias)](#esbastjinterpreteruri-type-alias)
-- [ESBASTJInterpreterURI (constant)](#esbastjinterpreteruri-constant)
+- [ESBASTInterpreterURI (type alias)](#esbastinterpreteruri-type-alias)
+- [ESBASTInterpreterURI (constant)](#esbastinterpreteruri-constant)
 - [AsOpaque (function)](#asopaque-function)
 - [AsUOpaque (function)](#asuopaque-function)
-- [ESBASTJInterpreter (function)](#esbastjinterpreter-function)
+- [ESBASTInterpreter (function)](#esbastinterpreter-function)
 
 ---
 
@@ -31,7 +31,7 @@ Type level override to keep Morph type name short \*/
 **Signature**
 
 ```ts
-export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
+export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, ESBASTInterpreterURI> {}
 ```
 
 Added in v0.0.1
@@ -89,7 +89,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface Summoner extends Summoners<ProgramNoUnionURI, ESBASTJInterpreterURI> {
+export interface Summoner extends Summoners<ProgramNoUnionURI, ESBASTInterpreterURI> {
   summonAs: MorphAs
   summonAsA: MorphAsA
   summonAsL: MorphAsL
@@ -104,27 +104,27 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface UM<A> extends Materialized<unknown, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
+export interface UM<A> extends Materialized<unknown, A, ProgramNoUnionURI, ESBASTInterpreterURI> {}
 ```
 
 Added in v0.0.1
 
-# ESBASTJInterpreterURI (type alias)
+# ESBASTInterpreterURI (type alias)
 
 **Signature**
 
 ```ts
-export type ESBASTJInterpreterURI = typeof ESBASTJInterpreterURI
+export type ESBASTInterpreterURI = typeof ESBASTInterpreterURI
 ```
 
 Added in v0.0.1
 
-# ESBASTJInterpreterURI (constant)
+# ESBASTInterpreterURI (constant)
 
 **Signature**
 
 ```ts
-export const ESBASTJInterpreterURI: "ESBASTJInterpreterURI" = ...
+export const ESBASTInterpreterURI: "ESBASTInterpreterURI" = ...
 ```
 
 Added in v0.0.1
@@ -149,12 +149,12 @@ export const AsUOpaque = <A>(x: UM<A>): UM<A> => ...
 
 Added in v0.0.1
 
-# ESBASTJInterpreter (function)
+# ESBASTInterpreter (function)
 
 **Signature**
 
 ```ts
-export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJInterpreterURI> = _program => ...
+export const ESBASTInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTInterpreterURI> = _program => ...
 ```
 
 Added in v0.0.1

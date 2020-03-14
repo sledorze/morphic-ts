@@ -1,6 +1,6 @@
 ---
-title: summoner.ts
-nav_order: 7
+title: summoner-ESBASTJ.ts
+nav_order: 9
 parent: Modules
 ---
 
@@ -62,7 +62,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-Summoners<"ProgramUnionURI", "BASTJInterpreterURI">
+Summoners<"ProgramNoUnionURI", "ESBASTJInterpreterURI">
 ```
 
 Added in v0.0.1
@@ -72,7 +72,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-<Tag>(tag: Tag) => <Types>(o: Types) => MorphADT<{ [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never; }, Tag, "ProgramUnionURI", "BASTJInterpreterURI">
+<Tag>(tag: Tag) => <Types>(o: Types) => MorphADT<{ [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never; }, Tag, "ProgramNoUnionURI", "ESBASTJInterpreterURI">
 ```
 
 Added in v0.0.1
