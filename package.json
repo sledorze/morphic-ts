@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@types/chai": "4.2.10",
+    "@types/chai": "4.2.11",
     "@types/jest": "25.1.4",
     "@types/node": "13.9.1",
     "chai": "4.2.0",
