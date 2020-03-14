@@ -3,10 +3,10 @@ import { makeSummoner } from './usage/summoner'
 import { makeTagged } from './usage/tagged-union'
 import { TInterpreter, M, UM, AsOpaque, AsUOpaque } from './interpreters-T'
 
-import {} from '@morphic-ts/io-ts-interpreters'
-import {} from '@morphic-ts/eq-interpreters'
-import {} from '@morphic-ts/fastcheck-interpreters'
-import {} from '@morphic-ts/show-interpreters'
+export {} from '@morphic-ts/io-ts-interpreters/lib'
+export {} from '@morphic-ts/eq-interpreters/lib'
+export {} from '@morphic-ts/fastcheck-interpreters/lib'
+export {} from '@morphic-ts/show-interpreters/lib'
 
 const summon = makeSummoner(cacheUnaryFunction, TInterpreter)
 const tagged = makeTagged(summon)
