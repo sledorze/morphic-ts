@@ -61,6 +61,19 @@ describe('IO-TS Alt Schema', () => {
     chai.assert.deepStrictEqual(dec(date.toISOString()), right(iso<NT>().wrap(date)))
   })
 
+  it('newtype raw type should work - customize', () => {
+    interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
+    const NT = summon(F =>
+      F.newtype<NT>('NT')(
+        F.date(),
+        iotsConfig(x => withMessage(x, () => 'not ok'))
+      )
+    )
+    const result = NT.type.decode('bla')
+
+    chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
+  })
+
   it('customize strMap', () => {
     const codec = summon(F =>
       F.strMap(
