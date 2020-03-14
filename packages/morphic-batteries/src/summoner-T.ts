@@ -8,6 +8,11 @@ export {} from '@morphic-ts/eq-interpreters/lib'
 export {} from '@morphic-ts/fastcheck-interpreters/lib'
 export {} from '@morphic-ts/show-interpreters/lib'
 
+export {} from '@morphic-ts/io-ts-interpreters/lib/model/term'
+export {} from '@morphic-ts/eq-interpreters/lib/model-eq/term'
+export {} from '@morphic-ts/fastcheck-interpreters/lib/model/term'
+export {} from '@morphic-ts/show-interpreters/lib/model/term'
+
 const summon = makeSummoner(cacheUnaryFunction, TInterpreter)
 const tagged = makeTagged(summon)
 export {
