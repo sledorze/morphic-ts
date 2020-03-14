@@ -10,6 +10,7 @@ import { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
 import { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
 import { InferredAlgebra, InferredProgram } from './usage/programs-infer'
+import { TermURI } from '@morphic-ts/model-algebras/lib/term'
 
 /**
  *  @since 0.0.1
@@ -42,6 +43,7 @@ declare module './usage/ProgramType' {
       | UnknownURI
       | NewtypeURI
       | RefinedURI
+      | TermURI
     >
   }
 

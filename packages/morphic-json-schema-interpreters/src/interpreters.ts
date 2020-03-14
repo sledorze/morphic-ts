@@ -22,6 +22,8 @@ import { jsonSchemaSetInterpreter } from './model/set'
 
 import { jsonSchemaUnionInterpreter } from './model/unions'
 
+import { jsonSchemaTermInterpreter } from './model/term'
+
 export * from './hkt'
 
 /**
@@ -38,7 +40,8 @@ const allModelJsonSchema = merge(
   jsonSchemaRecursiveInterpreter,
   jsonSchemaStrMapInterpreter,
   jsonSchemaSetInterpreter,
-  jsonSchemaUnionInterpreter
+  jsonSchemaUnionInterpreter,
+  jsonSchemaTermInterpreter
 )
 
 /**

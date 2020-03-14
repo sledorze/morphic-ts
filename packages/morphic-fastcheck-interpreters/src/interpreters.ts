@@ -22,6 +22,8 @@ import { fastCheckStrMapInterpreter } from './model/str-map'
 
 import { fastCheckSetInterpreter } from './model/set'
 
+import { fastCheckTermInterpreter } from './model/term'
+
 export * from './hkt'
 
 /**
@@ -38,7 +40,8 @@ const allModelFastCheck = merge(
   fastCheckTaggedUnionInterpreter,
   fastCheckRecursiveInterpreter,
   fastCheckStrMapInterpreter,
-  fastCheckSetInterpreter
+  fastCheckSetInterpreter,
+  fastCheckTermInterpreter
 )
 
 /**
