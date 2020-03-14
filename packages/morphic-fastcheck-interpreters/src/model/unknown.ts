@@ -1,20 +1,13 @@
 import { FastCheckType, FastCheckURI } from '../hkt'
 import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
-import { identity } from 'fp-ts/lib/function'
-import { Arbitrary, anything } from 'fast-check'
+import { anything } from 'fast-check'
+import { Customize, applyCustomize } from './common'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
   interface UnknownConfig {
     [FastCheckURI]: Customize<unknown> | undefined
   }
 }
-
-interface Customize<A> {
-  (a: Arbitrary<A>): Arbitrary<A>
-}
-
-const applyCustomize = <A>(c: { [FastCheckURI]?: Customize<A> } | undefined) =>
-  c !== undefined ? c[FastCheckURI] ?? identity : identity
 
 /**
  *  @since 0.0.1

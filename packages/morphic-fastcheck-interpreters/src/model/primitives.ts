@@ -1,8 +1,8 @@
 import { FastCheckType, FastCheckURI } from '../hkt'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { fromNullable } from 'fp-ts/lib/Option'
-import { identity } from 'fp-ts/lib/function'
-import { Arbitrary, constant, integer, boolean, string, float, oneof, array, option, bigInt } from 'fast-check'
+import { constant, integer, boolean, string, float, oneof, array, option, bigInt } from 'fast-check'
+import { Customize, applyCustomize } from './common'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
   interface PrimitiveArrayConfig<A> {
@@ -47,12 +47,6 @@ interface MinMaxLength {
   maxLength: number
   minLength?: number
 }
-interface Customize<A> {
-  (a: Arbitrary<A>): Arbitrary<A>
-}
-
-const applyCustomize = <A>(c: { [FastCheckURI]?: Customize<A> } | undefined) =>
-  c !== undefined ? c[FastCheckURI] ?? identity : identity
 
 /**
  *  @since 0.0.1
