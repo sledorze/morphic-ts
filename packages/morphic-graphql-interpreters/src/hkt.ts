@@ -18,7 +18,7 @@ export class GraphqlType<A> {
   constructor(
     public graphql: {
       nullable: boolean
-      type: GraphQLOutputType
+      type: () => GraphQLOutputType
     }
   ) {}
 }

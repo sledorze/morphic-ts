@@ -12,21 +12,23 @@ export const graphqlObjectInterpreter: ModelAlgebraObject1<GraphqlURI> = {
   interface: (props, name) =>
     new GraphqlType({
       nullable: false,
-      type: new GraphQLObjectType({
-        name,
-        fields: record.map(projectField(props)('graphql'), (x: GraphqlType<any>['graphql']) => ({
-          type: x.nullable ? x.type : new GraphQLNonNull(x.type)
-        })) as any
-      })
+      type: () =>
+        new GraphQLObjectType({
+          name,
+          fields: record.map(projectField(props)('graphql'), (x: GraphqlType<any>['graphql']) => ({
+            type: x.nullable ? x.type() : new GraphQLNonNull(x.type())
+          })) as any
+        })
     }),
   partial: (props, name) =>
     new GraphqlType({
       nullable: false,
-      type: new GraphQLObjectType({
-        name,
-        fields: record.map(projectField(props)('graphql'), (x: GraphqlType<any>['graphql']) => ({
-          type: x.type
-        })) as any
-      })
+      type: () =>
+        new GraphQLObjectType({
+          name,
+          fields: record.map(projectField(props)('graphql'), (x: GraphqlType<any>['graphql']) => ({
+            type: x.type()
+          })) as any
+        })
     })
 }

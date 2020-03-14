@@ -10,7 +10,7 @@ import { GraphQLOutputType, GraphQLNonNull } from 'graphql'
 interface GInterpreter<E, A> {
   _tag: 'GInterpreter'
   build: (a: A) => A
-  schema: GraphQLOutputType
+  schema: () => GraphQLOutputType
 }
 
 /**
@@ -31,7 +31,7 @@ export const GInterpreter: ProgramInterpreter<ProgramGURI, GInterpreterURI> = _p
   return {
     _tag: 'GInterpreter',
     build: identity,
-    schema: t.nullable ? t.type : new GraphQLNonNull(t.type)
+    schema: t.nullable ? t.type : () => new GraphQLNonNull(t.type())
   }
 }
 

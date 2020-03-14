@@ -21,7 +21,7 @@ describe('Graphql', () => {
         name: 'Query',
         fields: {
           person: {
-            type: Person.schema
+            type: Person.schema()
           }
         }
       })
@@ -51,7 +51,7 @@ describe('Graphql', () => {
         name: 'Query',
         fields: {
           person: {
-            type: Person.schema
+            type: Person.schema()
           }
         }
       })
