@@ -1,6 +1,4 @@
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { ByInterp, isOptionalConfig } from '@morphic-ts/common/lib/core'
-import { TermConfig } from '@morphic-ts/algebras/lib/hkt'
 
 /**
  *  @since 0.0.1
@@ -21,11 +19,6 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   interface Algebra2<F extends URIS2> {
     [TermURI]: ModelAlgebraTerm2<F>
   }
-
-  /**
-   *  @since 0.0.1
-   */
-  export interface TermConfig<E, A> {}
 }
 
 // @ts-ignore
@@ -41,13 +34,7 @@ export type TermConstructorByInterp<F extends URIS | URIS2, A, E> = {
 export interface ModelAlgebraTerm<F> {
   _F: F
   term: {
-    <A, E>(name: string): (
-      a: TermConstructorByInterp<URIS | URIS2, A, E>
-    ) => isOptionalConfig<TermConfig<E, A>, HKT2<F, E, A>>
-    <A, E>(name: string): (
-      a: TermConstructorByInterp<URIS | URIS2, A, E>,
-      config: ByInterp<TermConfig<E, A>, URIS | URIS2>
-    ) => HKT2<F, E, A>
+    <A, E>(name: string): (a: TermConstructorByInterp<URIS | URIS2, A, E>) => HKT2<F, E, A>
   }
 }
 
@@ -56,9 +43,7 @@ export interface ModelAlgebraTerm<F> {
  */
 export interface ModelAlgebraTerm1<F extends URIS> {
   _F: F
-  term<A>(
-    name: string
-  ): (a: TermConstructorByInterp<F, A, unknown>, config?: ByInterp<TermConfig<unknown, A>, F>) => Kind<F, A>
+  term<A>(name: string): (a: TermConstructorByInterp<F, A, unknown>) => Kind<F, A>
 }
 
 /**
@@ -66,7 +51,5 @@ export interface ModelAlgebraTerm1<F extends URIS> {
  */
 export interface ModelAlgebraTerm2<F extends URIS2> {
   _F: F
-  term<A, E>(
-    name: string
-  ): (a: TermConstructorByInterp<F, A, E>, config: ByInterp<TermConfig<E, A>, F>) => Kind2<F, E, A>
+  term<A, E>(name: string): (a: TermConstructorByInterp<F, A, E>) => Kind2<F, E, A>
 }

@@ -60,7 +60,10 @@ export function conjunction<A, B, C, D, E, F, G, H, I, J, K>(
 ): A & B & C & D & E & F & G & H & I & J & K
 export function conjunction<A, B, C, D, E, F, G, H, I, J, K, L>(
   ...x: [A, B, C, D, E, F, G, H, I, J, K, L]
-): A & B & C & D & E & F & G & H & I & J & K & L { ... }
+): A & B & C & D & E & F & G & H & I & J & K & L
+export function conjunction<A, B, C, D, E, F, G, H, I, J, K, L, M>(
+  ...x: [A, B, C, D, E, F, G, H, I, J, K, L, M]
+): A & B & C & D & E & F & G & H & I & J & K & L & M { ... }
 ```
 
 Added in v0.0.1
