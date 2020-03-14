@@ -3,6 +3,12 @@ import { ESBASTJInterpreter, M, UM, AsOpaque, AsUOpaque } from './interpreters-E
 import { makeSummoner } from './usage/summoner'
 import { makeTagged } from './usage/tagged-union'
 
+export {} from '@morphic-ts/io-ts-interpreters/lib'
+export {} from '@morphic-ts/eq-interpreters/lib'
+export {} from '@morphic-ts/fastcheck-interpreters/lib'
+export {} from '@morphic-ts/show-interpreters/lib'
+export {} from '@morphic-ts/json-schema-interpreters/lib'
+
 const summon = makeSummoner(cacheUnaryFunction, ESBASTJInterpreter)
 const tagged = makeTagged(summon)
 export {
