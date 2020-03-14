@@ -7,10 +7,6 @@ export {} from '@morphic-ts/io-ts-interpreters/lib'
 export {} from '@morphic-ts/fastcheck-interpreters/lib'
 export {} from '@morphic-ts/json-schema-interpreters/lib'
 
-export {} from '@morphic-ts/io-ts-interpreters/lib/model/term'
-export {} from '@morphic-ts/fastcheck-interpreters/lib/model/term'
-export {} from '@morphic-ts/json-schema-interpreters/lib/model/term'
-
 const summon = makeSummoner(cacheUnaryFunction, BASTJInterpreter)
 const tagged = makeTagged(summon)
 /**

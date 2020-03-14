@@ -6,7 +6,7 @@ import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpre
 import { Arbitrary } from 'fast-check/*'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import { Type } from 'io-ts'
-import { ProgramNoUnionURI } from './program-no-union'
+import { ProgramTURI } from './program-T'
 import { identity } from 'fp-ts/lib/function'
 import { modelIoTsNonStrictInterpreter } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 import { ProgramInterpreter, Materialized } from './usage/materializer'
@@ -15,6 +15,7 @@ import { ProgramType } from './usage/ProgramType'
 import { Summoners } from './usage/summoner'
 
 interface TInterpreter<E, A> {
+  _tag: "TInterpreter",
   build: (a: A) => A
   eq: Eq<A>
   show: Show<A>
@@ -35,9 +36,10 @@ export type TInterpreterURI = typeof TInterpreterURI
 /**
  *  @since 0.0.1
  */
-export const TInterpreter: ProgramInterpreter<ProgramNoUnionURI, TInterpreterURI> = _program => {
+export const TInterpreter: ProgramInterpreter<ProgramTURI, TInterpreterURI> = _program => {
   const program = interpretable(_program)
   return {
+    _tag: "TInterpreter",
     build: identity,
     eq: program(modelEqInterpreter).eq,
     show: program(modelShowInterpreter).show,
@@ -53,7 +55,7 @@ declare module './usage/InterpreterResult' {
   }
 }
 declare module './usage/ProgramType' {
-  interface ProgramNoUnionInterpreters {
+  interface ProgramTInterpreters {
     [TInterpreterURI]: Summoner
   }
 }
@@ -62,11 +64,11 @@ declare module './usage/ProgramType' {
 /**
  *  @since 0.0.1
  */
-export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, TInterpreterURI> {}
+export interface M<L, A> extends Materialized<L, A, ProgramTURI, TInterpreterURI> {}
 /**
  *  @since 0.0.1
  */
-export interface UM<A> extends Materialized<unknown, A, ProgramNoUnionURI, TInterpreterURI> {}
+export interface UM<A> extends Materialized<unknown, A, ProgramTURI, TInterpreterURI> {}
 
 /**
  *  @since 0.0.1
@@ -81,31 +83,31 @@ export const AsUOpaque = <A>(x: UM<A>): UM<A> => x
  *  @since 0.0.1
  */
 export interface MorphAs {
-  <L, A>(F: ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
+  <L, A>(F: ProgramType<L, A>[ProgramTURI]): M<L, A>
 }
 /**
  *  @since 0.0.1
  */
 export interface MorphAsA {
-  <A>(): <L>(F: ProgramType<L, A>[ProgramNoUnionURI]) => M<L, A>
+  <A>(): <L>(F: ProgramType<L, A>[ProgramTURI]) => M<L, A>
 }
 /**
  *  @since 0.0.1
  */
 export interface MorphAsL {
-  <L>(): <A>(F: ProgramType<L, A>[ProgramNoUnionURI]) => M<L, A>
+  <L>(): <A>(F: ProgramType<L, A>[ProgramTURI]) => M<L, A>
 }
 /**
  *  @since 0.0.1
  */
 export interface Morph {
-  <A>(F: ProgramType<unknown, A>[ProgramNoUnionURI]): UM<A>
+  <A>(F: ProgramType<unknown, A>[ProgramTURI]): UM<A>
 }
 
 /**
  *  @since 0.0.1
  */
-export interface Summoner extends Summoners<ProgramNoUnionURI, TInterpreterURI> {
+export interface Summoner extends Summoners<ProgramTURI, TInterpreterURI> {
   summonAs: MorphAs
   summonAsA: MorphAsA
   summonAsL: MorphAsL

@@ -28,6 +28,7 @@ import { ProgramType } from './usage/ProgramType'
 import { Summoners } from './usage/summoner'
 
 interface ESBASTJInterpreter<E, A> {
+  _tag: "ESBASTJInterpreter",
   build: (a: A) => A
   eq: Eq<A>
   show: Show<A>
@@ -52,6 +53,7 @@ export type ESBASTJInterpreterURI = typeof ESBASTJInterpreterURI
 export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJInterpreterURI> = _program => {
   const program = interpretable(_program)
   return {
+    _tag: "ESBASTJInterpreter",
     build: identity,
     eq: program(modelEqInterpreter).eq,
     show: program(modelShowInterpreter).show,
