@@ -13,13 +13,13 @@ import { isRight, right } from 'fp-ts/lib/Either'
 const Custom = summon(F =>
   F.term<UUID, string>('UUID')({
     [EqURI]: {
-      equals: (x, y) => eqString.equals(x, y)
+      equals: eqString.equals
     },
     [IoTsURI]: UUID,
     [ShowURI]: {
-      show: x => showString.show(x)
+      show: showString.show
     },
-    [FastCheckURI]: fc.uuid().map(t => t as any)
+    [FastCheckURI]: fc.uuid() as fc.Arbitrary<UUID>
   })
 )
 
