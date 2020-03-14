@@ -24,7 +24,6 @@ import { ProgramType } from './usage/ProgramType'
 import { Summoners } from './usage/summoner'
 
 interface BASTJInterpreter<E, A> {
-  _tag: 'BASTJInterpreter'
   build: (a: A) => A
   arb: Arbitrary<A>
   strictType: Type<A, E, unknown>
@@ -47,7 +46,6 @@ export type BASTJInterpreterURI = typeof BASTJInterpreterURI
 export const BASTJInterpreter: ProgramInterpreter<ProgramUnionURI, BASTJInterpreterURI> = _program => {
   const program = interpretable(_program)
   return {
-    _tag: 'BASTJInterpreter',
     build: identity,
     arb: program(modelFastCheckInterpreter).arb,
     strictType: program(modelIoTsStrictInterpreter).type,

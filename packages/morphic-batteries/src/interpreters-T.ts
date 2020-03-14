@@ -15,7 +15,6 @@ import { ProgramType } from './usage/ProgramType'
 import { Summoners } from './usage/summoner'
 
 interface TInterpreter<E, A> {
-  _tag: 'TInterpreter'
   build: (a: A) => A
   eq: Eq<A>
   show: Show<A>
@@ -39,7 +38,6 @@ export type TInterpreterURI = typeof TInterpreterURI
 export const TInterpreter: ProgramInterpreter<ProgramTURI, TInterpreterURI> = _program => {
   const program = interpretable(_program)
   return {
-    _tag: 'TInterpreter',
     build: identity,
     eq: program(modelEqInterpreter).eq,
     show: program(modelShowInterpreter).show,
