@@ -2,9 +2,9 @@ import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraObject2, PropsKind2 } from '@morphic-ts/model-algebras/lib/object'
 import { projectField } from '@morphic-ts/common/lib/utils'
-import { identity } from 'fp-ts/lib/function'
 import { ByInterp } from '@morphic-ts/common/lib/core'
 import { ObjectInterfaceConfig } from '@morphic-ts/algebras/lib/hkt'
+import { Customize, applyCustomize } from './common'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
   /**
@@ -20,13 +20,6 @@ declare module '@morphic-ts/algebras/lib/hkt' {
     [IoTsURI]: Customize<E, A> | undefined
   }
 }
-
-interface Customize<E, A> {
-  (a: t.Type<A, E, unknown>): t.Type<A, E, unknown>
-}
-
-const applyCustomize = <E, A>(c: { [IoTsURI]?: Customize<E, A> } | undefined) =>
-  c !== undefined ? c[IoTsURI] ?? identity : identity
 
 /**
  *  @since 0.0.1

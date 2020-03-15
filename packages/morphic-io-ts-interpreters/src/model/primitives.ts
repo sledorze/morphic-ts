@@ -3,9 +3,9 @@ import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraPrimitive2 } from '@morphic-ts/model-algebras/lib/primitives'
-import { identity } from 'fp-ts/lib/function'
 import { either } from 'fp-ts/lib/Either'
 import { Option } from 'fp-ts/lib/Option'
+import { Customize, applyCustomize } from './common'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
   interface PrimitiveConfig {
@@ -66,13 +66,6 @@ declare module '@morphic-ts/algebras/lib/hkt' {
     [IoTsURI]: Customize<L | null, Option<A>> | undefined
   }
 }
-
-interface Customize<E, A> {
-  (a: t.Type<A, E, unknown>): t.Type<A, E, unknown>
-}
-
-const applyCustomize = <E, A>(c: { [IoTsURI]?: Customize<E, A> } | undefined) =>
-  c !== undefined ? c[IoTsURI] ?? identity : identity
 
 /**
  *  @since 0.0.1
