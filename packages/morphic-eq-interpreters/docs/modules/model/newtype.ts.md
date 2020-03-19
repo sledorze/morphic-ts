@@ -1,5 +1,5 @@
 ---
-title: model-eq/newtype.ts
+title: model/newtype.ts
 nav_order: 7
 parent: Modules
 ---

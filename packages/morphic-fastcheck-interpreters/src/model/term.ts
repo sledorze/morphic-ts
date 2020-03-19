@@ -16,5 +16,5 @@ declare module '@morphic-ts/model-algebras/lib/term' {
  */
 export const fastCheckTermInterpreter: ModelAlgebraTerm1<FastCheckURI> = {
   _F: FastCheckURI,
-  term: () => ({ [FastCheckURI]: a }) => new FastCheckType(a)
+  term: (_, { [FastCheckURI]: a }) => new FastCheckType(a)
 }

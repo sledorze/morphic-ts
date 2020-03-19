@@ -1,5 +1,5 @@
 ---
-title: model-eq/refined.ts
+title: model/refined.ts
 nav_order: 11
 parent: Modules
 ---

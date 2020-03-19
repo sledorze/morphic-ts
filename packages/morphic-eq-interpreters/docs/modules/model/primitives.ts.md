@@ -1,5 +1,5 @@
 ---
-title: model-eq/primitives.ts
+title: model/primitives.ts
 nav_order: 9
 parent: Modules
 ---

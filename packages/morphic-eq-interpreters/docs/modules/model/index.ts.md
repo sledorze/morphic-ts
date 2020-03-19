@@ -1,5 +1,5 @@
 ---
-title: model-eq/index.ts
+title: model/index.ts
 nav_order: 5
 parent: Modules
 ---

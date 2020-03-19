@@ -16,5 +16,5 @@ declare module '@morphic-ts/model-algebras/lib/term' {
  */
 export const showTermInterpreter: ModelAlgebraTerm1<ShowURI> = {
   _F: ShowURI,
-  term: name => ({ [ShowURI]: a }) => new ShowType({ show: x => `<${name}>(${a.show(x as any)})` })
+  term: (name, { [ShowURI]: a }) => new ShowType({ show: x => `<${name}>(${a.show(x as any)})` })
 }

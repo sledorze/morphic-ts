@@ -40,7 +40,7 @@ export type TermConstructorByInterp<F extends URIS | URIS2, A, E> = {
 export interface ModelAlgebraTerm<F> {
   _F: F
   term: {
-    <A, E>(name: string): (a: TermConstructorByInterp<URIS | URIS2, A, E>) => HKT2<F, E, A>
+    <A, E>(name: string, a: TermConstructorByInterp<URIS | URIS2, A, E>): HKT2<F, E, A>
   }
 }
 
@@ -49,7 +49,7 @@ export interface ModelAlgebraTerm<F> {
  */
 export interface ModelAlgebraTerm1<F extends URIS> {
   _F: F
-  term<A>(name: string): (a: TermConstructorByInterp<F, A, unknown>) => Kind<F, A>
+  term<A>(name: string, a: TermConstructorByInterp<F, A, unknown>): Kind<F, A>
 }
 
 /**
@@ -57,5 +57,5 @@ export interface ModelAlgebraTerm1<F extends URIS> {
  */
 export interface ModelAlgebraTerm2<F extends URIS2> {
   _F: F
-  term<A, E>(name: string): (a: TermConstructorByInterp<F, A, E>) => Kind2<F, E, A>
+  term<A, E>(name: string, a: TermConstructorByInterp<F, A, E>): Kind2<F, E, A>
 }

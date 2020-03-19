@@ -1,6 +1,6 @@
 import { genConfig } from '@morphic-ts/common/lib/core'
 import { EqURI } from '.'
-export * from './model-eq' // to thread type level augmentations
+export * from './model' // to thread type level augmentations
 
 /**
  *  @since 0.0.1

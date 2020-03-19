@@ -1,5 +1,5 @@
 ---
-title: model-eq/term.ts
+title: model/term.ts
 nav_order: 15
 parent: Modules
 ---

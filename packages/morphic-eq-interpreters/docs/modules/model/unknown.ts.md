@@ -1,5 +1,5 @@
 ---
-title: model-eq/unknown.ts
+title: model/unknown.ts
 nav_order: 16
 parent: Modules
 ---

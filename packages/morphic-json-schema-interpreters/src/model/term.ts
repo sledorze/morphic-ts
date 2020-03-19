@@ -16,5 +16,5 @@ declare module '@morphic-ts/model-algebras/lib/term' {
  */
 export const jsonSchemaTermInterpreter: ModelAlgebraTerm1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  term: () => ({ [JsonSchemaURI]: a }) => new JsonSchema(a)
+  term: (_, { [JsonSchemaURI]: a }) => new JsonSchema(a)
 }

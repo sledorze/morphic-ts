@@ -16,5 +16,5 @@ declare module '@morphic-ts/model-algebras/lib/term' {
  */
 export const eqTermInterpreter: ModelAlgebraTerm1<EqURI> = {
   _F: EqURI,
-  term: () => ({ [EqURI]: a }) => new EqType(a)
+  term: (_, { [EqURI]: a }) => new EqType(a)
 }

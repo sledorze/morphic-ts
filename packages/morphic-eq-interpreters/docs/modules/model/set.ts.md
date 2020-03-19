@@ -1,5 +1,5 @@
 ---
-title: model-eq/set.ts
+title: model/set.ts
 nav_order: 12
 parent: Modules
 ---

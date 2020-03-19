@@ -16,5 +16,5 @@ declare module '@morphic-ts/model-algebras/lib/term' {
  */
 export const ioTsTermInterpreter: ModelAlgebraTerm2<IoTsURI> = {
   _F: IoTsURI,
-  term: () => ({ [IoTsURI]: codec }) => new IOTSType(codec)
+  term: (_, { [IoTsURI]: codec }) => new IOTSType(codec)
 }
