@@ -14,8 +14,6 @@ import { ordStrMapInterpreter } from './model/str-map'
 
 import { ordTaggedUnionInterpreter } from './model/tagged-unions'
 
-import { ordTermInterpreter } from './model/term'
-
 export * from './hkt'
 
 /**
@@ -28,8 +26,7 @@ const allModelOrd = merge(
   ordIntersectionInterpreter,
   ordSetInterpreter,
   ordStrMapInterpreter,
-  ordTaggedUnionInterpreter,
-  ordTermInterpreter
+  ordTaggedUnionInterpreter
 )
 
 /**

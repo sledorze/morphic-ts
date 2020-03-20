@@ -9,7 +9,6 @@ import { eqTaggedUnionInterpreter } from './model/tagged-unions'
 import { eqRecursiveInterpreter } from './model/recursive'
 import { eqStrMapInterpreter } from './model/str-map'
 import { eqSetInterpreter } from './model/set'
-import { eqTermInterpreter } from './model/term'
 export * from './hkt'
 
 /**
@@ -25,8 +24,7 @@ const allModelEq = merge(
   eqTaggedUnionInterpreter,
   eqRecursiveInterpreter,
   eqStrMapInterpreter,
-  eqSetInterpreter,
-  eqTermInterpreter
+  eqSetInterpreter
 )
 
 /**

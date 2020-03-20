@@ -106,32 +106,4 @@ describe('tagged', () => {
       E.right({ a: new Date(2020, 2, 11, 11, 0, 0) })
     )
   })
-
-  it('can be composed with poorer Morphs', () => {
-    const A = summonBASTJ(F => F.date())
-    const R = summonESBASTJ(F =>
-      F.interface(
-        {
-          a: F.term<Date, string>('e', {
-            [FastCheckURI]: A.arb,
-            [JsonSchemaURI]: _ =>
-              E.either.map(
-                A.jsonSchema,
-                T.map(json => ({ optional: false, json }))
-              ),
-            [EqURI]: identity<Eq<Date>>(eq.contramap(eqNumber, _ => _.getTime())),
-            [ShowURI]: identity<Show<Date>>({ show: _ => _.toISOString() }),
-            [IoTsURI]: A.type,
-            [OrdURI]: ord.contramap(ordNumber, _ => _.getTime())
-          })
-        },
-        'R'
-      )
-    )
-
-    chai.assert.deepStrictEqual(
-      R.type.decode({ a: '2020-02-11T11:00:00' }),
-      E.right({ a: new Date(2020, 2, 11, 11, 0, 0) })
-    )
-  })
 })

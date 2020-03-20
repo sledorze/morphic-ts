@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelJsonSchemaInterpreter: ModelAlgebraRefined1<"JsonSchemaURI"> & ModelAlgebraNewtype1<"JsonSchemaURI"> & ModelAlgebraUnknown1<"JsonSchemaURI"> & ModelAlgebraPrimitive1<"JsonSchemaURI"> & ModelAlgebraIntersection1<"JsonSchemaURI"> & ModelAlgebraObject1<"JsonSchemaURI"> & ModelAlgebraTaggedUnions1<"JsonSchemaURI"> & ModelAlgebraRecursive1<"JsonSchemaURI"> & ModelAlgebraStrMap1<"JsonSchemaURI"> & ModelAlgebraSet1<"JsonSchemaURI"> & ModelAlgebraUnions1<"JsonSchemaURI"> & ModelAlgebraTerm1<"JsonSchemaURI"> = ...
+export const modelJsonSchemaInterpreter: ModelAlgebraRefined1<"JsonSchemaURI"> & ModelAlgebraNewtype1<"JsonSchemaURI"> & ModelAlgebraUnknown1<"JsonSchemaURI"> & ModelAlgebraPrimitive1<"JsonSchemaURI"> & ModelAlgebraIntersection1<"JsonSchemaURI"> & ModelAlgebraObject1<"JsonSchemaURI"> & ModelAlgebraTaggedUnions1<"JsonSchemaURI"> & ModelAlgebraRecursive1<"JsonSchemaURI"> & ModelAlgebraStrMap1<"JsonSchemaURI"> & ModelAlgebraSet1<"JsonSchemaURI"> & ModelAlgebraUnions1<"JsonSchemaURI"> = ...
 ```
 
 Added in v0.0.1
