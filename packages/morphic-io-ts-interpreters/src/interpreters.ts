@@ -10,7 +10,6 @@ import { ioTsTaggedUnionInterpreter } from './model/tagged-unions'
 import { ioTsStrMapInterpreter } from './model/str-map'
 import { ioTsSetInterpreter } from './model/set'
 import { ioTsRecursiveInterpreter } from './model/recursive'
-import { ioTsTermInterpreter } from './model/term'
 export * from './hkt'
 
 /**
@@ -26,8 +25,7 @@ const allModelBaseIoTs = merge(
   ioTsTaggedUnionInterpreter,
   ioTsStrMapInterpreter,
   ioTsSetInterpreter,
-  ioTsRecursiveInterpreter,
-  ioTsTermInterpreter
+  ioTsRecursiveInterpreter
 )
 
 /**

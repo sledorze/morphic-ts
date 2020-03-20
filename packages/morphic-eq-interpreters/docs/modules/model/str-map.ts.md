@@ -1,5 +1,5 @@
 ---
-title: model-eq/str-map.ts
+title: model/str-map.ts
 nav_order: 13
 parent: Modules
 ---

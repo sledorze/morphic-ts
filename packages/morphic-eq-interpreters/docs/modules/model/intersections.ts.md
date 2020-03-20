@@ -1,5 +1,5 @@
 ---
-title: model-eq/intersections.ts
+title: model/intersections.ts
 nav_order: 6
 parent: Modules
 ---

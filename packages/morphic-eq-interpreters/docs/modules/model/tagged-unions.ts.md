@@ -1,5 +1,5 @@
 ---
-title: model-eq/tagged-unions.ts
+title: model/tagged-unions.ts
 nav_order: 14
 parent: Modules
 ---

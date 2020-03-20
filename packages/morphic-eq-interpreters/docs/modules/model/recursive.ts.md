@@ -1,5 +1,5 @@
 ---
-title: model-eq/recursive.ts
+title: model/recursive.ts
 nav_order: 10
 parent: Modules
 ---
