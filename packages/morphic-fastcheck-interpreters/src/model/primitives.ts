@@ -5,11 +5,11 @@ import { constant, integer, boolean, string, float, oneof, array, option, bigInt
 import { Customize, applyCustomize } from './common'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
+  /**
+   *  @since 0.0.1
+   */
   interface PrimitiveArrayConfig<A> {
     [FastCheckURI]: MinMaxLength | undefined
-  }
-  interface PrimitiveConfig {
-    [FastCheckURI]: Customize<string> | undefined
   }
   /**
    *  @since 0.0.1
