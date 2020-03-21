@@ -1,6 +1,4 @@
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
-import { makeSummoner } from './usage/summoner'
-import { makeTagged } from './usage/tagged-union'
 
 import { modelEqInterpreter } from '@morphic-ts/eq-interpreters/lib/interpreters'
 
@@ -17,15 +15,14 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { identity } from 'fp-ts/lib/function'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
 import { modelIoTsNonStrictInterpreter } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
-import { ProgramInterpreter, Materialized } from './usage/materializer'
-import { interpretable } from './usage/programs-infer'
-import { ProgramType } from './usage/ProgramType'
-import { Summoners } from './usage/summoner'
+
+import * as U from './usage'
+
 import { ESBASTJInterpreterURI } from './interpreters-ESBASTJ'
 
 declare module './usage/ProgramType' {
   interface ProgramNoUnionInterpreters {
-    [ESBASTJInterpreterURI]: Summoners<ProgramNoUnionURI, ESBASTJInterpreterURI>
+    [ESBASTJInterpreterURI]: U.Summoners<ProgramNoUnionURI, ESBASTJInterpreterURI>
   }
 }
 
@@ -33,11 +30,11 @@ declare module './usage/ProgramType' {
 /**
  *  @since 0.0.1
  */
-export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
+export interface M<L, A> extends U.Materialized<L, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
 /**
  *  @since 0.0.1
  */
-export interface UM<A> extends Materialized<unknown, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
+export interface UM<A> extends U.Materialized<unknown, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
 
 /**
  *  @since 0.0.1
@@ -52,16 +49,16 @@ export const AsUOpaque = <A>(x: UM<A>): UM<A> => x
  *  @since 0.0.1
  */
 export interface Summoner {
-  <L, A>(F: ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
+  <L, A>(F: U.ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
 }
 
 /**
  *  @since 0.0.1
  */
-export const summon = makeSummoner<ProgramInterpreter<ProgramNoUnionURI, ESBASTJInterpreterURI>>(
+export const summon = U.makeSummoner<U.ProgramInterpreter<ProgramNoUnionURI, ESBASTJInterpreterURI>>(
   cacheUnaryFunction,
   _program => {
-    const program = interpretable(_program)
+    const program = U.interpretable(_program)
     return {
       build: identity,
       eq: program(modelEqInterpreter).eq,
@@ -73,4 +70,4 @@ export const summon = makeSummoner<ProgramInterpreter<ProgramNoUnionURI, ESBASTJ
     }
   }
 ) as Summoner
-export const tagged = makeTagged(summon)
+export const tagged = U.makeTagged(summon)

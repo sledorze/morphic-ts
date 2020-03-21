@@ -1,23 +1,19 @@
+import { identity } from 'fp-ts/lib/function'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
-import { makeSummoner } from './usage/summoner'
-import { makeTagged } from './usage/tagged-union'
 
 import { modelEqInterpreter } from '@morphic-ts/eq-interpreters/lib/interpreters'
-
 import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
-import { identity } from 'fp-ts/lib/function'
 import { modelIoTsNonStrictInterpreter } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
-import { ProgramInterpreter, Materialized } from './usage/materializer'
-import { interpretable } from './usage/programs-infer'
-import { ProgramType } from './usage/ProgramType'
-import { Summoners } from './usage/summoner'
+
+import * as U from './usage'
+
 import { ProgramNoUnionURI } from './program-no-union'
 import { ESBASTInterpreterURI } from './interpreters-ESBAST'
 
 declare module './usage/ProgramType' {
   interface ProgramTInterpreters {
-    [ESBASTInterpreterURI]: Summoners<ProgramNoUnionURI, ESBASTInterpreterURI>
+    [ESBASTInterpreterURI]: U.Summoners<ProgramNoUnionURI, ESBASTInterpreterURI>
   }
 }
 
@@ -25,7 +21,7 @@ declare module './usage/ProgramType' {
 /**
  *  @since 0.0.1
  */
-export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, ESBASTInterpreterURI> {}
+export interface M<L, A> extends U.Materialized<L, A, ProgramNoUnionURI, ESBASTInterpreterURI> {}
 /**
  *  @since 0.0.1
  */
@@ -44,13 +40,13 @@ export const AsUOpaque = <A>(x: UM<A>): UM<A> => x
  *  @since 0.0.1
  */
 export interface Summoner {
-  <L, A>(F: ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
+  <L, A>(F: U.ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
 }
 
-export const summon = makeSummoner<ProgramInterpreter<ProgramNoUnionURI, ESBASTInterpreterURI>>(
+export const summon = U.makeSummoner<U.ProgramInterpreter<ProgramNoUnionURI, ESBASTInterpreterURI>>(
   cacheUnaryFunction,
   _program => {
-    const program = interpretable(_program)
+    const program = U.interpretable(_program)
     return {
       build: identity,
       eq: program(modelEqInterpreter).eq,
@@ -61,4 +57,4 @@ export const summon = makeSummoner<ProgramInterpreter<ProgramNoUnionURI, ESBASTI
     }
   }
 ) as Summoner
-export const tagged = makeTagged(summon)
+export const tagged = U.makeTagged(summon)

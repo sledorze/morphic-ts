@@ -1,26 +1,24 @@
 import { identity } from 'fp-ts/lib/function'
 import * as E from 'fp-ts/lib/Either'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
-import { makeSummoner, Summoners } from './usage/summoner'
-import { makeTagged } from './usage/tagged-union'
-import { interpretable } from './usage/programs-infer'
-import { ProgramType } from './usage/ProgramType'
+import { pipe } from 'fp-ts/lib/pipeable'
 
-import { ProgramInterpreter, Materialized } from './usage/materializer'
+import * as U from './usage'
+
 import { BASTJInterpreterURI } from './interpreters-BASTJ'
 import { ProgramUnionURI } from './program'
+
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import {
   modelIoTsStrictInterpreter,
   modelIoTsNonStrictInterpreter
 } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
-import { pipe } from 'fp-ts/lib/pipeable'
 import { modelJsonSchemaInterpreter } from '@morphic-ts/json-schema-interpreters/lib'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
 
 declare module './usage/ProgramType' {
   interface ProgramUnionInterpreters {
-    [BASTJInterpreterURI]: Summoners<ProgramUnionURI, BASTJInterpreterURI>
+    [BASTJInterpreterURI]: U.Summoners<ProgramUnionURI, BASTJInterpreterURI>
   }
 }
 
@@ -28,7 +26,7 @@ declare module './usage/ProgramType' {
 /**
  *  @since 0.0.1
  */
-export interface M<L, A> extends Materialized<L, A, ProgramUnionURI, BASTJInterpreterURI> {}
+export interface M<L, A> extends U.Materialized<L, A, ProgramUnionURI, BASTJInterpreterURI> {}
 /**
  *  @since 0.0.1
  */
@@ -47,13 +45,13 @@ export const AsUOpaque = <A>(x: UM<A>): UM<A> => x
  *  @since 0.0.1
  */
 export interface Summoner {
-  <L, A>(F: ProgramType<L, A>[ProgramUnionURI]): M<L, A>
+  <L, A>(F: U.ProgramType<L, A>[ProgramUnionURI]): M<L, A>
 }
 
-export const summon = makeSummoner<ProgramInterpreter<ProgramUnionURI, BASTJInterpreterURI>>(
+export const summon = U.makeSummoner<U.ProgramInterpreter<ProgramUnionURI, BASTJInterpreterURI>>(
   cacheUnaryFunction,
   _program => {
-    const program = interpretable(_program)
+    const program = U.interpretable(_program)
     return {
       build: identity,
       arb: program(modelFastCheckInterpreter).arb,
@@ -64,4 +62,4 @@ export const summon = makeSummoner<ProgramInterpreter<ProgramUnionURI, BASTJInte
   }
 ) as Summoner
 
-export const tagged = makeTagged(summon)
+export const tagged = U.makeTagged(summon)
