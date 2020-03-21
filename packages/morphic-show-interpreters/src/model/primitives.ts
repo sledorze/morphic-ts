@@ -39,7 +39,7 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.1
    */
-  export interface PrimitiveArrayConfig<A> {
+  export interface PrimitiveArrayConfig<E, A> {
     [ShowURI]: Customize<A[]> | undefined
   }
   /**
@@ -57,7 +57,7 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.2
    */
-  export interface PrimitiveNullableConfig<A> {
+  export interface PrimitiveNullableConfig<E, A> {
     [ShowURI]: Customize<Option<A>> | undefined
   }
 }

@@ -8,7 +8,7 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.1
    */
-  interface PrimitiveArrayConfig<A> {
+  export interface PrimitiveArrayConfig<E, A> {
     [FastCheckURI]: MinMaxLength | undefined
   }
   /**
@@ -43,7 +43,7 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   }
 }
 
-interface MinMaxLength {
+export interface MinMaxLength {
   maxLength: number
   minLength?: number
 }

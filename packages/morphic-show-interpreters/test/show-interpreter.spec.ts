@@ -49,7 +49,7 @@ describe('Show', () => {
     chai.assert.strictEqual(show.show({ date, a: '' }), '{ date: 1970-01-01T00:00:12.345Z, a: "" }')
   })
 
-  it('show can be customized to hide passwords', () => {
+  it('can be customized to hide passwords', () => {
     const Password = summon(F => F.string(showConfig(_ => ({ show: _ => '***' }))))
     const UserPassword = summon(F => F.interface({ user: F.string(), password: Password(F) }, 'UserPassword'))
 

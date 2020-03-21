@@ -4,7 +4,7 @@ import { ModelAlgebraUnknown2 } from '@morphic-ts/model-algebras/lib/unknown'
 import { Customize, applyCustomize } from './common'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  interface UnknownConfig {
+  export interface UnknownConfig {
     [IoTsURI]: Customize<unknown, unknown> | undefined
   }
 }

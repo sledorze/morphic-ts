@@ -13,13 +13,13 @@ export const NewtypeURI = 'NewtypeURI' as const
 export type NewtypeURI = typeof NewtypeURI
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  interface Algebra<F> {
+  export interface Algebra<F> {
     [NewtypeURI]: ModelAlgebraNewtype<F>
   }
-  interface Algebra1<F extends URIS> {
+  export interface Algebra1<F extends URIS> {
     [NewtypeURI]: ModelAlgebraNewtype1<F>
   }
-  interface Algebra2<F extends URIS2> {
+  export interface Algebra2<F extends URIS2> {
     [NewtypeURI]: ModelAlgebraNewtype2<F>
   }
 

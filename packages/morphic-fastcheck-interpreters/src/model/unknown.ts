@@ -4,7 +4,7 @@ import { anything } from 'fast-check'
 import { Customize, applyCustomize } from './common'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  interface UnknownConfig {
+  export interface UnknownConfig {
     [FastCheckURI]: Customize<unknown> | undefined
   }
 }
