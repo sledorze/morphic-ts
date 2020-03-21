@@ -27,6 +27,15 @@ import { interpretable } from './usage/programs-infer'
 import { ProgramType } from './usage/ProgramType'
 import { Summoners } from './usage/summoner'
 
+/**
+ *  @since 0.0.1
+ */
+export const ESBASTJInterpreterURI = 'ESBASTJInterpreterURI' as const
+/**
+ *  @since 0.0.1
+ */
+export type ESBASTJInterpreterURI = typeof ESBASTJInterpreterURI
+
 interface ESBASTJInterpreter<E, A> {
   build: (a: A) => A
   eq: Eq<A>
@@ -37,64 +46,8 @@ interface ESBASTJInterpreter<E, A> {
   jsonSchema: E.Either<NonEmptyArray<JsonSchemaError>, [JSONSchema, NamedSchemas]>
 }
 
-/**
- *  @since 0.0.1
- */
-export const ESBASTJInterpreterURI = 'ESBASTJInterpreterURI' as const
-/**
- *  @since 0.0.1
- */
-export type ESBASTJInterpreterURI = typeof ESBASTJInterpreterURI
-
-/**
- *  @since 0.0.1
- */
-export const ESBASTJInterpreter: ProgramInterpreter<ProgramNoUnionURI, ESBASTJInterpreterURI> = _program => {
-  const program = interpretable(_program)
-  return {
-    build: identity,
-    eq: program(modelEqInterpreter).eq,
-    show: program(modelShowInterpreter).show,
-    arb: program(modelFastCheckInterpreter).arb,
-    strictType: program(modelIoTsNonStrictInterpreter).type,
-    type: program(modelIoTsNonStrictInterpreter).type,
-    jsonSchema: pipe(program(modelJsonSchemaInterpreter).schema({}), E.chain(resolveSchema))
-  }
-}
-
 declare module './usage/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [ESBASTJInterpreterURI]: ESBASTJInterpreter<E, A>
   }
-}
-declare module './usage/ProgramType' {
-  interface ProgramNoUnionInterpreters {
-    [ESBASTJInterpreterURI]: Summoners<ProgramNoUnionURI, ESBASTJInterpreterURI>
-  }
-}
-
-/** Type level override to keep Morph type name short */
-/**
- *  @since 0.0.1
- */
-export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
-/**
- *  @since 0.0.1
- */
-export interface UM<A> extends Materialized<unknown, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
-
-/**
- *  @since 0.0.1
- */
-export const AsOpaque = <E, A>(x: M<E, A>): M<E, A> => x
-/**
- *  @since 0.0.1
- */
-export const AsUOpaque = <A>(x: UM<A>): UM<A> => x
-
-/**
- *  @since 0.0.1
- */
-export interface Summoner {
-  <L, A>(F: ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
 }
