@@ -6,7 +6,6 @@ import {
   PrimitiveDateConfig,
   PrimitiveNumberConfig,
   PrimitiveBooleanConfig,
-  PrimitiveArrayConfig2,
   PrimitiveBigIntConfig,
   PrimitiveStringLiteralConfig,
   PrimitiveKeysOfConfig,
@@ -29,13 +28,13 @@ export const PrimitiveURI = 'PrimitiveURI' as const
 export type PrimitiveURI = typeof PrimitiveURI
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  interface Algebra<F> {
+  export interface Algebra<F> {
     [PrimitiveURI]: ModelAlgebraPrimitive<F>
   }
-  interface Algebra1<F extends URIS> {
+  export interface Algebra1<F extends URIS> {
     [PrimitiveURI]: ModelAlgebraPrimitive1<F>
   }
-  interface Algebra2<F extends URIS2> {
+  export interface Algebra2<F extends URIS2> {
     [PrimitiveURI]: ModelAlgebraPrimitive2<F>
   }
 
@@ -70,15 +69,11 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.1
    */
-  export interface PrimitiveArrayConfig<A> {}
+  export interface PrimitiveArrayConfig<E, A> {}
   /**
    *  @since 0.0.1
    */
-  export interface PrimitiveArrayConfig2<E, A> {}
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveNullableConfig<L, A> {}
+  export interface PrimitiveNullableConfig<E, A> {}
 }
 
 /**
@@ -127,8 +122,8 @@ export interface ModelAlgebraPrimitive<F> {
     >
   }
   array: {
-    <L, A>(a: HKT2<F, L, A>): isOptionalConfig<PrimitiveArrayConfig<A>, HKT2<F, Array<L>, Array<A>>>
-    <L, A>(a: HKT2<F, L, A>, config: ByInterp<PrimitiveArrayConfig<A>, URIS | URIS2>): HKT2<F, Array<L>, Array<A>>
+    <L, A>(a: HKT2<F, L, A>): isOptionalConfig<PrimitiveArrayConfig<L, A>, HKT2<F, Array<L>, Array<A>>>
+    <L, A>(a: HKT2<F, L, A>, config: ByInterp<PrimitiveArrayConfig<L, A>, URIS | URIS2>): HKT2<F, Array<L>, Array<A>>
   }
   date: {
     (): isOptionalConfig<PrimitiveDateConfig, HKT2<F, string, Date>>
@@ -141,7 +136,7 @@ export interface ModelAlgebraPrimitive<F> {
  */
 export interface ModelAlgebraPrimitive1<F extends URIS> {
   _F: F
-  nullable: <A>(T: Kind<F, A>, config?: ByInterp<PrimitiveNullableConfig<unknown, A>, F>) => Kind<F, Option<A>>
+  nullable: <A>(T: Kind<F, A>, config?: ByInterp<PrimitiveNullableConfig<never, A>, F>) => Kind<F, Option<A>>
   boolean(config?: ByInterp<PrimitiveBooleanConfig, F>): Kind<F, boolean>
   number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind<F, number>
   bigint(config?: ByInterp<PrimitiveBigIntConfig, F>): Kind<F, bigint>
@@ -151,7 +146,7 @@ export interface ModelAlgebraPrimitive1<F extends URIS> {
     config?: ByInterp<PrimitiveStringLiteralConfig<T>, F>
   ) => Kind<F, typeof value>
   keysOf: <K extends Keys>(keys: K, config?: ByInterp<PrimitiveKeysOfConfig<keyof K>, F>) => Kind<F, keyof typeof keys>
-  array: <A>(a: Kind<F, A>, config?: ByInterp<PrimitiveArrayConfig<A>, F>) => Kind<F, Array<A>>
+  array: <A>(a: Kind<F, A>, config?: ByInterp<PrimitiveArrayConfig<never, A>, F>) => Kind<F, Array<A>>
   date(config?: ByInterp<PrimitiveDateConfig, F>): Kind<F, Date>
 }
 
@@ -176,6 +171,6 @@ export interface ModelAlgebraPrimitive2<F extends URIS2> {
     keys: K,
     config?: ByInterp<PrimitiveKeysOfConfig<keyof K>, F>
   ) => Kind2<F, string, keyof typeof keys>
-  array: <L, A>(a: Kind2<F, L, A>, config?: ByInterp<PrimitiveArrayConfig2<L, A>, F>) => Kind2<F, Array<L>, Array<A>>
+  array: <L, A>(a: Kind2<F, L, A>, config?: ByInterp<PrimitiveArrayConfig<L, A>, F>) => Kind2<F, Array<L>, Array<A>>
   date(config?: ByInterp<PrimitiveDateConfig, F>): Kind2<F, string, Date>
 }

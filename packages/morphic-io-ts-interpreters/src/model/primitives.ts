@@ -8,9 +8,6 @@ import { Option } from 'fp-ts/lib/Option'
 import { Customize, applyCustomize } from './common'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  interface PrimitiveConfig {
-    [IoTsURI]: Customize<string, string> | undefined
-  }
   /**
    *  @since 0.0.1
    */
@@ -44,7 +41,7 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.1
    */
-  export interface PrimitiveArrayConfig2<E, A> {
+  export interface PrimitiveArrayConfig<E, A> {
     [IoTsURI]: Customize<E[], A[]> | undefined
   }
   /**
@@ -62,8 +59,8 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.2
    */
-  export interface PrimitiveNullableConfig<L, A> {
-    [IoTsURI]: Customize<L | null, Option<A>> | undefined
+  export interface PrimitiveNullableConfig<E, A> {
+    [IoTsURI]: Customize<E | null, Option<A>> | undefined
   }
 }
 

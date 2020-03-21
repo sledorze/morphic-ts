@@ -3,20 +3,9 @@ import { summon as summonBASTJ, M as MBASTJ } from '../src/summoner-BASTJ'
 import * as E from 'fp-ts/lib/Either'
 import { makeTagged } from '../src/usage/tagged-union'
 import { summon as summonESBASTJ } from '../src/summoner-ESBASTJ'
-import { FastCheckURI } from '@morphic-ts/fastcheck-interpreters'
-import { JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib'
-import { EqURI } from '@morphic-ts/eq-interpreters/lib'
-import { ShowURI } from '@morphic-ts/show-interpreters/lib'
-import { IoTsURI } from '@morphic-ts/io-ts-interpreters/lib'
-import { OrdURI } from '@morphic-ts/ord-interpreters/lib'
-import { identity } from 'fp-ts/lib/function'
-import { Eq, eq, eqNumber } from 'fp-ts/lib/Eq'
-import { Show } from 'fp-ts/lib/Show'
-import * as T from 'fp-ts/lib/Tuple'
-import { ord, ordNumber } from 'fp-ts/lib/Ord'
 
 describe('tagged', () => {
-  it('Should be used into another Morph', () => {
+  it('Should be reused to create another Morph', () => {
     const AType = summonBASTJ(F => F.interface({ type: F.stringLiteral('AType') }, 'AType'))
     const BType = summonBASTJ(F => F.interface({ type: F.stringLiteral('BType') }, 'BType'))
     const tagged = makeTagged(summonBASTJ)
@@ -103,7 +92,7 @@ describe('tagged', () => {
     )
     chai.assert.deepStrictEqual(
       R.type.decode({ a: '2020-02-11T11:00:00' }),
-      E.right({ a: new Date(2020, 2, 11, 11, 0, 0) })
+      E.right({ a: new Date(2020, 1, 11, 11, 0, 0) })
     )
   })
 })

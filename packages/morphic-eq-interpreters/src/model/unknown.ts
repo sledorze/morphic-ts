@@ -5,7 +5,7 @@ import { circularDeepEqual, deepEqual } from 'fast-equals'
 import { UnknownConfig } from '@morphic-ts/algebras/lib/hkt'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  interface UnknownConfig {
+  export interface UnknownConfig {
     [EqURI]: Customize | undefined
   }
 }

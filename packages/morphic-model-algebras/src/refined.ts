@@ -14,13 +14,13 @@ export const RefinedURI = 'RefinedURI' as const
 export type RefinedURI = typeof RefinedURI
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  interface Algebra<F> {
+  export interface Algebra<F> {
     [RefinedURI]: ModelAlgebraRefined<F>
   }
-  interface Algebra1<F extends URIS> {
+  export interface Algebra1<F extends URIS> {
     [RefinedURI]: ModelAlgebraRefined1<F>
   }
-  interface Algebra2<F extends URIS2> {
+  export interface Algebra2<F extends URIS2> {
     [RefinedURI]: ModelAlgebraRefined2<F>
   }
 

@@ -3,7 +3,7 @@ import { IOTSType, IoTsURI } from '../hkt'
 import { Customize, applyCustomize } from './common'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  interface NewtypeConfig<E, A> {
+  export interface NewtypeConfig<E, A> {
     [IoTsURI]: Customize<E, A> | undefined
   }
 }

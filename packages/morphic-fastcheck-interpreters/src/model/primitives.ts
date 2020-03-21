@@ -5,11 +5,11 @@ import { constant, integer, boolean, string, float, oneof, array, option, bigInt
 import { Customize, applyCustomize } from './common'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  interface PrimitiveArrayConfig<A> {
+  /**
+   *  @since 0.0.1
+   */
+  export interface PrimitiveArrayConfig<E, A> {
     [FastCheckURI]: MinMaxLength | undefined
-  }
-  interface PrimitiveConfig {
-    [FastCheckURI]: Customize<string> | undefined
   }
   /**
    *  @since 0.0.1
@@ -43,7 +43,7 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   }
 }
 
-interface MinMaxLength {
+export interface MinMaxLength {
   maxLength: number
   minLength?: number
 }

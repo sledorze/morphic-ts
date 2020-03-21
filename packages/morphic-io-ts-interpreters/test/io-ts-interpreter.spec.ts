@@ -52,7 +52,7 @@ describe('IO-TS Alt Schema', () => {
     chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
   })
 
-  it('newtype raw type should work', () => {
+  it('decode to newType', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
     const NT = summon(F => F.newtype<NT>('NT')(F.date()))
     const dec = (_: EType<typeof NT>): Either<Errors, AType<typeof NT>> => NT.type.decode(_)

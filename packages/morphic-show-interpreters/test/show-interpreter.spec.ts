@@ -2,6 +2,7 @@ import * as chai from 'chai'
 
 import { summon } from '@morphic-ts/batteries/lib/summoner-ESBASTJ'
 import { Newtype, iso } from 'newtype-ts'
+import { showConfig } from '../src/index'
 
 describe('Show', () => {
   it('newtype', () => {
@@ -13,6 +14,7 @@ describe('Show', () => {
     const testA = isoTest.wrap('abc')
     chai.assert.strictEqual(show.show(testA), '<Test>("abc")')
   })
+
   it('returns false when comparing incomplete values', () => {
     const Foo = summon(F =>
       F.interface(
@@ -45,6 +47,14 @@ describe('Show', () => {
 
     const date = new Date(12345)
     chai.assert.strictEqual(show.show({ date, a: '' }), '{ date: 1970-01-01T00:00:12.345Z, a: "" }')
+  })
+
+  it('can be customized to hide passwords', () => {
+    const Password = summon(F => F.string(showConfig(_ => ({ show: _ => '***' }))))
+    const UserPassword = summon(F => F.interface({ user: F.string(), password: Password(F) }, 'UserPassword'))
+
+    const userPassword = UserPassword.build({ user: 'john', password: '42' })
+    chai.assert.strictEqual(UserPassword.show.show(userPassword), '{ user: "john", password: *** }')
   })
 
   it('show', () => {
