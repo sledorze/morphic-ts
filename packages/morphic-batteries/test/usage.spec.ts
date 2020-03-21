@@ -103,8 +103,7 @@ describe('tagged', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
     const Thing = summonESBASTJ(F => F.interface({ date: F.newtype<NT>('NT')(F.date()), name: F.string() }, 'Thing'))
 
-    const prog = interpretable(Thing)
-    const show = prog(modelShowInterpreter).show
+    const show = interpretable(Thing)(modelShowInterpreter).show
     const x = Thing.build({ date: iso<NT>().wrap(new Date(2020, 2, 20, 2, 20, 20)), name: 'georges' })
     chai.assert.deepStrictEqual(show.show(x), '{ date: <NT>(2020-03-20T01:20:20.000Z), name: "georges" }')
   })
