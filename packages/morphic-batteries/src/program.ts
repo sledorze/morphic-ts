@@ -1,4 +1,6 @@
+import { InferredAlgebra, InferredProgram } from './usage/programs-infer'
 import { GetAlgebra } from '@morphic-ts/algebras/lib/core'
+
 import { IntersectionURI } from '@morphic-ts/model-algebras/lib/intersections'
 import { ObjectURI } from '@morphic-ts/model-algebras/lib/object'
 import { PrimitiveURI } from '@morphic-ts/model-algebras/lib/primitives'
@@ -10,7 +12,6 @@ import { UnionsURI } from '@morphic-ts/model-algebras/lib/unions'
 import { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
 import { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
-import { InferredAlgebra, InferredProgram } from './usage/programs-infer'
 
 /**
  *  @since 0.0.1
