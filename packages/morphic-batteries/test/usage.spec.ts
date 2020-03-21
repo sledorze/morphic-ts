@@ -3,17 +3,6 @@ import { summon as summonBASTJ, M as MBASTJ } from '../src/summoner-BASTJ'
 import * as E from 'fp-ts/lib/Either'
 import { makeTagged } from '../src/usage/tagged-union'
 import { summon as summonESBASTJ } from '../src/summoner-ESBASTJ'
-import { FastCheckURI } from '@morphic-ts/fastcheck-interpreters'
-import { JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib'
-import { EqURI } from '@morphic-ts/eq-interpreters/lib'
-import { ShowURI } from '@morphic-ts/show-interpreters/lib'
-import { IoTsURI } from '@morphic-ts/io-ts-interpreters/lib'
-import { OrdURI } from '@morphic-ts/ord-interpreters/lib'
-import { identity } from 'fp-ts/lib/function'
-import { Eq, eq, eqNumber } from 'fp-ts/lib/Eq'
-import { Show } from 'fp-ts/lib/Show'
-import * as T from 'fp-ts/lib/Tuple'
-import { ord, ordNumber } from 'fp-ts/lib/Ord'
 
 describe('tagged', () => {
   it('Should be used into another Morph', () => {
