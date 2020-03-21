@@ -271,10 +271,7 @@ describe('Builder', () => {
     // narrows to Foo
     if (fooBar.is.foo(fooA)) {
       chai.assert.deepStrictEqual(
-        fooBar
-          .select(['foo'])
-          .lenseFromProp('type')
-          .get(fooA), // ensure type narrowing
+        fooBar.select(['foo']).lenseFromProp('type').get(fooA), // ensure type narrowing
         'foo'
       )
     }
