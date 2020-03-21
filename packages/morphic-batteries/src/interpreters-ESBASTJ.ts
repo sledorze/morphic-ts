@@ -69,7 +69,7 @@ declare module './usage/InterpreterResult' {
 }
 declare module './usage/ProgramType' {
   interface ProgramNoUnionInterpreters {
-    [ESBASTJInterpreterURI]: Summoner
+    [ESBASTJInterpreterURI]: Summoners<ProgramNoUnionURI, ESBASTJInterpreterURI>
   }
 }
 
@@ -95,34 +95,6 @@ export const AsUOpaque = <A>(x: UM<A>): UM<A> => x
 /**
  *  @since 0.0.1
  */
-export interface MorphAs {
+export interface Summoner {
   <L, A>(F: ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
-}
-/**
- *  @since 0.0.1
- */
-export interface MorphAsA {
-  <A>(): <L>(F: ProgramType<L, A>[ProgramNoUnionURI]) => M<L, A>
-}
-/**
- *  @since 0.0.1
- */
-export interface MorphAsL {
-  <L>(): <A>(F: ProgramType<L, A>[ProgramNoUnionURI]) => M<L, A>
-}
-/**
- *  @since 0.0.1
- */
-export interface Morph {
-  <A>(F: ProgramType<unknown, A>[ProgramNoUnionURI]): UM<A>
-}
-
-/**
- *  @since 0.0.1
- */
-export interface Summoner extends Summoners<ProgramNoUnionURI, ESBASTJInterpreterURI> {
-  summonAs: MorphAs
-  summonAsA: MorphAsA
-  summonAsL: MorphAsL
-  summon: Morph
 }

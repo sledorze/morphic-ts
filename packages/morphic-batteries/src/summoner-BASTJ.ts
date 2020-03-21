@@ -1,10 +1,11 @@
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
-import { BASTJInterpreter, M, UM, AsOpaque, AsUOpaque } from './interpreters-BASTJ'
+import { BASTJInterpreter, M, UM, AsOpaque, AsUOpaque, Summoner } from './interpreters-BASTJ'
 import { makeSummoner } from './usage/summoner'
 import { makeTagged } from './usage/tagged-union'
 
-const summon = makeSummoner(cacheUnaryFunction, BASTJInterpreter)
+const summon = makeSummoner(cacheUnaryFunction, BASTJInterpreter) as Summoner
 const tagged = makeTagged(summon)
+
 /**
  *  @since 0.0.1
  */

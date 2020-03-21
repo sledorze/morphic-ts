@@ -1,9 +1,9 @@
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 import { makeSummoner } from './usage/summoner'
 import { makeTagged } from './usage/tagged-union'
-import { ESBASTInterpreter, M, UM, AsOpaque, AsUOpaque } from './interpreters-ESBAST'
+import { ESBASTInterpreter, M, UM, AsOpaque, AsUOpaque, Summoner } from './interpreters-ESBAST'
 
-const summon = makeSummoner(cacheUnaryFunction, ESBASTInterpreter)
+const summon = makeSummoner(cacheUnaryFunction, ESBASTInterpreter) as Summoner
 const tagged = makeTagged(summon)
 export {
   /**
