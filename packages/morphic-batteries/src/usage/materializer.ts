@@ -36,13 +36,23 @@ export type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends Progra
   E,
   A
 >[InterpURI] &
-  ProgramType<E, A>[ProgURI]
+  ProgramType<E, A>[ProgURI] &
+  InhabitedInterpreterAndAlbegra<ProgURI, InterpURI>
+
+const inhabitInterpreterAndAlbegra = <ProgURI extends ProgramURI, InterpURI extends InterpreterURI, T>(
+  t: T
+): T & InhabitedInterpreterAndAlbegra<ProgURI, InterpURI> => t as T & InhabitedInterpreterAndAlbegra<ProgURI, InterpURI>
+
+interface InhabitedInterpreterAndAlbegra<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
+  _P: ProgURI
+  _I: InterpURI
+}
 
 function interpreteWithProgram<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   program: ProgramType<E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
 ): Morph<E, A, InterpURI, ProgURI> & InhabitedTypes<E, A> {
-  return inhabitTypes(assignFunction(wrapFun(program), programInterpreter(program)))
+  return inhabitInterpreterAndAlbegra(inhabitTypes(assignFunction(wrapFun(program), programInterpreter(program))))
 }
 
 /**
@@ -55,7 +65,8 @@ export type Materialized<E, A, ProgURI extends ProgramURI, InterpURI extends Int
   ProgURI
 > &
   MonocleFor<A> &
-  InhabitedTypes<E, A> & { _I?: InterpURI; _P?: ProgURI } // Fix interpreter and program
+  InhabitedTypes<E, A> &
+  InhabitedInterpreterAndAlbegra<ProgURI, InterpURI>
 
 /**
  *  @since 0.0.1
@@ -72,7 +83,7 @@ export function materialize<E, A, ProgURI extends ProgramURI, InterpURI extends 
  */
 
 function withMonocle<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
-  morph: Morph<E, A, InterpURI, ProgURI> & InhabitedTypes<E, A>
+  morph: Morph<E, A, InterpURI, ProgURI> & InhabitedTypes<E, A> & { _I?: InterpURI; _P?: ProgURI }
 ): Materialized<E, A, ProgURI, InterpURI> {
   return assignCallable(morph, MonocleFor<A>())
 }
