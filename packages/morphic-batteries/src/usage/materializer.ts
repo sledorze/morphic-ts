@@ -55,7 +55,7 @@ export type Materialized<E, A, ProgURI extends ProgramURI, InterpURI extends Int
   ProgURI
 > &
   MonocleFor<A> &
-  InhabitedTypes<E, A>
+  InhabitedTypes<E, A> & { _I?: InterpURI; _P?: ProgURI } // Fix interpreter and program
 
 /**
  *  @since 0.0.1
