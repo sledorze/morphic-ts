@@ -18,7 +18,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelIoTsNonStrictInterpreter: ModelAlgebraRefined2<"IoTsURI"> & ModelAlgebraNewtype2<"IoTsURI"> & ModelAlgebraUnknown2<"IoTsURI"> & ModelAlgebraPrimitive2<"IoTsURI"> & ModelAlgebraIntersection2<"IoTsURI"> & ModelAlgebraUnions2<"IoTsURI"> & ModelAlgebraTaggedUnions2<"IoTsURI"> & ModelAlgebraStrMap2<"IoTsURI"> & ModelAlgebraSet2<"IoTsURI"> & ModelAlgebraRecursive2<"IoTsURI"> & ModelAlgebraTerm2<"IoTsURI"> & ModelAlgebraObject2<"IoTsURI"> = ...
+export const modelIoTsNonStrictInterpreter: ModelAlgebraRefined2<"IoTsURI"> & ModelAlgebraNewtype2<"IoTsURI"> & ModelAlgebraUnknown2<"IoTsURI"> & ModelAlgebraPrimitive2<"IoTsURI"> & ModelAlgebraIntersection2<"IoTsURI"> & ModelAlgebraUnions2<"IoTsURI"> & ModelAlgebraTaggedUnions2<"IoTsURI"> & ModelAlgebraStrMap2<"IoTsURI"> & ModelAlgebraSet2<"IoTsURI"> & ModelAlgebraRecursive2<"IoTsURI"> & ModelAlgebraObject2<"IoTsURI"> = ...
 ```
 
 Added in v0.0.1
@@ -28,7 +28,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const modelIoTsStrictInterpreter: ModelAlgebraRefined2<"IoTsURI"> & ModelAlgebraNewtype2<"IoTsURI"> & ModelAlgebraUnknown2<"IoTsURI"> & ModelAlgebraPrimitive2<"IoTsURI"> & ModelAlgebraIntersection2<"IoTsURI"> & ModelAlgebraUnions2<"IoTsURI"> & ModelAlgebraTaggedUnions2<"IoTsURI"> & ModelAlgebraStrMap2<"IoTsURI"> & ModelAlgebraSet2<"IoTsURI"> & ModelAlgebraRecursive2<"IoTsURI"> & ModelAlgebraTerm2<"IoTsURI"> & ModelAlgebraObject2<"IoTsURI"> = ...
+export const modelIoTsStrictInterpreter: ModelAlgebraRefined2<"IoTsURI"> & ModelAlgebraNewtype2<"IoTsURI"> & ModelAlgebraUnknown2<"IoTsURI"> & ModelAlgebraPrimitive2<"IoTsURI"> & ModelAlgebraIntersection2<"IoTsURI"> & ModelAlgebraUnions2<"IoTsURI"> & ModelAlgebraTaggedUnions2<"IoTsURI"> & ModelAlgebraStrMap2<"IoTsURI"> & ModelAlgebraSet2<"IoTsURI"> & ModelAlgebraRecursive2<"IoTsURI"> & ModelAlgebraObject2<"IoTsURI"> = ...
 ```
 
 Added in v0.0.1
