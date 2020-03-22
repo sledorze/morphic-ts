@@ -42,8 +42,5 @@ declare module './usage/ProgramType' {
     [ProgramOrderableURI]: P<E, A>
   }
 
-  interface ProgramTypes extends Record<ProgramURI, any> {
-    [ProgramOrderableURI]: ProgramOrderableInterpreters
-  }
   interface ProgramOrderableInterpreters {}
 }

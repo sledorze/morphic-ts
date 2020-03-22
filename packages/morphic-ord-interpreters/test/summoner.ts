@@ -45,7 +45,7 @@ export const OrdInterpreter: ProgramInterpreter<ProgramOrderableURI, OrdInterpre
   }
 }
 
-export const summon = makeSummoner(cacheUnaryFunction, OrdInterpreter)
+export const { summon } = makeSummoner<Summoner>(cacheUnaryFunction, OrdInterpreter)
 
 describe('Ord', () => {
   it('dummy', () => chai.assert.equal(1, 1))

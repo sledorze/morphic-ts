@@ -53,8 +53,5 @@ declare module './usage/ProgramType' {
   interface ProgramType<E, A> {
     [ProgramUnionURI]: P<E, A>
   }
-  interface ProgramTypes extends Record<ProgramURI, any> {
-    [ProgramUnionURI]: ProgramUnionInterpreters
-  }
   interface ProgramUnionInterpreters {}
 }
