@@ -28,7 +28,7 @@ export interface M<L, A> extends U.Materialized<L, A, ProgramNoUnionURI, ESBASTJ
 /**
  *  @since 0.0.1
  */
-export interface UM<A> extends U.Materialized<unknown, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
+export interface UM<A> extends M<unknown, A> {}
 
 /**
  *  @since 0.0.1
