@@ -43,6 +43,9 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface MinMaxLength {
   maxLength: number
   minLength?: number

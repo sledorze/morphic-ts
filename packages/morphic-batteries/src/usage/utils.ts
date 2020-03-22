@@ -50,4 +50,4 @@ export type EType<X extends InhabitedTypes<any, any>> = X['_E']
 /**
  *  @since 0.0.1
  */
-export const inhabitTypes = <E, A, T>(t: T): T & InhabitedTypes<E, A> => t as any
+export const inhabitTypes = <E, A, T>(t: T): T & InhabitedTypes<E, A> => t as T & InhabitedTypes<E, A>

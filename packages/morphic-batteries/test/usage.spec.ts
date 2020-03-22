@@ -3,6 +3,9 @@ import { summon as summonBASTJ, M as MBASTJ } from '../src/summoner-BASTJ'
 import * as E from 'fp-ts/lib/Either'
 import { makeTagged } from '../src/usage/tagged-union'
 import { summon as summonESBASTJ } from '../src/summoner-ESBASTJ'
+import { interpretable } from '../src/usage/programs-infer'
+import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
+import { Newtype, iso } from 'newtype-ts'
 
 describe('tagged', () => {
   it('Should be reused to create another Morph', () => {
@@ -94,5 +97,15 @@ describe('tagged', () => {
       R.type.decode({ a: '2020-02-11T11:00:00' }),
       E.right({ a: new Date(2020, 1, 11, 11, 0, 0) })
     )
+  })
+
+  it('can fully be reinterpreted with an interpreter', () => {
+    interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
+    const Thing = summonESBASTJ(F => F.interface({ date: F.newtype<NT>('NT')(F.date()), name: F.string() }, 'Thing'))
+
+    const date = new Date(2020, 2, 20, 2, 20, 20)
+    const show = interpretable(Thing)(modelShowInterpreter).show
+    const x = Thing.build({ date: iso<NT>().wrap(date), name: 'georges' })
+    chai.assert.deepStrictEqual(show.show(x), `{ date: <NT>(${date.toISOString()}), name: "georges" }`)
   })
 })

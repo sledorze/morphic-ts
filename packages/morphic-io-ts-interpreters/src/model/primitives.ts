@@ -90,6 +90,7 @@ export const BigIntString: BigIntStringC = new t.Type<bigint, string, unknown>(
 /**
  *  @since 0.0.1
  */
+/* istanbul ignore next */
 export const ioTsPrimitiveInterpreter: ModelAlgebraPrimitive2<IoTsURI> = {
   _F: IoTsURI,
   date: config => new IOTSType(applyCustomize(config)(DateFromISOString)),
@@ -98,7 +99,8 @@ export const ioTsPrimitiveInterpreter: ModelAlgebraPrimitive2<IoTsURI> = {
   number: config => new IOTSType(applyCustomize(config)(t.number)),
   bigint: config => new IOTSType(applyCustomize(config)(BigIntString)),
   stringLiteral: (l, config) => new IOTSType(applyCustomize(config)(t.literal(l, l))),
-  keysOf: (k, config) => new IOTSType<string, keyof typeof k>(applyCustomize(config)(t.keyof(k) as any)), // TODO: not pretty but output
+  keysOf: (k, config) =>
+    new IOTSType<string, keyof typeof k>(applyCustomize(config)(t.keyof(k) as t.Type<keyof typeof k, string, unknown>)),
   nullable: (T, config) => new IOTSType(applyCustomize(config)(optionFromNullable(T.type))),
   array: (T, config) => new IOTSType(applyCustomize(config)(t.array(T.type)))
 }

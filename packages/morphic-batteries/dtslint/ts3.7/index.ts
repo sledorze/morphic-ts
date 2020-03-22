@@ -1,9 +1,5 @@
-// import { ADT, unionADT, intersectADT } from '../../src/adt'
-import { Extension, ExtType } from '../../src/usage/extend'
 import { SelectKeyOfMatchingValues } from '../../src/usage/utils'
 import { OptionalIfUndefined } from '@morphic-ts/common/lib/core'
-import { BASTJInterpreter } from '../../src/interpreters-BASTJ'
-import { ProgramNoUnionURI } from '../../src/program-no-union'
 import { summon, tagged } from '../../src/summoner-BASTJ'
 import { EOfMorhpADT, IfStringLiteral, MorphADT, AOfMorhpADT } from '../../src/usage/tagged-union'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
@@ -54,13 +50,6 @@ const intersectADTRes = intersectADT(ADTFoo01, ADTFoo12) // $ExpectType ADT<ADTF
 type E = OptionalIfUndefined<{ x: string; y: string | undefined; z?: string; q?: string }> // $ExpectType Compact<{ x: string; } & { y?: string | undefined; } & { z?: string | undefined; } & { q?: string | undefined; }>
 
 type Extracted = ExtractUnion<{ type: 'x'; b: string } | { type: 'y'; c: string }, 'type', 'x'> // $ExpectType { type: "x"; b: string; }
-
-// $ExpectType Extension<"ProgramNoUnionURI", {}>
-const extension = Extension.of(ProgramNoUnionURI)
-// $ExpectType ProgramInterpreter<"ProgramUnionURI", "BASTJInterpreterURI">
-const _BASTJInterpreter = BASTJInterpreter
-// $ExpectType <E, A>(program: <G>(x: AlgebraNoUnion<G>) => HKT2<G, E, A>) => BASTJInterpreter<E, A>
-const extended = extension.asType().interpretedBy(BASTJInterpreter)
 
 const symA = Symbol()
 const symB = Symbol()
