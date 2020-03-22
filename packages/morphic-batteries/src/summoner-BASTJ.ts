@@ -44,22 +44,14 @@ export const AsUOpaque = <A>(x: UM<A>): UM<A> => x
 /**
  *  @since 0.0.1
  */
-export interface Summoner {
+export interface Summoner extends U.Summoners<ProgramUnionURI, BASTJInterpreterURI> {
   <L, A>(F: U.ProgramType<L, A>[ProgramUnionURI]): M<L, A>
 }
 
-export const summon = U.makeSummoner<U.ProgramInterpreter<ProgramUnionURI, BASTJInterpreterURI>>(
-  cacheUnaryFunction,
-  _program => {
-    const program = U.interpretable(_program)
-    return {
-      build: identity,
-      arb: program(modelFastCheckInterpreter).arb,
-      strictType: program(modelIoTsStrictInterpreter).type,
-      type: program(modelIoTsNonStrictInterpreter).type,
-      jsonSchema: pipe(program(modelJsonSchemaInterpreter).schema({}), E.chain(resolveSchema))
-    }
-  }
-) as Summoner
-
-export const tagged = U.makeTagged(summon)
+export const { summon, tagged } = U.defineSummoner<Summoner>(cacheUnaryFunction, program => ({
+  build: identity,
+  arb: program(modelFastCheckInterpreter).arb,
+  strictType: program(modelIoTsStrictInterpreter).type,
+  type: program(modelIoTsNonStrictInterpreter).type,
+  jsonSchema: pipe(program(modelJsonSchemaInterpreter).schema({}), E.chain(resolveSchema))
+}))

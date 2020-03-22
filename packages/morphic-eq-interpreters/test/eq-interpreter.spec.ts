@@ -1,7 +1,7 @@
 import * as chai from 'chai'
 
 import { ProgramInterpreter, Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
-import { makeSummoner, Summoners } from '@morphic-ts/batteries/lib/usage/summoner'
+import { defineSummoner, Summoners } from '@morphic-ts/batteries/lib/usage/summoner'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
 import { ProgramNoUnionURI } from '@morphic-ts/batteries/lib/program-no-union'
@@ -48,14 +48,14 @@ export interface Morph {
 
 export interface Summoner extends Summoners<ProgramNoUnionURI, EqInterpreterURI>, Morph {}
 
-const summonAs = makeSummoner(cacheUnaryFunction, eqInterp)
+const { summon } = defineSummoner<Summoner>(cacheUnaryFunction, eqInterp)
 
 describe('Eq', () => {
   it('newtype', () => {
     interface Test extends Newtype<{ readonly Test: unique symbol }, string> {}
     const isoTest = iso<Test>()
 
-    const { eq } = summonAs(F => F.newtype<Test>('Test')(F.string()))
+    const { eq } = summon(F => F.newtype<Test>('Test')(F.string()))
 
     const testA = isoTest.wrap('a')
     const testB = isoTest.wrap('b')
@@ -64,7 +64,7 @@ describe('Eq', () => {
   })
 
   it('unknown', () => {
-    const { eq } = summonAs(F => F.unknown())
+    const { eq } = summon(F => F.unknown())
     chai.assert.strictEqual(eq.equals('a', 'a'), true)
     chai.assert.strictEqual(eq.equals('a', 'b'), false)
     const arr1 = ['a', 'b']
@@ -74,7 +74,7 @@ describe('Eq', () => {
   })
 
   it('recursive compare of circular unknown', () => {
-    const { eq } = summonAs(F => F.unknown(eqConfig({ compare: 'default-circular' })))
+    const { eq } = summon(F => F.unknown(eqConfig({ compare: 'default-circular' })))
 
     const recDataA = {
       a: 'a',
@@ -98,7 +98,7 @@ describe('Eq', () => {
       calls += 1
       return true
     })
-    const morph = summonAs(F => F.unknown(eqConfig({ compare })))
+    const morph = summon(F => F.unknown(eqConfig({ compare })))
 
     const recDataA = {
       a: 'a',
@@ -136,7 +136,7 @@ describe('Eq', () => {
   })
 
   it('eq', () => {
-    const Foo = summonAs(F =>
+    const Foo = summon(F =>
       F.interface(
         {
           date: F.date(),
@@ -155,7 +155,7 @@ describe('Eq', () => {
   })
 
   it('eq', () => {
-    const Foo = summonAs(F =>
+    const Foo = summon(F =>
       F.interface(
         {
           dates: F.array(
@@ -193,7 +193,7 @@ describe('Eq', () => {
       a: string
       b: number
     }
-    const Foo = summonAs(F =>
+    const Foo = summon(F =>
       F.partial(
         {
           type: F.stringLiteral('foo'),
@@ -220,7 +220,7 @@ describe('Eq', () => {
       a: string
       b: number
     }
-    const Foo = summonAs<unknown, Foo>(F =>
+    const Foo = summon<unknown, Foo>(F =>
       F.interface(
         {
           type: F.stringLiteral('foo'),
@@ -236,7 +236,7 @@ describe('Eq', () => {
       c: string
       d: number
     }
-    const Bar = summonAs<unknown, Bar>(F =>
+    const Bar = summon<unknown, Bar>(F =>
       F.interface(
         {
           type: F.stringLiteral('bar'),
@@ -247,7 +247,7 @@ describe('Eq', () => {
       )
     )
 
-    const FooBar = summonAs(F =>
+    const FooBar = summon(F =>
       F.taggedUnion(
         'type',
         {

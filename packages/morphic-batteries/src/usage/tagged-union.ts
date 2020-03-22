@@ -55,12 +55,7 @@ const keepKeys = (a: Record<string, any>, toKeep: Array<string>): object =>
 const excludeKeys = (a: Record<string, any>, toExclude: Array<string>): object =>
   recordFromArray(difference(eqString)(Object.keys(a), toExclude).map((k: string) => tuple(k, a[k])))
 
-/**
- *  @since 0.0.1
- */
-export function makeTagged<ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
-  summ: <E, A>(F: TaggedUnionProg<E, A, ProgURI>) => M<E, A, ProgURI, InterpURI>
-): <Tag extends string>(
+export type TaggedBuilder<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = <Tag extends string>(
   tag: Tag
 ) => <Types extends UnionTypes<Types, Tag, ProgURI, InterpURI>>(
   o: Types
@@ -72,6 +67,13 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
   ProgURI,
   InterpURI
 >
+
+/**
+ *  @since 0.0.1
+ */
+export function makeTagged<ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
+  summ: <E, A>(F: TaggedUnionProg<E, A, ProgURI>) => M<E, A, ProgURI, InterpURI>
+): TaggedBuilder<ProgURI, InterpURI>
 /**
  *  @since 0.0.1
  */
