@@ -37,7 +37,7 @@ export interface Summoner extends U.Summoners<ProgramNoUnionURI, ESBASTInterpret
   <L, A>(F: U.ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
 }
 
-export const { summon, tagged } = U.defineSummoner<Summoner>(cacheUnaryFunction, program => ({
+export const { summon, tagged } = U.makeSummoner<Summoner>(cacheUnaryFunction, program => ({
   build: identity,
   eq: program(modelEqInterpreter).eq,
   show: program(modelShowInterpreter).show,

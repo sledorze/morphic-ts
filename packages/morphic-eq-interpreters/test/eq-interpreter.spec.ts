@@ -1,7 +1,7 @@
 import * as chai from 'chai'
 
 import { ProgramInterpreter, Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
-import { defineSummoner, Summoners } from '@morphic-ts/batteries/lib/usage/summoner'
+import { makeSummoner, Summoners } from '@morphic-ts/batteries/lib/usage/summoner'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
 import { ProgramNoUnionURI } from '@morphic-ts/batteries/lib/program-no-union'
@@ -48,7 +48,7 @@ export interface Morph {
 
 export interface Summoner extends Summoners<ProgramNoUnionURI, EqInterpreterURI>, Morph {}
 
-const { summon } = defineSummoner<Summoner>(cacheUnaryFunction, eqInterp)
+const { summon } = makeSummoner<Summoner>(cacheUnaryFunction, eqInterp)
 
 describe('Eq', () => {
   it('newtype', () => {

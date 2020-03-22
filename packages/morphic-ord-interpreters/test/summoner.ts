@@ -4,7 +4,7 @@ import { Ord } from 'fp-ts/lib/Ord'
 import { ProgramInterpreter, Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
 import { ProgramOrderableURI } from '@morphic-ts/batteries/lib/program-orderable'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
-import { defineSummoner, Summoners } from '@morphic-ts/batteries/lib/usage/summoner'
+import { makeSummoner, Summoners } from '@morphic-ts/batteries/lib/usage/summoner'
 import { interpretable } from '@morphic-ts/batteries/lib/usage/programs-infer'
 import { identity } from 'fp-ts/lib/function'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
@@ -45,7 +45,7 @@ export const OrdInterpreter: ProgramInterpreter<ProgramOrderableURI, OrdInterpre
   }
 }
 
-export const { summon } = defineSummoner<Summoner>(cacheUnaryFunction, OrdInterpreter)
+export const { summon } = makeSummoner<Summoner>(cacheUnaryFunction, OrdInterpreter)
 
 describe('Ord', () => {
   it('dummy', () => chai.assert.equal(1, 1))

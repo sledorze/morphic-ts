@@ -49,7 +49,7 @@ export interface Summoner extends U.Summoners<ProgramNoUnionURI, ESBASTJInterpre
 /**
  *  @since 0.0.1
  */
-export const { summon, tagged } = U.defineSummoner<Summoner>(cacheUnaryFunction, program => ({
+export const { summon, tagged } = U.makeSummoner<Summoner>(cacheUnaryFunction, program => ({
   build: identity,
   eq: program(modelEqInterpreter).eq,
   show: program(modelShowInterpreter).show,

@@ -1,4 +1,4 @@
-export { Summoners, defineSummoner } from './summoner'
+export { Summoners, makeSummoner } from './summoner'
 export { makeTagged } from './tagged-union'
 export { interpretable } from './programs-infer'
 export { ProgramType } from './ProgramType'

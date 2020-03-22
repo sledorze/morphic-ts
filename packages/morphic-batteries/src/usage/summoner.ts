@@ -25,7 +25,7 @@ export type SummonerInterpURI<X extends Summoners<any, any>> = NonNullable<X['_I
 /**
  *  @since 0.0.1
  */
-export function defineSummoner<S extends Summoners<any, any> = never>(
+export function makeSummoner<S extends Summoners<any, any> = never>(
   cacheProgramEval: CacheType,
   programInterpreter: <E, A>(
     program: NonNullable<ProgramType<E, A>[SummonerProgURI<S>][typeof overloadsSymb]>

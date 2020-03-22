@@ -42,7 +42,7 @@ export interface Summoner extends U.Summoners<ProgramUnionURI, BASTJInterpreterU
   <L, A>(F: U.ProgramType<L, A>[ProgramUnionURI]): M<L, A>
 }
 
-export const { summon, tagged } = U.defineSummoner<Summoner>(cacheUnaryFunction, program => ({
+export const { summon, tagged } = U.makeSummoner<Summoner>(cacheUnaryFunction, program => ({
   build: identity,
   arb: program(modelFastCheckInterpreter).arb,
   strictType: program(modelIoTsStrictInterpreter).type,
