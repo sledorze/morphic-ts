@@ -1,11 +1,14 @@
 import * as chai from 'chai'
 import { summon as summonBASTJ, M as MBASTJ } from '../src/summoner-BASTJ'
+import { summon as summonESBST } from '../src/summoner-ESBST'
 import * as E from 'fp-ts/lib/Either'
 import { makeTagged } from '../src/usage/tagged-union'
 import { summon as summonESBASTJ } from '../src/summoner-ESBASTJ'
 import { interpretable } from '../src/usage/programs-infer'
 import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
 import { Newtype, iso } from 'newtype-ts'
+import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import * as fc from 'fast-check'
 
 describe('tagged', () => {
   it('Should be reused to create another Morph', () => {
@@ -107,5 +110,22 @@ describe('tagged', () => {
     const show = interpretable(Thing)(modelShowInterpreter).show
     const x = Thing.build({ date: iso<NT>().wrap(date), name: 'georges' })
     chai.assert.deepStrictEqual(show.show(x), `{ date: <NT>(${date.toISOString()}), name: "georges" }`)
+  })
+})
+
+describe('Morph ESBST', () => {
+  it('can be derived to a fastCheck', () => {
+    const Person = summonESBST(F =>
+      F.interface(
+        {
+          name: F.string(),
+          birthdate: F.date()
+        },
+        'Person'
+      )
+    )
+    const PersonARB = interpretable(Person)(modelFastCheckInterpreter)
+
+    fc.assert(fc.property(PersonARB.arb, Person.type.is))
   })
 })
