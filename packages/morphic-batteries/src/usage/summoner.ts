@@ -34,14 +34,14 @@ export function defineSummoner<S extends Summoners<any, any> = never>(
   type P<L, A> = ProgramType<L, A>[SummonerProgURI<S>]
   type M<L, A> = Materialized<L, A, SummonerProgURI<S>, SummonerInterpURI<S>>
 
-  const summon = <L, A>(F: P<L, A>): M<L, A> =>
+  const summon = (<L, A>(F: P<L, A>): M<L, A> =>
     materialize(
       cacheProgramEval(F),
       programInterpreter as <E, A>(
         program: ProgramType<E, A>[SummonerProgURI<S>]
       ) => InterpreterResult<E, A>[SummonerInterpURI<S>]
-    )
-  const tagged = makeTagged(summon as S) as TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>>
+    )) as S
+  const tagged = makeTagged(summon) as TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>>
 
-  return { summon: summon as S, tagged }
+  return { summon, tagged }
 }
