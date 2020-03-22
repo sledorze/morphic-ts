@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/show-interpreters",
-  "version": "0.10.0-alpha.0",
+  "version": "0.10.0",
   "description": "Morphic show (fp-ts) package to derive show instances",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
