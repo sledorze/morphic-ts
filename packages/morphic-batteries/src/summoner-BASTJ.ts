@@ -16,12 +16,6 @@ import {
 import { modelJsonSchemaInterpreter } from '@morphic-ts/json-schema-interpreters/lib'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
 
-declare module './usage/ProgramType' {
-  interface ProgramUnionInterpreters {
-    [BASTJInterpreterURI]: U.Summoners<ProgramUnionURI, BASTJInterpreterURI>
-  }
-}
-
 /** Type level override to keep Morph type name short */
 /**
  *  @since 0.0.1

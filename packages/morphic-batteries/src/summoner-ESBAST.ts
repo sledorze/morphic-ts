@@ -11,12 +11,6 @@ import * as U from './usage'
 import { ProgramNoUnionURI } from './program-no-union'
 import { ESBASTInterpreterURI } from './interpreters-ESBAST'
 
-declare module './usage/ProgramType' {
-  interface ProgramTInterpreters {
-    [ESBASTInterpreterURI]: U.Summoners<ProgramNoUnionURI, ESBASTInterpreterURI>
-  }
-}
-
 /** Type level override to keep Morph type name short */
 /**
  *  @since 0.0.1

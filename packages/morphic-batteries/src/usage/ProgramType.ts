@@ -16,11 +16,6 @@ export declare type ProgramURI = Exclude<keyof ProgramType<any, any>, '_E' | '_A
 /**
  *  @since 0.0.1
  */
-export interface ProgramTypes {}
-
-/**
- *  @since 0.0.1
- */
 export interface ProgramAlgebra<F> {
   _F: F
 }

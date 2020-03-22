@@ -20,12 +20,6 @@ import * as U from './usage'
 
 import { ESBASTJInterpreterURI } from './interpreters-ESBASTJ'
 
-declare module './usage/ProgramType' {
-  interface ProgramNoUnionInterpreters {
-    [ESBASTJInterpreterURI]: U.Summoners<ProgramNoUnionURI, ESBASTJInterpreterURI>
-  }
-}
-
 /** Type level override to keep Morph type name short */
 /**
  *  @since 0.0.1
