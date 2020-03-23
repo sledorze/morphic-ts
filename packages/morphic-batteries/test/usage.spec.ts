@@ -124,8 +124,7 @@ describe('Morph ESBST', () => {
         'Person'
       )
     )
-    const PersonARB = interpretable(Person)(modelFastCheckInterpreter)
-
+    const PersonARB = Person.derive(modelFastCheckInterpreter)
     fc.assert(fc.property(PersonARB.arb, Person.type.is))
   })
 })

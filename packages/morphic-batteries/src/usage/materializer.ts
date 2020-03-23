@@ -2,6 +2,7 @@ import { InterpreterResult, InterpreterURI } from './InterpreterResult'
 import { assignFunction, wrapFun, assignCallable, InhabitedTypes, inhabitTypes } from './utils'
 import { MonocleFor } from '@morphic-ts/adt/lib/monocle'
 import { ProgramURI, ProgramType } from './ProgramType'
+import { overloadsSymb, interpretable } from './programs-infer'
 
 /**
  *  @since 0.0.1
@@ -55,6 +56,10 @@ function interpreteWithProgram<E, A, ProgURI extends ProgramURI, InterpURI exten
   return inhabitInterpreterAndAlbegra(inhabitTypes(assignFunction(wrapFun(program), programInterpreter(program))))
 }
 
+interface Interpretable<E, A, ProgURI extends ProgramURI> {
+  derive: NonNullable<ProgramType<E, A>[ProgURI][typeof overloadsSymb]>
+}
+
 /**
  *  @since 0.0.1
  */
@@ -66,7 +71,8 @@ export type Materialized<E, A, ProgURI extends ProgramURI, InterpURI extends Int
 > &
   MonocleFor<A> &
   InhabitedTypes<E, A> &
-  InhabitedInterpreterAndAlbegra<ProgURI, InterpURI>
+  InhabitedInterpreterAndAlbegra<ProgURI, InterpURI> &
+  Interpretable<E, A, ProgURI>
 
 /**
  *  @since 0.0.1
@@ -85,5 +91,5 @@ export function materialize<E, A, ProgURI extends ProgramURI, InterpURI extends 
 function withMonocle<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   morph: Morph<E, A, InterpURI, ProgURI> & InhabitedTypes<E, A> & { _I?: InterpURI; _P?: ProgURI }
 ): Materialized<E, A, ProgURI, InterpURI> {
-  return assignCallable(morph, MonocleFor<A>())
+  return assignCallable(morph, MonocleFor<A>(), { derive: interpretable(morph) })
 }
