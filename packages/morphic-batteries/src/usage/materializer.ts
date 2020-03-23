@@ -43,7 +43,7 @@ const inhabitInterpreterAndAlbegra = <ProgURI extends ProgramURI, InterpURI exte
   t: T
 ): T & InhabitedInterpreterAndAlbegra<ProgURI, InterpURI> => t as T & InhabitedInterpreterAndAlbegra<ProgURI, InterpURI>
 
-interface InhabitedInterpreterAndAlbegra<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
+export interface InhabitedInterpreterAndAlbegra<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
   _P: ProgURI
   _I: InterpURI
 }
