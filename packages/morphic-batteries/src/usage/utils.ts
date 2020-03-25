@@ -17,8 +17,8 @@ export type SelectKeyOfMatchingValues<KeyedValues, Constraint> = {
 /**
  *  @since 0.0.1
  */
-export const assignCallable = <C, F extends Function & C, D, E>(F: F, d: D, e: E): F & C & D & E =>
-  assignFunction(F, Object.assign({}, F, d, e))
+export const assignCallable = <C, F extends Function & C, D>(F: F, d: D): F & C & D =>
+  assignFunction(F, Object.assign({}, F, d))
 
 /**
  *  @since 0.0.1

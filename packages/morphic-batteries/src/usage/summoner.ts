@@ -1,4 +1,4 @@
-import { InferredProgram, overloadsSymb } from './programs-infer'
+import { InferredProgram, Overloads } from './programs-infer'
 import { materialize, Materialized } from './materializer'
 import { InterpreterURI, InterpreterResult } from './InterpreterResult'
 import { CacheType } from '@morphic-ts/common/lib/core'
@@ -28,7 +28,7 @@ export type SummonerInterpURI<X extends Summoners<any, any>> = NonNullable<X['_I
 export function makeSummoner<S extends Summoners<any, any> = never>(
   cacheProgramEval: CacheType,
   programInterpreter: <E, A>(
-    program: NonNullable<ProgramType<E, A>[SummonerProgURI<S>][typeof overloadsSymb]>
+    program: Overloads<ProgramType<E, A>[SummonerProgURI<S>]>
   ) => InterpreterResult<E, A>[SummonerInterpURI<S>]
 ): { summon: S; tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>> } {
   type P<L, A> = ProgramType<L, A>[SummonerProgURI<S>]
@@ -37,9 +37,7 @@ export function makeSummoner<S extends Summoners<any, any> = never>(
   const summon = (<L, A>(F: P<L, A>): M<L, A> =>
     materialize(
       cacheProgramEval(F),
-      programInterpreter as <E, A>(
-        program: ProgramType<E, A>[SummonerProgURI<S>]
-      ) => InterpreterResult<E, A>[SummonerInterpURI<S>]
+      programInterpreter as <E, A>(program: P<E, A>) => InterpreterResult<E, A>[SummonerInterpURI<S>]
     )) as S
   const tagged = makeTagged(summon) as TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>>
 

@@ -9,8 +9,7 @@ export const overloadsSymb = Symbol()
 /**
  *  @since 0.0.1
  */
-export const interpretable = <T extends { [overloadsSymb]?: any }>(program: T): NonNullable<T[typeof overloadsSymb]> =>
-  program as NonNullable<T[typeof overloadsSymb]>
+export const interpretable = <T extends { [overloadsSymb]?: any }>(program: T): Overloads<T> => program as Overloads<T>
 
 /**
  *  @since 0.0.1
@@ -19,7 +18,7 @@ export type InferredAlgebra<F, PURI extends ProgramURI> = Algebra<ProgramAlgebra
 /**
  *  @since 0.0.1
  */
-export type Overloads<I extends InferredProgram<any, any, any>> = NonNullable<I[typeof overloadsSymb]>
+export type Overloads<I extends { [overloadsSymb]?: any }> = NonNullable<I[typeof overloadsSymb]>
 
 /**
  *  @since 0.0.1
