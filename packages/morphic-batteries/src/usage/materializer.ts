@@ -81,15 +81,6 @@ export function materialize<E, A, ProgURI extends ProgramURI, InterpURI extends 
   program: ProgramType<E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
 ): Materialized<E, A, ProgURI, InterpURI> {
-  return withMonocle(interpreteWithProgram(program, programInterpreter))
-}
-
-/**
- * Expose tagged functions in addition to the type derived facilities
- */
-
-function withMonocle<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
-  morph: Morph<E, A, InterpURI, ProgURI> & InhabitedTypes<E, A> & { _I?: InterpURI; _P?: ProgURI }
-): Materialized<E, A, ProgURI, InterpURI> {
+  const morph = interpreteWithProgram(program, programInterpreter)
   return assignCallable(morph, { ...MonocleFor<A>(), derive: interpretable(morph) })
 }
