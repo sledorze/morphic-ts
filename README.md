@@ -98,6 +98,7 @@ export const Car = AsOpaque<CarRaw, Car>(Car_)
 ```
 
 We're sorry for the boilerplate, this is a current Typescript limitation but in our experience, this is worth the effort.
+A snippet is available to help with that in this repo .vscode folder; we recommend using it extensively.
 
 ### Configurable
 

@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "steoates.autoimport",
+    "coenraads.bracket-pair-colorizer-2",
+    "waderyan.gitblame",
+    "christian-kohler.path-intellisense",
+    "esbenp.prettier-vscode",
+    "mohsen1.prettify-json",
+    "miclo.sort-typescript-imports",
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "dbaeumer.vscode-eslint",
+    "wayou.vscode-todo-highlight"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  // Place your snippets for typescript here. Each snippet is defined under a snippet name and has a prefix, body and
+  // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
+  // same ids are connected.
+  // Example:
+  "Morphic opaque": {
+    "prefix": "moo",
+    "body": [
+      "export interface $1 extends AType<typeof $1_> {}",
+      "export interface $1Raw extends EType<typeof $1_> {}",
+      "export const $1 = AsOpaque<$1Raw, $1>($1_)"
+    ],
+    "description": "Defines a Morphic opaque signature"
+  },
+  "Morphic opaque for tagged unions": {
+    "prefix": "mot",
+    "body": ["export type $1 = ADTType<typeof $1>"],
+    "description": "Defines a Morphic Tagged union opaque signature"
+  }
+}
