@@ -23,6 +23,20 @@ export const projectField = <T extends Record<any, Record<any, any>>>(t: T) => <
 /**
  *  @since 0.0.1
  */
+export const projectFieldWithEnv = <T extends Record<any, (e: R) => Record<any, any>>, R>(t: T, env: R) => <
+  K extends keyof ReturnType<T[keyof T]>
+>(
+  k: K
+): {
+  [q in keyof T]: ReturnType<T[q]>[K]
+} =>
+  record.record.map(t, p => p(env)[k]) as {
+    [q in keyof T]: ReturnType<T[q]>[K]
+  }
+
+/**
+ *  @since 0.0.1
+ */
 export function conjunction<A, B>(...x: [A, B]): A & B
 export function conjunction<A, B, C>(...x: [A, B, C]): A & B & C
 export function conjunction<A, B, C, D>(...x: [A, B, C, D]): A & B & C & D

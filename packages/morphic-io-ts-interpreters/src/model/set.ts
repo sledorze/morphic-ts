@@ -7,5 +7,5 @@ import { ModelAlgebraSet2 } from '@morphic-ts/model-algebras/lib/set'
  */
 export const ioTsSetInterpreter: ModelAlgebraSet2<IoTsURI> = {
   _F: IoTsURI,
-  set: (a, ord) => new IOTSType(setFromArray(a.type, ord))
+  set: (a, ord) => env => new IOTSType(setFromArray(a(env).type, ord))
 }

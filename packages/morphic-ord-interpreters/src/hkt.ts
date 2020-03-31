@@ -13,14 +13,15 @@ export type OrdURI = typeof OrdURI
 /**
  *  @since 0.0.1
  */
-export class OrdType<A> {
+export class OrdType<R, A> {
+  _R!: R
   _A!: A
   _URI!: OrdURI
   constructor(public ord: Ord<A>) {}
 }
 
 declare module '@morphic-ts/common/lib/HKT' {
-  interface URItoKind<A> {
-    [OrdURI]: OrdType<A>
+  interface URItoKind<R, A> {
+    [OrdURI]: OrdType<R, A>
   }
 }

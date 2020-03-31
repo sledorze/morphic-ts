@@ -5,15 +5,17 @@ import { right, isLeft, isRight, Either } from 'fp-ts/lib/Either'
 import { some, none } from 'fp-ts/lib/Option'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { Errors, Branded } from 'io-ts'
 import { failure, PathReporter } from 'io-ts/lib/PathReporter'
+import type { Errors, Branded, string } from 'io-ts'
+import * as t from 'io-ts'
 import { summon, M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 
-import { iotsConfig } from '../src/index'
+import { iotsConfig, IoTsURI } from '../src/index'
 
-import { withMessage } from 'io-ts-types/lib/withMessage'
+import * as WM from 'io-ts-types/lib/withMessage'
 import { Newtype, iso } from 'newtype-ts'
 import { EType, AType } from '@morphic-ts/batteries/lib/usage/utils'
+import { URIS2, URIS } from '@morphic-ts/common/lib/HKT'
 
 export type Tree = Node | Leaf
 export interface Node {
@@ -42,7 +44,7 @@ describe('IO-TS Alt Schema', () => {
     const codec = summon(F =>
       F.keysOf(
         { foo: null, bar: null },
-        iotsConfig(x => withMessage(x, () => 'not ok'))
+        iotsConfig(x => WM.withMessage(x, () => 'not ok'))
       )
     ).type
 
@@ -66,7 +68,7 @@ describe('IO-TS Alt Schema', () => {
     const NT = summon(F =>
       F.newtype<NT>('NT')(
         F.date(),
-        iotsConfig(x => withMessage(x, () => 'not ok'))
+        iotsConfig(x => WM.withMessage(x, () => 'not ok'))
       )
     )
     const result = NT.type.decode('bla')
@@ -77,10 +79,13 @@ describe('IO-TS Alt Schema', () => {
   it('customize strMap', () => {
     const codec = summon(F =>
       F.strMap(
-        F.string(),
-        iotsConfig(x => withMessage(x, () => 'not ok'))
+        F.string(iotsConfig(_ => t.string)),
+        iotsConfig(x => WM.withMessage(x, () => 'not ok'))
       )
     ).type
+
+    // F.string(iotsConfig((p, env: { x: string }) => string)),
+    // iotsConfig2(x => withMessage(x, () => 'not ok'))
 
     const result1 = codec.decode({ a: 'a' })
     chai.assert.deepStrictEqual(isRight(result1) && result1.right, { a: 'a' })
@@ -200,7 +205,7 @@ describe('IO-TS Alt Schema', () => {
 
   it('compose', () => {
     // type Foo
-    const Foo = summon(F =>
+    const Foo = summon(F => {
       F.interface(
         {
           a: F.string(),
@@ -208,7 +213,7 @@ describe('IO-TS Alt Schema', () => {
         },
         'Foo'
       )
-    )
+    })
 
     // type Bar
     const Bar = summon<unknown, Bar>(F =>
@@ -601,5 +606,36 @@ describe('iotsObjectInterpreter', () => {
       chai.assert.deepStrictEqual(firstRunNbEvals, nbEvals)
       chai.assert.deepStrictEqual(firstRunNbRecEvals, nbRecEvals)
     })
+  })
+
+  it('can be customized with Env', () => {
+    interface IOTSEnv {
+      iots: typeof t
+    }
+    interface WithMessage {
+      WM: typeof WM
+    }
+
+    // Types Should be defined beforehand at Summon creation ? (no..)
+
+    const XX = summon(F => F.string(iotsConfig((_, { iots }: IOTSEnv) => iots.string)))
+    const codec = summon(F => {
+      const res = F.strMap(
+        XX(F),
+        iotsConfig((x, { WM }: WithMessage) => WM.withMessage(x, () => 'not ok'))
+      )
+      return res
+    }).type
+
+    // F.string(iotsConfig((p, env: { x: string }) => string)),
+    // iotsConfig2(x => withMessage(x, () => 'not ok'))
+
+    const result1 = codec.decode({ a: 'a' })
+    chai.assert.deepStrictEqual(isRight(result1) && result1.right, { a: 'a' })
+
+    const result = codec.decode([])
+
+    chai.assert.deepStrictEqual(isLeft(result), true)
+    chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
   })
 })

@@ -36,17 +36,17 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 export interface ModelAlgebraRefined<F> {
   _F: F
   refined: {
-    <E, A, N extends string, B extends { readonly [K in N]: symbol }>(
-      a: HKT2<F, E, A>,
+    <E, A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+      a: HKT2<F, R, E, A>,
       refinement: Refinement<A, Branded<A, B>>,
       name: N
-    ): isOptionalConfig<RefinedConfig<E, A>, HKT2<F, E, Branded<A, B>>>
-    <E, A, N extends string, B extends { readonly [K in N]: symbol }>(
-      a: HKT2<F, E, A>,
+    ): isOptionalConfig<RefinedConfig<E, A>, HKT2<F, R, E, Branded<A, B>>>
+    <E, A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+      a: HKT2<F, R, E, A>,
       refinement: Refinement<A, Branded<A, B>>,
       name: N,
       config: ByInterp<RefinedConfig<E, A>, URIS | URIS2>
-    ): HKT2<F, E, Branded<A, B>>
+    ): HKT2<F, R, E, Branded<A, B>>
   }
 }
 
@@ -55,12 +55,12 @@ export interface ModelAlgebraRefined<F> {
  */
 export interface ModelAlgebraRefined1<F extends URIS> {
   _F: F
-  refined<A, N extends string, B extends { readonly [K in N]: symbol }>(
-    a: Kind<F, A>,
+  refined<A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+    a: Kind<F, R, A>,
     refinement: Refinement<A, Branded<A, B>>,
     name: N,
     config: ByInterp<RefinedConfig<unknown, A>, F>
-  ): Kind<F, Branded<A, B>>
+  ): Kind<F, R, Branded<A, B>>
 }
 
 /**
@@ -68,10 +68,10 @@ export interface ModelAlgebraRefined1<F extends URIS> {
  */
 export interface ModelAlgebraRefined2<F extends URIS2> {
   _F: F
-  refined<E, A, N extends string, B extends { readonly [K in N]: symbol }>(
-    a: Kind2<F, E, A>,
+  refined<E, A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+    a: Kind2<F, R, E, A>,
     refinement: Refinement<A, Branded<A, B>>,
     name: N,
     config: ByInterp<RefinedConfig<E, A>, F>
-  ): Kind2<F, E, Branded<A, B>>
+  ): Kind2<F, R, E, Branded<A, B>>
 }

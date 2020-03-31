@@ -38,11 +38,16 @@ export type TaggedValues<Tag extends string, O> = { [o in keyof O]: O[o] & { [t 
  *  @since 0.0.1
  */
 export type TaggedTypes<F, Tag extends string, L, A> = {
-  [o in keyof A & keyof L]: HKT2<F, L[o], (A & { [x in o]: { [k in Tag]: o } })[o]>
+  [o in keyof A & keyof L]: HKT2<F, 'TODOENV', L[o], (A & { [x in o]: { [k in Tag]: o } })[o]>
 }
 
-type DecorateTag<X extends HKT2<any, any, any>, Tag extends string, VTag> = X extends HKT2<infer F, infer L, infer A>
-  ? HKT2<F, L, A & { [k in Tag]: VTag }>
+type DecorateTag<X extends HKT2<any, any, any, any>, Tag extends string, VTag> = X extends HKT2<
+  infer F,
+  infer R,
+  infer L,
+  infer A
+>
+  ? HKT2<F, R, L, A & { [k in Tag]: VTag }>
   : never
 
 /**
@@ -55,20 +60,22 @@ export interface ModelAlgebraTaggedUnions<F> {
       tag: Tag,
       types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
       name: string
-    ): isOptionalConfig<TaggedUnionConfig, HKT2<F, Types[keyof Types]['_E'], Types[keyof Types]['_A']>>
+    ): isOptionalConfig<TaggedUnionConfig, HKT2<F, 'TODOENV', Types[keyof Types]['_E'], Types[keyof Types]['_A']>>
     <Tag extends string, Types extends TaggedTypes<F, Tag, any, any>>(
       tag: Tag,
       types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
       name: string,
       config: ByInterp<TaggedUnionConfig, URIS | URIS2>
-    ): HKT2<F, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
+    ): HKT2<F, 'TODOENV', Types[keyof Types]['_E'], Types[keyof Types]['_A']>
   }
 }
 
 /**
  *  @since 0.0.1
  */
-export type TaggedTypes1<F extends URIS, Tag extends string, O> = { [o in keyof O]: Kind<F, O[o] & { [t in Tag]: o }> }
+export type TaggedTypes1<F extends URIS, Tag extends string, O> = {
+  [o in keyof O]: Kind<F, 'TODOENV', O[o] & { [t in Tag]: o }>
+}
 
 /**
  *  @since 0.0.1
@@ -80,14 +87,14 @@ export interface ModelAlgebraTaggedUnions1<F extends URIS> {
     types: TaggedTypes1<F, Tag, O>,
     name: string,
     config?: ByInterp<TaggedUnionConfig, F>
-  ): Kind<F, TaggedValues<Tag, O>[keyof O]>
+  ): Kind<F, 'TODOENV', TaggedValues<Tag, O>[keyof O]>
 }
 
 /**
  *  @since 0.0.1
  */
 export type TaggedTypes2<F extends URIS2, Tag extends string, L, A> = {
-  [o in keyof A & keyof L]: Kind2<F, A[o] & { [t in Tag]: o }, L[o] & { [t in Tag]: o }>
+  [o in keyof A & keyof L]: Kind2<F, 'TODOENV', A[o] & { [t in Tag]: o }, L[o] & { [t in Tag]: o }>
 }
 
 /**
@@ -100,5 +107,5 @@ export interface ModelAlgebraTaggedUnions2<F extends URIS2> {
     types: TaggedTypes2<F, Tag, A, L>,
     name: string,
     config?: ByInterp<TaggedUnionConfig, F>
-  ): Kind2<F, TaggedValues<Tag, A>[keyof A], TaggedValues<Tag, L>[keyof L]>
+  ): Kind2<F, 'TODOENV', TaggedValues<Tag, A>[keyof A], TaggedValues<Tag, L>[keyof L]>
 }

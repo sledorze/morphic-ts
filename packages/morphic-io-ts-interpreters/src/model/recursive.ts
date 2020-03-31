@@ -7,5 +7,5 @@ import { ModelAlgebraRecursive2 } from '@morphic-ts/model-algebras/lib/recursive
  */
 export const ioTsRecursiveInterpreter: ModelAlgebraRecursive2<IoTsURI> = {
   _F: IoTsURI,
-  recursive: lazyA => new IOTSType(t.recursion(`recursive`, Self => lazyA(new IOTSType(Self)).type))
+  recursive: lazyA => env => new IOTSType(t.recursion(`recursive`, Self => lazyA(_ => new IOTSType(Self))(env).type))
 }

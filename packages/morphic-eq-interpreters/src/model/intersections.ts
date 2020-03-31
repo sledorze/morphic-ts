@@ -14,3 +14,4 @@ export const eqIntersectionInterpreter: ModelAlgebraIntersection1<EqURI> = {
     })
   }
 }
+

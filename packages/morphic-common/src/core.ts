@@ -3,12 +3,12 @@ import { Kind, URIS, URIS2, Kind2 } from './HKT'
 /**
  *  @since 0.0.1
  */
-export type OfType<F extends URIS, A> = Kind<F, A>
+export type OfType<F extends URIS, A, RC> = Kind<F, RC, A>
 
 /**
  *  @since 0.0.1
  */
-export type OfType2<F extends URIS2, L, A> = Kind2<F, L, A>
+export type OfType2<F extends URIS2, L, A, RC> = Kind2<F, RC, L, A>
 
 type Function1 = (a: any) => any
 
@@ -106,12 +106,12 @@ export type isOptionalConfig<C, Y> = keyof KeepNotUndefined<ByInterp<C, URIS | U
  *
  *  @since 0.0.1
  */
-export const genConfig: <Uri extends URIS | URIS2>(uri: Uri) => ConfigWrapper<Uri> = uri => config =>
+export const genConfig: <Uri extends URIS | URIS2>(uri: Uri) => ConfigWrapper2<Uri> = uri => config =>
   ({ [uri]: config } as any)
 
 /**
  *  @since 0.0.1
  */
-export interface ConfigWrapper<Uri extends URIS | URIS2> {
-  <T>(config: T extends { [k in Uri]?: infer Config } ? Config : never): T
+export interface ConfigWrapper2<Uri extends URIS | URIS2> {
+  <A, E, R>(config: (a: A, e: E) => R): { [k in Uri]: typeof config }
 }

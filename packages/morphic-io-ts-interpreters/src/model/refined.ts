@@ -21,5 +21,5 @@ export const applyCustomize = <E, A>(c: { [IoTsURI]?: Customize<E, A> } | undefi
  */
 export const ioTsRefinedInterpreter: ModelAlgebraRefined2<IoTsURI> = {
   _F: IoTsURI,
-  refined: (a, ref, name, config) => new IOTSType(applyCustomize(config)(t.brand(a.type, ref, name)))
+  refined: (a, ref, name, config) => new IOTSType(applyCustomize(config)(t.brand(a(env).type, ref, name)))
 }

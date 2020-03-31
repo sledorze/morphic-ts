@@ -11,56 +11,56 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.1
    */
-  export interface PrimitiveDateConfig {
-    [IoTsURI]: Customize<string, Date> | undefined
+  export interface PrimitiveDateConfig<RC> {
+    [IoTsURI]: Customize<RC, string, Date> | undefined
   }
   /**
    *  @since 0.0.1
    */
-  export interface PrimitiveStringConfig {
-    [IoTsURI]: Customize<string, string> | undefined
+  export interface PrimitiveStringConfig<RC> {
+    [IoTsURI]: Customize<RC, string, string> | undefined
   }
   /**
    *  @since 0.0.1
    */
-  export interface PrimitiveNumberConfig {
-    [IoTsURI]: Customize<number, number> | undefined
+  export interface PrimitiveNumberConfig<RC> {
+    [IoTsURI]: Customize<RC, number, number> | undefined
   }
   /**
    *  @since 0.0.1
    */
-  export interface PrimitiveBigIntConfig {
-    [IoTsURI]: Customize<string, bigint> | undefined
+  export interface PrimitiveBigIntConfig<RC> {
+    [IoTsURI]: Customize<RC, string, bigint> | undefined
   }
   /**
    *  @since 0.0.1
    */
-  export interface PrimitiveBooleanConfig {
-    [IoTsURI]: Customize<boolean, boolean> | undefined
+  export interface PrimitiveBooleanConfig<RC> {
+    [IoTsURI]: Customize<RC, boolean, boolean> | undefined
   }
   /**
    *  @since 0.0.1
    */
-  export interface PrimitiveArrayConfig<E, A> {
-    [IoTsURI]: Customize<E[], A[]> | undefined
+  export interface PrimitiveArrayConfig<RC, E, A> {
+    [IoTsURI]: Customize<RC, E[], A[]> | undefined
   }
   /**
    *  @since 0.0.2
    */
-  export interface PrimitiveKeysOfConfig<K> {
-    [IoTsURI]: Customize<string, K> | undefined
+  export interface PrimitiveKeysOfConfig<RC, K> {
+    [IoTsURI]: Customize<RC, string, K> | undefined
   }
   /**
    *  @since 0.0.2
    */
-  export interface PrimitiveStringLiteralConfig<K> {
-    [IoTsURI]: Customize<string, K> | undefined
+  export interface PrimitiveStringLiteralConfig<RC, K> {
+    [IoTsURI]: Customize<RC, string, K> | undefined
   }
   /**
    *  @since 0.0.2
    */
-  export interface PrimitiveNullableConfig<E, A> {
-    [IoTsURI]: Customize<E | null, Option<A>> | undefined
+  export interface PrimitiveNullableConfig<RC, E, A> {
+    [IoTsURI]: Customize<RC, E | null, Option<A>> | undefined
   }
 }
 
@@ -93,14 +93,14 @@ export const BigIntString: BigIntStringC = new t.Type<bigint, string, unknown>(
 /* istanbul ignore next */
 export const ioTsPrimitiveInterpreter: ModelAlgebraPrimitive2<IoTsURI> = {
   _F: IoTsURI,
-  date: config => new IOTSType(applyCustomize(config)(DateFromISOString)),
-  boolean: config => new IOTSType(applyCustomize(config)(t.boolean)),
-  string: config => new IOTSType(applyCustomize(config)(t.string)),
-  number: config => new IOTSType(applyCustomize(config)(t.number)),
-  bigint: config => new IOTSType(applyCustomize(config)(BigIntString)),
-  stringLiteral: (l, config) => new IOTSType(applyCustomize(config)(t.literal(l, l))),
-  keysOf: (k, config) =>
-    new IOTSType<string, keyof typeof k>(applyCustomize(config)(t.keyof(k) as t.Type<keyof typeof k, string, unknown>)),
-  nullable: (T, config) => new IOTSType(applyCustomize(config)(optionFromNullable(T.type))),
-  array: (T, config) => new IOTSType(applyCustomize(config)(t.array(T.type)))
+  date: config => env => new IOTSType(applyCustomize(config)(DateFromISOString, env)),
+  boolean: config => env => new IOTSType(applyCustomize(config)(t.boolean, env)),
+  string: config => env => new IOTSType(applyCustomize(config)(t.string, env)),
+  number: config => env => new IOTSType(applyCustomize(config)(t.number, env)),
+  bigint: config => env => new IOTSType(applyCustomize(config)(BigIntString, env)),
+  stringLiteral: (l, config) => env => new IOTSType(applyCustomize(config)(t.literal(l, l), env)),
+  keysOf: (k, config) => env =>
+    new IOTSType(applyCustomize(config)(t.keyof(k) as t.Type<keyof typeof k, string, unknown>, env)),
+  nullable: (T, config) => env => new IOTSType(applyCustomize(config)(optionFromNullable(T(env).type), env)),
+  array: (T, config) => env => new IOTSType(applyCustomize(config)(t.array(T(env).type), env))
 }

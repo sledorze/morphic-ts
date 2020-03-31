@@ -1,5 +1,6 @@
 import { option, array } from 'fp-ts'
 import { eq, eqNumber, eqString, eqBoolean, eqStrict } from 'fp-ts/lib/Eq'
+import { strictEqual, Eq } from 'fp-ts/lib/Eq'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { EqType, EqURI } from '../hkt'
 
@@ -8,13 +9,13 @@ import { EqType, EqURI } from '../hkt'
  */
 export const eqPrimitiveInterpreter: ModelAlgebraPrimitive1<EqURI> = {
   _F: EqURI,
-  date: _ => new EqType(eq.contramap(eqNumber, (date: Date) => date.getTime())),
-  boolean: _ => new EqType(eqBoolean),
-  string: _ => new EqType(eqString),
-  number: _ => new EqType(eqNumber),
-  bigint: _ => new EqType<bigint>({ equals: eqStrict.equals }),
-  stringLiteral: <T extends string>(_: T) => new EqType<T>(eqString),
-  keysOf: _keys => new EqType<keyof typeof _keys>({ equals: eqStrict.equals }),
-  nullable: ({ eq }) => new EqType(option.getEq(eq)),
-  array: ({ eq }) => new EqType(array.getEq(eq))
+  date: _ => _env => new EqType(eq.contramap(eqNumber, (date: Date) => date.getTime())),
+  boolean: _ => _env => new EqType(eqBoolean),
+  string: _ => _env => new EqType(eqString),
+  number: _ => _env => new EqType(eqNumber),
+  bigint: _ => _env => new EqType({ equals: strictEqual }),
+  stringLiteral: _ => _env => new EqType(eqString as Eq<typeof _>),
+  keysOf: _keys => _env => new EqType({ equals: strictEqual }),
+  nullable: getType => env => new EqType(option.getEq(getType(env).eq)),
+  array: getType => env => new EqType(array.getEq(getType(env).eq))
 }

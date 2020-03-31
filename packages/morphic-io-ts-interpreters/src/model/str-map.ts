@@ -7,16 +7,16 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.1
    */
-  export interface StrMapConfig<L, A> {
-    [IoTsURI]: Customize<L, A> | undefined
+  export interface StrMapConfig<RC, L, A> {
+    [IoTsURI]: Customize<RC, L, A> | undefined
   }
 }
 
-interface Customize<L, A> {
-  (a: t.RecordC<t.StringC, t.Type<A, L, unknown>>): t.RecordC<t.StringC, t.Type<A, L, unknown>>
+interface Customize<RC, L, A> {
+  (a: t.RecordC<t.StringC, t.Type<A, L, unknown>>, env: RC): t.RecordC<t.StringC, t.Type<A, L, unknown>>
 }
 
-const applyCustomize = <E, A>(c: { [IoTsURI]?: Customize<E, A> } | undefined) =>
+const applyCustomize = <E, A, RC>(c: { [IoTsURI]?: Customize<RC, E, A> } | undefined) =>
   c !== undefined ? c[IoTsURI] ?? identity : identity
 
 /**
@@ -24,5 +24,5 @@ const applyCustomize = <E, A>(c: { [IoTsURI]?: Customize<E, A> } | undefined) =>
  */
 export const ioTsStrMapInterpreter: ModelAlgebraStrMap2<IoTsURI> = {
   _F: IoTsURI,
-  strMap: (codomain, config) => new IOTSType(applyCustomize(config)(t.record(t.string, codomain.type)))
+  strMap: (codomain, config) => env => new IOTSType(applyCustomize(config)(t.record(t.string, codomain(env).type), env))
 }

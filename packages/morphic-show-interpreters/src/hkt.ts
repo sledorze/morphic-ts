@@ -12,14 +12,15 @@ export type ShowURI = typeof ShowURI
 /**
  *  @since 0.0.1
  */
-export class ShowType<A> {
+export class ShowType<R, A> {
+  _R!: R
   _A!: A
   _URI!: ShowURI
   constructor(public show: Show<A>) {}
 }
 
 declare module '@morphic-ts/common/lib/HKT' {
-  interface URItoKind<A> {
-    [ShowURI]: ShowType<A>
+  interface URItoKind<R, A> {
+    [ShowURI]: ShowType<R, A>
   }
 }

@@ -1,23 +1,23 @@
 import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraObject2, PropsKind2 } from '@morphic-ts/model-algebras/lib/object'
-import { projectField } from '@morphic-ts/common/lib/utils'
 import { ByInterp } from '@morphic-ts/common/lib/core'
 import { ObjectInterfaceConfig } from '@morphic-ts/algebras/lib/hkt'
 import { Customize, applyCustomize } from './common'
+import { projectFieldWithEnv } from '@morphic-ts/common/lib/utils'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.1
    */
-  export interface ObjectInterfaceConfig<E, A> {
-    [IoTsURI]: Customize<E, A> | undefined
+  export interface ObjectInterfaceConfig<RC, E, A> {
+    [IoTsURI]: Customize<RC, E, A> | undefined
   }
   /**
    *  @since 0.0.1
    */
-  export interface ObjectPartialConfig<E, A> {
-    [IoTsURI]: Customize<E, A> | undefined
+  export interface ObjectPartialConfig<RC, E, A> {
+    [IoTsURI]: Customize<RC, E, A> | undefined
   }
 }
 
@@ -26,18 +26,21 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = {
   _F: IoTsURI,
-  interface: <PropsE, PropsA>(
-    props: PropsKind2<IoTsURI, PropsE, PropsA>,
+  interface: <PropsE, PropsA, R, RC>(
+    props: PropsKind2<IoTsURI, PropsE, PropsA, R>,
     name: string,
-    config: ByInterp<ObjectInterfaceConfig<PropsE, PropsA>, IoTsURI>
-  ) => new IOTSType<PropsE, PropsA>(applyCustomize(config)(t.type(projectField(props)('type'), name) as any)),
-  partial: <PropsE, PropsA>(
-    props: PropsKind2<IoTsURI, PropsE, PropsA>,
+    config: ByInterp<ObjectInterfaceConfig<RC, PropsE, PropsA>, IoTsURI>
+  ) => (env: R & RC) =>
+    new IOTSType<PropsE, PropsA>(
+      applyCustomize(config)(t.type(projectFieldWithEnv(props, env)('type'), name) as any, env)
+    ),
+  partial: <PropsE, PropsA, R, RC>(
+    props: PropsKind2<IoTsURI, PropsE, PropsA, R>,
     name: string,
-    config: ByInterp<ObjectInterfaceConfig<PropsE, PropsA>, IoTsURI>
-  ) =>
+    config: ByInterp<ObjectInterfaceConfig<RC, PropsE, PropsA>, IoTsURI>
+  ) => (env: R & RC) =>
     new IOTSType<Partial<PropsE>, Partial<PropsA>>(
-      applyCustomize(config)(t.partial(projectField(props)('type'), name) as any) as any
+      applyCustomize(config)(t.partial(projectFieldWithEnv(props, env)('type'), name) as any, env) as any
     )
 }
 
@@ -46,17 +49,20 @@ export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = {
  */
 export const ioTsStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = {
   _F: IoTsURI,
-  interface: <PropsE, PropsA>(
-    props: PropsKind2<IoTsURI, PropsE, PropsA>,
+  interface: <PropsE, PropsA, R, RC>(
+    props: PropsKind2<IoTsURI, PropsE, PropsA, R>,
     name: string,
-    config: ByInterp<ObjectInterfaceConfig<PropsE, PropsA>, IoTsURI>
-  ) => new IOTSType<PropsE, PropsA>(applyCustomize(config)(t.strict(projectField(props)('type'), name) as any)),
-  partial: <PropsE, PropsA>(
-    props: PropsKind2<IoTsURI, PropsE, PropsA>,
+    config: ByInterp<ObjectInterfaceConfig<RC, PropsE, PropsA>, IoTsURI>
+  ) => (env: R & RC) =>
+    new IOTSType<PropsE, PropsA>(
+      applyCustomize(config)(t.strict(projectFieldWithEnv(props, env)('type'), name) as any, env)
+    ),
+  partial: <PropsE, PropsA, R, RC>(
+    props: PropsKind2<IoTsURI, PropsE, PropsA, R>,
     name: string,
-    config: ByInterp<ObjectInterfaceConfig<PropsE, PropsA>, IoTsURI>
-  ) =>
+    config: ByInterp<ObjectInterfaceConfig<RC, PropsE, PropsA>, IoTsURI>
+  ) => (env: R & RC) =>
     new IOTSType<Partial<PropsE>, Partial<PropsA>>(
-      applyCustomize(config)(t.exact(t.partial(projectField(props)('type'), name)) as any) as any
+      applyCustomize(config)(t.exact(t.partial(projectFieldWithEnv(props, env)('type'), name)) as any, env) as any
     )
 }

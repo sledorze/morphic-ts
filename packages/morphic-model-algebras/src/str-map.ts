@@ -25,7 +25,7 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.1
    */
-  export interface StrMapConfig<L, A> {}
+  export interface StrMapConfig<RC, L, A> {}
 }
 
 /**
@@ -34,12 +34,13 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 export interface ModelAlgebraStrMap<F> {
   _F: F
   strMap: {
-    <L, A>(codomain: HKT2<F, L, A>): isOptionalConfig<
-      StrMapConfig<L, A>,
-      HKT2<F, Array<[string, L]>, Record<string, A>>
+    <L, A, R, RC>(codomain: HKT2<F, R, L, A>): isOptionalConfig<
+      StrMapConfig<RC, L, A>,
+      HKT2<F, R & RC, Array<[string, L]>, Record<string, A>>
     >
-    <L, A>(codomain: HKT2<F, L, A>, config?: ByInterp<StrMapConfig<L, A>, URIS | URIS2>): HKT2<
+    <L, A, R, RC>(codomain: HKT2<F, R, L, A>, config?: ByInterp<StrMapConfig<RC, L, A>, URIS | URIS2>): HKT2<
       F,
+      R & RC,
       Array<[string, L]>,
       Record<string, A>
     >
@@ -51,7 +52,10 @@ export interface ModelAlgebraStrMap<F> {
  */
 export interface ModelAlgebraStrMap1<F extends URIS> {
   _F: F
-  strMap: <A>(codomain: Kind<F, A>, config?: ByInterp<StrMapConfig<unknown, A>, F>) => Kind<F, Record<string, A>>
+  strMap: <A, R, RC>(
+    codomain: Kind<F, R, A>,
+    config?: ByInterp<StrMapConfig<RC, unknown, A>, F>
+  ) => Kind<F, R & RC, Record<string, A>>
 }
 
 /**
@@ -59,8 +63,8 @@ export interface ModelAlgebraStrMap1<F extends URIS> {
  */
 export interface ModelAlgebraStrMap2<F extends URIS2> {
   _F: F
-  strMap: <L, A>(
-    codomain: Kind2<F, L, A>,
-    config?: ByInterp<StrMapConfig<L, A>, F>
-  ) => Kind2<F, Record<string, L>, Record<string, A>>
+  strMap: <L, A, R, RC>(
+    codomain: Kind2<F, R, L, A>,
+    config?: ByInterp<StrMapConfig<RC, L, A>, F>
+  ) => Kind2<F, R & RC, Record<string, L>, Record<string, A>>
 }

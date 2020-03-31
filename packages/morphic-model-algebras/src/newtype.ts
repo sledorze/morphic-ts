@@ -45,8 +45,8 @@ export interface ModelAlgebraNewtype<F> {
   newtype: <N extends AnyNewtype = never>(
     name: string
   ) => {
-    <E>(a: HKT2<F, E, NewtypeA<N>>): isOptionalConfig<NewtypeConfig<E, N>, HKT2<F, E, N>>
-    <E>(a: HKT2<F, E, NewtypeA<N>>, config: ByInterp<NewtypeConfig<E, N>, URIS | URIS2>): HKT2<F, E, N>
+    <E, R>(a: HKT2<F, R, E, NewtypeA<N>>): isOptionalConfig<NewtypeConfig<E, N>, HKT2<F, R, E, N>>
+    <E, R>(a: HKT2<F, R, E, NewtypeA<N>>, config: ByInterp<NewtypeConfig<E, N>, URIS | URIS2>): HKT2<F, R, E, N>
   }
 }
 
@@ -57,7 +57,7 @@ export interface ModelAlgebraNewtype1<F extends URIS> {
   _F: F
   newtype<N extends AnyNewtype = never>(
     name: string
-  ): (a: Kind<F, NewtypeA<N>>, config?: ByInterp<NewtypeConfig<unknown, N>, F>) => Kind<F, N>
+  ): <R>(a: Kind<F, R, NewtypeA<N>>, config?: ByInterp<NewtypeConfig<unknown, N>, F>) => Kind<F, R, N>
 }
 
 /**
@@ -67,5 +67,5 @@ export interface ModelAlgebraNewtype2<F extends URIS2> {
   _F: F
   newtype<N extends AnyNewtype = never>(
     name: string
-  ): <E>(a: Kind2<F, E, NewtypeA<N>>, config: ByInterp<NewtypeConfig<E, N>, F>) => Kind2<F, E, N>
+  ): <E, R>(a: Kind2<F, R, E, NewtypeA<N>>, config: ByInterp<NewtypeConfig<E, N>, F>) => Kind2<F, R, E, N>
 }
