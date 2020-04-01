@@ -7,5 +7,5 @@ import { ShowType, ShowURI } from '../hkt'
  */
 export const showStrMapInterpreter: ModelAlgebraStrMap1<ShowURI> = {
   _F: ShowURI,
-  strMap: codomain => new ShowType(record.getShow(codomain.show))
+  strMap: codomain => env => new ShowType(record.getShow(codomain(env).show))
 }

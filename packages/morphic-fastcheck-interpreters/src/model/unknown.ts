@@ -14,5 +14,5 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export const fastCheckUnknownInterpreter: ModelAlgebraUnknown1<FastCheckURI> = {
   _F: FastCheckURI,
-  unknown: configs => new FastCheckType(applyCustomize(configs)(anything()))
+  unknown: configs => _env => new FastCheckType(applyCustomize(configs)(anything()))
 }

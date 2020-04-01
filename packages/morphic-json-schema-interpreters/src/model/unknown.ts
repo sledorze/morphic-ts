@@ -8,5 +8,5 @@ import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
  */
 export const jsonSchemaUnknownInterpreter: ModelAlgebraUnknown1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  unknown: _ => new JsonSchema(SE.stateEither.of(AnythingTypeCtor()))
+  unknown: _ => _env => new JsonSchema(SE.stateEither.of(AnythingTypeCtor()))
 }

@@ -7,5 +7,6 @@ import { oneof } from 'fast-check'
  */
 export const fastCheckUnionInterpreter: ModelAlgebraUnions1<FastCheckURI> = {
   _F: FastCheckURI,
-  union: <A>(items: FastCheckType<A>[]) => new FastCheckType(oneof(...items.map(v => v.arb)))
+  union: <A, R>(items: ((env: R) => FastCheckType<A>)[]) => (env: R) =>
+    new FastCheckType(oneof(...items.map(v => v(env).arb)))
 }

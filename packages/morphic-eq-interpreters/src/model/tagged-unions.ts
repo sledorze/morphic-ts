@@ -7,8 +7,8 @@ import { mapRecord } from '@morphic-ts/common/lib/utils'
  */
 export const eqTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<EqURI> = {
   _F: EqURI,
-  taggedUnion: (tag, types) => {
-    const equals = mapRecord(types, a => a.eq.equals)
+  taggedUnion: (tag, types) => env => {
+    const equals = mapRecord(types, a => a(env).eq.equals)
     return new EqType({
       equals: (a, b): boolean => {
         if (a === b) {

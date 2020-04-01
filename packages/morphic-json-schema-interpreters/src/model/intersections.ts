@@ -10,10 +10,10 @@ import { arrayTraverseStateEither, resolveRef, registerSchema } from '../utils'
  */
 export const jsonSchemaIntersectionInterpreter: ModelAlgebraIntersection1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  intersection: <A>(types: Array<JsonSchema<A>>, name: string) =>
+  intersection: <A, R>(types: Array<(env: R) => JsonSchema<A>>, name: string) => (env: R) =>
     new JsonSchema<A>(
       pipe(
-        arrayTraverseStateEither(types, ({ schema }) => schema),
+        arrayTraverseStateEither(types, getShema => getShema(env).schema),
         SE.chain(schemas => arrayTraverseStateEither(schemas, resolveRef)),
         SE.chainEitherK(IntersectionTypeCtor),
         SE.chain(registerSchema(name))

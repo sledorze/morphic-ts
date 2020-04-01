@@ -49,7 +49,7 @@ export interface InhabitedInterpreterAndAlbegra<ProgURI extends ProgramURI, Inte
   _I: InterpURI
 }
 
-function interpreteWithProgram<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
+function interpreteWithProgram<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   program: ProgramType<E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
 ): Morph<E, A, InterpURI, ProgURI> & InhabitedTypes<E, A> {
@@ -77,7 +77,7 @@ export type Materialized<E, A, ProgURI extends ProgramURI, InterpURI extends Int
 /**
  *  @since 0.0.1
  */
-export function materialize<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
+export function materialize<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   program: ProgramType<E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
 ): Materialized<E, A, ProgURI, InterpURI> {

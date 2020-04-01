@@ -23,11 +23,11 @@ export type Overloads<I extends { [overloadsSymb]?: any }> = NonNullable<I[typeo
 /**
  *  @since 0.0.1
  */
-export interface InferredProgram<E, A, PURI extends ProgramURI> {
-  <G>(a: ProgramAlgebra<G>[PURI]): HKT2<G, E, A>
+export interface InferredProgram<R, E, A, PURI extends ProgramURI> {
+  <G>(a: ProgramAlgebra<G>[PURI]): HKT2<G, R, E, A>
   [overloadsSymb]?: {
-    <G extends URIS>(a: Algebra1<ProgramAlgebraURI[PURI], G>): Kind<G, A>
-    <G extends URIS2>(a: Algebra2<ProgramAlgebraURI[PURI], G>): Kind2<G, E, A>
+    <G extends URIS>(a: Algebra1<ProgramAlgebraURI[PURI], G>): Kind<G, R, A>
+    <G extends URIS2>(a: Algebra2<ProgramAlgebraURI[PURI], G>): Kind2<G, R, E, A>
   }
 }
 

@@ -11,5 +11,5 @@ import { oneof } from 'fast-check'
  */
 export const fastCheckTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<FastCheckURI> = {
   _F: FastCheckURI,
-  taggedUnion: (_tag, dic) => new FastCheckType(oneof(...collect(dic, (_, { arb }) => arb)))
+  taggedUnion: (_tag, dic) => env => new FastCheckType(oneof(...collect(dic, (_, getArb) => getArb(env).arb)))
 }

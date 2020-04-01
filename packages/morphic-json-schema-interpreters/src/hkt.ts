@@ -26,8 +26,7 @@ export type JsonSchemaResult<T> = SE.StateEither<NamedSchemas, NonEmptyArray<Jso
 /**
  *  @since 0.0.1
  */
-export class JsonSchema<R, A> {
-  _R!: R
+export class JsonSchema<A> {
   _A!: A
   _URI!: JsonSchemaURI
   constructor(public schema: JsonSchemaResult<OptionalJSONSchema>) {}
@@ -35,6 +34,6 @@ export class JsonSchema<R, A> {
 
 declare module '@morphic-ts/common/lib/HKT' {
   interface URItoKind<R, A> {
-    [JsonSchemaURI]: JsonSchema<R, A>
+    [JsonSchemaURI]: (r: R) => JsonSchema<A>
   }
 }

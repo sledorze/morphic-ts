@@ -13,12 +13,12 @@ import { arrayTraverseStateEither, resolveRefJsonSchema, addSchema } from '../ut
  */
 export const jsonSchemaObjectInterpreter: ModelAlgebraObject1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  interface: (props, name) =>
+  interface: (props, name) => env =>
     new JsonSchema(
       pipe(
         arrayTraverseStateEither(record.toArray(props), ([k, v]) =>
           pipe(
-            v.schema,
+            v(env).schema,
             SE.map(schema => tuple(k, schema))
           )
         ),
@@ -27,12 +27,12 @@ export const jsonSchemaObjectInterpreter: ModelAlgebraObject1<JsonSchemaURI> = {
         SE.map(_ => notOptional(Ref(name)))
       )
     ),
-  partial: (props, name) =>
+  partial: (props, name) => env =>
     new JsonSchema(
       pipe(
         arrayTraverseStateEither(record.toArray(props), ([k, v]) =>
           pipe(
-            v.schema,
+            v(env).schema,
             SE.map(schema => tuple(k, schema))
           )
         ),

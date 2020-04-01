@@ -8,5 +8,6 @@ import { OrdType, OrdURI } from '../hkt'
  */
 export const ordStrMapInterpreter: ModelAlgebraStrMap1<OrdURI> = {
   _F: OrdURI,
-  strMap: codomain => new OrdType(ord.contramap(array.getOrd(getTupleOrd(ordString, codomain.ord)), record.toArray))
+  strMap: getCodomain => env =>
+    new OrdType(ord.contramap(array.getOrd(getTupleOrd(ordString, getCodomain(env).ord)), record.toArray))
 }

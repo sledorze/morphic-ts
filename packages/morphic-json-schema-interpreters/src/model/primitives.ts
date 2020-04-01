@@ -15,14 +15,14 @@ import * as SE from 'fp-ts-contrib/lib/StateEither'
  */
 export const jsonSchemaPrimitiveInterpreter: ModelAlgebraPrimitive1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  date: _ => new JsonSchema(SE.stateEither.of(StringTypeCtor({ format: 'date' }))),
-  string: _ => new JsonSchema(SE.stateEither.of(StringTypeCtor({}))),
-  number: _ => new JsonSchema(SE.stateEither.of(NumberTypeCtor())),
-  bigint: _ => new JsonSchema(SE.stateEither.of(StringTypeCtor({ format: 'bigint' }))),
-  boolean: _ => new JsonSchema(SE.stateEither.of(BooleanTypeCtor())),
-  stringLiteral: <T extends string>(v: T) => new JsonSchema<T>(SE.stateEither.of(LiteralTypeCtor(v))),
-  keysOf: _keys => new JsonSchema(SE.stateEither.of(StringTypeCtor({ enum: Object.keys(_keys) }))),
-  nullable: ({ schema }) => new JsonSchema(SE.stateEither.map(schema, v => optional(v.json))),
-  array: ({ schema }) =>
-    new JsonSchema(SE.stateEither.chain(schema, schemas => SE.fromEither(ArrayTypeCtor({ schemas }))))
+  date: _ => _env => new JsonSchema(SE.stateEither.of(StringTypeCtor({ format: 'date' }))),
+  string: _ => _env => new JsonSchema(SE.stateEither.of(StringTypeCtor({}))),
+  number: _ => _env => new JsonSchema(SE.stateEither.of(NumberTypeCtor())),
+  bigint: _ => _env => new JsonSchema(SE.stateEither.of(StringTypeCtor({ format: 'bigint' }))),
+  boolean: _ => _env => new JsonSchema(SE.stateEither.of(BooleanTypeCtor())),
+  stringLiteral: v => _env => new JsonSchema(SE.stateEither.of(LiteralTypeCtor(v))),
+  keysOf: _keys => _env => new JsonSchema(SE.stateEither.of(StringTypeCtor({ enum: Object.keys(_keys) }))),
+  nullable: getSchema => env => new JsonSchema(SE.stateEither.map(getSchema(env).schema, v => optional(v.json))),
+  array: getSchema => env =>
+    new JsonSchema(SE.stateEither.chain(getSchema(env).schema, schemas => SE.fromEither(ArrayTypeCtor({ schemas }))))
 }

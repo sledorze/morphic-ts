@@ -12,8 +12,7 @@ export type FastCheckURI = typeof FastCheckURI
 /**
  *  @since 0.0.1
  */
-export class FastCheckType<R, A> {
-  _R!: R
+export class FastCheckType<A> {
   _A!: A
   _URI!: FastCheckURI
   constructor(public arb: Arbitrary<A>) {}
@@ -21,6 +20,6 @@ export class FastCheckType<R, A> {
 
 declare module '@morphic-ts/common/lib/HKT' {
   interface URItoKind<R, A> {
-    [FastCheckURI]: FastCheckType<R, A>
+    [FastCheckURI]: (env: R) => FastCheckType<A>
   }
 }

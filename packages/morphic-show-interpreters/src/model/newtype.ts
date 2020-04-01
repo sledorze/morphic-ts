@@ -6,5 +6,5 @@ import { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
  */
 export const showNewtypeInterpreter: ModelAlgebraNewtype1<ShowURI> = {
   _F: ShowURI,
-  newtype: name => a => new ShowType({ show: x => `<${name}>(${a.show.show(x as any)})` })
+  newtype: name => a => env => new ShowType({ show: x => `<${name}>(${a(env).show.show(x as any)})` })
 }
