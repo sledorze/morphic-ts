@@ -1,8 +1,7 @@
 import { option, array } from 'fp-ts'
-import { eq, eqNumber, eqString, eqBoolean } from 'fp-ts/lib/Eq'
+import { eq, eqNumber, eqString, eqBoolean, strictEqual } from 'fp-ts/lib/Eq'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { EqType, EqURI } from '../hkt'
-import { deepEqual } from 'fast-equals'
 
 /**
  *  @since 0.0.1
@@ -13,9 +12,9 @@ export const eqPrimitiveInterpreter: ModelAlgebraPrimitive1<EqURI> = {
   boolean: _ => new EqType(eqBoolean),
   string: _ => new EqType(eqString),
   number: _ => new EqType(eqNumber),
-  bigint: _ => new EqType({ equals: deepEqual }),
+  bigint: _ => new EqType({ equals: strictEqual }),
   stringLiteral: <T extends string>(_: T) => new EqType<T>(eqString),
-  keysOf: _keys => new EqType({ equals: deepEqual }),
+  keysOf: _keys => new EqType({ equals: strictEqual }),
   nullable: ({ eq }) => new EqType(option.getEq(eq)),
   array: ({ eq }) => new EqType(array.getEq(eq))
 }
