@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/model-algebras",
-  "version": "0.10.0-alpha.0",
+  "version": "0.10.0-alpha.1",
   "description": "Morphic definitions for models",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
