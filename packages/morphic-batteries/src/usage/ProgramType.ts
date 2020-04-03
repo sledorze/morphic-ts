@@ -5,7 +5,7 @@
  *  @since 0.0.1
  */
 export interface ProgramType<R, E, A> {
-  _R: R
+  (_R: R): void
   _E: E
   _A: A
 }

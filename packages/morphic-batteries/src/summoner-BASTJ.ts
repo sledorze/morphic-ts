@@ -1,6 +1,7 @@
 import { identity } from 'fp-ts/lib/function'
 import * as E from 'fp-ts/lib/Either'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
+import { Includes } from '@morphic-ts/common/lib/utils'
 import { pipe } from 'fp-ts/lib/pipeable'
 
 import * as U from './usage'
@@ -39,7 +40,7 @@ export const AsUOpaque = <R, A>(x: UM<R, A>): UM<R, A> => x
  *  @since 0.0.1
  */
 export interface Summoner<R> extends U.Summoners<ProgramUnionURI, BASTJInterpreterURI, R> {
-  <L, A>(F: U.ProgramType<R, L, A>[ProgramUnionURI]): M<R, L, A>
+  <L, A, R2 extends R>(F: U.ProgramType<R2, L, A>[ProgramUnionURI]): Includes<R, R2, M<R, L, A>, 'deps error'>
 }
 
 export const summonFor = <R>(env: NonNullable<R>) =>

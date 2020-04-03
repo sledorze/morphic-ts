@@ -1,10 +1,10 @@
-import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { isOptionalConfig, ByInterp } from '@morphic-ts/common/lib/core'
+import { URIS, Kind, URIS2, Kind2, HKT2, HKT } from '@morphic-ts/common/lib/HKT'
+import { isOptionalConfig, ByInterp, UnionToIntersection } from '@morphic-ts/common/lib/core'
 import { ObjectInterfaceConfig, ObjectPartialConfig } from '@morphic-ts/algebras/lib/hkt'
 
-type AnyMProps<F> = Record<string, HKT2<F, any, any, any>>
-
-type EnvOfProps<Props extends AnyMProps<any>> = Props['_R']
+type AnyMProps<F> = Record<string, HKT2<F, never, any, any>>
+type EnvR<X> = X extends HKT<any, infer R, any> ? R : never
+type EnvOfProps<Props extends AnyMProps<any>> = UnionToIntersection<{ [k in keyof Props]: EnvR<Props[k]> }[keyof Props]>
 
 /**
  *  @since 0.0.1

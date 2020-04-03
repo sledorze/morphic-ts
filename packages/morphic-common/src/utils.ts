@@ -86,3 +86,6 @@ export const memo = <A>(get: () => A): (() => A) => {
     return cache
   }
 }
+
+export type IsNever<X, Y, N> = 'X' | X extends 'X' ? Y : N
+export type Includes<A, B, Y, N> = IsNever<B, Y, A extends B ? Y : N>
