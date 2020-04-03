@@ -51,6 +51,12 @@ export interface Summoner extends Summoners<ProgramNoUnionURI, EqInterpreterURI>
 const { summon } = makeSummoner<Summoner>(cacheUnaryFunction, eqInterp)
 
 describe('Eq', () => {
+  it('bigInt', () => {
+    const { eq } = summon(F => F.bigint())
+    chai.assert.strictEqual(eq.equals(BigInt(10), BigInt(10)), true)
+    chai.assert.strictEqual(eq.equals(BigInt(10), BigInt(11)), false)
+  })
+
   it('newtype', () => {
     interface Test extends Newtype<{ readonly Test: unique symbol }, string> {}
     const isoTest = iso<Test>()
