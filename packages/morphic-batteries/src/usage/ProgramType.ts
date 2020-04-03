@@ -4,14 +4,15 @@
 /**
  *  @since 0.0.1
  */
-export interface ProgramType<E, A> {
+export interface ProgramType<R, E, A> {
+  _R: R
   _E: E
   _A: A
 }
 /**
  *  @since 0.0.1
  */
-export declare type ProgramURI = Exclude<keyof ProgramType<any, any>, '_E' | '_A'>
+export declare type ProgramURI = Exclude<keyof ProgramType<any, any, any>, '_E' | '_A' | '_R'>
 
 /**
  *  @since 0.0.1

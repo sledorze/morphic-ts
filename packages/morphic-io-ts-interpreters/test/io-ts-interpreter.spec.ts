@@ -8,7 +8,7 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { failure, PathReporter } from 'io-ts/lib/PathReporter'
 import type { Errors, Branded, string } from 'io-ts'
 import * as t from 'io-ts'
-import { summon, M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+import { summon, summonFor, M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 
 import { iotsConfig, IoTsURI } from '../src/index'
 
@@ -39,12 +39,44 @@ export interface GLeaf<A> {
   v: A
 }
 
-describe('IO-TS Alt Schema', () => {
+interface Deps {
+  toto: number
+}
+interface Deps2 {
+  toto: number
+  tata: string
+}
+
+const { summon } = summonFor<Deps>({ toto: 54 })
+const { summon: summon2 } = summonFor<Deps2>({ toto: 54, tata: 'z' })
+
+describe('IO-TS Env', () => {
+  it('can be composed', () => {
+    const Codec1 = summon2(F =>
+      F.keysOf(
+        { foo: null, bar: null },
+        iotsConfig((x, env) => WM.withMessage(x, () => 'not ok'))
+      )
+    )
+    ENV INFERED TO UNKNOWN BECAUSE OF WRONG EnvOfProps IMPLEMENTATION !
+    const Codec3 = summon2(F => {
+      const res = F.interface({ a: Codec1(F) }, 'a')
+      return res
+    })
+
+    const Codec2 = summon(F => {
+      const res = F.interface({ a: Codec1(F) }, 'a')
+      return res
+    })
+  })
+})
+
+describe('IO-TS', () => {
   it('customize keyof', () => {
     const codec = summon(F =>
       F.keysOf(
         { foo: null, bar: null },
-        iotsConfig(x => WM.withMessage(x, () => 'not ok'))
+        iotsConfig((x, env) => WM.withMessage(x, () => 'not ok'))
       )
     ).type
 
@@ -205,7 +237,7 @@ describe('IO-TS Alt Schema', () => {
 
   it('compose', () => {
     // type Foo
-    const Foo = summon(F => {
+    const Foo = summon(F =>
       F.interface(
         {
           a: F.string(),
@@ -213,7 +245,7 @@ describe('IO-TS Alt Schema', () => {
         },
         'Foo'
       )
-    })
+    )
 
     // type Bar
     const Bar = summon<unknown, Bar>(F =>

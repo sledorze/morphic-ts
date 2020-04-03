@@ -7,7 +7,7 @@
  */
 export interface HKT<URI, R, A> {
   readonly _URI: URI
-  readonly _R: R
+  (_R: R): void
   readonly _A: A
 }
 /**

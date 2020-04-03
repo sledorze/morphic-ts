@@ -14,32 +14,33 @@ import { ESBSTInterpreterURI } from './interpreters-ESBST'
 /**
  *  @since 0.0.1
  */
-export interface M<L, A> extends U.Materialized<L, A, ProgramNoUnionURI, ESBSTInterpreterURI> {}
+export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramNoUnionURI, ESBSTInterpreterURI> {}
 /**
  *  @since 0.0.1
  */
-export interface UM<A> extends M<unknown, A> {}
+export interface UM<R, A> extends M<R, unknown, A> {}
 
 /**
  *  @since 0.0.1
  */
-export const AsOpaque = <E, A>(x: M<E, A>): M<E, A> => x
+export const AsOpaque = <R, E, A>(x: M<R, E, A>): M<R, E, A> => x
 /**
  *  @since 0.0.1
  */
-export const AsUOpaque = <A>(x: UM<A>): UM<A> => x
+export const AsUOpaque = <R, A>(x: UM<R, A>): UM<R, A> => x
 
 /**
  *  @since 0.0.1
  */
-export interface Summoner extends U.Summoners<ProgramNoUnionURI, ESBSTInterpreterURI> {
-  <L, A>(F: U.ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
+export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBSTInterpreterURI, R> {
+  <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
 }
 
-export const { summon, tagged } = U.makeSummoner<Summoner>(cacheUnaryFunction, program => ({
-  build: identity,
-  eq: program(modelEqInterpreter).eq,
-  show: program(modelShowInterpreter).show,
-  strictType: program(modelIoTsNonStrictInterpreter).type,
-  type: program(modelIoTsNonStrictInterpreter).type
-}))
+export const summonFor = <R>(env: NonNullable<R>) =>
+  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
+    build: identity,
+    eq: program(modelEqInterpreter)(env).eq,
+    show: program(modelShowInterpreter)(env).show,
+    strictType: program(modelIoTsNonStrictInterpreter)(env).type,
+    type: program(modelIoTsNonStrictInterpreter)(env).type
+  }))

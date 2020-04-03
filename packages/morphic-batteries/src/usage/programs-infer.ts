@@ -20,11 +20,13 @@ export type InferredAlgebra<F, PURI extends ProgramURI> = Algebra<ProgramAlgebra
  */
 export type Overloads<I extends { [overloadsSymb]?: any }> = NonNullable<I[typeof overloadsSymb]>
 
+type Only<A> = A & { [k in keyof any]: never }
+
 /**
  *  @since 0.0.1
  */
 export interface InferredProgram<R, E, A, PURI extends ProgramURI> {
-  <G>(a: ProgramAlgebra<G>[PURI]): HKT2<G, R, E, A>
+  <G>(a: ProgramAlgebra<G>[PURI]): HKT2<G, Only<R>, E, A>
   [overloadsSymb]?: {
     <G extends URIS>(a: Algebra1<ProgramAlgebraURI[PURI], G>): Kind<G, R, A>
     <G extends URIS2>(a: Algebra2<ProgramAlgebraURI[PURI], G>): Kind2<G, R, E, A>
@@ -37,6 +39,6 @@ export interface InferredProgram<R, E, A, PURI extends ProgramURI> {
 /**
  *  @since 0.0.1
  */
-export const makeDefine = <PURI extends ProgramURI>(_prog: PURI) => <E, A>(
-  program: ProgramType<E, A>[PURI]
-): Overloads<ProgramType<E, A>[PURI]> => program as any // White lie
+export const makeDefine = <PURI extends ProgramURI>(_prog: PURI) => <R, E, A>(
+  program: ProgramType<R, E, A>[PURI]
+): Overloads<ProgramType<R, E, A>[PURI]> => program as any // White lie

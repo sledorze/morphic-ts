@@ -8,7 +8,7 @@ import { interpretable, Overloads } from './programs-infer'
  *  @since 0.0.1
  */
 export interface ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
-  <E, A>(program: ProgramType<E, A>[ProgURI]): InterpreterResult<E, A>[InterpURI]
+  <R, E, A>(program: ProgramType<R, E, A>[ProgURI]): InterpreterResult<E, A>[InterpURI]
 }
 /**
  *  @since 0.0.1
@@ -33,11 +33,11 @@ export type InterpreterURIOfProgramInterpreter<X extends ProgramInterpreter<any,
 /**
  *  @since 0.0.1
  */
-export type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = InterpreterResult<
+export type Morph<R, E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = InterpreterResult<
   E,
   A
 >[InterpURI] &
-  ProgramType<E, A>[ProgURI] &
+  ProgramType<R, E, A>[ProgURI] &
   InhabitedInterpreterAndAlbegra<ProgURI, InterpURI>
 
 const inhabitInterpreterAndAlbegra = <ProgURI extends ProgramURI, InterpURI extends InterpreterURI, T>(
@@ -50,20 +50,23 @@ export interface InhabitedInterpreterAndAlbegra<ProgURI extends ProgramURI, Inte
 }
 
 function interpreteWithProgram<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
-  program: ProgramType<E, A>[ProgURI],
+  program: ProgramType<R, E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
-): Morph<E, A, InterpURI, ProgURI> & InhabitedTypes<E, A> {
-  return inhabitInterpreterAndAlbegra(inhabitTypes(assignFunction(wrapFun(program), programInterpreter(program))))
+): Morph<R, E, A, InterpURI, ProgURI> & InhabitedTypes<E, A> {
+  return inhabitInterpreterAndAlbegra(
+    inhabitTypes(assignFunction(wrapFun(program as any), programInterpreter(program)))
+  ) // FIXME: resolve any
 }
 
-interface Interpretable<E, A, ProgURI extends ProgramURI> {
-  derive: Overloads<ProgramType<E, A>[ProgURI]>
+interface Interpretable<R, E, A, ProgURI extends ProgramURI> {
+  derive: Overloads<ProgramType<R, E, A>[ProgURI]>
 }
 
 /**
  *  @since 0.0.1
  */
-export type Materialized<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Morph<
+export type Materialized<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Morph<
+  R,
   E,
   A,
   InterpURI,
@@ -72,15 +75,18 @@ export type Materialized<E, A, ProgURI extends ProgramURI, InterpURI extends Int
   MonocleFor<A> &
   InhabitedTypes<E, A> &
   InhabitedInterpreterAndAlbegra<ProgURI, InterpURI> &
-  Interpretable<E, A, ProgURI>
+  Interpretable<R, E, A, ProgURI>
 
 /**
  *  @since 0.0.1
  */
 export function materialize<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
-  program: ProgramType<E, A>[ProgURI],
+  program: ProgramType<R, E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
-): Materialized<E, A, ProgURI, InterpURI> {
+): Materialized<R, E, A, ProgURI, InterpURI> {
   const morph = interpreteWithProgram(program, programInterpreter)
-  return assignCallable(morph, { ...MonocleFor<A>(), derive: interpretable(morph) })
+  return assignCallable(morph as any, {
+    ...MonocleFor<A>(),
+    derive: interpretable(morph as any)
+  }) // FIXME: resolve any
 }

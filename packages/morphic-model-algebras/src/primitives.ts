@@ -84,7 +84,7 @@ export interface ModelAlgebraPrimitive<F> {
   nullable: {
     <L, A, R, RC>(T: HKT2<F, R, L, A>): isOptionalConfig<
       PrimitiveNullableConfig<RC, L, A>,
-      HKT2<RC & R, F, null | L, Option<A>>
+      HKT2<F, RC & R, null | L, Option<A>>
     >
     <L, A, R, RC>(T: HKT2<F, R, L, A>, config: ByInterp<PrimitiveNullableConfig<RC, L, A>, URIS | URIS2>): HKT2<
       F,

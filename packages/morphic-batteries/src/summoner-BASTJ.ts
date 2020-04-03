@@ -20,32 +20,33 @@ import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
 /**
  *  @since 0.0.1
  */
-export interface M<L, A> extends U.Materialized<L, A, ProgramUnionURI, BASTJInterpreterURI> {}
+export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramUnionURI, BASTJInterpreterURI> {}
 /**
  *  @since 0.0.1
  */
-export interface UM<A> extends M<unknown, A> {}
+export interface UM<R, A> extends M<R, unknown, A> {}
 
 /**
  *  @since 0.0.1
  */
-export const AsOpaque = <E, A>(x: M<E, A>): M<E, A> => x
+export const AsOpaque = <R, E, A>(x: M<R, E, A>): M<R, E, A> => x
 /**
  *  @since 0.0.1
  */
-export const AsUOpaque = <A>(x: UM<A>): UM<A> => x
+export const AsUOpaque = <R, A>(x: UM<R, A>): UM<R, A> => x
 
 /**
  *  @since 0.0.1
  */
-export interface Summoner extends U.Summoners<ProgramUnionURI, BASTJInterpreterURI> {
-  <L, A>(F: U.ProgramType<L, A>[ProgramUnionURI]): M<L, A>
+export interface Summoner<R> extends U.Summoners<ProgramUnionURI, BASTJInterpreterURI, R> {
+  <L, A>(F: U.ProgramType<R, L, A>[ProgramUnionURI]): M<R, L, A>
 }
 
-export const { summon, tagged } = U.makeSummoner<Summoner>(cacheUnaryFunction, program => ({
-  build: identity,
-  arb: program(modelFastCheckInterpreter).arb,
-  strictType: program(modelIoTsStrictInterpreter).type,
-  type: program(modelIoTsNonStrictInterpreter).type,
-  jsonSchema: pipe(program(modelJsonSchemaInterpreter).schema({}), E.chain(resolveSchema))
-}))
+export const summonFor = <R>(env: NonNullable<R>) =>
+  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
+    build: identity,
+    arb: program(modelFastCheckInterpreter)(env).arb,
+    strictType: program(modelIoTsStrictInterpreter)(env).type,
+    type: program(modelIoTsNonStrictInterpreter)(env).type,
+    jsonSchema: pipe(program(modelJsonSchemaInterpreter)(env).schema({}), E.chain(resolveSchema))
+  }))

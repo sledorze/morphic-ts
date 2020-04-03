@@ -29,7 +29,7 @@ export interface AlgebraUnion<F> extends InferredAlgebra<F, ProgramUnionURI> {}
 /**
  *  @since 0.0.1
  */
-export interface P<E, A> extends InferredProgram<E, A, ProgramUnionURI> {}
+export interface P<R, E, A> extends InferredProgram<R, E, A, ProgramUnionURI> {}
 
 declare module './usage/ProgramType' {
   interface ProgramAlgebraURI {
@@ -50,8 +50,8 @@ declare module './usage/ProgramType' {
   interface ProgramAlgebra<F> {
     [ProgramUnionURI]: AlgebraUnion<F>
   }
-  interface ProgramType<E, A> {
-    [ProgramUnionURI]: P<E, A>
+  interface ProgramType<R, E, A> {
+    [ProgramUnionURI]: P<R, E, A>
   }
   interface ProgramUnionInterpreters {}
 }
