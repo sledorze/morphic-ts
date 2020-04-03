@@ -21,7 +21,7 @@
     "es6"
   ],
   "dependencies": {
-    "fp-ts": "^2.4.1",
+    "fp-ts": "^2.5.3",
     "monocle-ts": "^2.0.1"
   },
   "scripts": {
