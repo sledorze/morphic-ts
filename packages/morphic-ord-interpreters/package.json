@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/ord-interpreters",
-  "version": "0.10.1-alpha.0",
+  "version": "0.11.0",
   "description": "Morphic Ord (fp-ts) package for ordering derivation",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -23,7 +23,7 @@
   "dependencies": {
     "@morphic-ts/algebras": "^0.7.0-alpha.0",
     "@morphic-ts/common": "^0.7.0-alpha.0",
-    "@morphic-ts/model-algebras": "^0.10.0-alpha.1",
+    "@morphic-ts/model-algebras": "^0.10.0",
     "fp-ts": "^2.5.3"
   },
   "devDependencies": {
