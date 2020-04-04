@@ -1,6 +1,6 @@
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
 import { ByInterp, isOptionalConfig } from '@morphic-ts/common/lib/core'
-import { Refinedfig } from '@morphic-ts/algebras/lib/hkt'
+import { RefinedConfig } from '@morphic-ts/algebras/lib/hkt'
 import { Branded } from 'io-ts' // TODO: question that dependency..
 import { Refinement } from 'fp-ts/lib/function'
 
@@ -27,7 +27,7 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.1
    */
-  export interface Refinedfig {}
+  export interface RefinedConfig<E, A> {}
 }
 
 /**
@@ -40,12 +40,12 @@ export interface ModelAlgebraRefined<F> {
       a: HKT2<F, E, A>,
       refinement: Refinement<A, Branded<A, B>>,
       name: N
-    ): isOptionalConfig<Refinedfig, HKT2<F, E, Branded<A, B>>>
+    ): isOptionalConfig<RefinedConfig<E, A>, HKT2<F, E, Branded<A, B>>>
     <E, A, N extends string, B extends { readonly [K in N]: symbol }>(
       a: HKT2<F, E, A>,
       refinement: Refinement<A, Branded<A, B>>,
       name: N,
-      config: ByInterp<Refinedfig, URIS | URIS2>
+      config: ByInterp<RefinedConfig<E, A>, URIS | URIS2>
     ): HKT2<F, E, Branded<A, B>>
   }
 }
@@ -59,7 +59,7 @@ export interface ModelAlgebraRefined1<F extends URIS> {
     a: Kind<F, A>,
     refinement: Refinement<A, Branded<A, B>>,
     name: N,
-    config: ByInterp<Refinedfig, F>
+    config: ByInterp<RefinedConfig<unknown, A>, F>
   ): Kind<F, Branded<A, B>>
 }
 
@@ -72,6 +72,6 @@ export interface ModelAlgebraRefined2<F extends URIS2> {
     a: Kind2<F, E, A>,
     refinement: Refinement<A, Branded<A, B>>,
     name: N,
-    config: ByInterp<Refinedfig, F>
+    config: ByInterp<RefinedConfig<E, A>, F>
   ): Kind2<F, E, Branded<A, B>>
 }
