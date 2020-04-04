@@ -6,7 +6,7 @@ import { some, none } from 'fp-ts/lib/Option'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Errors, Branded } from 'io-ts'
-import { failure } from 'io-ts/lib/PathReporter'
+import { failure, PathReporter } from 'io-ts/lib/PathReporter'
 import { summon, M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 
 import { iotsConfig } from '../src/index'
@@ -101,6 +101,24 @@ describe('IO-TS Alt Schema', () => {
     ).type
 
     chai.assert.deepStrictEqual(isLeft(codec.decode(-1)), true)
+    chai.assert.deepStrictEqual(codec.decode(12), right(12))
+  })
+
+  it('refined with Config', () => {
+    interface PositiveNumberBrand {
+      readonly PosNum: unique symbol
+    }
+
+    const codec = summon(F =>
+      F.refined(
+        F.number(),
+        (x: number): x is Branded<number, PositiveNumberBrand> => x > 0,
+        'PosNum',
+        iotsConfig(x => withMessage(x, x => `Not a positive number ${x}`))
+      )
+    ).type
+
+    chai.assert.deepStrictEqual(PathReporter.report(codec.decode(-1)), ['Not a positive number -1'])
     chai.assert.deepStrictEqual(codec.decode(12), right(12))
   })
 
