@@ -1,5 +1,5 @@
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { isOptionalConfig, ByInterp } from '@morphic-ts/common/lib/core'
+import { isOptionalConfig, ByInterp, UnionToIntersection } from '@morphic-ts/common/lib/core'
 import { TaggedUnionConfig } from '@morphic-ts/algebras/lib/hkt'
 
 /**
@@ -37,9 +37,15 @@ export type TaggedValues<Tag extends string, O> = { [o in keyof O]: O[o] & { [t 
 /**
  *  @since 0.0.1
  */
-export type TaggedTypes<F, Tag extends string, L, A> = {
-  [o in keyof A & keyof L]: HKT2<F, 'TODOENV', L[o], (A & { [x in o]: { [k in Tag]: o } })[o]>
+export type TaggedTypes<F, Tag extends string, L, A, R> = {
+  [o in keyof A & keyof L]: HKT2<F, R, L[o], (A & { [x in o]: { [k in Tag]: o } })[o]>
 }
+
+type EnvOfTaggedTypes<T extends TaggedTypes<any, any, any, any, any>> = UnionToIntersection<
+  {
+    [k in keyof T]: T[k] extends HKT2<any, infer R, any, any> ? R : never
+  }[keyof T]
+>
 
 type DecorateTag<X extends HKT2<any, any, any, any>, Tag extends string, VTag> = X extends HKT2<
   infer F,
@@ -56,56 +62,71 @@ type DecorateTag<X extends HKT2<any, any, any, any>, Tag extends string, VTag> =
 export interface ModelAlgebraTaggedUnions<F> {
   _F: F
   taggedUnion: {
-    <Tag extends string, Types extends TaggedTypes<F, Tag, any, any>>(
+    <Tag extends string, Types extends TaggedTypes<F, Tag, any, any, any>>(
       tag: Tag,
       types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
       name: string
-    ): isOptionalConfig<TaggedUnionConfig, HKT2<F, 'TODOENV', Types[keyof Types]['_E'], Types[keyof Types]['_A']>>
-    <Tag extends string, Types extends TaggedTypes<F, Tag, any, any>>(
+    ): isOptionalConfig<
+      TaggedUnionConfig,
+      HKT2<F, EnvOfTaggedTypes<Types>, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
+    >
+    <Tag extends string, Types extends TaggedTypes<F, Tag, any, any, any>>(
       tag: Tag,
       types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
       name: string,
       config: ByInterp<TaggedUnionConfig, URIS | URIS2>
-    ): HKT2<F, 'TODOENV', Types[keyof Types]['_E'], Types[keyof Types]['_A']>
+    ): HKT2<F, EnvOfTaggedTypes<Types>, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
   }
 }
 
 /**
  *  @since 0.0.1
  */
-export type TaggedTypes1<F extends URIS, Tag extends string, O> = {
-  [o in keyof O]: Kind<F, 'TODOENV', O[o] & { [t in Tag]: o }>
+export type TaggedTypes1<F extends URIS, Tag extends string, O, R> = {
+  [o in keyof O]: Kind<F, R, O[o] & { [t in Tag]: o }>
 }
+type EnvOfTaggedTypes1<T extends TaggedTypes1<URIS, any, any, any>> = T extends TaggedTypes1<URIS, any, any, infer R>
+  ? R
+  : never
 
 /**
  *  @since 0.0.1
  */
 export interface ModelAlgebraTaggedUnions1<F extends URIS> {
   _F: F
-  taggedUnion<Tag extends string, O>(
+  taggedUnion<Tag extends string, O, R>(
     tag: Tag,
-    types: TaggedTypes1<F, Tag, O>,
+    types: TaggedTypes1<F, Tag, O, R>,
     name: string,
     config?: ByInterp<TaggedUnionConfig, F>
-  ): Kind<F, 'TODOENV', TaggedValues<Tag, O>[keyof O]>
+  ): Kind<F, EnvOfTaggedTypes1<typeof types>, TaggedValues<Tag, O>[keyof O]>
 }
 
 /**
  *  @since 0.0.1
  */
-export type TaggedTypes2<F extends URIS2, Tag extends string, L, A> = {
-  [o in keyof A & keyof L]: Kind2<F, 'TODOENV', A[o] & { [t in Tag]: o }, L[o] & { [t in Tag]: o }>
+export type TaggedTypes2<F extends URIS2, Tag extends string, L, A, R> = {
+  [o in keyof A & keyof L]: Kind2<F, R, A[o] & { [t in Tag]: o }, L[o] & { [t in Tag]: o }>
 }
+type EnvOfTaggedTypes2<T extends TaggedTypes2<URIS, any, any, any, any>> = T extends TaggedTypes2<
+  URIS,
+  any,
+  any,
+  any,
+  infer R
+>
+  ? R
+  : never
 
 /**
  *  @since 0.0.1
  */
 export interface ModelAlgebraTaggedUnions2<F extends URIS2> {
   _F: F
-  taggedUnion<Tag extends string, A, L>(
+  taggedUnion<Tag extends string, A, L, R>(
     tag: Tag,
-    types: TaggedTypes2<F, Tag, A, L>,
+    types: TaggedTypes2<F, Tag, A, L, R>,
     name: string,
     config?: ByInterp<TaggedUnionConfig, F>
-  ): Kind2<F, 'TODOENV', TaggedValues<Tag, A>[keyof A], TaggedValues<Tag, L>[keyof L]>
+  ): Kind2<F, EnvOfTaggedTypes2<typeof types>, TaggedValues<Tag, A>[keyof A], TaggedValues<Tag, L>[keyof L]>
 }

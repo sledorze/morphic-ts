@@ -2,18 +2,17 @@ import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraRefined2 } from '@morphic-ts/model-algebras/lib/refined'
 import { identity } from 'fp-ts/lib/function'
-// import { applyCustomize } from './common'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface RefinedConfig<E, A> {
-    [IoTsURI]: Customize<E, A> | undefined
+  export interface RefinedConfig<RC, E, A> {
+    [IoTsURI]: Customize<RC, E, A> | undefined
   }
 }
 
-export interface Customize<E, A> {
-  <B>(a: t.BrandC<t.Type<A, E, unknown>, B>): t.BrandC<t.Type<A, E, unknown>, B> // t.Type<A, E, unknown>
+export interface Customize<RC, E, A> {
+  <B>(a: t.BrandC<t.Type<A, E, unknown>, B>, env: RC): t.BrandC<t.Type<A, E, unknown>, B> // t.Type<A, E, unknown>
 }
-export const applyCustomize = <E, A>(c: { [IoTsURI]?: Customize<E, A> } | undefined) =>
+export const applyCustomize = <RC, E, A>(c: { [IoTsURI]?: Customize<RC, E, A> } | undefined) =>
   c !== undefined ? c[IoTsURI] ?? identity : identity
 
 /**
@@ -21,5 +20,5 @@ export const applyCustomize = <E, A>(c: { [IoTsURI]?: Customize<E, A> } | undefi
  */
 export const ioTsRefinedInterpreter: ModelAlgebraRefined2<IoTsURI> = {
   _F: IoTsURI,
-  refined: (a, ref, name, config) => new IOTSType(applyCustomize(config)(t.brand(a(env).type, ref, name)))
+  refined: (a, ref, name, config) => env => new IOTSType(applyCustomize(config)(t.brand(a(env).type, ref, name), env))
 }

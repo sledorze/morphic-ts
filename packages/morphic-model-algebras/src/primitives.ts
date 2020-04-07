@@ -110,25 +110,25 @@ export interface ModelAlgebraPrimitive<F> {
     <RC>(config: ByInterp<PrimitiveStringConfig<RC>, URIS | URIS2>): HKT2<F, RC, string, string>
   }
   stringLiteral: {
-    <T extends string, R, RC>(value: T): isOptionalConfig<
+    <T extends string, RC>(value: T): isOptionalConfig<
       PrimitiveStringLiteralConfig<RC, T>,
-      HKT2<F, R & RC, string, typeof value>
+      HKT2<F, RC, string, typeof value>
     >
-    <T extends string, R, RC>(value: T, config: ByInterp<PrimitiveStringLiteralConfig<RC, T>, URIS | URIS2>): HKT2<
+    <T extends string, RC>(value: T, config: ByInterp<PrimitiveStringLiteralConfig<RC, T>, URIS | URIS2>): HKT2<
       F,
-      R & RC,
+      RC,
       string,
       typeof value
     >
   }
   keysOf: {
-    <K extends Keys, R>(keys: K): isOptionalConfig<
-      PrimitiveKeysOfConfig<R, keyof K>,
-      HKT2<F, R, string, keyof typeof keys>
+    <K extends Keys, RC>(keys: K): isOptionalConfig<
+      PrimitiveKeysOfConfig<RC, keyof K>,
+      HKT2<F, RC, string, keyof typeof keys>
     >
-    <K extends Keys, R>(keys: K, config: ByInterp<PrimitiveKeysOfConfig<R, keyof K>, URIS | URIS2>): HKT2<
+    <K extends Keys, RC>(keys: K, config: ByInterp<PrimitiveKeysOfConfig<RC, keyof K>, URIS | URIS2>): HKT2<
       F,
-      R,
+      RC,
       string,
       keyof typeof keys
     >
@@ -164,14 +164,14 @@ export interface ModelAlgebraPrimitive1<F extends URIS> {
   number<RC>(config?: ByInterp<PrimitiveNumberConfig<RC>, F>): Kind<F, RC, number>
   bigint<RC>(config?: ByInterp<PrimitiveBigIntConfig<RC>, F>): Kind<F, RC, bigint>
   string<RC>(config?: ByInterp<PrimitiveStringConfig<RC>, F>): Kind<F, RC, string>
-  stringLiteral: <T extends string, R, RC>(
+  stringLiteral: <T extends string, RC>(
     value: T,
     config?: ByInterp<PrimitiveStringLiteralConfig<RC, T>, F>
-  ) => Kind<F, R & RC, typeof value>
-  keysOf: <K extends Keys, R, RC>(
+  ) => Kind<F, RC, typeof value>
+  keysOf: <K extends Keys, RC>(
     keys: K,
     config?: ByInterp<PrimitiveKeysOfConfig<RC, keyof K>, F>
-  ) => Kind<F, R & RC, keyof typeof keys>
+  ) => Kind<F, RC, keyof typeof keys>
   array: <A, R, RC>(
     a: Kind<F, R, A>,
     config?: ByInterp<PrimitiveArrayConfig<RC, never, A>, F>
@@ -192,10 +192,10 @@ export interface ModelAlgebraPrimitive2<F extends URIS2> {
   number<RC>(config?: ByInterp<PrimitiveNumberConfig<RC>, F>): Kind2<F, RC, number, number>
   bigint<RC>(config?: ByInterp<PrimitiveBigIntConfig<RC>, F>): Kind2<F, RC, string, bigint>
   string<RC>(config?: ByInterp<PrimitiveStringConfig<RC>, F>): Kind2<F, RC, string, string>
-  stringLiteral: <T extends string, R, RC>(
+  stringLiteral: <T extends string, RC>(
     value: T,
     config?: ByInterp<PrimitiveStringLiteralConfig<RC, T>, F>
-  ) => Kind2<F, R & RC, string, typeof value>
+  ) => Kind2<F, RC, string, typeof value>
   keysOf: <K extends Keys, RC>(
     keys: K,
     config?: ByInterp<PrimitiveKeysOfConfig<RC, keyof K>, F>

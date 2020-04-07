@@ -27,7 +27,7 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.1
    */
-  export interface RefinedConfig<E, A> {}
+  export interface RefinedConfig<RC, E, A> {}
 }
 
 /**
@@ -40,13 +40,13 @@ export interface ModelAlgebraRefined<F> {
       a: HKT2<F, R, E, A>,
       refinement: Refinement<A, Branded<A, B>>,
       name: N
-    ): isOptionalConfig<RefinedConfig<E, A>, HKT2<F, R, E, Branded<A, B>>>
-    <E, A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+    ): isOptionalConfig<RefinedConfig<R, E, A>, HKT2<F, R, E, Branded<A, B>>>
+    <E, A, N extends string, B extends { readonly [K in N]: symbol }, R, RC>(
       a: HKT2<F, R, E, A>,
       refinement: Refinement<A, Branded<A, B>>,
       name: N,
-      config: ByInterp<RefinedConfig<E, A>, URIS | URIS2>
-    ): HKT2<F, R, E, Branded<A, B>>
+      config: ByInterp<RefinedConfig<RC, E, A>, URIS | URIS2>
+    ): HKT2<F, R & RC, E, Branded<A, B>>
   }
 }
 
@@ -55,12 +55,12 @@ export interface ModelAlgebraRefined<F> {
  */
 export interface ModelAlgebraRefined1<F extends URIS> {
   _F: F
-  refined<A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+  refined<A, N extends string, B extends { readonly [K in N]: symbol }, R, RC>(
     a: Kind<F, R, A>,
     refinement: Refinement<A, Branded<A, B>>,
     name: N,
-    config: ByInterp<RefinedConfig<unknown, A>, F>
-  ): Kind<F, R, Branded<A, B>>
+    config: ByInterp<RefinedConfig<RC, unknown, A>, F>
+  ): Kind<F, R & RC, Branded<A, B>>
 }
 
 /**
@@ -68,10 +68,10 @@ export interface ModelAlgebraRefined1<F extends URIS> {
  */
 export interface ModelAlgebraRefined2<F extends URIS2> {
   _F: F
-  refined<E, A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+  refined<E, A, N extends string, B extends { readonly [K in N]: symbol }, R, RC>(
     a: Kind2<F, R, E, A>,
     refinement: Refinement<A, Branded<A, B>>,
     name: N,
-    config: ByInterp<RefinedConfig<E, A>, F>
-  ): Kind2<F, R, E, Branded<A, B>>
+    config: ByInterp<RefinedConfig<RC, E, A>, F>
+  ): Kind2<F, R & RC, E, Branded<A, B>>
 }

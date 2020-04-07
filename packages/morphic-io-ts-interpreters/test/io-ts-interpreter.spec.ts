@@ -8,15 +8,17 @@ import { pipe } from 'fp-ts/lib/pipeable'
 import { failure, PathReporter } from 'io-ts/lib/PathReporter'
 import type { Errors, Branded, string } from 'io-ts'
 import * as t from 'io-ts'
-import { summon, summonFor, M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+import { summonFor, M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 
 import { iotsConfig, IoTsURI, modelIoTsStrictInterpreter } from '../src/index'
 
 import * as WM from 'io-ts-types/lib/withMessage'
 import { Newtype, iso } from 'newtype-ts'
 import { EType, AType } from '@morphic-ts/batteries/lib/usage/utils'
-import { URIS2, URIS } from '@morphic-ts/common/lib/HKT'
+import { URIS2, URIS, HKT2 } from '@morphic-ts/common/lib/HKT'
 import { makeDefine } from '@morphic-ts/batteries/lib/usage/programs-infer'
+import { AlgebraUnion } from '@morphic-ts/batteries/lib/program'
+import { NoEnv } from '../src/model/common'
 
 export type Tree = Node | Leaf
 export interface Node {
@@ -70,7 +72,7 @@ describe('IO-TS Env', () => {
       // F.string(iotsConfig((x, env) => WM.withMessage(x, () => 'not ok')))
       // F.array(F.string())
       // F.interface({ a: F.string(iotsConfig((x, env: Deps) => WM.withMessage(x, () => 'not ok'))) }, 'a')
-      F.interface({ a: F.string(iotsConfig((x, env: Deps2) => WM.withMessage(x, () => 'not ok'))) }, 'a')
+      F.interface({ a: F.string(iotsConfig((x, env: Deps) => WM.withMessage(x, () => 'not ok'))) }, 'a')
     )
 
     // Should fail (Codec3 requiers more than summon can offer)
@@ -158,7 +160,7 @@ describe('IO-TS', () => {
         F.number(),
         (x: number): x is Branded<number, PositiveNumberBrand> => x > 0,
         'PosNum',
-        iotsConfig(x => withMessage(x, x => `Not a positive number ${x}`))
+        iotsConfig(x => WM.withMessage(x, x => `Not a positive number ${x}`))
       )
     ).type
 
@@ -417,6 +419,7 @@ describe('IO-TS', () => {
         'Bar'
       )
     )
+    type Only<A> = A & { [k in keyof any]: never }
 
     const FooBar = summon(F =>
       F.taggedUnion(
@@ -583,7 +586,7 @@ describe('iotsObjectInterpreter', () => {
       let nbEvals = 0
       let nbRecEvals = 0
 
-      const Tree: M<unknown, Tree> = summon(F => {
+      const Tree: M<NoEnv, unknown, Tree> = summon(F => {
         nbEvals += 1
         return F.recursive(Tree => {
           nbRecEvals += 1
@@ -616,8 +619,8 @@ describe('iotsObjectInterpreter', () => {
       let nbEvals = 0
       let nbRecEvals = 0
 
-      const getTree = <A>(LeafValue: M<unknown, A>): M<unknown, GTree<A>> => {
-        const GTree: M<unknown, GTree<A>> = summon(F => {
+      const getTree = <A>(LeafValue: M<NoEnv, unknown, A>): M<NoEnv, unknown, GTree<A>> => {
+        const GTree: M<NoEnv, unknown, GTree<A>> = summon(F => {
           nbEvals += 1
           return F.recursive(GTree => {
             nbRecEvals += 1
@@ -656,9 +659,10 @@ describe('iotsObjectInterpreter', () => {
     }
 
     // Types Should be defined beforehand at Summon creation ? (no..)
+    const { summon: summonIOTS } = summonFor<IOTSEnv & WithMessage>({ iots: t, WM: WM })
 
-    const XX = summon(F => F.string(iotsConfig((_, { iots }: IOTSEnv) => iots.string)))
-    const codec = summon(F => {
+    const XX = summonIOTS(F => F.string(iotsConfig((_, { iots }: IOTSEnv) => iots.string)))
+    const codec = summonIOTS(F => {
       const res = F.strMap(
         XX(F),
         iotsConfig((x, { WM }: WithMessage) => WM.withMessage(x, () => 'not ok'))

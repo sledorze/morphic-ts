@@ -2,11 +2,13 @@ import * as fc from 'fast-check'
 import { ordString, ord } from 'fp-ts/lib/Ord'
 
 import { ProgramUnionURI } from '@morphic-ts/batteries/lib/program'
-import { summon, M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+import { M, summonFor } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { fastCheckConfig } from '../lib/config'
 
-const testProgram = <A>(prog: ProgramType<unknown, A>[ProgramUnionURI]) => {
+const { summon } = summonFor({})
+
+const testProgram = <A>(prog: ProgramType<{}, unknown, A>[ProgramUnionURI]) => {
   const { arb, type } = summon(prog)
   fc.assert(fc.property(arb, type.is))
 }
