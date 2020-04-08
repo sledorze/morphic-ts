@@ -40,13 +40,12 @@ export interface ModelAlgebraRefined<F> {
       a: HKT2<F, R, E, A>,
       refinement: Refinement<A, Branded<A, B>>,
       name: N
-    ): isOptionalConfig<RefinedConfig<R, E, A>, HKT2<F, R, E, Branded<A, B>>>
-    <E, A, N extends string, B extends { readonly [K in N]: symbol }, R, RC>(
+    ): () => isOptionalConfig<RefinedConfig<R, E, A>, HKT2<F, R, E, Branded<A, B>>>
+    <E, A, N extends string, B extends { readonly [K in N]: symbol }, R>(
       a: HKT2<F, R, E, A>,
       refinement: Refinement<A, Branded<A, B>>,
-      name: N,
-      config: ByInterp<RefinedConfig<RC, E, A>, URIS | URIS2>
-    ): HKT2<F, R & RC, E, Branded<A, B>>
+      name: N
+    ): <RC>(config: ByInterp<RefinedConfig<RC, E, A>, URIS | URIS2>) => HKT2<F, R & RC, E, Branded<A, B>>
   }
 }
 
@@ -55,12 +54,11 @@ export interface ModelAlgebraRefined<F> {
  */
 export interface ModelAlgebraRefined1<F extends URIS> {
   _F: F
-  refined<A, N extends string, B extends { readonly [K in N]: symbol }, R, RC>(
+  refined<A, N extends string, B extends { readonly [K in N]: symbol }, R>(
     a: Kind<F, R, A>,
     refinement: Refinement<A, Branded<A, B>>,
-    name: N,
-    config: ByInterp<RefinedConfig<RC, unknown, A>, F>
-  ): Kind<F, R & RC, Branded<A, B>>
+    name: N
+  ): <RC>(config?: ByInterp<RefinedConfig<RC, unknown, A>, F>) => Kind<F, R & RC, Branded<A, B>>
 }
 
 /**
@@ -68,10 +66,9 @@ export interface ModelAlgebraRefined1<F extends URIS> {
  */
 export interface ModelAlgebraRefined2<F extends URIS2> {
   _F: F
-  refined<E, A, N extends string, B extends { readonly [K in N]: symbol }, R, RC>(
+  refined<E, A, N extends string, B extends { readonly [K in N]: symbol }, R>(
     a: Kind2<F, R, E, A>,
     refinement: Refinement<A, Branded<A, B>>,
-    name: N,
-    config: ByInterp<RefinedConfig<RC, E, A>, F>
-  ): Kind2<F, R & RC, E, Branded<A, B>>
+    name: N
+  ): <RC>(config?: ByInterp<RefinedConfig<RC, E, A>, F>) => Kind2<F, R & RC, E, Branded<A, B>>
 }

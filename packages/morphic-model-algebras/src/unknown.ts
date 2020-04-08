@@ -40,7 +40,7 @@ export interface ModelAlgebraUnknown<F> {
   _F: F
   unknown: {
     <RC>(): isOptionalConfig<UnknownConfig<RC>, HKT2<F, RC, unknown, unknown>>
-    <RC>(config?: ByInterp<UnknownConfig<RC>, URIS | URIS2>): HKT2<F, RC, unknown, unknown>
+    <RC>(config: ByInterp<UnknownConfig<RC>, URIS | URIS2>): HKT2<F, RC, unknown, unknown>
   }
 }
 

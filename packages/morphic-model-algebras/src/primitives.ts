@@ -82,16 +82,13 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 export interface ModelAlgebraPrimitive<F> {
   _F: F
   nullable: {
-    <L, A, R>(T: HKT2<F, R, L, A>): isOptionalConfig<
+    <L, A, R>(T: HKT2<F, R, L, A>): () => isOptionalConfig<
       PrimitiveNullableConfig<NoEnv, L, A>,
       HKT2<F, R, null | L, Option<A>>
     >
-    <L, A, R, RC>(T: HKT2<F, R, L, A>, config: ByInterp<PrimitiveNullableConfig<RC, L, A>, URIS | URIS2>): HKT2<
-      F,
-      R & RC,
-      null | L,
-      Option<A>
-    >
+    <L, A, R>(T: HKT2<F, R, L, A>): <RC>(
+      config: ByInterp<PrimitiveNullableConfig<RC, L, A>, URIS | URIS2>
+    ) => HKT2<F, R & RC, null | L, Option<A>>
   }
   boolean: {
     (): isOptionalConfig<PrimitiveBooleanConfig<NoEnv>, HKT2<F, NoEnv, boolean, boolean>>
@@ -134,13 +131,13 @@ export interface ModelAlgebraPrimitive<F> {
     >
   }
   array: {
-    <L, A, R>(a: HKT2<F, R, L, A>): isOptionalConfig<PrimitiveArrayConfig<NoEnv, L, A>, HKT2<F, R, Array<L>, Array<A>>>
-    <L, A, R, RC>(a: HKT2<F, R, L, A>, config: ByInterp<PrimitiveArrayConfig<RC, L, A>, URIS | URIS2>): HKT2<
-      F,
-      R & RC,
-      Array<L>,
-      Array<A>
+    <L, A, R>(a: HKT2<F, R, L, A>): () => isOptionalConfig<
+      PrimitiveArrayConfig<NoEnv, L, A>,
+      HKT2<F, R, Array<L>, Array<A>>
     >
+    <L, A, R>(a: HKT2<F, R, L, A>): <RC>(
+      config: ByInterp<PrimitiveArrayConfig<RC, L, A>, URIS | URIS2>
+    ) => HKT2<F, R & RC, Array<L>, Array<A>>
   }
   date: {
     (): isOptionalConfig<PrimitiveDateConfig<NoEnv>, HKT2<F, NoEnv, string, Date>>
@@ -153,10 +150,9 @@ export interface ModelAlgebraPrimitive<F> {
  */
 export interface ModelAlgebraPrimitive1<F extends URIS> {
   _F: F
-  nullable: <A, R, RC>(
-    T: Kind<F, R, A>,
-    config?: ByInterp<PrimitiveNullableConfig<RC, never, A>, F>
-  ) => Kind<F, R & RC, Option<A>>
+  nullable: <A, R>(
+    T: Kind<F, R, A>
+  ) => <RC>(config?: ByInterp<PrimitiveNullableConfig<RC, never, A>, F>) => Kind<F, R & RC, Option<A>>
   boolean<RC>(config?: ByInterp<PrimitiveBooleanConfig<RC>, F>): Kind<F, RC, boolean>
   number<RC>(config?: ByInterp<PrimitiveNumberConfig<RC>, F>): Kind<F, RC, number>
   bigint<RC>(config?: ByInterp<PrimitiveBigIntConfig<RC>, F>): Kind<F, RC, bigint>
@@ -169,10 +165,9 @@ export interface ModelAlgebraPrimitive1<F extends URIS> {
     keys: K,
     config?: ByInterp<PrimitiveKeysOfConfig<RC, keyof K>, F>
   ) => Kind<F, RC, keyof typeof keys>
-  array: <A, R, RC>(
-    a: Kind<F, R, A>,
-    config?: ByInterp<PrimitiveArrayConfig<RC, never, A>, F>
-  ) => Kind<F, R & RC, Array<A>>
+  array: <A, R>(
+    a: Kind<F, R, A>
+  ) => <RC>(config?: ByInterp<PrimitiveArrayConfig<RC, never, A>, F>) => Kind<F, R & RC, Array<A>>
   date<RC>(config?: ByInterp<PrimitiveDateConfig<RC>, F>): Kind<F, RC, Date>
 }
 
@@ -181,10 +176,9 @@ export interface ModelAlgebraPrimitive1<F extends URIS> {
  */
 export interface ModelAlgebraPrimitive2<F extends URIS2> {
   _F: F
-  nullable: <L, A, R, RC>(
-    T: Kind2<F, R, L, A>,
-    config?: ByInterp<PrimitiveNullableConfig<RC, L, A>, F>
-  ) => Kind2<F, R & RC, null | L, Option<A>>
+  nullable: <L, A, R>(
+    T: Kind2<F, R, L, A>
+  ) => <RC>(config?: ByInterp<PrimitiveNullableConfig<RC, L, A>, F>) => Kind2<F, R & RC, null | L, Option<A>>
   boolean<RC>(config?: ByInterp<PrimitiveBooleanConfig<RC>, F>): Kind2<F, RC, boolean, boolean>
   number<RC>(config?: ByInterp<PrimitiveNumberConfig<RC>, F>): Kind2<F, RC, number, number>
   bigint<RC>(config?: ByInterp<PrimitiveBigIntConfig<RC>, F>): Kind2<F, RC, string, bigint>
@@ -197,9 +191,8 @@ export interface ModelAlgebraPrimitive2<F extends URIS2> {
     keys: K,
     config?: ByInterp<PrimitiveKeysOfConfig<RC, keyof K>, F>
   ) => Kind2<F, RC, string, keyof typeof keys>
-  array: <L, A, R, RC>(
-    a: Kind2<F, R, L, A>,
-    config?: ByInterp<PrimitiveArrayConfig<RC, L, A>, F>
-  ) => Kind2<F, R & RC, Array<L>, Array<A>>
+  array: <L, A, R>(
+    a: Kind2<F, R, L, A>
+  ) => <RC>(config?: ByInterp<PrimitiveArrayConfig<RC, L, A>, F>) => Kind2<F, R & RC, Array<L>, Array<A>>
   date<RC>(config?: ByInterp<PrimitiveDateConfig<RC>, F>): Kind2<F, RC, string, Date>
 }
