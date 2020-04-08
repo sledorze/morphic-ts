@@ -58,7 +58,7 @@ export interface ModelAlgebraRefined1<F extends URIS> {
     a: Kind<F, R, A>,
     refinement: Refinement<A, Branded<A, B>>,
     name: N
-  ): <RC>(config?: ByInterp<RefinedConfig<RC, unknown, A>, F>) => Kind<F, R & RC, Branded<A, B>>
+  ): <RC>(config?: ByInterp<RefinedConfig<RC, unknown, A>, F>) => Kind<F, R & RC, A> // not Branded<A, B>, on purpose
 }
 
 /**
@@ -70,5 +70,5 @@ export interface ModelAlgebraRefined2<F extends URIS2> {
     a: Kind2<F, R, E, A>,
     refinement: Refinement<A, Branded<A, B>>,
     name: N
-  ): <RC>(config?: ByInterp<RefinedConfig<RC, E, A>, F>) => Kind2<F, R & RC, E, Branded<A, B>>
+  ): <RC>(config?: ByInterp<RefinedConfig<RC, E, A>, F>) => Kind2<F, R & RC, E, A> // not Branded<A, B>, on purpose
 }

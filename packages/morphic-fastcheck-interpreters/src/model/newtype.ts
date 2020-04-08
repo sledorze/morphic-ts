@@ -9,5 +9,5 @@ declare module '@morphic-ts/algebras/lib/hkt' {}
  */
 export const fastCheckNewtypeInterpreter: ModelAlgebraNewtype1<FastCheckURI> = {
   _F: FastCheckURI,
-  newtype: () => identity as any
+  newtype: () => identity as any // TODO: add customize
 }

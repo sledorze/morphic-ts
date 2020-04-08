@@ -13,5 +13,5 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export const ioTsNewtypeInterpreter: ModelAlgebraNewtype2<IoTsURI> = {
   _F: IoTsURI,
-  newtype: () => (a, config) => env => new IOTSType(applyCustomize(config)(a(env).type, env))
+  newtype: () => a => config => env => new IOTSType(applyCustomize(config)(a(env).type, env))
 }

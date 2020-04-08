@@ -7,5 +7,6 @@ import { identity } from 'fp-ts/lib/function'
  */
 export const jsonSchemaNewtypeInterpreter: ModelAlgebraNewtype1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
+  // TODO: add customize
   newtype: () => identity as any
 }

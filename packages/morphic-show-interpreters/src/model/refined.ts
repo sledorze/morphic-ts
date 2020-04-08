@@ -6,5 +6,6 @@ import { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
  */
 export const showRefinedInterpreter: ModelAlgebraRefined1<ShowURI> = {
   _F: ShowURI,
-  refined: (a, _ref, name) => env => new ShowType({ show: x => `<${name}>(${a(env).show.show(x)})` })
+  // TODO: add customize
+  refined: (a, _ref, name) => _config => env => new ShowType({ show: x => `<${name}>(${a(env).show.show(x)})` })
 }

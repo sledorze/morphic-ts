@@ -26,17 +26,13 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = {
   _F: IoTsURI,
-  interface: <PropsE, PropsA, R, RC>(
-    props: PropsKind2<IoTsURI, PropsE, PropsA, R>,
-    name: string,
+  interface: <PropsE, PropsA, R>(props: PropsKind2<IoTsURI, PropsE, PropsA, R>, name: string) => <RC>(
     config: ByInterp<ObjectInterfaceConfig<RC, PropsE, PropsA>, IoTsURI>
   ) => (env: R & RC) =>
     new IOTSType<PropsE, PropsA>(
       applyCustomize(config)(t.type(projectFieldWithEnv(props, env)('type'), name) as any, env)
     ),
-  partial: <PropsE, PropsA, R, RC>(
-    props: PropsKind2<IoTsURI, PropsE, PropsA, R>,
-    name: string,
+  partial: <PropsE, PropsA, R>(props: PropsKind2<IoTsURI, PropsE, PropsA, R>, name: string) => <RC>(
     config: ByInterp<ObjectInterfaceConfig<RC, PropsE, PropsA>, IoTsURI>
   ) => (env: R & RC) =>
     new IOTSType<Partial<PropsE>, Partial<PropsA>>(
@@ -49,17 +45,13 @@ export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = {
  */
 export const ioTsStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = {
   _F: IoTsURI,
-  interface: <PropsE, PropsA, R, RC>(
-    props: PropsKind2<IoTsURI, PropsE, PropsA, R>,
-    name: string,
+  interface: <PropsE, PropsA, R>(props: PropsKind2<IoTsURI, PropsE, PropsA, R>, name: string) => <RC>(
     config: ByInterp<ObjectInterfaceConfig<RC, PropsE, PropsA>, IoTsURI>
   ) => (env: R & RC) =>
     new IOTSType<PropsE, PropsA>(
       applyCustomize(config)(t.strict(projectFieldWithEnv(props, env)('type'), name) as any, env)
     ),
-  partial: <PropsE, PropsA, R, RC>(
-    props: PropsKind2<IoTsURI, PropsE, PropsA, R>,
-    name: string,
+  partial: <PropsE, PropsA, R>(props: PropsKind2<IoTsURI, PropsE, PropsA, R>, name: string) => <RC>(
     config: ByInterp<ObjectInterfaceConfig<RC, PropsE, PropsA>, IoTsURI>
   ) => (env: R & RC) =>
     new IOTSType<Partial<PropsE>, Partial<PropsA>>(

@@ -18,6 +18,8 @@ export const ordPrimitiveInterpreter: ModelAlgebraPrimitive1<OrdURI> = {
     new OrdType<bigint>({ equals: eqStrict.equals, compare: (x, y) => (x < y ? -1 : x > y ? 1 : 0) }),
   stringLiteral: k => _env => new OrdType<typeof k>(ordString),
   keysOf: keys => _env => new OrdType<keyof typeof keys>(ord.contramap(ordString, k => k as string)),
-  nullable: getOrd => env => new OrdType(options.getOrd(getOrd(env).ord)),
-  array: getOrd => env => new OrdType(getArrayOrd(getOrd(env).ord))
+  // TODO: add customize
+  nullable: getOrd => _config => env => new OrdType(options.getOrd(getOrd(env).ord)),
+  // TODO: add customize
+  array: getOrd => _config => env => new OrdType(getArrayOrd(getOrd(env).ord))
 }

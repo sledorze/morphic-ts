@@ -101,6 +101,6 @@ export const ioTsPrimitiveInterpreter: ModelAlgebraPrimitive2<IoTsURI> = {
   stringLiteral: (l, config) => env => new IOTSType(applyCustomize(config)(t.literal(l, l), env)),
   keysOf: (k, config) => env =>
     new IOTSType(applyCustomize(config)(t.keyof(k) as t.Type<keyof typeof k, string, unknown>, env)),
-  nullable: (T, config) => env => new IOTSType(applyCustomize(config)(optionFromNullable(T(env).type), env)),
-  array: (T, config) => env => new IOTSType(applyCustomize(config)(t.array(T(env).type), env))
+  nullable: T => config => env => new IOTSType(applyCustomize(config)(optionFromNullable(T(env).type), env)),
+  array: T => config => env => new IOTSType(applyCustomize(config)(t.array(T(env).type), env))
 }

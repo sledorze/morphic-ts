@@ -7,5 +7,5 @@ import { identity } from 'fp-ts/lib/function'
  */
 export const fastCheckRefinedInterpreter: ModelAlgebraRefined1<FastCheckURI> = {
   _F: FastCheckURI,
-  refined: identity as any
+  refined: identity as any // TODO: add customize
 }

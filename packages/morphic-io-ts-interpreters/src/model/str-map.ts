@@ -24,5 +24,5 @@ const applyCustomize = <E, A, RC>(c: { [IoTsURI]?: Customize<RC, E, A> } | undef
  */
 export const ioTsStrMapInterpreter: ModelAlgebraStrMap2<IoTsURI> = {
   _F: IoTsURI,
-  strMap: (codomain, config) => env => new IOTSType(applyCustomize(config)(t.record(t.string, codomain(env).type), env))
+  strMap: codomain => config => env => new IOTSType(applyCustomize(config)(t.record(t.string, codomain(env).type), env))
 }

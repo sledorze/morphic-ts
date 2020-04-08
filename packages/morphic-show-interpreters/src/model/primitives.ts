@@ -74,6 +74,6 @@ export const showPrimitiveInterpreter: ModelAlgebraPrimitive1<ShowURI> = {
   bigint: config => env => new ShowType(applyCustomize(config)({ show: a => JSON.stringify(a) }, env)),
   stringLiteral: (_, config) => env => new ShowType(applyCustomize(config)(showString, env)),
   keysOf: (_keys, config) => env => new ShowType(applyCustomize(config)(showString as Show<any>, env)),
-  nullable: (getShow, config) => env => new ShowType(applyCustomize(config)(optionGetShow(getShow(env).show), env)),
-  array: (getShow, config) => env => new ShowType(applyCustomize(config)(getShowA(getShow(env).show), env))
+  nullable: getShow => config => env => new ShowType(applyCustomize(config)(optionGetShow(getShow(env).show), env)),
+  array: getShow => config => env => new ShowType(applyCustomize(config)(getShowA(getShow(env).show), env))
 }

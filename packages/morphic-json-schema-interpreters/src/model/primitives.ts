@@ -22,7 +22,10 @@ export const jsonSchemaPrimitiveInterpreter: ModelAlgebraPrimitive1<JsonSchemaUR
   boolean: _ => _env => new JsonSchema(SE.stateEither.of(BooleanTypeCtor())),
   stringLiteral: v => _env => new JsonSchema(SE.stateEither.of(LiteralTypeCtor(v))),
   keysOf: _keys => _env => new JsonSchema(SE.stateEither.of(StringTypeCtor({ enum: Object.keys(_keys) }))),
-  nullable: getSchema => env => new JsonSchema(SE.stateEither.map(getSchema(env).schema, v => optional(v.json))),
-  array: getSchema => env =>
+  // TODO: add customize
+  nullable: getSchema => _config => env =>
+    new JsonSchema(SE.stateEither.map(getSchema(env).schema, v => optional(v.json))),
+  // TODO: add customize
+  array: getSchema => _config => env =>
     new JsonSchema(SE.stateEither.chain(getSchema(env).schema, schemas => SE.fromEither(ArrayTypeCtor({ schemas }))))
 }
