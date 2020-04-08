@@ -41,21 +41,19 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 export interface ModelAlgebraObject<F> {
   _F: F
   interface: {
-    <Props extends AnyMProps<F>, RC>(props: Props, name: string): isOptionalConfig<
+    <Props extends AnyMProps<F>, RC>(props: Props, name: string): () => isOptionalConfig<
       ObjectInterfaceConfig<RC, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>,
       HKT2<F, EnvOfProps<Props>, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>
     >
-    <Props extends AnyMProps<F>, RC>(
-      props: Props,
-      name: string,
+    <Props extends AnyMProps<F>>(props: Props, name: string): <RC>(
       config: ByInterp<
         ObjectInterfaceConfig<RC, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>,
         URIS | URIS2
       >
-    ): HKT2<F, EnvOfProps<Props>, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>
+    ) => HKT2<F, EnvOfProps<Props>, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>
   }
   partial: {
-    <Props extends AnyMProps<F>, RC>(props: Props, name: string): isOptionalConfig<
+    <Props extends AnyMProps<F>, RC>(props: Props, name: string): () => isOptionalConfig<
       ObjectPartialConfig<
         RC,
         Partial<{ [k in keyof Props]: Props[k]['_E'] }>,
@@ -68,9 +66,7 @@ export interface ModelAlgebraObject<F> {
         Partial<{ [k in keyof Props]: Props[k]['_A'] }>
       >
     >
-    <Props extends AnyMProps<F>, RC>(
-      props: Props,
-      name: string,
+    <Props extends AnyMProps<F>>(props: Props, name: string): <RC>(
       config: ByInterp<
         ObjectPartialConfig<
           RC,
@@ -79,7 +75,7 @@ export interface ModelAlgebraObject<F> {
         >,
         URIS | URIS2
       >
-    ): HKT2<
+    ) => HKT2<
       F,
       EnvOfProps<Props>,
       Partial<{ [k in keyof Props]: Props[k]['_E'] }>,
@@ -98,16 +94,14 @@ export type PropsKind1<F extends URIS, PropsA, R> = { [k in keyof PropsA]: Kind<
  */
 export interface ModelAlgebraObject1<F extends URIS> {
   _F: F
-  interface: <Props, R, RC>(
+  interface: <Props, R>(
     props: PropsKind1<F, Props, R>,
-    name: string,
-    config?: ByInterp<ObjectInterfaceConfig<RC, Props, Props>, F>
-  ) => Kind<F, R & RC, Props>
-  partial: <Props, R, RC>(
+    name: string
+  ) => <RC>(config?: ByInterp<ObjectInterfaceConfig<RC, Props, Props>, F>) => Kind<F, R & RC, Props>
+  partial: <Props, R>(
     props: PropsKind1<F, Props, R>,
-    name: string,
-    config?: ByInterp<ObjectPartialConfig<RC, Props, Props>, F>
-  ) => Kind<F, R & RC, Partial<Props>>
+    name: string
+  ) => <RC>(config?: ByInterp<ObjectPartialConfig<RC, Props, Props>, F>) => Kind<F, R & RC, Partial<Props>>
 }
 
 /**
@@ -124,12 +118,12 @@ export interface ModelAlgebraObject2<F extends URIS2> {
   _F: F
   interface: <PropsE, PropsA, R, RC>(
     props: PropsKind2<F, PropsE, PropsA, R>,
-    name: string,
-    config: ByInterp<ObjectInterfaceConfig<RC, PropsE, PropsA>, F>
-  ) => Kind2<F, R & RC, PropsE, PropsA>
+    name: string
+  ) => <RC>(config: ByInterp<ObjectInterfaceConfig<RC, PropsE, PropsA>, F>) => Kind2<F, R & RC, PropsE, PropsA>
   partial: <PropsE, PropsA, R, RC>(
     props: PropsKind2<F, PropsE, PropsA, R>,
-    name: string,
+    name: string
+  ) => <RC>(
     config: ByInterp<ObjectPartialConfig<RC, PropsE, PropsA>, F>
   ) => Kind2<F, R & RC, Partial<PropsE>, Partial<PropsA>>
 }
