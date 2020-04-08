@@ -53,6 +53,4 @@ declare module './usage/ProgramType' {
   interface ProgramType<R, E, A> {
     [ProgramNoUnionURI]: P<R, E, A>
   }
-
-  interface ProgramNoUnionInterpreters {}
 }

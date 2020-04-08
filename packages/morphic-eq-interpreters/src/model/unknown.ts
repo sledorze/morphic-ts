@@ -2,34 +2,27 @@ import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
 import { EqType, EqURI } from '../hkt'
 import { Eq } from 'fp-ts/lib/Eq'
 import { circularDeepEqual, deepEqual } from 'fast-equals'
-import { UnknownConfig } from '@morphic-ts/algebras/lib/hkt'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface UnknownConfig {
-    [EqURI]: Customize | undefined
+  export interface UnknownConfig<RC> {
+    [EqURI]: CustomizeUnknown<RC> | undefined
   }
 }
 
-interface Customize {
-  compare: 'default-circular' | 'default-non-circular' | Eq<unknown>
+export interface CustomizeUnknown<RC> {
+  compare: 'default-circular' | 'default-non-circular' | ((env: RC) => Eq<unknown>)
 }
 
-const getAlgebraConfig = <AlgebraConfig>() => <ConfigKey extends keyof AlgebraConfig>(configKey: ConfigKey) => (
-  config: { [configKey in ConfigKey]?: AlgebraConfig[configKey] } | undefined
-) => (config !== undefined ? config[configKey] : undefined)
-
-const getUnkownConfig = getAlgebraConfig<UnknownConfig>()
-
-const getEqURIUnkownConfig = getUnkownConfig(EqURI)
+const applyCustomize = <RC>(c: { [EqURI]?: CustomizeUnknown<RC> } | undefined) =>
+  c !== undefined ? c[EqURI] : undefined
 
 /**
  *  @since 0.0.1
  */
 export const eqUnknownInterpreter: ModelAlgebraUnknown1<EqURI> = {
   _F: EqURI,
-  unknown: cfg => _env => {
-    const config = getEqURIUnkownConfig(cfg)
-
+  unknown: cfg => env => {
+    const config = applyCustomize(cfg)
     const equals =
       config === undefined
         ? circularDeepEqual
@@ -37,7 +30,7 @@ export const eqUnknownInterpreter: ModelAlgebraUnknown1<EqURI> = {
         ? circularDeepEqual
         : config.compare === 'default-non-circular'
         ? deepEqual
-        : config.compare.equals
+        : config.compare(env).equals
 
     return new EqType({ equals })
   }

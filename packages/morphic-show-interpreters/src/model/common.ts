@@ -5,12 +5,12 @@ import { Show } from 'fp-ts/lib/Show'
 /**
  *  @since 0.0.1
  */
-export interface Customize<A> {
-  (a: Show<A>): Show<A>
+export interface Customize<RC, A> {
+  (a: Show<A>, env: RC): Show<A>
 }
 
 /**
  *  @since 0.0.1
  */
-export const applyCustomize = <A>(c: { [ShowURI]?: Customize<A> } | undefined) =>
+export const applyCustomize = <A, RC>(c: { [ShowURI]?: Customize<RC, A> } | undefined) =>
   c !== undefined ? c[ShowURI] ?? identity : identity

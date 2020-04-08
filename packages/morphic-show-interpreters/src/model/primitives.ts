@@ -10,55 +10,55 @@ declare module '@morphic-ts/algebras/lib/hkt' {
    *  @since 0.0.1
    */
   export interface PrimitiveDateConfig<RC> {
-    [ShowURI]: Customize<Date> | undefined
+    [ShowURI]: Customize<RC, Date> | undefined
   }
   /**
    *  @since 0.0.1
    */
   export interface PrimitiveStringConfig<RC> {
-    [ShowURI]: Customize<string> | undefined
+    [ShowURI]: Customize<RC, string> | undefined
   }
   /**
    *  @since 0.0.1
    */
   export interface PrimitiveNumberConfig<RC> {
-    [ShowURI]: Customize<number> | undefined
+    [ShowURI]: Customize<RC, number> | undefined
   }
   /**
    *  @since 0.0.1
    */
   export interface PrimitiveBigIntConfig<RC> {
-    [ShowURI]: Customize<bigint> | undefined
+    [ShowURI]: Customize<RC, bigint> | undefined
   }
   /**
    *  @since 0.0.1
    */
   export interface PrimitiveBooleanConfig<RC> {
-    [ShowURI]: Customize<boolean> | undefined
+    [ShowURI]: Customize<RC, boolean> | undefined
   }
   /**
    *  @since 0.0.1
    */
   export interface PrimitiveArrayConfig<RC, E, A> {
-    [ShowURI]: Customize<A[]> | undefined
+    [ShowURI]: Customize<RC, A[]> | undefined
   }
   /**
    *  @since 0.0.2
    */
   export interface PrimitiveKeysOfConfig<RC, K> {
-    [ShowURI]: Customize<K> | undefined
+    [ShowURI]: Customize<RC, K> | undefined
   }
   /**
    *  @since 0.0.2
    */
   export interface PrimitiveStringLiteralConfig<RC, K> {
-    [ShowURI]: Customize<K> | undefined
+    [ShowURI]: Customize<RC, K> | undefined
   }
   /**
    *  @since 0.0.2
    */
   export interface PrimitiveNullableConfig<RC, E, A> {
-    [ShowURI]: Customize<Option<A>> | undefined
+    [ShowURI]: Customize<RC, Option<A>> | undefined
   }
 }
 
@@ -67,13 +67,13 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export const showPrimitiveInterpreter: ModelAlgebraPrimitive1<ShowURI> = {
   _F: ShowURI,
-  date: config => _env => new ShowType(applyCustomize(config)({ show: (date: Date) => date.toISOString() })),
-  boolean: config => _env => new ShowType(applyCustomize(config)(showBoolean)),
-  string: config => _env => new ShowType(applyCustomize(config)(showString)),
-  number: config => _env => new ShowType(applyCustomize(config)(showNumber)),
-  bigint: config => _env => new ShowType(applyCustomize(config)({ show: a => JSON.stringify(a) })),
-  stringLiteral: (_, config) => _env => new ShowType(applyCustomize(config)(showString)),
-  keysOf: (_keys, config) => _env => new ShowType(applyCustomize(config)(showString as Show<any>)),
-  nullable: (getShow, config) => env => new ShowType(applyCustomize(config)(optionGetShow(getShow(env).show))),
-  array: (getShow, config) => env => new ShowType(applyCustomize(config)(getShowA(getShow(env).show)))
+  date: config => env => new ShowType(applyCustomize(config)({ show: (date: Date) => date.toISOString() }, env)),
+  boolean: config => env => new ShowType(applyCustomize(config)(showBoolean, env)),
+  string: config => env => new ShowType(applyCustomize(config)(showString, env)),
+  number: config => env => new ShowType(applyCustomize(config)(showNumber, env)),
+  bigint: config => env => new ShowType(applyCustomize(config)({ show: a => JSON.stringify(a) }, env)),
+  stringLiteral: (_, config) => env => new ShowType(applyCustomize(config)(showString, env)),
+  keysOf: (_keys, config) => env => new ShowType(applyCustomize(config)(showString as Show<any>, env)),
+  nullable: (getShow, config) => env => new ShowType(applyCustomize(config)(optionGetShow(getShow(env).show), env)),
+  array: (getShow, config) => env => new ShowType(applyCustomize(config)(getShowA(getShow(env).show), env))
 }

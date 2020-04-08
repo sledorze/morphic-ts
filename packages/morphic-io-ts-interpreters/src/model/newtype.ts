@@ -1,10 +1,10 @@
 import { ModelAlgebraNewtype2 } from '@morphic-ts/model-algebras/lib/newtype'
 import { IOTSType, IoTsURI } from '../hkt'
-import { Customize, applyCustomize, NoEnv } from './common'
+import { Customize, applyCustomize } from './common'
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface NewtypeConfig<E, A> {
-    [IoTsURI]: Customize<NoEnv, E, A> | undefined
+  export interface NewtypeConfig<RC, E, A> {
+    [IoTsURI]: Customize<RC, E, A> | undefined
   }
 }
 
@@ -13,5 +13,5 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export const ioTsNewtypeInterpreter: ModelAlgebraNewtype2<IoTsURI> = {
   _F: IoTsURI,
-  newtype: () => (a, config) => env => new IOTSType(applyCustomize(config)(a(env).type as any, env))
+  newtype: () => (a, config) => env => new IOTSType(applyCustomize(config)(a(env).type, env))
 }

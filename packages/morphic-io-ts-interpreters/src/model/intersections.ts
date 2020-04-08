@@ -7,6 +7,6 @@ import { ModelAlgebraIntersection2 } from '@morphic-ts/model-algebras/lib/inters
  */
 export const ioTsIntersectionInterpreter: ModelAlgebraIntersection2<IoTsURI> = {
   _F: IoTsURI,
-  intersection: <L, A, R>(items: Array<(_: R) => IOTSType<L, A>>, name: string) => (env: R) =>
+  intersection: <R, L, A>(items: Array<(_: R) => IOTSType<L, A>>, name: string) => (env: R) =>
     new IOTSType(t.intersection(items.map(x => x(env).type) as any, name)) // TODO: fix (follow up: https://github.com/gcanti/io-ts/issues/312)
 }

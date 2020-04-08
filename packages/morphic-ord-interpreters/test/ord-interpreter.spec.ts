@@ -1,6 +1,8 @@
 import * as chai from 'chai'
 import { lt, gt, ordNumber, ord } from 'fp-ts/lib/Ord'
-import { summon } from './summoner'
+import { summonFor } from './summoner'
+
+const { summon } = summonFor({})
 
 describe('Ord', () => {
   it('returns true or false when comparing values for equality', () => {

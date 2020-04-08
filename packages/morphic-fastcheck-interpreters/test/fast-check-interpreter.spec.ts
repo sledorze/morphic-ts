@@ -235,6 +235,7 @@ describe('FastCheck interpreter', () => {
       c: string
       d: number
     }
+
     const Bar = summon<unknown, Bar>(F =>
       F.interface(
         {
@@ -290,8 +291,8 @@ describe('FastCheck interpreter', () => {
       v: string
     }
 
-    const List: M<unknown, List> = summon<unknown, List>(F =>
-      F.recursive<unknown, List>(
+    const List: M<{}, unknown, List> = summon<unknown, List>(F =>
+      F.recursive<{}, unknown, List>(
         Self =>
           F.taggedUnion(
             'type',

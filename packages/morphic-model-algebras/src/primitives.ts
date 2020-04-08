@@ -11,7 +11,7 @@ import {
   PrimitiveKeysOfConfig,
   PrimitiveNullableConfig
 } from '@morphic-ts/algebras/lib/hkt'
-import { ByInterp, isOptionalConfig } from '@morphic-ts/common/lib/core'
+import { ByInterp, isOptionalConfig, NoEnv } from '@morphic-ts/common/lib/core'
 
 /**
  *  @since 0.0.1
@@ -82,9 +82,9 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 export interface ModelAlgebraPrimitive<F> {
   _F: F
   nullable: {
-    <L, A, R, RC>(T: HKT2<F, R, L, A>): isOptionalConfig<
-      PrimitiveNullableConfig<RC, L, A>,
-      HKT2<F, RC & R, null | L, Option<A>>
+    <L, A, R>(T: HKT2<F, R, L, A>): isOptionalConfig<
+      PrimitiveNullableConfig<NoEnv, L, A>,
+      HKT2<F, R, null | L, Option<A>>
     >
     <L, A, R, RC>(T: HKT2<F, R, L, A>, config: ByInterp<PrimitiveNullableConfig<RC, L, A>, URIS | URIS2>): HKT2<
       F,
@@ -94,25 +94,25 @@ export interface ModelAlgebraPrimitive<F> {
     >
   }
   boolean: {
-    <RC>(): isOptionalConfig<PrimitiveBooleanConfig<RC>, HKT2<F, RC, boolean, boolean>>
+    (): isOptionalConfig<PrimitiveBooleanConfig<NoEnv>, HKT2<F, NoEnv, boolean, boolean>>
     <RC>(config: ByInterp<PrimitiveBooleanConfig<RC>, URIS | URIS2>): HKT2<F, RC, boolean, boolean>
   }
   number: {
-    <RC>(): isOptionalConfig<PrimitiveNumberConfig<RC>, HKT2<F, RC, number, number>>
+    (): isOptionalConfig<PrimitiveNumberConfig<NoEnv>, HKT2<F, NoEnv, number, number>>
     <RC>(config: ByInterp<PrimitiveNumberConfig<RC>, URIS | URIS2>): HKT2<F, RC, number, number>
   }
   bigint: {
-    <RC>(): isOptionalConfig<PrimitiveBigIntConfig<RC>, HKT2<F, RC, string, bigint>>
+    (): isOptionalConfig<PrimitiveBigIntConfig<NoEnv>, HKT2<F, NoEnv, string, bigint>>
     <RC>(config: ByInterp<PrimitiveBigIntConfig<RC>, URIS | URIS2>): HKT2<F, RC, string, bigint>
   }
   string: {
-    <RC>(): isOptionalConfig<PrimitiveStringConfig<RC>, HKT2<F, RC, string, string>>
+    (): isOptionalConfig<PrimitiveStringConfig<NoEnv>, HKT2<F, NoEnv, string, string>>
     <RC>(config: ByInterp<PrimitiveStringConfig<RC>, URIS | URIS2>): HKT2<F, RC, string, string>
   }
   stringLiteral: {
-    <T extends string, RC>(value: T): isOptionalConfig<
-      PrimitiveStringLiteralConfig<RC, T>,
-      HKT2<F, RC, string, typeof value>
+    <T extends string>(value: T): isOptionalConfig<
+      PrimitiveStringLiteralConfig<NoEnv, T>,
+      HKT2<F, NoEnv, string, typeof value>
     >
     <T extends string, RC>(value: T, config: ByInterp<PrimitiveStringLiteralConfig<RC, T>, URIS | URIS2>): HKT2<
       F,
@@ -122,9 +122,9 @@ export interface ModelAlgebraPrimitive<F> {
     >
   }
   keysOf: {
-    <K extends Keys, RC>(keys: K): isOptionalConfig<
-      PrimitiveKeysOfConfig<RC, keyof K>,
-      HKT2<F, RC, string, keyof typeof keys>
+    <K extends Keys>(keys: K): isOptionalConfig<
+      PrimitiveKeysOfConfig<NoEnv, keyof K>,
+      HKT2<F, NoEnv, string, keyof typeof keys>
     >
     <K extends Keys, RC>(keys: K, config: ByInterp<PrimitiveKeysOfConfig<RC, keyof K>, URIS | URIS2>): HKT2<
       F,
@@ -134,10 +134,7 @@ export interface ModelAlgebraPrimitive<F> {
     >
   }
   array: {
-    <L, A, R, RC>(a: HKT2<F, R, L, A>): isOptionalConfig<
-      PrimitiveArrayConfig<RC, L, A>,
-      HKT2<F, R & RC, Array<L>, Array<A>>
-    >
+    <L, A, R>(a: HKT2<F, R, L, A>): isOptionalConfig<PrimitiveArrayConfig<NoEnv, L, A>, HKT2<F, R, Array<L>, Array<A>>>
     <L, A, R, RC>(a: HKT2<F, R, L, A>, config: ByInterp<PrimitiveArrayConfig<RC, L, A>, URIS | URIS2>): HKT2<
       F,
       R & RC,
@@ -146,7 +143,7 @@ export interface ModelAlgebraPrimitive<F> {
     >
   }
   date: {
-    <RC>(): isOptionalConfig<PrimitiveDateConfig<RC>, HKT2<F, RC, string, Date>>
+    (): isOptionalConfig<PrimitiveDateConfig<NoEnv>, HKT2<F, NoEnv, string, Date>>
     <RC>(config: ByInterp<PrimitiveDateConfig<RC>, URIS | URIS2>): HKT2<F, RC, string, Date>
   }
 }

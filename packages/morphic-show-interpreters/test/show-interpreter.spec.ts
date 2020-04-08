@@ -1,8 +1,10 @@
 import * as chai from 'chai'
 
-import { summon } from '@morphic-ts/batteries/lib/summoner-ESBASTJ'
+import { summonFor } from '@morphic-ts/batteries/lib/summoner-ESBASTJ'
 import { Newtype, iso } from 'newtype-ts'
 import { showConfig } from '../src/index'
+
+const { summon } = summonFor({})
 
 describe('Show', () => {
   it('newtype', () => {

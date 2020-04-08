@@ -106,12 +106,18 @@ export type isOptionalConfig<C, Y> = keyof KeepNotUndefined<ByInterp<C, URIS | U
  *
  *  @since 0.0.1
  */
-export const genConfig: <Uri extends URIS | URIS2>(uri: Uri) => ConfigWrapper2<Uri> = uri => config =>
+export const genConfig: <Uri extends URIS | URIS2>(uri: Uri) => ConfigWrapper<Uri> = uri => config =>
   ({ [uri]: config } as any)
 
 /**
  *  @since 0.0.1
  */
-export interface ConfigWrapper2<Uri extends URIS | URIS2> {
-  <A, E, R>(config: (a: A, e: E) => R): { [k in Uri]: typeof config }
+export interface ConfigWrapper<Uri extends URIS | URIS2> {
+  <A>(config: A): { [k in Uri]: typeof config }
 }
+
+// export interface ConfigWrapper<Uri extends URIS | URIS2> {
+//   <A, E, R>(config: (a: A, e: E) => R): { [k in Uri]: typeof config }
+// }
+
+export type NoEnv = unknown

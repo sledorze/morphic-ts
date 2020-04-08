@@ -1,5 +1,5 @@
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { ByInterp, isOptionalConfig } from '@morphic-ts/common/lib/core'
+import { ByInterp, isOptionalConfig, NoEnv } from '@morphic-ts/common/lib/core'
 import { NewtypeConfig } from '@morphic-ts/algebras/lib/hkt'
 import { Newtype } from 'newtype-ts'
 
@@ -26,7 +26,7 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   /**
    *  @since 0.0.1
    */
-  export interface NewtypeConfig<E, A> {}
+  export interface NewtypeConfig<RC, E, A> {}
 }
 /**
  *  @since 0.0.1
@@ -45,8 +45,13 @@ export interface ModelAlgebraNewtype<F> {
   newtype: <N extends AnyNewtype = never>(
     name: string
   ) => {
-    <E, R>(a: HKT2<F, R, E, NewtypeA<N>>): isOptionalConfig<NewtypeConfig<E, N>, HKT2<F, R, E, N>>
-    <E, R>(a: HKT2<F, R, E, NewtypeA<N>>, config: ByInterp<NewtypeConfig<E, N>, URIS | URIS2>): HKT2<F, R, E, N>
+    <E, R>(a: HKT2<F, R, E, NewtypeA<N>>): isOptionalConfig<NewtypeConfig<NoEnv, E, N>, HKT2<F, R, E, N>>
+    <E, R, RC>(a: HKT2<F, R, E, NewtypeA<N>>, config: ByInterp<NewtypeConfig<RC, E, N>, URIS | URIS2>): HKT2<
+      F,
+      R & RC,
+      E,
+      N
+    >
   }
 }
 
@@ -56,8 +61,8 @@ export interface ModelAlgebraNewtype<F> {
 export interface ModelAlgebraNewtype1<F extends URIS> {
   _F: F
   newtype<N extends AnyNewtype = never>(
-    name: string
-  ): <R>(a: Kind<F, R, NewtypeA<N>>, config?: ByInterp<NewtypeConfig<unknown, N>, F>) => Kind<F, R, N>
+    name: string // on purpose type relaxation `Kind<F, R, N>` instead of `Kind<F, R, NewtypeA<N>>`
+  ): <R, RC>(a: Kind<F, R, N>, config?: ByInterp<NewtypeConfig<RC, unknown, N>, F>) => Kind<F, R & RC, N>
 }
 
 /**
@@ -66,6 +71,6 @@ export interface ModelAlgebraNewtype1<F extends URIS> {
 export interface ModelAlgebraNewtype2<F extends URIS2> {
   _F: F
   newtype<N extends AnyNewtype = never>(
-    name: string
-  ): <E, R>(a: Kind2<F, R, E, NewtypeA<N>>, config: ByInterp<NewtypeConfig<E, N>, F>) => Kind2<F, R, E, N>
+    name: string // on purpose type relaxation `Kind<F, R, N>` instead of `Kind<F, R, NewtypeA<N>>`
+  ): <E, R, RC>(a: Kind2<F, R, E, N>, config: ByInterp<NewtypeConfig<RC, E, N>, F>) => Kind2<F, R & RC, E, N>
 }

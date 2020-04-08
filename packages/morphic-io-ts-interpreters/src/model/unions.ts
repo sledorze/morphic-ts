@@ -7,6 +7,6 @@ import { ModelAlgebraUnions2 } from '@morphic-ts/model-algebras/lib/unions'
  */
 export const ioTsUnionInterpreter: ModelAlgebraUnions2<IoTsURI> = {
   _F: IoTsURI,
-  union: <L, A, R>(items: Array<(_: R) => IOTSType<L, A>>, name: string) => (env: R) =>
+  union: <R, L, A>(items: Array<(_: R) => IOTSType<L, A>>, name: string) => (env: R) =>
     new IOTSType(t.union(items.map(x => x(env).type) as any, name)) // TODO: fix (follow up: https://github.com/gcanti/io-ts/issues/312)
 }

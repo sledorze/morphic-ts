@@ -27,7 +27,7 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export interface ModelAlgebraSet<F> {
   _F: F
-  set: <L, A, R>(a: HKT2<F, R, L, A>, ord: Ord<A>) => HKT2<F, R, Array<L>, Set<A>>
+  set: <R, L, A>(a: HKT2<F, R, L, A>, ord: Ord<A>) => HKT2<F, R, Array<L>, Set<A>>
 }
 
 /**
@@ -43,5 +43,5 @@ export interface ModelAlgebraSet1<F extends URIS> {
  */
 export interface ModelAlgebraSet2<F extends URIS2> {
   _F: F
-  set: <L, A, R>(a: Kind2<F, R, L, A>, ord: Ord<A>) => Kind2<F, R, Array<L>, Set<A>>
+  set: <R, L, A>(a: Kind2<F, R, L, A>, ord: Ord<A>) => Kind2<F, R, Array<L>, Set<A>>
 }

@@ -15,31 +15,31 @@ declare module '@morphic-ts/algebras/lib/hkt' {
    *  @since 0.0.1
    */
   export interface PrimitiveDateConfig<RC> {
-    [FastCheckURI]: Customize<Date> | undefined
+    [FastCheckURI]: Customize<RC, Date> | undefined
   }
   /**
    *  @since 0.0.1
    */
   export interface PrimitiveStringConfig<RC> {
-    [FastCheckURI]: Customize<string> | undefined
+    [FastCheckURI]: Customize<RC, string> | undefined
   }
   /**
    *  @since 0.0.1
    */
   export interface PrimitiveNumberConfig<RC> {
-    [FastCheckURI]: Customize<number> | undefined
+    [FastCheckURI]: Customize<RC, number> | undefined
   }
   /**
    *  @since 0.0.1
    */
   export interface PrimitiveBooleanConfig<RC> {
-    [FastCheckURI]: Customize<boolean> | undefined
+    [FastCheckURI]: Customize<RC, boolean> | undefined
   }
   /**
    *  @since 0.0.1
    */
   export interface PrimitiveBigIntConfig<RC> {
-    [FastCheckURI]: Customize<bigint> | undefined
+    [FastCheckURI]: Customize<RC, bigint> | undefined
   }
 }
 
@@ -56,11 +56,17 @@ export interface MinMaxLength {
  */
 export const fastCheckPrimitiveInterpreter: ModelAlgebraPrimitive1<FastCheckURI> = {
   _F: FastCheckURI,
-  date: configs => _env => new FastCheckType(applyCustomize(configs)(integer().map(n => new Date(n)))),
-  boolean: configs => _env => new FastCheckType(applyCustomize(configs)(boolean())),
-  string: configs => _env => new FastCheckType(applyCustomize(configs)(string())),
-  number: configs => _env => new FastCheckType(applyCustomize(configs)(float())),
-  bigint: configs => _env => new FastCheckType(applyCustomize(configs)(bigInt())),
+  date: configs => env =>
+    new FastCheckType(
+      applyCustomize(configs)(
+        integer().map(n => new Date(n)),
+        env
+      )
+    ),
+  boolean: configs => env => new FastCheckType(applyCustomize(configs)(boolean(), env)),
+  string: configs => env => new FastCheckType(applyCustomize(configs)(string(), env)),
+  number: configs => env => new FastCheckType(applyCustomize(configs)(float(), env)),
+  bigint: configs => env => new FastCheckType(applyCustomize(configs)(bigInt(), env)),
   stringLiteral: l => _env => new FastCheckType(constant(l)),
   keysOf: k => _env => new FastCheckType(oneof(...(Object.keys(k) as (keyof typeof k)[]).map(constant))),
   nullable: T => env => new FastCheckType(option(T(env).arb).map(fromNullable)),

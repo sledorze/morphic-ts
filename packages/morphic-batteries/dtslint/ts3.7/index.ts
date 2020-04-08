@@ -1,7 +1,7 @@
 import { SelectKeyOfMatchingValues } from '../../src/usage/utils'
 import { OptionalIfUndefined } from '@morphic-ts/common/lib/core'
-import { summon, tagged } from '../../src/summoner-BASTJ'
-import { EOfMorhpADT, IfStringLiteral, MorphADT, AOfMorhpADT } from '../../src/usage/tagged-union'
+import { summonFor } from '../../src/summoner-BASTJ'
+import { EOfMorhpADT, IfStringLiteral, AOfMorhpADT } from '../../src/usage/tagged-union'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import { interpretable } from '../../src/usage/programs-infer'
 import { ADT, unionADT, intersectADT } from '@morphic-ts/adt'
@@ -91,25 +91,30 @@ interface C {
   c: string
   type: 'C'
 }
+
+const { summon, tagged } = summonFor({})
+
 const A = summon<ARaw, A>(F => F.interface({ type: F.stringLiteral('A'), a: F.string() }, 'A'))
 const B = summon<BRaw, B>(F => F.interface({ type: F.stringLiteral('B'), b: F.string() }, 'B'))
 const C = summon<CRaw, C>(F => F.interface({ type: F.stringLiteral('C'), c: F.string() }, 'C'))
 
-// $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; C: [CRaw, C]; }, "type", "ProgramUnionURI", "BASTJInterpreterURI">
+// $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; C: [CRaw, C]; }, "type", "ProgramUnionURI", "BASTJInterpreterURI", {}>
 const ABC = tagged('type')({
   A,
   B,
   C
 })
 
-// $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; }, "type", "ProgramUnionURI", "BASTJInterpreterURI">
+// $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; }, "type", "ProgramUnionURI", "BASTJInterpreterURI", {}>
 ABC.selectMorph(['A', 'B'])
 
-// $ExpectType MorphADT<{ B: [BRaw, B]; C: [CRaw, C]; }, "type", "ProgramUnionURI", "BASTJInterpreterURI">
+// $ExpectType MorphADT<{ B: [BRaw, B]; C: [CRaw, C]; }, "type", "ProgramUnionURI", "BASTJInterpreterURI", {}>
 ABC.excludeMorph(['A'])
 
-type AM = AOfMorhpADT<typeof ABC> // $ExpectType A | B | C
-type EM = EOfMorhpADT<typeof ABC> // $ExpectType ARaw | BRaw | CRaw
+// $ExpectType A | B | C
+type AM = AOfMorhpADT<typeof ABC>
+// $ExpectType ARaw | BRaw | CRaw
+type EM = EOfMorhpADT<typeof ABC>
 
-// $ExpectType FastCheckType<A | B | C>
+// $ExpectType (env: {}) => FastCheckType<A | B | C>
 const fc = interpretable(ABC)(modelFastCheckInterpreter)

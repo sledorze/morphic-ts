@@ -221,15 +221,7 @@ export type AOfTypes<
 /**
  *  @since 0.0.1
  */
-export type AOfMorhpADT<T extends MorphADT<any, any, any, any, any>> = T extends MorphADT<
-  infer Types,
-  infer _T,
-  infer _P,
-  infer _I,
-  infer _R
->
-  ? AOfTypes<Types>
-  : never
+export type AOfMorhpADT<T extends MorphADT<any, any, any, any, any>> = AOfTypes<T['_Types']>
 
 /**
  * Extracts the type of `E` for a given Morph type
@@ -237,15 +229,7 @@ export type AOfMorhpADT<T extends MorphADT<any, any, any, any, any>> = T extends
 /**
  *  @since 0.0.1
  */
-export type EOfMorhpADT<T extends MorphADT<any, any, any, any, any>> = T extends MorphADT<
-  infer Types,
-  infer _T,
-  infer _P,
-  infer _I,
-  infer _R
->
-  ? EOfTypes<Types>
-  : never
+export type EOfMorhpADT<T extends MorphADT<any, any, any, any, any>> = EOfTypes<T['_Types']>
 
 /**
  *  @since 0.0.1
@@ -256,7 +240,7 @@ export type MorphADT<
   ProgURI extends ProgramURI,
   InterpURI extends InterpreterURI,
   R
-> = ADT<AOfTypes<Types>, Tag> &
+> = { _Types: Types } & ADT<AOfTypes<Types>, Tag> &
   Morph<R, EOfTypes<Types>, AOfTypes<Types>, InterpURI, ProgURI> & {
     selectMorph: <Keys extends (keyof Types)[]>(
       keys: Keys

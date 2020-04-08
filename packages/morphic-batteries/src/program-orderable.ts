@@ -41,6 +41,4 @@ declare module './usage/ProgramType' {
   interface ProgramType<R, E, A> {
     [ProgramOrderableURI]: P<R, E, A>
   }
-
-  interface ProgramOrderableInterpreters {}
 }

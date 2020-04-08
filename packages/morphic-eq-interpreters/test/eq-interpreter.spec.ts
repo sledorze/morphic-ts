@@ -1,6 +1,6 @@
 import * as chai from 'chai'
 
-import { ProgramInterpreter, Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
+import { Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
 import { makeSummoner, Summoners } from '@morphic-ts/batteries/lib/usage/summoner'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
@@ -8,10 +8,10 @@ import { ProgramNoUnionURI } from '@morphic-ts/batteries/lib/program-no-union'
 import { modelEqInterpreter } from '../src/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
 import * as eq from 'fp-ts/lib/Eq'
-import { interpretable } from '@morphic-ts/batteries/lib/usage/programs-infer'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { Newtype, iso } from 'newtype-ts'
 import { eqConfig } from '../src/index'
+import { Includes } from '@morphic-ts/common/lib/utils'
 
 export const EqInterpreterURI = 'EqInterpreterURI' as const
 export type EqInterpreterURI = typeof EqInterpreterURI
@@ -25,30 +25,21 @@ declare module '@morphic-ts/batteries/lib/usage/InterpreterResult' {
     [EqInterpreterURI]: EqInterpreter<A>
   }
 }
-declare module '@morphic-ts/batteries/lib/usage/ProgramType' {
-  interface ProgramNoUnionInterpreters {
-    [EqInterpreterURI]: Summoner
-  }
-}
-
-const eqInterp: ProgramInterpreter<ProgramNoUnionURI, EqInterpreterURI> = _program => {
-  const program = interpretable(_program)
-  return {
-    eq: program(modelEqInterpreter).eq
-  }
-}
 
 /** Type level override to keep Morph type name short */
-export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, EqInterpreterURI> {}
-export interface UM<A> extends Materialized<unknown, A, ProgramNoUnionURI, EqInterpreterURI> {}
+export interface M<R, L, A> extends Materialized<R, L, A, ProgramNoUnionURI, EqInterpreterURI> {}
+export interface UM<R, A> extends Materialized<R, unknown, A, ProgramNoUnionURI, EqInterpreterURI> {}
 
-export interface Morph {
-  <L, A>(F: ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
+interface Summoner<R> extends Summoners<ProgramNoUnionURI, EqInterpreterURI, R> {
+  <L, A, R2 extends R>(F: ProgramType<R2, L, A>[ProgramNoUnionURI]): Includes<R, R2, M<R, L, A>, 'deps error'>
 }
 
-export interface Summoner extends Summoners<ProgramNoUnionURI, EqInterpreterURI>, Morph {}
+export const summonFor = <R>(env: NonNullable<R>) =>
+  makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
+    eq: program(modelEqInterpreter)(env).eq
+  }))
 
-const { summon } = makeSummoner<Summoner>(cacheUnaryFunction, eqInterp)
+const { summon } = summonFor({ x: 'e' })
 
 describe('Eq', () => {
   it('bigInt', () => {
@@ -104,7 +95,7 @@ describe('Eq', () => {
       calls += 1
       return true
     })
-    const morph = summon(F => F.unknown(eqConfig({ compare })))
+    const morph = summon(F => F.unknown(eqConfig({ compare: _ => compare })))
 
     const recDataA = {
       a: 'a',
@@ -125,7 +116,7 @@ describe('Eq', () => {
   })
 
   it('returns false when comparing incomplete values', () => {
-    const Foo = eqInterp(F =>
+    const Foo = summon(F =>
       F.interface(
         {
           date: F.date(),

@@ -26,7 +26,7 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export interface ModelAlgebraRecursive<F> {
   _F: F
-  recursive: <L, A, R>(a: (x: HKT2<F, R, L, A>) => HKT2<F, R, L, A>, name: string) => HKT2<F, R, L, A>
+  recursive: <R, L, A>(a: (x: HKT2<F, R, L, A>) => HKT2<F, R, L, A>, name: string) => HKT2<F, R, L, A>
 }
 
 /**
@@ -42,5 +42,5 @@ export interface ModelAlgebraRecursive1<F extends URIS> {
  */
 export interface ModelAlgebraRecursive2<F extends URIS2> {
   _F: F
-  recursive: <L, A, R>(a: (x: Kind2<F, R, L, A>) => Kind2<F, R, L, A>, name: string) => Kind2<F, R, L, A>
+  recursive: <R, L, A>(a: (x: Kind2<F, R, L, A>) => Kind2<F, R, L, A>, name: string) => Kind2<F, R, L, A>
 }

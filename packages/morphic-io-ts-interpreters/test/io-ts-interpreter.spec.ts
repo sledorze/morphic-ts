@@ -6,19 +6,16 @@ import { some, none } from 'fp-ts/lib/Option'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { failure, PathReporter } from 'io-ts/lib/PathReporter'
-import type { Errors, Branded, string } from 'io-ts'
+import type { Errors, Branded } from 'io-ts'
 import * as t from 'io-ts'
 import { summonFor, M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 
-import { iotsConfig, IoTsURI, modelIoTsStrictInterpreter } from '../src/index'
+import { iotsConfig } from '../src/index'
 
 import * as WM from 'io-ts-types/lib/withMessage'
 import { Newtype, iso } from 'newtype-ts'
 import { EType, AType } from '@morphic-ts/batteries/lib/usage/utils'
-import { URIS2, URIS, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { makeDefine } from '@morphic-ts/batteries/lib/usage/programs-infer'
-import { AlgebraUnion } from '@morphic-ts/batteries/lib/program'
-import { NoEnv } from '../src/model/common'
+import { NoEnv } from '@morphic-ts/common/lib/core'
 
 export type Tree = Node | Leaf
 export interface Node {
@@ -52,31 +49,19 @@ interface Deps2 {
 
 const { summon } = summonFor<Deps>({ toto: 54 })
 const { summon: summon2 } = summonFor<Deps2>({ toto: 54, tata: 'z' })
-// MODIFIER export interface Summoner<R> extends U.Summoners<ProgramUnionURI, BASTJInterpreterURI, R> {
-
-// POC
-const ee = makeDefine('ProgramUnionURI')(F =>
-  F.string(iotsConfig((x, env: Deps2) => WM.withMessage(x, () => 'not ok')))
-)(modelIoTsStrictInterpreter)
 
 describe('IO-TS Env', () => {
   it('can be composed', () => {
     const Codec1 = summon2(F =>
       F.keysOf(
         { foo: null, bar: null },
-        iotsConfig((x, env: Deps2) => WM.withMessage(x, () => 'not ok'))
+        iotsConfig((x, _env: Deps2) => WM.withMessage(x, () => 'not ok'))
       )
     )
-    const Codec3 = summon(F => F.interface({ a: Codec1(F) }, 'a'))
-    const Codec4 = summon(F =>
-      // F.string(iotsConfig((x, env) => WM.withMessage(x, () => 'not ok')))
-      // F.array(F.string())
-      // F.interface({ a: F.string(iotsConfig((x, env: Deps) => WM.withMessage(x, () => 'not ok'))) }, 'a')
-      F.interface({ a: F.string(iotsConfig((x, env: Deps) => WM.withMessage(x, () => 'not ok'))) }, 'a')
-    )
-
-    // Should fail (Codec3 requiers more than summon can offer)
-    const Codec2 = summon2(F => F.interface({ a: Codec3(F) }, 'a'))
+    // const Codec3_ =
+    summon(F => F.interface({ a: Codec1(F) }, 'a'))
+    //const Codec4_ =
+    summon(F => F.interface({ a: F.string(iotsConfig((x, _env: Deps) => WM.withMessage(x, () => 'not ok'))) }, 'a'))
   })
 })
 
@@ -85,7 +70,7 @@ describe('IO-TS', () => {
     const codec = summon(F =>
       F.keysOf(
         { foo: null, bar: null },
-        iotsConfig((x, env) => WM.withMessage(x, () => 'not ok'))
+        iotsConfig((x, _env) => WM.withMessage(x, () => 'not ok'))
       )
     ).type
 
@@ -419,7 +404,6 @@ describe('IO-TS', () => {
         'Bar'
       )
     )
-    type Only<A> = A & { [k in keyof any]: never }
 
     const FooBar = summon(F =>
       F.taggedUnion(

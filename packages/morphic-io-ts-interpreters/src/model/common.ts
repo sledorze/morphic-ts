@@ -2,8 +2,6 @@ import * as t from 'io-ts'
 import { IoTsURI } from '../hkt'
 import { identity } from 'fp-ts/lib/function'
 
-export type NoEnv = unknown
-
 /**
  *  @since 0.0.1
  */

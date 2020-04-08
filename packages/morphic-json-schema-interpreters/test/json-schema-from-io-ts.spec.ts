@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { summon, UM } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+import { summonFor, UM } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 import { right, left } from 'fp-ts/lib/Either'
 import { either } from 'fp-ts'
 import { JsonSchemaErrors } from '../src/json-schema/json-schema-ctors'
@@ -28,6 +28,8 @@ export interface GLeaf<A> {
   type: 'leaf'
   v: A
 }
+
+const { summon } = summonFor({})
 
 describe('a json schema generator', function (this: any) {
   it('generate an interface from a io-ts interface', () => {
@@ -261,7 +263,7 @@ describe('a json schema generator', function (this: any) {
   })
 
   it('handles generic recursive types', () => {
-    const getTree = <A>(LeafValue: UM<A>): UM<GTree<A>> =>
+    const getTree = <A>(LeafValue: UM<unknown, A>): UM<unknown, GTree<A>> =>
       summon(F =>
         F.recursive(
           GTree =>
