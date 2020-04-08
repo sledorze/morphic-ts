@@ -116,11 +116,11 @@ export type PropsKind2<F extends URIS2, PropsA, PropsE, R> = {
  */
 export interface ModelAlgebraObject2<F extends URIS2> {
   _F: F
-  interface: <PropsE, PropsA, R, RC>(
+  interface: <PropsE, PropsA, R>(
     props: PropsKind2<F, PropsE, PropsA, R>,
     name: string
   ) => <RC>(config: ByInterp<ObjectInterfaceConfig<RC, PropsE, PropsA>, F>) => Kind2<F, R & RC, PropsE, PropsA>
-  partial: <PropsE, PropsA, R, RC>(
+  partial: <PropsE, PropsA, R>(
     props: PropsKind2<F, PropsE, PropsA, R>,
     name: string
   ) => <RC>(
