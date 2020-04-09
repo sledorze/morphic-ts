@@ -1,11 +1,12 @@
 import { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
 import { EqURI } from '../hkt'
-import { identity } from 'fp-ts/lib/function'
 
 /**
  *  @since 0.0.1
  */
 export const eqNewtypeInterpreter: ModelAlgebraNewtype1<EqURI> = {
   _F: EqURI,
-  newtype: () => identity as any
+  newtype: () => getEq => getEq,
+  // TODO: add customize
+  newtypeCfg: () => getEq => _config => getEq
 }

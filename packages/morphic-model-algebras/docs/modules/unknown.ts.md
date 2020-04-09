@@ -26,7 +26,7 @@ export interface ModelAlgebraUnknown<F> {
   _F: F
   unknown: {
     (): isOptionalConfig<UnknownConfig, HKT2<F, unknown, unknown>>
-    (config?: ByInterp<UnknownConfig, URIS | URIS2>): HKT2<F, unknown, unknown>
+    (config: ByInterp<UnknownConfig, URIS | URIS2>): HKT2<F, unknown, unknown>
   }
 }
 ```
@@ -40,7 +40,7 @@ Added in v0.0.1
 ```ts
 export interface ModelAlgebraUnknown1<F extends URIS> {
   _F: F
-  unknown(config?: ByInterp<UnknownConfig, F>): Kind<F, unknown>
+  unknown(config: ByInterp<UnknownConfig, F>): Kind<F, unknown>
 }
 ```
 
@@ -53,7 +53,7 @@ Added in v0.0.1
 ```ts
 export interface ModelAlgebraUnknown2<F extends URIS2> {
   _F: F
-  unknown(config?: ByInterp<UnknownConfig, F>): Kind2<F, unknown, unknown>
+  unknown(config: ByInterp<UnknownConfig, F>): Kind2<F, unknown, unknown>
 }
 ```
 

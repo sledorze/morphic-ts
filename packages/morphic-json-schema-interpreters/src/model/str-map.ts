@@ -9,6 +9,7 @@ import { pipe } from 'fp-ts/lib/pipeable'
  */
 export const jsonSchemaStrMapInterpreter: ModelAlgebraStrMap1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
+  strMap: getSchema => env => new JsonSchema(pipe(getSchema(env).schema, SE.chainEitherK(StrMapTypeCtor))),
   // TODO: add customize
-  strMap: getSchema => _config => env => new JsonSchema(pipe(getSchema(env).schema, SE.chainEitherK(StrMapTypeCtor)))
+  strMapCfg: getSchema => _config => env => new JsonSchema(pipe(getSchema(env).schema, SE.chainEitherK(StrMapTypeCtor)))
 }

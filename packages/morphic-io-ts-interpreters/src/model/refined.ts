@@ -22,6 +22,7 @@ const fakeCoerce = <A, E, B>(x: t.BrandC<t.Type<A, E, unknown>, B>): t.Type<A, E
  */
 export const ioTsRefinedInterpreter: ModelAlgebraRefined2<IoTsURI> = {
   _F: IoTsURI,
-  refined: (a, ref, name) => config => env =>
-    new IOTSType(fakeCoerce(applyCustomize(config)(t.brand(a(env).type, ref, name), env) as any))
+  refined: (a, ref, name) => env => new IOTSType(fakeCoerce(t.brand(a(env).type, ref, name))),
+  refinedCfg: (a, ref, name) => config => env =>
+    new IOTSType(fakeCoerce(applyCustomize(config)(t.brand(a(env).type, ref, name), env)))
 }

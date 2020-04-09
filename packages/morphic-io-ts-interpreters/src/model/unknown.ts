@@ -14,5 +14,6 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export const ioTsUnknownInterpreter: ModelAlgebraUnknown2<IoTsURI> = {
   _F: IoTsURI,
-  unknown: config => env => new IOTSType(applyCustomize(config)(t.unknown, env))
+  unknown: () => _env => new IOTSType(t.unknown),
+  unknownCfg: config => env => new IOTSType(applyCustomize(config)(t.unknown, env))
 }

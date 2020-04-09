@@ -6,5 +6,6 @@ import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
  */
 export const showUnknownInterpreter: ModelAlgebraUnknown1<ShowURI> = {
   _F: ShowURI,
-  unknown: _ => _env => new ShowType({ show: (_any: any) => '<unknown>' })
+  unknown: () => _env => new ShowType({ show: (_any: any) => '<unknown>' }),
+  unknownCfg: _ => _env => new ShowType({ show: (_any: any) => '<unknown>' })
 }

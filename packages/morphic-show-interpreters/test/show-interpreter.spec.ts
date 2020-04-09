@@ -52,7 +52,7 @@ describe('Show', () => {
   })
 
   it('can be customized to hide passwords', () => {
-    const Password = summon(F => F.string(showConfig(_ => ({ show: _ => '***' }))))
+    const Password = summon(F => F.stringCfg(showConfig(_ => ({ show: _ => '***' }))))
     const UserPassword = summon(F => F.interface({ user: F.string(), password: Password(F) }, 'UserPassword'))
 
     const userPassword = UserPassword.build({ user: 'john', password: '42' })
@@ -69,8 +69,7 @@ describe('Show', () => {
                 date: F.date()
               },
               'Dates'
-            ),
-            {}
+            )
           ),
           a: F.string()
         },

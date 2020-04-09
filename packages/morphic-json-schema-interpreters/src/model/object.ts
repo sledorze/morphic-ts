@@ -13,8 +13,7 @@ import { arrayTraverseStateEither, resolveRefJsonSchema, addSchema } from '../ut
  */
 export const jsonSchemaObjectInterpreter: ModelAlgebraObject1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  // TODO: add customize
-  interface: (props, name) => _config => env =>
+  interface: (props, name) => env =>
     new JsonSchema(
       pipe(
         arrayTraverseStateEither(record.toArray(props), ([k, v]) =>
@@ -29,7 +28,35 @@ export const jsonSchemaObjectInterpreter: ModelAlgebraObject1<JsonSchemaURI> = {
       )
     ),
   // TODO: add customize
-  partial: (props, name) => _config => env =>
+  interfaceCfg: (props, name) => _config => env =>
+    new JsonSchema(
+      pipe(
+        arrayTraverseStateEither(record.toArray(props), ([k, v]) =>
+          pipe(
+            v(env).schema,
+            SE.map(schema => tuple(k, schema))
+          )
+        ),
+        SE.chain(props => resolveRefJsonSchema(ObjectTypeCtor(false, props).json)),
+        SE.chain(addSchema(name)),
+        SE.map(_ => notOptional(Ref(name)))
+      )
+    ),
+  partial: (props, name) => env =>
+    new JsonSchema(
+      pipe(
+        arrayTraverseStateEither(record.toArray(props), ([k, v]) =>
+          pipe(
+            v(env).schema,
+            SE.map(schema => tuple(k, schema))
+          )
+        ),
+        SE.chain(props => resolveRefJsonSchema(ObjectTypeCtor(true, props).json)),
+        SE.chain(addSchema(name)),
+        SE.map(_ => notOptional(Ref(name)))
+      )
+    ),
+  partialCfg: (props, name) => _config => env =>
     new JsonSchema(
       pipe(
         arrayTraverseStateEither(record.toArray(props), ([k, v]) =>

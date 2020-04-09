@@ -45,7 +45,7 @@ export interface ModelAlgebraNewtype1<F extends URIS> {
   _F: F
   newtype<N extends AnyNewtype = never>(
     name: string
-  ): (a: Kind<F, NewtypeA<N>>, config?: ByInterp<NewtypeConfig<unknown, N>, F>) => Kind<F, N>
+  ): (a: Kind<F, NewtypeA<N>>, config: ByInterp<NewtypeConfig<unknown, N>, F>) => Kind<F, N>
 }
 ```
 

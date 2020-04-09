@@ -9,7 +9,10 @@ const asPartial = <T>(x: EqType<T>): EqType<Partial<T>> => x as any
  */
 export const eqObjectInterpreter: ModelAlgebraObject1<EqURI> = {
   _F: EqURI,
-  interface: props => _config => env => new EqType(getStructEq(projectFieldWithEnv(props, env)('eq'))), // TODO: add customize
+  interface: props => env => new EqType(getStructEq(projectFieldWithEnv(props, env)('eq'))),
+  interfaceCfg: props => _config => env => new EqType(getStructEq(projectFieldWithEnv(props, env)('eq'))), // TODO: add customize
+
   // relies on Eq<A> whereas we need Eq<Partial<A>> (but works - covered by tests)
-  partial: props => _config => env => asPartial(new EqType(getStructEq(projectFieldWithEnv(props, env)('eq')))) // TODO: add customize
+  partial: props => env => asPartial(new EqType(getStructEq(projectFieldWithEnv(props, env)('eq')))),
+  partialCfg: props => _config => env => asPartial(new EqType(getStructEq(projectFieldWithEnv(props, env)('eq')))) // TODO: add customize
 }

@@ -66,10 +66,12 @@ export interface ModelAlgebraTaggedUnions<F> {
       tag: Tag,
       types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
       name: string
-    ): () => isOptionalConfig<
+    ): isOptionalConfig<
       TaggedUnionConfig,
       HKT2<F, EnvOfTaggedTypes<Types>, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
     >
+  }
+  taggedUnionCfg: {
     <Tag extends string, Types extends TaggedTypes<F, Tag, any, any, any>>(
       tag: Tag,
       types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
@@ -99,9 +101,12 @@ export interface ModelAlgebraTaggedUnions1<F extends URIS> {
     tag: Tag,
     types: TaggedTypes1<F, Tag, O, R>,
     name: string
-  ): (
-    config?: ByInterp<TaggedUnionConfig, F>
-  ) => Kind<F, EnvOfTaggedTypes1<typeof types>, TaggedValues<Tag, O>[keyof O]>
+  ): Kind<F, EnvOfTaggedTypes1<typeof types>, TaggedValues<Tag, O>[keyof O]>
+  taggedUnionCfg<Tag extends string, O, R>(
+    tag: Tag,
+    types: TaggedTypes1<F, Tag, O, R>,
+    name: string
+  ): (config: ByInterp<TaggedUnionConfig, F>) => Kind<F, EnvOfTaggedTypes1<typeof types>, TaggedValues<Tag, O>[keyof O]>
 }
 
 /**
@@ -129,7 +134,12 @@ export interface ModelAlgebraTaggedUnions2<F extends URIS2> {
     tag: Tag,
     types: TaggedTypes2<F, Tag, A, L, R>,
     name: string
+  ): Kind2<F, EnvOfTaggedTypes2<typeof types>, TaggedValues<Tag, A>[keyof A], TaggedValues<Tag, L>[keyof L]>
+  taggedUnionCfg<Tag extends string, A, L, R>(
+    tag: Tag,
+    types: TaggedTypes2<F, Tag, A, L, R>,
+    name: string
   ): (
-    config?: ByInterp<TaggedUnionConfig, F>
+    config: ByInterp<TaggedUnionConfig, F>
   ) => Kind2<F, EnvOfTaggedTypes2<typeof types>, TaggedValues<Tag, A>[keyof A], TaggedValues<Tag, L>[keyof L]>
 }

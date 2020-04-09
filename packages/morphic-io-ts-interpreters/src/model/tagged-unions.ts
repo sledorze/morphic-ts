@@ -8,7 +8,9 @@ import { collect } from '@morphic-ts/common/lib/utils'
  */
 export const ioTsTaggedUnionInterpreter: ModelAlgebraTaggedUnions2<IoTsURI> = {
   _F: IoTsURI,
+  taggedUnion: (_tag, dic, name) => env =>
+    new IOTSType(t.union(collect(dic, (_, getType) => getType(env).type) as any, name)),
   // TODO: add customize
-  taggedUnion: (_tag, dic, name) => _config => env =>
+  taggedUnionCfg: (_tag, dic, name) => _config => env =>
     new IOTSType(t.union(collect(dic, (_, getType) => getType(env).type) as any, name))
 }

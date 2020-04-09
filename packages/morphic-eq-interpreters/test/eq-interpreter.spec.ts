@@ -71,7 +71,7 @@ describe('Eq', () => {
   })
 
   it('recursive compare of circular unknown', () => {
-    const { eq } = summon(F => F.unknown(eqConfig({ compare: 'default-circular' })))
+    const { eq } = summon(F => F.unknownCfg(eqConfig({ compare: 'default-circular' })))
 
     const recDataA = {
       a: 'a',
@@ -95,7 +95,7 @@ describe('Eq', () => {
       calls += 1
       return true
     })
-    const morph = summon(F => F.unknown(eqConfig({ compare: _ => compare })))
+    const morph = summon(F => F.unknownCfg(eqConfig({ compare: _ => compare })))
 
     const recDataA = {
       a: 'a',

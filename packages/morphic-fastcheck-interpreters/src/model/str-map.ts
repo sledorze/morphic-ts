@@ -9,7 +9,8 @@ const strmapFromArray = <A>() => record.fromFoldable(semigroup.getFirstSemigroup
  */
 export const fastCheckStrMapInterpreter: ModelAlgebraStrMap1<FastCheckURI> = {
   _F: FastCheckURI,
+  strMap: codomain => env => new FastCheckType(FCArray(tuple(string(), codomain(env).arb)).map(strmapFromArray())),
   // TODO: add customize
-  strMap: codomain => _config => env =>
+  strMapCfg: codomain => _config => env =>
     new FastCheckType(FCArray(tuple(string(), codomain(env).arb)).map(strmapFromArray()))
 }

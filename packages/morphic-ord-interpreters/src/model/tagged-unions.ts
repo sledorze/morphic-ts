@@ -13,8 +13,23 @@ import { Ordering } from 'fp-ts/lib/Ordering'
  */
 export const ordTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<OrdURI> = {
   _F: OrdURI,
+  taggedUnion: (tag, types) => env => {
+    const equals = mapRecord(types, a => a(env).ord.equals)
+    const compares = mapRecord(types, a => a(env).ord.compare)
+    return new OrdType({
+      compare: (a, b): Ordering => {
+        const aTag = a[tag]
+        const bTag = b[tag]
+        return aTag === bTag ? (compares as any)[aTag](a, b) : ordString.compare(String(aTag), String(bTag))
+      },
+      equals: (a, b): boolean => {
+        const aTag = a[tag]
+        return aTag === b[tag] ? (equals as any)[aTag](a, b) : false
+      }
+    })
+  },
   // TODO: add customize
-  taggedUnion: (tag, types) => _config => env => {
+  taggedUnionCfg: (tag, types) => _config => env => {
     const equals = mapRecord(types, a => a(env).ord.equals)
     const compares = mapRecord(types, a => a(env).ord.compare)
     return new OrdType({

@@ -21,7 +21,11 @@ const applyCustomize = <RC>(c: { [EqURI]?: CustomizeUnknown<RC> } | undefined) =
  */
 export const eqUnknownInterpreter: ModelAlgebraUnknown1<EqURI> = {
   _F: EqURI,
-  unknown: cfg => env => {
+  unknown: () => _env => {
+    const equals = circularDeepEqual
+    return new EqType({ equals })
+  },
+  unknownCfg: cfg => env => {
     const config = applyCustomize(cfg)
     const equals =
       config === undefined

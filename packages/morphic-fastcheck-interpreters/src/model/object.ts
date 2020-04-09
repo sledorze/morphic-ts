@@ -8,13 +8,20 @@ import { record } from 'fast-check'
  */
 export const fastCheckObjectInterpreter: ModelAlgebraObject1<FastCheckURI> = {
   _F: FastCheckURI,
-  // TODO: add customize
-  partial: props => _config => env =>
+  partial: props => env =>
     new FastCheckType(
       record(projectFieldWithEnv(props, env)('arb'), {
         withDeletedKeys: true
       })
     ),
   // TODO: add customize
-  interface: props => _config => env => new FastCheckType(record(projectFieldWithEnv(props, env)('arb')))
+  partialCfg: props => _config => env =>
+    new FastCheckType(
+      record(projectFieldWithEnv(props, env)('arb'), {
+        withDeletedKeys: true
+      })
+    ),
+  interface: props => env => new FastCheckType(record(projectFieldWithEnv(props, env)('arb'))),
+  // TODO: add customize
+  interfaceCfg: props => _config => env => new FastCheckType(record(projectFieldWithEnv(props, env)('arb')))
 }

@@ -45,7 +45,11 @@ export interface ModelAlgebraNewtype<F> {
   newtype: <N extends AnyNewtype = never>(
     name: string
   ) => {
-    <E, R>(a: HKT2<F, R, E, NewtypeA<N>>): () => isOptionalConfig<NewtypeConfig<NoEnv, E, N>, HKT2<F, R, E, N>>
+    <E, R>(a: HKT2<F, R, E, NewtypeA<N>>): isOptionalConfig<NewtypeConfig<NoEnv, E, N>, HKT2<F, R, E, N>>
+  }
+  newtypeCfg: <N extends AnyNewtype = never>(
+    name: string
+  ) => {
     <E, R>(a: HKT2<F, R, E, NewtypeA<N>>): <RC>(
       config: ByInterp<NewtypeConfig<RC, E, N>, URIS | URIS2>
     ) => HKT2<F, R & RC, E, N>
@@ -59,7 +63,10 @@ export interface ModelAlgebraNewtype1<F extends URIS> {
   _F: F
   newtype<N extends AnyNewtype = never>(
     name: string // on purpose type relaxation `Kind<F, R, N>` instead of `Kind<F, R, NewtypeA<N>>`
-  ): <R>(a: Kind<F, R, N>) => <RC>(config?: ByInterp<NewtypeConfig<RC, unknown, N>, F>) => Kind<F, R & RC, N>
+  ): <R>(a: Kind<F, R, N>) => Kind<F, R, N>
+  newtypeCfg<N extends AnyNewtype = never>(
+    name: string // on purpose type relaxation `Kind<F, R, N>` instead of `Kind<F, R, NewtypeA<N>>`
+  ): <R>(a: Kind<F, R, N>) => <RC>(config: ByInterp<NewtypeConfig<RC, unknown, N>, F>) => Kind<F, R & RC, N>
 }
 
 /**
@@ -68,6 +75,9 @@ export interface ModelAlgebraNewtype1<F extends URIS> {
 export interface ModelAlgebraNewtype2<F extends URIS2> {
   _F: F
   newtype<N extends AnyNewtype = never>(
+    name: string // on purpose type relaxation `Kind<F, R, N>` instead of `Kind<F, R, NewtypeA<N>>`
+  ): <E, R>(a: Kind2<F, R, E, N>) => Kind2<F, R, E, N>
+  newtypeCfg<N extends AnyNewtype = never>(
     name: string // on purpose type relaxation `Kind<F, R, N>` instead of `Kind<F, R, NewtypeA<N>>`
   ): <E, R>(a: Kind2<F, R, E, N>) => <RC>(config: ByInterp<NewtypeConfig<RC, E, N>, F>) => Kind2<F, R & RC, E, N>
 }

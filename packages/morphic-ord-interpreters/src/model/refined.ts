@@ -6,6 +6,7 @@ import { OrdURI } from '../hkt'
  */
 export const ordRefinedInterpreter: ModelAlgebraRefined1<OrdURI> = {
   _F: OrdURI,
+  refined: getOrd => getOrd,
   // TODO: add customize
-  refined: getOrd => _config => getOrd
+  refinedCfg: getOrd => _config => getOrd
 }

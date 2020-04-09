@@ -7,5 +7,6 @@ import { EqType, EqURI } from '../hkt'
  */
 export const eqStrMapInterpreter: ModelAlgebraStrMap1<EqURI> = {
   _F: EqURI,
-  strMap: getCodomain => _config => env => new EqType(record.getEq(getCodomain(env).eq)) // TODO: add customize
+  strMap: getCodomain => env => new EqType(record.getEq(getCodomain(env).eq)),
+  strMapCfg: getCodomain => _config => env => new EqType(record.getEq(getCodomain(env).eq)) // TODO: add customize
 }

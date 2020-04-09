@@ -11,8 +11,15 @@ import { arrayTraverseStateEither } from '../utils'
  */
 export const jsonSchemaTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
+  taggedUnion: (_tag, types) => env =>
+    new JsonSchema(
+      pipe(
+        arrayTraverseStateEither(record.toArray(types), ([_, v]) => v(env).schema),
+        SE.chainEitherK(UnionTypeCtor)
+      )
+    ),
   // TODO: add customize
-  taggedUnion: (_tag, types) => _config => env =>
+  taggedUnionCfg: (_tag, types) => _config => env =>
     new JsonSchema(
       pipe(
         arrayTraverseStateEither(record.toArray(types), ([_, v]) => v(env).schema),
