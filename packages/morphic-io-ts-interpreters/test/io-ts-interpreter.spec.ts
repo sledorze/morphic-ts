@@ -636,13 +636,11 @@ describe('iotsObjectInterpreter', () => {
     const { summon: summonIOTS } = summonFor<IOTSEnv & WithMessage>({ iots: t, WM: WM })
 
     const XX = summonIOTS(F => F.stringCfg(iotsConfig((_, { iots }: IOTSEnv) => iots.string)))
-    const codec = summonIOTS(F => {
-      const res = F.strMapCfg(XX(F))(iotsConfig((x, { WM }: WithMessage) => WM.withMessage(x, () => 'not ok')))
-      return res
-    }).type
+    const codec = summonIOTS(F =>
+      //      F.strMapCfg(XX(F))(iotsConfig((x, { WM }: WithMessage) => WM.withMessage(x, () => 'not ok')))
 
-    // F.string(iotsConfig((p, env: { x: string }) => string)),
-    // iotsConfig2(x => withMessage(x, () => 'not ok'))
+      F.strMapCfg(XX(F))(iotsConfig((x, { WM }: WithMessage) => WM.withMessage(x, () => 'not ok')))
+    ).type
 
     const result1 = codec.decode({ a: 'a' })
     chai.assert.deepStrictEqual(isRight(result1) && result1.right, { a: 'a' })
