@@ -15,7 +15,6 @@ export type ShowURI = typeof ShowURI
 export class ShowType<A> {
   _A!: A
   _URI!: ShowURI
-  _TYPE!: Show<A>
   constructor(public show: Show<A>) {}
 }
 

@@ -15,7 +15,6 @@ export type FastCheckURI = typeof FastCheckURI
 export class FastCheckType<A> {
   _A!: A
   _URI!: FastCheckURI
-  _TYPE!: Arbitrary<A>
   constructor(public arb: Arbitrary<A>) {}
 }
 

@@ -1,5 +1,6 @@
-import { URIS, URIS2 } from './HKT'
+import { URIS, URIS2, Kind, Kind2 } from './HKT'
 import { Compact } from './core'
+export { Kind, Kind2 }
 
 // /**
 //  * Expose Configuration type for (a) specific interpreter(s) types
@@ -49,7 +50,7 @@ export interface GenConfig<A, R> {
 
 export type NoEnv = unknown
 
-type MapToGenConfig<T extends Record<URIS | URIS2, any>> = { [k in URIS | URIS2]?: GenConfig<T[k], any> }
+export type MapToGenConfig<T extends Record<URIS | URIS2, any>> = { [k in URIS | URIS2]?: GenConfig<T[k], any> }
 
 export interface ConfigType<E, A> {
   _E: E
@@ -71,3 +72,7 @@ export type ConfigsEnvs<T extends MapToGenConfig<any>> = Compact<
 export const genConfig = <Uri extends URIS | URIS2>(uri: Uri) => <R, E, A>(
   config: GenConfig<ConfigType<E, A>[Uri], R>
 ): { [k in Uri]: GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R> } => ({ [uri]: config } as any)
+
+export const getApplyConfig = <Uri extends URIS | URIS2>(uri: Uri) => <R, E, A>(
+  config: GenConfig<ConfigType<E, A>[Uri], R>
+): GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R> => config[uri]

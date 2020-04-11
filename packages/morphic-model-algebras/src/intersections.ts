@@ -1,6 +1,5 @@
 import { OfType, OfType2 } from '@morphic-ts/common/lib/core'
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic-ts/common/lib//HKT'
-
 /**
  *  @since 0.0.1
  */

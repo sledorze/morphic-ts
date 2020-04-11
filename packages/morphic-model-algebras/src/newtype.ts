@@ -1,8 +1,6 @@
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { ByInterp, isOptionalConfig, NoEnv } from '@morphic-ts/common/lib/config'
-import { NewtypeConfig } from '@morphic-ts/algebras/lib/hkt'
+import { ConfigsForType, ConfigsEnvs } from '@morphic-ts/common/lib/config'
 import { Newtype } from 'newtype-ts'
-
 /**
  *  @since 0.0.1
  */
@@ -45,14 +43,14 @@ export interface ModelAlgebraNewtype<F> {
   newtype: <N extends AnyNewtype = never>(
     name: string
   ) => {
-    <E, R>(a: HKT2<F, R, E, NewtypeA<N>>): isOptionalConfig<NewtypeConfig<NoEnv, E, N>, HKT2<F, R, E, N>>
+    <E, R>(a: HKT2<F, R, E, NewtypeA<N>>): HKT2<F, R, E, N>
   }
   newtypeCfg: <N extends AnyNewtype = never>(
     name: string
   ) => {
-    <E, R>(a: HKT2<F, R, E, NewtypeA<N>>): <RC>(
-      config: ByInterp<NewtypeConfig<RC, E, N>, URIS | URIS2>
-    ) => HKT2<F, R & RC, E, N>
+    <E, R>(a: HKT2<F, R, E, NewtypeA<N>>): <C extends ConfigsForType<E, N>>(
+      config: C
+    ) => HKT2<F, R & ConfigsEnvs<C>, E, N>
   }
 }
 
@@ -66,7 +64,7 @@ export interface ModelAlgebraNewtype1<F extends URIS> {
   ): <R>(a: Kind<F, R, N>) => Kind<F, R, N>
   newtypeCfg<N extends AnyNewtype = never>(
     name: string // on purpose type relaxation `Kind<F, R, N>` instead of `Kind<F, R, NewtypeA<N>>`
-  ): <R>(a: Kind<F, R, N>) => <RC>(config: ByInterp<NewtypeConfig<RC, unknown, N>, F>) => Kind<F, R & RC, N>
+  ): <R>(a: Kind<F, R, N>) => <C extends ConfigsForType<unknown, N>>(config: C) => Kind<F, R & ConfigsEnvs<C>, N>
 }
 
 /**
@@ -79,5 +77,5 @@ export interface ModelAlgebraNewtype2<F extends URIS2> {
   ): <E, R>(a: Kind2<F, R, E, N>) => Kind2<F, R, E, N>
   newtypeCfg<N extends AnyNewtype = never>(
     name: string // on purpose type relaxation `Kind<F, R, N>` instead of `Kind<F, R, NewtypeA<N>>`
-  ): <E, R>(a: Kind2<F, R, E, N>) => <RC>(config: ByInterp<NewtypeConfig<RC, E, N>, F>) => Kind2<F, R & RC, E, N>
+  ): <E, R>(a: Kind2<F, R, E, N>) => <C extends ConfigsForType<E, N>>(config: C) => Kind2<F, R & ConfigsEnvs<C>, E, N>
 }

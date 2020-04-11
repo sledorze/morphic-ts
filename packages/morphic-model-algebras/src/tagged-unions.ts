@@ -1,7 +1,6 @@
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic-ts/common/lib/HKT'
 import { UnionToIntersection } from '@morphic-ts/common/lib/core'
-import { isOptionalConfig, ByInterp } from '@morphic-ts/common/lib/config'
-import { TaggedUnionConfig } from '@morphic-ts/algebras/lib/hkt'
+import { ConfigsForType, ConfigsEnvs } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1
@@ -22,10 +21,6 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   export interface Algebra2<F extends URIS2> {
     [TaggedUnionsURI]: ModelAlgebraTaggedUnions2<F>
   }
-  /**
-   *  @since 0.0.1
-   */
-  export interface TaggedUnionConfig {}
 }
 
 // TODO: replace with explicit `TagKey` if no impact on inference
@@ -67,19 +62,16 @@ export interface ModelAlgebraTaggedUnions<F> {
       tag: Tag,
       types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
       name: string
-    ): isOptionalConfig<
-      TaggedUnionConfig,
-      HKT2<F, EnvOfTaggedTypes<Types>, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
-    >
+    ): HKT2<F, EnvOfTaggedTypes<Types>, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
   }
   taggedUnionCfg: {
     <Tag extends string, Types extends TaggedTypes<F, Tag, any, any, any>>(
       tag: Tag,
       types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
       name: string
-    ): (
-      config: ByInterp<TaggedUnionConfig, URIS | URIS2>
-    ) => HKT2<F, EnvOfTaggedTypes<Types>, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
+    ): <C extends ConfigsForType<Types[keyof Types]['_E'], Types[keyof Types]['_A']>>(
+      config: C
+    ) => HKT2<F, EnvOfTaggedTypes<Types> & ConfigsEnvs<C>, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
   }
 }
 
@@ -107,7 +99,9 @@ export interface ModelAlgebraTaggedUnions1<F extends URIS> {
     tag: Tag,
     types: TaggedTypes1<F, Tag, O, R>,
     name: string
-  ): (config: ByInterp<TaggedUnionConfig, F>) => Kind<F, EnvOfTaggedTypes1<typeof types>, TaggedValues<Tag, O>[keyof O]>
+  ): <C extends ConfigsForType<unknown, TaggedValues<Tag, O>[keyof O]>>(
+    config: C
+  ) => Kind<F, EnvOfTaggedTypes1<typeof types> & ConfigsEnvs<C>, TaggedValues<Tag, O>[keyof O]>
 }
 
 /**
@@ -135,12 +129,17 @@ export interface ModelAlgebraTaggedUnions2<F extends URIS2> {
     tag: Tag,
     types: TaggedTypes2<F, Tag, A, L, R>,
     name: string
-  ): Kind2<F, EnvOfTaggedTypes2<typeof types>, TaggedValues<Tag, A>[keyof A], TaggedValues<Tag, L>[keyof L]>
+  ): Kind2<F, EnvOfTaggedTypes2<typeof types>, TaggedValues<Tag, L>[keyof L], TaggedValues<Tag, A>[keyof A]>
   taggedUnionCfg<Tag extends string, A, L, R>(
     tag: Tag,
     types: TaggedTypes2<F, Tag, A, L, R>,
     name: string
-  ): (
-    config: ByInterp<TaggedUnionConfig, F>
-  ) => Kind2<F, EnvOfTaggedTypes2<typeof types>, TaggedValues<Tag, A>[keyof A], TaggedValues<Tag, L>[keyof L]>
+  ): <C extends ConfigsForType<TaggedValues<Tag, L>[keyof L], TaggedValues<Tag, A>[keyof A]>>(
+    config: C
+  ) => Kind2<
+    F,
+    EnvOfTaggedTypes2<typeof types> & ConfigsEnvs<C>,
+    TaggedValues<Tag, L>[keyof L],
+    TaggedValues<Tag, A>[keyof A]
+  >
 }

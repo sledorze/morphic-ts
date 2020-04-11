@@ -29,7 +29,6 @@ export type JsonSchemaResult<T> = StateEither<NamedSchemas, NonEmptyArray<JsonSc
 export class JsonSchema<A> {
   _A!: A
   _URI!: JsonSchemaURI
-  _TYPE!: JsonSchemaResult<OptionalJSONSchema>
   constructor(public schema: JsonSchemaResult<OptionalJSONSchema>) {}
 }
 

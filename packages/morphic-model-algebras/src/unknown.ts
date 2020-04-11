@@ -1,6 +1,5 @@
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { ByInterp, isOptionalConfig, NoEnv } from '@morphic-ts/common/lib/config'
-import { UnknownConfig } from '@morphic-ts/algebras/lib/hkt'
+import { NoEnv, ConfigsForType, ConfigsEnvs } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1
@@ -26,11 +25,6 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   export interface Algebra2<F extends URIS2> {
     [UnknownURI]: ModelAlgebraUnknown2<F>
   }
-
-  /**
-   *  @since 0.0.1
-   */
-  export interface UnknownConfig<RC> {}
 }
 
 /**
@@ -39,10 +33,10 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 export interface ModelAlgebraUnknown<F> {
   _F: F
   unknown: {
-    (): isOptionalConfig<UnknownConfig<NoEnv>, HKT2<F, NoEnv, unknown, unknown>>
+    (): HKT2<F, NoEnv, unknown, unknown>
   }
   unknownCfg: {
-    <RC>(config: ByInterp<UnknownConfig<RC>, URIS | URIS2>): HKT2<F, RC, unknown, unknown>
+    <C extends ConfigsForType<unknown, unknown>>(config: C): HKT2<F, ConfigsEnvs<C>, unknown, unknown>
   }
 }
 
@@ -52,7 +46,7 @@ export interface ModelAlgebraUnknown<F> {
 export interface ModelAlgebraUnknown1<F extends URIS> {
   _F: F
   unknown(): Kind<F, NoEnv, unknown>
-  unknownCfg<RC>(config: ByInterp<UnknownConfig<RC>, F>): Kind<F, RC, unknown>
+  unknownCfg<C extends ConfigsForType<unknown, unknown>>(config: C): Kind<F, ConfigsEnvs<C>, unknown>
 }
 
 /**
@@ -61,5 +55,5 @@ export interface ModelAlgebraUnknown1<F extends URIS> {
 export interface ModelAlgebraUnknown2<F extends URIS2> {
   _F: F
   unknown(): Kind2<F, NoEnv, unknown, unknown>
-  unknownCfg<RC>(config: ByInterp<UnknownConfig<RC>, F>): Kind2<F, RC, unknown, unknown>
+  unknownCfg<C extends ConfigsForType<unknown, unknown>>(config: C): Kind2<F, ConfigsEnvs<C>, unknown, unknown>
 }

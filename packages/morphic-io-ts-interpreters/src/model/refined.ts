@@ -3,12 +3,6 @@ import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraRefined2 } from '@morphic-ts/model-algebras/lib/refined'
 import { identity } from 'fp-ts/lib/function'
 
-declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface RefinedConfig<RC, E, A> {
-    [IoTsURI]: Customize<RC, E, A> | undefined
-  }
-}
-
 export interface Customize<RC, E, A> {
   <B>(a: t.BrandC<t.Type<A, E, unknown>, B>, env: RC): t.BrandC<t.Type<A, E, unknown>, B> // t.Type<A, E, unknown>
 }

@@ -6,21 +6,6 @@ import { ObjectInterfaceConfig } from '@morphic-ts/algebras/lib/hkt'
 import { Customize, applyCustomize } from './common'
 import { projectFieldWithEnv } from '@morphic-ts/common/lib/utils'
 
-declare module '@morphic-ts/algebras/lib/hkt' {
-  /**
-   *  @since 0.0.1
-   */
-  export interface ObjectInterfaceConfig<RC, E, A> {
-    [IoTsURI]: Customize<RC, E, A> | undefined
-  }
-  /**
-   *  @since 0.0.1
-   */
-  export interface ObjectPartialConfig<RC, E, A> {
-    [IoTsURI]: Customize<RC, E, A> | undefined
-  }
-}
-
 /**
  *  @since 0.0.1
  */

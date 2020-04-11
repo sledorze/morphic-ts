@@ -15,7 +15,6 @@ export type EqURI = typeof EqURI
 export class EqType<A> {
   _A!: A
   _URI!: EqURI
-  _TYPE!: Eq<A>
   constructor(public eq: Eq<A>) {}
 }
 

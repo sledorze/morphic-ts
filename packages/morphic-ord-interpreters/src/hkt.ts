@@ -16,7 +16,6 @@ export type OrdURI = typeof OrdURI
 export class OrdType<A> {
   _A!: A
   _URI!: OrdURI
-  _TYPE!: Ord<A>
   constructor(public ord: Ord<A>) {}
 }
 

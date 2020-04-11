@@ -1,4 +1,4 @@
-import { ConfigsEnvs, genConfig, ConfigsForType } from '../../src/config'
+import { ConfigsEnvs, getConfig, ConfigsForType } from '../../src/config'
 import { URIS, HKT, URIS2 } from '../../src/HKT'
 import { Ord } from 'fp-ts/lib/Ord'
 import { Eq } from 'fp-ts/lib/Eq'
@@ -24,7 +24,7 @@ class TypeIOTs<E, A> {
   constructor(ord: Type<A, E>) {}
 }
 
-const iotsConfig = genConfig('IOTs')
+const iotsConfig = getConfig('IOTs')
 
 declare module '../../src/config' {
   interface ConfigType<E, A> {
@@ -38,7 +38,7 @@ class TypeOrd<A> {
   constructor(ord: Ord<A>) {}
 }
 
-const ordConfig = genConfig('Ord')
+const ordConfig = getConfig('Ord')
 
 declare module '../../src/config' {
   interface ConfigType<E, A> {
@@ -51,7 +51,7 @@ class TypeEq<A> {
   constructor(ord: Eq<A>) {}
 }
 
-const eqConfig = genConfig('Eq')
+const eqConfig = getConfig('Eq')
 
 declare module '../../src/config' {
   interface ConfigType<E, A> {

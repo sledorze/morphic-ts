@@ -16,7 +16,6 @@ export class IOTSType<O, A> {
   _A!: A
   _E!: O
   _URI!: IoTsURI
-  _TYPE!: Type<A, O>
   constructor(public type: Type<A, O>) {}
 }
 
