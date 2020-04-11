@@ -44,7 +44,7 @@ export type isOptionalConfig<C, Y> = keyof KeepNotUndefined<ByInterp<C, URIS | U
  *  @since 0.0.1
  */
 
-export const getConfig = <Uri extends URIS | URIS2>(uri: Uri) => <R, E, A>(
+export const genConfig = <Uri extends URIS | URIS2>(uri: Uri) => <R, E, A>(
   config: GenConfig<ConfigType<E, A>[Uri], R>
 ): { [k in Uri]: GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R> } => ({ [uri]: config } as any)
 
