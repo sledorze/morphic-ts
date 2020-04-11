@@ -1,4 +1,3 @@
-import { URIS2, URIS } from 'fp-ts/lib/HKT'
 import { genConfig, GenConfig, ConfigsOf, ConfigsEnvs } from '../../src/config'
 
 declare module '../../src/HKT' {
@@ -17,9 +16,8 @@ interface Type<A> {
   _A: A
 }
 
-interface GenConfigIOTS<A, E extends {}> extends GenConfig<Type<A>, E> {}
-const myFunc = <T extends string, C extends ConfigsOf<GenConfigIOTS<T, any>>>(t: T, a: C): ConfigsEnvs<typeof a> =>
-  1 as any
+interface GenConfigIOTS<A> extends GenConfig<Type<A>, any> {}
+const myFunc = <T extends string, C extends ConfigsOf<GenConfigIOTS<T>>>(t: T, a: C): ConfigsEnvs<typeof a> => 1 as any
 
 // $ExpectType Compact<{ Eq: { x: string; }; }>
 myFunc('a', { ...bConfig((a, e: { x: string }) => a) })
