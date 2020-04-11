@@ -116,8 +116,4 @@ export interface ConfigWrapper<Uri extends URIS | URIS2> {
   <A>(config: A): { [k in Uri]: typeof config }
 }
 
-// export interface ConfigWrapper<Uri extends URIS | URIS2> {
-//   <A, E, R>(config: (a: A, e: E) => R): { [k in Uri]: typeof config }
-// }
-
 export type NoEnv = unknown

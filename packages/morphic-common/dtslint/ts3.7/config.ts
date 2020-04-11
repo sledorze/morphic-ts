@@ -1,7 +1,3 @@
-interface Type<A> {
-  _A: A
-}
-
 interface GenConfig<A, R> {
   (a: A, r: R): A
 }
@@ -24,8 +20,14 @@ export interface ConfigWrapper<Uri extends MKeys> {
   <A, R>(config: GenConfig<A, R>): { [k in Uri]: GenConfig<A, unknown extends R ? unknown : R> }
 }
 
+// Test ---
+
 const aConfig = genConfig('a')
 const bConfig = genConfig('b')
+
+interface Type<A> {
+  _A: A
+}
 
 interface GenConfigIOTS<A, E extends {}> extends GenConfig<Type<A>, E> {}
 const myFunc = <T extends string, C extends ConfigsOf<GenConfigIOTS<T, any>>>(t: T, a: C): ConfigsEnvs<typeof a> =>
