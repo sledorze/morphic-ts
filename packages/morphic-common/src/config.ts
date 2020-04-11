@@ -44,8 +44,16 @@ export type isOptionalConfig<C, Y> = keyof KeepNotUndefined<ByInterp<C, URIS | U
  *  @since 0.0.1
  */
 
-export const genConfig: <Uri extends URIS | URIS2>(uri: Uri) => ConfigWrapper<Uri> = uri => config =>
-  ({ [uri]: config } as any)
+export const getConfig = <Uri extends URIS | URIS2>(uri: Uri) => <R, E, A>(
+  config: GenConfig<ConfigType<E, A>[Uri], R>
+): { [k in Uri]: GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R> } => ({ [uri]: config } as any)
+
+export interface ConfigType<E, A> {
+  _E: E
+  _A: A
+}
+
+export type ConfigsForType<E, A> = MapToGenConfig<ConfigType<E, A>>
 
 /**
  *  @since 0.0.1
@@ -55,14 +63,14 @@ export interface GenConfig<A, R> {
   (a: A, r: R): A
 }
 
-export interface ConfigWrapper<Uri extends URIS | URIS2> {
-  <A, R>(config: GenConfig<A, R>): { [k in Uri]: GenConfig<A, unknown extends R ? unknown : R> }
-}
-
 export type NoEnv = unknown
 
-export type ConfigsOf<Conf> = { [k in URIS | URIS2]?: Conf }
-export type ConfigsEnvs<T extends ConfigsOf<any>> = Compact<
+export type MapToGenConfig<T extends Record<URIS | URIS2, any>> = ByInterp<
+  { [k in URIS | URIS2]?: GenConfig<T[k], any> },
+  URIS | URIS2
+>
+
+export type ConfigsEnvs<T extends MapToGenConfig<any>> = Compact<
   {
     [k in keyof T]: T[k] extends (a: any, env: infer R) => any ? R : never
   }
