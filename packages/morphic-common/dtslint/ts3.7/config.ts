@@ -1,6 +1,6 @@
 import { genConfig, GenConfig, ConfigsOf, ConfigsEnvs, MaybeUndefinedIfOptional } from '../../src/config'
 import { URIS, HKT } from '../../src/HKT'
-import { OptionalIfUndefined } from '../../src/core'
+import { OptionalIfUndefined, Compact } from '../../src/core'
 import { Ord } from 'fp-ts/lib/Ord'
 import { Eq } from 'fp-ts/lib/Eq'
 
@@ -32,19 +32,34 @@ const eqConfig: {
   <A, R>(config: GenConfig<Eq<A>, R>): { ['Eq']: GenConfig<Eq<A>, unknown extends R ? unknown : R> }
 } = 1 as any // genConfig('Eq')
 
+interface SubType<E, A> {
+  ['Ord']: Ord<A>
+  ['Eq']: Eq<A>
+}
+
 interface Foo<F extends URIS> {
   myFunc: <R, A>(
     t: HKT<F, R, A>
-  ) => (a: ByInterp<{ [k in URIS]?: GenConfig<Ord<string>, any> }, URIS>) => ConfigsEnvs<typeof a>
+  ) => <C extends ByInterp<{ [k in URIS]?: GenConfig<SubType<never, A>[k], any> }, URIS>>(a: C) => Extract<typeof a>
   term: <R, A>() => HKT<F, R, A>
 }
 
+type Extract<T extends ByInterp<{ [k in URIS]?: GenConfig<any, any> }, URIS>> = Compact<
+  {
+    [k in keyof T]: T[k] extends (a: any, env: infer R) => any ? R : never
+  }
+>
+
 const doIt = <F extends URIS>(f: (x: Foo<F>) => void) => f
 
-const testMagnet: (f: { ['Ord']: GenConfig<TypeOrd<string>, {}> }) => void = 1 as any
-testMagnet(ordConfig2((x, e) => x))
+const ress = doIt(F => {
+  const res = F.myFunc(F.term<{}, string>())({
+    ...ordConfig((x, e: { b: number }) => x),
+    ...eqConfig((x, e: { a: string }) => x)
+  })
 
-const ress = doIt(F => F.myFunc(F.term<{}, string>())({ ['Ord']: x => x })) // (ordConfig(x => x)))
+  res
+})
 
 const m: Foo<'Eq'> = 1 as any
 
