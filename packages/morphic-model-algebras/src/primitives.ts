@@ -160,9 +160,6 @@ export interface ModelAlgebraPrimitive<F> {
   }
 }
 
-// interface GenConfigIOTS<A> extends GenConfig<Type<A>, any> {}
-// const myFunc = <T extends string, C extends ConfigsOf<GenConfigIOTS<T>>>(t: T, a: C): ConfigsEnvs<typeof a> => 1 as any
-
 /**
  *  @since 0.0.1
  */
