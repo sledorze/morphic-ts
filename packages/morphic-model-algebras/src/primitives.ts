@@ -11,7 +11,7 @@ import {
   PrimitiveKeysOfConfig,
   PrimitiveNullableConfig
 } from '@morphic-ts/algebras/lib/hkt'
-import { ByInterp, isOptionalConfig, NoEnv } from '@morphic-ts/common/lib/core'
+import { ByInterp, isOptionalConfig, NoEnv } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1

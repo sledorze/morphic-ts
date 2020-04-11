@@ -1,5 +1,5 @@
 import { Kind, URIS, Kind2, URIS2, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { ByInterp, isOptionalConfig, NoEnv } from '@morphic-ts/common/lib/core'
+import { ByInterp, isOptionalConfig, NoEnv } from '@morphic-ts/common/lib/config'
 import { StrMapConfig } from '@morphic-ts/algebras/lib/hkt'
 
 /**

@@ -1,5 +1,6 @@
 import { URIS, Kind, URIS2, Kind2, HKT2, HKT } from '@morphic-ts/common/lib/HKT'
-import { isOptionalConfig, ByInterp, UnionToIntersection } from '@morphic-ts/common/lib/core'
+import { UnionToIntersection } from '@morphic-ts/common/lib/core'
+import { isOptionalConfig, ByInterp } from '@morphic-ts/common/lib/config'
 import { ObjectInterfaceConfig, ObjectPartialConfig } from '@morphic-ts/algebras/lib/hkt'
 
 type AnyMProps<F> = Record<string, HKT2<F, never, any, any>>

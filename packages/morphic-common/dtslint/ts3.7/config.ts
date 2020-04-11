@@ -1,26 +1,14 @@
 import { URIS2, URIS } from 'fp-ts/lib/HKT'
+import { genConfig, GenConfig, ConfigsOf, ConfigsEnvs } from '../../src/config'
 
-interface GenConfig<A, R> {
-  (a: A, r: R): A
-}
-
-type Compact<A> = { [k in keyof A]: A[k] }
-
-type ConfigsOf<Conf> = { [k in URIS | URIS2]?: Conf }
-type ConfigsEnvs<T extends ConfigsOf<any>> = Compact<
-  {
-    [k in keyof T]: T[k] extends (a: any, env: infer R) => any ? R : never
+declare module '../../src/HKT' {
+  interface URItoKind<R, A> {
+    ['Eq']: (env: R) => Type<A>
   }
->
-
-export const genConfig: <Uri extends URIS | URIS2>(uri: Uri) => ConfigWrapper<Uri> = uri => config =>
-  ({ [uri]: config } as any)
-
-export interface ConfigWrapper<Uri extends URIS | URIS2> {
-  <A, R>(config: GenConfig<A, R>): { [k in Uri]: GenConfig<A, unknown extends R ? unknown : R> }
+  interface URItoKind<R, A> {
+    ['Ord']: (env: R) => Type<A>
+  }
 }
-
-// Test ---
 
 const aConfig = genConfig('Ord')
 const bConfig = genConfig('Eq')

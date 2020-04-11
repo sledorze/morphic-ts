@@ -15,7 +15,7 @@ import { iotsConfig } from '../src/index'
 import * as WM from 'io-ts-types/lib/withMessage'
 import { Newtype, iso } from 'newtype-ts'
 import { EType, AType } from '@morphic-ts/batteries/lib/usage/utils'
-import { NoEnv } from '@morphic-ts/common/lib/core'
+import { NoEnv } from '@morphic-ts/common/lib/config'
 
 export type Tree = Node | Leaf
 export interface Node {

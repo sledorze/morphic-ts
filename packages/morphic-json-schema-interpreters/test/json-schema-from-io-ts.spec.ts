@@ -115,7 +115,7 @@ describe('a json schema generator', function (this: any) {
   })
 
   it('generate from a complex type', () => {
-    const decoder = summon(F => F.interface({ arr: F.array(F.interface({ x: F.string() }, 'X'), {}) }, 'Arrs'))
+    const decoder = summon(F => F.interface({ arr: F.array(F.interface({ x: F.string() }, 'X')) }, 'Arrs'))
     const schema = decoder.jsonSchema
 
     const X: JSONSchema = {
@@ -177,7 +177,7 @@ describe('a json schema generator', function (this: any) {
   })
 
   it('does not work with OptionFromNullable in Array!', () => {
-    const decoder = summon(F => F.interface({ as: F.array(F.nullable(F.string()), {}) }, 'AS'))
+    const decoder = summon(F => F.interface({ as: F.array(F.nullable(F.string())) }, 'AS'))
 
     const schema = () => decoder.jsonSchema
 

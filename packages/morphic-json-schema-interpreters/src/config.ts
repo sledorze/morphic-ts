@@ -1,4 +1,4 @@
-import { genConfig } from '@morphic-ts/common/lib/core'
+import { genConfig } from '@morphic-ts/common/lib/config'
 import { JsonSchemaURI } from './hkt'
 export * from './model'
 

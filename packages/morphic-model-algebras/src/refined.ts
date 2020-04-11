@@ -1,5 +1,5 @@
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { ByInterp, isOptionalConfig } from '@morphic-ts/common/lib/core'
+import { isOptionalConfig, ByInterp } from '@morphic-ts/common/lib/config'
 import { RefinedConfig } from '@morphic-ts/algebras/lib/hkt'
 import { Branded } from 'io-ts' // TODO: question that dependency..
 import { Refinement } from 'fp-ts/lib/function'
