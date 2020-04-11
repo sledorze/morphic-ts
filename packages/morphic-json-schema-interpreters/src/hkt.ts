@@ -1,7 +1,7 @@
-import { OptionalJSONSchema, JsonSchemaError } from './json-schema/json-schema-ctors'
-import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import * as SE from 'fp-ts-contrib/lib/StateEither'
-import { JSONSchema } from './json-schema/json-schema'
+import type { OptionalJSONSchema, JsonSchemaError } from './json-schema/json-schema-ctors'
+import type { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import type { StateEither } from 'fp-ts-contrib/lib/StateEither'
+import type { JSONSchema } from './json-schema/json-schema'
 
 /**
  *  @since 0.0.1
@@ -21,7 +21,7 @@ export interface NamedSchemas {
 /**
  *  @since 0.0.1
  */
-export type JsonSchemaResult<T> = SE.StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, T>
+export type JsonSchemaResult<T> = StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, T>
 
 /**
  *  @since 0.0.1
@@ -29,6 +29,7 @@ export type JsonSchemaResult<T> = SE.StateEither<NamedSchemas, NonEmptyArray<Jso
 export class JsonSchema<A> {
   _A!: A
   _URI!: JsonSchemaURI
+  _TYPE!: JsonSchemaResult<OptionalJSONSchema>
   constructor(public schema: JsonSchemaResult<OptionalJSONSchema>) {}
 }
 

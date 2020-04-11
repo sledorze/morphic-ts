@@ -1,4 +1,4 @@
-import { Ord } from 'fp-ts/lib/Ord'
+import type { Ord } from 'fp-ts/lib/Ord'
 
 /**
  *  @since 0.0.1
@@ -16,6 +16,7 @@ export type OrdURI = typeof OrdURI
 export class OrdType<A> {
   _A!: A
   _URI!: OrdURI
+  _TYPE!: Ord<A>
   constructor(public ord: Ord<A>) {}
 }
 

@@ -1,4 +1,4 @@
-import { Show } from 'fp-ts/lib/Show'
+import type { Show } from 'fp-ts/lib/Show'
 
 /**
  *  @since 0.0.1
@@ -15,6 +15,7 @@ export type ShowURI = typeof ShowURI
 export class ShowType<A> {
   _A!: A
   _URI!: ShowURI
+  _TYPE!: Show<A>
   constructor(public show: Show<A>) {}
 }
 

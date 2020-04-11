@@ -11,7 +11,7 @@ import {
   PrimitiveKeysOfConfig,
   PrimitiveNullableConfig
 } from '@morphic-ts/algebras/lib/hkt'
-import { ByInterp, isOptionalConfig, NoEnv } from '@morphic-ts/common/lib/config'
+import { ByInterp, isOptionalConfig, NoEnv, GenConfig, ConfigsEnvs } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1
@@ -148,9 +148,9 @@ export interface ModelAlgebraPrimitive<F> {
     <L, A, R>(a: HKT2<F, R, L, A>): isOptionalConfig<PrimitiveArrayConfig<NoEnv, L, A>, HKT2<F, R, Array<L>, Array<A>>>
   }
   arrayCfg: {
-    <L, A, R>(a: HKT2<F, R, L, A>): <RC>(
-      config: ByInterp<PrimitiveArrayConfig<RC, L, A>, URIS | URIS2>
-    ) => HKT2<F, R & RC, Array<L>, Array<A>>
+    <L, A, R>(a: HKT2<F, R, L, A>): <C extends GenConfig<HKT2<F, R, L, A>, any>>(
+      config: C
+    ) => HKT2<F, R & ConfigsEnvs<typeof config>, Array<L>, Array<A>>
   }
   date: {
     (): isOptionalConfig<PrimitiveDateConfig<NoEnv>, HKT2<F, NoEnv, string, Date>>
@@ -159,6 +159,9 @@ export interface ModelAlgebraPrimitive<F> {
     <RC>(config: ByInterp<PrimitiveDateConfig<RC>, URIS | URIS2>): HKT2<F, RC, string, Date>
   }
 }
+
+// interface GenConfigIOTS<A> extends GenConfig<Type<A>, any> {}
+// const myFunc = <T extends string, C extends ConfigsOf<GenConfigIOTS<T>>>(t: T, a: C): ConfigsEnvs<typeof a> => 1 as any
 
 /**
  *  @since 0.0.1

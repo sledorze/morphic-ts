@@ -5,6 +5,10 @@ import { ProgramUnionURI } from '@morphic-ts/batteries/lib/program'
 import { M, summonFor } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { fastCheckConfig } from '../lib/config'
+import { HKT2 } from '@morphic-ts/common/lib/HKT'
+import { pass } from 'fp-ts/lib/Writer'
+import { hkt } from 'fp-ts'
+import { FastCheckType } from '../lib/hkt'
 
 const { summon } = summonFor({})
 
@@ -19,13 +23,13 @@ describe('FastCheck interpreter', () => {
   })
 
   it('string can be customized for FastCheck', () => {
-    testProgram(summon(F => F.string(fastCheckConfig(A => A.noShrink()))))
+    testProgram(summon(F => F.stringCfg(fastCheckConfig(A => A.noShrink()))))
   })
 
   it('string can be customized via a specific generator', () => {
     testProgram(
       summon(F =>
-        F.string(fastCheckConfig(_ => fc.constantFrom('scala', 'haskell', 'purescript', 'typescript', 'haxe')))
+        F.stringCfg(fastCheckConfig(_ => fc.constantFrom('scala', 'haskell', 'purescript', 'typescript', 'haxe')))
       )
     )
   })
@@ -39,13 +43,14 @@ describe('FastCheck interpreter', () => {
   })
 
   it('array', () => {
-    testProgram(summon(F => F.array(F.string(), {})))
+    testProgram(summon(F => F.array(F.string())))
   })
 
   it('array is bounded by config', () => {
     fc.check(
       fc.property(
-        summon(F => F.array(F.string(), fastCheckConfig({ minLength: 2, maxLength: 4 }))).arb,
+        // summon(F => F.arrayCfg(F.string())(fastCheckConfig((A: FastCheckType<string[]>) => A))).arb,
+        summon(F => F.arrayCfg(F.string())(fastCheckConfig(A => A))).arb,
         arr => arr.length >= 2 && arr.length <= 4
       )
     )

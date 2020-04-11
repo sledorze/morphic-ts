@@ -31,8 +31,8 @@ foo(F =>
   F.taggedUnion(
     'type',
     {
-      a: F.interface({ type: F.stringLiteral<'a', Deps>('a') }, 'A'),
-      b: F.interface({ type: F.stringLiteral<'b', Deps>('b') }, 'B')
+      a: F.interface({ type: F.stringLiteralCfg<'a', Deps>('a', 1 as any) }, 'A'),
+      b: F.interface({ type: F.stringLiteralCfg<'b', Deps>('b', 1 as any) }, 'B')
     },
     'X'
   )
@@ -43,8 +43,8 @@ foo(F =>
   F.taggedUnion(
     'type',
     {
-      a: F.interface({ type: F.stringLiteral<'a', Deps>('a') }, 'A'),
-      b: F.interface({ type: F.stringLiteral<'b', Deps2>('b') }, 'B')
+      a: F.interface({ type: F.stringLiteralCfg<'a', Deps>('a', 1 as any) }, 'A'),
+      b: F.interface({ type: F.stringLiteralCfg<'b', Deps2>('b', 1 as any) }, 'B')
     },
     'X'
   )
@@ -57,15 +57,15 @@ foo(F =>
   F.taggedUnion(
     'type',
     {
-      a: F.interface({ type: F.stringLiteral<'a', Only<Deps>>('a') }, 'A'),
-      b: F.interface({ type: F.stringLiteral<'b', Only<Deps2>>('b') }, 'B')
+      a: F.interface({ type: F.stringLiteralCfg<'a', Only<Deps>>('a', 1 as any) }, 'A'),
+      b: F.interface({ type: F.stringLiteralCfg<'b', Only<Deps2>>('b', 1 as any) }, 'B')
     },
     'X'
   )
 )
 
-const A = summon(F => F.interface({ type: F.stringLiteral<'a', Only<Deps>>('a') }, 'A'))
-const B = summon(F => F.interface({ type: F.stringLiteral<'b', Only<Deps2>>('b') }, 'B'))
+const A = summon(F => F.interface({ type: F.stringLiteralCfg<'a', Only<Deps>>('a', 1 as any) }, 'A'))
+const B = summon(F => F.interface({ type: F.stringLiteralCfg<'b', Only<Deps2>>('b', 1 as any) }, 'B'))
 
 // $ExpectType HKT2<unknown, Deps & { [x: string]: never; } & Deps2, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
 foo(F =>

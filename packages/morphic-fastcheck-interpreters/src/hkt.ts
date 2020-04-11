@@ -1,4 +1,4 @@
-import { Arbitrary } from 'fast-check'
+import type { Arbitrary } from 'fast-check'
 
 /**
  *  @since 0.0.1
@@ -15,6 +15,7 @@ export type FastCheckURI = typeof FastCheckURI
 export class FastCheckType<A> {
   _A!: A
   _URI!: FastCheckURI
+  _TYPE!: Arbitrary<A>
   constructor(public arb: Arbitrary<A>) {}
 }
 

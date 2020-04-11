@@ -1,4 +1,4 @@
-import { Eq } from 'fp-ts/lib/Eq'
+import type { Eq } from 'fp-ts/lib/Eq'
 
 /**
  *  @since 0.0.1
@@ -15,6 +15,7 @@ export type EqURI = typeof EqURI
 export class EqType<A> {
   _A!: A
   _URI!: EqURI
+  _TYPE!: Eq<A>
   constructor(public eq: Eq<A>) {}
 }
 

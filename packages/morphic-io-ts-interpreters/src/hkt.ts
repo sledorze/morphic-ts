@@ -1,4 +1,4 @@
-import * as t from 'io-ts'
+import type { Type } from 'io-ts'
 
 /**
  *  @since 0.0.1
@@ -16,7 +16,8 @@ export class IOTSType<O, A> {
   _A!: A
   _E!: O
   _URI!: IoTsURI
-  constructor(public type: t.Type<A, O>) {}
+  _TYPE!: Type<A, O>
+  constructor(public type: Type<A, O>) {}
 }
 
 declare module '@morphic-ts/common/lib/HKT' {
