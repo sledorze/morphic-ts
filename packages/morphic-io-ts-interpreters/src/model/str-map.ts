@@ -3,15 +3,6 @@ import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraStrMap2 } from '@morphic-ts/model-algebras/lib/str-map'
 import { identity } from 'fp-ts/lib/function'
 
-declare module '@morphic-ts/algebras/lib/hkt' {
-  /**
-   *  @since 0.0.1
-   */
-  export interface StrMapConfig<RC, L, A> {
-    [IoTsURI]: Customize<RC, L, A> | undefined
-  }
-}
-
 interface Customize<RC, L, A> {
   (a: t.RecordC<t.StringC, t.Type<A, L, unknown>>, env: RC): t.RecordC<t.StringC, t.Type<A, L, unknown>>
 }

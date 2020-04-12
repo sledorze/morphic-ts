@@ -2,46 +2,7 @@ import { FastCheckType, FastCheckURI } from '../hkt'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { fromNullable } from 'fp-ts/lib/Option'
 import { constant, integer, boolean, string, float, oneof, array, option, bigInt } from 'fast-check'
-import { Customize, applyCustomize } from './common'
-
-declare module '@morphic-ts/algebras/lib/hkt' {
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveArrayConfig<RC, E, A> {
-    [FastCheckURI]: MinMaxLength | undefined
-  }
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveDateConfig<RC> {
-    [FastCheckURI]: Customize<RC, Date> | undefined
-  }
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveStringConfig<RC> {
-    [FastCheckURI]: Customize<RC, string> | undefined
-  }
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveNumberConfig<RC> {
-    [FastCheckURI]: Customize<RC, number> | undefined
-  }
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveBooleanConfig<RC> {
-    [FastCheckURI]: Customize<RC, boolean> | undefined
-  }
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveBigIntConfig<RC> {
-    [FastCheckURI]: Customize<RC, bigint> | undefined
-  }
-}
+import { applyCustomize } from './common'
 
 /**
  *  @since 0.0.1

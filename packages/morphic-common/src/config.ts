@@ -69,10 +69,15 @@ export type ConfigsEnvs<T extends MapToGenConfig<any>> = Compact<
   }
 >
 
-export const genConfig = <Uri extends URIS | URIS2>(uri: Uri) => <R, E, A>(
+export const genConfig: <Uri extends URIS | URIS2>(
+  uri: Uri
+) => <R, E, A>(
   config: GenConfig<ConfigType<E, A>[Uri], R>
-): { [k in Uri]: GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R> } => ({ [uri]: config } as any)
+) => { [k in Uri]: GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R> } = uri => config =>
+  ({ [uri]: config } as any)
 
-export const getApplyConfig = <Uri extends URIS | URIS2>(uri: Uri) => <R, E, A>(
-  config: GenConfig<ConfigType<E, A>[Uri], R>
-): GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R> => config[uri]
+export const getApplyConfig: <Uri extends URIS | URIS2>(
+  uri: Uri
+) => <E, A, R>(
+  config: { [k in Uri]?: GenConfig<ConfigType<E, A>[Uri], R> }
+) => GenConfig<ConfigType<E, A>[Uri], R> | undefined = uri => config => (uri in config ? config[uri] : undefined)

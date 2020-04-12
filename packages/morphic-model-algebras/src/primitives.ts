@@ -16,18 +16,6 @@ export const PrimitiveURI = 'PrimitiveURI' as const
  */
 export type PrimitiveURI = typeof PrimitiveURI
 
-declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface Algebra<F> {
-    [PrimitiveURI]: ModelAlgebraPrimitive<F>
-  }
-  export interface Algebra1<F extends URIS> {
-    [PrimitiveURI]: ModelAlgebraPrimitive1<F>
-  }
-  export interface Algebra2<F extends URIS2> {
-    [PrimitiveURI]: ModelAlgebraPrimitive2<F>
-  }
-}
-
 /**
  *  @since 0.0.1
  */

@@ -9,6 +9,12 @@ export const EqURI = 'EqURI' as const
  */
 export type EqURI = typeof EqURI
 
+declare module '@morphic-ts/common/lib/config' {
+  export interface ConfigType<E, A> {
+    [EqURI]: Eq<A>
+  }
+}
+
 /**
  *  @since 0.0.1
  */

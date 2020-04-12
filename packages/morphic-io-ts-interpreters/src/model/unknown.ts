@@ -1,13 +1,7 @@
 import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraUnknown2 } from '@morphic-ts/model-algebras/lib/unknown'
-import { Customize, applyCustomize } from './common'
-
-declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface UnknownConfig<RC> {
-    [IoTsURI]: Customize<RC, unknown, unknown> | undefined
-  }
-}
+import { applyCustomize } from './common'
 
 /**
  *  @since 0.0.1

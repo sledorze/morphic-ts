@@ -9,18 +9,6 @@ export const RecursiveURI = 'RecursiveURI' as const
  */
 export type RecursiveURI = typeof RecursiveURI
 
-declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface Algebra<F> {
-    [RecursiveURI]: ModelAlgebraRecursive<F>
-  }
-  export interface Algebra1<F extends URIS> {
-    [RecursiveURI]: ModelAlgebraRecursive1<F>
-  }
-  export interface Algebra2<F extends URIS2> {
-    [RecursiveURI]: ModelAlgebraRecursive2<F>
-  }
-}
-
 /**
  *  @since 0.0.1
  */

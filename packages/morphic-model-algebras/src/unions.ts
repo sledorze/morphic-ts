@@ -10,18 +10,6 @@ export const UnionsURI = 'UnionsURI' as const
  */
 export type UnionsURI = typeof UnionsURI
 
-declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface Algebra<F> {
-    [UnionsURI]: ModelAlgebraUnions<F>
-  }
-  export interface Algebra1<F extends URIS> {
-    [UnionsURI]: ModelAlgebraUnions1<F>
-  }
-  export interface Algebra2<F extends URIS2> {
-    [UnionsURI]: ModelAlgebraUnions2<F>
-  }
-}
-
 /**
  *  @since 0.0.1
  */

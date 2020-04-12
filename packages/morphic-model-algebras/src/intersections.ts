@@ -9,18 +9,6 @@ export const IntersectionURI = 'IntersectionURI' as const
  */
 export type IntersectionURI = typeof IntersectionURI
 
-declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface Algebra<F> {
-    [IntersectionURI]: ModelAlgebraIntersection<F>
-  }
-  export interface Algebra1<F extends URIS> {
-    [IntersectionURI]: ModelAlgebraIntersection1<F>
-  }
-  export interface Algebra2<F extends URIS2> {
-    [IntersectionURI]: ModelAlgebraIntersection2<F>
-  }
-}
-
 /**
  *  @since 0.0.1
  */

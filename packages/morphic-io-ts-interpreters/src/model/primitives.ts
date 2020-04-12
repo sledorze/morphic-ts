@@ -5,64 +5,7 @@ import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraPrimitive2 } from '@morphic-ts/model-algebras/lib/primitives'
 import { either } from 'fp-ts/lib/Either'
 import { Option } from 'fp-ts/lib/Option'
-import { Customize, applyCustomize } from './common'
-
-declare module '@morphic-ts/algebras/lib/hkt' {
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveDateConfig<RC> {
-    [IoTsURI]: Customize<RC, string, Date> | undefined
-  }
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveStringConfig<RC> {
-    [IoTsURI]: Customize<RC, string, string> | undefined
-  }
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveNumberConfig<RC> {
-    [IoTsURI]: Customize<RC, number, number> | undefined
-  }
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveBigIntConfig<RC> {
-    [IoTsURI]: Customize<RC, string, bigint> | undefined
-  }
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveBooleanConfig<RC> {
-    [IoTsURI]: Customize<RC, boolean, boolean> | undefined
-  }
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveArrayConfig<RC, E, A> {
-    [IoTsURI]: Customize<RC, E[], A[]> | undefined
-  }
-  /**
-   *  @since 0.0.2
-   */
-  export interface PrimitiveKeysOfConfig<RC, K> {
-    [IoTsURI]: Customize<RC, string, K> | undefined
-  }
-  /**
-   *  @since 0.0.2
-   */
-  export interface PrimitiveStringLiteralConfig<RC, K> {
-    [IoTsURI]: Customize<RC, string, K> | undefined
-  }
-  /**
-   *  @since 0.0.2
-   */
-  export interface PrimitiveNullableConfig<RC, E, A> {
-    [IoTsURI]: Customize<RC, E | null, Option<A>> | undefined
-  }
-}
+import { applyCustomize } from './common'
 
 /**
  *  @since 0.0.1

@@ -3,7 +3,7 @@ import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraObject2, PropsKind2 } from '@morphic-ts/model-algebras/lib/object'
 import { ByInterp } from '@morphic-ts/common/lib/config'
 import { ObjectInterfaceConfig } from '@morphic-ts/algebras/lib/hkt'
-import { Customize, applyCustomize } from './common'
+import { applyCustomize } from './common'
 import { projectFieldWithEnv } from '@morphic-ts/common/lib/utils'
 
 /**

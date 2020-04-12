@@ -10,18 +10,6 @@ export const SetURI = 'SetURI' as const
  */
 export type SetURI = typeof SetURI
 
-declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface Algebra<F> {
-    [SetURI]: ModelAlgebraSet<F>
-  }
-  export interface Algebra1<F extends URIS> {
-    [SetURI]: ModelAlgebraSet1<F>
-  }
-  export interface Algebra2<F extends URIS2> {
-    [SetURI]: ModelAlgebraSet2<F>
-  }
-}
-
 /**
  *  @since 0.0.1
  */

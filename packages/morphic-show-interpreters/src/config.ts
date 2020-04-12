@@ -1,4 +1,4 @@
-import { genConfig } from '@morphic-ts/common/lib/config'
+import { genConfig, getApplyConfig } from '@morphic-ts/common/lib/config'
 import { ShowURI } from './hkt'
 export * from './model'
 
@@ -6,3 +6,4 @@ export * from './model'
  *  @since 0.0.1
  */
 export const showConfig = genConfig(ShowURI)
+export const showCApplyConfig = getApplyConfig(ShowURI)
