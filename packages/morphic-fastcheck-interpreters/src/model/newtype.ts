@@ -1,5 +1,6 @@
-import { FastCheckURI } from '../hkt'
+import { FastCheckURI, FastCheckType } from '../hkt'
 import { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
+import { fastCheckApplyConfig } from '../config'
 
 /**
  *  @since 0.0.1
@@ -7,6 +8,5 @@ import { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
 export const fastCheckNewtypeInterpreter: ModelAlgebraNewtype1<FastCheckURI> = {
   _F: FastCheckURI,
   newtype: () => getArb => getArb,
-  //  TODO: add customize
-  newtypeCfg: () => getArb => _config => getArb
+  newtypeCfg: () => getArb => config => env => new FastCheckType(fastCheckApplyConfig(config)(getArb(env).arb, env))
 }

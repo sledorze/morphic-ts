@@ -5,6 +5,7 @@ import { record } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
 import * as SE from 'fp-ts-contrib/lib/StateEither'
 import { arrayTraverseStateEither } from '../utils'
+import { jsonSchemaApplyConfig } from '../config'
 
 /**
  *  @since 0.0.1
@@ -18,12 +19,14 @@ export const jsonSchemaTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<JsonSch
         SE.chainEitherK(UnionTypeCtor)
       )
     ),
-  // TODO: add customize
-  taggedUnionCfg: (_tag, types) => _config => env =>
+  taggedUnionCfg: (_tag, types) => config => env =>
     new JsonSchema(
-      pipe(
-        arrayTraverseStateEither(record.toArray(types), ([_, v]) => v(env).schema),
-        SE.chainEitherK(UnionTypeCtor)
+      jsonSchemaApplyConfig(config)(
+        pipe(
+          arrayTraverseStateEither(record.toArray(types), ([_, v]) => v(env).schema),
+          SE.chainEitherK(UnionTypeCtor)
+        ),
+        env
       )
     )
 }

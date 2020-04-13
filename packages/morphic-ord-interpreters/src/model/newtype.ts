@@ -1,6 +1,7 @@
 import { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
-import { OrdURI } from '../hkt'
+import { OrdURI, OrdType } from '../hkt'
 import { identity } from 'fp-ts/lib/function'
+import { ordApplyConfig } from '../config'
 
 /**
  *  @since 0.0.1
@@ -8,6 +9,5 @@ import { identity } from 'fp-ts/lib/function'
 export const ordNewtypeInterpreter: ModelAlgebraNewtype1<OrdURI> = {
   _F: OrdURI,
   newtype: () => identity,
-  // TODO: add customize
-  newtypeCfg: () => getOrd => _config => getOrd
+  newtypeCfg: () => getOrd => config => env => new OrdType(ordApplyConfig(config)(getOrd(env).ord, env))
 }

@@ -1,5 +1,6 @@
 import { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
-import { EqURI } from '../hkt'
+import { EqURI, EqType } from '../hkt'
+import { eqApplyConfig } from '../config'
 
 /**
  *  @since 0.0.1
@@ -7,6 +8,5 @@ import { EqURI } from '../hkt'
 export const eqNewtypeInterpreter: ModelAlgebraNewtype1<EqURI> = {
   _F: EqURI,
   newtype: () => getEq => getEq,
-  // TODO: add customize
-  newtypeCfg: () => getEq => _config => getEq
+  newtypeCfg: () => getEq => config => env => new EqType(eqApplyConfig(config)(getEq(env).eq, env))
 }

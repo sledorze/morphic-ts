@@ -2,6 +2,7 @@ import { option, array } from 'fp-ts'
 import { eq, eqNumber, eqString, eqBoolean, eqStrict } from 'fp-ts/lib/Eq'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { EqType, EqURI } from '../hkt'
+import { eqApplyConfig } from '../config'
 
 /**
  *  @since 0.0.1
@@ -9,21 +10,27 @@ import { EqType, EqURI } from '../hkt'
 export const eqPrimitiveInterpreter: ModelAlgebraPrimitive1<EqURI> = {
   _F: EqURI,
   date: () => _env => new EqType(eq.contramap(eqNumber, (date: Date) => date.getTime())),
-  dateCfg: _ => _env => new EqType(eq.contramap(eqNumber, (date: Date) => date.getTime())), // TODO: add customize
+  dateCfg: config => env =>
+    new EqType(
+      eqApplyConfig(config)(
+        eq.contramap(eqNumber, (date: Date) => date.getTime()),
+        env
+      )
+    ),
   boolean: () => _env => new EqType(eqBoolean),
-  booleanCfg: _ => _env => new EqType(eqBoolean), // TODO: add customize
+  booleanCfg: config => env => new EqType(eqApplyConfig(config)(eqBoolean, env)),
   string: () => _env => new EqType(eqString),
-  stringCfg: _ => _env => new EqType(eqString), // TODO: add customize
+  stringCfg: config => env => new EqType(eqApplyConfig(config)(eqString, env)),
   number: () => _env => new EqType(eqNumber),
-  numberCfg: _ => _env => new EqType(eqNumber), // TODO: add customize
+  numberCfg: config => env => new EqType(eqApplyConfig(config)(eqNumber, env)),
   bigint: () => _env => new EqType<bigint>(eqStrict),
-  bigintCfg: _ => _env => new EqType<bigint>(eqStrict), // TODO: add customize
+  bigintCfg: config => env => new EqType<bigint>(eqApplyConfig(config)(eqStrict, env)),
   stringLiteral: k => _env => new EqType<typeof k>(eqString),
-  stringLiteralCfg: k => _config => _env => new EqType<typeof k>(eqString), // TODO: add customize
+  stringLiteralCfg: k => config => env => new EqType<typeof k>(eqApplyConfig(config)(eqString, env)),
   keysOf: keys => _env => new EqType<keyof typeof keys>(eqStrict),
-  keysOfCfg: keys => _config => _env => new EqType<keyof typeof keys>(eqStrict), // TODO: add customize
+  keysOfCfg: keys => config => env => new EqType<keyof typeof keys>(eqApplyConfig(config)(eqStrict, env)),
   nullable: getType => env => new EqType(option.getEq(getType(env).eq)),
-  nullableCfg: getType => _config => env => new EqType(option.getEq(getType(env).eq)), // TODO: add customize
+  nullableCfg: getType => config => env => new EqType(eqApplyConfig(config)(option.getEq(getType(env).eq), env)),
   array: getType => env => new EqType(array.getEq(getType(env).eq)),
-  arrayCfg: getType => _config => env => new EqType(array.getEq(getType(env).eq)) // TODO: add customize
+  arrayCfg: getType => config => env => new EqType(eqApplyConfig(config)(array.getEq(getType(env).eq), env))
 }
