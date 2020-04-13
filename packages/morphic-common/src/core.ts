@@ -52,14 +52,16 @@ export type Compact<A> = {
 /**
  *  @since 0.0.1
  */
-export type KeepNotUndefined<O> = UnionToIntersection<
+export type KeepNotUndefinedOrUnknown<O> = UnionToIntersection<
   NonNullable<{ [k in keyof O]: undefined extends O[k] ? never : { [x in k]: O[k] } }[keyof O]>
 >
-type KeepOptionalIfUndefined<O> = UnionToIntersection<
+export type KeepOptionalIfUndefinedOrUnknownOrUnknown<O> = UnionToIntersection<
   NonNullable<{ [k in keyof O]: undefined extends O[k] ? { [x in k]?: O[k] } : never }[keyof O]>
 >
 
 /**
  *  @since 0.0.1
  */
-export type OptionalIfUndefined<T> = Compact<KeepNotUndefined<T> & KeepOptionalIfUndefined<T>>
+export type OptionalIfUndefinedOrUnknown<T> = Compact<
+  KeepNotUndefinedOrUnknown<T> & KeepOptionalIfUndefinedOrUnknownOrUnknown<T>
+>

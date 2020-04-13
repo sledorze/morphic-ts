@@ -23,6 +23,12 @@ export interface NamedSchemas {
  */
 export type JsonSchemaResult<T> = StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, T>
 
+declare module '@morphic-ts/common/lib/config' {
+  export interface ConfigType<E, A> {
+    [JsonSchemaURI]: JsonSchemaResult<OptionalJSONSchema>
+  }
+}
+
 /**
  *  @since 0.0.1
  */

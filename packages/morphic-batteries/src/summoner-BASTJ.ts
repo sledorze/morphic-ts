@@ -1,6 +1,6 @@
 import { identity } from 'fp-ts/lib/function'
 import * as E from 'fp-ts/lib/Either'
-import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
+import { cacheUnaryFunction, Compact } from '@morphic-ts/common/lib/core'
 import { Includes } from '@morphic-ts/common/lib/utils'
 import { pipe } from 'fp-ts/lib/pipeable'
 
@@ -16,6 +16,7 @@ import {
 } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 import { modelJsonSchemaInterpreter } from '@morphic-ts/json-schema-interpreters/lib'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
+import { DepsErrorMsg } from './usage/summoner'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -40,7 +41,12 @@ export const AsUOpaque = <R, A>(x: UM<R, A>): UM<R, A> => x
  *  @since 0.0.1
  */
 export interface Summoner<R> extends U.Summoners<ProgramUnionURI, BASTJInterpreterURI, R> {
-  <L, A, R2 extends R>(F: U.ProgramType<R2, L, A>[ProgramUnionURI]): Includes<R, R2, M<R, L, A>, 'deps error'>
+  <L, A, R2 extends R>(F: U.ProgramType<R2, L, A>[ProgramUnionURI]): Includes<
+    R,
+    R2,
+    M<R, L, A>,
+    Compact<DepsErrorMsg<R, R2>>
+  >
 }
 
 export const summonFor = <R>(env: NonNullable<R>) =>

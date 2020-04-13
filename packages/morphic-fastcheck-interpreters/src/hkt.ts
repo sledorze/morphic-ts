@@ -9,6 +9,12 @@ export const FastCheckURI = 'FastCheckURI' as const
  */
 export type FastCheckURI = typeof FastCheckURI
 
+declare module '@morphic-ts/common/lib/config' {
+  export interface ConfigType<E, A> {
+    [FastCheckURI]: Arbitrary<A>
+  }
+}
+
 /**
  *  @since 0.0.1
  */

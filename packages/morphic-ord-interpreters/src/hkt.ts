@@ -10,6 +10,12 @@ export const OrdURI = 'OrdURI' as const
  */
 export type OrdURI = typeof OrdURI
 
+declare module '@morphic-ts/common/lib/config' {
+  export interface ConfigType<E, A> {
+    [OrdURI]: Ord<A>
+  }
+}
+
 /**
  *  @since 0.0.1
  */

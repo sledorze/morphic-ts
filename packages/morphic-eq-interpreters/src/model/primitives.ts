@@ -19,9 +19,9 @@ export const eqPrimitiveInterpreter: ModelAlgebraPrimitive1<EqURI> = {
   bigint: () => _env => new EqType<bigint>(eqStrict),
   bigintCfg: _ => _env => new EqType<bigint>(eqStrict), // TODO: add customize
   stringLiteral: k => _env => new EqType<typeof k>(eqString),
-  stringLiteralCfg: (k, _config) => _env => new EqType<typeof k>(eqString), // TODO: add customize
+  stringLiteralCfg: k => _config => _env => new EqType<typeof k>(eqString), // TODO: add customize
   keysOf: keys => _env => new EqType<keyof typeof keys>(eqStrict),
-  keysOfCfg: (keys, _config) => _env => new EqType<keyof typeof keys>(eqStrict), // TODO: add customize
+  keysOfCfg: keys => _config => _env => new EqType<keyof typeof keys>(eqStrict), // TODO: add customize
   nullable: getType => env => new EqType(option.getEq(getType(env).eq)),
   nullableCfg: getType => _config => env => new EqType(option.getEq(getType(env).eq)), // TODO: add customize
   array: getType => env => new EqType(array.getEq(getType(env).eq)),

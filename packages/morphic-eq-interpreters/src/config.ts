@@ -7,3 +7,6 @@ export * from './model' // to thread type level augmentations
  */
 export const eqConfig = genConfig(EqURI)
 export const eqApplyConfig = getApplyConfig(EqURI)
+
+console.log('genConfig ', genConfig)
+console.log('eqConfig ', eqConfig)

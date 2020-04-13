@@ -11,6 +11,18 @@ export const TaggedUnionsURI = 'TaggedUnionsURI' as const
  */
 export type TaggedUnionsURI = typeof TaggedUnionsURI
 
+declare module '@morphic-ts/algebras/lib/hkt' {
+  export interface Algebra<F> {
+    [TaggedUnionsURI]: ModelAlgebraTaggedUnions<F>
+  }
+  export interface Algebra1<F extends URIS> {
+    [TaggedUnionsURI]: ModelAlgebraTaggedUnions1<F>
+  }
+  export interface Algebra2<F extends URIS2> {
+    [TaggedUnionsURI]: ModelAlgebraTaggedUnions2<F>
+  }
+}
+
 // TODO: replace with explicit `TagKey` if no impact on inference
 // type TagKey<Tag extends string, o extends keyof any> = { [t in Tag]: o }
 /**

@@ -15,6 +15,18 @@ export const UnknownURI = 'UnknownURI' as const
  */
 export type UnknownURI = typeof UnknownURI
 
+declare module '@morphic-ts/algebras/lib/hkt' {
+  export interface Algebra<F> {
+    [UnknownURI]: ModelAlgebraUnknown<F>
+  }
+  export interface Algebra1<F extends URIS> {
+    [UnknownURI]: ModelAlgebraUnknown1<F>
+  }
+  export interface Algebra2<F extends URIS2> {
+    [UnknownURI]: ModelAlgebraUnknown2<F>
+  }
+}
+
 /**
  *  @since 0.0.1
  */

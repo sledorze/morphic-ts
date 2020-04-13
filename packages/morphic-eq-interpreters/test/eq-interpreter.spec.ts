@@ -2,7 +2,7 @@ import * as chai from 'chai'
 
 import { Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
 import { makeSummoner, Summoners } from '@morphic-ts/batteries/lib/usage/summoner'
-import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
+import { cacheUnaryFunction, Compact } from '@morphic-ts/common/lib/core'
 
 import { ProgramNoUnionURI } from '@morphic-ts/batteries/lib/program-no-union'
 import { modelEqInterpreter } from '../src/interpreters'
@@ -10,8 +10,10 @@ import { Eq } from 'fp-ts/lib/Eq'
 import * as eq from 'fp-ts/lib/Eq'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { Newtype, iso } from 'newtype-ts'
-import { eqConfig } from '../src/index'
+import { EqURI } from '../src/index'
+import { eqConfig } from '../src/config'
 import { Includes } from '@morphic-ts/common/lib/utils'
+import { DepsErrorMsg } from '@morphic-ts/batteries/lib/usage/summoner'
 
 export const EqInterpreterURI = 'EqInterpreterURI' as const
 export type EqInterpreterURI = typeof EqInterpreterURI
@@ -31,7 +33,12 @@ export interface M<R, L, A> extends Materialized<R, L, A, ProgramNoUnionURI, EqI
 export interface UM<R, A> extends Materialized<R, unknown, A, ProgramNoUnionURI, EqInterpreterURI> {}
 
 interface Summoner<R> extends Summoners<ProgramNoUnionURI, EqInterpreterURI, R> {
-  <L, A, R2 extends R>(F: ProgramType<R2, L, A>[ProgramNoUnionURI]): Includes<R, R2, M<R, L, A>, 'deps error'>
+  <L, A, R2 extends R>(F: ProgramType<R2, L, A>[ProgramNoUnionURI]): Includes<
+    R,
+    R2,
+    M<R, L, A>,
+    Compact<DepsErrorMsg<R, R2>>
+  >
 }
 
 export const summonFor = <R>(env: NonNullable<R>) =>
@@ -39,7 +46,7 @@ export const summonFor = <R>(env: NonNullable<R>) =>
     eq: program(modelEqInterpreter)(env).eq
   }))
 
-const { summon } = summonFor({ x: 'e' })
+const { summon } = summonFor({ [EqURI]: {} })
 
 describe('Eq', () => {
   it('bigInt', () => {
@@ -71,7 +78,9 @@ describe('Eq', () => {
   })
 
   it('recursive compare of circular unknown', () => {
-    const { eq } = summon(F => F.unknownCfg(eqConfig({ compare: 'default-circular' })))
+    console.log('spec eqConfig ', eqConfig)
+
+    const { eq } = summon(F => F.unknownCfg({ ...eqConfig(eq => eq) }))
 
     const recDataA = {
       a: 'a',
@@ -95,7 +104,7 @@ describe('Eq', () => {
       calls += 1
       return true
     })
-    const morph = summon(F => F.unknownCfg(eqConfig({ compare: _ => compare })))
+    const morph = summon(F => F.unknownCfg({ ...eqConfig(_eq => compare) }))
 
     const recDataA = {
       a: 'a',

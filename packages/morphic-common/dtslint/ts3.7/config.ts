@@ -1,8 +1,9 @@
-import { ConfigsEnvs, getConfig, ConfigsForType } from '../../src/config'
+import { ConfigsEnvs, genConfig, ConfigsForType } from '../../src/config'
 import { URIS, HKT, URIS2 } from '../../src/HKT'
 import { Ord } from 'fp-ts/lib/Ord'
 import { Eq } from 'fp-ts/lib/Eq'
 import { Type } from 'io-ts'
+import { KeepNotUndefinedOrUnknown } from '../../src/core'
 
 declare module '../../src/HKT' {
   interface URItoKind<R, A> {
@@ -24,7 +25,7 @@ class TypeIOTs<E, A> {
   constructor(ord: Type<A, E>) {}
 }
 
-const iotsConfig = getConfig('IOTs')
+const iotsConfig = genConfig('IOTs')
 
 declare module '../../src/config' {
   interface ConfigType<E, A> {
@@ -38,7 +39,7 @@ class TypeOrd<A> {
   constructor(ord: Ord<A>) {}
 }
 
-const ordConfig = getConfig('Ord')
+const ordConfig = genConfig('Ord')
 
 declare module '../../src/config' {
   interface ConfigType<E, A> {
@@ -51,7 +52,7 @@ class TypeEq<A> {
   constructor(ord: Eq<A>) {}
 }
 
-const eqConfig = getConfig('Eq')
+const eqConfig = genConfig('Eq')
 
 declare module '../../src/config' {
   interface ConfigType<E, A> {
@@ -71,7 +72,7 @@ interface Foo<F extends URIS | URIS2> {
 const doIt = <F extends URIS | URIS2>(f: (x: Foo<F>) => void) => f
 
 doIt(F => {
-  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", Compact<{ Ord: unknown; }>, string>
+  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", unknown, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       (x, e) =>
@@ -82,7 +83,7 @@ doIt(F => {
 })
 
 doIt(F => {
-  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", Compact<{ Ord: { b: number; }; }>, string>
+  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Ord: { b: number; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       (x, e: { b: number }) =>
@@ -93,7 +94,7 @@ doIt(F => {
 })
 
 doIt(F => {
-  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", Compact<{ Eq: { a: string; }; Ord: { b: number; }; }>, string>
+  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       (x, e: { b: number }) =>
@@ -109,7 +110,7 @@ doIt(F => {
 })
 
 doIt(F => {
-  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", Compact<{ Eq: { a: string; }; Ord: unknown; }>, string>
+  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Eq: { a: string; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       (x, e) =>
@@ -125,7 +126,7 @@ doIt(F => {
 })
 
 doIt(F => {
-  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", Compact<{ IOTs: { c: string; }; Eq: { a: string; }; Ord: { b: number; }; }>, string>
+  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { IOTs: { c: string; }; } & { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       (x, e: { b: number }) =>

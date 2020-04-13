@@ -1,5 +1,5 @@
 import { identity } from 'fp-ts/lib/function'
-import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
+import { cacheUnaryFunction, Compact } from '@morphic-ts/common/lib/core'
 
 import { modelEqInterpreter } from '@morphic-ts/eq-interpreters/lib/interpreters'
 import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
@@ -10,6 +10,7 @@ import * as U from './usage'
 import { ProgramNoUnionURI } from './program-no-union'
 import { ESBSTInterpreterURI } from './interpreters-ESBST'
 import { Includes } from '@morphic-ts/common/lib/utils'
+import { DepsErrorMsg } from './usage/summoner'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -34,7 +35,12 @@ export const AsUOpaque = <R, A>(x: UM<R, A>): UM<R, A> => x
  *  @since 0.0.1
  */
 export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBSTInterpreterURI, R> {
-  <L, A, R2 extends R>(F: U.ProgramType<R2, L, A>[ProgramNoUnionURI]): Includes<R, R2, M<R, L, A>, 'deps error'>
+  <L, A, R2 extends R>(F: U.ProgramType<R2, L, A>[ProgramNoUnionURI]): Includes<
+    R,
+    R2,
+    M<R, L, A>,
+    Compact<DepsErrorMsg<R, R2>>
+  >
 }
 
 export const summonFor = <R>(env: NonNullable<R>) =>

@@ -48,3 +48,5 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
     tagged
   }
 }
+
+export type DepsErrorMsg<R, R2> = ['summon env error, got ', R, ' but requiers ', R2, ' please provide dependencies ']

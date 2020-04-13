@@ -1,5 +1,6 @@
 import { URIS, URIS2, Kind, Kind2 } from './HKT'
-import { Compact } from './core'
+import { KeepNotUndefinedOrUnknown } from './core'
+import { identity } from 'fp-ts/lib/function'
 export { Kind, Kind2 }
 
 // /**
@@ -7,7 +8,7 @@ export { Kind, Kind2 }
 //  *  @since 0.0.1
 //  */
 // export type ByInterp<Config, Interp extends URIS | URIS2> = MaybeUndefinedIfOptional<
-//   OptionalIfUndefined<
+//   OptionalIfUndefinedOrUnknown<
 //     {
 //       [I in Interp]: I extends keyof Config ? Config[I] : undefined
 //     }
@@ -17,11 +18,11 @@ export { Kind, Kind2 }
 // /**
 //  *  @since 0.0.1
 //  */
-// export type MaybeUndefinedIfOptional<X> = keyof KeepNotUndefined<X> extends never ? X | undefined : X
+// export type MaybeUndefinedIfOptional<X> = keyof KeepNotUndefinedOrUnknown<X> extends never ? X | undefined : X
 // /**
 //  *  @since 0.0.1
 //  */
-// export type isOptionalConfig<C, Y> = keyof KeepNotUndefined<ByInterp<C, URIS | URIS2>> extends never
+// export type isOptionalConfig<C, Y> = keyof KeepNotUndefinedOrUnknown<ByInterp<C, URIS | URIS2>> extends never
 //   ? Y
 //   : 'a configuration is required'
 
@@ -63,21 +64,27 @@ export type ConfigsForType<E, A> = MapToGenConfig<ConfigType<E, A>>
  *  @since 0.0.1
  */
 
-export type ConfigsEnvs<T extends MapToGenConfig<any>> = Compact<
+export type ConfigsEnvs<T extends MapToGenConfig<any>> = KeepNotUndefinedOrUnknown<
   {
     [k in keyof T]: T[k] extends (a: any, env: infer R) => any ? R : never
   }
 >
 
+// Rewrites Config R type
+const coerceConfig = <R, E, A, Uri extends keyof ConfigType<E, A>>(x: GenConfig<ConfigType<E, A>[Uri], R>) =>
+  x as GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R>
+
 export const genConfig: <Uri extends URIS | URIS2>(
   uri: Uri
 ) => <R, E, A>(
   config: GenConfig<ConfigType<E, A>[Uri], R>
-) => { [k in Uri]: GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R> } = uri => config =>
-  ({ [uri]: config } as any)
+) => { [k in Uri]: GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R> } = uri => config => ({
+  [uri]: coerceConfig(config)
+})
 
 export const getApplyConfig: <Uri extends URIS | URIS2>(
   uri: Uri
 ) => <E, A, R>(
   config: { [k in Uri]?: GenConfig<ConfigType<E, A>[Uri], R> }
-) => GenConfig<ConfigType<E, A>[Uri], R> | undefined = uri => config => (uri in config ? config[uri] : undefined)
+) => GenConfig<ConfigType<E, A>[Uri], R> = uri => config => (a, r) =>
+  ((config[uri] ? config[uri] : identity) as any)(a, r[uri])

@@ -9,6 +9,12 @@ export const IoTsURI = 'IoTsURI' as const
  */
 export type IoTsURI = typeof IoTsURI
 
+declare module '@morphic-ts/common/lib/config' {
+  export interface ConfigType<E, A> {
+    [IoTsURI]: Type<A, E>
+  }
+}
+
 /**
  *  @since 0.0.1
  */

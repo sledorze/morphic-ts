@@ -1,7 +1,7 @@
 import { FastCheckType, FastCheckURI } from '../hkt'
 import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
 import { anything } from 'fast-check'
-import { applyCustomize } from './common'
+import { fastCheckApplyConfig } from '../config'
 
 /**
  *  @since 0.0.1
@@ -9,5 +9,5 @@ import { applyCustomize } from './common'
 export const fastCheckUnknownInterpreter: ModelAlgebraUnknown1<FastCheckURI> = {
   _F: FastCheckURI,
   unknown: () => _env => new FastCheckType(anything()),
-  unknownCfg: configs => env => new FastCheckType(applyCustomize(configs)(anything(), env))
+  unknownCfg: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(anything(), env))
 }

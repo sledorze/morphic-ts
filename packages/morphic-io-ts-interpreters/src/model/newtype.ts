@@ -1,6 +1,6 @@
 import { ModelAlgebraNewtype2 } from '@morphic-ts/model-algebras/lib/newtype'
 import { IOTSType, IoTsURI } from '../hkt'
-import { applyCustomize } from './common'
+import { iotsApplyConfig } from '../config'
 
 /**
  *  @since 0.0.1
@@ -8,5 +8,5 @@ import { applyCustomize } from './common'
 export const ioTsNewtypeInterpreter: ModelAlgebraNewtype2<IoTsURI> = {
   _F: IoTsURI,
   newtype: () => a => env => new IOTSType(a(env).type),
-  newtypeCfg: () => a => config => env => new IOTSType(applyCustomize(config)(a(env).type, env))
+  newtypeCfg: () => a => config => env => new IOTSType(iotsApplyConfig(config)(a(env).type, env))
 }
