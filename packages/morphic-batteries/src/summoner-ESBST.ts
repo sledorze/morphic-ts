@@ -1,16 +1,16 @@
 import { identity } from 'fp-ts/lib/function'
 import { cacheUnaryFunction, Compact } from '@morphic-ts/common/lib/core'
 
-import { modelEqInterpreter } from '@morphic-ts/eq-interpreters/lib/interpreters'
-import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
-import { modelIoTsNonStrictInterpreter } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
+import { modelEqInterpreter, EqURI } from '@morphic-ts/eq-interpreters/lib/interpreters'
+import { modelShowInterpreter, ShowURI } from '@morphic-ts/show-interpreters/lib/interpreters'
+import { modelIoTsNonStrictInterpreter, IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 
 import * as U from './usage'
 
 import { ProgramNoUnionURI } from './program-no-union'
 import { ESBSTInterpreterURI } from './interpreters-ESBST'
 import { Includes } from '@morphic-ts/common/lib/utils'
-import { DepsErrorMsg } from './usage/summoner'
+import { DepsErrorMsg, AnyConfigEnv, ExtractEnv } from './usage/summoner'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -43,7 +43,7 @@ export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBSTInterpr
   >
 }
 
-export const summonFor = <R>(env: NonNullable<R>) =>
+export const summonFor = <R extends AnyConfigEnv>(env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     build: identity,
     eq: program(modelEqInterpreter)(env).eq,

@@ -9,14 +9,15 @@ import * as U from './usage'
 import { BASTJInterpreterURI } from './interpreters-BASTJ'
 import { ProgramUnionURI } from './program'
 
-import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import { modelFastCheckInterpreter, FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import {
   modelIoTsStrictInterpreter,
-  modelIoTsNonStrictInterpreter
+  modelIoTsNonStrictInterpreter,
+  IoTsURI
 } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
-import { modelJsonSchemaInterpreter } from '@morphic-ts/json-schema-interpreters/lib'
+import { modelJsonSchemaInterpreter, JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
-import { DepsErrorMsg } from './usage/summoner'
+import { DepsErrorMsg, AnyConfigEnv, ExtractEnv } from './usage/summoner'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -40,7 +41,7 @@ export const AsUOpaque = <R, A>(x: UM<R, A>): UM<R, A> => x
 /**
  *  @since 0.0.1
  */
-export interface Summoner<R> extends U.Summoners<ProgramUnionURI, BASTJInterpreterURI, R> {
+export interface Summoner<R extends AnyConfigEnv> extends U.Summoners<ProgramUnionURI, BASTJInterpreterURI, R> {
   <L, A, R2 extends R>(F: U.ProgramType<R2, L, A>[ProgramUnionURI]): Includes<
     R,
     R2,
@@ -49,7 +50,7 @@ export interface Summoner<R> extends U.Summoners<ProgramUnionURI, BASTJInterpret
   >
 }
 
-export const summonFor = <R>(env: NonNullable<R>) =>
+export const summonFor = <R extends AnyConfigEnv>(env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     build: identity,
     arb: program(modelFastCheckInterpreter)(env).arb,

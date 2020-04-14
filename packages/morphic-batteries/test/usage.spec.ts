@@ -1,18 +1,20 @@
 import * as chai from 'chai'
 import { summonFor as summonBASTJFor, M as MBASTJ } from '../src/summoner-BASTJ'
-import { summonFor as summonForESBST } from '../src/summoner-ESBST'
+import { summonFor as summonESBSTFor } from '../src/summoner-ESBST'
 import * as E from 'fp-ts/lib/Either'
 import { makeTagged } from '../src/usage/tagged-union'
-import { summonFor as summonForESBASTJ } from '../src/summoner-ESBASTJ'
+import { summonFor as summonESBASTJFor } from '../src/summoner-ESBASTJ'
 import { interpretable } from '../src/usage/programs-infer'
 import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
 import { Newtype, iso } from 'newtype-ts'
-import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import { modelFastCheckInterpreter, FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import * as fc from 'fast-check'
+import { IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/hkt'
+import { fastCheckConfig } from '@morphic-ts/fastcheck-interpreters/lib/config'
 
-const { summon: summonBASTJ } = summonBASTJFor({})
-const { summon: summonESBASTJ } = summonForESBASTJ({})
-const { summon: summonESBST } = summonForESBST({})
+const { summon: summonBASTJ } = summonBASTJFor<{}>({})
+const { summon: summonESBASTJ } = summonESBASTJFor<{}>({})
+const { summon: summonESBST } = summonESBSTFor<{}>({})
 
 describe('tagged', () => {
   it('Should be reused to create another Morph', () => {
@@ -130,5 +132,46 @@ describe('Morph ESBST', () => {
     )
     const PersonARB = Person.derive(modelFastCheckInterpreter)({})
     fc.assert(fc.property(PersonARB.arb, Person.type.is))
+  })
+})
+
+describe('Can specify envs', () => {
+  it('Can specify a wider Env than what is needed to provide', () => {
+    interface FastCheckEnv {
+      b: number
+    }
+    interface IoTsEnv {
+      a: string
+    }
+    interface AppEnv {
+      [IoTsURI]: IoTsEnv
+      [FastCheckURI]: FastCheckEnv
+    }
+    // summonESBSTFor only requiers eq, show and iots
+    // AppEnv only specify Environements for fastCheck and iots
+    // So we only need to provide the IoTsEnv to create the Summoner
+    const { summon } = summonESBSTFor<AppEnv>({
+      [IoTsURI]: { a: 'z' }
+    })
+    // MorphA has M<AppEnv, string, string> signature (note the AppEnv environement specified)
+    const MorphA = summon(F =>
+      F.stringCfg({
+        ...fastCheckConfig((x, _e: FastCheckEnv) => x) // We're using the FastCheckEnv here, that only type checks because summon defines it as Env
+      })
+    )
+
+    /**
+     * Because ESBASTJ define fastCheck instances, it requires AppEnv's Environnement for fastCheck
+     */
+    const { summon: summonESBASTJX } = summonESBASTJFor<AppEnv>({
+      [IoTsURI]: { a: 'z' },
+      [FastCheckURI]: { b: 13 }
+    })
+
+    /**
+     * MorphA, even if created from another Summoner is compatible and can be safely used with summonESBST, all instances will correctly be generated
+     */
+    const MorphB = summonESBASTJX(F => F.array(MorphA(F)))
+    MorphB
   })
 })

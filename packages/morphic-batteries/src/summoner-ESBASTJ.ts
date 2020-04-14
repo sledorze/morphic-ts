@@ -1,12 +1,12 @@
 import { cacheUnaryFunction, Compact } from '@morphic-ts/common/lib/core'
 
-import { modelEqInterpreter } from '@morphic-ts/eq-interpreters/lib/interpreters'
+import { modelEqInterpreter, EqURI } from '@morphic-ts/eq-interpreters/lib/interpreters'
 
-import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
+import { modelShowInterpreter, ShowURI } from '@morphic-ts/show-interpreters/lib/interpreters'
 
-import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import { modelFastCheckInterpreter, FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 
-import { modelJsonSchemaInterpreter } from '@morphic-ts/json-schema-interpreters/lib/interpreters'
+import { modelJsonSchemaInterpreter, JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib/interpreters'
 
 import { ProgramNoUnionURI } from './program-no-union'
 
@@ -14,13 +14,13 @@ import * as E from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { identity } from 'fp-ts/lib/function'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
-import { modelIoTsNonStrictInterpreter } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
+import { modelIoTsNonStrictInterpreter, IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 
 import * as U from './usage'
 
 import { ESBASTJInterpreterURI } from './interpreters-ESBASTJ'
 import { Includes } from '@morphic-ts/common/lib/utils'
-import { DepsErrorMsg } from './usage/summoner'
+import { DepsErrorMsg, AnyConfigEnv, ExtractEnv } from './usage/summoner'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -56,7 +56,9 @@ export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBASTJInter
 /**
  *  @since 0.0.1
  */
-export const summonFor = <R>(env: NonNullable<R>) =>
+export const summonFor = <R extends AnyConfigEnv>(
+  env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI | EqURI | ShowURI>
+) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     build: identity,
     eq: program(modelEqInterpreter)(env).eq,

@@ -4,11 +4,12 @@ import { InterpreterURI, InterpreterResult } from './InterpreterResult'
 import { CacheType } from '@morphic-ts/common/lib/core'
 import { ProgramURI, ProgramType } from './ProgramType'
 import { makeTagged, TaggedBuilder } from './tagged-union'
+import { URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
 
 /**
  *  @since 0.0.1
  */
-export interface Summoners<ProgURI extends ProgramURI, InterpURI extends InterpreterURI, R> {
+export interface Summoners<ProgURI extends ProgramURI, InterpURI extends InterpreterURI, R extends AnyConfigEnv> {
   <L, A>(F: InferredProgram<R, L, A, ProgURI>): Materialized<R, L, A, ProgURI, InterpURI>
   _P: ProgURI
   _I: InterpURI
@@ -23,6 +24,11 @@ export type SummonerEnv<X extends Summoners<any, any, any>> = NonNullable<X['_R'
  * - Returns summoners giving the ability to constraint type parameters
  * - Returns the interpreter extended with matchers, monocle definitions, etc..
  */
+
+export interface MakeSummonerResult<S extends Summoners<any, any, any>> {
+  summon: S
+  tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
+}
 
 /**
  *  @since 0.0.1
@@ -50,3 +56,8 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
 }
 
 export type DepsErrorMsg<R, R2> = ['summon env error, got ', R, ' but requiers ', R2, ' please provide dependencies ']
+
+export type ExtractEnv<Env, SummonerEnv extends URIS | URIS2> = {
+  [k in SummonerEnv & keyof Env]: NonNullable<Env>[k & keyof Env]
+}
+export type AnyConfigEnv = Partial<Record<URIS | URIS2, any>>
