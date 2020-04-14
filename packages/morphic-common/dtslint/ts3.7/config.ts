@@ -75,6 +75,7 @@ doIt(F => {
   // $ExpectType HKT<"IOTs" | "Eq" | "Ord", unknown, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
+      // $ExpectType (x: Ord<string>, e: any) => Ord<string>
       (x, e) =>
         // $ExpectType Ord<string>
         x
@@ -86,6 +87,7 @@ doIt(F => {
   // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Ord: { b: number; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
+      // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
       (x, e: { b: number }) =>
         // $ExpectType Ord<string>
         x
@@ -97,11 +99,13 @@ doIt(F => {
   // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
+      // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
       (x, e: { b: number }) =>
         // $ExpectType Ord<string>
         x
     ),
     ...eqConfig(
+      // $ExpectType (x: Eq<string>, e: { a: string; }) => Eq<string>
       (x, e: { a: string }) =>
         // $ExpectType Eq<string>
         x
@@ -113,11 +117,13 @@ doIt(F => {
   // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Eq: { a: string; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
+      // $ExpectType (x: Ord<string>, e: any) => Ord<string>
       (x, e) =>
         // $ExpectType Ord<string>
         x
     ),
     ...eqConfig(
+      // $ExpectType (x: Eq<string>, e: { a: string; }) => Eq<string>
       (x, e: { a: string }) =>
         // $ExpectType Eq<string>
         x
@@ -129,16 +135,19 @@ doIt(F => {
   // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { IOTs: { c: string; }; } & { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
+      // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
       (x, e: { b: number }) =>
         // $ExpectType Ord<string>
         x
     ),
     ...eqConfig(
+      // $ExpectType (x: Eq<string>, e: { a: string; }) => Eq<string>
       (x, e: { a: string }) =>
         // $ExpectType Eq<string>
         x
     ),
     ...iotsConfig(
+      // $ExpectType (x: Type<string, unknown, unknown>, e: { c: string; }) => Type<string, unknown, unknown>
       (x, e: { c: string }) =>
         // $ExpectType Type<string, unknown, unknown>
         x

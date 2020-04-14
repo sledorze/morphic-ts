@@ -2,8 +2,7 @@ import { IsNever, Includes } from '../../src/utils'
 import {
   KeepNotUndefinedOrUnknown,
   KeepOptionalIfUndefinedOrUnknownOrUnknown,
-  OptionalIfUndefinedOrUnknown,
-  KeepNotUnknown
+  OptionalIfUndefinedOrUnknown
 } from '../../src/core'
 const dummy = 42 // $ExpectType 42
 
