@@ -1,10 +1,10 @@
 import * as chai from 'chai'
-import { modelOrdInterpreter } from '../src/interpreters'
+import { modelOrdInterpreter, OrdURI } from '../src/interpreters'
 import { Ord } from 'fp-ts/lib/Ord'
 import { Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
 import { ProgramOrderableURI } from '@morphic-ts/batteries/lib/program-orderable'
 import { cacheUnaryFunction, Compact } from '@morphic-ts/common/lib/core'
-import { makeSummoner, Summoners } from '@morphic-ts/batteries/lib/usage/summoner'
+import { makeSummoner, Summoners, AnyConfigEnv, ExtractEnv } from '@morphic-ts/batteries/lib/usage/summoner'
 import { identity } from 'fp-ts/lib/function'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { Includes } from '@morphic-ts/common/lib/utils'
@@ -36,7 +36,7 @@ export interface Summoner<R> extends Summoners<ProgramOrderableURI, OrdInterpret
   >
 }
 
-export const summonFor = <R>(env: NonNullable<R>) =>
+export const summonFor = <R extends AnyConfigEnv>(env: ExtractEnv<R, OrdURI>) =>
   makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     build: identity,
     ord: program(modelOrdInterpreter)(env).ord

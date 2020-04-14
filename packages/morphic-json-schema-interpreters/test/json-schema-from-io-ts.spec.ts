@@ -29,7 +29,7 @@ export interface GLeaf<A> {
   v: A
 }
 
-const { summon } = summonFor({})
+const { summon } = summonFor<{}>({})
 
 describe('a json schema generator', function (this: any) {
   it('generate an interface from a io-ts interface', () => {

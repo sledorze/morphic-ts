@@ -1,7 +1,7 @@
 import * as chai from 'chai'
 
 import { Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
-import { makeSummoner, Summoners } from '@morphic-ts/batteries/lib/usage/summoner'
+import { makeSummoner, Summoners, AnyConfigEnv, ExtractEnv } from '@morphic-ts/batteries/lib/usage/summoner'
 import { cacheUnaryFunction, Compact } from '@morphic-ts/common/lib/core'
 
 import { ProgramNoUnionURI } from '@morphic-ts/batteries/lib/program-no-union'
@@ -41,12 +41,12 @@ interface Summoner<R> extends Summoners<ProgramNoUnionURI, EqInterpreterURI, R> 
   >
 }
 
-export const summonFor = <R>(env: NonNullable<R>) =>
+export const summonFor = <R extends AnyConfigEnv>(env: ExtractEnv<R, EqURI>) =>
   makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     eq: program(modelEqInterpreter)(env).eq
   }))
 
-const { summon } = summonFor({ [EqURI]: {} })
+const { summon } = summonFor<{}>({})
 
 describe('Eq', () => {
   it('bigInt', () => {

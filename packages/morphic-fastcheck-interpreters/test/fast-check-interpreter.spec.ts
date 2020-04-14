@@ -5,7 +5,7 @@ import { M, summonFor } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { fastCheckConfig } from '../lib/config'
 
-const { summon } = summonFor({})
+const { summon } = summonFor<{}>({})
 
 const testProgram = <A>(prog: ProgramType<{}, unknown, A>[ProgramUnionURI]) => {
   const { arb, type } = summon(prog)

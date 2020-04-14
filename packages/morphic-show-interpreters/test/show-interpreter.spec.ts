@@ -4,7 +4,7 @@ import { summonFor } from '@morphic-ts/batteries/lib/summoner-ESBASTJ'
 import { Newtype, iso } from 'newtype-ts'
 import { showConfig } from '../src/config'
 
-const { summon } = summonFor({})
+const { summon } = summonFor<{}>({})
 
 describe('Show', () => {
   it('newtype', () => {
