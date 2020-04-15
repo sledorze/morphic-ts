@@ -8,6 +8,6 @@ import { fastCheckApplyConfig } from '../config'
  */
 export const fastCheckUnknownInterpreter: ModelAlgebraUnknown1<FastCheckURI> = {
   _F: FastCheckURI,
-  unknown: () => _env => new FastCheckType(anything()),
+  unknown: _env => new FastCheckType(anything()),
   unknownCfg: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(anything(), env))
 }

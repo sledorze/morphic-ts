@@ -9,7 +9,7 @@ import { fastCheckApplyConfig } from '../config'
  */
 export const fastCheckPrimitiveInterpreter: ModelAlgebraPrimitive1<FastCheckURI> = {
   _F: FastCheckURI,
-  date: () => _env => new FastCheckType(integer().map(n => new Date(n))),
+  date: _env => new FastCheckType(integer().map(n => new Date(n))),
   dateCfg: configs => env =>
     new FastCheckType(
       fastCheckApplyConfig(configs)(
@@ -17,13 +17,13 @@ export const fastCheckPrimitiveInterpreter: ModelAlgebraPrimitive1<FastCheckURI>
         env
       )
     ),
-  boolean: () => _env => new FastCheckType(boolean()),
+  boolean: _env => new FastCheckType(boolean()),
   booleanCfg: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(boolean(), env)),
-  string: () => _env => new FastCheckType(string()),
+  string: _env => new FastCheckType(string()),
   stringCfg: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(string(), env)),
-  number: () => _env => new FastCheckType(float()),
+  number: _env => new FastCheckType(float()),
   numberCfg: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(float(), env)),
-  bigint: () => _env => new FastCheckType(bigInt()),
+  bigint: _env => new FastCheckType(bigInt()),
   bigintCfg: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(bigInt(), env)),
   stringLiteral: l => _env => new FastCheckType(constant(l)),
   stringLiteralCfg: l => config => env => new FastCheckType(fastCheckApplyConfig(config)(constant(l), env)),

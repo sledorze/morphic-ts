@@ -16,17 +16,17 @@ import { jsonSchemaApplyConfig } from '../config'
  */
 export const jsonSchemaPrimitiveInterpreter: ModelAlgebraPrimitive1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  date: () => _env => new JsonSchema(SE.stateEither.of(StringTypeCtor({ format: 'date' }))),
+  date: _env => new JsonSchema(SE.stateEither.of(StringTypeCtor({ format: 'date' }))),
   dateCfg: config => env =>
     new JsonSchema(jsonSchemaApplyConfig(config)(SE.stateEither.of(StringTypeCtor({ format: 'date' })), env)),
-  string: () => _env => new JsonSchema(SE.stateEither.of(StringTypeCtor({}))),
+  string: _env => new JsonSchema(SE.stateEither.of(StringTypeCtor({}))),
   stringCfg: config => env => new JsonSchema(jsonSchemaApplyConfig(config)(SE.stateEither.of(StringTypeCtor({})), env)),
-  number: () => _env => new JsonSchema(SE.stateEither.of(NumberTypeCtor())),
+  number: _env => new JsonSchema(SE.stateEither.of(NumberTypeCtor())),
   numberCfg: config => env => new JsonSchema(jsonSchemaApplyConfig(config)(SE.stateEither.of(NumberTypeCtor()), env)),
-  bigint: () => _env => new JsonSchema(SE.stateEither.of(StringTypeCtor({ format: 'bigint' }))),
+  bigint: _env => new JsonSchema(SE.stateEither.of(StringTypeCtor({ format: 'bigint' }))),
   bigintCfg: config => env =>
     new JsonSchema(jsonSchemaApplyConfig(config)(SE.stateEither.of(StringTypeCtor({ format: 'bigint' })), env)),
-  boolean: () => _env => new JsonSchema(SE.stateEither.of(BooleanTypeCtor())),
+  boolean: _env => new JsonSchema(SE.stateEither.of(BooleanTypeCtor())),
   booleanCfg: config => env => new JsonSchema(jsonSchemaApplyConfig(config)(SE.stateEither.of(BooleanTypeCtor()), env)),
   stringLiteral: v => _env => new JsonSchema(SE.stateEither.of(LiteralTypeCtor(v))),
   stringLiteralCfg: v => config => env =>

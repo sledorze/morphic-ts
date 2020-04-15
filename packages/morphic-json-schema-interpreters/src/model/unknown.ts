@@ -9,6 +9,6 @@ import { jsonSchemaApplyConfig } from '../config'
  */
 export const jsonSchemaUnknownInterpreter: ModelAlgebraUnknown1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  unknown: () => _env => new JsonSchema(SE.stateEither.of(AnythingTypeCtor())),
+  unknown: _env => new JsonSchema(SE.stateEither.of(AnythingTypeCtor())),
   unknownCfg: config => env => new JsonSchema(jsonSchemaApplyConfig(config)(SE.stateEither.of(AnythingTypeCtor()), env))
 }

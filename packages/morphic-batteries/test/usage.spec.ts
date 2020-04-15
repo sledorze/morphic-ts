@@ -96,7 +96,7 @@ describe('tagged', () => {
   })
 
   it('can be composed with richer Morphs', () => {
-    const T = summonESBASTJ(F => F.date())
+    const T = summonESBASTJ(F => F.date)
     const R = summonBASTJ(F =>
       F.interface(
         {
@@ -113,7 +113,7 @@ describe('tagged', () => {
 
   it('can fully be reinterpreted with an interpreter', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
-    const Thing = summonESBASTJ(F => F.interface({ date: F.newtype<NT>('NT')(F.date()), name: F.string() }, 'Thing'))
+    const Thing = summonESBASTJ(F => F.interface({ date: F.newtype<NT>('NT')(F.date), name: F.string }, 'Thing'))
 
     const date = new Date(2020, 2, 20, 2, 20, 20)
     const show = interpretable(Thing)(modelShowInterpreter)({}).show
@@ -127,8 +127,8 @@ describe('Morph ESBST', () => {
     const Person = summonESBST(F =>
       F.interface(
         {
-          name: F.string(),
-          birthdate: F.date()
+          name: F.string,
+          birthdate: F.date
         },
         'Person'
       )

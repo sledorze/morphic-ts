@@ -11,7 +11,7 @@ import { ordApplyConfig } from '../config'
  */
 export const ordPrimitiveInterpreter: ModelAlgebraPrimitive1<OrdURI> = {
   _F: OrdURI,
-  date: () => _env => new OrdType(ord.contramap(ordNumber, date => date.getTime())),
+  date: _env => new OrdType(ord.contramap(ordNumber, date => date.getTime())),
   dateCfg: config => env =>
     new OrdType(
       ordApplyConfig(config)(
@@ -19,14 +19,13 @@ export const ordPrimitiveInterpreter: ModelAlgebraPrimitive1<OrdURI> = {
         env
       )
     ),
-  boolean: () => _env => new OrdType(ordBoolean),
+  boolean: _env => new OrdType(ordBoolean),
   booleanCfg: config => env => new OrdType(ordApplyConfig(config)(ordBoolean, env)),
-  string: () => _env => new OrdType(ordString),
+  string: _env => new OrdType(ordString),
   stringCfg: config => env => new OrdType(ordApplyConfig(config)(ordString, env)),
-  number: () => _env => new OrdType(ordNumber),
+  number: _env => new OrdType(ordNumber),
   numberCfg: config => env => new OrdType(ordApplyConfig(config)(ordNumber, env)),
-  bigint: () => _env =>
-    new OrdType<bigint>({ equals: eqStrict.equals, compare: (x, y) => (x < y ? -1 : x > y ? 1 : 0) }),
+  bigint: _env => new OrdType<bigint>({ equals: eqStrict.equals, compare: (x, y) => (x < y ? -1 : x > y ? 1 : 0) }),
   bigintCfg: config => env =>
     new OrdType<bigint>(
       ordApplyConfig(config)({ equals: eqStrict.equals, compare: (x, y) => (x < y ? -1 : x > y ? 1 : 0) }, env)

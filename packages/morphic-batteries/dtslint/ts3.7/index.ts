@@ -94,9 +94,9 @@ interface C {
 
 const { summon, tagged } = summonFor<{}>({})
 
-const A = summon<ARaw, A>(F => F.interface({ type: F.stringLiteral('A'), a: F.string() }, 'A'))
-const B = summon<BRaw, B>(F => F.interface({ type: F.stringLiteral('B'), b: F.string() }, 'B'))
-const C = summon<CRaw, C>(F => F.interface({ type: F.stringLiteral('C'), c: F.string() }, 'C'))
+const A = summon<ARaw, A>(F => F.interface({ type: F.stringLiteral('A'), a: F.string }, 'A'))
+const B = summon<BRaw, B>(F => F.interface({ type: F.stringLiteral('B'), b: F.string }, 'B'))
+const C = summon<CRaw, C>(F => F.interface({ type: F.stringLiteral('C'), c: F.string }, 'C'))
 
 // $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; C: [CRaw, C]; }, "type", "ProgramUnionURI", "BASTJInterpreterURI", {}>
 const ABC = tagged('type')({

@@ -8,6 +8,6 @@ import { iotsApplyConfig } from '../config'
  */
 export const ioTsUnknownInterpreter: ModelAlgebraUnknown2<IoTsURI> = {
   _F: IoTsURI,
-  unknown: () => _env => new IOTSType(t.unknown),
+  unknown: _env => new IOTSType(t.unknown),
   unknownCfg: config => env => new IOTSType(iotsApplyConfig(config)(t.unknown, env))
 }

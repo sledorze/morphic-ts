@@ -9,7 +9,7 @@ import { eqApplyConfig } from '../config'
  */
 export const eqPrimitiveInterpreter: ModelAlgebraPrimitive1<EqURI> = {
   _F: EqURI,
-  date: () => _env => new EqType(eq.contramap(eqNumber, (date: Date) => date.getTime())),
+  date: _env => new EqType(eq.contramap(eqNumber, (date: Date) => date.getTime())),
   dateCfg: config => env =>
     new EqType(
       eqApplyConfig(config)(
@@ -17,13 +17,13 @@ export const eqPrimitiveInterpreter: ModelAlgebraPrimitive1<EqURI> = {
         env
       )
     ),
-  boolean: () => _env => new EqType(eqBoolean),
+  boolean: _env => new EqType(eqBoolean),
   booleanCfg: config => env => new EqType(eqApplyConfig(config)(eqBoolean, env)),
-  string: () => _env => new EqType(eqString),
+  string: _env => new EqType(eqString),
   stringCfg: config => env => new EqType(eqApplyConfig(config)(eqString, env)),
-  number: () => _env => new EqType(eqNumber),
+  number: _env => new EqType(eqNumber),
   numberCfg: config => env => new EqType(eqApplyConfig(config)(eqNumber, env)),
-  bigint: () => _env => new EqType<bigint>(eqStrict),
+  bigint: _env => new EqType<bigint>(eqStrict),
   bigintCfg: config => env => new EqType<bigint>(eqApplyConfig(config)(eqStrict, env)),
   stringLiteral: k => _env => new EqType<typeof k>(eqString),
   stringLiteralCfg: k => config => env => new EqType<typeof k>(eqApplyConfig(config)(eqString, env)),

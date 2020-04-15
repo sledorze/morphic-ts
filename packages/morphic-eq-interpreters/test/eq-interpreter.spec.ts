@@ -50,7 +50,7 @@ const { summon } = summonFor<{}>({})
 
 describe('Eq', () => {
   it('bigInt', () => {
-    const { eq } = summon(F => F.bigint())
+    const { eq } = summon(F => F.bigint)
     chai.assert.strictEqual(eq.equals(BigInt(10), BigInt(10)), true)
     chai.assert.strictEqual(eq.equals(BigInt(10), BigInt(11)), false)
   })
@@ -59,7 +59,7 @@ describe('Eq', () => {
     interface Test extends Newtype<{ readonly Test: unique symbol }, string> {}
     const isoTest = iso<Test>()
 
-    const { eq } = summon(F => F.newtype<Test>('Test')(F.string()))
+    const { eq } = summon(F => F.newtype<Test>('Test')(F.string))
 
     const testA = isoTest.wrap('a')
     const testB = isoTest.wrap('b')
@@ -68,7 +68,7 @@ describe('Eq', () => {
   })
 
   it('unknown', () => {
-    const { eq } = summon(F => F.unknown())
+    const { eq } = summon(F => F.unknown)
     chai.assert.strictEqual(eq.equals('a', 'a'), true)
     chai.assert.strictEqual(eq.equals('a', 'b'), false)
     const arr1 = ['a', 'b']
@@ -128,8 +128,8 @@ describe('Eq', () => {
     const Foo = summon(F =>
       F.interface(
         {
-          date: F.date(),
-          a: F.string()
+          date: F.date,
+          a: F.string
         },
         'Foo'
       )
@@ -145,8 +145,8 @@ describe('Eq', () => {
     const Foo = summon(F =>
       F.interface(
         {
-          date: F.date(),
-          a: F.string()
+          date: F.date,
+          a: F.string
         },
         'Foo'
       )
@@ -167,12 +167,12 @@ describe('Eq', () => {
           dates: F.array(
             F.interface(
               {
-                date: F.date()
+                date: F.date
               },
               'HasDate'
             )
           ),
-          a: F.string()
+          a: F.string
         },
         'Foo'
       )
@@ -203,8 +203,8 @@ describe('Eq', () => {
       F.partial(
         {
           type: F.stringLiteral('foo'),
-          a: F.string(),
-          b: F.number()
+          a: F.string,
+          b: F.number
         },
         'Foo'
       )
@@ -230,8 +230,8 @@ describe('Eq', () => {
       F.interface(
         {
           type: F.stringLiteral('foo'),
-          a: F.string(),
-          b: F.number()
+          a: F.string,
+          b: F.number
         },
         'Foo'
       )
@@ -246,8 +246,8 @@ describe('Eq', () => {
       F.interface(
         {
           type: F.stringLiteral('bar'),
-          c: F.string(),
-          d: F.number()
+          c: F.string,
+          d: F.number
         },
         'Bar'
       )

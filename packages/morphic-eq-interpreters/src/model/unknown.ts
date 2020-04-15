@@ -13,7 +13,7 @@ export interface CustomizeUnknown<RC> {
  */
 export const eqUnknownInterpreter: ModelAlgebraUnknown1<EqURI> = {
   _F: EqURI,
-  unknown: () => _env => {
+  unknown: _env => {
     const equals = circularDeepEqual
     return new EqType({ equals })
   },
