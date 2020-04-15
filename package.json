@@ -8,7 +8,7 @@
   "devDependencies": {
     "@types/chai": "4.2.11",
     "@types/jest": "25.2.1",
-    "@types/node": "13.9.6",
+    "@types/node": "13.11.1",
     "chai": "4.2.0",
     "docs-ts": "^0.2.1",
     "dtslint": "github:gcanti/dtslint",
@@ -21,7 +21,7 @@
     "mocha": "^7.0.0",
     "monocle-ts": "^2.0.1",
     "newtype-ts": "^0.3.3",
-    "prettier": "2.0.2",
+    "prettier": "2.0.3",
     "rimraf": "^3.0.2",
     "ts-jest": "^25.2.1",
     "ts-node": "^8.6.2",
