@@ -29,7 +29,9 @@ export const wrapFun = <A, B, X>(g: ((a: A) => B) & X): typeof g => ((x: any) =>
 /**
  *  @since 0.0.1
  */
-export interface InhabitedTypes<E, A> {
+export interface InhabitedTypes<R, E, A> {
+  // tslint:disable-next-line: no-unused-expression
+  _R: R
   // tslint:disable-next-line: no-unused-expression
   _E: E
   // tslint:disable-next-line: no-unused-expression
@@ -38,11 +40,15 @@ export interface InhabitedTypes<E, A> {
 /**
  *  @since 0.0.1
  */
-export type AType<X extends InhabitedTypes<any, any>> = X['_A']
+export type AType<X extends InhabitedTypes<any, any, any>> = X['_A']
 /**
  *  @since 0.0.1
  */
-export type EType<X extends InhabitedTypes<any, any>> = X['_E']
+export type EType<X extends InhabitedTypes<any, any, any>> = X['_E']
+/**
+ *  @since 0.0.1
+ */
+export type RType<X extends InhabitedTypes<any, any, any>> = X['_R']
 
 /**
  * Fake inhabitation of types
@@ -50,4 +56,4 @@ export type EType<X extends InhabitedTypes<any, any>> = X['_E']
 /**
  *  @since 0.0.1
  */
-export const inhabitTypes = <E, A, T>(t: T): T & InhabitedTypes<E, A> => t as T & InhabitedTypes<E, A>
+export const inhabitTypes = <R, E, A, T>(t: T): T & InhabitedTypes<R, E, A> => t as T & InhabitedTypes<R, E, A>

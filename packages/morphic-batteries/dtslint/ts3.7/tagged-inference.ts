@@ -1,5 +1,7 @@
-import { summon, AsOpaque, tagged } from '../../src/summoner-BASTJ'
+import { summonFor, AsOpaque } from '../../src/summoner-BASTJ'
 import { AType, EType } from '../../src/usage/utils'
+
+const { summon, tagged } = summonFor<{}>({})
 
 const CommonType = summon(F =>
   F.keysOf({
@@ -21,7 +23,7 @@ const TypeA_ = summon(F =>
 interface TypeA extends AType<typeof TypeA_> {}
 interface TypeAR extends EType<typeof TypeA_> {}
 
-const TypeA = AsOpaque<TypeAR, TypeA>(TypeA_)
+const TypeA = AsOpaque<TypeAR, TypeA>()(TypeA_)
 
 const TypeB_ = summon(F =>
   F.interface(
@@ -35,7 +37,7 @@ const TypeB_ = summon(F =>
 interface TypeB extends AType<typeof TypeB_> {}
 interface TypeBR extends EType<typeof TypeB_> {}
 
-const TypeB = AsOpaque<TypeBR, TypeB>(TypeB_)
+const TypeB = AsOpaque<TypeBR, TypeB>()(TypeB_)
 
 const ADT = tagged('event')({
   TypeA,

@@ -52,7 +52,7 @@ export interface InhabitedInterpreterAndAlbegra<ProgURI extends ProgramURI, Inte
 function interpreteWithProgram<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
   program: ProgramType<R, E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
-): Morph<R, E, A, InterpURI, ProgURI> & InhabitedTypes<E, A> {
+): Morph<R, E, A, InterpURI, ProgURI> & InhabitedTypes<R, E, A> {
   return inhabitInterpreterAndAlbegra(
     inhabitTypes(assignFunction(wrapFun(program as any), programInterpreter(program)))
   ) // FIXME: resolve any
@@ -73,7 +73,7 @@ export type Materialized<R, E, A, ProgURI extends ProgramURI, InterpURI extends 
   ProgURI
 > &
   MonocleFor<A> &
-  InhabitedTypes<E, A> &
+  InhabitedTypes<R, E, A> &
   InhabitedInterpreterAndAlbegra<ProgURI, InterpURI> &
   Interpretable<R, E, A, ProgURI>
 

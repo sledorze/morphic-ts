@@ -35,7 +35,7 @@ type M<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = 
   InterpURI
 >
 
-type AnyTypes = Record<string, InhabitedTypes<any, any>>
+type AnyTypes = Record<string, InhabitedTypes<any, any, any>>
 
 // type AParam<Types extends AnyTypes> = AType<Types[keyof Types]>
 // type EParam<Types extends AnyTypes> = EType<Types[keyof Types]>
@@ -68,7 +68,7 @@ export type TaggedBuilder<ProgURI extends ProgramURI, InterpURI extends Interpre
   o: Types
 ) => MorphADT<
   {
-    [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never
+    [k in keyof Types]: Types[k] extends InhabitedTypes<any, infer E, infer A> ? [E, A] : never
   },
   Tag,
   ProgURI,
@@ -93,7 +93,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
   o: Types
 ) => MorphADT<
   {
-    [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never
+    [k in keyof Types]: Types[k] extends InhabitedTypes<any, infer E, infer A> ? [E, A] : never
   },
   Tag,
   ProgURI,
@@ -132,7 +132,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
     o: Types
   ): MorphADT<
     {
-      [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never
+      [k in keyof Types]: Types[k] extends InhabitedTypes<any, infer E, infer A> ? [E, A] : never
     },
     Tag,
     ProgURI,
@@ -156,7 +156,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
       selectedKeys: Keys
     ): MorphADT<
       {
-        [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never
+        [k in keyof Types]: Types[k] extends InhabitedTypes<any, infer E, infer A> ? [E, A] : never
       },
       Tag,
       ProgURI,
@@ -168,7 +168,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
       selectedKeys: Keys
     ): MorphADT<
       {
-        [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never
+        [k in keyof Types]: Types[k] extends InhabitedTypes<any, infer E, infer A> ? [E, A] : never
       },
       Tag,
       ProgURI,
@@ -178,7 +178,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
 
     const res: MorphADT<
       {
-        [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never
+        [k in keyof Types]: Types[k] extends InhabitedTypes<any, infer E, infer A> ? [E, A] : never
       },
       Tag,
       ProgURI,
