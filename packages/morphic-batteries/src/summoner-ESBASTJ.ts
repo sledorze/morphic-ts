@@ -35,11 +35,11 @@ export interface UM<R, A> extends M<R, unknown, A> {}
 /**
  *  @since 0.0.1
  */
-export const AsOpaque = <R, E, A>(x: M<R, E, A>): M<R, E, A> => x
+export const AsOpaque = <E, A>() => <X extends M<any, E, A>>(x: X): M<X['_R'], E, A> => x
 /**
  *  @since 0.0.1
  */
-export const AsUOpaque = <R, A>(x: UM<R, A>): UM<R, A> => x
+export const AsUOpaque = <A>() => <X extends UM<any, A>>(x: X): UM<X['_R'], A> => x
 
 /**
  *  @since 0.0.1
