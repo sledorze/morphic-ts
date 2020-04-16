@@ -78,13 +78,14 @@ export const genConfig: <Uri extends URIS | URIS2>(
   uri: Uri
 ) => <R, E, A>(
   config: GenConfig<ConfigType<E, A>[Uri], R>
-) => { [k in Uri]: GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R> } = uri => config => ({
-  [uri]: coerceConfig(config)
-})
+) => { [k in Uri]: GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R> } = uri => config =>
+  ({
+    [uri]: coerceConfig(config)
+  } as any)
 
 export const getApplyConfig: <Uri extends URIS | URIS2>(
   uri: Uri
-) => <E, A, R>(
+) => <E, A, R extends Record<typeof uri, any>>(
   config: { [k in Uri]?: GenConfig<ConfigType<E, A>[Uri], R> }
 ) => GenConfig<ConfigType<E, A>[Uri], R> = uri => config => (a, r) =>
   ((config[uri] ? config[uri] : identity) as any)(a, r[uri])

@@ -16,7 +16,8 @@ export const projectField = <T extends Record<any, Record<any, any>>>(t: T) => <
 ): {
   [q in keyof T]: T[q][K]
 } =>
-  record.record.map(t, p => p[k]) as {
+  record.record.map(t, p => p[k]) as
+  {
     [q in keyof T]: T[q][K]
   }
 
@@ -30,7 +31,8 @@ export const projectFieldWithEnv = <T extends Record<any, (e: R) => Record<any, 
 ): {
   [q in keyof T]: ReturnType<T[q]>[K]
 } =>
-  record.record.map(t, p => p(env)[k]) as {
+  record.record.map(t, p => p(env)[k]) as
+  {
     [q in keyof T]: ReturnType<T[q]>[K]
   }
 

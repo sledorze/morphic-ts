@@ -23,8 +23,6 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   }
 }
 
-// TODO: replace with explicit `TagKey` if no impact on inference
-// type TagKey<Tag extends string, o extends keyof any> = { [t in Tag]: o }
 /**
  *  @since 0.0.1
  */
@@ -37,11 +35,13 @@ export type TaggedTypes<F, Tag extends string, L, A, R> = {
   [o in keyof A & keyof L]: HKT2<F, R, L[o], (A & { [x in o]: { [k in Tag]: o } })[o]>
 }
 
-type EnvOfTaggedTypes<T extends TaggedTypes<any, any, any, any, any>> = UnionToIntersection<
-  {
-    [k in keyof T]: T[k] extends HKT2<any, infer R, any, any> ? R : never
-  }[keyof T]
->
+type UX<T extends TaggedTypes<any, any, any, any, any>> = {
+  [k in keyof T]: T[k] extends HKT2<any, infer R, any, any> ? R : never
+}[keyof T]
+
+// type EnvOfTaggedTypes<T extends TaggedTypes<any, any, any, any, any>> = {
+//   [k in keyof UnionToIntersection<UX<T>>]: UnionToIntersection<UX<T>>[k]
+// }
 
 type DecorateTag<X extends HKT2<any, any, any, any>, Tag extends string, VTag> = X extends HKT2<
   infer F,
@@ -62,7 +62,14 @@ export interface ModelAlgebraTaggedUnions<F> {
       tag: Tag,
       types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
       name: string
-    ): HKT2<F, EnvOfTaggedTypes<Types>, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
+    ): HKT2<
+      F,
+      {
+        [k in keyof UnionToIntersection<UX<Types>>]: UnionToIntersection<UX<Types>>[k]
+      },
+      Types[keyof Types]['_E'],
+      Types[keyof Types]['_A']
+    >
   }
   taggedUnionCfg: {
     <Tag extends string, Types extends TaggedTypes<F, Tag, any, any, any>>(
@@ -71,7 +78,15 @@ export interface ModelAlgebraTaggedUnions<F> {
       name: string
     ): <C extends ConfigsForType<Types[keyof Types]['_E'], Types[keyof Types]['_A']>>(
       config: C
-    ) => HKT2<F, EnvOfTaggedTypes<Types> & ConfigsEnvs<C>, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
+    ) => HKT2<
+      F,
+      {
+        [k in keyof UnionToIntersection<UX<Types>>]: UnionToIntersection<UX<Types>>[k]
+      } &
+        ConfigsEnvs<C>,
+      Types[keyof Types]['_E'],
+      Types[keyof Types]['_A']
+    >
   }
 }
 
@@ -110,7 +125,7 @@ export interface ModelAlgebraTaggedUnions1<F extends URIS> {
 export type TaggedTypes2<F extends URIS2, Tag extends string, L, A, R> = {
   [o in keyof A & keyof L]: Kind2<F, R, A[o] & { [t in Tag]: o }, L[o] & { [t in Tag]: o }>
 }
-type EnvOfTaggedTypes2<T extends TaggedTypes2<URIS, any, any, any, any>> = T extends TaggedTypes2<
+export type EnvOfTaggedTypes2<T extends TaggedTypes2<URIS, any, any, any, any>> = T extends TaggedTypes2<
   URIS,
   any,
   any,

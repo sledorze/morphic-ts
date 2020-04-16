@@ -72,7 +72,7 @@ interface Foo<F extends URIS | URIS2> {
 const doIt = <F extends URIS | URIS2>(f: (x: Foo<F>) => void) => f
 
 doIt(F => {
-  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", unknown, string>
+  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", unknown, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       // $ExpectType (x: Ord<string>, e: any) => Ord<string>
@@ -84,7 +84,7 @@ doIt(F => {
 })
 
 doIt(F => {
-  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Ord: { b: number; }; }, string>
+  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Ord: { b: number; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
@@ -96,7 +96,7 @@ doIt(F => {
 })
 
 doIt(F => {
-  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
+  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
@@ -114,7 +114,7 @@ doIt(F => {
 })
 
 doIt(F => {
-  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Eq: { a: string; }; }, string>
+  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Eq: { a: string; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       // $ExpectType (x: Ord<string>, e: any) => Ord<string>
@@ -132,7 +132,7 @@ doIt(F => {
 })
 
 doIt(F => {
-  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { IOTs: { c: string; }; } & { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
+  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { IOTs: { c: string; }; } & { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
