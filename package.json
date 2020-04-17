@@ -23,7 +23,7 @@
     "newtype-ts": "^0.3.3",
     "prettier": "2.0.3",
     "rimraf": "^3.0.2",
-    "ts-jest": "^25.2.1",
+    "ts-jest": "25.3.1",
     "ts-node": "^8.6.2",
     "tslint": "6.0.0",
     "tslint-config-standard": "^9.0.0",
