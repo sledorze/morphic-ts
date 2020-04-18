@@ -19,6 +19,24 @@ It is has two side blended into one; generic ADT manipulation AND Generic, custo
 Lastest release introduces Env inference for Config.
 It is a breaking release with some easy-to-adapt, mostly syntactic, changes (fine pre 1.0.0):
 
+### (new) Algebra changes
+
+The configurable variants of each Algebra method has been split.
+
+Before
+
+```typescript
+summon(F => F.string())
+summon(F => F.string({ ...iotsConfig(x => x) }))
+```
+
+After
+
+```typescript
+summon(F => F.string)
+summon(F => F.stringCfg({ ...iotsConfig(x => x) }))
+```
+
 ### (new) Config Environment
 
 Configs are used to override some specific interpreter instances and
@@ -107,7 +125,11 @@ The consequence is that any interpreting summoner Env will need to cover all the
 
 This transitive aspect is the necessary condition for correct (re)interpretations.
 
-### Config inference
+### (new) All Algerba Config available
+
+This was an unfinished task, now all configurable variants are implemented in all interpreters.
+
+### (new) Config inference
 
 Config inference has been modified and now requires wrapping those in an object spread (due to a typescript - or a developper - limitation).
 
@@ -126,7 +148,7 @@ After
 F.arrayCfg(Data(F))({ ...iotsConfig(_ => OneOrArray(Data.type)) })
 ```
 
-### Opaques alias in batteries requiers an extra application
+### (new) Opaques alias in batteries requiers an extra application
 
 Before
 
