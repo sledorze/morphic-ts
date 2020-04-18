@@ -49,13 +49,13 @@ He can also reinterpret using another summoner.
 const AnotherPerson = summonESBASTJ(Person) // Reinterpreter using another summoner (thus generating different type classes)
 ```
 
-However, it is often desirable to override fastcheck via a config, for instance, to generate realistic arbitraries (here the name with a alphabetic letters and a min/max length or a birthdate in the past).
+However, it is often desirable to override fastcheck via a config, for instance, to generate realistic arbitraries (here the name with alphabetic letters and a min/max length or a birthdate in the past).
 
 Doing so means that one needs to add a config for fastcheck when defining the `Person` members Morphs, thus, including the fastcheck lib.
 
 But doing so, the lib is imported outside of tests, which is not desirable.
 
-Config Environment solve this issue by offering the ability to give acces to an environment for the config of each interpreter.
+Config Environment solve this issue by offering the ability to give access to an environment for the config of each interpreter.
 
 The motivation is providing ways to abstract over dependencies used in configs.
 
@@ -67,12 +67,17 @@ summon(F =>
 )
 ```
 
-The environement type has to be specified at definition site, this means it should be included, missing the point.
-But there's a trick; as the definition is purely a type, it can be imported by using the `import type` feature of typescript, where value level import is not generated.
+The environement type has to be specified at definition site.
 
-Doing so also infers the correct Env type and only typechecks correctly if `summon` has been instanciated with correct Env constraints using the `summonFor` constructor.
+To prevent really importing the lib to get it's type (the definition is purely a type), we can rely on type imports from typescript.
 
-We can see how creating the summon requires to provide (all) the Envs a summoner will be able to support.
+```typescript
+import type * as fc from 'fast-check'
+```
+
+The new Config also infers the correct Env type and only typechecks correctly if `summon` has been instanciated with correct Env constraints using the `summonFor` constructor.
+
+Creating the summon requires providing (all) the Envs a summoner will be able to support.
 
 ```typescript
 export const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({ [IoTsURI]: { WM } })
@@ -88,15 +93,15 @@ export interface AppEnv {
 export const { summon } = summonFor<AppEnv>({ [IoTsURI]: { WM } })
 ```
 
-If the underlying Interpreter of a particular instance of `summonFor` does not generate a typeclass define in its Env (this example, `io-ts`), then there is no need to feeds it the definition:
+If the underlying Interpreter of `summoner` does not generate a typeclass (e.g. `io-ts`), then there is no need to feed it at creation time:
 
 ```typescript
 export const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({})
 ```
 
-This would typecheck.
+This will typecheck accordingly.
 
-However the type constraint of the Env will remain in the summoner signature, so that any reinterpretation from another summoner will thread that constraint; there no compromise on type safety.
+However the type constraint of the Env will remain in the summoner signature, so that any (re)interpretation from another summoner will thread that constraint; there no compromise on type safety.
 
 The consequence is that any interpreting summoner Env will need to cover all the Env from the source summoner.
 
@@ -104,7 +109,7 @@ This transitive aspect is the necessary condition for correct (re)interpretation
 
 ### Config inference
 
-Config inference has been modified and now requires wrapping those in an object spread.
+Config inference has been modified and now requires wrapping those in an object spread (due to a typescript - or a developper - limitation).
 
 Before
 
@@ -121,7 +126,7 @@ After
 F.arrayCfg(Data(F))({ ...iotsConfig(_ => OneOrArray(Data.type)) })
 ```
 
-### Opaques alias in batteries requiers currying
+### Opaques alias in batteries requiers an extra application
 
 Before
 
