@@ -22,20 +22,22 @@
   "dependencies": {
     "@morphic-ts/algebras": "^1.0.2-alpha.0",
     "@morphic-ts/common": "^1.0.2-alpha.0",
-    "@morphic-ts/model-algebras": "^1.0.2-alpha.0",
-    "fast-check": "^1.22.1",
-    "fp-ts": "^2.5.3"
+    "@morphic-ts/model-algebras": "^1.0.2-alpha.0"
   },
   "devDependencies": {
     "io-ts": "^2.1.3",
     "io-ts-types": "^0.5.6",
-    "newtype-ts": "^0.3.3"
+    "newtype-ts": "^0.3.3",
+    "fp-ts": "^2.5.3",
+    "fast-check": "^1.22.1"
   },
   "peerDependencies": {
     "@morphic-ts/batteries": "^1.0.0-alpha.0",
     "io-ts": "^2.1.3",
     "io-ts-types": "^0.5.6",
-    "newtype-ts": "^0.3.3"
+    "newtype-ts": "^0.3.3",
+    "fp-ts": "^2.5.3",
+    "fast-check": "^1.22.1"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",

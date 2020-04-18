@@ -638,15 +638,13 @@ describe('iotsObjectInterpreter', () => {
     // Types Should be defined beforehand at Summon creation ? (no..)
     const { summon: summonIOTS } = summonFor<AppEnv>({ [IoTsURI]: { iots: t, WM: WM } })
 
-    const XX = summonIOTS(F =>
+    const Codec = summonIOTS(F =>
       F.stringCfg({
         ...iotsConfig((_, { iots }: IOTSEnv) => iots.string)
       })
     )
     const codec = summonIOTS(F =>
-      //      F.strMapCfg(XX(F))(iotsConfig((x, { WM }: WithMessage) => WM.withMessage(x, () => 'not ok')))
-
-      F.strMapCfg(XX(F))({
+      F.strMapCfg(Codec(F))({
         ...iotsConfig((x, { WM }: WithMessage) => WM.withMessage(x, () => 'not ok'))
       })
     ).type

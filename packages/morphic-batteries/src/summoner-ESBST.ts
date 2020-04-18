@@ -9,7 +9,7 @@ import * as U from './usage'
 
 import { ProgramNoUnionURI } from './program-no-union'
 import { ESBSTInterpreterURI } from './interpreters-ESBST'
-import { Includes } from '@morphic-ts/common/lib/utils'
+import { Includes, Only } from '@morphic-ts/common/lib/utils'
 import { DepsErrorMsg, AnyConfigEnv, ExtractEnv } from './usage/summoner'
 
 /** Type level override to keep Morph type name short */
@@ -36,7 +36,7 @@ export const AsUOpaque = <A>() => <X extends UM<any, A>>(x: X): UM<X['_R'], A> =
  */
 export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBSTInterpreterURI, R> {
   <L, A, R2 extends R>(F: U.ProgramType<R2, L, A>[ProgramNoUnionURI]): Includes<
-    R,
+    Only<R>,
     R2,
     M<R, L, A>,
     Compact<DepsErrorMsg<R, R2>>

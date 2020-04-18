@@ -1,7 +1,7 @@
 import { identity } from 'fp-ts/lib/function'
 import * as E from 'fp-ts/lib/Either'
 import { cacheUnaryFunction, Compact } from '@morphic-ts/common/lib/core'
-import { Includes } from '@morphic-ts/common/lib/utils'
+import { Includes, Only } from '@morphic-ts/common/lib/utils'
 import { pipe } from 'fp-ts/lib/pipeable'
 
 import * as U from './usage'
@@ -43,7 +43,7 @@ export const AsUOpaque = <A>() => <X extends UM<any, A>>(x: X): UM<X['_R'], A> =
  */
 export interface Summoner<R extends AnyConfigEnv> extends U.Summoners<ProgramUnionURI, BASTJInterpreterURI, R> {
   <L, A, R2 extends R>(F: U.ProgramType<R2, L, A>[ProgramUnionURI]): Includes<
-    R,
+    Only<R>,
     R2,
     M<R, L, A>,
     Compact<DepsErrorMsg<R, R2>>
