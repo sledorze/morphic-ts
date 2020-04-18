@@ -37,7 +37,7 @@ export interface ModelAlgebraPrimitive<F> {
     <L, A, R>(T: HKT2<F, R, L, A>): HKT2<F, R, null | L, Option<A>>
   }
   nullableCfg: {
-    <L, A, R>(T: HKT2<F, R, L, A>): <C extends ConfigsForType<L, A>>(
+    <L, A, R>(T: HKT2<F, R, L, A>): <C extends ConfigsForType<L | null, Option<A>>>(
       config: C
     ) => HKT2<F, R & ConfigsEnvs<C>, null | L, Option<A>>
   }
@@ -78,7 +78,7 @@ export interface ModelAlgebraPrimitive<F> {
     <L, A, R>(a: HKT2<F, R, L, A>): HKT2<F, R, Array<L>, Array<A>>
   }
   arrayCfg: {
-    <L, A, R>(a: HKT2<F, R, L, A>): <C extends ConfigsForType<L, A>>(
+    <L, A, R>(a: HKT2<F, R, L, A>): <C extends ConfigsForType<Array<L>, Array<A>>>(
       config: C
     ) => HKT2<F, R & ConfigsEnvs<typeof config>, Array<L>, Array<A>>
   }
