@@ -119,4 +119,7 @@ type AM = AOfMorhpADT<typeof ABC>
 type EM = EOfMorhpADT<typeof ABC>
 
 // $ExpectType (env: {}) => FastCheckType<A | B | C>
-const fc = interpretable(ABC)(modelFastCheckInterpreter)
+interpretable(ABC)(modelFastCheckInterpreter)
+
+// $ExpectType M<{}, { a: string; b: string; }, { a: string; b: string; }>
+summon(F => F.interface({ a: F.string, b: F.string }, 'A'))

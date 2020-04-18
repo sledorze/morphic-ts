@@ -56,7 +56,7 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
   }
 }
 
-export type DepsErrorMsg<R, R2> = ['summon env error, got ', R, ' but requiers ', R2, ' please provide dependencies ']
+export type DepsErrorMsg<R, R2> = ['summon env error, got ', R, ' but requires ', R2, ' please provide dependencies ']
 
 export type ExtractEnv<Env, SummonerEnv extends URIS | URIS2> = {
   [k in SummonerEnv & keyof Env]: NonNullable<Env>[k & keyof Env]

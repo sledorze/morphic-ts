@@ -19,7 +19,92 @@ It is has two side blended into one; generic ADT manipulation AND Generic, custo
 Lastest release introduces Env inference for Config.
 It is a breaking release with some easy-to-adapt, mostly syntactic, breaking changes (fine pre 1.0.0):
 
+### Config Environment
+
+Configs are used to override some specific interpreter instances and
+this is of great value.
+
+But there's a pitfall.
+
+If one wants to use the fastcheck version of a Morph, for testing reasons, but do not want to have fastcheck included in its app, he needs to reinterpret a Morph:
+
+Using `derive`:
+
+```typescript
+const Person = summonESBST(F =>
+  F.interface(
+    {
+      name: F.string,
+      birthdate: F.date
+    },
+    'Person'
+  )
+)
+const PersonARB = Person.derive(modelFastCheckInterpreter)({})
+```
+
+He can also reinterpret using another summoner.
+
+```typescript
+const AnotherPerson = summonESBASTJ(Person) // Reinterpreter using another summoner (thus generating different type classes)
+```
+
+However, it is often desirable to override fastcheck via a config, for instance, to generate realistic arbitraries (here the name with a alphabetic letters and a min/max length or a birthdate in the past).
+
+Doing so means that one needs to add a config for fastcheck when defining the `Person` members Morphs, thus, including the fastcheck lib.
+
+But doing so, the lib is imported outside of tests, which is not desirable.
+
+Config Environment solve this issue by offering the ability to give acces to an environment for the config of each interpreter.
+
+The motivation is providing ways to abstract over dependencies used in configs.
+
+We can access an environement to use in a config like so (here IoTsTypes):
+
+```typescript
+summon(F =>
+  F.interface({ a: F.stringCfg({ ...iotsConfig((x, env: IoTsTypes) => env.WM.withMessage(x, () => 'not ok')) }) }, 'a')
+)
+```
+
+The environement type has to be specified at definition site, this means it should be included, missing the point.
+But there's a trick; as the definition is purely a type, it can be imported by using the `import type` feature of typescript, where value level import is not generated.
+
+Doing so also infers the correct Env type and only typechecks correctly if `summon` has been instanciated with correct Env constraints using the `summonFor` constructor.
+
+We can see how creating the summon requires to provide (all) the Envs a summoner will be able to support.
+
+```typescript
+export const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({ [IoTsURI]: { WM } })
+```
+
+I advise you to use a proxy interface to keep this opaque an lean.
+
+```typescript
+export interface AppEnv {
+  [IoTsURI]: IoTsTypes
+}
+
+export const { summon } = summonFor<AppEnv>({ [IoTsURI]: { WM } })
+```
+
+If the underlying Interpreter of a particular instance of `summonFor` does not generate a typeclass define in its Env (this example, `io-ts`), then there is no need to feeds it the definition:
+
+```typescript
+export const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({})
+```
+
+This would typecheck.
+
+However the type constraint of the Env will remain in the summoner signature, so that any reinterpretation from another summoner will thread that constraint; there no compromise on type safety.
+
+The consequence is that any interpreting summoner Env will need to cover all the Env from the source summoner.
+
+This transitive aspect is the necessary condition for correct (re)interpretations.
+
 ### Config inference
+
+Config inference has been modified and now requires wrapping those in an object spread.
 
 Before
 

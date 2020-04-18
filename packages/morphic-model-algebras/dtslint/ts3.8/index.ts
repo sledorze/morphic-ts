@@ -12,7 +12,7 @@ declare module '@morphic-ts/common/lib/HKT' {
 }
 
 // Eq def
-class TypeEq<A> {
+export class TypeEq<A> {
   _A!: A
   constructor(ord: Eq<A>) {}
 }
@@ -87,3 +87,21 @@ foo(F =>
     'X'
   )
 )
+
+interface SpecificConfig {}
+
+// tslint:disable-next-line: max-line-length
+// $ExpectType HKT2<unknown, { Eq: SpecificConfig; }, { a: string; b: string; }, { a: string; b: string; }>
+foo(F => {
+  // $ExpectType HKT2<unknown, { Eq: SpecificConfig; }, { a: string; b: string; }, { a: string; b: string; }>
+  const res = F.interface({ a: F.stringCfg({ ...eqConfig((x, e: SpecificConfig) => x) }), b: F.string }, 'A')
+  return res
+})
+
+// tslint:disable-next-line: max-line-length
+// $ExpectType HKT2<unknown, { Eq: { fc: SpecificConfig; }; }, string[], string[]>
+foo(F => F.array(F.stringCfg({ ...eqConfig((x, e: { fc: SpecificConfig }) => x) })))
+
+// tslint:disable-next-line: max-line-length
+// $ExpectType HKT2<unknown, { Eq: { t: SpecificConfig; }; }, string[], string[]>
+foo(F => F.array(F.stringCfg({ ...eqConfig((x, e: { t: SpecificConfig }) => x) })))

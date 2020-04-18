@@ -40,28 +40,30 @@ export interface GLeaf<A> {
   v: A
 }
 
-interface Deps {
-  toto: number
+interface IoTsTypes {
+  WM: typeof WM
 }
-interface Deps2 {
+interface IoTsTypesEx {
+  WM: typeof WM
   toto: number
-  tata: string
 }
 
-const { summon } = summonFor<{ [IoTsURI]: Deps }>({ [IoTsURI]: { toto: 54 } })
-const { summon: summon2 } = summonFor<{ [IoTsURI]: Deps2 }>({ [IoTsURI]: { toto: 54, tata: 'z' } })
+const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({ [IoTsURI]: { WM } })
+const { summon: summon2 } = summonFor<{ [IoTsURI]: IoTsTypesEx }>({ [IoTsURI]: { toto: 54, WM } })
 
 describe('IO-TS Env', () => {
   it('can be composed', () => {
     const Codec1 = summon2(F =>
-      // F.keysOfCfg({ foo: null, bar: null }, { ...iotsConfig((x, _env: Deps2) => WM.withMessage(x, () => 'not ok')) })
-      F.keysOfCfg({ foo: null, bar: null })({ ...iotsConfig((x, _env: Deps2) => WM.withMessage(x, () => 'not ok')) })
+      F.keysOfCfg({ foo: null, bar: null })({
+        ...iotsConfig((x, env: IoTsTypesEx) => env.WM.withMessage(x, () => 'not ok'))
+      })
     )
-    // const Codec3_ =
     summon(F => F.interface({ a: Codec1(F) }, 'a'))
-    //const Codec4_ =
     summon(F =>
-      F.interface({ a: F.stringCfg({ ...iotsConfig((x, _env: Deps) => WM.withMessage(x, () => 'not ok')) }) }, 'a')
+      F.interface(
+        { a: F.stringCfg({ ...iotsConfig((x, env: IoTsTypes) => env.WM.withMessage(x, () => 'not ok')) }) },
+        'a'
+      )
     )
   })
 })
