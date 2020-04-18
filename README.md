@@ -14,6 +14,46 @@ The goal is to increase, in order of importance
 
 It is has two side blended into one; generic ADT manipulation AND Generic, customizable and extensible derivations
 
+## /!\ New Release /!\
+
+Lastest release introduces Env inference for Config.
+It is a breaking release with some easy-to-adapt, mostly syntactic, breaking changes (fine pre 1.0.0):
+
+### Config inference
+
+Before
+
+```typescript
+F.array(
+  Data(F),
+  iotsConfig(_ => OneOrArray(Data.type))
+)
+```
+
+After
+
+```typescript
+F.arrayCfg(Data(F))({ ...iotsConfig(_ => OneOrArray(Data.type)) })
+```
+
+### Opaques alias in batteries requiers currying
+
+Before
+
+```typescript
+const A = AsOpaque<ARaw, ARef>(A_)
+```
+
+After
+
+```typescript
+const A = AsOpaque<ARaw, A>()(A_)
+```
+
+### Dependencies
+
+Tech specific dependencies (like `fp-ts`, `io-ts`) in interpreter packages are now peerdependencies.
+
 ## Two minutes intro
 
 ```bash
