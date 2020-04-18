@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/model-algebras",
-  "version": "1.0.3-alpha.0",
+  "version": "1.0.4-alpha.0",
   "description": "Morphic definitions for models",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -21,8 +21,8 @@
     "es6"
   ],
   "dependencies": {
-    "@morphic-ts/algebras": "^1.0.3-alpha.0",
-    "@morphic-ts/common": "^1.0.3-alpha.0"
+    "@morphic-ts/algebras": "^1.0.4-alpha.0",
+    "@morphic-ts/common": "^1.0.4-alpha.0"
   },
   "devDependencies": {
     "fp-ts": "^2.5.3",
@@ -66,5 +66,5 @@
       "utils"
     ]
   },
-  "gitHead": "503b7ace0b01234227a5da889638bbc7f8036243"
+  "gitHead": "302e1beb5ddd6fbd1d5ebbf66125ad5f5982e532"
 }
