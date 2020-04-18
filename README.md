@@ -17,7 +17,7 @@ It is has two side blended into one; generic ADT manipulation AND Generic, custo
 ## /!\ New Release /!\
 
 Lastest release introduces Env inference for Config.
-It is a breaking release with some easy-to-adapt, mostly syntactic, breaking changes (fine pre 1.0.0):
+It is a breaking release with some easy-to-adapt, mostly syntactic, changes (fine pre 1.0.0):
 
 ### (new) Config Environment
 
