@@ -19,7 +19,7 @@ It is has two side blended into one; generic ADT manipulation AND Generic, custo
 Lastest release introduces Env inference for Config.
 It is a breaking release with some easy-to-adapt, mostly syntactic, breaking changes (fine pre 1.0.0):
 
-### Config Environment
+### (new) Config Environment
 
 Configs are used to override some specific interpreter instances and
 this is of great value.
@@ -135,7 +135,21 @@ After
 const A = AsOpaque<ARaw, A>()(A_)
 ```
 
-### Dependencies
+### (new) Define
+
+Summoners now also provide a `define` member in order to help creating Programs (not Morphs).
+
+Those `define` are only constrained by the summoner Algebra (Program), not the summoner TypeClasses. And as such, these can freely be combined with any kind of summoner implementing this Algebra.
+
+They also carry their Config Env constraints.
+
+You can directly create a `Define` instance by using `defineFor` and specifying the algebra (via a program Uri).
+
+```typescript
+defineFor(ProgramNoUnionURI)(F => F.string)
+```
+
+### (new) Dependencies
 
 Tech specific dependencies (like `fp-ts`, `io-ts`) in interpreter packages are now peerdependencies.
 

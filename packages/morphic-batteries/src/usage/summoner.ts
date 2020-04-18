@@ -1,4 +1,4 @@
-import { InferredProgram, Overloads } from './programs-infer'
+import { InferredProgram, Overloads, defineFor, Define } from './programs-infer'
 import { materialize, Materialized } from './materializer'
 import { InterpreterURI, InterpreterResult } from './InterpreterResult'
 import { CacheType } from '@morphic-ts/common/lib/core'
@@ -38,25 +38,35 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
   programInterpreter: <E, A>(
     program: Overloads<ProgramType<SummonerEnv<S>, E, A>[SummonerProgURI<S>]>
   ) => InterpreterResult<E, A>[SummonerInterpURI<S>]
-): { summon: S; tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>> } {
-  type P<L, A> = ProgramType<SummonerEnv<S>, L, A>[SummonerProgURI<S>]
-  type M<L, A> = Materialized<SummonerEnv<S>, L, A, SummonerProgURI<S>, SummonerInterpURI<S>>
+): {
+  summon: S
+  tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
+  define: Define<SummonerProgURI<S>>
+} {
+  type PURI = SummonerProgURI<S>
+  type InterpURI = SummonerInterpURI<S>
+  type Env = SummonerEnv<S>
+
+  type P<L, A> = ProgramType<Env, L, A>[PURI]
+  type M<L, A> = Materialized<Env, L, A, PURI, InterpURI>
 
   const summon =
     (<L, A>(F: P<L, A>): M<L, A> =>
       materialize(
         cacheProgramEval(F),
-        programInterpreter as <E, A>(program: P<E, A>) => InterpreterResult<E, A>[SummonerInterpURI<S>]
+        programInterpreter as <E, A>(program: P<E, A>) => InterpreterResult<E, A>[InterpURI]
       )) as S
-  const tagged = (makeTagged(summon) as any) as TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>> // FIXME: as any
+  const tagged = (makeTagged(summon) as any) as TaggedBuilder<PURI, InterpURI, SummonerEnv<S>> // FIXME: as any
+  const define = defineFor<PURI>(undefined as PURI)
 
   return {
     summon,
-    tagged
+    tagged,
+    define
   }
 }
 
-export type DepsErrorMsg<R, R2> = ['summon env error, got ', R, ' but requires ', R2, ' please provide dependencies ']
+export type DepsErrorMsg<R, R2> = ['summon env error, got ', R, ' but requires ', R2, ' please provide dependencies']
 
 export type ExtractEnv<Env, SummonerEnv extends URIS | URIS2> = {
   [k in SummonerEnv & keyof Env]: NonNullable<Env>[k & keyof Env]

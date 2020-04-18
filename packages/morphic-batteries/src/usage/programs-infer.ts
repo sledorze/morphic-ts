@@ -3,6 +3,7 @@ import { Algebra1, Algebra2, Algebra } from '@morphic-ts/algebras/lib/core'
 import { ProgramURI, ProgramAlgebra, ProgramAlgebraURI, ProgramType } from './ProgramType'
 import { AnyConfigEnv } from './summoner'
 import { Only } from '@morphic-ts/common/lib/utils'
+import { identity } from 'fp-ts/lib/function'
 
 /**
  *  @since 0.0.1
@@ -33,12 +34,14 @@ export interface InferredProgram<R extends AnyConfigEnv, E, A, PURI extends Prog
   }
 }
 
+export interface Define<PURI extends ProgramURI> {
+  <R, E, A>(program: ProgramType<R, E, A>[PURI]): ProgramType<R, E, A>[PURI]
+}
+
 /***
  * Provides Program builder for the given Program type (Exposing a specific Algebra)
  */
 /**
  *  @since 0.0.1
  */
-export const makeDefine = <PURI extends ProgramURI>(_prog: PURI) => <R, E, A>(
-  program: ProgramType<R, E, A>[PURI]
-): Overloads<ProgramType<R, E, A>[PURI]> => program as any // White lie
+export const defineFor: <PURI extends ProgramURI>(_prog: PURI) => Define<PURI> = _ => identity
