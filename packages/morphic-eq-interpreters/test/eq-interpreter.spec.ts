@@ -1,17 +1,19 @@
 import * as chai from 'chai'
 
-import { ProgramInterpreter, Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
-import { makeSummoner, Summoners } from '@morphic-ts/batteries/lib/usage/summoner'
-import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
+import { Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
+import { makeSummoner, Summoners, AnyConfigEnv, ExtractEnv } from '@morphic-ts/batteries/lib/usage/summoner'
+import { cacheUnaryFunction, Compact } from '@morphic-ts/common/lib/core'
 
 import { ProgramNoUnionURI } from '@morphic-ts/batteries/lib/program-no-union'
 import { modelEqInterpreter } from '../src/interpreters'
 import { Eq } from 'fp-ts/lib/Eq'
 import * as eq from 'fp-ts/lib/Eq'
-import { interpretable } from '@morphic-ts/batteries/lib/usage/programs-infer'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { Newtype, iso } from 'newtype-ts'
-import { eqConfig } from '../src/index'
+import { EqURI } from '../src/index'
+import { eqConfig } from '../src/config'
+import { Includes } from '@morphic-ts/common/lib/utils'
+import { DepsErrorMsg } from '@morphic-ts/batteries/lib/usage/summoner'
 
 export const EqInterpreterURI = 'EqInterpreterURI' as const
 export type EqInterpreterURI = typeof EqInterpreterURI
@@ -25,34 +27,30 @@ declare module '@morphic-ts/batteries/lib/usage/InterpreterResult' {
     [EqInterpreterURI]: EqInterpreter<A>
   }
 }
-declare module '@morphic-ts/batteries/lib/usage/ProgramType' {
-  interface ProgramNoUnionInterpreters {
-    [EqInterpreterURI]: Summoner
-  }
-}
-
-const eqInterp: ProgramInterpreter<ProgramNoUnionURI, EqInterpreterURI> = _program => {
-  const program = interpretable(_program)
-  return {
-    eq: program(modelEqInterpreter).eq
-  }
-}
 
 /** Type level override to keep Morph type name short */
-export interface M<L, A> extends Materialized<L, A, ProgramNoUnionURI, EqInterpreterURI> {}
-export interface UM<A> extends Materialized<unknown, A, ProgramNoUnionURI, EqInterpreterURI> {}
+export interface M<R, L, A> extends Materialized<R, L, A, ProgramNoUnionURI, EqInterpreterURI> {}
+export interface UM<R, A> extends Materialized<R, unknown, A, ProgramNoUnionURI, EqInterpreterURI> {}
 
-export interface Morph {
-  <L, A>(F: ProgramType<L, A>[ProgramNoUnionURI]): M<L, A>
+interface Summoner<R> extends Summoners<ProgramNoUnionURI, EqInterpreterURI, R> {
+  <L, A, R2 extends R>(F: ProgramType<R2, L, A>[ProgramNoUnionURI]): Includes<
+    R,
+    R2,
+    M<R, L, A>,
+    Compact<DepsErrorMsg<R, R2>>
+  >
 }
 
-export interface Summoner extends Summoners<ProgramNoUnionURI, EqInterpreterURI>, Morph {}
+export const summonFor = <R extends AnyConfigEnv>(env: ExtractEnv<R, EqURI>) =>
+  makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
+    eq: program(modelEqInterpreter)(env).eq
+  }))
 
-const { summon } = makeSummoner<Summoner>(cacheUnaryFunction, eqInterp)
+const { summon } = summonFor<{}>({})
 
 describe('Eq', () => {
   it('bigInt', () => {
-    const { eq } = summon(F => F.bigint())
+    const { eq } = summon(F => F.bigint)
     chai.assert.strictEqual(eq.equals(BigInt(10), BigInt(10)), true)
     chai.assert.strictEqual(eq.equals(BigInt(10), BigInt(11)), false)
   })
@@ -61,7 +59,7 @@ describe('Eq', () => {
     interface Test extends Newtype<{ readonly Test: unique symbol }, string> {}
     const isoTest = iso<Test>()
 
-    const { eq } = summon(F => F.newtype<Test>('Test')(F.string()))
+    const { eq } = summon(F => F.newtype<Test>('Test')(F.string))
 
     const testA = isoTest.wrap('a')
     const testB = isoTest.wrap('b')
@@ -70,7 +68,7 @@ describe('Eq', () => {
   })
 
   it('unknown', () => {
-    const { eq } = summon(F => F.unknown())
+    const { eq } = summon(F => F.unknown)
     chai.assert.strictEqual(eq.equals('a', 'a'), true)
     chai.assert.strictEqual(eq.equals('a', 'b'), false)
     const arr1 = ['a', 'b']
@@ -80,7 +78,9 @@ describe('Eq', () => {
   })
 
   it('recursive compare of circular unknown', () => {
-    const { eq } = summon(F => F.unknown(eqConfig({ compare: 'default-circular' })))
+    console.log('spec eqConfig ', eqConfig)
+
+    const { eq } = summon(F => F.unknownCfg({ ...eqConfig(eq => eq) }))
 
     const recDataA = {
       a: 'a',
@@ -104,7 +104,7 @@ describe('Eq', () => {
       calls += 1
       return true
     })
-    const morph = summon(F => F.unknown(eqConfig({ compare })))
+    const morph = summon(F => F.unknownCfg({ ...eqConfig(_eq => compare) }))
 
     const recDataA = {
       a: 'a',
@@ -125,11 +125,11 @@ describe('Eq', () => {
   })
 
   it('returns false when comparing incomplete values', () => {
-    const Foo = eqInterp(F =>
+    const Foo = summon(F =>
       F.interface(
         {
-          date: F.date(),
-          a: F.string()
+          date: F.date,
+          a: F.string
         },
         'Foo'
       )
@@ -145,8 +145,8 @@ describe('Eq', () => {
     const Foo = summon(F =>
       F.interface(
         {
-          date: F.date(),
-          a: F.string()
+          date: F.date,
+          a: F.string
         },
         'Foo'
       )
@@ -167,12 +167,12 @@ describe('Eq', () => {
           dates: F.array(
             F.interface(
               {
-                date: F.date()
+                date: F.date
               },
               'HasDate'
             )
           ),
-          a: F.string()
+          a: F.string
         },
         'Foo'
       )
@@ -203,8 +203,8 @@ describe('Eq', () => {
       F.partial(
         {
           type: F.stringLiteral('foo'),
-          a: F.string(),
-          b: F.number()
+          a: F.string,
+          b: F.number
         },
         'Foo'
       )
@@ -230,8 +230,8 @@ describe('Eq', () => {
       F.interface(
         {
           type: F.stringLiteral('foo'),
-          a: F.string(),
-          b: F.number()
+          a: F.string,
+          b: F.number
         },
         'Foo'
       )
@@ -246,8 +246,8 @@ describe('Eq', () => {
       F.interface(
         {
           type: F.stringLiteral('bar'),
-          c: F.string(),
-          d: F.number()
+          c: F.string,
+          d: F.number
         },
         'Bar'
       )

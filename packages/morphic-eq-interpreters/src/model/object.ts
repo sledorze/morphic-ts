@@ -1,14 +1,20 @@
-import { ModelAlgebraObject1, PropsKind1 } from '@morphic-ts/model-algebras/lib/object'
+import { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
 import { EqType, EqURI } from '../hkt'
-import { projectField } from '@morphic-ts/common/lib/utils'
-import { getStructEq, Eq } from 'fp-ts/lib/Eq'
+import { projectFieldWithEnv } from '@morphic-ts/common/lib/utils'
+import { getStructEq } from 'fp-ts/lib/Eq'
+import { eqApplyConfig } from '../config'
 
+const asPartial = <T>(x: EqType<T>): EqType<Partial<T>> => x as any
 /**
  *  @since 0.0.1
  */
 export const eqObjectInterpreter: ModelAlgebraObject1<EqURI> = {
   _F: EqURI,
-  interface: props => new EqType(getStructEq(projectField(props)('eq'))),
-  partial: <Props>(props: PropsKind1<EqURI, Props>) =>
-    new EqType(getStructEq(projectField(props)('eq')) as Eq<Partial<Props>>) // relies on Eq<A> whereas we need Eq<Partial<A>> (but works - covered by tests)
+  interface: props => env => new EqType(getStructEq(projectFieldWithEnv(props, env)('eq'))),
+  interfaceCfg: props => config => env =>
+    new EqType(eqApplyConfig(config)(getStructEq(projectFieldWithEnv(props, env)('eq')), env)),
+  // relies on Eq<A> whereas we need Eq<Partial<A>> (but works - covered by tests)
+  partial: props => env => asPartial(new EqType(getStructEq(projectFieldWithEnv(props, env)('eq')))),
+  partialCfg: props => config => env =>
+    asPartial(new EqType(eqApplyConfig(config)(getStructEq(projectFieldWithEnv(props, env)('eq')), env)))
 }

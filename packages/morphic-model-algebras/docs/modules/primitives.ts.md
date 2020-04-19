@@ -84,18 +84,18 @@ Added in v0.0.1
 ```ts
 export interface ModelAlgebraPrimitive1<F extends URIS> {
   _F: F
-  nullable: <A>(T: Kind<F, A>, config?: ByInterp<PrimitiveNullableConfig<never, A>, F>) => Kind<F, Option<A>>
-  boolean(config?: ByInterp<PrimitiveBooleanConfig, F>): Kind<F, boolean>
-  number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind<F, number>
-  bigint(config?: ByInterp<PrimitiveBigIntConfig, F>): Kind<F, bigint>
-  string(config?: ByInterp<PrimitiveStringConfig, F>): Kind<F, string>
+  nullable: <A>(T: Kind<F, A>, config: ByInterp<PrimitiveNullableConfig<never, A>, F>) => Kind<F, Option<A>>
+  boolean(config: ByInterp<PrimitiveBooleanConfig, F>): Kind<F, boolean>
+  number(config: ByInterp<PrimitiveNumberConfig, F>): Kind<F, number>
+  bigint(config: ByInterp<PrimitiveBigIntConfig, F>): Kind<F, bigint>
+  string(config: ByInterp<PrimitiveStringConfig, F>): Kind<F, string>
   stringLiteral: <T extends string>(
     value: T,
-    config?: ByInterp<PrimitiveStringLiteralConfig<T>, F>
+    config: ByInterp<PrimitiveStringLiteralConfig<T>, F>
   ) => Kind<F, typeof value>
-  keysOf: <K extends Keys>(keys: K, config?: ByInterp<PrimitiveKeysOfConfig<keyof K>, F>) => Kind<F, keyof typeof keys>
-  array: <A>(a: Kind<F, A>, config?: ByInterp<PrimitiveArrayConfig<never, A>, F>) => Kind<F, Array<A>>
-  date(config?: ByInterp<PrimitiveDateConfig, F>): Kind<F, Date>
+  keysOf: <K extends Keys>(keys: K, config: ByInterp<PrimitiveKeysOfConfig<keyof K>, F>) => Kind<F, keyof typeof keys>
+  array: <A>(a: Kind<F, A>, config: ByInterp<PrimitiveArrayConfig<never, A>, F>) => Kind<F, Array<A>>
+  date(config: ByInterp<PrimitiveDateConfig, F>): Kind<F, Date>
 }
 ```
 
@@ -110,22 +110,22 @@ export interface ModelAlgebraPrimitive2<F extends URIS2> {
   _F: F
   nullable: <L, A>(
     T: Kind2<F, L, A>,
-    config?: ByInterp<PrimitiveNullableConfig<L, A>, F>
+    config: ByInterp<PrimitiveNullableConfig<L, A>, F>
   ) => Kind2<F, null | L, Option<A>>
-  boolean(config?: ByInterp<PrimitiveBooleanConfig, F>): Kind2<F, boolean, boolean>
-  number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind2<F, number, number>
-  bigint(config?: ByInterp<PrimitiveBigIntConfig, F>): Kind2<F, string, bigint>
-  string(config?: ByInterp<PrimitiveStringConfig, F>): Kind2<F, string, string>
+  boolean(config: ByInterp<PrimitiveBooleanConfig, F>): Kind2<F, boolean, boolean>
+  number(config: ByInterp<PrimitiveNumberConfig, F>): Kind2<F, number, number>
+  bigint(config: ByInterp<PrimitiveBigIntConfig, F>): Kind2<F, string, bigint>
+  string(config: ByInterp<PrimitiveStringConfig, F>): Kind2<F, string, string>
   stringLiteral: <T extends string>(
     value: T,
-    config?: ByInterp<PrimitiveStringLiteralConfig<T>, F>
+    config: ByInterp<PrimitiveStringLiteralConfig<T>, F>
   ) => Kind2<F, string, typeof value>
   keysOf: <K extends Keys>(
     keys: K,
-    config?: ByInterp<PrimitiveKeysOfConfig<keyof K>, F>
+    config: ByInterp<PrimitiveKeysOfConfig<keyof K>, F>
   ) => Kind2<F, string, keyof typeof keys>
-  array: <L, A>(a: Kind2<F, L, A>, config?: ByInterp<PrimitiveArrayConfig<L, A>, F>) => Kind2<F, Array<L>, Array<A>>
-  date(config?: ByInterp<PrimitiveDateConfig, F>): Kind2<F, string, Date>
+  array: <L, A>(a: Kind2<F, L, A>, config: ByInterp<PrimitiveArrayConfig<L, A>, F>) => Kind2<F, Array<L>, Array<A>>
+  date(config: ByInterp<PrimitiveDateConfig, F>): Kind2<F, string, Date>
 }
 ```
 

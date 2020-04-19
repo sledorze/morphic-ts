@@ -1,6 +1,5 @@
 import { Kind, URIS, Kind2, URIS2, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { ByInterp, isOptionalConfig } from '@morphic-ts/common/lib/core'
-import { StrMapConfig } from '@morphic-ts/algebras/lib/hkt'
+import { ConfigsForType, ConfigsEnvs } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1
@@ -21,11 +20,6 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   export interface Algebra2<F extends URIS2> {
     [StrMapURI]: ModelAlgebraStrMap2<F>
   }
-
-  /**
-   *  @since 0.0.1
-   */
-  export interface StrMapConfig<L, A> {}
 }
 
 /**
@@ -34,15 +28,12 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 export interface ModelAlgebraStrMap<F> {
   _F: F
   strMap: {
-    <L, A>(codomain: HKT2<F, L, A>): isOptionalConfig<
-      StrMapConfig<L, A>,
-      HKT2<F, Array<[string, L]>, Record<string, A>>
-    >
-    <L, A>(codomain: HKT2<F, L, A>, config?: ByInterp<StrMapConfig<L, A>, URIS | URIS2>): HKT2<
-      F,
-      Array<[string, L]>,
-      Record<string, A>
-    >
+    <L, A, R>(codomain: HKT2<F, R, L, A>): HKT2<F, R, Record<string, L>, Record<string, A>>
+  }
+  strMapCfg: {
+    <L, A, R>(codomain: HKT2<F, R, L, A>): <C extends ConfigsForType<Record<string, L>, Record<string, A>>>(
+      config: C
+    ) => HKT2<F, R & ConfigsEnvs<C>, Record<string, L>, Record<string, A>>
   }
 }
 
@@ -51,7 +42,12 @@ export interface ModelAlgebraStrMap<F> {
  */
 export interface ModelAlgebraStrMap1<F extends URIS> {
   _F: F
-  strMap: <A>(codomain: Kind<F, A>, config?: ByInterp<StrMapConfig<unknown, A>, F>) => Kind<F, Record<string, A>>
+  strMap: <A, R>(codomain: Kind<F, R, A>) => Kind<F, R, Record<string, A>>
+  strMapCfg: <A, R>(
+    codomain: Kind<F, R, A>
+  ) => <C extends ConfigsForType<unknown, Record<string, A>>>(
+    config: C
+  ) => Kind<F, R & ConfigsEnvs<C>, Record<string, A>>
 }
 
 /**
@@ -59,8 +55,10 @@ export interface ModelAlgebraStrMap1<F extends URIS> {
  */
 export interface ModelAlgebraStrMap2<F extends URIS2> {
   _F: F
-  strMap: <L, A>(
-    codomain: Kind2<F, L, A>,
-    config?: ByInterp<StrMapConfig<L, A>, F>
-  ) => Kind2<F, Record<string, L>, Record<string, A>>
+  strMap: <L, A, R>(codomain: Kind2<F, R, L, A>) => Kind2<F, R, Record<string, L>, Record<string, A>>
+  strMapCfg: <L, A, R>(
+    codomain: Kind2<F, R, L, A>
+  ) => <C extends ConfigsForType<Record<string, L>, Record<string, A>>>(
+    config: C
+  ) => Kind2<F, R & ConfigsEnvs<C>, Record<string, L>, Record<string, A>>
 }

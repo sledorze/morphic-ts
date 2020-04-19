@@ -10,10 +10,10 @@ import { arrayTraverseStateEither } from '../utils'
  */
 export const jsonSchemaUnionInterpreter: ModelAlgebraUnions1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  union: <A>(types: JsonSchema<A>[]) =>
+  union: <A, R>(types: ((env: R) => JsonSchema<A>)[]) => (env: R) =>
     new JsonSchema<A>(
       pipe(
-        arrayTraverseStateEither(types, j => j.schema),
+        arrayTraverseStateEither(types, j => j(env).schema),
         SE.chainEitherK(UnionTypeCtor)
       )
     )

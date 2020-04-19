@@ -1,4 +1,4 @@
-import { Ord } from 'fp-ts/lib/Ord'
+import type { Ord } from 'fp-ts/lib/Ord'
 
 /**
  *  @since 0.0.1
@@ -10,6 +10,12 @@ export const OrdURI = 'OrdURI' as const
  */
 export type OrdURI = typeof OrdURI
 
+declare module '@morphic-ts/common/lib/config' {
+  export interface ConfigType<E, A> {
+    [OrdURI]: Ord<A>
+  }
+}
+
 /**
  *  @since 0.0.1
  */
@@ -20,7 +26,7 @@ export class OrdType<A> {
 }
 
 declare module '@morphic-ts/common/lib/HKT' {
-  interface URItoKind<A> {
-    [OrdURI]: OrdType<A>
+  interface URItoKind<R, A> {
+    [OrdURI]: (env: R) => OrdType<A>
   }
 }

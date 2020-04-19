@@ -7,5 +7,5 @@ import { EqType, EqURI } from '../hkt'
  */
 export const eqSetInterpreter: ModelAlgebraSet1<EqURI> = {
   _F: EqURI,
-  set: ({ eq }) => new EqType(set.getEq(eq))
+  set: getEq => env => new EqType(set.getEq(getEq(env).eq))
 }

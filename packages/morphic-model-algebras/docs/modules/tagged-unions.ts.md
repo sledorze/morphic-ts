@@ -56,7 +56,7 @@ export interface ModelAlgebraTaggedUnions1<F extends URIS> {
     tag: Tag,
     types: TaggedTypes1<F, Tag, O>,
     name: string,
-    config?: ByInterp<TaggedUnionConfig, F>
+    config: ByInterp<TaggedUnionConfig, F>
   ): Kind<F, TaggedValues<Tag, O>[keyof O]>
 }
 ```
@@ -74,7 +74,7 @@ export interface ModelAlgebraTaggedUnions2<F extends URIS2> {
     tag: Tag,
     types: TaggedTypes2<F, Tag, A, L>,
     name: string,
-    config?: ByInterp<TaggedUnionConfig, F>
+    config: ByInterp<TaggedUnionConfig, F>
   ): Kind2<F, TaggedValues<Tag, A>[keyof A], TaggedValues<Tag, L>[keyof L]>
 }
 ```

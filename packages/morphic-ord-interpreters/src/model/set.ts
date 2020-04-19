@@ -9,5 +9,5 @@ import { toArray } from 'fp-ts/lib/Set'
  */
 export const ordSetInterpreter: ModelAlgebraSet1<OrdURI> = {
   _F: OrdURI,
-  set: (a, ordA) => new OrdType(ord.contramap(array.getOrd(a.ord), toArray(ordA)))
+  set: (getOrd, ordA) => env => new OrdType(ord.contramap(array.getOrd(getOrd(env).ord), toArray(ordA)))
 }

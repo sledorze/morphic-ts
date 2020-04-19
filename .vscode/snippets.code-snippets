@@ -9,13 +9,23 @@
     "body": [
       "export interface $1 extends AType<typeof $1_> {}",
       "export interface $1Raw extends EType<typeof $1_> {}",
-      "export const $1 = AsOpaque<$1Raw, $1>($1_)"
+      "export const $1 = AsOpaque<$1Raw, $1>()($1_)"
     ],
     "description": "Defines a Morphic opaque signature"
   },
+  "Morphic interface": {
+    "prefix": "moi",
+    "body": [
+      "const $1_ = summon(F => F.interface({ $0 }, '$1'))",
+      "export interface $1 extends AType<typeof $1_> {}",
+      "export interface $1Raw extends EType<typeof $1_> {}",
+      "export const $1 = AsOpaque<$1Raw, $1>()($1_)"
+    ],
+    "description": "Defines a Morphic interface"
+  },
   "Morphic opaque for tagged unions": {
     "prefix": "mot",
-    "body": ["export type $1 = ADTType<typeof $1>"],
+    "body": ["export type $1 = AOfMorhpADT<typeof $1>"],
     "description": "Defines a Morphic Tagged union opaque signature"
   }
 }
