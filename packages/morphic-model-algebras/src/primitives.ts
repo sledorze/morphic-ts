@@ -1,17 +1,6 @@
 import { Option } from 'fp-ts/lib/Option'
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
-import {
-  PrimitiveArrayConfig,
-  PrimitiveStringConfig,
-  PrimitiveDateConfig,
-  PrimitiveNumberConfig,
-  PrimitiveBooleanConfig,
-  PrimitiveBigIntConfig,
-  PrimitiveStringLiteralConfig,
-  PrimitiveKeysOfConfig,
-  PrimitiveNullableConfig
-} from '@morphic-ts/algebras/lib/hkt'
-import { ByInterp, isOptionalConfig } from '@morphic-ts/common/lib/core'
+import { NoEnv, ConfigsEnvs, ConfigsForType } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1
@@ -37,43 +26,6 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   export interface Algebra2<F extends URIS2> {
     [PrimitiveURI]: ModelAlgebraPrimitive2<F>
   }
-
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveDateConfig {}
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveStringConfig {}
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveStringLiteralConfig<K> {}
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveKeysOfConfig<K> {}
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveNumberConfig {}
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveBigIntConfig {}
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveBooleanConfig {}
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveArrayConfig<E, A> {}
-  /**
-   *  @since 0.0.1
-   */
-  export interface PrimitiveNullableConfig<E, A> {}
 }
 
 /**
@@ -82,52 +34,57 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 export interface ModelAlgebraPrimitive<F> {
   _F: F
   nullable: {
-    <L, A>(T: HKT2<F, L, A>): isOptionalConfig<PrimitiveNullableConfig<L, A>, HKT2<F, null | L, Option<A>>>
-    <L, A>(T: HKT2<F, L, A>, config: ByInterp<PrimitiveNullableConfig<L, A>, URIS | URIS2>): HKT2<
-      F,
-      null | L,
-      Option<A>
-    >
+    <L, A, R>(T: HKT2<F, R, L, A>): HKT2<F, R, null | L, Option<A>>
   }
-  boolean: {
-    (): isOptionalConfig<PrimitiveBooleanConfig, HKT2<F, boolean, boolean>>
-    (config: ByInterp<PrimitiveBooleanConfig, URIS | URIS2>): HKT2<F, boolean, boolean>
+  nullableCfg: {
+    <L, A, R>(T: HKT2<F, R, L, A>): <C extends ConfigsForType<L | null, Option<A>>>(
+      config: C
+    ) => HKT2<F, R & ConfigsEnvs<C>, null | L, Option<A>>
   }
-  number: {
-    (): isOptionalConfig<PrimitiveNumberConfig, HKT2<F, number, number>>
-    (config: ByInterp<PrimitiveNumberConfig, URIS | URIS2>): HKT2<F, number, number>
+  boolean: HKT2<F, NoEnv, boolean, boolean>
+  booleanCfg: {
+    <C extends ConfigsForType<boolean, boolean>>(config: C): HKT2<F, ConfigsEnvs<C>, boolean, boolean>
   }
-  bigint: {
-    (): isOptionalConfig<PrimitiveBigIntConfig, HKT2<F, string, bigint>>
-    (config: ByInterp<PrimitiveBigIntConfig, URIS | URIS2>): HKT2<F, string, bigint>
+  number: HKT2<F, NoEnv, number, number>
+  numberCfg: {
+    <C extends ConfigsForType<number, number>>(config: C): HKT2<F, ConfigsEnvs<C>, number, number>
   }
-  string: {
-    (): isOptionalConfig<PrimitiveStringConfig, HKT2<F, string, string>>
-    (config: ByInterp<PrimitiveStringConfig, URIS | URIS2>): HKT2<F, string, string>
+  bigint: HKT2<F, NoEnv, string, bigint>
+  bigintCfg: {
+    <C extends ConfigsForType<string, bigint>>(config: C): HKT2<F, ConfigsEnvs<C>, string, bigint>
+  }
+  string: HKT2<F, NoEnv, string, string>
+
+  stringCfg: {
+    <C extends ConfigsForType<string, string>>(config: C): HKT2<F, ConfigsEnvs<C>, string, string>
   }
   stringLiteral: {
-    <T extends string>(value: T): isOptionalConfig<PrimitiveStringLiteralConfig<T>, HKT2<F, string, typeof value>>
-    <T extends string>(value: T, config: ByInterp<PrimitiveStringLiteralConfig<T>, URIS | URIS2>): HKT2<
-      F,
-      string,
-      typeof value
-    >
+    <T extends string>(value: T): HKT2<F, NoEnv, string, typeof value>
+  }
+  stringLiteralCfg: {
+    <T extends string>(value: T): <C extends ConfigsForType<string, T>>(
+      config: C
+    ) => HKT2<F, ConfigsEnvs<C>, string, typeof value>
   }
   keysOf: {
-    <K extends Keys>(keys: K): isOptionalConfig<PrimitiveKeysOfConfig<keyof K>, HKT2<F, string, keyof typeof keys>>
-    <K extends Keys>(keys: K, config: ByInterp<PrimitiveKeysOfConfig<keyof K>, URIS | URIS2>): HKT2<
-      F,
-      string,
-      keyof typeof keys
-    >
+    <K extends Keys>(keys: K): HKT2<F, NoEnv, string, keyof typeof keys>
+  }
+  keysOfCfg: {
+    <K extends Keys>(keys: K): <C extends ConfigsForType<string, keyof K>>(
+      config: C
+    ) => HKT2<F, ConfigsEnvs<C>, string, keyof typeof keys>
   }
   array: {
-    <L, A>(a: HKT2<F, L, A>): isOptionalConfig<PrimitiveArrayConfig<L, A>, HKT2<F, Array<L>, Array<A>>>
-    <L, A>(a: HKT2<F, L, A>, config: ByInterp<PrimitiveArrayConfig<L, A>, URIS | URIS2>): HKT2<F, Array<L>, Array<A>>
+    <L, A, R>(a: HKT2<F, R, L, A>): HKT2<F, R, Array<L>, Array<A>>
   }
-  date: {
-    (): isOptionalConfig<PrimitiveDateConfig, HKT2<F, string, Date>>
-    (config: ByInterp<PrimitiveDateConfig, URIS | URIS2>): HKT2<F, string, Date>
+  arrayCfg: {
+    <L, A, R>(a: HKT2<F, R, L, A>): <C extends ConfigsForType<Array<L>, Array<A>>>(
+      config: C
+    ) => HKT2<F, R & ConfigsEnvs<typeof config>, Array<L>, Array<A>>
+  }
+  date: HKT2<F, NoEnv, string, Date>
+  dateCfg: {
+    <C extends ConfigsForType<string, Date>>(config: C): HKT2<F, ConfigsEnvs<C>, string, Date>
   }
 }
 
@@ -136,18 +93,32 @@ export interface ModelAlgebraPrimitive<F> {
  */
 export interface ModelAlgebraPrimitive1<F extends URIS> {
   _F: F
-  nullable: <A>(T: Kind<F, A>, config?: ByInterp<PrimitiveNullableConfig<never, A>, F>) => Kind<F, Option<A>>
-  boolean(config?: ByInterp<PrimitiveBooleanConfig, F>): Kind<F, boolean>
-  number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind<F, number>
-  bigint(config?: ByInterp<PrimitiveBigIntConfig, F>): Kind<F, bigint>
-  string(config?: ByInterp<PrimitiveStringConfig, F>): Kind<F, string>
-  stringLiteral: <T extends string>(
-    value: T,
-    config?: ByInterp<PrimitiveStringLiteralConfig<T>, F>
-  ) => Kind<F, typeof value>
-  keysOf: <K extends Keys>(keys: K, config?: ByInterp<PrimitiveKeysOfConfig<keyof K>, F>) => Kind<F, keyof typeof keys>
-  array: <A>(a: Kind<F, A>, config?: ByInterp<PrimitiveArrayConfig<never, A>, F>) => Kind<F, Array<A>>
-  date(config?: ByInterp<PrimitiveDateConfig, F>): Kind<F, Date>
+  nullable: <A, R>(T: Kind<F, R, A>) => Kind<F, R, Option<A>>
+  nullableCfg: <A, R>(
+    T: Kind<F, R, A>
+  ) => <C extends ConfigsForType<null | A, Option<A>>>(config: C) => Kind<F, R & ConfigsEnvs<C>, Option<A>>
+  boolean: Kind<F, NoEnv, boolean>
+  booleanCfg<C extends ConfigsForType<boolean, boolean>>(config: C): Kind<F, ConfigsEnvs<C>, boolean>
+  number: Kind<F, NoEnv, number>
+  numberCfg<C extends ConfigsForType<number, number>>(config: C): Kind<F, ConfigsEnvs<C>, number>
+  bigint: Kind<F, NoEnv, bigint>
+  bigintCfg<C extends ConfigsForType<string, bigint>>(config: C): Kind<F, ConfigsEnvs<C>, bigint>
+  string: Kind<F, NoEnv, string>
+  stringCfg<C extends ConfigsForType<string, string>>(config: C): Kind<F, ConfigsEnvs<C>, string>
+  stringLiteral: <T extends string>(value: T) => Kind<F, NoEnv, typeof value>
+  stringLiteralCfg: <T extends string>(
+    value: T
+  ) => <C extends ConfigsForType<string, T>>(config: C) => Kind<F, ConfigsEnvs<C>, typeof value>
+  keysOf: <K extends Keys>(keys: K) => Kind<F, NoEnv, keyof typeof keys>
+  keysOfCfg: <K extends Keys>(
+    keys: K
+  ) => <C extends ConfigsForType<string, keyof K>>(config: C) => Kind<F, ConfigsEnvs<C>, keyof typeof keys>
+  array: <A, R>(a: Kind<F, R, A>) => Kind<F, R, Array<A>>
+  arrayCfg: <A, R>(
+    a: Kind<F, R, A>
+  ) => <C extends ConfigsForType<unknown[], A[]>>(config: C) => Kind<F, R & ConfigsEnvs<C>, Array<A>>
+  date: Kind<F, NoEnv, Date>
+  dateCfg<C extends ConfigsForType<string, Date>>(config: C): Kind<F, ConfigsEnvs<C>, Date>
 }
 
 /**
@@ -155,22 +126,30 @@ export interface ModelAlgebraPrimitive1<F extends URIS> {
  */
 export interface ModelAlgebraPrimitive2<F extends URIS2> {
   _F: F
-  nullable: <L, A>(
-    T: Kind2<F, L, A>,
-    config?: ByInterp<PrimitiveNullableConfig<L, A>, F>
-  ) => Kind2<F, null | L, Option<A>>
-  boolean(config?: ByInterp<PrimitiveBooleanConfig, F>): Kind2<F, boolean, boolean>
-  number(config?: ByInterp<PrimitiveNumberConfig, F>): Kind2<F, number, number>
-  bigint(config?: ByInterp<PrimitiveBigIntConfig, F>): Kind2<F, string, bigint>
-  string(config?: ByInterp<PrimitiveStringConfig, F>): Kind2<F, string, string>
-  stringLiteral: <T extends string>(
-    value: T,
-    config?: ByInterp<PrimitiveStringLiteralConfig<T>, F>
-  ) => Kind2<F, string, typeof value>
-  keysOf: <K extends Keys>(
-    keys: K,
-    config?: ByInterp<PrimitiveKeysOfConfig<keyof K>, F>
-  ) => Kind2<F, string, keyof typeof keys>
-  array: <L, A>(a: Kind2<F, L, A>, config?: ByInterp<PrimitiveArrayConfig<L, A>, F>) => Kind2<F, Array<L>, Array<A>>
-  date(config?: ByInterp<PrimitiveDateConfig, F>): Kind2<F, string, Date>
+  nullable: <L, A, R>(T: Kind2<F, R, L, A>) => Kind2<F, R, null | L, Option<A>>
+  nullableCfg: <L, A, R>(
+    T: Kind2<F, R, L, A>
+  ) => <C extends ConfigsForType<null | L, Option<A>>>(config: C) => Kind2<F, R & ConfigsEnvs<C>, null | L, Option<A>>
+  boolean: Kind2<F, NoEnv, boolean, boolean>
+  booleanCfg<C extends ConfigsForType<boolean, boolean>>(config: C): Kind2<F, ConfigsEnvs<C>, boolean, boolean>
+  number: Kind2<F, NoEnv, number, number>
+  numberCfg<C extends ConfigsForType<number, number>>(config: C): Kind2<F, ConfigsEnvs<C>, number, number>
+  bigint: Kind2<F, NoEnv, string, bigint>
+  bigintCfg<C extends ConfigsForType<string, bigint>>(config: C): Kind2<F, ConfigsEnvs<C>, string, bigint>
+  string: Kind2<F, NoEnv, string, string>
+  stringCfg<C extends ConfigsForType<string, string>>(config: C): Kind2<F, ConfigsEnvs<C>, string, string>
+  stringLiteral: <T extends string>(value: T) => Kind2<F, NoEnv, string, typeof value>
+  stringLiteralCfg: <T extends string>(
+    value: T
+  ) => <C extends ConfigsForType<string, T>>(config: C) => Kind2<F, ConfigsEnvs<C>, string, typeof value>
+  keysOf: <K extends Keys>(keys: K) => Kind2<F, NoEnv, string, keyof typeof keys>
+  keysOfCfg: <K extends Keys>(
+    keys: K
+  ) => <C extends ConfigsForType<string, keyof K>>(config: C) => Kind2<F, ConfigsEnvs<C>, string, keyof typeof keys>
+  array: <L, A, R>(a: Kind2<F, R, L, A>) => Kind2<F, R, Array<L>, Array<A>>
+  arrayCfg: <L, A, R>(
+    a: Kind2<F, R, L, A>
+  ) => <C extends ConfigsForType<Array<L>, Array<A>>>(config: C) => Kind2<F, R & ConfigsEnvs<C>, Array<L>, Array<A>>
+  date: Kind2<F, NoEnv, string, Date>
+  dateCfg<C extends ConfigsForType<string, Date>>(config: C): Kind2<F, ConfigsEnvs<C>, string, Date>
 }

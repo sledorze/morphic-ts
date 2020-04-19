@@ -7,5 +7,5 @@ import { ShowType, ShowURI } from '../hkt'
  */
 export const showSetInterpreter: ModelAlgebraSet1<ShowURI> = {
   _F: ShowURI,
-  set: ({ show }) => new ShowType(set.getShow(show))
+  set: getShow => env => new ShowType(set.getShow(getShow(env).show))
 }

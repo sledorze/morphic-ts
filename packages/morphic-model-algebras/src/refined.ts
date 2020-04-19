@@ -1,8 +1,7 @@
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { ByInterp, isOptionalConfig } from '@morphic-ts/common/lib/core'
-import { RefinedConfig } from '@morphic-ts/algebras/lib/hkt'
 import { Branded } from 'io-ts' // TODO: question that dependency..
 import { Refinement } from 'fp-ts/lib/function'
+import { ConfigsForType, ConfigsEnvs } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1
@@ -23,11 +22,6 @@ declare module '@morphic-ts/algebras/lib/hkt' {
   export interface Algebra2<F extends URIS2> {
     [RefinedURI]: ModelAlgebraRefined2<F>
   }
-
-  /**
-   *  @since 0.0.1
-   */
-  export interface RefinedConfig<E, A> {}
 }
 
 /**
@@ -36,17 +30,18 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 export interface ModelAlgebraRefined<F> {
   _F: F
   refined: {
-    <E, A, N extends string, B extends { readonly [K in N]: symbol }>(
-      a: HKT2<F, E, A>,
+    <E, A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+      a: HKT2<F, R, E, A>,
       refinement: Refinement<A, Branded<A, B>>,
       name: N
-    ): isOptionalConfig<RefinedConfig<E, A>, HKT2<F, E, Branded<A, B>>>
-    <E, A, N extends string, B extends { readonly [K in N]: symbol }>(
-      a: HKT2<F, E, A>,
+    ): HKT2<F, R, E, Branded<A, B>>
+  }
+  refinedCfg: {
+    <E, A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+      a: HKT2<F, R, E, A>,
       refinement: Refinement<A, Branded<A, B>>,
-      name: N,
-      config: ByInterp<RefinedConfig<E, A>, URIS | URIS2>
-    ): HKT2<F, E, Branded<A, B>>
+      name: N
+    ): <C extends ConfigsForType<E, Branded<A, B>>>(config: C) => HKT2<F, R & ConfigsEnvs<C>, E, Branded<A, B>>
   }
 }
 
@@ -55,12 +50,16 @@ export interface ModelAlgebraRefined<F> {
  */
 export interface ModelAlgebraRefined1<F extends URIS> {
   _F: F
-  refined<A, N extends string, B extends { readonly [K in N]: symbol }>(
-    a: Kind<F, A>,
+  refined<A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+    a: Kind<F, R, A>,
     refinement: Refinement<A, Branded<A, B>>,
-    name: N,
-    config: ByInterp<RefinedConfig<unknown, A>, F>
-  ): Kind<F, Branded<A, B>>
+    name: N
+  ): Kind<F, R, Branded<A, B>>
+  refinedCfg<A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+    a: Kind<F, R, A>,
+    refinement: Refinement<A, Branded<A, B>>,
+    name: N
+  ): <C extends ConfigsForType<unknown, Branded<A, B>>>(config: C) => Kind<F, R & ConfigsEnvs<C>, Branded<A, B>>
 }
 
 /**
@@ -68,10 +67,14 @@ export interface ModelAlgebraRefined1<F extends URIS> {
  */
 export interface ModelAlgebraRefined2<F extends URIS2> {
   _F: F
-  refined<E, A, N extends string, B extends { readonly [K in N]: symbol }>(
-    a: Kind2<F, E, A>,
+  refined<E, A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+    a: Kind2<F, R, E, A>,
     refinement: Refinement<A, Branded<A, B>>,
-    name: N,
-    config: ByInterp<RefinedConfig<E, A>, F>
-  ): Kind2<F, E, Branded<A, B>>
+    name: N
+  ): Kind2<F, R, E, Branded<A, B>>
+  refinedCfg<E, A, N extends string, B extends { readonly [K in N]: symbol }, R>(
+    a: Kind2<F, R, E, A>,
+    refinement: Refinement<A, Branded<A, B>>,
+    name: N
+  ): <C extends ConfigsForType<E, Branded<A, B>>>(config: C) => Kind2<F, R & ConfigsEnvs<C>, E, Branded<A, B>>
 }

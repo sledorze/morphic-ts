@@ -12,9 +12,9 @@ const equalsOrd = <T>(): Ord<T> => ({
  */
 export const ordIntersectionInterpreter: ModelAlgebraIntersection1<OrdURI> = {
   _F: OrdURI,
-  intersection: <A>(types: OrdType<A>[]) => {
+  intersection: <A, R>(types: ((_: R) => OrdType<A>)[]) => (env: R) => {
     const { concat } = getMonoid<A>()
     const empty = equalsOrd<A>()
-    return new OrdType<A>(types.map(t => t.ord).reduce(concat, empty))
+    return new OrdType<A>(types.map(t => t(env).ord).reduce(concat, empty))
   }
 }

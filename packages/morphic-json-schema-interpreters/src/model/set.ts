@@ -9,5 +9,5 @@ import { pipe } from 'fp-ts/lib/pipeable'
  */
 export const jsonSchemaSetInterpreter: ModelAlgebraSet1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  set: ({ schema }) => new JsonSchema(pipe(schema, SE.chainEitherK(SetFromArrayTypeCtor)))
+  set: getSchema => env => new JsonSchema(pipe(getSchema(env).schema, SE.chainEitherK(SetFromArrayTypeCtor)))
 }

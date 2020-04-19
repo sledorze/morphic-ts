@@ -16,8 +16,24 @@ export const projectField = <T extends Record<any, Record<any, any>>>(t: T) => <
 ): {
   [q in keyof T]: T[q][K]
 } =>
-  record.record.map(t, p => p[k]) as {
+  record.record.map(t, p => p[k]) as
+  {
     [q in keyof T]: T[q][K]
+  }
+
+/**
+ *  @since 0.0.1
+ */
+export const projectFieldWithEnv = <T extends Record<any, (e: R) => Record<any, any>>, R>(t: T, env: R) => <
+  K extends keyof ReturnType<T[keyof T]>
+>(
+  k: K
+): {
+  [q in keyof T]: ReturnType<T[q]>[K]
+} =>
+  record.record.map(t, p => p(env)[k]) as
+  {
+    [q in keyof T]: ReturnType<T[q]>[K]
   }
 
 /**
@@ -72,3 +88,8 @@ export const memo = <A>(get: () => A): (() => A) => {
     return cache
   }
 }
+
+export type IsNever<X, Y, N> = 'X' | X extends 'X' ? Y : N
+export type Includes<A, B, Y, N> = IsNever<B, Y, A extends B ? Y : N>
+
+export type Only<A> = A & { [k in keyof any]: never }

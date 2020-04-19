@@ -8,6 +8,7 @@ import { StrMapURI } from '@morphic-ts/model-algebras/lib/str-map'
 import { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
+import { AnyConfigEnv } from './usage/summoner'
 
 /**
  *  @since 0.0.1
@@ -25,7 +26,7 @@ export interface AlgebraNoUnion<F> extends InferredAlgebra<F, ProgramOrderableUR
 /**
  *  @since 0.0.1
  */
-export interface P<E, A> extends InferredProgram<E, A, ProgramOrderableURI> {}
+export interface P<R extends AnyConfigEnv, E, A> extends InferredProgram<R, E, A, ProgramOrderableURI> {}
 
 declare module './usage/ProgramType' {
   interface ProgramAlgebraURI {
@@ -38,9 +39,7 @@ declare module './usage/ProgramType' {
     [ProgramOrderableURI]: AlgebraNoUnion<F>
   }
 
-  interface ProgramType<E, A> {
-    [ProgramOrderableURI]: P<E, A>
+  interface ProgramType<R extends AnyConfigEnv, E, A> {
+    [ProgramOrderableURI]: P<R, E, A>
   }
-
-  interface ProgramOrderableInterpreters {}
 }
