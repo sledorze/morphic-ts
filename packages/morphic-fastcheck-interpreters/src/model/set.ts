@@ -8,5 +8,5 @@ import { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
  */
 export const fastCheckSetInterpreter: ModelAlgebraSet1<FastCheckURI> = {
   _F: FastCheckURI,
-  set: (a, ord) => new FastCheckType(set(a.arb).map(fromArray(ord)))
+  set: (a, ord) => env => new FastCheckType(set(a(env).arb).map(fromArray(ord)))
 }

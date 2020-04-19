@@ -9,7 +9,7 @@ export const showRecursiveInterpreter: ModelAlgebraRecursive1<ShowURI> = {
   _F: ShowURI,
   recursive: a => {
     const get = memo(() => a(res))
-    const res: ReturnType<typeof a> = new ShowType({ show: a => get().show.show(a) })
+    const res: ReturnType<typeof a> = env => new ShowType({ show: a => get()(env).show.show(a) })
     return res
   }
 }

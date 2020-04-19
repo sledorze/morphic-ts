@@ -14,6 +14,172 @@ The goal is to increase, in order of importance
 
 It is has two side blended into one; generic ADT manipulation AND Generic, customizable and extensible derivations
 
+## /!\ New Release /!\
+
+Lastest release introduces Env inference for Config.
+It is a breaking release with some easy-to-adapt, mostly syntactic, changes (fine pre 1.0.0):
+
+### (new) Algebra changes
+
+The configurable variants of each Algebra method has been split.
+
+Before
+
+```typescript
+summon(F => F.string())
+summon(F => F.string({ ...iotsConfig(x => x) }))
+```
+
+After
+
+```typescript
+summon(F => F.string)
+summon(F => F.stringCfg({ ...iotsConfig(x => x) }))
+```
+
+### (new) Config Environment
+
+Configs are used to override some specific interpreter instances and
+this is of great value.
+
+But there's a pitfall.
+
+If one wants to use the fastcheck version of a Morph, for testing reasons, but do not want to have fastcheck included in its app, he needs to reinterpret a Morph:
+
+Using `derive`:
+
+```typescript
+const Person = summonESBST(F =>
+  F.interface(
+    {
+      name: F.string,
+      birthdate: F.date
+    },
+    'Person'
+  )
+)
+const PersonARB = Person.derive(modelFastCheckInterpreter)({})
+```
+
+He can also reinterpret using another summoner.
+
+```typescript
+const AnotherPerson = summonESBASTJ(Person) // Reinterpreter using another summoner (thus generating different type classes)
+```
+
+However, it is often desirable to override fastcheck via a config, for instance, to generate realistic arbitraries (here the name with alphabetic letters and a min/max length or a birthdate in the past).
+
+Doing so means that one needs to add a config for fastcheck when defining the `Person` members Morphs, thus, including the fastcheck lib.
+
+But doing so, the lib is imported outside of tests, which is not desirable.
+
+Config Environment solve this issue by offering the ability to give access to an environment for the config of each interpreter.
+
+The motivation is providing ways to abstract over dependencies used in configs.
+
+We can access an environement to use in a config like so (here IoTsTypes):
+
+```typescript
+summon(F =>
+  F.interface({ a: F.stringCfg({ ...iotsConfig((x, env: IoTsTypes) => env.WM.withMessage(x, () => 'not ok')) }) }, 'a')
+)
+```
+
+The environement type has to be specified at definition site.
+
+To prevent really importing the lib to get it's type (the definition is purely a type), we can rely on type imports from typescript.
+
+```typescript
+import type * as fc from 'fast-check'
+```
+
+The new Config also infers the correct Env type and only typechecks correctly if `summon` has been instanciated with correct Env constraints using the `summonFor` constructor.
+
+Creating the summon requires providing (all) the Envs a summoner will be able to support.
+
+```typescript
+export const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({ [IoTsURI]: { WM } })
+```
+
+I advise you to use a proxy interface to keep this opaque an lean.
+
+```typescript
+export interface AppEnv {
+  [IoTsURI]: IoTsTypes
+}
+
+export const { summon } = summonFor<AppEnv>({ [IoTsURI]: { WM } })
+```
+
+If the underlying Interpreter of `summoner` does not generate a typeclass (e.g. `io-ts`), then there is no need to feed it at creation time:
+
+```typescript
+export const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({})
+```
+
+This will typecheck accordingly.
+
+However the type constraint of the Env will remain in the summoner signature, so that any (re)interpretation from another summoner will thread that constraint; there no compromise on type safety.
+
+The consequence is that any interpreting summoner Env will need to cover all the Env from the source summoner.
+
+This transitive aspect is the necessary condition for correct (re)interpretations.
+
+### (new) All Algerba Config available
+
+This was an unfinished task, now all configurable variants are implemented in all interpreters.
+
+### (new) Config inference
+
+Config inference has been modified and now requires wrapping those in an object spread (due to a typescript - or a developper - limitation).
+
+Before
+
+```typescript
+F.array(
+  Data(F),
+  iotsConfig(_ => OneOrArray(Data.type))
+)
+```
+
+After
+
+```typescript
+F.arrayCfg(Data(F))({ ...iotsConfig(_ => OneOrArray(Data.type)) })
+```
+
+### (new) Opaques alias in batteries requiers an extra application
+
+Before
+
+```typescript
+const A = AsOpaque<ARaw, ARef>(A_)
+```
+
+After
+
+```typescript
+const A = AsOpaque<ARaw, A>()(A_)
+```
+
+### (new) Define
+
+Summoners now also provide a `define` member in order to help creating Programs (not Morphs).
+
+Those `define` are only constrained by the summoner Algebra (Program), not the summoner TypeClasses. And as such, these can freely be combined with any kind of summoner implementing this Algebra.
+
+They also carry their Config Env constraints.
+
+You can directly create a `Define` instance by using `defineFor` and specifying the algebra (via a program Uri).
+
+```typescript
+defineFor(ProgramNoUnionURI)(F => F.string)
+```
+
+### (new) Dependencies
+
+Tech specific dependencies (like `fp-ts`, `io-ts`) in interpreter packages are now peerdependencies.
+
 ## Two minutes intro
 
 ```bash

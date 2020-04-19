@@ -11,7 +11,7 @@ export const fastCheckRecursiveInterpreter: ModelAlgebraRecursive1<FastCheckURI>
   recursive: f => {
     type FA = ReturnType<typeof f>
     const get = memo(() => f(res))
-    const res: FA = new FastCheckType(constant(null).chain(_ => get().arb))
+    const res: FA = env => new FastCheckType(constant(null).chain(_ => get()(env).arb))
     return res
   }
 }

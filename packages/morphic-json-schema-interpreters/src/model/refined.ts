@@ -1,10 +1,16 @@
-import { JsonSchemaURI } from '../hkt'
-import { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
+import { JsonSchemaURI, JsonSchema } from '../hkt'
+import type { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
+import type { Branded } from 'io-ts'
+import { jsonSchemaApplyConfig } from '../config'
+
+const coerce = <R, A>(x: (env: R) => JsonSchema<A>) => (x as any) as <B>(env: R) => JsonSchema<Branded<A, B>>
 
 /**
  *  @since 0.0.1
  */
 export const jsonSchemaRefinedInterpreter: ModelAlgebraRefined1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  refined: (a, _ref, _name) => a as any // TODO: maybe define a names alias (definition), or description, in JsonSchema (config)
+  refined: coerce,
+  refinedCfg: getJsonSchema => config => env =>
+    new JsonSchema(jsonSchemaApplyConfig(config)(getJsonSchema(env).schema, env))
 }

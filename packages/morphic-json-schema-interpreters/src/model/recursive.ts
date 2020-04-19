@@ -14,21 +14,25 @@ import { addSchema, getSchemaStrict } from '../utils'
  */
 export const jsonSchemaRecursiveInterpreter: ModelAlgebraRecursive1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  recursive: <A>(rec: (x: JsonSchema<A>) => JsonSchema<A>, name: string): JsonSchema<A> => {
-    const cache = memo(() =>
-      pipe(
-        rec(new JsonSchema(SE.stateEither.of(notOptional(Ref(name))))).schema, // call `rec` definition with brand new Ref (named as per the recursion)
-        SE.chain(_ =>
-          SE.fromPredicate(
-            isnotTypeRef,
-            _ => nonEmptyArray.of(JsonSchemaError('A type cannot be defined as a pure Ref')) // A Ref should not be resolved as another Ref
-          )(_.json)
-        ),
-        SE.chain(addSchema(name)), // We add the newly created Schema to the dictionnary of Schemas
-        SE.chain(_ => getSchemaStrict(name)), // We resolve it and refuse to fail doing it
-        SE.map(notOptional)
+  recursive: <A, R>(
+    rec: (x: (r: R) => JsonSchema<A>) => (r: R) => JsonSchema<A>,
+    name: string
+  ): ((env: R) => JsonSchema<A>) => {
+    const cache = (env: R) =>
+      memo(() =>
+        pipe(
+          rec(_env => new JsonSchema(SE.stateEither.of(notOptional(Ref(name)))))(env).schema, // call `rec` definition with brand new Ref (named as per the recursion)
+          SE.chain(_ =>
+            SE.fromPredicate(
+              isnotTypeRef,
+              _ => nonEmptyArray.of(JsonSchemaError('A type cannot be defined as a pure Ref')) // A Ref should not be resolved as another Ref
+            )(_.json)
+          ),
+          SE.chain(addSchema(name)), // We add the newly created Schema to the dictionnary of Schemas
+          SE.chain(_ => getSchemaStrict(name)), // We resolve it and refuse to fail doing it
+          SE.map(notOptional)
+        )
       )
-    )
-    return new JsonSchema(cache())
+    return env => new JsonSchema(cache(env)())
   }
 }

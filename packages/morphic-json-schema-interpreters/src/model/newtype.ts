@@ -1,11 +1,12 @@
-import { JsonSchemaURI } from '../hkt'
+import { JsonSchemaURI, JsonSchema } from '../hkt'
 import { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
-import { identity } from 'fp-ts/lib/function'
+import { jsonSchemaApplyConfig } from '../config'
 
 /**
  *  @since 0.0.1
  */
 export const jsonSchemaNewtypeInterpreter: ModelAlgebraNewtype1<JsonSchemaURI> = {
   _F: JsonSchemaURI,
-  newtype: () => identity as any
+  newtype: () => getJson => getJson,
+  newtypeCfg: () => getJson => config => env => new JsonSchema(jsonSchemaApplyConfig(config)(getJson(env).schema, env))
 }

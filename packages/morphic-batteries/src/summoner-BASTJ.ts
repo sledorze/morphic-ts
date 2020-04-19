@@ -1,6 +1,7 @@
 import { identity } from 'fp-ts/lib/function'
 import * as E from 'fp-ts/lib/Either'
-import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
+import { cacheUnaryFunction, Compact } from '@morphic-ts/common/lib/core'
+import { Includes, Only } from '@morphic-ts/common/lib/utils'
 import { pipe } from 'fp-ts/lib/pipeable'
 
 import * as U from './usage'
@@ -8,44 +9,52 @@ import * as U from './usage'
 import { BASTJInterpreterURI } from './interpreters-BASTJ'
 import { ProgramUnionURI } from './program'
 
-import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import { modelFastCheckInterpreter, FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import {
   modelIoTsStrictInterpreter,
-  modelIoTsNonStrictInterpreter
+  modelIoTsNonStrictInterpreter,
+  IoTsURI
 } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
-import { modelJsonSchemaInterpreter } from '@morphic-ts/json-schema-interpreters/lib'
+import { modelJsonSchemaInterpreter, JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
+import { DepsErrorMsg, AnyConfigEnv, ExtractEnv } from './usage/summoner'
 
 /** Type level override to keep Morph type name short */
 /**
  *  @since 0.0.1
  */
-export interface M<L, A> extends U.Materialized<L, A, ProgramUnionURI, BASTJInterpreterURI> {}
+export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramUnionURI, BASTJInterpreterURI> {}
 /**
  *  @since 0.0.1
  */
-export interface UM<A> extends M<unknown, A> {}
+export interface UM<R, A> extends M<R, unknown, A> {}
 
 /**
  *  @since 0.0.1
  */
-export const AsOpaque = <E, A>(x: M<E, A>): M<E, A> => x
+export const AsOpaque = <E, A>() => <X extends M<any, E, A>>(x: X): M<X['_R'], E, A> => x
 /**
  *  @since 0.0.1
  */
-export const AsUOpaque = <A>(x: UM<A>): UM<A> => x
+export const AsUOpaque = <A>() => <X extends UM<any, A>>(x: X): UM<X['_R'], A> => x
 
 /**
  *  @since 0.0.1
  */
-export interface Summoner extends U.Summoners<ProgramUnionURI, BASTJInterpreterURI> {
-  <L, A>(F: U.ProgramType<L, A>[ProgramUnionURI]): M<L, A>
+export interface Summoner<R extends AnyConfigEnv> extends U.Summoners<ProgramUnionURI, BASTJInterpreterURI, R> {
+  <L, A, R2 extends R>(F: U.ProgramType<R2, L, A>[ProgramUnionURI]): Includes<
+    Only<R>,
+    R2,
+    M<R, L, A>,
+    Compact<DepsErrorMsg<R, R2>>
+  >
 }
 
-export const { summon, tagged } = U.makeSummoner<Summoner>(cacheUnaryFunction, program => ({
-  build: identity,
-  arb: program(modelFastCheckInterpreter).arb,
-  strictType: program(modelIoTsStrictInterpreter).type,
-  type: program(modelIoTsNonStrictInterpreter).type,
-  jsonSchema: pipe(program(modelJsonSchemaInterpreter).schema({}), E.chain(resolveSchema))
-}))
+export const summonFor = <R extends AnyConfigEnv>(env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>) =>
+  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
+    build: identity,
+    arb: program(modelFastCheckInterpreter)(env).arb,
+    strictType: program(modelIoTsStrictInterpreter)(env).type,
+    type: program(modelIoTsNonStrictInterpreter)(env).type,
+    jsonSchema: pipe(program(modelJsonSchemaInterpreter)(env).schema({}), E.chain(resolveSchema))
+  }))

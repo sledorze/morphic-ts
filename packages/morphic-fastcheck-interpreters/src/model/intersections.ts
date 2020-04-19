@@ -7,6 +7,6 @@ import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/inters
  */
 export const fastCheckIntersectionInterpreter: ModelAlgebraIntersection1<FastCheckURI> = {
   _F: FastCheckURI,
-  intersection: <A>(items: FastCheckType<A>[]) =>
-    new FastCheckType(genericTuple(items.map(({ arb }) => arb)).map(all => Object.assign({}, ...all)))
+  intersection: <A, R>(items: ((env: R) => FastCheckType<A>)[]) => (env: R) =>
+    new FastCheckType(genericTuple(items.map(getArb => getArb(env).arb)).map(all => Object.assign({}, ...all)))
 }

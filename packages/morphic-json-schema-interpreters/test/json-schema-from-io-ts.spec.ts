@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { summon, UM } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+import { summonFor, UM } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 import { right, left } from 'fp-ts/lib/Either'
 import { either } from 'fp-ts'
 import { JsonSchemaErrors } from '../src/json-schema/json-schema-ctors'
@@ -29,12 +29,14 @@ export interface GLeaf<A> {
   v: A
 }
 
+const { summon } = summonFor<{}>({})
+
 describe('a json schema generator', function (this: any) {
   it('generate an interface from a io-ts interface', () => {
     const decoder = summon(F =>
       F.interface(
         {
-          toto: F.number()
+          toto: F.number
         },
         'Toto'
       )
@@ -58,7 +60,7 @@ describe('a json schema generator', function (this: any) {
     const decoder = summon(F =>
       F.partial(
         {
-          toto: F.number()
+          toto: F.number
         },
         'Toto'
       )
@@ -79,10 +81,7 @@ describe('a json schema generator', function (this: any) {
 
   it('generate an interface from an intersection', () => {
     const decoder = summon(F =>
-      F.intersection(
-        [F.partial({ toto: F.number() }, 'Toto'), F.interface({ tata: F.number() }, 'Tata')],
-        'TotoAndTata'
-      )
+      F.intersection([F.partial({ toto: F.number }, 'Toto'), F.interface({ tata: F.number }, 'Tata')], 'TotoAndTata')
     )
 
     const schema = decoder.jsonSchema
@@ -113,7 +112,7 @@ describe('a json schema generator', function (this: any) {
   })
 
   it('generate from a complex type', () => {
-    const decoder = summon(F => F.interface({ arr: F.array(F.interface({ x: F.string() }, 'X'), {}) }, 'Arrs'))
+    const decoder = summon(F => F.interface({ arr: F.array(F.interface({ x: F.string }, 'X')) }, 'Arrs'))
     const schema = decoder.jsonSchema
 
     const X: JSONSchema = {
@@ -136,7 +135,7 @@ describe('a json schema generator', function (this: any) {
 
   it('encodes an intersection', () => {
     const decoder = summon(F =>
-      F.intersection([F.interface({ a: F.string() }, 'A'), F.interface({ b: F.number() }, 'B')], 'AB')
+      F.intersection([F.interface({ a: F.string }, 'A'), F.interface({ b: F.number }, 'B')], 'AB')
     )
 
     const schema = decoder.jsonSchema
@@ -161,7 +160,7 @@ describe('a json schema generator', function (this: any) {
   })
 
   it('works with OptionFromNullable!', () => {
-    const decoder = summon(F => F.interface({ a: F.nullable(F.string()), b: F.string() }, 'AB'))
+    const decoder = summon(F => F.interface({ a: F.nullable(F.string), b: F.string }, 'AB'))
 
     const schema = decoder.jsonSchema
 
@@ -175,7 +174,7 @@ describe('a json schema generator', function (this: any) {
   })
 
   it('does not work with OptionFromNullable in Array!', () => {
-    const decoder = summon(F => F.interface({ as: F.array(F.nullable(F.string()), {}) }, 'AS'))
+    const decoder = summon(F => F.interface({ as: F.array(F.nullable(F.string)) }, 'AS'))
 
     const schema = () => decoder.jsonSchema
 
@@ -261,7 +260,7 @@ describe('a json schema generator', function (this: any) {
   })
 
   it('handles generic recursive types', () => {
-    const getTree = <A>(LeafValue: UM<A>): UM<GTree<A>> =>
+    const getTree = <A>(LeafValue: UM<unknown, A>): UM<unknown, GTree<A>> =>
       summon(F =>
         F.recursive(
           GTree =>
@@ -277,7 +276,7 @@ describe('a json schema generator', function (this: any) {
         )
       )
 
-    const numberValue = summon(F => F.number())
+    const numberValue = summon(F => F.number)
 
     const { jsonSchema } = getTree(numberValue)
 

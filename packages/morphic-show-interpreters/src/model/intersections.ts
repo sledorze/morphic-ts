@@ -6,8 +6,8 @@ import { ShowType, ShowURI } from '../hkt'
  */
 export const showIntersectionInterpreter: ModelAlgebraIntersection1<ShowURI> = {
   _F: ShowURI,
-  intersection: <A>(types: Array<ShowType<A>>) => {
-    const shows = types.map(({ show }) => show.show)
+  intersection: <A, R>(types: Array<(_: R) => ShowType<A>>) => (env: R) => {
+    const shows = types.map(getShow => getShow(env).show.show)
     return new ShowType<A>({
       show: (a: A) => shows.map(s => s(a)).join(' & ')
     })

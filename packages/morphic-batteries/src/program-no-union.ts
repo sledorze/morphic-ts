@@ -11,6 +11,7 @@ import { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
 import { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
+import { AnyConfigEnv } from './usage/summoner'
 
 /**
  *  @since 0.0.1
@@ -28,7 +29,7 @@ export interface AlgebraNoUnion<F> extends InferredAlgebra<F, ProgramNoUnionURI>
 /**
  *  @since 0.0.1
  */
-export interface P<E, A> extends InferredProgram<E, A, ProgramNoUnionURI> {}
+export interface P<R extends AnyConfigEnv, E, A> extends InferredProgram<R, E, A, ProgramNoUnionURI> {}
 
 declare module './usage/ProgramType' {
   interface ProgramAlgebraURI {
@@ -50,9 +51,7 @@ declare module './usage/ProgramType' {
     [ProgramNoUnionURI]: AlgebraNoUnion<F>
   }
 
-  interface ProgramType<E, A> {
-    [ProgramNoUnionURI]: P<E, A>
+  interface ProgramType<R extends AnyConfigEnv, E, A> {
+    [ProgramNoUnionURI]: P<R, E, A>
   }
-
-  interface ProgramNoUnionInterpreters {}
 }
