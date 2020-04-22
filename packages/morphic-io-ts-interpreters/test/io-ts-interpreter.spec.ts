@@ -636,9 +636,7 @@ describe('iotsObjectInterpreter', () => {
     // Types Should be defined beforehand at Summon creation ? (no..)
     const { summon: summonIOTS } = summonFor<AppEnv>({ [IoTsURI]: { iots: t, WM: WM } })
 
-    const Codec = summonIOTS(F =>
-      F.string(iotsConfig((_, { iots }: IOTSEnv) => iots.string))
-    )
+    const Codec = summonIOTS(F => F.string(iotsConfig((_, { iots }: IOTSEnv) => iots.string)))
 
     const codec = summonIOTS(F =>
       F.strMap(Codec(F), {

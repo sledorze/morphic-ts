@@ -14,8 +14,8 @@ export { Kind, Kind2 }
  * Usage:
  *
  * ```typescript
- *   summonAs(F => F.unknown()(eqConfig({ compare: 'default-circular' })))
- *   summonAs(F => F.unknown()({...eqConfig({ compare: 'default-circular' }), ...iotsConfig(x => x)}))
+ *   summonAs(F => F.unknown(eqConfig({ compare: 'default-circular' })))
+ *   summonAs(F => F.unknown({...eqConfig({ compare: 'default-circular' }), ...iotsConfig(x => x)}))
  * ```
  *
  *  @since 0.0.1
