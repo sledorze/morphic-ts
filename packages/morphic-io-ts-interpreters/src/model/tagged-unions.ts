@@ -12,9 +12,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const ioTsTaggedUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraTaggedUnions2<IoTsURI, Env> => ({
     _F: IoTsURI,
-    taggedUnion: (_tag, dic, name) => env =>
-      new IOTSType(t.union(collect(dic, (_, getType) => getType(env).type) as any, name)),
-    taggedUnionCfg: (_tag, dic, name) => config => env =>
+    taggedUnion: (_tag, dic, name, config) => env =>
       new IOTSType(iotsApplyConfig(config)(t.union(collect(dic, (_, getType) => getType(env).type) as any, name), env))
   })
 )

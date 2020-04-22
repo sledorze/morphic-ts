@@ -25,8 +25,8 @@ describe('Morph Config Env', () => {
     const Person = summon(F =>
       F.interface(
         {
-          name: F.string,
-          birthdate: F.dateCfg({
+          name: F.string(),
+          birthdate: F.date({
             ...fastCheckConfig((_x, e) => {
               const now = new Date()
               return e.fc.date({ min: now, max: new Date(now.getTime() + MaxAgeMs) })
@@ -47,8 +47,8 @@ describe('Morph Config Env', () => {
     const Person = summon(F =>
       F.interface(
         {
-          name: F.string,
-          birthdate: F.dateCfg({
+          name: F.string(),
+          birthdate: F.date({
             ...fastCheckConfig((_x, e) => {
               const now = new Date()
               return e.fc.date({ min: now, max: new Date(now.getTime() + MaxAgeMs) })
@@ -86,7 +86,7 @@ describe('Can specify envs', () => {
 
   // MorphA has M<AppEnv, string, string> signature (note the AppEnv environement specified)
   const MorphA = summon(F =>
-    F.stringCfg({
+    F.string({
       ...fastCheckConfig((_x, { fastCheck }) => fastCheck.string(1)), // We're using the FastCheckEnv here, that only type checks because summon defines it as Env
       ...iotsConfig((_x, { withMessage }) => withMessage.withMessage(_x, x => `damn! got ${x}`))
     })
@@ -146,22 +146,22 @@ describe('Can specify envs', () => {
       }
     })
 
-    const m = summonESBASTJIOTS(F => F.string)
+    const m = summonESBASTJIOTS(F => F.string())
     // tslint:disable-next-line: no-unnecessary-callback-wrapper
     summonESBASTJAppEnv(F => m(F)) // Good: OK, should be OK
     summonESBASTJAppEnv(m) // Good: OK, should be OK
 
-    // const n = summonESBASTJAppEnv(F => F.string)
+    // const n = summonESBASTJAppEnv(F => F.string())
     // // tslint:disable-next-line: no-unnecessary-callback-wrapper
     // summonESBASTJIOTS(F => n(F)) // Good: No OK, should be Not OK
     // summonESBASTJIOTS(n) // Good: No OK, should be Not OK
 
-    const o = summonESBASTJIOTS(F => F.string)
+    const o = summonESBASTJIOTS(F => F.string())
     // tslint:disable-next-line: no-unnecessary-callback-wrapper
     summonESBASTJIOTS2(F => o(F)) // Good: OK, should be OK
     summonESBASTJIOTS2(o) // Good: OK, should be OK
 
-    // const p = summonESBASTJIOTS2(F => F.string)
+    // const p = summonESBASTJIOTS2(F => F.string())
     // // tslint:disable-next-line: no-unnecessary-callback-wrapper
     // summonESBASTJIOTS(F => p(F)) // Good: No OK, should be OK
     // summonESBASTJIOTS(p) // Good: No OK, should be OK

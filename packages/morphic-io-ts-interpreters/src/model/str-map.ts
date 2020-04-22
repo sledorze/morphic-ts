@@ -11,8 +11,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const ioTsStrMapInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraStrMap2<IoTsURI, Env> => ({
     _F: IoTsURI,
-    strMap: codomain => env => new IOTSType(t.record(t.string, codomain(env).type)),
-    strMapCfg: codomain => config => env =>
+    strMap: (codomain, config) => env =>
       new IOTSType(iotsApplyConfig(config)(t.record(t.string, codomain(env).type), env))
   })
 )

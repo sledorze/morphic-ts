@@ -10,7 +10,6 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const fastCheckNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype1<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    newtype: () => getArb => getArb,
-    newtypeCfg: () => getArb => config => env => new FastCheckType(fastCheckApplyConfig(config)(getArb(env).arb, env))
+    newtype: () => (getArb, config) => env => new FastCheckType(fastCheckApplyConfig(config)(getArb(env).arb, env))
   })
 )

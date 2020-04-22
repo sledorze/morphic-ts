@@ -22,7 +22,7 @@ describe('defineFor', () => {
   })
 
   const model = defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F =>
-    F.stringCfg({ ...fastCheckConfig((_, env) => env.fc.string(2, 4)) })
+    F.string({ ...fastCheckConfig((_, env) => env.fc.string(2, 4)) })
   )
 
   it('can be reinterpreted by a summoner', () => {
@@ -39,7 +39,7 @@ describe('define', () => {
     }
   })
 
-  const model = define(F => F.stringCfg({ ...fastCheckConfig((_, env: FastCheck) => env.fc.string(2, 4)) }))
+  const model = define(F => F.string({ ...fastCheckConfig((_, env: FastCheck) => env.fc.string(2, 4)) }))
 
   it('can be reinterpreted by a summoner', () => {
     const morph = summon(model)

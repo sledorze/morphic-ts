@@ -13,8 +13,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const jsonSchemaStrMapInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraStrMap1<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    strMap: getSchema => env => new JsonSchema(pipe(getSchema(env).schema, SE.chainEitherK(StrMapTypeCtor))),
-    strMapCfg: getSchema => config => env =>
+    strMap: (getSchema, config) => env =>
       new JsonSchema(jsonSchemaApplyConfig(config)(pipe(getSchema(env).schema, SE.chainEitherK(StrMapTypeCtor)), env))
   })
 )

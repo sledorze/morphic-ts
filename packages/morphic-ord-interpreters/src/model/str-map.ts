@@ -12,9 +12,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const ordStrMapInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraStrMap1<OrdURI, Env> => ({
     _F: OrdURI,
-    strMap: getCodomain => env =>
-      new OrdType(ord.contramap(array.getOrd(getTupleOrd(ordString, getCodomain(env).ord)), record.toArray)),
-    strMapCfg: getCodomain => config => env =>
+    strMap: (getCodomain, config) => env =>
       new OrdType(
         ordApplyConfig(config)(
           ord.contramap(array.getOrd(getTupleOrd(ordString, getCodomain(env).ord)), record.toArray),

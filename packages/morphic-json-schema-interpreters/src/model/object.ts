@@ -17,22 +17,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const jsonSchemaObjectInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraObject1<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    interface: (props, name) => env =>
-      new JsonSchema(
-        pipe(
-          arrayTraverseStateEither(record.toArray(props), ([k, v]) =>
-            pipe(
-              v(env).schema,
-              SE.map(schema => tuple(k, schema))
-            )
-          ),
-          SE.chain(props => resolveRefJsonSchema(ObjectTypeCtor(false, props).json)),
-          SE.chain(addSchema(name)),
-          SE.map(_ => notOptional(Ref(name)))
-        )
-      ),
-
-    interfaceCfg: (props, name) => config => env =>
+    interface: (props, name, config) => env =>
       new JsonSchema(
         jsonSchemaApplyConfig(config)(
           pipe(
@@ -49,21 +34,7 @@ export const jsonSchemaObjectInterpreter = memo(
           env
         )
       ),
-    partial: (props, name) => env =>
-      new JsonSchema(
-        pipe(
-          arrayTraverseStateEither(record.toArray(props), ([k, v]) =>
-            pipe(
-              v(env).schema,
-              SE.map(schema => tuple(k, schema))
-            )
-          ),
-          SE.chain(props => resolveRefJsonSchema(ObjectTypeCtor(true, props).json)),
-          SE.chain(addSchema(name)),
-          SE.map(_ => notOptional(Ref(name)))
-        )
-      ),
-    partialCfg: (props, name) => config => env =>
+    partial: (props, name, config) => env =>
       new JsonSchema(
         jsonSchemaApplyConfig(config)(
           pipe(

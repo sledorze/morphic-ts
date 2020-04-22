@@ -1,6 +1,5 @@
 import { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
 import { OrdURI, OrdType } from '../hkt'
-import { identity } from 'fp-ts/lib/function'
 import { ordApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
@@ -11,7 +10,6 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const ordNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype1<OrdURI, Env> => ({
     _F: OrdURI,
-    newtype: () => identity,
-    newtypeCfg: () => getOrd => config => env => new OrdType(ordApplyConfig(config)(getOrd(env).ord, env))
+    newtype: () => (getOrd, config) => env => new OrdType(ordApplyConfig(config)(getOrd(env).ord, env))
   })
 )

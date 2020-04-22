@@ -13,8 +13,7 @@ const strmapFromArray = <A>() => record.fromFoldable(semigroup.getFirstSemigroup
 export const fastCheckStrMapInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraStrMap1<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    strMap: codomain => env => new FastCheckType(FCArray(tuple(string(), codomain(env).arb)).map(strmapFromArray())),
-    strMapCfg: codomain => config => env =>
+    strMap: (codomain, config) => env =>
       new FastCheckType(
         fastCheckApplyConfig(config)(FCArray(tuple(string(), codomain(env).arb)).map(strmapFromArray()), env)
       )

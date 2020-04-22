@@ -16,11 +16,7 @@ export interface CustomizeUnknown<RC> {
 export const eqUnknownInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnknown1<EqURI, Env> => ({
     _F: EqURI,
-    unknown: _env => {
-      const equals = circularDeepEqual
-      return new EqType({ equals })
-    },
-    unknownCfg: cfg => env => {
+    unknown: cfg => env => {
       const config = eqApplyConfig(cfg)
       return new EqType(
         config === undefined ? { equals: circularDeepEqual } : config({ equals: circularDeepEqual }, env)

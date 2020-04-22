@@ -10,7 +10,6 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const eqNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype1<EqURI, Env> => ({
     _F: EqURI,
-    newtype: () => getEq => getEq,
-    newtypeCfg: () => getEq => config => env => new EqType(eqApplyConfig(config)(getEq(env).eq, env))
+    newtype: () => (getEq, config) => env => new EqType(eqApplyConfig(config)(getEq(env).eq, env))
   })
 )

@@ -12,12 +12,10 @@ const asPartial = <T>(x: EqType<T>): EqType<Partial<T>> => x as any
 export const eqObjectInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraObject1<EqURI, Env> => ({
     _F: EqURI,
-    interface: props => env => new EqType(getStructEq(projectFieldWithEnv(props, env)('eq'))),
-    interfaceCfg: props => config => env =>
+    interface: (props, _name, config) => env =>
       new EqType(eqApplyConfig(config)(getStructEq(projectFieldWithEnv(props, env)('eq')), env)),
     // relies on Eq<A> whereas we need Eq<Partial<A>> (but works - covered by tests)
-    partial: props => env => asPartial(new EqType(getStructEq(projectFieldWithEnv(props, env)('eq')))),
-    partialCfg: props => config => env =>
+    partial: (props, _name, config) => env =>
       asPartial(new EqType(eqApplyConfig(config)(getStructEq(projectFieldWithEnv(props, env)('eq')), env)))
   })
 )

@@ -14,38 +14,29 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const ordPrimitiveInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraPrimitive1<OrdURI, Env> => ({
     _F: OrdURI,
-    date: _env => new OrdType(ord.contramap(ordNumber, date => date.getTime())),
-    dateCfg: config => env =>
+    date: config => env =>
       new OrdType(
         ordApplyConfig(config)(
           ord.contramap(ordNumber, date => date.getTime()),
           env
         )
       ),
-    boolean: _env => new OrdType(ordBoolean),
-    booleanCfg: config => env => new OrdType(ordApplyConfig(config)(ordBoolean, env)),
-    string: _env => new OrdType(ordString),
-    stringCfg: config => env => new OrdType(ordApplyConfig(config)(ordString, env)),
-    number: _env => new OrdType(ordNumber),
-    numberCfg: config => env => new OrdType(ordApplyConfig(config)(ordNumber, env)),
-    bigint: _env => new OrdType<bigint>({ equals: eqStrict.equals, compare: (x, y) => (x < y ? -1 : x > y ? 1 : 0) }),
-    bigintCfg: config => env =>
+    boolean: config => env => new OrdType(ordApplyConfig(config)(ordBoolean, env)),
+    string: config => env => new OrdType(ordApplyConfig(config)(ordString, env)),
+    number: config => env => new OrdType(ordApplyConfig(config)(ordNumber, env)),
+    bigint: config => env =>
       new OrdType<bigint>(
         ordApplyConfig(config)({ equals: eqStrict.equals, compare: (x, y) => (x < y ? -1 : x > y ? 1 : 0) }, env)
       ),
-    stringLiteral: k => _env => new OrdType<typeof k>(ordString),
-    stringLiteralCfg: k => config => env => new OrdType<typeof k>(ordApplyConfig(config)(ordString, env)),
-    keysOf: keys => _env => new OrdType<keyof typeof keys>(ord.contramap(ordString, k => k as string)),
-    keysOfCfg: keys => config => env =>
+    stringLiteral: (k, config) => env => new OrdType<typeof k>(ordApplyConfig(config)(ordString, env)),
+    keysOf: (keys, config) => env =>
       new OrdType<keyof typeof keys>(
         ordApplyConfig(config)(
           ord.contramap(ordString, k => k as string),
           env
         )
       ),
-    nullable: getOrd => env => new OrdType(options.getOrd(getOrd(env).ord)),
-    nullableCfg: getOrd => config => env => new OrdType(ordApplyConfig(config)(options.getOrd(getOrd(env).ord), env)),
-    array: getOrd => env => new OrdType(getArrayOrd(getOrd(env).ord)),
-    arrayCfg: getOrd => config => env => new OrdType(ordApplyConfig(config)(getArrayOrd(getOrd(env).ord), env))
+    nullable: (getOrd, config) => env => new OrdType(ordApplyConfig(config)(options.getOrd(getOrd(env).ord), env)),
+    array: (getOrd, config) => env => new OrdType(ordApplyConfig(config)(getArrayOrd(getOrd(env).ord), env))
   })
 )

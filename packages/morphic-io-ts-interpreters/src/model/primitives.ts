@@ -40,24 +40,15 @@ export const BigIntString: BigIntStringC = new t.Type<bigint, string, unknown>(
 export const ioTsPrimitiveInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraPrimitive2<IoTsURI, Env> => ({
     _F: IoTsURI,
-    date: _env => new IOTSType(DateFromISOString),
-    dateCfg: config => env => new IOTSType(iotsApplyConfig(config)(DateFromISOString, env)),
-    boolean: _env => new IOTSType(t.boolean),
-    booleanCfg: config => env => new IOTSType(iotsApplyConfig(config)(t.boolean, env)),
-    string: _env => new IOTSType(t.string),
-    stringCfg: config => env => new IOTSType(iotsApplyConfig(config)(t.string, env)),
-    number: _env => new IOTSType(t.number),
-    numberCfg: config => env => new IOTSType(iotsApplyConfig(config)(t.number, env)),
-    bigint: _env => new IOTSType(BigIntString),
-    bigintCfg: config => env => new IOTSType(iotsApplyConfig(config)(BigIntString, env)),
-    stringLiteral: l => _env => new IOTSType(t.literal(l, l)),
-    stringLiteralCfg: l => config => env => new IOTSType(iotsApplyConfig(config)(t.literal(l, l), env)),
-    keysOf: k => _env => new IOTSType(t.keyof(k) as t.Type<keyof typeof k, string, unknown>),
-    keysOfCfg: k => config => env =>
+    date: config => env => new IOTSType(iotsApplyConfig(config)(DateFromISOString, env)),
+    boolean: config => env => new IOTSType(iotsApplyConfig(config)(t.boolean, env)),
+    string: config => env => new IOTSType(iotsApplyConfig(config)(t.string, env)),
+    number: config => env => new IOTSType(iotsApplyConfig(config)(t.number, env)),
+    bigint: config => env => new IOTSType(iotsApplyConfig(config)(BigIntString, env)),
+    stringLiteral: (l, config) => env => new IOTSType(iotsApplyConfig(config)(t.literal(l, l), env)),
+    keysOf: (k, config) => env =>
       new IOTSType(iotsApplyConfig(config)(t.keyof(k) as t.Type<keyof typeof k, string, unknown>, env)),
-    nullable: T => env => new IOTSType(optionFromNullable(T(env).type)),
-    nullableCfg: T => config => env => new IOTSType(iotsApplyConfig(config)(optionFromNullable(T(env).type), env)),
-    array: T => env => new IOTSType(t.array(T(env).type)),
-    arrayCfg: T => config => env => new IOTSType(iotsApplyConfig(config)(t.array(T(env).type), env))
+    nullable: (T, config) => env => new IOTSType(iotsApplyConfig(config)(optionFromNullable(T(env).type), env)),
+    array: (T, config) => env => new IOTSType(iotsApplyConfig(config)(t.array(T(env).type), env))
   })
 )

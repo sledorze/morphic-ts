@@ -15,14 +15,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const jsonSchemaTaggedUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraTaggedUnions1<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    taggedUnion: (_tag, types) => env =>
-      new JsonSchema(
-        pipe(
-          arrayTraverseStateEither(record.toArray(types), ([_, v]) => v(env).schema),
-          SE.chainEitherK(UnionTypeCtor)
-        )
-      ),
-    taggedUnionCfg: (_tag, types) => config => env =>
+    taggedUnion: (_tag, types, _name, config) => env =>
       new JsonSchema(
         jsonSchemaApplyConfig(config)(
           pipe(

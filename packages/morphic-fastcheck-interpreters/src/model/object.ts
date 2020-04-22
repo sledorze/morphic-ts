@@ -12,14 +12,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const fastCheckObjectInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraObject1<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    partial: props => env =>
-      new FastCheckType(
-        record(projectFieldWithEnv(props, env)('arb'), {
-          withDeletedKeys: true
-        })
-      ),
-
-    partialCfg: props => config => env =>
+    partial: (props, _name, config) => env =>
       new FastCheckType(
         fastCheckApplyConfig(config)(
           record(projectFieldWithEnv(props, env)('arb'), {
@@ -28,8 +21,7 @@ export const fastCheckObjectInterpreter = memo(
           env
         )
       ),
-    interface: props => env => new FastCheckType(record(projectFieldWithEnv(props, env)('arb'))),
-    interfaceCfg: props => config => env =>
+    interface: (props, _name, config) => env =>
       new FastCheckType(fastCheckApplyConfig(config)(record(projectFieldWithEnv(props, env)('arb')), env))
   })
 )

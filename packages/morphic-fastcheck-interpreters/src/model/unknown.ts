@@ -11,7 +11,6 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const fastCheckUnknownInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnknown1<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    unknown: _env => new FastCheckType(anything()),
-    unknownCfg: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(anything(), env))
+    unknown: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(anything(), env))
   })
 )

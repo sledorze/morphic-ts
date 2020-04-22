@@ -52,17 +52,9 @@ export interface ModelAlgebraTaggedUnions<F, Env> {
     <Tag extends string, Types extends TaggedTypes<F, Tag, any, any, Env>>(
       tag: Tag,
       types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
-      name: string
+      name: string,
+      config?: ConfigsForType<Env, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
     ): HKT2<F, Env, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
-  }
-  taggedUnionCfg: {
-    <Tag extends string, Types extends TaggedTypes<F, Tag, any, any, Env>>(
-      tag: Tag,
-      types: Types & { [o in keyof Types]: DecorateTag<Types[o], Tag, o> },
-      name: string
-    ): (
-      config: ConfigsForType<Env, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
-    ) => HKT2<F, Env, Types[keyof Types]['_E'], Types[keyof Types]['_A']>
   }
 }
 
@@ -81,15 +73,9 @@ export interface ModelAlgebraTaggedUnions1<F extends URIS, Env extends AnyEnv> {
   taggedUnion<Tag extends string, O>(
     tag: Tag,
     types: TaggedTypes1<F, Tag, O, Env>,
-    name: string
+    name: string,
+    config?: ConfigsForType<Env, unknown, TaggedValues<Tag, O>[keyof O]>
   ): Kind<F, Env, TaggedValues<Tag, O>[keyof O]>
-  taggedUnionCfg<Tag extends string, O>(
-    tag: Tag,
-    types: TaggedTypes1<F, Tag, O, Env>,
-    name: string
-  ): (
-    config: ConfigsForType<Env, unknown, TaggedValues<Tag, O>[keyof O]>
-  ) => Kind<F, Env, TaggedValues<Tag, O>[keyof O]>
 }
 
 /**
@@ -107,13 +93,7 @@ export interface ModelAlgebraTaggedUnions2<F extends URIS2, Env extends AnyEnv> 
   taggedUnion<Tag extends string, A, L>(
     tag: Tag,
     types: TaggedTypes2<F, Tag, A, L, Env>,
-    name: string
+    name: string,
+    config?: ConfigsForType<Env, TaggedValues<Tag, L>[keyof L], TaggedValues<Tag, A>[keyof A]>
   ): Kind2<F, Env, TaggedValues<Tag, L>[keyof L], TaggedValues<Tag, A>[keyof A]>
-  taggedUnionCfg<Tag extends string, A, L>(
-    tag: Tag,
-    types: TaggedTypes2<F, Tag, A, L, Env>,
-    name: string
-  ): (
-    config: ConfigsForType<Env, TaggedValues<Tag, L>[keyof L], TaggedValues<Tag, A>[keyof A]>
-  ) => Kind2<F, Env, TaggedValues<Tag, L>[keyof L], TaggedValues<Tag, A>[keyof A]>
 }

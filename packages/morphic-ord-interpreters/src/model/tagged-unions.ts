@@ -17,22 +17,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const ordTaggedUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraTaggedUnions1<OrdURI, Env> => ({
     _F: OrdURI,
-    taggedUnion: (tag, types) => env => {
-      const equals = mapRecord(types, a => a(env).ord.equals)
-      const compares = mapRecord(types, a => a(env).ord.compare)
-      return new OrdType({
-        compare: (a, b): Ordering => {
-          const aTag = a[tag]
-          const bTag = b[tag]
-          return aTag === bTag ? (compares as any)[aTag](a, b) : ordString.compare(String(aTag), String(bTag))
-        },
-        equals: (a, b): boolean => {
-          const aTag = a[tag]
-          return aTag === b[tag] ? (equals as any)[aTag](a, b) : false
-        }
-      })
-    },
-    taggedUnionCfg: (tag, types) => config => env => {
+    taggedUnion: (tag, types, _name, config) => env => {
       const equals = mapRecord(types, a => a(env).ord.equals)
       const compares = mapRecord(types, a => a(env).ord.compare)
       return new OrdType(

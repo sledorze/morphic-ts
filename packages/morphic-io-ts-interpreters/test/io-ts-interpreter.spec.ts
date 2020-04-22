@@ -53,24 +53,20 @@ const { summon: summon2 } = summonFor<{ [IoTsURI]: IoTsTypesEx }>({ [IoTsURI]: {
 describe('IO-TS Env', () => {
   it('can be composed', () => {
     const Codec1 = summon(F =>
-      F.keysOfCfg({ foo: null, bar: null })({
-        ...iotsConfig((x, { WM }) => WM.withMessage(x, () => 'not ok'))
-      })
-    )
-    summon2(F => F.interface({ a: Codec1(F) }, 'a'))
-    summon(F =>
-      F.interface(
-        { a: F.stringCfg({ ...iotsConfig((x, env: IoTsTypes) => env.WM.withMessage(x, () => 'not ok')) }) },
-        'a'
+      F.keysOf(
+        { foo: null, bar: null },
+        iotsConfig((x, { WM }) => WM.withMessage(x, () => 'not ok'))
       )
     )
+    summon2(F => F.interface({ a: Codec1(F) }, 'a'))
+    summon(F => F.interface({ a: F.string({ ...iotsConfig((x, env) => env.WM.withMessage(x, () => 'not ok')) }) }, 'a'))
   })
 })
 
 describe('IO-TS', () => {
   it('customize keyof', () => {
     const codec = summon(F =>
-      F.keysOfCfg({ foo: null, bar: null })({ ...iotsConfig((x, _env) => WM.withMessage(x, () => 'not ok')) })
+      F.keysOf({ foo: null, bar: null }, { ...iotsConfig((x, _env) => WM.withMessage(x, () => 'not ok')) })
     ).type
 
     const result = codec.decode('baz')
@@ -81,7 +77,7 @@ describe('IO-TS', () => {
 
   it('decode to newType', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
-    const NT = summon(F => F.newtype<NT>('NT')(F.date))
+    const NT = summon(F => F.newtype<NT>('NT')(F.date()))
     const dec = (_: EType<typeof NT>): Either<Errors, AType<typeof NT>> => NT.type.decode(_)
     const date = new Date()
 
@@ -90,7 +86,7 @@ describe('IO-TS', () => {
 
   it('newtype raw type should work - customize', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
-    const NT = summon(F => F.newtypeCfg<NT>('NT')(F.date)({ ...iotsConfig(x => WM.withMessage(x, () => 'not ok')) }))
+    const NT = summon(F => F.newtype<NT>('NT')(F.date(), { ...iotsConfig(x => WM.withMessage(x, () => 'not ok')) }))
     const result = NT.type.decode('bla')
 
     chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
@@ -98,12 +94,12 @@ describe('IO-TS', () => {
 
   it('customize strMap', () => {
     const codec = summon(F =>
-      F.strMapCfg(F.stringCfg({ ...iotsConfig(_ => t.string) }))({
+      F.strMap(F.string({ ...iotsConfig(_ => t.string) }), {
         ...iotsConfig(x => WM.withMessage(x, () => 'not ok'))
       })
     ).type
 
-    // F.string(iotsConfig((p, env: { x: string }) => string)),
+    // F.string()(iotsConfig((p, env: { x: string }) => string)),
     // iotsConfig2(x => withMessage(x, () => 'not ok'))
 
     const result1 = codec.decode({ a: 'a' })
@@ -121,7 +117,7 @@ describe('IO-TS', () => {
     }
 
     const codec = summon(F =>
-      F.refined(F.number, (x: number): x is Branded<number, PositiveNumberBrand> => x > 0, 'PosNum')
+      F.refined(F.number(), (x: number): x is Branded<number, PositiveNumberBrand> => x > 0, 'PosNum')
     ).type
 
     chai.assert.deepStrictEqual(isLeft(codec.decode(-1)), true)
@@ -134,11 +130,9 @@ describe('IO-TS', () => {
     }
 
     const codec = summon(F =>
-      F.refinedCfg(
-        F.number,
-        (x: number): x is Branded<number, PositiveNumberBrand> => x > 0,
-        'PosNum'
-      )({ ...iotsConfig(x => WM.withMessage(x, x => `Not a positive number ${x}`)) })
+      F.refined(F.number(), (x: number): x is Branded<number, PositiveNumberBrand> => x > 0, 'PosNum', {
+        ...iotsConfig(x => WM.withMessage(x, x => `Not a positive number ${x}`))
+      })
     ).type
 
     chai.assert.deepStrictEqual(PathReporter.report(codec.decode(-1)), ['Not a positive number -1'])
@@ -147,20 +141,20 @@ describe('IO-TS', () => {
 
   it('unknown', () => {
     // Definition
-    const codec = summon(F => F.unknown).type
+    const codec = summon(F => F.unknown()).type
     chai.assert.deepStrictEqual(codec.decode('b'), right('b'))
     chai.assert.deepStrictEqual(codec.decode(12), right(12))
   })
 
   it('string', () => {
     // Definition
-    const codec = summon(F => F.string).type
+    const codec = summon(F => F.string()).type
     chai.assert.deepStrictEqual(codec.decode('b'), right('b'))
   })
 
   it('bigint', () => {
     // Definition
-    const codec = summon(F => F.bigint).type
+    const codec = summon(F => F.bigint()).type
     chai.assert.deepStrictEqual(codec.decode('10'), right(BigInt(10)))
     chai.assert.deepStrictEqual(codec.encode(BigInt(10)), '10')
     chai.assert.deepStrictEqual(isLeft(codec.decode('nope')), true)
@@ -168,7 +162,7 @@ describe('IO-TS', () => {
 
   it('boolean', () => {
     // Definition
-    const codec = summon(F => F.boolean).type
+    const codec = summon(F => F.boolean()).type
     chai.assert.deepStrictEqual(codec.decode(true), right(true))
     chai.assert.deepStrictEqual(codec.decode(false), right(false))
   })
@@ -190,7 +184,7 @@ describe('IO-TS', () => {
   })
 
   it('nullable', () => {
-    const codec = summon(F => F.nullable(F.string)).type
+    const codec = summon(F => F.nullable(F.string())).type
 
     chai.assert.deepStrictEqual(codec.decode('a'), right(some('a')))
     chai.assert.deepStrictEqual(codec.decode(null), right(none))
@@ -198,7 +192,7 @@ describe('IO-TS', () => {
   })
 
   it('array', () => {
-    const codec = summon(F => F.array(F.string))
+    const codec = summon(F => F.array(F.string()))
     chai.assert.deepStrictEqual(codec.type.decode(['a', 'b']), right(['a', 'b']))
   })
 
@@ -208,8 +202,8 @@ describe('IO-TS', () => {
     const codec = summon(F =>
       F.partial(
         {
-          a: F.string,
-          b: F.number
+          a: F.string(),
+          b: F.number()
         },
         'Codec'
       )
@@ -226,8 +220,8 @@ describe('IO-TS', () => {
     const Foo = summon(F =>
       F.interface(
         {
-          a: F.string,
-          b: F.number
+          a: F.string(),
+          b: F.number()
         },
         'Foo'
       )
@@ -238,7 +232,7 @@ describe('IO-TS', () => {
       F.interface(
         {
           a: Foo(F),
-          b: F.number
+          b: F.number()
         },
         'Bar'
       )
@@ -274,8 +268,8 @@ describe('IO-TS', () => {
     const Foo = summon<unknown, Foo>(F =>
       F.interface(
         {
-          date: F.date,
-          a: F.string
+          date: F.date(),
+          a: F.string()
         },
         'Foo'
       )
@@ -297,8 +291,8 @@ describe('IO-TS', () => {
     const Foo = summon(F =>
       F.interface(
         {
-          a: F.string,
-          b: F.number
+          a: F.string(),
+          b: F.number()
         },
         'Foo'
       )
@@ -307,8 +301,8 @@ describe('IO-TS', () => {
     const Bar = summon(F =>
       F.interface(
         {
-          c: F.string,
-          d: F.number
+          c: F.string(),
+          d: F.number()
         },
         'Bar'
       )
@@ -333,8 +327,8 @@ describe('IO-TS', () => {
     const Foo = summon(F =>
       F.interface(
         {
-          a: F.string,
-          b: F.number
+          a: F.string(),
+          b: F.number()
         },
         'Foo'
       )
@@ -347,8 +341,8 @@ describe('IO-TS', () => {
     const Bar = summon(F =>
       F.interface(
         {
-          c: F.string,
-          d: F.number
+          c: F.string(),
+          d: F.number()
         },
         'Bar'
       )
@@ -374,8 +368,8 @@ describe('IO-TS', () => {
       F.interface(
         {
           type: F.stringLiteral('foo1'),
-          a: F.string,
-          b: F.number
+          a: F.string(),
+          b: F.number()
         },
         'Foo'
       )
@@ -390,8 +384,8 @@ describe('IO-TS', () => {
       F.interface(
         {
           type: F.stringLiteral('bar1'),
-          c: F.string,
-          d: F.number
+          c: F.string(),
+          d: F.number()
         },
         'Bar'
       )
@@ -427,7 +421,7 @@ describe('IO-TS', () => {
       F.interface(
         {
           type: F.stringLiteral('foo2'),
-          a: F.string
+          a: F.string()
         },
         'Foo'
       )
@@ -437,7 +431,7 @@ describe('IO-TS', () => {
       F.interface(
         {
           type: F.stringLiteral('baz2'),
-          b: F.number
+          b: F.number()
         },
         'Bar'
       )
@@ -467,7 +461,7 @@ describe('IO-TS', () => {
     const InterfA = summon(F =>
       F.interface(
         {
-          a: F.string
+          a: F.string()
         },
         'InterfA'
       )
@@ -476,11 +470,11 @@ describe('IO-TS', () => {
     summon(F =>
       F.interface(
         {
-          a: F.string,
+          a: F.string(),
           b: F.array(
             F.interface(
               {
-                x: F.nullable(F.string)
+                x: F.nullable(F.string())
               },
               'X'
             )
@@ -520,8 +514,8 @@ describe('iotsObjectInterpreter', () => {
   const model = summon(F =>
     F.interface(
       {
-        a: F.string,
-        b: F.number
+        a: F.string(),
+        b: F.number()
       },
       'AB'
     )
@@ -529,8 +523,8 @@ describe('iotsObjectInterpreter', () => {
   const partialModel = summon(F =>
     F.partial(
       {
-        a: F.string,
-        b: F.number
+        a: F.string(),
+        b: F.number()
       },
       'AB'
     )
@@ -570,7 +564,7 @@ describe('iotsObjectInterpreter', () => {
             'type',
             {
               node: F.interface({ type: F.stringLiteral('node'), a: Tree, b: Tree }, 'Node'),
-              leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string }, 'Leaf')
+              leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string() }, 'Leaf')
             },
             'Tree'
           )
@@ -615,7 +609,7 @@ describe('iotsObjectInterpreter', () => {
         return GTree
       }
 
-      const numberValue = summon(F => F.number)
+      const numberValue = summon(F => F.number())
 
       const { type } = getTree(numberValue)
       chai.assert.deepStrictEqual(type.is({ type: 'leaf', v: 0 }), true)
@@ -643,13 +637,12 @@ describe('iotsObjectInterpreter', () => {
     const { summon: summonIOTS } = summonFor<AppEnv>({ [IoTsURI]: { iots: t, WM: WM } })
 
     const Codec = summonIOTS(F =>
-      F.stringCfg({
-        ...iotsConfig((_, { iots }: IOTSEnv) => iots.string)
-      })
+      F.string(iotsConfig((_, { iots }: IOTSEnv) => iots.string))
     )
+
     const codec = summonIOTS(F =>
-      F.strMapCfg(Codec(F))({
-        ...iotsConfig((x, { WM }: WithMessage) => WM.withMessage(x, () => 'not ok'))
+      F.strMap(Codec(F), {
+        IoTsURI: (x, { WM }) => WM.withMessage(x, () => 'not ok')
       })
     ).type
 

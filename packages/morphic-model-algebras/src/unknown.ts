@@ -32,9 +32,8 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export interface ModelAlgebraUnknown<F, Env> {
   _F: F
-  unknown: HKT2<F, Env, unknown, unknown>
-  unknownCfg: {
-    (config: ConfigsForType<Env, unknown, unknown>): HKT2<F, Env, unknown, unknown>
+  unknown: {
+    (config?: ConfigsForType<Env, unknown, unknown>): HKT2<F, Env, unknown, unknown>
   }
 }
 
@@ -43,8 +42,7 @@ export interface ModelAlgebraUnknown<F, Env> {
  */
 export interface ModelAlgebraUnknown1<F extends URIS, Env extends AnyEnv> {
   _F: F
-  unknown: Kind<F, Env, unknown>
-  unknownCfg(config: ConfigsForType<Env, unknown, unknown>): Kind<F, Env, unknown>
+  unknown(config?: ConfigsForType<Env, unknown, unknown>): Kind<F, Env, unknown>
 }
 
 /**
@@ -52,6 +50,5 @@ export interface ModelAlgebraUnknown1<F extends URIS, Env extends AnyEnv> {
  */
 export interface ModelAlgebraUnknown2<F extends URIS2, Env extends AnyEnv> {
   _F: F
-  unknown: Kind2<F, Env, unknown, unknown>
-  unknownCfg(config: ConfigsForType<Env, unknown, unknown>): Kind2<F, Env, unknown, unknown>
+  unknown(config?: ConfigsForType<Env, unknown, unknown>): Kind2<F, Env, unknown, unknown>
 }

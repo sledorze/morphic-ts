@@ -18,8 +18,7 @@ export const applyCustomize = <RC, E, A>(c: { [IoTsURI]?: Customize<RC, E, A> } 
 export const ioTsRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined2<IoTsURI, Env> => ({
     _F: IoTsURI,
-    refined: (a, ref, name) => env => new IOTSType(t.brand(a(env).type, ref, name)),
-    refinedCfg: (a, ref, name) => config => env =>
+    refined: (a, ref, name, config) => env =>
       new IOTSType(iotsApplyConfig(config)(t.brand(a(env).type, ref, name), env))
   })
 )

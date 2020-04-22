@@ -5,6 +5,7 @@ import { CacheType } from '@morphic-ts/common/lib/core'
 import { ProgramURI, ProgramType } from './ProgramType'
 import { makeTagged, TaggedBuilder } from './tagged-union'
 import { URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1
@@ -70,4 +71,4 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
 export type ExtractEnv<Env, SummonerEnv extends URIS | URIS2> = {
   [k in SummonerEnv & keyof Env]: NonNullable<Env>[k & keyof Env]
 }
-export type AnyConfigEnv = Partial<Record<URIS | URIS2, any>>
+export type AnyConfigEnv = AnyEnv

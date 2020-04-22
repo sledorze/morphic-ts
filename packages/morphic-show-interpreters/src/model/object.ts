@@ -14,11 +14,9 @@ const asPartial = <T>(x: ShowType<T>): ShowType<Partial<T>> => x as any
 export const showObjectInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraObject1<ShowURI, Env> => ({
     _F: ShowURI,
-    interface: props => env => new ShowType(getStructShow(projectFieldWithEnv(props, env)('show'))),
-    interfaceCfg: props => config => env =>
+    interface: (props, _name, config) => env =>
       new ShowType(showApplyConfig(config)(getStructShow(projectFieldWithEnv(props, env)('show')), env)),
-    partial: props => env => asPartial(new ShowType(getStructShow(projectFieldWithEnv(props, env)('show')))),
-    partialCfg: props => config => env =>
+    partial: (props, _name, config) => env =>
       asPartial(new ShowType(showApplyConfig(config)(getStructShow(projectFieldWithEnv(props, env)('show')), env)))
   })
 )

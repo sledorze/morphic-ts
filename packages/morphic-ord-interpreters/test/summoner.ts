@@ -23,7 +23,7 @@ declare module '@morphic-ts/batteries/lib/usage/InterpreterResult' {
 
 /** Type level override to keep Morph type name short */
 export interface M<R, L, A> extends Materialized<R, L, A, ProgramOrderableURI, OrdInterpreterURI> {}
-export interface UM<R, A> extends Materialized<R, unknown, A, ProgramOrderableURI, OrdInterpreterURI> {}
+export interface UM<R, A> extends Materialized<R, {}, A, ProgramOrderableURI, OrdInterpreterURI> {}
 
 export interface Summoner<R> extends Summoners<ProgramOrderableURI, OrdInterpreterURI, R> {
   <L, A>(F: ProgramType<R, L, A>[ProgramOrderableURI]): M<R, L, A>

@@ -33,15 +33,9 @@ export interface ModelAlgebraRefined<F, Env> {
     <E, A, N extends string, B extends { readonly [K in N]: symbol }>(
       a: HKT2<F, Env, E, A>,
       refinement: Refinement<A, Branded<A, B>>,
-      name: N
+      name: N,
+      config?: ConfigsForType<Env, E, Branded<A, B>>
     ): HKT2<F, Env, E, Branded<A, B>>
-  }
-  refinedCfg: {
-    <E, A, N extends string, B extends { readonly [K in N]: symbol }>(
-      a: HKT2<F, Env, E, A>,
-      refinement: Refinement<A, Branded<A, B>>,
-      name: N
-    ): (config: ConfigsForType<Env, E, Branded<A, B>>) => HKT2<F, Env, E, Branded<A, B>>
   }
 }
 
@@ -53,13 +47,9 @@ export interface ModelAlgebraRefined1<F extends URIS, Env extends AnyEnv> {
   refined<A, N extends string, B extends { readonly [K in N]: symbol }>(
     a: Kind<F, Env, A>,
     refinement: Refinement<A, Branded<A, B>>,
-    name: N
+    name: N,
+    config?: ConfigsForType<Env, unknown, Branded<A, B>>
   ): Kind<F, Env, Branded<A, B>>
-  refinedCfg<A, N extends string, B extends { readonly [K in N]: symbol }>(
-    a: Kind<F, Env, A>,
-    refinement: Refinement<A, Branded<A, B>>,
-    name: N
-  ): (config: ConfigsForType<Env, unknown, Branded<A, B>>) => Kind<F, Env, Branded<A, B>>
 }
 
 /**
@@ -70,11 +60,7 @@ export interface ModelAlgebraRefined2<F extends URIS2, Env extends AnyEnv> {
   refined<E, A, N extends string, B extends { readonly [K in N]: symbol }>(
     a: Kind2<F, Env, E, A>,
     refinement: Refinement<A, Branded<A, B>>,
-    name: N
+    name: N,
+    config?: ConfigsForType<Env, E, Branded<A, B>>
   ): Kind2<F, Env, E, Branded<A, B>>
-  refinedCfg<E, A, N extends string, B extends { readonly [K in N]: symbol }>(
-    a: Kind2<F, Env, E, A>,
-    refinement: Refinement<A, Branded<A, B>>,
-    name: N
-  ): (config: ConfigsForType<Env, E, Branded<A, B>>) => Kind2<F, Env, E, Branded<A, B>>
 }

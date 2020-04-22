@@ -60,7 +60,7 @@ declare module '../../src/config' {
 }
 
 // Algebra
-interface Foo<F extends URIS | URIS2, Env> {
+interface Foo<F extends URIS | URIS2, Env extends AnyEnv> {
   myFunc: <A>(t: HKT<F, Env, A>) => (a: ConfigsForType<Env, unknown, A>) => HKT<F, Env, A>
   term: <A>() => HKT<F, Env, A>
 }
@@ -184,14 +184,14 @@ doIt<{ IOTs: { c: string } } & { Eq: { a: string } } & { Ord: { b: number } }>()
   })
 })
 
-interface Foo2<F extends URIS | URIS2, Env> {
+interface Foo2<F extends URIS | URIS2, Env extends AnyEnv> {
   myFunc: <R, A>(t: HKT<F, R, A>) => (a: ConfigsForType<Env, unknown, A>) => HKT<F, Env, A>
   term: <R, A>() => HKT<F, R, A>
 }
 
-const doIt2 = <Env>() => <F extends URIS | URIS2>(f: (x: Foo2<F, Env>) => void) => f
+const doIt2 = <Env extends AnyEnv>() => <F extends URIS | URIS2>(f: (x: Foo2<F, Env>) => void) => f
 
-doIt2<{ a: string }>()(F => {
+doIt2<{ Eq: { a: string } }>()(F => {
   F.myFunc(F.term<{}, string>())({
     ...ordConfig((x, e) => x)
   })

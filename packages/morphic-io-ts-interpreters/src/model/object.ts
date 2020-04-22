@@ -12,18 +12,18 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const ioTsNonStrictObjectInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraObject2<IoTsURI, Env> => ({
     _F: IoTsURI,
-    interface: <PropsE, PropsA>(props: PropsKind2<IoTsURI, PropsE, PropsA, Env>, name: string) => (env: Env) =>
-      new IOTSType<PropsE, PropsA>(t.type(projectFieldWithEnv(props, env)('type'), name) as any),
-    interfaceCfg: <PropsE, PropsA>(props: PropsKind2<IoTsURI, PropsE, PropsA, Env>, name: string) => (
-      config: ConfigsForType<Env, PropsE, PropsA>
+    interface: <PropsE, PropsA>(
+      props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
+      name: string,
+      config?: ConfigsForType<Env, PropsE, PropsA>
     ) => (env: Env) =>
       new IOTSType<PropsE, PropsA>(
         iotsApplyConfig(config)(t.type(projectFieldWithEnv(props, env)('type'), name) as any, env)
       ),
-    partial: <PropsE, PropsA>(props: PropsKind2<IoTsURI, PropsE, PropsA, Env>, name: string) => (env: Env) =>
-      new IOTSType<Partial<PropsE>, Partial<PropsA>>(t.partial(projectFieldWithEnv(props, env)('type'), name) as any),
-    partialCfg: <PropsE, PropsA>(props: PropsKind2<IoTsURI, PropsE, PropsA, Env>, name: string) => (
-      config: ConfigsForType<Env, PropsE, PropsA>
+    partial: <PropsE, PropsA>(
+      props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
+      name: string,
+      config?: ConfigsForType<Env, PropsE, PropsA>
     ) => (env: Env) =>
       new IOTSType<Partial<PropsE>, Partial<PropsA>>(
         iotsApplyConfig(config)(t.partial(projectFieldWithEnv(props, env)('type'), name) as any, env) as any
@@ -37,20 +37,18 @@ export const ioTsNonStrictObjectInterpreter = memo(
 export const ioTsStrictObjectInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraObject2<IoTsURI, Env> => ({
     _F: IoTsURI,
-    interface: <PropsE, PropsA>(props: PropsKind2<IoTsURI, PropsE, PropsA, Env>, name: string) => (env: Env) =>
-      new IOTSType<PropsE, PropsA>(t.strict(projectFieldWithEnv(props, env)('type'), name) as any),
-    interfaceCfg: <PropsE, PropsA>(props: PropsKind2<IoTsURI, PropsE, PropsA, Env>, name: string) => (
-      config: ConfigsForType<Env, PropsE, PropsA>
+    interface: <PropsE, PropsA>(
+      props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
+      name: string,
+      config?: ConfigsForType<Env, PropsE, PropsA>
     ) => (env: Env) =>
       new IOTSType<PropsE, PropsA>(
         iotsApplyConfig(config)(t.strict(projectFieldWithEnv(props, env)('type'), name) as any, env)
       ),
-    partial: <PropsE, PropsA>(props: PropsKind2<IoTsURI, PropsE, PropsA, Env>, name: string) => (env: Env) =>
-      new IOTSType<Partial<PropsE>, Partial<PropsA>>(
-        t.exact(t.partial(projectFieldWithEnv(props, env)('type'), name)) as any
-      ),
-    partialCfg: <PropsE, PropsA>(props: PropsKind2<IoTsURI, PropsE, PropsA, Env>, name: string) => (
-      config: ConfigsForType<Env, PropsE, PropsA>
+    partial: <PropsE, PropsA>(
+      props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
+      name: string,
+      config?: ConfigsForType<Env, PropsE, PropsA>
     ) => (env: Env) =>
       new IOTSType<Partial<PropsE>, Partial<PropsA>>(
         iotsApplyConfig(config)(t.exact(t.partial(projectFieldWithEnv(props, env)('type'), name)) as any, env) as any

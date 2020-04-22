@@ -15,8 +15,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const fastCheckTaggedUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraTaggedUnions1<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    taggedUnion: (_tag, dic) => env => new FastCheckType(oneof(...collect(dic, (_, getArb) => getArb(env).arb))),
-    taggedUnionCfg: (_tag, dic) => config => env =>
+    taggedUnion: (_tag, dic, _name, config) => env =>
       new FastCheckType(fastCheckApplyConfig(config)(oneof(...collect(dic, (_, getArb) => getArb(env).arb)), env))
   })
 )

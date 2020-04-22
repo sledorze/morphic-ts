@@ -26,7 +26,7 @@ export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramUnionURI, BAS
 /**
  *  @since 0.0.1
  */
-export interface UM<R, A> extends M<R, unknown, A> {}
+export interface UM<R, A> extends M<R, {}, A> {}
 
 /**
  *  @since 0.0.1

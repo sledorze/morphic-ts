@@ -11,7 +11,6 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const ioTsUnknownInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnknown2<IoTsURI, Env> => ({
     _F: IoTsURI,
-    unknown: _env => new IOTSType(t.unknown),
-    unknownCfg: config => env => new IOTSType(iotsApplyConfig(config)(t.unknown, env))
+    unknown: config => env => new IOTSType(iotsApplyConfig(config)(t.unknown, env))
   })
 )

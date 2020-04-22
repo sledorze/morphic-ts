@@ -12,8 +12,6 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const jsonSchemaUnknownInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnknown1<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    unknown: _env => new JsonSchema(SE.stateEither.of(AnythingTypeCtor())),
-    unknownCfg: config => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(SE.stateEither.of(AnythingTypeCtor()), env))
+    unknown: config => env => new JsonSchema(jsonSchemaApplyConfig(config)(SE.stateEither.of(AnythingTypeCtor()), env))
   })
 )

@@ -10,8 +10,6 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const jsonSchemaNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype1<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    newtype: () => getJson => getJson,
-    newtypeCfg: () => getJson => config => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(getJson(env).schema, env))
+    newtype: () => (getJson, config) => env => new JsonSchema(jsonSchemaApplyConfig(config)(getJson(env).schema, env))
   })
 )

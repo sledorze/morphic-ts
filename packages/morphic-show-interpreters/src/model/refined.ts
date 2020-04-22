@@ -10,8 +10,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const showRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined1<ShowURI, Env> => ({
     _F: ShowURI,
-    refined: (getShow, _ref, name) => env => new ShowType({ show: x => `<${name}>(${getShow(env).show.show(x)})` }),
-    refinedCfg: (getShow, _ref, name) => config => env =>
+    refined: (getShow, _ref, name, config) => env =>
       new ShowType({ show: x => `<${name}>(${showApplyConfig(config)(getShow(env).show, env).show(x)})` })
   })
 )

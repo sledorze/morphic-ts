@@ -28,12 +28,12 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 export interface ModelAlgebraStrMap<F, Env> {
   _F: F
   strMap: {
-    <L, A>(codomain: HKT2<F, Env, L, A>): HKT2<F, Env, Record<string, L>, Record<string, A>>
-  }
-  strMapCfg: {
-    <L, A>(codomain: HKT2<F, Env, L, A>): (
-      config: ConfigsForType<Env, Record<string, L>, Record<string, A>>
-    ) => HKT2<F, Env, Record<string, L>, Record<string, A>>
+    <L, A>(codomain: HKT2<F, Env, L, A>, config?: ConfigsForType<Env, Record<string, L>, Record<string, A>>): HKT2<
+      F,
+      Env,
+      Record<string, L>,
+      Record<string, A>
+    >
   }
 }
 
@@ -42,10 +42,10 @@ export interface ModelAlgebraStrMap<F, Env> {
  */
 export interface ModelAlgebraStrMap1<F extends URIS, Env extends AnyEnv> {
   _F: F
-  strMap: <A>(codomain: Kind<F, Env, A>) => Kind<F, Env, Record<string, A>>
-  strMapCfg: <A>(
-    codomain: Kind<F, Env, A>
-  ) => (config: ConfigsForType<Env, unknown, Record<string, A>>) => Kind<F, Env, Record<string, A>>
+  strMap: <A>(
+    codomain: Kind<F, Env, A>,
+    config?: ConfigsForType<Env, unknown, Record<string, A>>
+  ) => Kind<F, Env, Record<string, A>>
 }
 
 /**
@@ -53,10 +53,8 @@ export interface ModelAlgebraStrMap1<F extends URIS, Env extends AnyEnv> {
  */
 export interface ModelAlgebraStrMap2<F extends URIS2, Env extends AnyEnv> {
   _F: F
-  strMap: <L, A>(codomain: Kind2<F, Env, L, A>) => Kind2<F, Env, Record<string, L>, Record<string, A>>
-  strMapCfg: <L, A>(
-    codomain: Kind2<F, Env, L, A>
-  ) => (
-    config: ConfigsForType<Env, Record<string, L>, Record<string, A>>
+  strMap: <L, A>(
+    codomain: Kind2<F, Env, L, A>,
+    config?: ConfigsForType<Env, Record<string, L>, Record<string, A>>
   ) => Kind2<F, Env, Record<string, L>, Record<string, A>>
 }
