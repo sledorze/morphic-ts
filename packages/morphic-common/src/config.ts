@@ -1,5 +1,4 @@
 import { URIS, URIS2, Kind, Kind2 } from './HKT'
-import { KeepNotUndefinedOrUnknown } from './core'
 import { identity } from 'fp-ts/lib/function'
 export { Kind, Kind2 }
 
@@ -45,42 +44,30 @@ export { Kind, Kind2 }
  *  @since 0.0.1
  */
 
+export type AnyEnv = Partial<Record<URIS | URIS2, any>>
+
 export interface GenConfig<A, R> {
   (a: A, r: R): A
 }
 
 export type NoEnv = unknown
 
-export type MapToGenConfig<T extends Record<URIS | URIS2, any>> = { [k in URIS | URIS2]?: GenConfig<T[k], any> }
+export type MapToGenConfig<R, T extends Record<URIS | URIS2, any>> = { [k in URIS | URIS2]?: GenConfig<T[k], R[k]> }
 
 export interface ConfigType<E, A> {
   _E: E
   _A: A
 }
 
-export type ConfigsForType<E, A> = MapToGenConfig<ConfigType<E, A>>
-
-/**
- *  @since 0.0.1
- */
-
-export type ConfigsEnvs<T extends MapToGenConfig<any>> = KeepNotUndefinedOrUnknown<
-  {
-    [k in keyof T]: T[k] extends (a: any, env: infer R) => any ? R : never
-  }
->
-
-// Rewrites Config R type
-const coerceConfig = <R, E, A, Uri extends keyof ConfigType<E, A>>(x: GenConfig<ConfigType<E, A>[Uri], R>) =>
-  x as GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R>
+export type ConfigsForType<R, E, A> = MapToGenConfig<R, ConfigType<E, A>>
 
 export const genConfig: <Uri extends URIS | URIS2>(
   uri: Uri
 ) => <R, E, A>(
   config: GenConfig<ConfigType<E, A>[Uri], R>
-) => { [k in Uri]: GenConfig<ConfigType<E, A>[Uri], unknown extends R ? unknown : R> } = uri => config =>
+) => { [k in Uri]: GenConfig<ConfigType<E, A>[Uri], R> } = uri => config =>
   ({
-    [uri]: coerceConfig(config)
+    [uri]: config
   } as any)
 
 export const getApplyConfig: <Uri extends URIS | URIS2>(

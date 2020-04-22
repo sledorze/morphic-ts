@@ -1,4 +1,5 @@
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic-ts/common/lib/HKT'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1
@@ -10,37 +11,37 @@ export const RecursiveURI = 'RecursiveURI' as const
 export type RecursiveURI = typeof RecursiveURI
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface Algebra<F> {
-    [RecursiveURI]: ModelAlgebraRecursive<F>
+  export interface Algebra<F, Env> {
+    [RecursiveURI]: ModelAlgebraRecursive<F, Env>
   }
-  export interface Algebra1<F extends URIS> {
-    [RecursiveURI]: ModelAlgebraRecursive1<F>
+  export interface Algebra1<F extends URIS, Env extends AnyEnv> {
+    [RecursiveURI]: ModelAlgebraRecursive1<F, Env>
   }
-  export interface Algebra2<F extends URIS2> {
-    [RecursiveURI]: ModelAlgebraRecursive2<F>
+  export interface Algebra2<F extends URIS2, Env extends AnyEnv> {
+    [RecursiveURI]: ModelAlgebraRecursive2<F, Env>
   }
 }
 
 /**
  *  @since 0.0.1
  */
-export interface ModelAlgebraRecursive<F> {
+export interface ModelAlgebraRecursive<F, Env> {
   _F: F
-  recursive: <R, L, A>(a: (x: HKT2<F, R, L, A>) => HKT2<F, R, L, A>, name: string) => HKT2<F, R, L, A>
+  recursive: <L, A>(a: (x: HKT2<F, Env, L, A>) => HKT2<F, Env, L, A>, name: string) => HKT2<F, Env, L, A>
 }
 
 /**
  *  @since 0.0.1
  */
-export interface ModelAlgebraRecursive1<F extends URIS> {
+export interface ModelAlgebraRecursive1<F extends URIS, Env extends AnyEnv> {
   _F: F
-  recursive: <A, R>(a: (x: Kind<F, R, A>) => Kind<F, R, A>, name: string) => Kind<F, R, A>
+  recursive: <A>(a: (x: Kind<F, Env, A>) => Kind<F, Env, A>, name: string) => Kind<F, Env, A>
 }
 
 /**
  *  @since 0.0.1
  */
-export interface ModelAlgebraRecursive2<F extends URIS2> {
+export interface ModelAlgebraRecursive2<F extends URIS2, Env extends AnyEnv> {
   _F: F
-  recursive: <R, L, A>(a: (x: Kind2<F, R, L, A>) => Kind2<F, R, L, A>, name: string) => Kind2<F, R, L, A>
+  recursive: <L, A>(a: (x: Kind2<F, Env, L, A>) => Kind2<F, Env, L, A>, name: string) => Kind2<F, Env, L, A>
 }

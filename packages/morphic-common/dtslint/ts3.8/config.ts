@@ -1,9 +1,9 @@
-import { ConfigsEnvs, genConfig, ConfigsForType } from '../../src/config'
+import { genConfig, ConfigsForType, AnyEnv } from '../../src/config'
 import { URIS, HKT, URIS2 } from '../../src/HKT'
 import { Ord } from 'fp-ts/lib/Ord'
 import { Eq } from 'fp-ts/lib/Eq'
 import { Type } from 'io-ts'
-import { KeepNotUndefinedOrUnknown } from '../../src/core'
+import { KeepNotUndefinedOrUnknown, Compact } from '../../src/core'
 
 declare module '../../src/HKT' {
   interface URItoKind<R, A> {
@@ -61,21 +61,32 @@ declare module '../../src/config' {
 }
 
 // Algebra
-
-interface Foo<F extends URIS | URIS2> {
-  myFunc: <R, A>(t: HKT<F, R, A>) => <C extends ConfigsForType<unknown, A>>(a: C) => HKT<F, ConfigsEnvs<C>, A>
-  term: <R, A>() => HKT<F, R, A>
+interface Foo<F extends URIS | URIS2, Env> {
+  myFunc: <A>(t: HKT<F, Env, A>) => <C extends ConfigsForType<Env, unknown, A>>(a: C) => HKT<F, Env, A>
+  term: <A>() => HKT<F, Env, A>
 }
 
 // Program
 
-const doIt = <F extends URIS | URIS2>(f: (x: Foo<F>) => void) => f
+const doIt = <Env extends AnyEnv>() => <F extends URIS | URIS2>(f: (x: Foo<F, Env>) => void) => f
 
-doIt(F => {
-  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", unknown, string>
-  F.myFunc(F.term<{}, string>())({
+doIt<{ Ord: { x: string } }>()(F => {
+  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Ord: { x: string; }; }, string>
+  F.myFunc(F.term<string>())({
     ...ordConfig(
-      // $ExpectType (x: Ord<string>, e: any) => Ord<string>
+      // $ExpectType (x: Ord<string>, e: { x: string; }) => Ord<string>
+      (x, e) =>
+        // $ExpectType Ord<string>
+        x
+    )
+  })
+})
+
+doIt<{ Ord: { b: number } }>()(F => {
+  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Ord: { b: number; }; }, string>
+  F.myFunc(F.term<string>())({
+    ...ordConfig(
+      // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
       (x, e) =>
         // $ExpectType Ord<string>
         x
@@ -84,19 +95,7 @@ doIt(F => {
 })
 
 doIt(F => {
-  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Ord: { b: number; }; }, string>
-  F.myFunc(F.term<{}, string>())({
-    ...ordConfig(
-      // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
-      (x, e: { b: number }) =>
-        // $ExpectType Ord<string>
-        x
-    )
-  })
-})
-
-doIt(F => {
-  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
+  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
@@ -114,7 +113,7 @@ doIt(F => {
 })
 
 doIt(F => {
-  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Eq: { a: string; }; }, string>
+  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Eq: { a: string; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       // $ExpectType (x: Ord<string>, e: any) => Ord<string>
@@ -132,7 +131,7 @@ doIt(F => {
 })
 
 doIt(F => {
-  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { IOTs: { c: string; }; } & { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
+  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { IOTs: { c: string; }; } & { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
   F.myFunc(F.term<{}, string>())({
     ...ordConfig(
       // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
@@ -152,5 +151,18 @@ doIt(F => {
         // $ExpectType Type<string, unknown, unknown>
         x
     )
+  })
+})
+
+interface Foo2<F extends URIS | URIS2, Env> {
+  myFunc: <R, A>(t: HKT<F, R, A>) => <C extends ConfigsForType<Env, unknown, A>>(a: C) => HKT<F, Env, A>
+  term: <R, A>() => HKT<F, R, A>
+}
+
+const doIt2 = <Env>() => <F extends URIS | URIS2>(f: (x: Foo2<F, Env>) => void) => f
+
+doIt2<{ a: string }>()(F => {
+  F.myFunc(F.term<{}, string>())({
+    ...ordConfig((x, e) => x)
   })
 })

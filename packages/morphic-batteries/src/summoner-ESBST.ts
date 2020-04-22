@@ -35,19 +35,14 @@ export const AsUOpaque = <A>() => <X extends UM<any, A>>(x: X): UM<X['_R'], A> =
  *  @since 0.0.1
  */
 export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBSTInterpreterURI, R> {
-  <L, A, R2 extends R>(F: U.ProgramType<R2, L, A>[ProgramNoUnionURI]): Includes<
-    Only<R>,
-    R2,
-    M<R, L, A>,
-    Compact<DepsErrorMsg<R, R2>>
-  >
+  <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
 }
 
 export const summonFor = <R extends AnyConfigEnv>(env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     build: identity,
-    eq: program(modelEqInterpreter)(env).eq,
-    show: program(modelShowInterpreter)(env).show,
-    strictType: program(modelIoTsNonStrictInterpreter)(env).type,
-    type: program(modelIoTsNonStrictInterpreter)(env).type
+    eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,
+    show: program(modelShowInterpreter<NonNullable<R>>())(env).show,
+    strictType: program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type,
+    type: program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type
   }))

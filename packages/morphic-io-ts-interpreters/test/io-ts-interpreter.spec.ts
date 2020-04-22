@@ -16,7 +16,7 @@ import * as WM from 'io-ts-types/lib/withMessage'
 import { Newtype, iso } from 'newtype-ts'
 import { EType, AType } from '@morphic-ts/batteries/lib/usage/utils'
 import { NoEnv } from '@morphic-ts/common/lib/config'
-import { IoTsURI } from '../src'
+import { IoTsURI, modelIoTsNonStrictInterpreter } from '../src'
 
 export type Tree = Node | Leaf
 export interface Node {

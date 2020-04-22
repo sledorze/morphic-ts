@@ -41,7 +41,7 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
 ): {
   summon: S
   tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
-  define: Define<SummonerProgURI<S>>
+  define: Define<SummonerProgURI<S>, SummonerEnv<S>>
 } {
   type PURI = SummonerProgURI<S>
   type InterpURI = SummonerInterpURI<S>

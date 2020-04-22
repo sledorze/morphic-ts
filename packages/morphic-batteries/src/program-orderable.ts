@@ -22,7 +22,7 @@ export type ProgramOrderableURI = typeof ProgramOrderableURI
 /**
  *  @since 0.0.1
  */
-export interface AlgebraNoUnion<F> extends InferredAlgebra<F, ProgramOrderableURI> {}
+export interface AlgebraNoUnion<F, Env> extends InferredAlgebra<F, ProgramOrderableURI, Env> {}
 /**
  *  @since 0.0.1
  */
@@ -35,8 +35,8 @@ declare module './usage/ProgramType' {
     >
   }
 
-  interface ProgramAlgebra<F> {
-    [ProgramOrderableURI]: AlgebraNoUnion<F>
+  interface ProgramAlgebra<F, Env> {
+    [ProgramOrderableURI]: AlgebraNoUnion<F, Env>
   }
 
   interface ProgramType<R extends AnyConfigEnv, E, A> {

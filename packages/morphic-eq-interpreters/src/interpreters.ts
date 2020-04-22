@@ -1,4 +1,4 @@
-import { merge } from '@morphic-ts/common/lib/utils'
+import { merge, memo } from '@morphic-ts/common/lib/utils'
 import { eqRefinedInterpreter } from './model/refined'
 import { eqNewtypeInterpreter } from './model/newtype'
 import { eqUnknownInterpreter } from './model/unknown'
@@ -9,25 +9,27 @@ import { eqTaggedUnionInterpreter } from './model/tagged-unions'
 import { eqRecursiveInterpreter } from './model/recursive'
 import { eqStrMapInterpreter } from './model/str-map'
 import { eqSetInterpreter } from './model/set'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
 export * from './hkt'
 
 /**
  *  @since 0.0.1
  */
-const allModelEq = merge(
-  eqRefinedInterpreter,
-  eqNewtypeInterpreter,
-  eqUnknownInterpreter,
-  eqPrimitiveInterpreter,
-  eqIntersectionInterpreter,
-  eqObjectInterpreter,
-  eqTaggedUnionInterpreter,
-  eqRecursiveInterpreter,
-  eqStrMapInterpreter,
-  eqSetInterpreter
-)
+const allModelEq = <Env extends AnyEnv>() =>
+  merge(
+    eqRefinedInterpreter<Env>(),
+    eqNewtypeInterpreter<Env>(),
+    eqUnknownInterpreter<Env>(),
+    eqPrimitiveInterpreter<Env>(),
+    eqIntersectionInterpreter<Env>(),
+    eqObjectInterpreter<Env>(),
+    eqTaggedUnionInterpreter<Env>(),
+    eqRecursiveInterpreter<Env>(),
+    eqStrMapInterpreter<Env>(),
+    eqSetInterpreter<Env>()
+  )
 
 /**
  *  @since 0.0.1
  */
-export const modelEqInterpreter = allModelEq
+export const modelEqInterpreter = memo(allModelEq) as typeof allModelEq

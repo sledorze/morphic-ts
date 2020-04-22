@@ -21,8 +21,8 @@ describe('defineFor', () => {
     }
   })
 
-  const model = defineFor(ProgramUnionURI)(F =>
-    F.stringCfg({ ...fastCheckConfig((_, env: FastCheck) => env.fc.string(2, 4)) })
+  const model = defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F =>
+    F.stringCfg({ ...fastCheckConfig((_, env) => env.fc.string(2, 4)) })
   )
 
   it('can be reinterpreted by a summoner', () => {

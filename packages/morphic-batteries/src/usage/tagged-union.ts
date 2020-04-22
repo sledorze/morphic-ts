@@ -25,7 +25,7 @@ export type IfStringLiteral<T, IfLiteral, IfString, IfNotString> = T extends str
  *  @since 0.0.1
  */
 export type TaggedUnionProg<R, E, A, ProgURI extends ProgramURI> = ProgramType<R, E, A>[ProgURI] &
-  (<G>(a: Algebra<G>[TaggedUnionsURI]) => HKT2<G, R, E, A>)
+  (<G>(a: Algebra<G, R>[TaggedUnionsURI]) => HKT2<G, R, E, A>)
 
 type M<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Materialized<
   R,

@@ -17,7 +17,7 @@ export const interpretable = <T extends { [overloadsSymb]?: any }>(program: T): 
 /**
  *  @since 0.0.1
  */
-export type InferredAlgebra<F, PURI extends ProgramURI> = Algebra<ProgramAlgebraURI[PURI], F>
+export type InferredAlgebra<F, PURI extends ProgramURI, R> = Algebra<ProgramAlgebraURI[PURI], F, R>
 /**
  *  @since 0.0.1
  */
@@ -27,15 +27,15 @@ export type Overloads<I extends { [overloadsSymb]?: any }> = NonNullable<I[typeo
  *  @since 0.0.1
  */
 export interface InferredProgram<R extends AnyConfigEnv, E, A, PURI extends ProgramURI> {
-  <G>(a: ProgramAlgebra<G>[PURI]): HKT2<G, Only<R>, E, A>
+  <G, Env extends R>(a: ProgramAlgebra<G, Env>[PURI]): HKT2<G, Only<R>, E, A>
   [overloadsSymb]?: {
-    <G extends URIS>(a: Algebra1<ProgramAlgebraURI[PURI], G>): Kind<G, { [k in G & keyof R]: R[k] }, A>
-    <G extends URIS2>(a: Algebra2<ProgramAlgebraURI[PURI], G>): Kind2<G, { [k in G & keyof R]: R[k] }, E, A>
+    <G extends URIS>(a: Algebra1<ProgramAlgebraURI[PURI], G, R>): Kind<G, { [k in G & keyof R]: R[k] }, A>
+    <G extends URIS2>(a: Algebra2<ProgramAlgebraURI[PURI], G, R>): Kind2<G, { [k in G & keyof R]: R[k] }, E, A>
   }
 }
 
-export interface Define<PURI extends ProgramURI> {
-  <R, E, A>(program: ProgramType<R, E, A>[PURI]): ProgramType<R, E, A>[PURI]
+export interface Define<PURI extends ProgramURI, R extends AnyConfigEnv> {
+  <E, A>(program: ProgramType<R, E, A>[PURI]): ProgramType<R, E, A>[PURI]
 }
 
 /***
@@ -44,4 +44,6 @@ export interface Define<PURI extends ProgramURI> {
 /**
  *  @since 0.0.1
  */
-export const defineFor: <PURI extends ProgramURI>(_prog: PURI) => Define<PURI> = _ => identity
+export const defineFor: <PURI extends ProgramURI>(
+  _prog: PURI
+) => <R extends AnyConfigEnv>() => Define<PURI, R> = _ => () => identity
