@@ -1,5 +1,5 @@
 import { identity } from 'fp-ts/lib/function'
-import { cacheUnaryFunction, Compact } from '@morphic-ts/common/lib/core'
+import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
 import { modelEqInterpreter, EqURI } from '@morphic-ts/eq-interpreters/lib/interpreters'
 import { modelShowInterpreter, ShowURI } from '@morphic-ts/show-interpreters/lib/interpreters'
@@ -9,8 +9,7 @@ import * as U from './usage'
 
 import { ProgramNoUnionURI } from './program-no-union'
 import { ESBSTInterpreterURI } from './interpreters-ESBST'
-import { Includes, Only } from '@morphic-ts/common/lib/utils'
-import { DepsErrorMsg, AnyConfigEnv, ExtractEnv } from './usage/summoner'
+import { AnyConfigEnv, ExtractEnv } from './usage/summoner'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -38,7 +37,7 @@ export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBSTInterpr
   <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
 }
 
-export const summonFor = <R extends AnyConfigEnv>(env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>) =>
+export const summonFor = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     build: identity,
     eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,

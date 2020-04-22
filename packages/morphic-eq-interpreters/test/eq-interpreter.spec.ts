@@ -12,8 +12,6 @@ import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { Newtype, iso } from 'newtype-ts'
 import { EqURI } from '../src/index'
 import { eqConfig } from '../src/config'
-import { Includes } from '@morphic-ts/common/lib/utils'
-import { DepsErrorMsg } from '@morphic-ts/batteries/lib/usage/summoner'
 
 export const EqInterpreterURI = 'EqInterpreterURI' as const
 export type EqInterpreterURI = typeof EqInterpreterURI
@@ -33,15 +31,10 @@ export interface M<R, L, A> extends Materialized<R, L, A, ProgramNoUnionURI, EqI
 export interface UM<R, A> extends Materialized<R, unknown, A, ProgramNoUnionURI, EqInterpreterURI> {}
 
 interface Summoner<R> extends Summoners<ProgramNoUnionURI, EqInterpreterURI, R> {
-  <L, A, R2 extends R>(F: ProgramType<R2, L, A>[ProgramNoUnionURI]): Includes<
-    R,
-    R2,
-    M<R, L, A>,
-    Compact<DepsErrorMsg<R, R2>>
-  >
+  <L, A>(F: ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
 }
 
-export const summonFor = <R extends AnyConfigEnv>(env: ExtractEnv<R, EqURI>) =>
+export const summonFor = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, EqURI>) =>
   makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     eq: program(modelEqInterpreter)(env).eq
   }))

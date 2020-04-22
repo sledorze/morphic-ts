@@ -19,7 +19,6 @@ import { modelIoTsNonStrictInterpreter, IoTsURI } from '@morphic-ts/io-ts-interp
 import * as U from './usage'
 
 import { ESBASTJInterpreterURI } from './interpreters-ESBASTJ'
-import { Includes, Only } from '@morphic-ts/common/lib/utils'
 import { AnyConfigEnv, ExtractEnv } from './usage/summoner'
 
 /** Type level override to keep Morph type name short */
@@ -51,7 +50,7 @@ export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBASTJInter
 /**
  *  @since 0.0.1
  */
-export const summonFor = <R extends AnyConfigEnv>(
+export const summonFor = <R extends AnyConfigEnv = {}>(
   env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI | EqURI | ShowURI>
 ) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({

@@ -38,7 +38,7 @@ export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBASTInterp
   <L, A, R>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
 }
 
-export const summonFor = <R extends AnyConfigEnv>(env: ExtractEnv<R, EqURI | ShowURI | IoTsURI | FastCheckURI>) =>
+export const summonFor = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, EqURI | ShowURI | IoTsURI | FastCheckURI>) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     build: identity,
     eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,

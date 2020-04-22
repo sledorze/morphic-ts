@@ -34,7 +34,7 @@ export interface InferredProgram<R extends AnyConfigEnv, E, A, PURI extends Prog
   }
 }
 
-export interface Define<PURI extends ProgramURI, R extends AnyConfigEnv> {
+export interface Define<PURI extends ProgramURI, R extends AnyConfigEnv = {}> {
   <E, A>(program: ProgramType<R, E, A>[PURI]): ProgramType<R, E, A>[PURI]
 }
 
@@ -46,4 +46,4 @@ export interface Define<PURI extends ProgramURI, R extends AnyConfigEnv> {
  */
 export const defineFor: <PURI extends ProgramURI>(
   _prog: PURI
-) => <R extends AnyConfigEnv>() => Define<PURI, R> = _ => () => identity
+) => <R extends AnyConfigEnv = {}>() => Define<PURI, R> = _ => () => identity

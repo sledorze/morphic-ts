@@ -44,7 +44,7 @@ export interface Summoner<R extends AnyConfigEnv> extends U.Summoners<ProgramUni
   <L, A>(F: U.ProgramType<R, L, A>[ProgramUnionURI]): M<R, L, A>
 }
 
-export const summonFor = <R extends AnyConfigEnv>(env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>) =>
+export const summonFor = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     build: identity,
     arb: program(modelFastCheckInterpreter<NonNullable<R>>())(env).arb,
