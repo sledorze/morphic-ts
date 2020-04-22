@@ -44,10 +44,8 @@ export interface ModelAlgebraObject<F, Env> {
     >
   }
   interfaceCfg: {
-    <Props extends AnyMProps<F>>(props: Props, name: string): <
-      C extends ConfigsForType<Env, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>
-    >(
-      config: C
+    <Props extends AnyMProps<F>>(props: Props, name: string): (
+      config: ConfigsForType<Env, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>
     ) => HKT2<F, Env, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>
   }
   partial: {
@@ -59,14 +57,12 @@ export interface ModelAlgebraObject<F, Env> {
     >
   }
   partialCfg: {
-    <Props extends AnyMProps<F>>(props: Props, name: string): <
-      C extends ConfigsForType<
+    <Props extends AnyMProps<F>>(props: Props, name: string): (
+      config: ConfigsForType<
         Env,
         Partial<{ [k in keyof Props]: Props[k]['_E'] }>,
         Partial<{ [k in keyof Props]: Props[k]['_A'] }>
       >
-    >(
-      config: C
     ) => HKT2<F, Env, Partial<{ [k in keyof Props]: Props[k]['_E'] }>, Partial<{ [k in keyof Props]: Props[k]['_A'] }>>
   }
 }
@@ -85,12 +81,12 @@ export interface ModelAlgebraObject1<F extends URIS, Env extends AnyEnv> {
   interfaceCfg: <Props>(
     props: PropsKind1<F, Props, Env>,
     name: string
-  ) => <C extends ConfigsForType<Env, unknown, Props>>(config: C) => Kind<F, Env, Props>
+  ) => (config: ConfigsForType<Env, unknown, Props>) => Kind<F, Env, Props>
   partial: <Props>(props: PropsKind1<F, Props, Env>, name: string) => Kind<F, Env, Partial<Props>>
   partialCfg: <Props>(
     props: PropsKind1<F, Props, Env>,
     name: string
-  ) => <C extends ConfigsForType<Env, unknown, Props>>(config: C) => Kind<F, Env, Partial<Props>>
+  ) => (config: ConfigsForType<Env, unknown, Props>) => Kind<F, Env, Partial<Props>>
 }
 
 /**
@@ -109,7 +105,7 @@ export interface ModelAlgebraObject2<F extends URIS2, Env extends AnyEnv> {
   interfaceCfg: <PropsE, PropsA>(
     props: PropsKind2<F, PropsE, PropsA, Env>,
     name: string
-  ) => <C extends ConfigsForType<Env, PropsE, PropsA>>(config: C) => Kind2<F, Env, PropsE, PropsA>
+  ) => (config: ConfigsForType<Env, PropsE, PropsA>) => Kind2<F, Env, PropsE, PropsA>
   partial: <PropsE, PropsA>(
     props: PropsKind2<F, PropsE, PropsA, Env>,
     name: string
@@ -117,5 +113,5 @@ export interface ModelAlgebraObject2<F extends URIS2, Env extends AnyEnv> {
   partialCfg: <PropsE, PropsA>(
     props: PropsKind2<F, PropsE, PropsA, Env>,
     name: string
-  ) => <C extends ConfigsForType<Env, PropsE, PropsA>>(config: C) => Kind2<F, Env, Partial<PropsE>, Partial<PropsA>>
+  ) => (config: ConfigsForType<Env, PropsE, PropsA>) => Kind2<F, Env, Partial<PropsE>, Partial<PropsA>>
 }

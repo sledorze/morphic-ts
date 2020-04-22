@@ -1,5 +1,4 @@
 import { SelectKeyOfMatchingValues } from '../../src/usage/utils'
-import { OptionalIfUndefinedOrUnknown } from '@morphic-ts/common/lib/core'
 import { summonFor } from '../../src/summoner-BASTJ'
 import { EOfMorhpADT, IfStringLiteral, AOfMorhpADT } from '../../src/usage/tagged-union'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
@@ -45,11 +44,6 @@ const unionADTRes = unionADT([ADTFoo01, ADTFoo12]) // $ExpectType ADT<ADTFoo0 | 
 const unionADTRes2 = unionADT([ADTFoo0, ADTFoo1, ADTFoo2]) // $ExpectType ADT<ADTFoo0 | ADTFoo1 | ADTFoo2, "type">
 
 const intersectADTRes = intersectADT(ADTFoo01, ADTFoo12) // $ExpectType ADT<ADTFoo1, "type">
-
-// tslint:disable-next-line: max-line-length
-type E = OptionalIfUndefinedOrUnknown<{ x: string; y: string | undefined; z?: string }> // $ExpectType Compact<{ x: string; } & { y?: string | undefined; } & { z?: string | undefined; }>
-
-type E2 = OptionalIfUndefinedOrUnknown<{ x: string; y: string | unknown; z?: unknown }> // $ExpectType Compact<{ x: string; } & { y?: unknown; } & { z?: unknown; }>
 
 type Extracted = ExtractUnion<{ type: 'x'; b: string } | { type: 'y'; c: string }, 'type', 'x'> // $ExpectType { type: "x"; b: string; }
 

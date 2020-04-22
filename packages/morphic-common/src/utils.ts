@@ -101,8 +101,3 @@ export type IsNever<X, Y, N> = 'X' | X extends 'X' ? Y : N
  *  @since 0.0.1
  */
 export type Includes<A, B, Y, N> = IsNever<B, Y, A extends B ? Y : N>
-
-/**
- *  @since 0.0.1
- */
-export type Only<A> = A & { [k in keyof any]: never }

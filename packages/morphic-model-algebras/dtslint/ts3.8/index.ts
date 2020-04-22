@@ -62,7 +62,7 @@ foo<Deps>()(F => F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, d: EqDeps) => x)
 // $ExpectType HKT2<unknown, Deps, { type: string; }, { type: "a"; }>
 foo<Deps>()(F => F.interface({ type: F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, d: EqDeps) => x) }) }, 'A'))
 
-// $ExpectType HKT2<unknown, { Eq: EqDeps; }, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
+// $ExpectType HKT2<unknown, Deps, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
 foo<Deps>()(F =>
   F.taggedUnion(
     'type',
@@ -74,13 +74,13 @@ foo<Deps>()(F =>
   )
 )
 
-// $ExpectType HKT2<unknown, { Eq: EqDeps & EqDeps2; }, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
+// $ExpectType HKT2<unknown, Deps & Deps2, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
 foo<Deps & Deps2>()(F =>
   F.taggedUnion(
     'type',
     {
-      a: F.interface({ type: F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, d: EqDeps) => x) }) }, 'A'),
-      b: F.interface({ type: F.stringLiteralCfg<'b'>('b')({ ...eqConfig((x, d: EqDeps2) => x) }) }, 'B')
+      a: F.interface({ type: F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, _: EqDeps) => x) }) }, 'A'),
+      b: F.interface({ type: F.stringLiteralCfg<'b'>('b')({ ...eqConfig((x, _: EqDeps2) => x) }) }, 'B')
     },
     'X'
   )

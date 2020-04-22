@@ -15,8 +15,7 @@ import { iotsConfig } from '../src/config'
 import * as WM from 'io-ts-types/lib/withMessage'
 import { Newtype, iso } from 'newtype-ts'
 import { EType, AType } from '@morphic-ts/batteries/lib/usage/utils'
-import { NoEnv } from '@morphic-ts/common/lib/config'
-import { IoTsURI, modelIoTsNonStrictInterpreter } from '../src'
+import { IoTsURI } from '../src'
 
 export type Tree = Node | Leaf
 export interface Node {
@@ -53,12 +52,12 @@ const { summon: summon2 } = summonFor<{ [IoTsURI]: IoTsTypesEx }>({ [IoTsURI]: {
 
 describe('IO-TS Env', () => {
   it('can be composed', () => {
-    const Codec1 = summon2(F =>
+    const Codec1 = summon(F =>
       F.keysOfCfg({ foo: null, bar: null })({
-        ...iotsConfig((x, env: IoTsTypesEx) => env.WM.withMessage(x, () => 'not ok'))
+        ...iotsConfig((x, { WM }) => WM.withMessage(x, () => 'not ok'))
       })
     )
-    summon(F => F.interface({ a: Codec1(F) }, 'a'))
+    summon2(F => F.interface({ a: Codec1(F) }, 'a'))
     summon(F =>
       F.interface(
         { a: F.stringCfg({ ...iotsConfig((x, env: IoTsTypes) => env.WM.withMessage(x, () => 'not ok')) }) },
@@ -398,8 +397,8 @@ describe('IO-TS', () => {
       )
     )
 
-    const FooBar = summon(F =>
-      F.taggedUnion(
+    const FooBar = summon(F => {
+      const res = F.taggedUnion(
         'type',
         {
           foo1: Foo(F),
@@ -407,7 +406,8 @@ describe('IO-TS', () => {
         },
         'FooBar'
       )
-    )
+      return res
+    })
 
     const codec = FooBar
 
@@ -562,7 +562,7 @@ describe('iotsObjectInterpreter', () => {
       let nbEvals = 0
       let nbRecEvals = 0
 
-      const Tree: M<NoEnv, unknown, Tree> = summon(F => {
+      const Tree: M<{ IoTsURI: IoTsTypes }, unknown, Tree> = summon(F => {
         nbEvals += 1
         return F.recursive(Tree => {
           nbRecEvals += 1
@@ -595,8 +595,10 @@ describe('iotsObjectInterpreter', () => {
       let nbEvals = 0
       let nbRecEvals = 0
 
-      const getTree = <A>(LeafValue: M<NoEnv, unknown, A>): M<NoEnv, unknown, GTree<A>> => {
-        const GTree: M<NoEnv, unknown, GTree<A>> = summon(F => {
+      const getTree = <A>(
+        LeafValue: M<{ IoTsURI: IoTsTypes }, unknown, A>
+      ): M<{ IoTsURI: IoTsTypes }, unknown, GTree<A>> => {
+        const GTree: M<{ IoTsURI: IoTsTypes }, unknown, GTree<A>> = summon(F => {
           nbEvals += 1
           return F.recursive(GTree => {
             nbRecEvals += 1

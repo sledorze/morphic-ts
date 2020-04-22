@@ -57,7 +57,7 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
         programInterpreter as <E, A>(program: P<E, A>) => InterpreterResult<E, A>[InterpURI]
       )) as S
   const tagged = (makeTagged(summon) as any) as TaggedBuilder<PURI, InterpURI, SummonerEnv<S>> // FIXME: as any
-  const define = defineFor<PURI>(undefined as PURI)
+  const define = defineFor<PURI>(undefined as PURI)<Env>()
 
   return {
     summon,

@@ -61,7 +61,7 @@ declare module '../../src/config' {
 
 // Algebra
 interface Foo<F extends URIS | URIS2, Env> {
-  myFunc: <A>(t: HKT<F, Env, A>) => <C extends ConfigsForType<Env, unknown, A>>(a: C) => HKT<F, Env, A>
+  myFunc: <A>(t: HKT<F, Env, A>) => (a: ConfigsForType<Env, unknown, A>) => HKT<F, Env, A>
   term: <A>() => HKT<F, Env, A>
 }
 
@@ -185,7 +185,7 @@ doIt<{ IOTs: { c: string } } & { Eq: { a: string } } & { Ord: { b: number } }>()
 })
 
 interface Foo2<F extends URIS | URIS2, Env> {
-  myFunc: <R, A>(t: HKT<F, R, A>) => <C extends ConfigsForType<Env, unknown, A>>(a: C) => HKT<F, Env, A>
+  myFunc: <R, A>(t: HKT<F, R, A>) => (a: ConfigsForType<Env, unknown, A>) => HKT<F, Env, A>
   term: <R, A>() => HKT<F, R, A>
 }
 

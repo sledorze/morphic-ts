@@ -31,8 +31,8 @@ export interface ModelAlgebraStrMap<F, Env> {
     <L, A>(codomain: HKT2<F, Env, L, A>): HKT2<F, Env, Record<string, L>, Record<string, A>>
   }
   strMapCfg: {
-    <L, A>(codomain: HKT2<F, Env, L, A>): <C extends ConfigsForType<Env, Record<string, L>, Record<string, A>>>(
-      config: C
+    <L, A>(codomain: HKT2<F, Env, L, A>): (
+      config: ConfigsForType<Env, Record<string, L>, Record<string, A>>
     ) => HKT2<F, Env, Record<string, L>, Record<string, A>>
   }
 }
@@ -45,7 +45,7 @@ export interface ModelAlgebraStrMap1<F extends URIS, Env extends AnyEnv> {
   strMap: <A>(codomain: Kind<F, Env, A>) => Kind<F, Env, Record<string, A>>
   strMapCfg: <A>(
     codomain: Kind<F, Env, A>
-  ) => <C extends ConfigsForType<Env, unknown, Record<string, A>>>(config: C) => Kind<F, Env, Record<string, A>>
+  ) => (config: ConfigsForType<Env, unknown, Record<string, A>>) => Kind<F, Env, Record<string, A>>
 }
 
 /**
@@ -56,7 +56,7 @@ export interface ModelAlgebraStrMap2<F extends URIS2, Env extends AnyEnv> {
   strMap: <L, A>(codomain: Kind2<F, Env, L, A>) => Kind2<F, Env, Record<string, L>, Record<string, A>>
   strMapCfg: <L, A>(
     codomain: Kind2<F, Env, L, A>
-  ) => <C extends ConfigsForType<Env, Record<string, L>, Record<string, A>>>(
-    config: C
+  ) => (
+    config: ConfigsForType<Env, Record<string, L>, Record<string, A>>
   ) => Kind2<F, Env, Record<string, L>, Record<string, A>>
 }

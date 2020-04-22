@@ -41,7 +41,7 @@ export interface ModelAlgebraRefined<F, Env> {
       a: HKT2<F, Env, E, A>,
       refinement: Refinement<A, Branded<A, B>>,
       name: N
-    ): <C extends ConfigsForType<Env, E, Branded<A, B>>>(config: C) => HKT2<F, Env, E, Branded<A, B>>
+    ): (config: ConfigsForType<Env, E, Branded<A, B>>) => HKT2<F, Env, E, Branded<A, B>>
   }
 }
 
@@ -59,7 +59,7 @@ export interface ModelAlgebraRefined1<F extends URIS, Env extends AnyEnv> {
     a: Kind<F, Env, A>,
     refinement: Refinement<A, Branded<A, B>>,
     name: N
-  ): <C extends ConfigsForType<Env, unknown, Branded<A, B>>>(config: C) => Kind<F, Env, Branded<A, B>>
+  ): (config: ConfigsForType<Env, unknown, Branded<A, B>>) => Kind<F, Env, Branded<A, B>>
 }
 
 /**
@@ -76,5 +76,5 @@ export interface ModelAlgebraRefined2<F extends URIS2, Env extends AnyEnv> {
     a: Kind2<F, Env, E, A>,
     refinement: Refinement<A, Branded<A, B>>,
     name: N
-  ): <C extends ConfigsForType<Env, E, Branded<A, B>>>(config: C) => Kind2<F, Env, E, Branded<A, B>>
+  ): (config: ConfigsForType<Env, E, Branded<A, B>>) => Kind2<F, Env, E, Branded<A, B>>
 }
