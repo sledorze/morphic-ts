@@ -30,6 +30,12 @@ export interface MakeSummonerResult<S extends Summoners<any, any, any>> {
   tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
 }
 
+export interface SummonerOps<S extends Summoners<any, any, any> = never> {
+  summon: S
+  tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
+  define: Define<SummonerProgURI<S>, SummonerEnv<S>>
+}
+
 /**
  *  @since 0.0.1
  */
@@ -38,11 +44,7 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
   programInterpreter: <E, A>(
     program: Overloads<ProgramType<SummonerEnv<S>, E, A>[SummonerProgURI<S>]>
   ) => InterpreterResult<E, A>[SummonerInterpURI<S>]
-): {
-  summon: S
-  tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
-  define: Define<SummonerProgURI<S>, SummonerEnv<S>>
-} {
+): SummonerOps<S> {
   type PURI = SummonerProgURI<S>
   type InterpURI = SummonerInterpURI<S>
   type Env = SummonerEnv<S>
@@ -58,7 +60,6 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
       )) as S
   const tagged = (makeTagged(summon) as any) as TaggedBuilder<PURI, InterpURI, SummonerEnv<S>> // FIXME: as any
   const define = defineFor<PURI>(undefined as PURI)<Env>()
-
   return {
     summon,
     tagged,
