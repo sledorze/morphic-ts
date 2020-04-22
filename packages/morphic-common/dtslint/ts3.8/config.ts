@@ -68,10 +68,10 @@ interface Foo<F extends URIS | URIS2, Env> {
 
 // Program
 
-const doIt = <Env extends AnyEnv>() => <F extends URIS | URIS2>(f: (x: Foo<F, Env>) => void) => f
+const doIt = <Env extends AnyEnv = {}>() => <F extends URIS | URIS2>(f: (x: Foo<F, Env>) => void) => f
 
 doIt<{ Ord: { x: string } }>()(F => {
-  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Ord: { x: string; }; }, string>
+  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Ord: { x: string; }; }, string>
   F.myFunc(F.term<string>())({
     ...ordConfig(
       // $ExpectType (x: Ord<string>, e: { x: string; }) => Ord<string>
@@ -83,7 +83,7 @@ doIt<{ Ord: { x: string } }>()(F => {
 })
 
 doIt<{ Ord: { b: number } }>()(F => {
-  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Ord: { b: number; }; }, string>
+  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Ord: { b: number; }; }, string>
   F.myFunc(F.term<string>())({
     ...ordConfig(
       // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
@@ -94,29 +94,48 @@ doIt<{ Ord: { b: number } }>()(F => {
   })
 })
 
-doIt(F => {
-  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
-  F.myFunc(F.term<{}, string>())({
+doIt<{ Ord: { b: number } }>()(F => {
+  // $ExpectError
+  F.myFunc(F.term<string>())({
     ...ordConfig(
-      // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
-      (x, e: { b: number }) =>
-        // $ExpectType Ord<string>
-        x
-    ),
-    ...eqConfig(
-      // $ExpectType (x: Eq<string>, e: { a: string; }) => Eq<string>
       (x, e: { a: string }) =>
-        // $ExpectType Eq<string>
+        // $ExpectType Ord<string>
         x
     )
   })
 })
 
-doIt(F => {
-  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { Eq: { a: string; }; }, string>
-  F.myFunc(F.term<{}, string>())({
+doIt<{ Eq: { a: string } } & { Ord: { b: number } }>()(F => {
+  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
+  F.myFunc(F.term<string>())({
     ...ordConfig(
-      // $ExpectType (x: Ord<string>, e: any) => Ord<string>
+      // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
+      (x, e) => {
+        // $ExpectType { b: number; }
+        e
+        // $ExpectType Ord<string>
+        x
+        return x
+      }
+    ),
+    ...eqConfig(
+      // $ExpectType (x: Eq<string>, e: { a: string; }) => Eq<string>
+      (x, e) => {
+        // $ExpectType { a: string; }
+        e
+        // $ExpectType Eq<string>
+        x
+        return x
+      }
+    )
+  })
+})
+
+doIt<{ Eq: { a: string } }>()(F => {
+  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Eq: { a: string; }; }, string>
+  F.myFunc(F.term<string>())({
+    ...ordConfig(
+      // $ExpectType (x: Ord<string>, e: unknown) => Ord<string>
       (x, e) =>
         // $ExpectType Ord<string>
         x
@@ -130,26 +149,38 @@ doIt(F => {
   })
 })
 
-doIt(F => {
-  // $ExpectType HKT<"IOTs" | "Eq" | "Ord", { IOTs: { c: string; }; } & { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
-  F.myFunc(F.term<{}, string>())({
+doIt<{ IOTs: { c: string } } & { Eq: { a: string } } & { Ord: { b: number } }>()(F => {
+  // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { IOTs: { c: string; }; } & { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
+  F.myFunc(F.term<string>())({
     ...ordConfig(
       // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
-      (x, e: { b: number }) =>
+      (x, e) => {
+        // $ExpectType { b: number; }
+        e
         // $ExpectType Ord<string>
         x
+        return x
+      }
     ),
     ...eqConfig(
       // $ExpectType (x: Eq<string>, e: { a: string; }) => Eq<string>
-      (x, e: { a: string }) =>
+      (x, e: { a: string }) => {
+        // $ExpectType { a: string; }
+        e
         // $ExpectType Eq<string>
         x
+        return x
+      }
     ),
     ...iotsConfig(
       // $ExpectType (x: Type<string, unknown, unknown>, e: { c: string; }) => Type<string, unknown, unknown>
-      (x, e: { c: string }) =>
+      (x, e: { c: string }) => {
+        // $ExpectType { c: string; }
+        e
         // $ExpectType Type<string, unknown, unknown>
         x
+        return x
+      }
     )
   })
 })

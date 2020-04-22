@@ -2,8 +2,9 @@ import { ModelAlgebraTaggedUnions } from '../../src/tagged-unions'
 import { ModelAlgebraPrimitive } from '../../src/primitives'
 import { ModelAlgebraObject } from '../../src/object'
 import { Eq } from 'fp-ts/lib/Eq'
-import { genConfig } from '@morphic-ts/common/lib/config'
+import { genConfig, AnyEnv } from '@morphic-ts/common/lib/config'
 import {} from '@morphic-ts/algebras/lib/hkt'
+import { HKT2 } from '@morphic-ts/common/lib/HKT'
 
 declare module '@morphic-ts/common/lib/HKT' {
   interface URItoKind<R, A> {
@@ -20,15 +21,18 @@ const eqConfig = genConfig('Eq')
 
 const dummy = 42 // $ExpectType 42
 
-const foo = <F, R>(f: (x: ModelAlgebraTaggedUnions<F> & ModelAlgebraPrimitive<F> & ModelAlgebraObject<F>) => R): R =>
-  f as any
-const summon = <F, R>(f: (x: ModelAlgebraTaggedUnions<F> & ModelAlgebraPrimitive<F> & ModelAlgebraObject<F>) => R) => f
+const foo = <MEnv extends AnyEnv = {}>() => <F, R extends HKT2<F, Env, any, any>, Env extends MEnv>(
+  f: (x: ModelAlgebraTaggedUnions<F, Env> & ModelAlgebraPrimitive<F, Env> & ModelAlgebraObject<F, Env>) => R
+): R => f as any
+const summon = <MEnv>() => <F, R extends HKT2<F, Env, any, any>, Env extends MEnv>(
+  f: (x: ModelAlgebraTaggedUnions<F, Env> & ModelAlgebraPrimitive<F, Env> & ModelAlgebraObject<F, Env>) => R
+) => f
 
 // $ExpectType HKT2<unknown, {}, { type: string; }, { type: "a"; }>
-foo(F => F.taggedUnion('type', { a: F.interface({ type: F.stringLiteral('a') }, 'A') }, 'X'))
+foo()(F => F.taggedUnion('type', { a: F.interface({ type: F.stringLiteral('a') }, 'A') }, 'X'))
 
 // $ExpectType HKT2<unknown, {}, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
-foo(F =>
+foo()(F =>
   F.taggedUnion(
     'type',
     { a: F.interface({ type: F.stringLiteral('a') }, 'A'), b: F.interface({ type: F.stringLiteral('b') }, 'B') },
@@ -36,72 +40,48 @@ foo(F =>
   )
 )
 
-interface Deps {
+interface EqDeps {
   dep: string
 }
-interface Deps2 {
+
+interface Deps extends AnyEnv {
+  Eq: EqDeps
+}
+
+interface EqDeps2 extends AnyEnv {
   dep2: string
 }
 
-// $ExpectType HKT2<unknown, { Eq: Deps; }, string, "a">
-foo(F => F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, d: Deps) => x) }))
+interface Deps2 extends AnyEnv {
+  Eq: EqDeps2
+}
 
-// $ExpectType HKT2<unknown, { Eq: Deps; }, { type: string; }, { type: "a"; }>
-foo(F => F.interface({ type: F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, d: Deps) => x) }) }, 'A'))
+// $ExpezctType HKT2<unknown, { Eq: Deps; }, string, "a">
+foo<Deps>()(F => F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, d: EqDeps) => x) }))
 
-// $ExpectType HKT2<unknown, { Eq: Deps; }, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
-foo(F =>
+// $ExpectType HKT2<unknown, Deps, { type: string; }, { type: "a"; }>
+foo<Deps>()(F => F.interface({ type: F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, d: EqDeps) => x) }) }, 'A'))
+
+// $ExpectType HKT2<unknown, { Eq: EqDeps; }, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
+foo<Deps>()(F =>
   F.taggedUnion(
     'type',
     {
-      a: F.interface({ type: F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, d: Deps) => x) }) }, 'A'),
-      b: F.interface({ type: F.stringLiteralCfg<'b'>('b')({ ...eqConfig((x, d: Deps) => x) }) }, 'B')
+      a: F.interface({ type: F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, d: EqDeps) => x) }) }, 'A'),
+      b: F.interface({ type: F.stringLiteralCfg<'b'>('b')({ ...eqConfig((x, d: EqDeps) => x) }) }, 'B')
     },
     'X'
   )
 )
 
-// $ExpectType HKT2<unknown, { Eq: Deps & Deps2; }, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
-foo(F =>
+// $ExpectType HKT2<unknown, { Eq: EqDeps & EqDeps2; }, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
+foo<Deps & Deps2>()(F =>
   F.taggedUnion(
     'type',
     {
-      a: F.interface({ type: F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, d: Deps) => x) }) }, 'A'),
-      b: F.interface({ type: F.stringLiteralCfg<'b'>('b')({ ...eqConfig((x, d: Deps2) => x) }) }, 'B')
+      a: F.interface({ type: F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, d: EqDeps) => x) }) }, 'A'),
+      b: F.interface({ type: F.stringLiteralCfg<'b'>('b')({ ...eqConfig((x, d: EqDeps2) => x) }) }, 'B')
     },
     'X'
   )
 )
-
-const A = summon(F => F.interface({ type: F.stringLiteralCfg<'a'>('a')({ ...eqConfig((x, d: Deps) => x) }) }, 'A'))
-const B = summon(F => F.interface({ type: F.stringLiteralCfg<'b'>('b')({ ...eqConfig((x, d: Deps2) => x) }) }, 'B'))
-
-// $ExpectType HKT2<unknown, { Eq: Deps & Deps2; }, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
-foo(F =>
-  F.taggedUnion(
-    'type',
-    {
-      a: A(F),
-      b: B(F)
-    },
-    'X'
-  )
-)
-
-interface SpecificConfig {}
-
-// tslint:disable-next-line: max-line-length
-// $ExpectType HKT2<unknown, { Eq: SpecificConfig; }, { a: string; b: string; }, { a: string; b: string; }>
-foo(F => {
-  // $ExpectType HKT2<unknown, { Eq: SpecificConfig; }, { a: string; b: string; }, { a: string; b: string; }>
-  const res = F.interface({ a: F.stringCfg({ ...eqConfig((x, e: SpecificConfig) => x) }), b: F.string }, 'A')
-  return res
-})
-
-// tslint:disable-next-line: max-line-length
-// $ExpectType HKT2<unknown, { Eq: { fc: SpecificConfig; }; }, string[], string[]>
-foo(F => F.array(F.stringCfg({ ...eqConfig((x, e: { fc: SpecificConfig }) => x) })))
-
-// tslint:disable-next-line: max-line-length
-// $ExpectType HKT2<unknown, { Eq: { t: SpecificConfig; }; }, string[], string[]>
-foo(F => F.array(F.stringCfg({ ...eqConfig((x, e: { t: SpecificConfig }) => x) })))

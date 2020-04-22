@@ -52,7 +52,9 @@ export interface GenConfig<A, R> {
 
 export type NoEnv = unknown
 
-export type MapToGenConfig<R, T extends Record<URIS | URIS2, any>> = { [k in URIS | URIS2]?: GenConfig<T[k], R[k]> }
+export type MapToGenConfig<R extends AnyEnv, T extends Record<URIS | URIS2, any>> = {
+  [k in URIS | URIS2]?: GenConfig<T[k], R[k]>
+}
 
 export interface ConfigType<E, A> {
   _E: E

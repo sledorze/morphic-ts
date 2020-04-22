@@ -32,7 +32,7 @@ export interface Summoner<R> extends Summoners<ProgramOrderableURI, OrdInterpret
 export const summonFor = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, OrdURI>) =>
   makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     build: identity,
-    ord: program(modelOrdInterpreter)(env).ord
+    ord: program(modelOrdInterpreter<NonNullable<R>>())(env).ord
   }))
 
 describe('Ord', () => {
