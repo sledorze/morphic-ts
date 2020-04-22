@@ -1,13 +1,7 @@
 import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic-ts/common/lib/HKT'
-// import { UnionToIntersection } from '@morphic-ts/common/lib/core'
 import { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
 
 type AnyMProps<F> = Record<string, HKT2<F, never, any, any>>
-// type EnvR<X> = X extends HKT<any, infer R, any> ? R : never
-// type NotUnknown<T> = unknown extends T ? never : T
-// export type EnvOfProps<Props extends AnyMProps<any>> = UnionToIntersection<
-//   { [k in keyof Props]: NotUnknown<EnvR<Props[k]>> }[keyof Props]
-// >
 
 /**
  *  @since 0.0.1
