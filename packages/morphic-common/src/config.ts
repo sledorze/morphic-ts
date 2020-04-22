@@ -2,29 +2,6 @@ import { URIS, URIS2, Kind, Kind2 } from './HKT'
 import { identity } from 'fp-ts/lib/function'
 export { Kind, Kind2 }
 
-// /**
-//  * Expose Configuration type for (a) specific interpreter(s) types
-//  *  @since 0.0.1
-//  */
-// export type ByInterp<Config, Interp extends URIS | URIS2> = MaybeUndefinedIfOptional<
-//   OptionalIfUndefinedOrUnknown<
-//     {
-//       [I in Interp]: I extends keyof Config ? Config[I] : undefined
-//     }
-//   >
-// >
-
-// /**
-//  *  @since 0.0.1
-//  */
-// export type MaybeUndefinedIfOptional<X> = keyof KeepNotUndefinedOrUnknown<X> extends never ? X | undefined : X
-// /**
-//  *  @since 0.0.1
-//  */
-// export type isOptionalConfig<C, Y> = keyof KeepNotUndefinedOrUnknown<ByInterp<C, URIS | URIS2>> extends never
-//   ? Y
-//   : 'a configuration is required'
-
 /**
  * generates a config wrapper:
  *
@@ -46,23 +23,41 @@ export { Kind, Kind2 }
 
 export type AnyEnv = Partial<Record<URIS | URIS2, any>>
 
+/**
+ *  @since 0.0.1
+ */
 export interface GenConfig<A, R> {
   (a: A, r: R): A
 }
 
+/**
+ *  @since 0.0.1
+ */
 export type NoEnv = unknown
 
+/**
+ *  @since 0.0.1
+ */
 export type MapToGenConfig<R extends AnyEnv, T extends Record<URIS | URIS2, any>> = {
   [k in URIS | URIS2]?: GenConfig<T[k], R[k]>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface ConfigType<E, A> {
   _E: E
   _A: A
 }
 
+/**
+ *  @since 0.0.1
+ */
 export type ConfigsForType<R, E, A> = MapToGenConfig<R, ConfigType<E, A>>
 
+/**
+ *  @since 0.0.1
+ */
 export const genConfig: <Uri extends URIS | URIS2>(
   uri: Uri
 ) => <R, E, A>(
@@ -72,6 +67,9 @@ export const genConfig: <Uri extends URIS | URIS2>(
     [uri]: config
   } as any)
 
+/**
+ *  @since 0.0.1
+ */
 export const getApplyConfig: <Uri extends URIS | URIS2>(
   uri: Uri
 ) => <E, A, R extends Record<typeof uri, any>>(

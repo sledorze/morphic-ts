@@ -3,7 +3,6 @@ import { URIS, HKT, URIS2 } from '../../src/HKT'
 import { Ord } from 'fp-ts/lib/Ord'
 import { Eq } from 'fp-ts/lib/Eq'
 import { Type } from 'io-ts'
-import { KeepNotUndefinedOrUnknown, Compact } from '../../src/core'
 
 declare module '../../src/HKT' {
   interface URItoKind<R, A> {
