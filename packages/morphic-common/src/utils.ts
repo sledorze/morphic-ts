@@ -16,8 +16,7 @@ export const projectField = <T extends Record<any, Record<any, any>>>(t: T) => <
 ): {
   [q in keyof T]: T[q][K]
 } =>
-  record.record.map(t, p => p[k]) as
-  {
+  record.record.map(t, p => p[k]) as {
     [q in keyof T]: T[q][K]
   }
 
@@ -31,8 +30,7 @@ export const projectFieldWithEnv = <T extends Record<any, (e: R) => Record<any, 
 ): {
   [q in keyof T]: ReturnType<T[q]>[K]
 } =>
-  record.record.map(t, p => p(env)[k]) as
-  {
+  record.record.map(t, p => p(env)[k]) as {
     [q in keyof T]: ReturnType<T[q]>[K]
   }
 
@@ -82,14 +80,12 @@ export const collect = <K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A)
 export const memo: <F extends () => any>(get: F) => typeof get = <F extends () => any>(get: F): typeof get => {
   type A = ReturnType<F>
   let cache: A | undefined = undefined
-  return (
-    ((): A => {
-      if (cache === undefined) {
-        cache = get()
-      }
-      return cache as A
-    }) as any
-  )
+  return ((): A => {
+    if (cache === undefined) {
+      cache = get()
+    }
+    return cache as A
+  }) as any
 }
 
 /**

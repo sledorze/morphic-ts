@@ -105,8 +105,8 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
     // const summoned:  M<EParam<Types>, AParam<Types>, ProgURI, InterpURI> = summ<EParam<Types>, AParam<Types>>((F: any) =>
 
     const summoned = summ(
-      ((F: any) => F.taggedUnion(tag, record.mapWithIndex((_k, v: AnyM<ProgURI, InterpURI, R>) => (v as any)(F))(o))) as
-        any // FIXME: resolve any
+      ((F: any) =>
+        F.taggedUnion(tag, record.mapWithIndex((_k, v: AnyM<ProgURI, InterpURI, R>) => (v as any)(F))(o))) as any // FIXME: resolve any
     ) // Trust
     const adt = makeADT(tag)(o as any)
 
@@ -115,14 +115,13 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
     const selectMorph = (selectedKeys: any) => preTagged(keepKeys(o, (selectedKeys as any) as string[])) as any
     const excludeMorph = (selectedKeys: any) => preTagged(excludeKeys(o, (selectedKeys as any) as string[])) as any
 
-    const res =
-      assignCallable(wrapFun(summoned as any), {
-        // FIXME: as any
-        ...summoned,
-        ...adt,
-        selectMorph,
-        excludeMorph
-      }) as any
+    const res = assignCallable(wrapFun(summoned as any), {
+      // FIXME: as any
+      ...summoned,
+      ...adt,
+      selectMorph,
+      excludeMorph
+    }) as any
 
     return res
   }

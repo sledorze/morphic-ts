@@ -44,8 +44,10 @@ const intersectKeys = <A extends Tagged<Tag>, B extends Tagged<Tag>, Tag extends
   a: KeysDefinition<A, Tag>,
   b: KeysDefinition<B, Tag>
 ): KeysDefinition<Extract<A, B>, Tag> =>
-  recordFromArray(intersection(eqString)(Object.keys(a), Object.keys(b)).map(toTupleNull)) as
-  KeysDefinition<Extract<A, B>, Tag>
+  recordFromArray(intersection(eqString)(Object.keys(a), Object.keys(b)).map(toTupleNull)) as KeysDefinition<
+    Extract<A, B>,
+    Tag
+  >
 
 const excludeKeys = <A extends Tagged<Tag>, Tag extends string>(
   a: KeysDefinition<A, Tag>,
