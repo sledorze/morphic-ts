@@ -1,11 +1,3 @@
-# `adt`
+# `Morphic batteries package`
 
-> TODO: description
-
-## Usage
-
-```
-const adt = require('adt');
-
-// TODO: DEMONSTRATE API
-```
+[documentation](https://github.com/sledorze/morphic-ts#morphic-ts)

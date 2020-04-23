@@ -1,11 +1,3 @@
-# `adt`
+# `Morphic Adt package`
 
-> TODO: description
-
-## Usage
-
-```
-const adt = require('adt');
-
-// TODO: DEMONSTRATE API
-```
+Can also be used standalone
