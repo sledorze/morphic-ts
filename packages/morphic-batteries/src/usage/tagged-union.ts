@@ -37,9 +37,6 @@ type M<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = 
 
 type AnyTypes = Record<string, InhabitedTypes<any, any, any>>
 
-// type AParam<Types extends AnyTypes> = AType<Types[keyof Types]>
-// type EParam<Types extends AnyTypes> = EType<Types[keyof Types]>
-
 /**
  *  @since 0.0.1
  */
@@ -127,76 +124,6 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
     return res
   }
 }
-
-/*
-  return <Tag extends string>(tag: Tag) => <Types extends UnionTypes<Types, Tag, ProgURI, InterpURI, R>>(
-    o: Types
-  ): MorphADT<
-    {
-      [k in keyof Types]: Types[k] extends InhabitedTypes<any, infer E, infer A> ? [E, A] : never
-    },
-    Tag,
-    ProgURI,
-    InterpURI,
-    R
-  > => {
-    // Trust the outer signature - type lookup via unknown URI cannot have any semantic here
-    // const summoned:  M<EParam<Types>, AParam<Types>, ProgURI, InterpURI> = summ<EParam<Types>, AParam<Types>>((F: any) =>
-
-    const summoned: Morph<R, EParam<Types>, AParam<Types>, InterpURI, ProgURI> = summ<EParam<Types>, AParam<Types>>(
-      ((F: any) =>
-        F.taggedUnion(tag, record.mapWithIndex((_k, v: AnyM<ProgURI, InterpURI, R>) => (v as any)(F))(o))) as any // FIXME: resolve any
-    ) // Trust
-    const adt: ADT<AParam<Types>, keyof AParam<Types> & string> = makeADT((tag as any) as keyof AParam<Types> & string)(
-      o as any
-    )
-
-    const preTagged = makeTagged(summ)(tag)
-
-    const selectMorph = <Keys extends (keyof Types)[]>(
-      selectedKeys: Keys
-    ): MorphADT<
-      {
-        [k in keyof Types]: Types[k] extends InhabitedTypes<any, infer E, infer A> ? [E, A] : never
-      },
-      Tag,
-      ProgURI,
-      InterpURI,
-      R
-    > => preTagged(keepKeys(o, (selectedKeys as any) as string[])) as any
-
-    const excludeMorph = <Keys extends (keyof Types)[]>(
-      selectedKeys: Keys
-    ): MorphADT<
-      {
-        [k in keyof Types]: Types[k] extends InhabitedTypes<any, infer E, infer A> ? [E, A] : never
-      },
-      Tag,
-      ProgURI,
-      InterpURI,
-      R
-    > => preTagged(excludeKeys(o, (selectedKeys as any) as string[])) as any
-
-    const res: MorphADT<
-      {
-        [k in keyof Types]: Types[k] extends InhabitedTypes<any, infer E, infer A> ? [E, A] : never
-      },
-      Tag,
-      ProgURI,
-      InterpURI,
-      R
-    > = assignCallable(wrapFun(summoned as any), {
-      // FIXME: as any
-      ...summoned,
-      ...adt,
-      selectMorph,
-      excludeMorph
-    }) as any
-
-    return res
-  }
-*/
-// Patterns
 
 /**
  *  @since 0.0.1
