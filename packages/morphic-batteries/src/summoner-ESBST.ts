@@ -9,7 +9,8 @@ import * as U from './usage'
 
 import { ProgramNoUnionURI } from './program-no-union'
 import { ESBSTInterpreterURI } from './interpreters-ESBST'
-import { AnyConfigEnv, ExtractEnv } from './usage/summoner'
+import { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -37,7 +38,9 @@ export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBSTInterpr
   <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
 }
 
-export const summonFor = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>) =>
+export const summonFor: <R extends AnyEnv = {}>(
+  env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>
+) => SummonerOps<Summoner<R>> = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     build: identity,
     eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,

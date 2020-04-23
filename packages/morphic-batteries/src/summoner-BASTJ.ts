@@ -16,7 +16,8 @@ import {
 } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 import { modelJsonSchemaInterpreter, JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
-import { AnyConfigEnv, ExtractEnv } from './usage/summoner'
+import { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -44,7 +45,11 @@ export interface Summoner<R extends AnyConfigEnv> extends U.Summoners<ProgramUni
   <L, A>(F: U.ProgramType<R, L, A>[ProgramUnionURI]): M<R, L, A>
 }
 
-export const summonFor = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>) =>
+export const summonFor: <R extends AnyEnv = {}>(
+  env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>
+) => SummonerOps<Summoner<R>> = <R extends AnyConfigEnv = {}>(
+  env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>
+) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     build: identity,
     arb: program(modelFastCheckInterpreter<NonNullable<R>>())(env).arb,
