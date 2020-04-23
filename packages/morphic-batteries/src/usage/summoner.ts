@@ -53,12 +53,11 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
   type P<L, A> = ProgramType<Env, L, A>[PURI]
   type M<L, A> = Materialized<Env, L, A, PURI, InterpURI>
 
-  const summon =
-    (<L, A>(F: P<L, A>): M<L, A> =>
-      materialize(
-        cacheProgramEval(F),
-        programInterpreter as <E, A>(program: P<E, A>) => InterpreterResult<E, A>[InterpURI]
-      )) as S
+  const summon = (<L, A>(F: P<L, A>): M<L, A> =>
+    materialize(
+      cacheProgramEval(F),
+      programInterpreter as <E, A>(program: P<E, A>) => InterpreterResult<E, A>[InterpURI]
+    )) as S
   const tagged = (makeTagged(summon) as any) as TaggedBuilder<PURI, InterpURI, SummonerEnv<S>> // FIXME: as any
   const define = defineFor<PURI>(undefined as PURI)<Env>()
   return {

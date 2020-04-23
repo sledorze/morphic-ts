@@ -234,20 +234,18 @@ const magmaObjectSchema: Magma<js.ObjectSchema> = {
     // tslint:disable-next-line: strict-boolean-expressions
     const required = [...(a.required || []), ...(b.required || [])]
     // tslint:disable-next-line: strict-boolean-expressions
-    return (
-      Object.assign(
-        {
-          type: 'object',
-          required
-        },
-        ...[
-          // tslint:disable-next-line: strict-boolean-expressions
-          required.length > 0 ? { required } : {},
-          oneOf.length > 0 ? { oneOf } : {},
-          Object.keys(properties).length > 0 ? { properties } : {}
-        ]
-      ) as js.ObjectSchema
-    )
+    return Object.assign(
+      {
+        type: 'object',
+        required
+      },
+      ...[
+        // tslint:disable-next-line: strict-boolean-expressions
+        required.length > 0 ? { required } : {},
+        oneOf.length > 0 ? { oneOf } : {},
+        Object.keys(properties).length > 0 ? { properties } : {}
+      ]
+    ) as js.ObjectSchema
   }
 }
 
