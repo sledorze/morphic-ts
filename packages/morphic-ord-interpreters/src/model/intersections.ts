@@ -1,6 +1,8 @@
 import { Ord, getMonoid } from 'fp-ts/lib/Ord'
 import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
 import { OrdType, OrdURI } from '../hkt'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
+import { memo } from '@morphic-ts/common/lib/utils'
 
 const equalsOrd = <T>(): Ord<T> => ({
   equals: (_a: T, _b: T) => true,
@@ -10,11 +12,13 @@ const equalsOrd = <T>(): Ord<T> => ({
 /**
  *  @since 0.0.1
  */
-export const ordIntersectionInterpreter: ModelAlgebraIntersection1<OrdURI> = {
-  _F: OrdURI,
-  intersection: <A, R>(types: ((_: R) => OrdType<A>)[]) => (env: R) => {
-    const { concat } = getMonoid<A>()
-    const empty = equalsOrd<A>()
-    return new OrdType<A>(types.map(t => t(env).ord).reduce(concat, empty))
-  }
-}
+export const ordIntersectionInterpreter = memo(
+  <Env extends AnyEnv>(): ModelAlgebraIntersection1<OrdURI, Env> => ({
+    _F: OrdURI,
+    intersection: <A>(types: ((_: Env) => OrdType<A>)[]) => (env: Env) => {
+      const { concat } = getMonoid<A>()
+      const empty = equalsOrd<A>()
+      return new OrdType<A>(types.map(t => t(env).ord).reduce(concat, empty))
+    }
+  })
+)

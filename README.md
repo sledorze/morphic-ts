@@ -14,12 +14,13 @@ The goal is to increase, in order of importance
 
 It is has two side blended into one; generic ADT manipulation AND Generic, customizable and extensible derivations
 
-## /!\ New Release /!\
+## /!\ New Release UPDATE /!\
 
 Lastest release introduces Env inference for Config.
-It is a breaking release with some easy-to-adapt, mostly syntactic, changes (fine pre 1.0.0):
+It has breaking changes that were supposed to be easy-to-adapt, mostly syntactic, changes.
+This has not received the right amount of feedback before releasing and we'll backtrack on some changes (below annotated BACKTRACKED)
 
-### (new) Algebra changes
+### (BACKTRACKED) Algebra changes
 
 The configurable variants of each Algebra method has been split.
 
@@ -81,7 +82,7 @@ We can access an environement to use in a config like so (here IoTsTypes):
 
 ```typescript
 summon(F =>
-  F.interface({ a: F.stringCfg({ ...iotsConfig((x, env: IoTsTypes) => env.WM.withMessage(x, () => 'not ok')) }) }, 'a')
+  F.interface({ a: F.string({ ...iotsConfig((x, env: IoTsTypes) => env.WM.withMessage(x, () => 'not ok')) }) }, 'a')
 )
 ```
 
@@ -125,11 +126,11 @@ The consequence is that any interpreting summoner Env will need to cover all the
 
 This transitive aspect is the necessary condition for correct (re)interpretations.
 
-### (new) All Algerba Config available
+### (new) All Algreba Config available
 
 This was an unfinished task, now all configurable variants are implemented in all interpreters.
 
-### (new) Config inference
+### (BACKTRACKED) Config inference
 
 Config inference has been modified and now requires wrapping those in an object spread (due to a typescript - or a developper - limitation).
 
@@ -147,6 +148,36 @@ After
 ```typescript
 F.arrayCfg(Data(F))({ ...iotsConfig(_ => OneOrArray(Data.type)) })
 ```
+
+### (new) Config inference
+
+We've decided to keep things smoother; not having `F.array` with a `F.arrayCfg` variant.
+To keep that, we'll no more curry the Config.
+
+Before
+
+```typescript
+F.string(iotsConfig(_ => _))
+F.array(Data(F))
+F.array(
+  Data(F),
+  iotsConfig(_ => OneOrArray(Data.type))
+)
+```
+
+After
+
+```typescript
+F.string(iotsConfig(_ => _))
+F.array(Data(F))
+F.array(Data(F), {
+  IoTsURI: _ => OneOrArray(Data.type)
+})
+```
+
+This is necessary because of inference limitations of `iotsConfig` like patterns for definitions taking another `Morph` as parameter (like array, nullable, etc..)
+
+We are thinking about deprecating `iotsConfig` like helpers are they are confusing in those cases.
 
 ### (new) Opaques alias in batteries requiers an extra application
 

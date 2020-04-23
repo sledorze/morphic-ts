@@ -1,5 +1,5 @@
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { NoEnv, ConfigsForType, ConfigsEnvs } from '@morphic-ts/common/lib/config'
+import { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1
@@ -16,42 +16,39 @@ export const UnknownURI = 'UnknownURI' as const
 export type UnknownURI = typeof UnknownURI
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface Algebra<F> {
-    [UnknownURI]: ModelAlgebraUnknown<F>
+  export interface Algebra<F, Env> {
+    [UnknownURI]: ModelAlgebraUnknown<F, Env>
   }
-  export interface Algebra1<F extends URIS> {
-    [UnknownURI]: ModelAlgebraUnknown1<F>
+  export interface Algebra1<F extends URIS, Env extends AnyEnv> {
+    [UnknownURI]: ModelAlgebraUnknown1<F, Env>
   }
-  export interface Algebra2<F extends URIS2> {
-    [UnknownURI]: ModelAlgebraUnknown2<F>
-  }
-}
-
-/**
- *  @since 0.0.1
- */
-export interface ModelAlgebraUnknown<F> {
-  _F: F
-  unknown: HKT2<F, NoEnv, unknown, unknown>
-  unknownCfg: {
-    <C extends ConfigsForType<unknown, unknown>>(config: C): HKT2<F, ConfigsEnvs<C>, unknown, unknown>
+  export interface Algebra2<F extends URIS2, Env extends AnyEnv> {
+    [UnknownURI]: ModelAlgebraUnknown2<F, Env>
   }
 }
 
 /**
  *  @since 0.0.1
  */
-export interface ModelAlgebraUnknown1<F extends URIS> {
+export interface ModelAlgebraUnknown<F, Env> {
   _F: F
-  unknown: Kind<F, NoEnv, unknown>
-  unknownCfg<C extends ConfigsForType<unknown, unknown>>(config: C): Kind<F, ConfigsEnvs<C>, unknown>
+  unknown: {
+    (config?: ConfigsForType<Env, unknown, unknown>): HKT2<F, Env, unknown, unknown>
+  }
 }
 
 /**
  *  @since 0.0.1
  */
-export interface ModelAlgebraUnknown2<F extends URIS2> {
+export interface ModelAlgebraUnknown1<F extends URIS, Env extends AnyEnv> {
   _F: F
-  unknown: Kind2<F, NoEnv, unknown, unknown>
-  unknownCfg<C extends ConfigsForType<unknown, unknown>>(config: C): Kind2<F, ConfigsEnvs<C>, unknown, unknown>
+  unknown(config?: ConfigsForType<Env, unknown, unknown>): Kind<F, Env, unknown>
+}
+
+/**
+ *  @since 0.0.1
+ */
+export interface ModelAlgebraUnknown2<F extends URIS2, Env extends AnyEnv> {
+  _F: F
+  unknown(config?: ConfigsForType<Env, unknown, unknown>): Kind2<F, Env, unknown, unknown>
 }

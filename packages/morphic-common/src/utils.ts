@@ -79,17 +79,25 @@ export const collect = <K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A)
 /**
  *  @since 0.0.1
  */
-export const memo = <A>(get: () => A): (() => A) => {
+export const memo: <F extends () => any>(get: F) => typeof get = <F extends () => any>(get: F): typeof get => {
+  type A = ReturnType<F>
   let cache: A | undefined = undefined
-  return (): A => {
-    if (cache === undefined) {
-      cache = get()
-    }
-    return cache
-  }
+  return (
+    ((): A => {
+      if (cache === undefined) {
+        cache = get()
+      }
+      return cache as A
+    }) as any
+  )
 }
 
+/**
+ *  @since 0.0.1
+ */
 export type IsNever<X, Y, N> = 'X' | X extends 'X' ? Y : N
-export type Includes<A, B, Y, N> = IsNever<B, Y, A extends B ? Y : N>
 
-export type Only<A> = A & { [k in keyof any]: never }
+/**
+ *  @since 0.0.1
+ */
+export type Includes<A, B, Y, N> = IsNever<B, Y, A extends B ? Y : N>

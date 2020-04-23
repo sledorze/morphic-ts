@@ -11,19 +11,23 @@ import * as WM from 'io-ts-types/lib/withMessage'
 import { PathReporter } from 'io-ts/lib/PathReporter'
 
 describe('Morph Config Env', () => {
+  interface FastCheckEnv {
+    fc: typeof fc
+  }
+
   it('can customise fastCheck via en Env', () => {
     const MaxAgeMs = 70 * 365 * 24 * 60 * 60 * 1000
 
-    const { summon } = summonESBASTJFor<{ FastCheckURI: { fc: typeof fc } }>({
+    const { summon } = summonESBASTJFor<{ FastCheckURI: FastCheckEnv }>({
       FastCheckURI: { fc }
     })
 
     const Person = summon(F =>
       F.interface(
         {
-          name: F.string,
-          birthdate: F.dateCfg({
-            ...fastCheckConfig((_x, e: { fc: typeof fc }) => {
+          name: F.string(),
+          birthdate: F.date({
+            ...fastCheckConfig((_x, e) => {
               const now = new Date()
               return e.fc.date({ min: now, max: new Date(now.getTime() + MaxAgeMs) })
             })
@@ -38,14 +42,14 @@ describe('Morph Config Env', () => {
   it('can customise fastCheck using derivation via en Env', () => {
     const MaxAgeMs = 70 * 365 * 24 * 60 * 60 * 1000
 
-    const { summon } = summonESBSTFor<{ FastCheckURI: { fc: typeof fc } }>({})
+    const { summon } = summonESBSTFor<{ FastCheckURI: FastCheckEnv }>({})
 
     const Person = summon(F =>
       F.interface(
         {
-          name: F.string,
-          birthdate: F.dateCfg({
-            ...fastCheckConfig((_x, e: { fc: typeof fc }) => {
+          name: F.string(),
+          birthdate: F.date({
+            ...fastCheckConfig((_x, e) => {
               const now = new Date()
               return e.fc.date({ min: now, max: new Date(now.getTime() + MaxAgeMs) })
             })
@@ -54,7 +58,9 @@ describe('Morph Config Env', () => {
         'Person'
       )
     )
-    const PersonARB = Person.derive(modelFastCheckInterpreter)({ FastCheckURI: { fc } })
+    const PersonARB = Person.derive(modelFastCheckInterpreter<{ FastCheckURI: FastCheckEnv }>())({
+      FastCheckURI: { fc }
+    })
     fc.assert(fc.property(PersonARB.arb, Person.type.is))
   })
 })
@@ -80,9 +86,9 @@ describe('Can specify envs', () => {
 
   // MorphA has M<AppEnv, string, string> signature (note the AppEnv environement specified)
   const MorphA = summon(F =>
-    F.stringCfg({
-      ...fastCheckConfig((_x, e: FastCheckEnv) => e.fastCheck.string(1)), // We're using the FastCheckEnv here, that only type checks because summon defines it as Env
-      ...iotsConfig((_x, e: IoTsEnv) => e.withMessage.withMessage(_x, x => `damn! got ${x}`))
+    F.string({
+      ...fastCheckConfig((_x, { fastCheck }) => fastCheck.string(1)), // We're using the FastCheckEnv here, that only type checks because summon defines it as Env
+      ...iotsConfig((_x, { withMessage }) => withMessage.withMessage(_x, x => `damn! got ${x}`))
     })
   )
 
@@ -111,5 +117,53 @@ describe('Can specify envs', () => {
     fc.assert(fc.property(MorphB.arb, x => x.length <= 1))
     chai.assert.deepStrictEqual(PathReporter.report(MorphB.type.decode(4)), ['damn! got 4'])
     chai.assert.deepStrictEqual(MorphB.type.decode('4'), E.right('4'))
+  })
+
+  it('Can ', () => {
+    const { summon: summonESBASTJIOTS } = summonESBASTJFor<{
+      [IoTsURI]: IoTsEnv
+    }>({
+      [IoTsURI]: {
+        withMessage: WM
+      }
+    })
+
+    const { summon: summonESBASTJIOTS2 } = summonESBASTJFor<{
+      [IoTsURI]: IoTsEnv & { a: string }
+    }>({
+      [IoTsURI]: {
+        withMessage: WM,
+        a: 'a'
+      }
+    })
+
+    const { summon: summonESBASTJAppEnv } = summonESBASTJFor<AppEnv>({
+      [IoTsURI]: {
+        withMessage: WM
+      },
+      [FastCheckURI]: {
+        fastCheck: fc
+      }
+    })
+
+    const m = summonESBASTJIOTS(F => F.string())
+    // tslint:disable-next-line: no-unnecessary-callback-wrapper
+    summonESBASTJAppEnv(F => m(F)) // Good: OK, should be OK
+    summonESBASTJAppEnv(m) // Good: OK, should be OK
+
+    // const n = summonESBASTJAppEnv(F => F.string())
+    // // tslint:disable-next-line: no-unnecessary-callback-wrapper
+    // summonESBASTJIOTS(F => n(F)) // Good: No OK, should be Not OK
+    // summonESBASTJIOTS(n) // Good: No OK, should be Not OK
+
+    const o = summonESBASTJIOTS(F => F.string())
+    // tslint:disable-next-line: no-unnecessary-callback-wrapper
+    summonESBASTJIOTS2(F => o(F)) // Good: OK, should be OK
+    summonESBASTJIOTS2(o) // Good: OK, should be OK
+
+    // const p = summonESBASTJIOTS2(F => F.string())
+    // // tslint:disable-next-line: no-unnecessary-callback-wrapper
+    // summonESBASTJIOTS(F => p(F)) // Good: No OK, should be OK
+    // summonESBASTJIOTS(p) // Good: No OK, should be OK
   })
 })

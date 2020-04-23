@@ -21,25 +21,27 @@ import { fastCheckRecursiveInterpreter } from './model/recursive'
 import { fastCheckStrMapInterpreter } from './model/str-map'
 
 import { fastCheckSetInterpreter } from './model/set'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
 
 export * from './hkt'
 
 /**
  *  @since 0.0.1
  */
-const allModelFastCheck = merge(
-  fastCheckRefinedInterpreter,
-  fastCheckNewtypeInterpreter,
-  fastCheckUnknownInterpreter,
-  fastCheckPrimitiveInterpreter,
-  fastCheckIntersectionInterpreter,
-  fastCheckObjectInterpreter,
-  fastCheckUnionInterpreter,
-  fastCheckTaggedUnionInterpreter,
-  fastCheckRecursiveInterpreter,
-  fastCheckStrMapInterpreter,
-  fastCheckSetInterpreter
-)
+const allModelFastCheck = <Env extends AnyEnv>() =>
+  merge(
+    fastCheckRefinedInterpreter<Env>(),
+    fastCheckNewtypeInterpreter<Env>(),
+    fastCheckUnknownInterpreter<Env>(),
+    fastCheckPrimitiveInterpreter<Env>(),
+    fastCheckIntersectionInterpreter<Env>(),
+    fastCheckObjectInterpreter<Env>(),
+    fastCheckUnionInterpreter<Env>(),
+    fastCheckTaggedUnionInterpreter<Env>(),
+    fastCheckRecursiveInterpreter<Env>(),
+    fastCheckStrMapInterpreter<Env>(),
+    fastCheckSetInterpreter<Env>()
+  )
 
 /**
  *  @since 0.0.1

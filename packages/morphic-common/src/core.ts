@@ -48,20 +48,3 @@ export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) ex
 export type Compact<A> = {
   [K in keyof A]: A[K]
 }
-
-/**
- *  @since 0.0.1
- */
-export type KeepNotUndefinedOrUnknown<O> = UnionToIntersection<
-  NonNullable<{ [k in keyof O]: undefined extends O[k] ? never : { [x in k]: O[k] } }[keyof O]>
->
-export type KeepOptionalIfUndefinedOrUnknownOrUnknown<O> = UnionToIntersection<
-  NonNullable<{ [k in keyof O]: undefined extends O[k] ? { [x in k]?: O[k] } : never }[keyof O]>
->
-
-/**
- *  @since 0.0.1
- */
-export type OptionalIfUndefinedOrUnknown<T> = Compact<
-  KeepNotUndefinedOrUnknown<T> & KeepOptionalIfUndefinedOrUnknownOrUnknown<T>
->

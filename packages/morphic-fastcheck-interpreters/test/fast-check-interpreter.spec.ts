@@ -14,18 +14,18 @@ const testProgram = <A>(prog: ProgramType<{}, unknown, A>[ProgramUnionURI]) => {
 
 describe('FastCheck interpreter', () => {
   it('string', () => {
-    testProgram(summon(F => F.string))
+    testProgram(summon(F => F.string()))
   })
 
   it('string can be customized for FastCheck', () => {
-    const res = summon(F => F.stringCfg({ ...fastCheckConfig(A => A.noShrink()) }))
+    const res = summon(F => F.string({ ...fastCheckConfig(A => A) }))
     testProgram(res)
   })
 
   it('string can be customized via a specific generator', () => {
     testProgram(
       summon(F =>
-        F.stringCfg({
+        F.string({
           ...fastCheckConfig(_ => fc.constantFrom('scala', 'haskell', 'purescript', 'typescript', 'haxe'))
         })
       )
@@ -41,16 +41,18 @@ describe('FastCheck interpreter', () => {
   })
 
   it('array', () => {
-    testProgram(summon(F => F.array(F.string)))
+    testProgram(summon(F => F.array(F.string())))
   })
 
   it('array is bounded by config', () => {
     fc.check(
       fc.property(
         summon(F =>
-          F.arrayCfg(F.string)({
-            ...fastCheckConfig(A => A)
-          })
+          F.array(
+            F.string({
+              ...fastCheckConfig(A => A)
+            })
+          )
         ).arb,
         arr => arr.length >= 2 && arr.length <= 4
       )
@@ -62,8 +64,8 @@ describe('FastCheck interpreter', () => {
       summon(F =>
         F.interface(
           {
-            a: F.string,
-            b: F.number
+            a: F.string(),
+            b: F.number()
           },
           'AB'
         )
@@ -76,8 +78,8 @@ describe('FastCheck interpreter', () => {
       summon(F =>
         F.partial(
           {
-            a: F.string,
-            b: F.number
+            a: F.string(),
+            b: F.number()
           },
           'AB'
         )
@@ -90,8 +92,8 @@ describe('FastCheck interpreter', () => {
     const Foo = summon(F =>
       F.interface(
         {
-          a: F.string,
-          b: F.number
+          a: F.string(),
+          b: F.number()
         },
         'Foo'
       )
@@ -102,7 +104,7 @@ describe('FastCheck interpreter', () => {
       F.interface(
         {
           a: Foo(F),
-          b: F.number
+          b: F.number()
         },
         'Bar'
       )
@@ -123,8 +125,8 @@ describe('FastCheck interpreter', () => {
     const Foo = summon<unknown, Foo>(F =>
       F.interface(
         {
-          date: F.date,
-          a: F.string
+          date: F.date(),
+          a: F.string()
         },
         'Foo'
       )
@@ -143,8 +145,8 @@ describe('FastCheck interpreter', () => {
     const Foo = summon(F =>
       F.interface(
         {
-          a: F.string,
-          b: F.number
+          a: F.string(),
+          b: F.number()
         },
         'Foo'
       )
@@ -153,8 +155,8 @@ describe('FastCheck interpreter', () => {
     const Bar = summon(F =>
       F.interface(
         {
-          c: F.string,
-          d: F.number
+          c: F.string(),
+          d: F.number()
         },
         'Bar'
       )
@@ -174,8 +176,8 @@ describe('FastCheck interpreter', () => {
     const Foo = summon(F =>
       F.interface(
         {
-          a: F.string,
-          b: F.number
+          a: F.string(),
+          b: F.number()
         },
         'Foo'
       )
@@ -188,8 +190,8 @@ describe('FastCheck interpreter', () => {
     const Bar = summon(F =>
       F.interface(
         {
-          c: F.string,
-          d: F.number
+          c: F.string(),
+          d: F.number()
         },
         'Bar'
       )
@@ -197,8 +199,8 @@ describe('FastCheck interpreter', () => {
     const Bara = summon(F =>
       F.interface(
         {
-          ca: F.string,
-          d: F.number
+          ca: F.string(),
+          d: F.number()
         },
         'Bara'
       )
@@ -206,8 +208,8 @@ describe('FastCheck interpreter', () => {
     const Barb = summon(F =>
       F.interface(
         {
-          cb: F.string,
-          d: F.number
+          cb: F.string(),
+          d: F.number()
         },
         'Barb'
       )
@@ -229,8 +231,8 @@ describe('FastCheck interpreter', () => {
       F.interface(
         {
           type: F.stringLiteral('foo'),
-          a: F.string,
-          b: F.number
+          a: F.string(),
+          b: F.number()
         },
         'Foo'
       )
@@ -246,8 +248,8 @@ describe('FastCheck interpreter', () => {
       F.interface(
         {
           type: F.stringLiteral('bar'),
-          c: F.string,
-          d: F.number
+          c: F.string(),
+          d: F.number()
         },
         'Bar'
       )
@@ -271,7 +273,7 @@ describe('FastCheck interpreter', () => {
     const InterfA = summon(F =>
       F.interface(
         {
-          a: F.string
+          a: F.string()
         },
         'InterfA'
       )
@@ -298,13 +300,13 @@ describe('FastCheck interpreter', () => {
     }
 
     const List: M<{}, unknown, List> = summon<unknown, List>(F =>
-      F.recursive<{}, unknown, List>(
+      F.recursive<unknown, List>(
         Self =>
           F.taggedUnion(
             'type',
             {
               cons: F.interface({ type: F.stringLiteral('cons'), a: Self }, 'Cons'),
-              leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string }, 'Leaf')
+              leaf: F.interface({ type: F.stringLiteral('leaf'), v: F.string() }, 'Leaf')
             },
             'List'
           ),

@@ -5,6 +5,7 @@ import { CacheType } from '@morphic-ts/common/lib/core'
 import { ProgramURI, ProgramType } from './ProgramType'
 import { makeTagged, TaggedBuilder } from './tagged-union'
 import { URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1
@@ -30,6 +31,12 @@ export interface MakeSummonerResult<S extends Summoners<any, any, any>> {
   tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
 }
 
+export interface SummonerOps<S extends Summoners<any, any, any> = never> {
+  summon: S
+  tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
+  define: Define<SummonerProgURI<S>, SummonerEnv<S>>
+}
+
 /**
  *  @since 0.0.1
  */
@@ -38,11 +45,7 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
   programInterpreter: <E, A>(
     program: Overloads<ProgramType<SummonerEnv<S>, E, A>[SummonerProgURI<S>]>
   ) => InterpreterResult<E, A>[SummonerInterpURI<S>]
-): {
-  summon: S
-  tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
-  define: Define<SummonerProgURI<S>>
-} {
+): SummonerOps<S> {
   type PURI = SummonerProgURI<S>
   type InterpURI = SummonerInterpURI<S>
   type Env = SummonerEnv<S>
@@ -57,8 +60,7 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
         programInterpreter as <E, A>(program: P<E, A>) => InterpreterResult<E, A>[InterpURI]
       )) as S
   const tagged = (makeTagged(summon) as any) as TaggedBuilder<PURI, InterpURI, SummonerEnv<S>> // FIXME: as any
-  const define = defineFor<PURI>(undefined as PURI)
-
+  const define = defineFor<PURI>(undefined as PURI)<Env>()
   return {
     summon,
     tagged,
@@ -66,9 +68,7 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
   }
 }
 
-export type DepsErrorMsg<R, R2> = ['summon env error, got ', R, ' but requires ', R2, ' please provide dependencies']
-
 export type ExtractEnv<Env, SummonerEnv extends URIS | URIS2> = {
   [k in SummonerEnv & keyof Env]: NonNullable<Env>[k & keyof Env]
 }
-export type AnyConfigEnv = Partial<Record<URIS | URIS2, any>>
+export type AnyConfigEnv = AnyEnv

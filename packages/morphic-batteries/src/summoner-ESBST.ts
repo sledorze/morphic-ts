@@ -1,5 +1,5 @@
 import { identity } from 'fp-ts/lib/function'
-import { cacheUnaryFunction, Compact } from '@morphic-ts/common/lib/core'
+import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
 import { modelEqInterpreter, EqURI } from '@morphic-ts/eq-interpreters/lib/interpreters'
 import { modelShowInterpreter, ShowURI } from '@morphic-ts/show-interpreters/lib/interpreters'
@@ -9,8 +9,8 @@ import * as U from './usage'
 
 import { ProgramNoUnionURI } from './program-no-union'
 import { ESBSTInterpreterURI } from './interpreters-ESBST'
-import { Includes, Only } from '@morphic-ts/common/lib/utils'
-import { DepsErrorMsg, AnyConfigEnv, ExtractEnv } from './usage/summoner'
+import { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -20,7 +20,7 @@ export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramNoUnionURI, E
 /**
  *  @since 0.0.1
  */
-export interface UM<R, A> extends M<R, unknown, A> {}
+export interface UM<R, A> extends M<R, {}, A> {}
 
 /**
  *  @since 0.0.1
@@ -35,19 +35,16 @@ export const AsUOpaque = <A>() => <X extends UM<any, A>>(x: X): UM<X['_R'], A> =
  *  @since 0.0.1
  */
 export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBSTInterpreterURI, R> {
-  <L, A, R2 extends R>(F: U.ProgramType<R2, L, A>[ProgramNoUnionURI]): Includes<
-    Only<R>,
-    R2,
-    M<R, L, A>,
-    Compact<DepsErrorMsg<R, R2>>
-  >
+  <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
 }
 
-export const summonFor = <R extends AnyConfigEnv>(env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>) =>
+export const summonFor: <R extends AnyEnv = {}>(
+  env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>
+) => SummonerOps<Summoner<R>> = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
     build: identity,
-    eq: program(modelEqInterpreter)(env).eq,
-    show: program(modelShowInterpreter)(env).show,
-    strictType: program(modelIoTsNonStrictInterpreter)(env).type,
-    type: program(modelIoTsNonStrictInterpreter)(env).type
+    eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,
+    show: program(modelShowInterpreter<NonNullable<R>>())(env).show,
+    strictType: program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type,
+    type: program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type
   }))

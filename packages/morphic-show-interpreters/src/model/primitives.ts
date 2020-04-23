@@ -4,28 +4,23 @@ import { getShow as getShowA } from 'fp-ts/lib/Array'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { ShowType, ShowURI } from '../hkt'
 import { showApplyConfig } from '../config'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
+import { memo } from '@morphic-ts/common/lib/utils'
 
 /**
  *  @since 0.0.1
  */
-export const showPrimitiveInterpreter: ModelAlgebraPrimitive1<ShowURI> = {
-  _F: ShowURI,
-  date: _env => new ShowType({ show: (date: Date) => date.toISOString() }),
-  dateCfg: config => env => new ShowType(showApplyConfig(config)({ show: (date: Date) => date.toISOString() }, env)),
-  boolean: _env => new ShowType(showBoolean),
-  booleanCfg: config => env => new ShowType(showApplyConfig(config)(showBoolean, env)),
-  string: _env => new ShowType(showString),
-  stringCfg: config => env => new ShowType(showApplyConfig(config)(showString, env)),
-  number: _env => new ShowType(showNumber),
-  numberCfg: config => env => new ShowType(showApplyConfig(config)(showNumber, env)),
-  bigint: _env => new ShowType({ show: a => JSON.stringify(a) }),
-  bigintCfg: config => env => new ShowType(showApplyConfig(config)({ show: a => JSON.stringify(a) }, env)),
-  stringLiteral: _ => _env => new ShowType<typeof _>(showString),
-  stringLiteralCfg: _ => config => env => new ShowType(showApplyConfig(config)(showString, env)),
-  keysOf: _keys => _env => new ShowType(showString as Show<any>),
-  keysOfCfg: _keys => config => env => new ShowType(showApplyConfig(config)(showString as Show<any>, env)),
-  nullable: getShow => env => new ShowType(optionGetShow(getShow(env).show)),
-  nullableCfg: getShow => config => env => new ShowType(showApplyConfig(config)(optionGetShow(getShow(env).show), env)),
-  array: getShow => env => new ShowType(getShowA(getShow(env).show)),
-  arrayCfg: getShow => config => env => new ShowType(showApplyConfig(config)(getShowA(getShow(env).show), env))
-}
+export const showPrimitiveInterpreter = memo(
+  <Env extends AnyEnv>(): ModelAlgebraPrimitive1<ShowURI, Env> => ({
+    _F: ShowURI,
+    date: config => env => new ShowType(showApplyConfig(config)({ show: (date: Date) => date.toISOString() }, env)),
+    boolean: config => env => new ShowType(showApplyConfig(config)(showBoolean, env)),
+    string: config => env => new ShowType(showApplyConfig(config)(showString, env)),
+    number: config => env => new ShowType(showApplyConfig(config)(showNumber, env)),
+    bigint: config => env => new ShowType(showApplyConfig(config)({ show: a => JSON.stringify(a) }, env)),
+    stringLiteral: (_, config) => env => new ShowType(showApplyConfig(config)(showString, env)),
+    keysOf: (_keys, config) => env => new ShowType(showApplyConfig(config)(showString as Show<any>, env)),
+    nullable: (getShow, config) => env => new ShowType(showApplyConfig(config)(optionGetShow(getShow(env).show), env)),
+    array: (getShow, config) => env => new ShowType(showApplyConfig(config)(getShowA(getShow(env).show), env))
+  })
+)

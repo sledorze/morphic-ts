@@ -2,12 +2,15 @@ import { FastCheckType, FastCheckURI } from '../hkt'
 import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
 import { anything } from 'fast-check'
 import { fastCheckApplyConfig } from '../config'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
+import { memo } from '@morphic-ts/common/lib/utils'
 
 /**
  *  @since 0.0.1
  */
-export const fastCheckUnknownInterpreter: ModelAlgebraUnknown1<FastCheckURI> = {
-  _F: FastCheckURI,
-  unknown: _env => new FastCheckType(anything()),
-  unknownCfg: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(anything(), env))
-}
+export const fastCheckUnknownInterpreter = memo(
+  <Env extends AnyEnv>(): ModelAlgebraUnknown1<FastCheckURI, Env> => ({
+    _F: FastCheckURI,
+    unknown: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(anything(), env))
+  })
+)

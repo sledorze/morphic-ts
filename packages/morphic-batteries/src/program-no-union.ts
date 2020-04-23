@@ -25,7 +25,7 @@ export type ProgramNoUnionURI = typeof ProgramNoUnionURI
 /**
  *  @since 0.0.1
  */
-export interface AlgebraNoUnion<F> extends InferredAlgebra<F, ProgramNoUnionURI> {}
+export interface AlgebraNoUnion<F, Env> extends InferredAlgebra<F, ProgramNoUnionURI, Env> {}
 /**
  *  @since 0.0.1
  */
@@ -47,8 +47,8 @@ declare module './usage/ProgramType' {
     >
   }
 
-  interface ProgramAlgebra<F> {
-    [ProgramNoUnionURI]: AlgebraNoUnion<F>
+  interface ProgramAlgebra<F, Env> {
+    [ProgramNoUnionURI]: AlgebraNoUnion<F, Env>
   }
 
   interface ProgramType<R extends AnyConfigEnv, E, A> {

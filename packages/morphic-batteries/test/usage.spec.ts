@@ -38,7 +38,7 @@ describe('tagged', () => {
 
   it('Can constraint A type param', () => {
     const CType = summonBASTJ(F => F.interface({ tag: F.stringLiteral('CType') }, 'CType'))
-    const Action = <E, P>(_p: MBASTJ<unknown, E, P & { type?: never }>): void => undefined
+    const Action = <E, P>(_p: MBASTJ<{}, E, P & { type?: never }>): void => undefined
     Action(CType) // Should not become red
   })
 
@@ -91,7 +91,7 @@ describe('tagged', () => {
   })
 
   it('can be composed with richer Morphs', () => {
-    const T = summonESBASTJ(F => F.date)
+    const T = summonESBASTJ(F => F.date())
     const R = summonBASTJ(F =>
       F.interface(
         {
@@ -108,10 +108,10 @@ describe('tagged', () => {
 
   it('can fully be reinterpreted with an interpreter', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
-    const Thing = summonESBASTJ(F => F.interface({ date: F.newtype<NT>('NT')(F.date), name: F.string }, 'Thing'))
+    const Thing = summonESBASTJ(F => F.interface({ date: F.newtype<NT>('NT')(F.date()), name: F.string() }, 'Thing'))
 
     const date = new Date(2020, 2, 20, 2, 20, 20)
-    const show = interpretable(Thing)(modelShowInterpreter)({}).show
+    const show = interpretable(Thing)(modelShowInterpreter<{}>())({}).show
     const x = Thing.build({ date: iso<NT>().wrap(date), name: 'georges' })
     chai.assert.deepStrictEqual(show.show(x), `{ date: <NT>(${date.toISOString()}), name: "georges" }`)
   })
@@ -122,13 +122,13 @@ describe('Morph ESBST', () => {
     const Person = summonESBST(F =>
       F.interface(
         {
-          name: F.string,
-          birthdate: F.date
+          name: F.string(),
+          birthdate: F.date()
         },
         'Person'
       )
     )
-    const PersonARB = Person.derive(modelFastCheckInterpreter)({})
+    const PersonARB = Person.derive(modelFastCheckInterpreter<{}>())({})
     fc.assert(fc.property(PersonARB.arb, Person.type.is))
   })
 })

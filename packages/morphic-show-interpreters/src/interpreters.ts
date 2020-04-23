@@ -19,24 +19,26 @@ import { showRecursiveInterpreter } from './model/recursive'
 import { showSetInterpreter } from './model/set'
 
 import { showStrMapInterpreter } from './model/str-map'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
 
 export * from './hkt'
 
 /**
  *  @since 0.0.1
  */
-const allModelShow = merge(
-  showRefinedInterpreter,
-  showNewtypeInterpreter,
-  showUnknownInterpreter,
-  showPrimitiveInterpreter,
-  showIntersectionInterpreter,
-  showObjectInterpreter,
-  showTaggedUnionInterpreter,
-  showRecursiveInterpreter,
-  showSetInterpreter,
-  showStrMapInterpreter
-)
+const allModelShow = <Env extends AnyEnv>() =>
+  merge(
+    showRefinedInterpreter<Env>(),
+    showNewtypeInterpreter<Env>(),
+    showUnknownInterpreter<Env>(),
+    showPrimitiveInterpreter<Env>(),
+    showIntersectionInterpreter<Env>(),
+    showObjectInterpreter<Env>(),
+    showTaggedUnionInterpreter<Env>(),
+    showRecursiveInterpreter<Env>(),
+    showSetInterpreter<Env>(),
+    showStrMapInterpreter<Env>()
+  )
 
 /**
  *  @since 0.0.1
