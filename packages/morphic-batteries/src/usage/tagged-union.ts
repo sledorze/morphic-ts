@@ -168,27 +168,38 @@ export type MorphADT<
   InterpURI extends InterpreterURI,
   R
 > = { _Types: Types } & ADT<AOfTypes<Types>, Tag> &
-  Morph<R, EOfTypes<Types>, AOfTypes<Types>, InterpURI, ProgURI> & {
-    selectMorph: <Keys extends (keyof Types)[]>(
-      keys: Keys
-    ) => MorphADT<
-      {
-        [k in Extract<keyof Types, ElemType<Keys>>]: Types[k]
-      },
-      Tag,
-      ProgURI,
-      InterpURI,
-      R
-    >
-    excludeMorph: <Keys extends (keyof Types)[]>(
-      keys: Keys
-    ) => MorphADT<
-      {
-        [k in Exclude<keyof Types, ElemType<Keys>>]: Types[k]
-      },
-      Tag,
-      ProgURI,
-      InterpURI,
-      R
-    >
-  }
+  Morph<R, EOfTypes<Types>, AOfTypes<Types>, InterpURI, ProgURI> &
+  Refinable<Types, Tag, ProgURI, InterpURI, R>
+
+export interface Refinable<
+  Types extends {
+    [k in keyof Types]: [any, any]
+  },
+  Tag extends string,
+  ProgURI extends ProgramURI,
+  InterpURI extends InterpreterURI,
+  R
+> {
+  selectMorph: <Keys extends (keyof Types)[]>(
+    keys: Keys
+  ) => MorphADT<
+    {
+      [k in Extract<keyof Types, ElemType<Keys>>]: Types[k]
+    },
+    Tag,
+    ProgURI,
+    InterpURI,
+    R
+  >
+  excludeMorph: <Keys extends (keyof Types)[]>(
+    keys: Keys
+  ) => MorphADT<
+    {
+      [k in Exclude<keyof Types, ElemType<Keys>>]: Types[k]
+    },
+    Tag,
+    ProgURI,
+    InterpURI,
+    R
+  >
+}
