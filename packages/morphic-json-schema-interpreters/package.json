@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/json-schema-interpreters",
-  "version": "1.2.0-alpha.0",
+  "version": "1.2.0",
   "description": "Morphic json schema-ish derivation",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -21,9 +21,9 @@
     "es6"
   ],
   "dependencies": {
-    "@morphic-ts/algebras": "^1.2.0-alpha.0",
-    "@morphic-ts/common": "^1.2.0-alpha.0",
-    "@morphic-ts/model-algebras": "^1.2.0-alpha.0"
+    "@morphic-ts/algebras": "^1.2.0",
+    "@morphic-ts/common": "^1.2.0",
+    "@morphic-ts/model-algebras": "^1.2.0"
   },
   "devDependencies": {
     "fp-ts": "^2.5.3",
