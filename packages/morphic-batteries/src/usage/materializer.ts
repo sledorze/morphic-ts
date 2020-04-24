@@ -21,7 +21,7 @@ export type Morph<R, E, A, InterpURI extends InterpreterURI, ProgURI extends Pro
   ProgramType<R, E, A>[ProgURI] &
   MorphExtra<R, E, A, InterpURI, ProgURI>
 
-interface MorphExtra<R, E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI>
+export interface MorphExtra<R, E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI>
   extends InhabitedTypes<R, E, A>,
     InhabitedInterpreterAndAlbegra<ProgURI, InterpURI>,
     Interpretable<R, E, A, ProgURI> {}
