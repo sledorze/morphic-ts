@@ -10,25 +10,6 @@ import { interpretable, Overloads } from './programs-infer'
 export interface ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
   <R, E, A>(program: ProgramType<R, E, A>[ProgURI]): InterpreterResult<E, A>[InterpURI]
 }
-/**
- *  @since 0.0.1
- */
-export type ProgramURIOfProgramInterpreter<X extends ProgramInterpreter<any, any>> = X extends ProgramInterpreter<
-  infer P,
-  any
->
-  ? P
-  : never
-
-/**
- *  @since 0.0.1
- */
-export type InterpreterURIOfProgramInterpreter<X extends ProgramInterpreter<any, any>> = X extends ProgramInterpreter<
-  any,
-  infer R
->
-  ? R
-  : never
 
 /**
  *  @since 0.0.1
@@ -38,7 +19,12 @@ export type Morph<R, E, A, InterpURI extends InterpreterURI, ProgURI extends Pro
   A
 >[InterpURI] &
   ProgramType<R, E, A>[ProgURI] &
-  InhabitedInterpreterAndAlbegra<ProgURI, InterpURI>
+  MorphExtra<R, E, A, InterpURI, ProgURI>
+
+interface MorphExtra<R, E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI>
+  extends InhabitedTypes<R, E, A>,
+    InhabitedInterpreterAndAlbegra<ProgURI, InterpURI>,
+    Interpretable<R, E, A, ProgURI> {}
 
 const inhabitInterpreterAndAlbegra = <ProgURI extends ProgramURI, InterpURI extends InterpreterURI, T>(
   t: T
@@ -72,10 +58,7 @@ export type Materialized<R, E, A, ProgURI extends ProgramURI, InterpURI extends 
   InterpURI,
   ProgURI
 > &
-  MonocleFor<A> &
-  InhabitedTypes<R, E, A> &
-  InhabitedInterpreterAndAlbegra<ProgURI, InterpURI> &
-  Interpretable<R, E, A, ProgURI>
+  MonocleFor<A>
 
 /**
  *  @since 0.0.1
@@ -85,8 +68,8 @@ export function materialize<R, E, A, ProgURI extends ProgramURI, InterpURI exten
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
 ): Materialized<R, E, A, ProgURI, InterpURI> {
   const morph = interpreteWithProgram(program, programInterpreter)
-  return assignCallable(morph as any, {
+  return assignCallable(morph, {
     ...MonocleFor<A>(),
-    derive: interpretable(morph as any)
-  }) // FIXME: resolve any
+    derive: interpretable(morph)
+  })
 }
