@@ -108,18 +108,18 @@ export const makeADT = <Tag extends string>(tag: Tag) => <R extends { [x in keyo
   type Tag = typeof tag
   type A = TypeOfDef<R[keyof R]>
   type B = A & Tagged<Tag>
-  const keys = _keys as any // any
+  const keys = _keys as KeysDefinition<Tagged<Tag>, Tag> // any
 
   const ctors = CU.Ctors(tag)(keys)
-  const predicates = PU.Predicates<A, any>(tag)(keys) // any
+  const predicates = PU.Predicates<A, Tag>(tag)(keys)
   const monocles = M.MonocleFor<A>()
-  const matchers = Ma.Matchers<B, any>(tag)(keys) // any
+  const matchers = Ma.Matchers<B, Tag>(tag)(keys)
 
   const select = <Keys extends A[Tag][]>(selectedKeys: Keys): ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag> =>
     makeADT(tag)(keepKeys(keys, selectedKeys as string[]) as any)
 
   const exclude = <Keys extends B[Tag][]>(excludedKeys: Keys): ADT<ExcludeUnion<B, Tag, ElemType<Keys>>, Tag> =>
-    makeADT(tag)(excludeKeys(keys, excludedKeys as string[]) as any)
+    makeADT(tag)(excludeKeys(keys, excludedKeys) as any)
 
   const res: ADT<B, Tag> = {
     ...ctors,

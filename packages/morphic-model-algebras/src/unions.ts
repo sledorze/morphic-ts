@@ -96,8 +96,3 @@ export interface ModelAlgebraUnions2<F extends URIS2, Env extends AnyEnv> {
     <L, A>(types: Array<OfType2<F, L, A, Env>>, name: string): Kind2<F, Env, Array<L>, Array<A>>
   }
 }
-
-/**
- *  @since 0.0.1
- */
-export type ArrayType<X> = X extends Array<infer A> ? A : never
