@@ -36,7 +36,7 @@ export const AsUOpaque = <A>() => <X extends UM<any, A>>(x: X): UM<X['_R'], A> =
  *  @since 0.0.1
  */
 export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBASTInterpreterURI, R> {
-  <L, A, R>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
+  <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
 }
 
 export const summonFor: <R extends AnyEnv = {}>(
