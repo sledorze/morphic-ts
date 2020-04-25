@@ -25,6 +25,7 @@ import * as U from './usage'
 import { ESBASTJInterpreterURI } from './interpreters-ESBASTJ'
 import { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
+import { makeCreate } from './create'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -60,12 +61,16 @@ export const summonFor: <R extends AnyEnv = {}>(
 ) => SummonerOps<Summoner<R>> = <R extends AnyConfigEnv = {}>(
   env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI | EqURI | ShowURI>
 ) =>
-  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
-    build: identity,
-    eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,
-    show: program(modelShowInterpreter<NonNullable<R>>())(env).show,
-    arb: program(modelFastCheckInterpreter<NonNullable<R>>())(env).arb,
-    strictType: program(modelIoTsStrictInterpreter<NonNullable<R>>())(env).type,
-    type: program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type,
-    jsonSchema: pipe(program(modelJsonSchemaInterpreter<NonNullable<R>>())(env).schema({}), E.chain(resolveSchema))
-  }))
+  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
+    const type = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type
+    return {
+      build: identity,
+      eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,
+      show: program(modelShowInterpreter<NonNullable<R>>())(env).show,
+      arb: program(modelFastCheckInterpreter<NonNullable<R>>())(env).arb,
+      strictType: program(modelIoTsStrictInterpreter<NonNullable<R>>())(env).type,
+      type,
+      jsonSchema: pipe(program(modelJsonSchemaInterpreter<NonNullable<R>>())(env).schema({}), E.chain(resolveSchema)),
+      create: makeCreate(type)
+    }
+  })
