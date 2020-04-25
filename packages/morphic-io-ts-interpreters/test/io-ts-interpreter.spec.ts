@@ -10,8 +10,6 @@ import type { Errors, Branded } from 'io-ts'
 import * as t from 'io-ts'
 import { summonFor, M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 
-import { iotsConfig } from '../src/config'
-
 import * as WM from 'io-ts-types/lib/withMessage'
 import { Newtype, iso } from 'newtype-ts'
 import { EType, AType } from '@morphic-ts/batteries/lib/usage/utils'
@@ -55,18 +53,20 @@ describe('IO-TS Env', () => {
     const Codec1 = summon(F =>
       F.keysOf(
         { foo: null, bar: null },
-        iotsConfig((x, { WM }) => WM.withMessage(x, () => 'not ok'))
+        {
+          IoTsURI: (x, { WM }) => WM.withMessage(x, () => 'not ok')
+        }
       )
     )
     summon2(F => F.interface({ a: Codec1(F) }, 'a'))
-    summon(F => F.interface({ a: F.string({ ...iotsConfig((x, env) => env.WM.withMessage(x, () => 'not ok')) }) }, 'a'))
+    summon(F => F.interface({ a: F.string({ IoTsURI: (x, env) => env.WM.withMessage(x, () => 'not ok') }) }, 'a'))
   })
 })
 
 describe('IO-TS', () => {
   it('customize keyof', () => {
     const codec = summon(F =>
-      F.keysOf({ foo: null, bar: null }, { ...iotsConfig((x, _env) => WM.withMessage(x, () => 'not ok')) })
+      F.keysOf({ foo: null, bar: null }, { IoTsURI: (x, _env) => WM.withMessage(x, () => 'not ok') })
     ).type
 
     const result = codec.decode('baz')
@@ -86,7 +86,7 @@ describe('IO-TS', () => {
 
   it('newtype raw type should work - customize', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
-    const NT = summon(F => F.newtype<NT>('NT')(F.date(), { ...iotsConfig(x => WM.withMessage(x, () => 'not ok')) }))
+    const NT = summon(F => F.newtype<NT>('NT')(F.date(), { IoTsURI: x => WM.withMessage(x, () => 'not ok') }))
     const result = NT.type.decode('bla')
 
     chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
@@ -94,8 +94,8 @@ describe('IO-TS', () => {
 
   it('customize strMap', () => {
     const codec = summon(F =>
-      F.strMap(F.string({ ...iotsConfig(_ => t.string) }), {
-        ...iotsConfig(x => WM.withMessage(x, () => 'not ok'))
+      F.strMap(F.string({ IoTsURI: _ => t.string }), {
+        IoTsURI: x => WM.withMessage(x, () => 'not ok')
       })
     ).type
 
@@ -131,7 +131,7 @@ describe('IO-TS', () => {
 
     const codec = summon(F =>
       F.refined(F.number(), (x: number): x is Branded<number, PositiveNumberBrand> => x > 0, 'PosNum', {
-        ...iotsConfig(x => WM.withMessage(x, x => `Not a positive number ${x}`))
+        IoTsURI: x => WM.withMessage(x, x => `Not a positive number ${x}`)
       })
     ).type
 
@@ -636,7 +636,7 @@ describe('iotsObjectInterpreter', () => {
     // Types Should be defined beforehand at Summon creation ? (no..)
     const { summon: summonIOTS } = summonFor<AppEnv>({ [IoTsURI]: { iots: t, WM: WM } })
 
-    const Codec = summonIOTS(F => F.string(iotsConfig((_, { iots }: IOTSEnv) => iots.string)))
+    const Codec = summonIOTS(F => F.string({ IoTsURI: (_, { iots }: IOTSEnv) => iots.string }))
 
     const codec = summonIOTS(F =>
       F.strMap(Codec(F), {

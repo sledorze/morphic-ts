@@ -2,7 +2,7 @@ import { ModelAlgebraTaggedUnions } from '../../src/tagged-unions'
 import { ModelAlgebraPrimitive } from '../../src/primitives'
 import { ModelAlgebraObject } from '../../src/object'
 import { Eq } from 'fp-ts/lib/Eq'
-import { genConfig, AnyEnv } from '@morphic-ts/common/lib/config'
+import { AnyEnv } from '@morphic-ts/common/lib/config'
 import {} from '@morphic-ts/algebras/lib/hkt'
 import { HKT2 } from '@morphic-ts/common/lib/HKT'
 
@@ -17,7 +17,6 @@ export class TypeEq<A> {
   _A!: A
   constructor(ord: Eq<A>) {}
 }
-const eqConfig = genConfig('Eq')
 
 const dummy = 42 // $ExpectType 42
 
@@ -57,12 +56,12 @@ interface Deps2 extends AnyEnv {
 }
 
 // $ExpezctType HKT2<unknown, { Eq: Deps; }, string, "a">
-foo<Deps>()(F => F.stringLiteral<'a'>('a', { ...eqConfig((x, d: EqDeps) => x) }))
+foo<Deps>()(F => F.stringLiteral<'a'>('a', { Eq: (x, d: EqDeps) => x }))
 
 // $ExpectType HKT2<unknown, Deps, { type: string; }, { type: "a"; }>
 foo<Deps>()(F =>
   F.interface(
-    { type: F.stringLiteral<'a'>('a', { ...eqConfig((x, d: EqDeps) => x) }) },
+    { type: F.stringLiteral<'a'>('a', { Eq: (x, d: EqDeps) => x }) },
     'A'
   )
 )
@@ -73,11 +72,11 @@ foo<Deps>()(F =>
     'type',
     {
       a: F.interface(
-        { type: F.stringLiteral<'a'>('a', { ...eqConfig((x, d: EqDeps) => x) }) },
+        { type: F.stringLiteral<'a'>('a', { Eq: (x, d: EqDeps) => x) ) },
         'A'
       ),
       b: F.interface(
-        { type: F.stringLiteral<'b'>('b', { ...eqConfig((x, d: EqDeps) => x) }) },
+        { type: F.stringLiteral<'b'>('b', { Eq: (x, d: EqDeps) => x) ) },
         'B'
       )
     },
@@ -91,11 +90,11 @@ foo<Deps & Deps2>()(F =>
     'type',
     {
       a: F.interface(
-        { type: F.stringLiteral<'a'>('a', { ...eqConfig((x, _: EqDeps) => x) }) },
+        { type: F.stringLiteral<'a'>('a', { Eq: (x, _: EqDeps) => x) ) },
         'A'
       ),
       b: F.interface(
-        { type: F.stringLiteral<'b'>('b', { ...eqConfig((x, _: EqDeps2) => x) }) },
+        { type: F.stringLiteral<'b'>('b', { Eq: (x, _: EqDeps2) => x) ) },
         'B'
       )
     },
