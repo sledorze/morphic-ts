@@ -4,7 +4,11 @@ import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 import { modelEqInterpreter, EqURI } from '@morphic-ts/eq-interpreters/lib/interpreters'
 import { modelShowInterpreter, ShowURI } from '@morphic-ts/show-interpreters/lib/interpreters'
 import { modelFastCheckInterpreter, FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
-import { modelIoTsNonStrictInterpreter, IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
+import {
+  modelIoTsNonStrictInterpreter,
+  IoTsURI,
+  modelIoTsStrictInterpreter
+} from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 
 import * as U from './usage'
 
@@ -49,6 +53,6 @@ export const summonFor: <R extends AnyEnv = {}>(
     eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,
     show: program(modelShowInterpreter<NonNullable<R>>())(env).show,
     arb: program(modelFastCheckInterpreter<NonNullable<R>>())(env).arb,
-    strictType: program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type,
+    strictType: program(modelIoTsStrictInterpreter<NonNullable<R>>())(env).type,
     type: program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type
   }))
