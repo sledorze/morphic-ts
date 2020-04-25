@@ -5,6 +5,7 @@ import { EqType, EqURI } from '../hkt'
 import { eqApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { UUID } from 'io-ts-types/lib/UUID'
 
 /**
  *  @since 0.0.1
@@ -26,6 +27,7 @@ export const eqPrimitiveInterpreter = memo(
     stringLiteral: (k, config) => env => new EqType<typeof k>(eqApplyConfig(config)(eqString, env)),
     keysOf: (keys, config) => env => new EqType<keyof typeof keys>(eqApplyConfig(config)(eqStrict, env)),
     nullable: (getType, config) => env => new EqType(eqApplyConfig(config)(option.getEq(getType(env).eq), env)),
-    array: (getType, config) => env => new EqType(eqApplyConfig(config)(array.getEq(getType(env).eq), env))
+    array: (getType, config) => env => new EqType(eqApplyConfig(config)(array.getEq(getType(env).eq), env)),
+    uuid: config => env => new EqType<UUID>(eqApplyConfig(config)(eqString, env))
   })
 )

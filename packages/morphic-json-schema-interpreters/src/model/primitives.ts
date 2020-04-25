@@ -45,6 +45,8 @@ export const jsonSchemaPrimitiveInterpreter = memo(
           SE.stateEither.chain(getSchema(env).schema, schemas => SE.fromEither(ArrayTypeCtor({ schemas }))),
           env
         )
-      )
+      ),
+    uuid: config => env =>
+      new JsonSchema(jsonSchemaApplyConfig(config)(SE.stateEither.of(StringTypeCtor({ format: 'uuid' })), env))
   })
 )

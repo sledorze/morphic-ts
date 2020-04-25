@@ -8,6 +8,7 @@ import { either } from 'fp-ts/lib/Either'
 import { iotsApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import { UUID } from 'io-ts-types/lib/UUID'
 
 /**
  *  @since 0.0.1
@@ -49,6 +50,7 @@ export const ioTsPrimitiveInterpreter = memo(
     keysOf: (k, config) => env =>
       new IOTSType(iotsApplyConfig(config)(t.keyof(k) as t.Type<keyof typeof k, string, unknown>, env)),
     nullable: (T, config) => env => new IOTSType(iotsApplyConfig(config)(optionFromNullable(T(env).type), env)),
-    array: (T, config) => env => new IOTSType(iotsApplyConfig(config)(t.array(T(env).type), env))
+    array: (T, config) => env => new IOTSType(iotsApplyConfig(config)(t.array(T(env).type), env)),
+    uuid: config => env => new IOTSType(iotsApplyConfig(config)(UUID, env))
   })
 )

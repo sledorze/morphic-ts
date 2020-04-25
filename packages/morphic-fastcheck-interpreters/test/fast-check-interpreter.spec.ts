@@ -3,6 +3,7 @@ import { ordString, ord } from 'fp-ts/lib/Ord'
 import { ProgramUnionURI } from '@morphic-ts/batteries/lib/program'
 import { M, summonFor } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
+import { UUID } from 'io-ts-types/lib/UUID'
 
 const { summon } = summonFor<{}>({})
 
@@ -314,5 +315,10 @@ describe('FastCheck interpreter', () => {
     )
 
     testProgram(List)
+  })
+
+  it('uuid', () => {
+    const { arb } = summon(F => F.uuid())
+    fc.assert(fc.property(arb, UUID.is))
   })
 })
