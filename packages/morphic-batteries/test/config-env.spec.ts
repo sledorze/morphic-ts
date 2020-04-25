@@ -5,8 +5,6 @@ import { summonFor as summonESBASTJFor } from '../src/summoner-ESBASTJ'
 import { modelFastCheckInterpreter, FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import * as fc from 'fast-check'
 import { IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/hkt'
-import { fastCheckConfig } from '@morphic-ts/fastcheck-interpreters/lib/config'
-import { iotsConfig } from '@morphic-ts/io-ts-interpreters/lib/config'
 import * as WM from 'io-ts-types/lib/withMessage'
 import { PathReporter } from 'io-ts/lib/PathReporter'
 
@@ -27,10 +25,10 @@ describe('Morph Config Env', () => {
         {
           name: F.string(),
           birthdate: F.date({
-            ...fastCheckConfig((_x, e) => {
+            FastCheckURI: (_x, e) => {
               const now = new Date()
               return e.fc.date({ min: now, max: new Date(now.getTime() + MaxAgeMs) })
-            })
+            }
           })
         },
         'Person'
@@ -49,10 +47,10 @@ describe('Morph Config Env', () => {
         {
           name: F.string(),
           birthdate: F.date({
-            ...fastCheckConfig((_x, e) => {
+            FastCheckURI: (_x, e) => {
               const now = new Date()
               return e.fc.date({ min: now, max: new Date(now.getTime() + MaxAgeMs) })
-            })
+            }
           })
         },
         'Person'
@@ -87,8 +85,8 @@ describe('Can specify envs', () => {
   // MorphA has M<AppEnv, string, string> signature (note the AppEnv environement specified)
   const MorphA = summon(F =>
     F.string({
-      ...fastCheckConfig((_x, { fastCheck }) => fastCheck.string(1)), // We're using the FastCheckEnv here, that only type checks because summon defines it as Env
-      ...iotsConfig((_x, { withMessage }) => withMessage.withMessage(_x, x => `damn! got ${x}`))
+      FastCheckURI: (_x, { fastCheck }) => fastCheck.string(1), // We're using the FastCheckEnv here, that only type checks because summon defines it as Env
+      IoTsURI: (_x, { withMessage }) => withMessage.withMessage(_x, x => `damn! got ${x}`)
     })
   )
 

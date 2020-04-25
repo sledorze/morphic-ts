@@ -99,9 +99,6 @@ describe('IO-TS', () => {
       })
     ).type
 
-    // F.string()(iotsConfig((p, env: { x: string }) => string)),
-    // iotsConfig2(x => withMessage(x, () => 'not ok'))
-
     const result1 = codec.decode({ a: 'a' })
     chai.assert.deepStrictEqual(isRight(result1) && result1.right, { a: 'a' })
 
