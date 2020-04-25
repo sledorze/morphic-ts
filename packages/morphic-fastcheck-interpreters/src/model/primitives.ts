@@ -1,7 +1,7 @@
 import { FastCheckType, FastCheckURI } from '../hkt'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { fromNullable } from 'fp-ts/lib/Option'
-import { constant, integer, boolean, string, float, oneof, array, option, bigInt, uuid } from 'fast-check'
+import { constant, integer, boolean, string, float, oneof, array, option, bigInt, uuid, Arbitrary } from 'fast-check'
 import { fastCheckApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
@@ -32,12 +32,6 @@ export const fastCheckPrimitiveInterpreter = memo(
     nullable: (T, config) => env =>
       new FastCheckType(fastCheckApplyConfig(config)(option(T(env).arb).map(fromNullable), env)),
     array: (T, config) => env => new FastCheckType(fastCheckApplyConfig(config)(array(T(env).arb), env)),
-    uuid: config => env =>
-      new FastCheckType(
-        fastCheckApplyConfig(config)(
-          uuid().map(_ => _ as UUID),
-          env
-        )
-      )
+    uuid: config => env => new FastCheckType(fastCheckApplyConfig(config)(uuid() as Arbitrary<UUID>, env))
   })
 )
