@@ -16,9 +16,33 @@ It is has two side blended into one; generic ADT manipulation AND Generic, custo
 
 ## /!\ New Release UPDATE /!\
 
+### Note: The whole documentation will be updated when things have totally stabilised
+
 Lastest release introduces Env inference for Config.
 It has breaking changes that were supposed to be easy-to-adapt, mostly syntactic, changes.
 This has not received the right amount of feedback before releasing and we'll backtrack on some changes (below annotated BACKTRACKED)
+
+The first things you'll read are the latest changes.
+
+### Config helpers removed
+
+Due tu inference issues, xxxConfig combinators have been removed to prevent new users to become confused when those inference errors arise.
+
+You can use the 'naked' xxxURI extension which is always inferred correctly.
+
+Before
+
+```typescript
+summon(F => F.string({ ...iotsConfig(x => x) }))
+summon(F => F.string({ ...iotsConfig((x, e) => x) }))
+```
+
+After
+
+```typescript
+summon(F => F.stringCfg({ IoTsURI: x => x }))
+summon(F => F.stringCfg({ IoTsURI: (x, e) => x }))
+```
 
 ### (BACKTRACKED) Algebra changes
 
