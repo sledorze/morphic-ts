@@ -8,6 +8,7 @@ import * as E from 'fp-ts/lib/Either'
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { NamedSchemas } from '@morphic-ts/json-schema-interpreters/lib/index'
 import { JsonSchemaError } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema-ctors'
+import { Create } from './create'
 
 /**
  *  @since 0.0.1
@@ -26,6 +27,7 @@ interface ESBASTJInterpreter<E, A> {
   strictType: Type<A, E, unknown>
   type: Type<A, E, unknown>
   jsonSchema: E.Either<NonEmptyArray<JsonSchemaError>, [JSONSchema, NamedSchemas]>
+  create: Create<A>
 }
 
 declare module './usage/InterpreterResult' {

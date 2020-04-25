@@ -2,6 +2,7 @@ import { Eq } from 'fp-ts/lib/Eq'
 import { Show } from 'fp-ts/lib/Show'
 import { Arbitrary } from 'fast-check/*'
 import { Type } from 'io-ts'
+import { Create } from './create'
 
 /**
  *  @since 0.0.1
@@ -19,6 +20,7 @@ interface ESBASTInterpreter<E, A> {
   arb: Arbitrary<A>
   strictType: Type<A, E, unknown>
   type: Type<A, E, unknown>
+  create: Create<A>
 }
 
 declare module './usage/InterpreterResult' {
