@@ -14,7 +14,11 @@ import * as E from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { identity } from 'fp-ts/lib/function'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
-import { modelIoTsNonStrictInterpreter, IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
+import {
+  modelIoTsNonStrictInterpreter,
+  IoTsURI,
+  modelIoTsStrictInterpreter
+} from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 
 import * as U from './usage'
 
@@ -61,7 +65,7 @@ export const summonFor: <R extends AnyEnv = {}>(
     eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,
     show: program(modelShowInterpreter<NonNullable<R>>())(env).show,
     arb: program(modelFastCheckInterpreter<NonNullable<R>>())(env).arb,
-    strictType: program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type,
+    strictType: program(modelIoTsStrictInterpreter<NonNullable<R>>())(env).type,
     type: program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type,
     jsonSchema: pipe(program(modelJsonSchemaInterpreter<NonNullable<R>>())(env).schema({}), E.chain(resolveSchema))
   }))
