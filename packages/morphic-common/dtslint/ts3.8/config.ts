@@ -1,4 +1,4 @@
-import { genConfig, ConfigsForType, AnyEnv } from '../../src/config'
+import { ConfigsForType, AnyEnv } from '../../src/config'
 import { URIS, HKT, URIS2 } from '../../src/HKT'
 import { Ord } from 'fp-ts/lib/Ord'
 import { Eq } from 'fp-ts/lib/Eq'
@@ -24,8 +24,6 @@ class TypeIOTs<E, A> {
   constructor(ord: Type<A, E>) {}
 }
 
-const iotsConfig = genConfig('IOTs')
-
 declare module '../../src/config' {
   interface ConfigType<E, A> {
     ['IOTs']: Type<A, E>
@@ -38,8 +36,6 @@ class TypeOrd<A> {
   constructor(ord: Ord<A>) {}
 }
 
-const ordConfig = genConfig('Ord')
-
 declare module '../../src/config' {
   interface ConfigType<E, A> {
     ['Ord']: Ord<A>
@@ -50,8 +46,6 @@ class TypeEq<A> {
   _A!: A
   constructor(ord: Eq<A>) {}
 }
-
-const eqConfig = genConfig('Eq')
 
 declare module '../../src/config' {
   interface ConfigType<E, A> {
@@ -72,42 +66,38 @@ const doIt = <Env extends AnyEnv = {}>() => <F extends URIS | URIS2>(f: (x: Foo<
 doIt<{ Ord: { x: string } }>()(F => {
   // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Ord: { x: string; }; }, string>
   F.myFunc(F.term<string>())({
-    ...ordConfig(
+    Ord:
       // $ExpectType (x: Ord<string>, e: { x: string; }) => Ord<string>
       (x, e) =>
         // $ExpectType Ord<string>
         x
-    )
   })
 })
 
 doIt<{ Ord: { b: number } }>()(F => {
   // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Ord: { b: number; }; }, string>
   F.myFunc(F.term<string>())({
-    ...ordConfig(
+    Ord:
       // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
       (x, e) =>
         // $ExpectType Ord<string>
         x
-    )
   })
 })
 
 doIt<{ Ord: { b: number } }>()(F => {
-  // $ExpectError
   F.myFunc(F.term<string>())({
-    ...ordConfig(
-      (x, e: { a: string }) =>
-        // $ExpectType Ord<string>
-        x
-    )
+    // $ExpectError
+    Ord: (x, e: { a: string }) =>
+      // $ExpectType Ord<string>
+      x
   })
 })
 
 doIt<{ Eq: { a: string } } & { Ord: { b: number } }>()(F => {
   // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
   F.myFunc(F.term<string>())({
-    ...ordConfig(
+    Ord:
       // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
       (x, e) => {
         // $ExpectType { b: number; }
@@ -115,9 +105,8 @@ doIt<{ Eq: { a: string } } & { Ord: { b: number } }>()(F => {
         // $ExpectType Ord<string>
         x
         return x
-      }
-    ),
-    ...eqConfig(
+      },
+    Eq:
       // $ExpectType (x: Eq<string>, e: { a: string; }) => Eq<string>
       (x, e) => {
         // $ExpectType { a: string; }
@@ -126,32 +115,29 @@ doIt<{ Eq: { a: string } } & { Ord: { b: number } }>()(F => {
         x
         return x
       }
-    )
   })
 })
 
 doIt<{ Eq: { a: string } }>()(F => {
   // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Eq: { a: string; }; }, string>
   F.myFunc(F.term<string>())({
-    ...ordConfig(
+    Ord:
       // $ExpectType (x: Ord<string>, e: unknown) => Ord<string>
       (x, e) =>
         // $ExpectType Ord<string>
-        x
-    ),
-    ...eqConfig(
+        x,
+    Eq:
       // $ExpectType (x: Eq<string>, e: { a: string; }) => Eq<string>
       (x, e: { a: string }) =>
         // $ExpectType Eq<string>
         x
-    )
   })
 })
 
 doIt<{ IOTs: { c: string } } & { Eq: { a: string } } & { Ord: { b: number } }>()(F => {
   // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { IOTs: { c: string; }; } & { Eq: { a: string; }; } & { Ord: { b: number; }; }, string>
   F.myFunc(F.term<string>())({
-    ...ordConfig(
+    Ord:
       // $ExpectType (x: Ord<string>, e: { b: number; }) => Ord<string>
       (x, e) => {
         // $ExpectType { b: number; }
@@ -159,9 +145,8 @@ doIt<{ IOTs: { c: string } } & { Eq: { a: string } } & { Ord: { b: number } }>()
         // $ExpectType Ord<string>
         x
         return x
-      }
-    ),
-    ...eqConfig(
+      },
+    Eq:
       // $ExpectType (x: Eq<string>, e: { a: string; }) => Eq<string>
       (x, e: { a: string }) => {
         // $ExpectType { a: string; }
@@ -169,9 +154,8 @@ doIt<{ IOTs: { c: string } } & { Eq: { a: string } } & { Ord: { b: number } }>()
         // $ExpectType Eq<string>
         x
         return x
-      }
-    ),
-    ...iotsConfig(
+      },
+    IOTs:
       // $ExpectType (x: Type<string, unknown, unknown>, e: { c: string; }) => Type<string, unknown, unknown>
       (x, e: { c: string }) => {
         // $ExpectType { c: string; }
@@ -180,7 +164,6 @@ doIt<{ IOTs: { c: string } } & { Eq: { a: string } } & { Ord: { b: number } }>()
         x
         return x
       }
-    )
   })
 })
 
@@ -193,6 +176,6 @@ const doIt2 = <Env extends AnyEnv>() => <F extends URIS | URIS2>(f: (x: Foo2<F, 
 
 doIt2<{ Eq: { a: string } }>()(F => {
   F.myFunc(F.term<{}, string>())({
-    ...ordConfig((x, e) => x)
+    Ord: (x, e) => x
   })
 })

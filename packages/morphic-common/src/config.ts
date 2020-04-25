@@ -3,21 +3,6 @@ import { identity } from 'fp-ts/lib/function'
 export { Kind, Kind2 }
 
 /**
- * generates a config wrapper:
- *
- * Example:
- *
- * ```typescript
- *   const eqConfig = genConfig(EqURI)
- * ```
- *
- * Usage:
- *
- * ```typescript
- *   summonAs(F => F.unknown(eqConfig({ compare: 'default-circular' })))
- *   summonAs(F => F.unknown({...eqConfig({ compare: 'default-circular' }), ...iotsConfig(x => x)}))
- * ```
- *
  *  @since 0.0.1
  */
 
@@ -56,18 +41,6 @@ export interface ConfigType<E, A> {
  *  @since 0.0.1
  */
 export type ConfigsForType<R extends AnyEnv, E, A> = MapToGenConfig<R, ConfigType<E, A>>
-
-/**
- *  @since 0.0.1
- */
-export const genConfig: <Uri extends URIS | URIS2>(
-  uri: Uri
-) => <R, E, A>(
-  config: GenConfig<ConfigType<E, A>[Uri], R>
-) => { [k in Uri]: GenConfig<ConfigType<E, A>[Uri], R> } = uri => config =>
-  ({
-    [uri]: config
-  } as any)
 
 /**
  *  @since 0.0.1

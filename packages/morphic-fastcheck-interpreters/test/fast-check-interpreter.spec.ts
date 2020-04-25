@@ -3,7 +3,6 @@ import { ordString, ord } from 'fp-ts/lib/Ord'
 import { ProgramUnionURI } from '@morphic-ts/batteries/lib/program'
 import { M, summonFor } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
-import { fastCheckConfig } from '../lib/config'
 
 const { summon } = summonFor<{}>({})
 
@@ -18,7 +17,7 @@ describe('FastCheck interpreter', () => {
   })
 
   it('string can be customized for FastCheck', () => {
-    const res = summon(F => F.string({ ...fastCheckConfig(A => A) }))
+    const res = summon(F => F.string({ FastCheckURI: A => A }))
     testProgram(res)
   })
 
@@ -26,7 +25,7 @@ describe('FastCheck interpreter', () => {
     testProgram(
       summon(F =>
         F.string({
-          ...fastCheckConfig(_ => fc.constantFrom('scala', 'haskell', 'purescript', 'typescript', 'haxe'))
+          FastCheckURI: _ => fc.constantFrom('scala', 'haskell', 'purescript', 'typescript', 'haxe')
         })
       )
     )
@@ -50,7 +49,7 @@ describe('FastCheck interpreter', () => {
         summon(F =>
           F.array(
             F.string({
-              ...fastCheckConfig(A => A)
+              FastCheckURI: A => A
             })
           )
         ).arb,

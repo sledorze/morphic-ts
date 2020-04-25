@@ -11,7 +11,6 @@ import * as eq from 'fp-ts/lib/Eq'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { Newtype, iso } from 'newtype-ts'
 import { EqURI } from '../src/index'
-import { eqConfig } from '../src/config'
 
 export const EqInterpreterURI = 'EqInterpreterURI' as const
 export type EqInterpreterURI = typeof EqInterpreterURI
@@ -71,9 +70,7 @@ describe('Eq', () => {
   })
 
   it('recursive compare of circular unknown', () => {
-    console.log('spec eqConfig ', eqConfig)
-
-    const { eq } = summon(F => F.unknown({ ...eqConfig(eq => eq) }))
+    const { eq } = summon(F => F.unknown({ EqURI: eq => eq }))
 
     const recDataA = {
       a: 'a',
@@ -97,7 +94,7 @@ describe('Eq', () => {
       calls += 1
       return true
     })
-    const morph = summon(F => F.unknown({ ...eqConfig(_eq => compare) }))
+    const morph = summon(F => F.unknown({ EqURI: _eq => compare }))
 
     const recDataA = {
       a: 'a',

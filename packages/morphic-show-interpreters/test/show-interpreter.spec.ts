@@ -2,7 +2,6 @@ import * as chai from 'chai'
 
 import { summonFor } from '@morphic-ts/batteries/lib/summoner-ESBASTJ'
 import { Newtype, iso } from 'newtype-ts'
-import { showConfig } from '../src/config'
 
 const { summon } = summonFor<{}>({})
 
@@ -52,7 +51,7 @@ describe('Show', () => {
   })
 
   it('can be customized to hide passwords', () => {
-    const Password = summon(F => F.string({ ...showConfig(_ => ({ show: _ => '***' })) }))
+    const Password = summon(F => F.string({ ShowURI: _ => ({ show: _ => '***' }) }))
     const UserPassword = summon(F => F.interface({ user: F.string(), password: Password(F) }, 'UserPassword'))
 
     const userPassword = UserPassword.build({ user: 'john', password: '42' })

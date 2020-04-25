@@ -1,5 +1,4 @@
 import { summonFor } from '../src/summoner-BASTJ'
-import { fastCheckConfig } from '@morphic-ts/fastcheck-interpreters/lib/config'
 import { defineFor } from '../src/usage/programs-infer'
 import { ProgramUnionURI } from '../src/program'
 import * as fc from 'fast-check'
@@ -22,7 +21,7 @@ describe('defineFor', () => {
   })
 
   const model = defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F =>
-    F.string({ ...fastCheckConfig((_, env) => env.fc.string(2, 4)) })
+    F.string({ FastCheckURI: (_, env) => env.fc.string(2, 4) })
   )
 
   it('can be reinterpreted by a summoner', () => {
@@ -39,7 +38,7 @@ describe('define', () => {
     }
   })
 
-  const model = define(F => F.string({ ...fastCheckConfig((_, env: FastCheck) => env.fc.string(2, 4)) }))
+  const model = define(F => F.string({ FastCheckURI: (_, env: FastCheck) => env.fc.string(2, 4) }))
 
   it('can be reinterpreted by a summoner', () => {
     const morph = summon(model)

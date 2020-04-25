@@ -1,6 +1,4 @@
 import { summonFor } from '../../src/summoner-BASTJ'
-import { fastCheckConfig } from '@morphic-ts/fastcheck-interpreters/lib/config'
-import { iotsConfig } from '@morphic-ts/io-ts-interpreters/lib/config'
 import * as t from 'io-ts'
 import { defineFor } from '../../src/usage/programs-infer'
 import { ProgramUnionURI } from '../../src/program'
@@ -22,7 +20,7 @@ const { summon } = summonFor<{ FastCheckURI: FastCheck }>({ FastCheckURI: { fc: 
 summon(F => {
   const res = F.interface(
     // $ExpectError
-    { a: F.string({ ...fastCheckConfig((x, e: FastCheck & { a: string }) => x) }), b: F.string() },
+    { a: F.string({ FastCheckURI: (x, e: FastCheck & { a: string }) => x }), b: F.string() },
     'A'
   )
   return res
@@ -32,11 +30,11 @@ summon(F => {
   const res = F.interface(
     {
       a: F.string({
-        ...fastCheckConfig((x, e) => {
+        FastCheckURI: (x, e) => {
           // $ExpectType Env["FastCheckURI"]
           e
           return x
-        })
+        }
       }),
       b: F.string()
     },
@@ -49,50 +47,46 @@ summon(F => {
 summon(F =>
   F.array(
     F.string({
-      ...fastCheckConfig((x, { fc }) => {
+      FastCheckURI: (x, { fc }) => {
         // $ExpecetType string
         fc
         return x
-      })
+      }
     })
   )
 )
 
 // $ExpectError
-summon(F => F.array(F.string(, { ...iotsConfig((x, e: { t: typeof t }) => x) })))
+summon(F => F.array(F.string({ IoTsURI: (x, e: { t: typeof t }) => x })))
 
 // $ExpectType P<{ FastCheckURI: { x: string; }; }, string, string>
 defineFor(ProgramUnionURI)<{ FastCheckURI: { x: string } }>()(F =>
   // $ExpectError
-  F.string({ ...fastCheckConfig((_, env: FastCheck) => _) })
+  F.string({ FastCheckURI: (_, env: FastCheck) => _ })
 )
 
 // $ExpectType P<{ FastCheckURI: FastCheck; }, string, string>
 defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F =>
   F.string({
-    ...fastCheckConfig((_, env) => {
+    FastCheckURI: (_, env) => {
       // $ExpectType Env["FastCheckURI"]
       env
       return _
-    })
+    }
   })
 )
 
 // $ExpectType P<{}, string, string>
 defineFor(ProgramUnionURI)<{}>()(F =>
   // $ExpectError
-  F.string({ ...fastCheckConfig((_, env: FastCheck) => _) })
+  F.string({ FastCheckURI: (_, env: FastCheck) => _ })
 )
 
 // $ExpectType P<{ FastCheckURI: FastCheck; }, string, string>
-defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F =>
-  F.string({ ...fastCheckConfig((_, env: FastCheck) => _) })
-)
+defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F => F.string({ FastCheckURI: (_, env: FastCheck) => _ }))
 
 // $ExpeectType P<{ FastCheckURI: FastCheck; }, string, string>
-const model = defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F =>
-  F.string({ ...fastCheckConfig((_, _env) => _) })
-)
+const model = defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F => F.string({ FastCheckURI: (_, _env) => _ }))
 
 // $ExpectError
 defineFor(ProgramUnionURI)<{}>()(F => F.interface({ a: model(F), b: F.number() }, 'A'))
@@ -107,22 +101,22 @@ defineFor(ProgramUnionURI)()(F =>
 
 defineFor(ProgramUnionURI)()(F =>
   // $ExpectError
-  F.interface({ b: F.number({ ...fastCheckConfig((_, env: FastCheck2) => _) }) }, 'A')
+  F.interface({ b: F.number({ FastCheckURI: (_, env: FastCheck2) => _ }) }, 'A')
 )
 
 defineFor(ProgramUnionURI)<{}>()(F =>
   // $ExpectError
-  F.interface({ b: F.number({ ...fastCheckConfig((_, env: FastCheck2) => _) }) }, 'A')
+  F.interface({ b: F.number({ FastCheckURI: (_, env: FastCheck2) => _ }) }, 'A')
 )
 
 defineFor(ProgramUnionURI)<{}>()(F =>
   // $ExpectError
-  F.interface({ b: F.number({ ...fastCheckConfig((_, env: FastCheck2) => _) }) }, 'A')
+  F.interface({ b: F.number({ FastCheckURI: (_, env: FastCheck2) => _ }) }, 'A')
 )
 
 // $ExpectType P<{ FastCheckURI: FastCheck & FastCheck2; }, { a: string; b: number; }, { a: string; b: number; }>
 const prg = defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck & FastCheck2 }>()(F =>
-  F.interface({ a: model(F), b: F.number({ ...fastCheckConfig((_, env: FastCheck2) => _) }) }, 'A')
+  F.interface({ a: model(F), b: F.number({ FastCheckURI: (_, env: FastCheck2) => _ }) }, 'A')
 )
 
 // $ExpectError
