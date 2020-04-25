@@ -321,4 +321,13 @@ describe('a json schema generator', function (this: any) {
 
     chai.assert.deepStrictEqual(jsonSchema, right(tuple(TreeRec, { TreeRec, Leaf, Node })))
   })
+
+  it('uuid', () => {
+    const { jsonSchema } = summon(F => F.uuid())
+    const UUID: JSONSchema = {
+      type: 'string' as const,
+      format: 'uuid'
+    }
+    chai.assert.deepStrictEqual(jsonSchema, right(tuple(UUID, {})))
+  })
 })

@@ -171,7 +171,7 @@ export const AnythingTypeCtor = () => notOptional<js.Anything>({})
 /**
  *  @since 0.0.1
  */
-export const StringTypeCtor = (extras?: { format?: 'date' | 'date-time' | 'bigint'; enum?: string[] }) =>
+export const StringTypeCtor = (extras?: { format?: 'date' | 'date-time' | 'bigint' | 'uuid'; enum?: string[] }) =>
   notOptional<js.StringSchema>({
     type: 'string' as 'string',
     ...(extras !== undefined ? extras : {})

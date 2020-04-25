@@ -13,7 +13,7 @@ export interface StringSchema extends DescriptionSchema {
   type: 'string'
   minLength?: number
   maxLength?: number
-  format?: 'date-time' | 'date' | 'password' | 'byte' | 'binary' | 'bigint'
+  format?: 'date-time' | 'date' | 'password' | 'byte' | 'binary' | 'bigint' | 'uuid'
 }
 /**
  *  @since 0.0.1
@@ -21,7 +21,7 @@ export interface StringSchema extends DescriptionSchema {
 export const StringSchema = (x?: {
   minLength?: number
   maxLength?: number
-  format?: 'date-time' | 'date' | 'password' | 'byte' | 'binary' | 'bigint'
+  format?: 'date-time' | 'date' | 'password' | 'byte' | 'binary' | 'bigint' | 'uuid'
   description?: string
 }): StringSchema => ({ type: 'string', ...(x === undefined ? {} : x) })
 

@@ -21,6 +21,7 @@ export const showPrimitiveInterpreter = memo(
     stringLiteral: (_, config) => env => new ShowType(showApplyConfig(config)(showString, env)),
     keysOf: (_keys, config) => env => new ShowType(showApplyConfig(config)(showString as Show<any>, env)),
     nullable: (getShow, config) => env => new ShowType(showApplyConfig(config)(optionGetShow(getShow(env).show), env)),
-    array: (getShow, config) => env => new ShowType(showApplyConfig(config)(getShowA(getShow(env).show), env))
+    array: (getShow, config) => env => new ShowType(showApplyConfig(config)(getShowA(getShow(env).show), env)),
+    uuid: config => env => new ShowType(showApplyConfig(config)(showString, env))
   })
 )
