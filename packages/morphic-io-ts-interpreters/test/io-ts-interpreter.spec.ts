@@ -1,7 +1,7 @@
 import * as chai from 'chai'
 import { ordString, ord, Ord } from 'fp-ts/lib/Ord'
 import { fromArray } from 'fp-ts/lib/Set'
-import { right, isLeft, isRight, Either } from 'fp-ts/lib/Either'
+import { right, isLeft, isRight, Either, left } from 'fp-ts/lib/Either'
 import { some, none } from 'fp-ts/lib/Option'
 import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
@@ -657,5 +657,14 @@ describe('iotsObjectInterpreter', () => {
       PR.PathReporter.report(type.decode('de5dc47c-7bb6-40bb-909e-3027689fb3ad')),
       PR.success()
     )
+  })
+
+  it('either', () => {
+    const { type } = summon(F => F.either(F.string(), F.number()))
+    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(left('a'))), PR.success())
+    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(right(1))), PR.success())
+    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(1)), [
+      'Invalid value 1 supplied to : Either<string, number>'
+    ])
   })
 })

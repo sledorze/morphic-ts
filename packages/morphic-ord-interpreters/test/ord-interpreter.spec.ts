@@ -1,6 +1,7 @@
 import * as chai from 'chai'
 import { lt, gt, ordNumber, ord } from 'fp-ts/lib/Ord'
 import { summonFor } from './summoner'
+import { Either, left, right } from 'fp-ts/lib/Either'
 
 const { summon } = summonFor<{}>({})
 
@@ -43,5 +44,23 @@ describe('Ord', () => {
     chai.assert.strictEqual(isGt(set3, set1), true)
     chai.assert.strictEqual(isGt(set2, set1), true)
     chai.assert.strictEqual(isGt(set3, set2), false)
+  })
+
+  it('either', () => {
+    const { ord } = summon(F => F.either(F.string(), F.number()))
+    const la: Either<string, number> = left('a')
+    const r1: Either<string, number> = right(1)
+    const lb: Either<string, number> = left('b')
+    const r2: Either<string, number> = right(2)
+
+    chai.assert.deepStrictEqual(ord.equals(la, la), true)
+    chai.assert.deepStrictEqual(ord.equals(la, lb), false)
+
+    chai.assert.deepStrictEqual(lt(ord)(la, lb), true)
+    chai.assert.deepStrictEqual(gt(ord)(lb, la), true)
+    chai.assert.deepStrictEqual(lt(ord)(la, r1), true)
+    chai.assert.deepStrictEqual(gt(ord)(r1, la), true)
+    chai.assert.deepStrictEqual(lt(ord)(r1, r2), true)
+    chai.assert.deepStrictEqual(gt(ord)(r2, r1), true)
   })
 })

@@ -2,7 +2,7 @@ import { Option } from 'fp-ts/lib/Option'
 import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
 import { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
 import { UUID } from 'io-ts-types/lib/UUID'
-
+import { Either } from 'fp-ts/lib/Either'
 /**
  *  @since 0.0.1
  */
@@ -64,6 +64,13 @@ export interface ModelAlgebraPrimitive<F, Env> {
   uuid: {
     (config?: ConfigsForType<Env, string, UUID>): HKT2<F, Env, string, UUID>
   }
+  either: {
+    <EE, EA, AE, AA>(
+      e: HKT2<F, Env, EE, EA>,
+      a: HKT2<F, Env, AE, AA>,
+      config?: ConfigsForType<Env, Either<EE, AE>, Either<EA, AA>>
+    ): HKT2<F, Env, Either<EE, AE>, Either<EA, AA>>
+  }
 }
 
 /**
@@ -81,6 +88,11 @@ export interface ModelAlgebraPrimitive1<F extends URIS, Env extends AnyEnv> {
   array: <A>(a: Kind<F, Env, A>, config?: ConfigsForType<Env, unknown[], A[]>) => Kind<F, Env, Array<A>>
   date(config?: ConfigsForType<Env, string, Date>): Kind<F, Env, Date>
   uuid(config?: ConfigsForType<Env, string, UUID>): Kind<F, Env, UUID>
+  either: <EA, AA>(
+    e: Kind<F, Env, EA>,
+    a: Kind<F, Env, AA>,
+    config?: ConfigsForType<Env, unknown, Either<EA, AA>>
+  ) => Kind<F, Env, Either<EA, AA>>
 }
 
 /**
@@ -110,4 +122,9 @@ export interface ModelAlgebraPrimitive2<F extends URIS2, Env extends AnyEnv> {
   ) => Kind2<F, Env, Array<L>, Array<A>>
   date(config?: ConfigsForType<Env, string, Date>): Kind2<F, Env, string, Date>
   uuid(config?: ConfigsForType<Env, string, UUID>): Kind2<F, Env, string, UUID>
+  either: <EE, EA, AE, AA>(
+    e: Kind2<F, Env, EE, EA>,
+    a: Kind2<F, Env, AE, AA>,
+    config?: ConfigsForType<Env, Either<EE, AE>, Either<EA, AA>>
+  ) => Kind2<F, Env, Either<EE, AE>, Either<EA, AA>>
 }

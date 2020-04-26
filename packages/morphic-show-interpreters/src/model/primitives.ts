@@ -6,6 +6,7 @@ import { ShowType, ShowURI } from '../hkt'
 import { showApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import { getShow } from 'fp-ts/lib/Either'
 
 /**
  *  @since 0.0.1
@@ -22,6 +23,7 @@ export const showPrimitiveInterpreter = memo(
     keysOf: (_keys, config) => env => new ShowType(showApplyConfig(config)(showString as Show<any>, env)),
     nullable: (getShow, config) => env => new ShowType(showApplyConfig(config)(optionGetShow(getShow(env).show), env)),
     array: (getShow, config) => env => new ShowType(showApplyConfig(config)(getShowA(getShow(env).show), env)),
-    uuid: config => env => new ShowType(showApplyConfig(config)(showString, env))
+    uuid: config => env => new ShowType(showApplyConfig(config)(showString, env)),
+    either: (e, a, config) => env => new ShowType(showApplyConfig(config)(getShow(e(env).show, a(env).show), env))
   })
 )

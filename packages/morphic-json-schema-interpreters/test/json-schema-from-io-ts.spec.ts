@@ -330,4 +330,43 @@ describe('a json schema generator', function (this: any) {
     }
     chai.assert.deepStrictEqual(jsonSchema, right(tuple(UUID, {})))
   })
+
+  it('either', () => {
+    const { jsonSchema } = summon(F => F.either(F.string(), F.number()))
+
+    const LeftL: JSONSchema = {
+      properties: {
+        _tag: {
+          enum: ['Left'],
+          type: 'string'
+        },
+        left: {
+          type: 'string'
+        }
+      },
+      required: ['_tag', 'left'],
+      type: 'object'
+    }
+
+    const RightR: JSONSchema = {
+      properties: {
+        _tag: {
+          enum: ['Right'],
+          type: 'string'
+        },
+        right: {
+          type: 'number'
+        }
+      },
+      required: ['_tag', 'right'],
+      type: 'object'
+    }
+
+    const EitherLR: JSONSchema = {
+      oneOf: [LeftL, RightR],
+      type: 'object'
+    }
+
+    chai.assert.deepStrictEqual(jsonSchema, right(tuple(EitherLR, {})))
+  })
 })

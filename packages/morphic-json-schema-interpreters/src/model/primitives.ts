@@ -6,12 +6,16 @@ import {
   BooleanTypeCtor,
   LiteralTypeCtor,
   optional,
-  ArrayTypeCtor
+  ArrayTypeCtor,
+  UnionTypeCtor,
+  ObjectTypeCtor
 } from '../json-schema/json-schema-ctors'
 import * as SE from 'fp-ts-contrib/lib/StateEither'
 import { jsonSchemaApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import { pipe } from 'fp-ts/lib/pipeable'
+import { Do } from 'fp-ts-contrib/lib/Do'
 
 /**
  *  @since 0.0.1
@@ -47,6 +51,35 @@ export const jsonSchemaPrimitiveInterpreter = memo(
         )
       ),
     uuid: config => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(SE.stateEither.of(StringTypeCtor({ format: 'uuid' })), env))
+      new JsonSchema(jsonSchemaApplyConfig(config)(SE.stateEither.of(StringTypeCtor({ format: 'uuid' })), env)),
+    either: (e, a, config) => env =>
+      new JsonSchema(
+        jsonSchemaApplyConfig(config)(
+          pipe(
+            Do(SE.stateEither)
+              .bind('e', e(env).schema)
+              .bind('a', a(env).schema)
+              .bindL('leftE', ({ e }) =>
+                SE.right(
+                  ObjectTypeCtor(false, [
+                    ['left', e],
+                    ['_tag', LiteralTypeCtor('Left')]
+                  ])
+                )
+              )
+              .bindL('rightA', ({ a }) =>
+                SE.right(
+                  ObjectTypeCtor(false, [
+                    ['right', a],
+                    ['_tag', LiteralTypeCtor('Right')]
+                  ])
+                )
+              )
+              .bindL('res', ({ leftE, rightA }) => SE.fromEither(UnionTypeCtor([leftE, rightA])))
+              .return(({ res }) => res)
+          ),
+          env
+        )
+      )
   })
 )
