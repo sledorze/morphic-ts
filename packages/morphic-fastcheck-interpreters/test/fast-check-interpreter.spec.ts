@@ -4,6 +4,8 @@ import { ProgramUnionURI } from '@morphic-ts/batteries/lib/program'
 import { M, summonFor } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { UUID } from 'io-ts-types/lib/UUID'
+import * as t from 'io-ts'
+import { either } from 'io-ts-types/lib/either'
 
 const { summon } = summonFor<{}>({})
 
@@ -320,5 +322,11 @@ describe('FastCheck interpreter', () => {
   it('uuid', () => {
     const { arb } = summon(F => F.uuid())
     fc.assert(fc.property(arb, UUID.is))
+  })
+
+  it('either', () => {
+    const { arb } = summon(F => F.either(F.string(), F.number()))
+    const codec = either(t.string, t.number)
+    fc.assert(fc.property(arb, codec.is))
   })
 })

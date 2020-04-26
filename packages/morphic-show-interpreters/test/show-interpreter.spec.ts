@@ -2,6 +2,7 @@ import * as chai from 'chai'
 
 import { summonFor } from '@morphic-ts/batteries/lib/summoner-ESBASTJ'
 import { Newtype, iso } from 'newtype-ts'
+import { Either, left, right } from 'fp-ts/lib/Either'
 
 const { summon } = summonFor<{}>({})
 
@@ -178,5 +179,14 @@ describe('Show', () => {
     chai.assert.deepStrictEqual(show.show(fooC), '{ type: "foo", a: "c", b: 12 }')
     chai.assert.deepStrictEqual(show.show(barA), '{ type: "bar", c: "a", d: 12 }')
     chai.assert.deepStrictEqual(show.show(barB), '{ type: "bar", c: "b", d: 12 }')
+  })
+
+  it('either', () => {
+    const { show } = summon(F => F.either(F.string(), F.number()))
+    const la: Either<string, number> = left('a')
+    const r1: Either<string, number> = right(1)
+
+    chai.assert.deepStrictEqual(show.show(la), 'left("a")')
+    chai.assert.deepStrictEqual(show.show(r1), 'right(1)')
   })
 })

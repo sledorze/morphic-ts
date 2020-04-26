@@ -1,5 +1,5 @@
 import * as options from 'fp-ts/lib/Option'
-import { ordNumber, ordString, ord, ordBoolean } from 'fp-ts/lib/Ord'
+import { ordNumber, ordString, ord, ordBoolean, fromCompare, Ord } from 'fp-ts/lib/Ord'
 import { getOrd as getArrayOrd } from 'fp-ts/lib/Array'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { OrdType, OrdURI } from '../hkt'
@@ -7,6 +7,7 @@ import { eqStrict } from 'fp-ts/lib/Eq'
 import { ordApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import { Either, isLeft, isRight } from 'fp-ts/lib/Either'
 
 /**
  *  @since 0.0.1
@@ -38,6 +39,13 @@ export const ordPrimitiveInterpreter = memo(
       ),
     nullable: (getOrd, config) => env => new OrdType(ordApplyConfig(config)(options.getOrd(getOrd(env).ord), env)),
     array: (getOrd, config) => env => new OrdType(ordApplyConfig(config)(getArrayOrd(getOrd(env).ord), env)),
-    uuid: config => env => new OrdType(ordApplyConfig(config)(ordString, env))
+    uuid: config => env => new OrdType(ordApplyConfig(config)(ordString, env)),
+    either: (e, a, config) => env => new OrdType(ordApplyConfig(config)(getEitherOrd(e(env).ord, a(env).ord), env))
   })
 )
+
+ordBoolean
+const getEitherOrd = <L, A>(ordL: Ord<L>, ordA: Ord<A>): Ord<Either<L, A>> =>
+  fromCompare((a, b) =>
+    isLeft(a) ? (isLeft(b) ? ordL.compare(a.left, b.left) : -1) : isRight(b) ? ordA.compare(a.right, b.right) : 1
+  )

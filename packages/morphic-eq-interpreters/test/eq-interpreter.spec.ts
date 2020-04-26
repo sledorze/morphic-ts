@@ -11,6 +11,7 @@ import * as eq from 'fp-ts/lib/Eq'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { Newtype, iso } from 'newtype-ts'
 import { EqURI } from '../src/index'
+import { left, right, Either } from 'fp-ts/lib/Either'
 
 export const EqInterpreterURI = 'EqInterpreterURI' as const
 export type EqInterpreterURI = typeof EqInterpreterURI
@@ -269,5 +270,24 @@ describe('Eq', () => {
     chai.assert.deepStrictEqual(eq.equals(fooA, barA), false)
     chai.assert.deepStrictEqual(eq.equals(barA, barB), false)
     chai.assert.deepStrictEqual(eq.equals(barB, barB), true)
+  })
+
+  it('either', () => {
+    const { eq } = summon(F => F.either(F.string(), F.number()))
+    const la: Either<string, number> = left('a')
+    const labis: Either<string, number> = left('a')
+    const r1: Either<string, number> = right(1)
+    const lb: Either<string, number> = left('b')
+    const r2: Either<string, number> = right(2)
+    const r2bis: Either<string, number> = right(2)
+
+    chai.assert.deepStrictEqual(eq.equals(la, la), true)
+    chai.assert.deepStrictEqual(eq.equals(la, labis), true)
+    chai.assert.deepStrictEqual(eq.equals(r1, r1), true)
+    chai.assert.deepStrictEqual(eq.equals(r2, r2bis), true)
+
+    chai.assert.deepStrictEqual(eq.equals(la, lb), false)
+    chai.assert.deepStrictEqual(eq.equals(la, r1), false)
+    chai.assert.deepStrictEqual(eq.equals(r2, r1), false)
   })
 })
