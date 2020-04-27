@@ -71,6 +71,14 @@ export interface ModelAlgebraPrimitive<F, Env> {
       config?: ConfigsForType<Env, Either<EE, AE>, Either<EA, AA>>
     ): HKT2<F, Env, Either<EE, AE>, Either<EA, AA>>
   }
+  option: {
+    <E, A>(a: HKT2<F, Env, E, A>, config?: ConfigsForType<Env, Option<E>, Option<A>>): HKT2<
+      F,
+      Env,
+      Option<E>,
+      Option<A>
+    >
+  }
 }
 
 /**
@@ -93,6 +101,9 @@ export interface ModelAlgebraPrimitive1<F extends URIS, Env extends AnyEnv> {
     a: Kind<F, Env, AA>,
     config?: ConfigsForType<Env, unknown, Either<EA, AA>>
   ) => Kind<F, Env, Either<EA, AA>>
+  option: {
+    <A>(a: Kind<F, Env, A>, config?: ConfigsForType<Env, unknown, Option<A>>): Kind<F, Env, Option<A>>
+  }
 }
 
 /**
@@ -127,4 +138,12 @@ export interface ModelAlgebraPrimitive2<F extends URIS2, Env extends AnyEnv> {
     a: Kind2<F, Env, AE, AA>,
     config?: ConfigsForType<Env, Either<EE, AE>, Either<EA, AA>>
   ) => Kind2<F, Env, Either<EE, AE>, Either<EA, AA>>
+  option: {
+    <E, A>(a: Kind2<F, Env, E, A>, config?: ConfigsForType<Env, Option<E>, Option<A>>): Kind2<
+      F,
+      Env,
+      Option<E>,
+      Option<A>
+    >
+  }
 }

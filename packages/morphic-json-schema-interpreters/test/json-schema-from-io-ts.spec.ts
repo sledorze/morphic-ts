@@ -369,4 +369,40 @@ describe('a json schema generator', function (this: any) {
 
     chai.assert.deepStrictEqual(jsonSchema, right(tuple(EitherLR, {})))
   })
+
+  it('option', () => {
+    const { jsonSchema } = summon(F => F.option(F.string()))
+
+    const None: JSONSchema = {
+      properties: {
+        _tag: {
+          enum: ['None'],
+          type: 'string'
+        }
+      },
+      required: ['_tag'],
+      type: 'object'
+    }
+
+    const SomeStr: JSONSchema = {
+      properties: {
+        _tag: {
+          enum: ['Some'],
+          type: 'string'
+        },
+        value: {
+          type: 'string'
+        }
+      },
+      required: ['_tag', 'value'],
+      type: 'object'
+    }
+
+    const OptionStr: JSONSchema = {
+      oneOf: [None, SomeStr],
+      type: 'object'
+    }
+
+    chai.assert.deepStrictEqual(jsonSchema, right(tuple(OptionStr, {})))
+  })
 })

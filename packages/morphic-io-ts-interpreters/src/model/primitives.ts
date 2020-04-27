@@ -10,6 +10,7 @@ import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import { UUID } from 'io-ts-types/lib/UUID'
 import * as EitherTypes from 'io-ts-types/lib/either'
+import * as OptionTypes from 'io-ts-types/lib/option'
 
 /**
  *  @since 0.0.1
@@ -54,6 +55,7 @@ export const ioTsPrimitiveInterpreter = memo(
     array: (T, config) => env => new IOTSType(iotsApplyConfig(config)(t.array(T(env).type), env)),
     uuid: config => env => new IOTSType(iotsApplyConfig(config)(UUID, env)),
     either: (e, a, config) => env =>
-      new IOTSType(iotsApplyConfig(config)(EitherTypes.either(e(env).type, a(env).type), env))
+      new IOTSType(iotsApplyConfig(config)(EitherTypes.either(e(env).type, a(env).type), env)),
+    option: (a, config) => env => new IOTSType(iotsApplyConfig(config)(OptionTypes.option(a(env).type), env))
   })
 )

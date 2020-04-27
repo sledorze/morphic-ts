@@ -2,6 +2,7 @@ import * as chai from 'chai'
 import { lt, gt, ordNumber, ord } from 'fp-ts/lib/Ord'
 import { summonFor } from './summoner'
 import { Either, left, right } from 'fp-ts/lib/Either'
+import { some, none } from 'fp-ts/lib/Option'
 
 const { summon } = summonFor<{}>({})
 
@@ -62,5 +63,22 @@ describe('Ord', () => {
     chai.assert.deepStrictEqual(gt(ord)(r1, la), true)
     chai.assert.deepStrictEqual(lt(ord)(r1, r2), true)
     chai.assert.deepStrictEqual(gt(ord)(r2, r1), true)
+  })
+
+  it('option', () => {
+    const { ord } = summon(F => F.option(F.string()))
+    const a1 = some('a')
+    const a2 = some('a')
+    const b = some('b')
+    const n = none
+
+    chai.assert.deepStrictEqual(ord.equals(a1, a1), true)
+    chai.assert.deepStrictEqual(ord.equals(a1, a2), true)
+    chai.assert.deepStrictEqual(ord.equals(a1, b), false)
+    chai.assert.deepStrictEqual(ord.equals(a1, none), false)
+
+    chai.assert.deepStrictEqual(lt(ord)(a1, b), true)
+    chai.assert.deepStrictEqual(gt(ord)(b, a1), true)
+    chai.assert.deepStrictEqual(lt(ord)(n, a1), true)
   })
 })

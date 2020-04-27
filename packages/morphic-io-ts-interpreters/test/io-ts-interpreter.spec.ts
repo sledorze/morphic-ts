@@ -667,4 +667,12 @@ describe('iotsObjectInterpreter', () => {
       'Invalid value 1 supplied to : Either<string, number>'
     ])
   })
+  it('option', () => {
+    const { type } = summon(F => F.option(F.string()))
+    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(some('a'))), PR.success())
+    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(none)), PR.success())
+    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(1)), [
+      'Invalid value 1 supplied to : Option<string>'
+    ])
+  })
 })

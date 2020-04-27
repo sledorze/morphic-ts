@@ -6,6 +6,7 @@ import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { UUID } from 'io-ts-types/lib/UUID'
 import * as t from 'io-ts'
 import { either } from 'io-ts-types/lib/either'
+import { option } from 'io-ts-types/lib/option'
 
 const { summon } = summonFor<{}>({})
 
@@ -327,6 +328,12 @@ describe('FastCheck interpreter', () => {
   it('either', () => {
     const { arb } = summon(F => F.either(F.string(), F.number()))
     const codec = either(t.string, t.number)
+    fc.assert(fc.property(arb, codec.is))
+  })
+
+  it('option', () => {
+    const { arb } = summon(F => F.option(F.string()))
+    const codec = option(t.string)
     fc.assert(fc.property(arb, codec.is))
   })
 })
