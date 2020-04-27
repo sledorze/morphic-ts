@@ -17,14 +17,7 @@ interface Matcher<A, Tag extends keyof A> extends MatcherInter<A, ValueByKeyByTa
 interface MatcherInter<A, Record> {
   <R>(match: Cases<Record, R>): (a: A) => R
   // tslint:disable-next-line: unified-signatures
-  <
-    R,
-    M extends Partial<Cases<Record, R>>,
-    D extends (_: { [k in keyof Record]: Record[k] }[Exclude<keyof Record, keyof M>]) => R
-  >(
-    match: M,
-    def: D
-  ): (a: A) => R
+  <R>(match: Partial<Cases<Record, R>>, def: (_: { [k in keyof Record]: Record[k] }[keyof Record]) => R): (a: A) => R
 }
 
 interface Transform<A, Tag extends keyof A> extends TransformInter<A, ValueByKeyByTag<A>[Tag]> {}
