@@ -1,12 +1,10 @@
 import { showNumber, showString, Show, showBoolean } from 'fp-ts/lib/Show'
-import { getShow as optionGetShow } from 'fp-ts/lib/Option'
-import { getShow as getShowA } from 'fp-ts/lib/Array'
+import { option as O, either as E, array as A } from 'fp-ts'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { ShowType, ShowURI } from '../hkt'
 import { showApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
-import { getShow } from 'fp-ts/lib/Either'
 
 /**
  *  @since 0.0.1
@@ -21,9 +19,10 @@ export const showPrimitiveInterpreter = memo(
     bigint: config => env => new ShowType(showApplyConfig(config)({ show: a => JSON.stringify(a) }, env)),
     stringLiteral: (_, config) => env => new ShowType(showApplyConfig(config)(showString, env)),
     keysOf: (_keys, config) => env => new ShowType(showApplyConfig(config)(showString as Show<any>, env)),
-    nullable: (getShow, config) => env => new ShowType(showApplyConfig(config)(optionGetShow(getShow(env).show), env)),
-    array: (getShow, config) => env => new ShowType(showApplyConfig(config)(getShowA(getShow(env).show), env)),
+    nullable: (getShow, config) => env => new ShowType(showApplyConfig(config)(O.getShow(getShow(env).show), env)),
+    array: (getShow, config) => env => new ShowType(showApplyConfig(config)(A.getShow(getShow(env).show), env)),
     uuid: config => env => new ShowType(showApplyConfig(config)(showString, env)),
-    either: (e, a, config) => env => new ShowType(showApplyConfig(config)(getShow(e(env).show, a(env).show), env))
+    either: (e, a, config) => env => new ShowType(showApplyConfig(config)(E.getShow(e(env).show, a(env).show), env)),
+    option: (a, config) => env => new ShowType(showApplyConfig(config)(O.getShow(a(env).show), env))
   })
 )

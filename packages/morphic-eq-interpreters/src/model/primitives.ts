@@ -1,4 +1,4 @@
-import { option, array } from 'fp-ts'
+import { option as O, array as A, either as E } from 'fp-ts'
 import { eq, eqNumber, eqString, eqBoolean, eqStrict } from 'fp-ts/lib/Eq'
 import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { EqType, EqURI } from '../hkt'
@@ -6,7 +6,6 @@ import { eqApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { UUID } from 'io-ts-types/lib/UUID'
-import { getEq } from 'fp-ts/lib/Either'
 
 /**
  *  @since 0.0.1
@@ -27,9 +26,10 @@ export const eqPrimitiveInterpreter = memo(
     bigint: config => env => new EqType<bigint>(eqApplyConfig(config)(eqStrict, env)),
     stringLiteral: (k, config) => env => new EqType<typeof k>(eqApplyConfig(config)(eqString, env)),
     keysOf: (keys, config) => env => new EqType<keyof typeof keys>(eqApplyConfig(config)(eqStrict, env)),
-    nullable: (getType, config) => env => new EqType(eqApplyConfig(config)(option.getEq(getType(env).eq), env)),
-    array: (getType, config) => env => new EqType(eqApplyConfig(config)(array.getEq(getType(env).eq), env)),
+    nullable: (getType, config) => env => new EqType(eqApplyConfig(config)(O.getEq(getType(env).eq), env)),
+    array: (getType, config) => env => new EqType(eqApplyConfig(config)(A.getEq(getType(env).eq), env)),
     uuid: config => env => new EqType<UUID>(eqApplyConfig(config)(eqString, env)),
-    either: (e, a, config) => env => new EqType(eqApplyConfig(config)(getEq(e(env).eq, a(env).eq), env))
+    either: (e, a, config) => env => new EqType(eqApplyConfig(config)(E.getEq(e(env).eq, a(env).eq), env)),
+    option: (a, config) => env => new EqType(eqApplyConfig(config)(O.getEq(a(env).eq), env))
   })
 )

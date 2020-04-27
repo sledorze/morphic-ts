@@ -40,7 +40,8 @@ export const ordPrimitiveInterpreter = memo(
     nullable: (getOrd, config) => env => new OrdType(ordApplyConfig(config)(options.getOrd(getOrd(env).ord), env)),
     array: (getOrd, config) => env => new OrdType(ordApplyConfig(config)(getArrayOrd(getOrd(env).ord), env)),
     uuid: config => env => new OrdType(ordApplyConfig(config)(ordString, env)),
-    either: (e, a, config) => env => new OrdType(ordApplyConfig(config)(getEitherOrd(e(env).ord, a(env).ord), env))
+    either: (e, a, config) => env => new OrdType(ordApplyConfig(config)(getEitherOrd(e(env).ord, a(env).ord), env)),
+    option: (a, config) => env => new OrdType(ordApplyConfig(config)(options.getOrd(a(env).ord), env))
   })
 )
 

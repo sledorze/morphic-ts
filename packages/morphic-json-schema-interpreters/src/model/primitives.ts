@@ -8,7 +8,8 @@ import {
   optional,
   ArrayTypeCtor,
   UnionTypeCtor,
-  ObjectTypeCtor
+  ObjectTypeCtor,
+  OptionalJSONSchema
 } from '../json-schema/json-schema-ctors'
 import * as SE from 'fp-ts-contrib/lib/StateEither'
 import { jsonSchemaApplyConfig } from '../config'
@@ -16,6 +17,7 @@ import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Do } from 'fp-ts-contrib/lib/Do'
+import { tuple } from 'fp-ts/lib/function'
 
 /**
  *  @since 0.0.1
@@ -80,6 +82,16 @@ export const jsonSchemaPrimitiveInterpreter = memo(
           ),
           env
         )
+      ),
+    option: (getSchema, config) => env =>
+      new JsonSchema(
+        jsonSchemaApplyConfig(config)(
+          SE.stateEither.chain(getSchema(env).schema, v => SE.fromEither(UnionTypeCtor([None, GetSome(v)]))),
+          env
+        )
       )
   })
 )
+const None = ObjectTypeCtor(false, [['_tag', LiteralTypeCtor('None')]])
+const someTag = tuple('_tag', LiteralTypeCtor('Some'))
+const GetSome = (v: OptionalJSONSchema) => ObjectTypeCtor(false, [['value', v], someTag])

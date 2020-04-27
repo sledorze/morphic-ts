@@ -12,6 +12,7 @@ import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { Newtype, iso } from 'newtype-ts'
 import { EqURI } from '../src/index'
 import { left, right, Either } from 'fp-ts/lib/Either'
+import { option as O } from 'fp-ts'
 
 export const EqInterpreterURI = 'EqInterpreterURI' as const
 export type EqInterpreterURI = typeof EqInterpreterURI
@@ -289,5 +290,20 @@ describe('Eq', () => {
     chai.assert.deepStrictEqual(eq.equals(la, lb), false)
     chai.assert.deepStrictEqual(eq.equals(la, r1), false)
     chai.assert.deepStrictEqual(eq.equals(r2, r1), false)
+  })
+
+  it('option', () => {
+    const { eq } = summon(F => F.option(F.string()))
+    const a1 = O.some('a')
+    const a2 = O.some('a')
+    const b = O.some('b')
+    const n = O.none
+
+    chai.assert.deepStrictEqual(eq.equals(a1, a1), true)
+    chai.assert.deepStrictEqual(eq.equals(a1, a2), true)
+    chai.assert.deepStrictEqual(eq.equals(n, n), true)
+
+    chai.assert.deepStrictEqual(eq.equals(a1, b), false)
+    chai.assert.deepStrictEqual(eq.equals(a1, n), false)
   })
 })
