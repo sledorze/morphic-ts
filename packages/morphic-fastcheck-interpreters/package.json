@@ -17,7 +17,8 @@
     "test": "test"
   },
   "files": [
-    "lib"
+    "lib",
+    "es6"
   ],
   "dependencies": {
     "@morphic-ts/algebras": "^1.4.0",
