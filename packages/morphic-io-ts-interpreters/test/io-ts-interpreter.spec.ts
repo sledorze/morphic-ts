@@ -361,7 +361,7 @@ describe('IO-TS', () => {
       a: string
       b: number
     }
-    const Foo = summon<unknown, Foo>(F =>
+    const Foo = summon(F =>
       F.interface(
         {
           type: F.stringLiteral('foo1'),
@@ -377,7 +377,7 @@ describe('IO-TS', () => {
       c: string
       d: number
     }
-    const Bar = summon<unknown, Bar>(F =>
+    const Bar = summon(F =>
       F.interface(
         {
           type: F.stringLiteral('bar1'),
@@ -388,17 +388,18 @@ describe('IO-TS', () => {
       )
     )
 
-    const FooBar = summon(F => {
-      const res = F.taggedUnion(
-        'type',
-        {
-          foo1: Foo(F),
-          bar1: Bar(F)
-        },
-        'FooBar'
+    const FooBar = summon(F =>
+      F.opacify<Foo | Bar>()(
+        F.taggedUnion(
+          'type',
+          {
+            foo1: Foo(F),
+            bar1: Bar(F)
+          },
+          'FooBar'
+        )
       )
-      return res
-    })
+    )
 
     const codec = FooBar
 
@@ -667,6 +668,7 @@ describe('iotsObjectInterpreter', () => {
       'Invalid value 1 supplied to : Either<string, number>'
     ])
   })
+
   it('option', () => {
     const { type } = summon(F => F.option(F.string()))
     chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(some('a'))), PR.success())

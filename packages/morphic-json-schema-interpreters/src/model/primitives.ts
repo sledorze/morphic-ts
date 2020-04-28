@@ -17,7 +17,7 @@ import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { Do } from 'fp-ts-contrib/lib/Do'
-import { tuple } from 'fp-ts/lib/function'
+import { tuple, identity } from 'fp-ts/lib/function'
 
 /**
  *  @since 0.0.1
@@ -89,7 +89,8 @@ export const jsonSchemaPrimitiveInterpreter = memo(
           SE.stateEither.chain(getSchema(env).schema, v => SE.fromEither(UnionTypeCtor([None, GetSome(v)]))),
           env
         )
-      )
+      ),
+    opacify: () => identity
   })
 )
 const None = ObjectTypeCtor(false, [['_tag', LiteralTypeCtor('None')]])

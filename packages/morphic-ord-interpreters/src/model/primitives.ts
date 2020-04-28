@@ -8,6 +8,7 @@ import { ordApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import { Either, isLeft, isRight } from 'fp-ts/lib/Either'
+import { identity } from 'fp-ts/lib/function'
 
 /**
  *  @since 0.0.1
@@ -41,7 +42,8 @@ export const ordPrimitiveInterpreter = memo(
     array: (getOrd, config) => env => new OrdType(ordApplyConfig(config)(getArrayOrd(getOrd(env).ord), env)),
     uuid: config => env => new OrdType(ordApplyConfig(config)(ordString, env)),
     either: (e, a, config) => env => new OrdType(ordApplyConfig(config)(getEitherOrd(e(env).ord, a(env).ord), env)),
-    option: (a, config) => env => new OrdType(ordApplyConfig(config)(options.getOrd(a(env).ord), env))
+    option: (a, config) => env => new OrdType(ordApplyConfig(config)(options.getOrd(a(env).ord), env)),
+    opacify: () => identity
   })
 )
 

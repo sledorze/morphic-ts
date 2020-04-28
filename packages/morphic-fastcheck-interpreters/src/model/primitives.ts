@@ -7,6 +7,7 @@ import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import { UUID } from 'io-ts-types/lib/UUID'
 import { left, right } from 'fp-ts/lib/Either'
+import { identity } from 'fp-ts/lib/function'
 
 /**
  *  @since 0.0.1
@@ -37,6 +38,7 @@ export const fastCheckPrimitiveInterpreter = memo(
     either: (e, a, config) => env =>
       new FastCheckType(fastCheckApplyConfig(config)(oneof(e(env).arb.map(left), a(env).arb.map(right) as any), env)),
     option: (a, config) => env =>
-      new FastCheckType(fastCheckApplyConfig(config)(oneof(a(env).arb.map(some), constant(none)), env))
+      new FastCheckType(fastCheckApplyConfig(config)(oneof(a(env).arb.map(some), constant(none)), env)),
+    opacify: () => identity
   })
 )

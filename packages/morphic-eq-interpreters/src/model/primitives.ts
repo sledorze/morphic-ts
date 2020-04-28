@@ -6,6 +6,7 @@ import { eqApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { UUID } from 'io-ts-types/lib/UUID'
+import { identity } from 'fp-ts/lib/function'
 
 /**
  *  @since 0.0.1
@@ -30,6 +31,7 @@ export const eqPrimitiveInterpreter = memo(
     array: (getType, config) => env => new EqType(eqApplyConfig(config)(A.getEq(getType(env).eq), env)),
     uuid: config => env => new EqType<UUID>(eqApplyConfig(config)(eqString, env)),
     either: (e, a, config) => env => new EqType(eqApplyConfig(config)(E.getEq(e(env).eq, a(env).eq), env)),
-    option: (a, config) => env => new EqType(eqApplyConfig(config)(O.getEq(a(env).eq), env))
+    option: (a, config) => env => new EqType(eqApplyConfig(config)(O.getEq(a(env).eq), env)),
+    opacify: () => identity
   })
 )

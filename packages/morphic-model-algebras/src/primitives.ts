@@ -79,6 +79,7 @@ export interface ModelAlgebraPrimitive<F, Env> {
       Option<A>
     >
   }
+  opacify: <A, L = unknown>() => (T: HKT2<F, Env, L, A>) => HKT2<F, Env, L, A>
 }
 
 /**
@@ -104,6 +105,7 @@ export interface ModelAlgebraPrimitive1<F extends URIS, Env extends AnyEnv> {
   option: {
     <A>(a: Kind<F, Env, A>, config?: ConfigsForType<Env, unknown, Option<A>>): Kind<F, Env, Option<A>>
   }
+  opacify: <A>() => (T: Kind<F, Env, A>) => Kind<F, Env, A>
 }
 
 /**
@@ -146,4 +148,5 @@ export interface ModelAlgebraPrimitive2<F extends URIS2, Env extends AnyEnv> {
       Option<A>
     >
   }
+  opacify: <A, L = unknown>() => (T: Kind2<F, Env, L, A>) => Kind2<F, Env, L, A>
 }
