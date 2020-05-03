@@ -19,6 +19,11 @@ export interface ObjC extends AType<typeof ObjC_> {}
 export interface ObjCRaw extends EType<typeof ObjC_> {}
 export const ObjC = AsOpaque<ObjCRaw, ObjC>()(ObjC_)
 
+const ObjD_ = summon(F => F.interface({}, 'ObjD'))
+export interface ObjD extends AType<typeof ObjD_> {}
+export interface ObjDRaw extends EType<typeof ObjD_> {}
+export const ObjD = AsOpaque<ObjDRaw, ObjD>()(ObjD_)
+
 const TaggedAB = tagged('type')({
   ObjA,
   ObjB
