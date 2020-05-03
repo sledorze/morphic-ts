@@ -126,20 +126,19 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
 /**
  *  @since 0.0.1
  */
-export type EOfTypes<
-  Types extends {
-    [k in keyof Types]: [any, any]
-  }
-> = Types[keyof Types][0]
+type AnyADTTypes = {
+  [k in keyof AnyTypes]: [any, any]
+}
 
 /**
  *  @since 0.0.1
  */
-export type AOfTypes<
-  Types extends {
-    [k in keyof Types]: [any, any]
-  }
-> = Types[keyof Types][1]
+export type EOfTypes<Types extends AnyADTTypes> = Types[keyof Types][0]
+
+/**
+ *  @since 0.0.1
+ */
+export type AOfTypes<Types extends AnyADTTypes> = Types[keyof Types][1]
 
 /**
  * Extracts the type of `A` for a given Morph type
@@ -147,7 +146,7 @@ export type AOfTypes<
 /**
  *  @since 0.0.1
  */
-export type AOfMorhpADT<T extends MorphADT<any, any, any, any, any>> = AOfTypes<T['_Types']>
+export type AOfMorhpADT<T extends HasTypes<any>> = AOfTypes<T['_Types']>
 
 /**
  * Extracts the type of `E` for a given Morph type
@@ -155,25 +154,31 @@ export type AOfMorhpADT<T extends MorphADT<any, any, any, any, any>> = AOfTypes<
 /**
  *  @since 0.0.1
  */
-export type EOfMorhpADT<T extends MorphADT<any, any, any, any, any>> = EOfTypes<T['_Types']>
+export type EOfMorhpADT<T extends HasTypes<any>> = EOfTypes<T['_Types']>
 
 /**
  *  @since 0.0.1
  */
 export type MorphADT<
-  Types extends { [k in keyof Types]: [any, any] },
+  Types extends AnyADTTypes,
   Tag extends string,
   ProgURI extends ProgramURI,
   InterpURI extends InterpreterURI,
   R
-> = { _Types: Types } & ADT<AOfTypes<Types>, Tag> &
+> = HasTypes<Types> &
+  ADT<AOfTypes<Types>, Tag> &
   Morph<R, EOfTypes<Types>, AOfTypes<Types>, InterpURI, ProgURI> &
   Refinable<Types, Tag, ProgURI, InterpURI, R>
 
+/**
+ *  @since 0.0.1
+ */
+interface HasTypes<Types extends AnyADTTypes> {
+  _Types: Types
+}
+
 export interface Refinable<
-  Types extends {
-    [k in keyof Types]: [any, any]
-  },
+  Types extends AnyADTTypes,
   Tag extends string,
   ProgURI extends ProgramURI,
   InterpURI extends InterpreterURI,
