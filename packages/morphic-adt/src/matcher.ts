@@ -38,7 +38,7 @@ interface ReducerBuilder<S, A, Tag extends keyof A> {
 
 interface Matcher<A, Tag extends keyof A> extends MatcherInter<A, ValueByKeyByTag<A>[Tag]> {}
 
-declare type EnforceNonEmptyRecord<R> = keyof R extends never ? {} : R
+declare type EmptyIfEmpty<R> = keyof R extends never ? {} : R;
 
 interface MatcherInter<A, Record> {
   <R, M extends Cases<Record, R>>(match: M & Partial<Cases<Record, R>>): (
@@ -49,7 +49,7 @@ interface MatcherInter<A, Record> {
     M extends Partial<Cases<Record, R>>,
     D extends (_: { [k in keyof Record]: Record[k] }[Exclude<keyof Record, keyof M>]) => R
   >(
-    match: EnforceNonEmptyRecord<M> & Partial<Cases<Record, R>>,
+    match: EmptyIfEmpty<M> & Partial<Cases<Record, R>>,
     def: D
   ): (
     a: A

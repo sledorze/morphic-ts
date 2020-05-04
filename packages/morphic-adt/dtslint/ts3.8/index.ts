@@ -80,9 +80,6 @@ fooBar.matchClassic(
   x => 2
 )
 
-// This is a pathological case but it won't be helpful if typechecking (infers never)
-// Also only correct programs would be accepted
-
 // $ExpectType (a: Foo | Bar | Baz) => number
 fooBar.matchClassic(
   {},
