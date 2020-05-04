@@ -24,9 +24,10 @@ jobs:
           lerna run build
           lerna run prettier --parallel
           lerna run lint --parallel
+          # lerna run dtslint --parallel
           lerna run jest --parallel
           cp .ci.npmrc .npmrc
           lerna publish from-package --yes
         env:
-          CI: 'true'
+          CI: "true"
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

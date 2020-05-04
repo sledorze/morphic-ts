@@ -26,6 +26,7 @@ jobs:
           lerna run build
           lerna run prettier --parallel
           lerna run lint --parallel
+          # lerna run dtslint --parallel
           lerna run jest --parallel
         env:
           CI: "true"

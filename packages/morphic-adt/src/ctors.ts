@@ -26,6 +26,7 @@ export type As<A, Tag extends keyof A> = {
  *  @since 0.0.1
  */
 export interface Ctors<A, Tag extends keyof A & string> {
+  tag: Tag
   of: Of<A, Tag>
   as: As<A, Tag>
   make: (a: A) => A
@@ -44,6 +45,7 @@ export const Ctors = <A extends Tagged<Tag>, Tag extends string>(tag: Tag) => (
   return {
     of: ctors as Of<A, Tag>,
     as: ctors as As<A, Tag>,
-    make: identity
+    make: identity,
+    tag
   }
 }

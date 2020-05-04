@@ -7382,9 +7382,9 @@ typescript@3.8.3, typescript@^3.0.1:
   integrity sha512-MYlEfn5VrLNsgudQTVJeNaQFUAI7DkhnOjdpAp4T+ku1TfQClewlbSuTVHiA+8skNBgaf02TL/kLOvig4y3G8w==
 
 typescript@next:
-  version "3.8.0-dev.20191206"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.0-dev.20191206.tgz#280436ca067d4671b15c91182763e8dd643ad214"
-  integrity sha512-yeWDKxPNxAziB7VHOrkE48vqMga5vsB0qoy0N+um8JvK4aPeFMIRI3ke2ViwE8xibHLDo5ubfLqwVmqYnzVfMw==
+  version "4.0.0-dev.20200503"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.0.0-dev.20200503.tgz#9bae63a18294b9ea88d9cf63dd4b0c52e7ae7077"
+  integrity sha512-wqfrGY1YU6Zzyy8BVFNuD7LoBlXfPgrDbgmGzSpOWLIe4qHSWNKh5mLs/CCurW/VHTNc683UjWhjU7Pfbguhvg==
 
 uglify-js@^3.1.4:
   version "3.7.1"

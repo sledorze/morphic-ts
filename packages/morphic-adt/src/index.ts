@@ -19,11 +19,13 @@ export type Tagged<Tag extends string> = { [t in Tag]: string }
 export interface ADT<A, Tag extends keyof A & string>
   extends Ma.Matchers<A, Tag>,
     PU.Predicates<A, Tag>,
-    CU.Ctors<A, Tag>,
+    CtorsWithKeys<A, Tag>,
     M.MonocleFor<A> {
   select: <Keys extends A[Tag][]>(keys: Keys) => ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag>
   exclude: <Keys extends A[Tag][]>(keys: Keys) => ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag>
-  tag: Tag
+}
+
+interface CtorsWithKeys<A, Tag extends keyof A & string> extends CU.Ctors<A, Tag> {
   keys: KeysDefinition<A, Tag>
 }
 
@@ -62,9 +64,11 @@ const keepKeys = <A extends Tagged<Tag>, Tag extends string>(
 /**
  *  @since 0.0.1
  */
-export const unionADT = <AS extends [ADT<any, any>, ADT<any, any>, ...Array<ADT<any, any>>]>(
+export const unionADT = <
+  AS extends [CtorsWithKeys<any, any>, CtorsWithKeys<any, any>, ...Array<CtorsWithKeys<any, any>>]
+>(
   as: AS
-): ADT<ADTType<AS[number]>, AS[number]['tag']> => {
+): ADT<CU.CtorType<AS[number]>, AS[number]['tag']> => {
   const newKeys = array.reduceRight(as[0].keys, (x: AS[number], y) => mergeKeys(x.keys, y))(as)
   return makeADT(as[0].tag)(newKeys)
 }
