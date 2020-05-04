@@ -24,19 +24,19 @@ const fooBar = makeADT('type')({
   baz: ofType<Baz>()
 })
 
-fooBar.match({}, x => x) // $ExpectType (a: Foo | Bar | Baz) => Foo | Bar | Baz
-fooBar.match({ foo: () => (undefined as any) as never }, x => x) // $ExpectType (a: Foo | Bar | Baz) => Bar | Baz
-fooBar.match({ foo: x => x.type, bar: x => x.type, baz: x => x.type }) // $ExpectType (a: Foo | Bar | Baz) => "foo" | "bar" | "baz"
+fooBar.matchWiden({}, x => x) // $ExpectType (a: Foo | Bar | Baz) => Foo | Bar | Baz
+fooBar.matchWiden({ foo: () => (undefined as any) as never }, x => x) // $ExpectType (a: Foo | Bar | Baz) => Bar | Baz
+fooBar.matchWiden({ foo: x => x.type, bar: x => x.type, baz: x => x.type }) // $ExpectType (a: Foo | Bar | Baz) => "foo" | "bar" | "baz"
 
 // $ExpectType (a: Foo | Bar | Baz) => number
-fooBar.matchClassic({
+fooBar.match({
   foo: foo => foo.a.length,
   bar: _ => 2,
   baz: _ => 2
 })
 
 // $ExpectType (a: Foo | Bar | Baz) => unknown
-fooBar.matchClassic({
+fooBar.match({
   foo: foo => foo.a.length,
   // $ExpectError
   bar: _ => '2',
@@ -44,24 +44,24 @@ fooBar.matchClassic({
 })
 
 // $ExpectError
-fooBar.matchClassic({
+fooBar.match({
   foo: foo => foo.a.length,
   baz: _ => 2
 })
 
 // $ExpectType (a: Foo | Bar | Baz) => number
-fooBar.matchClassic(
+fooBar.match(
   {
     foo: foo => foo.a.length,
-    bar: _ => 2,
-    baz: _ => 2
+    bar: (_) => _.d,
+    baz: (_) => 2
   },
   // $ExpectType (x: never) => number
   x => 2
 )
 
 // $ExpectType (a: Foo | Bar | Baz) => unknown
-fooBar.matchClassic(
+fooBar.match(
   {
     foo: foo => foo.a.length,
     bar: _ => 2
@@ -71,7 +71,7 @@ fooBar.matchClassic(
 )
 
 // $ExpectType (a: Foo | Bar | Baz) => unknown
-fooBar.matchClassic(
+fooBar.match(
   {
     foo: foo => foo.a.length,
     // $ExpectError
@@ -81,14 +81,14 @@ fooBar.matchClassic(
 )
 
 // $ExpectType (a: Foo | Bar | Baz) => number
-fooBar.matchClassic(
+fooBar.match(
   {},
   // $ExpectType (x: Foo | Bar | Baz) => number
   x => 2
 )
 
 // $ExpectType (a: Foo | Bar | Baz) => number
-fooBar.matchClassic(
+fooBar.match(
   {
     foo: foo => foo.a.length,
     bar: _ => 2
@@ -105,4 +105,4 @@ fooBar.createReducer(0)(
   bar_baz => n => n + bar_baz.type.length // $ExpectType (bar_baz: Bar | Baz) => (n: number) => number
 )
 
-fooBar.strict<number>(fooBar.match({ foo: () => 1 }, _ => 2)) // $ExpectType (_: Foo | Bar | Baz) => number
+fooBar.strict<number>(fooBar.matchWiden({ foo: () => 1 }, _ => 2)) // $ExpectType (_: Foo | Bar | Baz) => number

@@ -41,7 +41,7 @@ describe('Builder', () => {
       bar: ofType<Bar>()
     })
 
-    const { fold, match, createReducer, transform, strict } = fooBar
+    const { fold, match, createReducer, transform, matchWiden } = fooBar
     const fooA = fooBar.of.foo({ a: 'a', b: 12 })
     const barA = fooBar.of.bar({ c: 'a', d: 12 })
     const barB = fooBar.of.bar({ c: 'b', d: 13 })
@@ -74,27 +74,25 @@ describe('Builder', () => {
         {
           bar: ({ c }) => c
         },
-        () => 'defaultResult'
+        _ => 'defaultResult'
       )
       chai.assert.deepStrictEqual(matcherDefault(barA), 'a', 'barA')
       chai.assert.deepStrictEqual(matcherDefault(fooA), 'defaultResult', 'fooA')
     })
 
     it('match with default - strict', () => {
-      const matcherDefault = strict<number>(
-        match(
-          {
-            bar: _ => 1
-          },
-          () => 2
-        )
+      const matcherDefault = match(
+        {
+          bar: _ => 1
+        },
+        _ => 2
       )
       chai.assert.deepStrictEqual(matcherDefault(barA), 1, 'barA')
       chai.assert.deepStrictEqual(matcherDefault(fooA), 2, 'fooA')
     })
 
     it('matchWiden', () => {
-      const matcherW = match({
+      const matcherW = matchWiden({
         bar: ({ d }) => d,
         foo: ({ a }) => a
       })
@@ -103,7 +101,7 @@ describe('Builder', () => {
       chai.assert.deepStrictEqual(matcherW(fooA), 'a', 'fooA')
     })
     it('matchWiden with default', () => {
-      const matcherDefaultW = match(
+      const matcherDefaultW = matchWiden(
         {
           bar: ({ c }) => c.length
         },
@@ -114,7 +112,7 @@ describe('Builder', () => {
     })
 
     it('matchWiden with default expose the action', () => {
-      const matcherDefaultW = match(
+      const matcherDefaultW = matchWiden(
         {
           bar: ({ c }) => c.length
         },

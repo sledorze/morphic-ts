@@ -38,7 +38,7 @@ interface ReducerBuilder<S, A, Tag extends keyof A> {
 
 interface Matcher<A, Tag extends keyof A> extends MatcherInter<A, ValueByKeyByTag<A>[Tag]> {}
 
-declare type EmptyIfEmpty<R> = keyof R extends never ? {} : R;
+declare type EmptyIfEmpty<R> = keyof R extends never ? {} : R
 
 interface MatcherInter<A, Record> {
   <R, M extends Cases<Record, R>>(match: M & Partial<Cases<Record, R>>): (
@@ -91,8 +91,8 @@ export interface Reducer<S, A> {
 export interface Matchers<A, Tag extends keyof A> {
   fold: Folder<A>
   transform: Transform<A, Tag>
-  match: MatcherWiden<A, Tag>
-  matchClassic: Matcher<A, Tag>
+  matchWiden: MatcherWiden<A, Tag>
+  match: Matcher<A, Tag>
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
   strict: <R>(f: (_: A) => R) => (_: A) => R
 }
@@ -117,7 +117,7 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
   }
   return {
     match,
-    matchClassic: match,
+    matchWiden: match,
     transform,
     fold,
     createReducer,
