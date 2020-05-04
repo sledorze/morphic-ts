@@ -33,6 +33,30 @@ interface ReducerBuilder<S, A, Tag extends keyof A> {
 }
 
 /**
+ * Dispatch calls for each tag value, ensuring a common result type `R`
+ */
+
+interface Matcher<A, Tag extends keyof A> extends MatcherInter<A, ValueByKeyByTag<A>[Tag]> {}
+
+interface MatcherInter<A, Record> {
+  <R, M extends Cases<Record, R>>(match: M & Partial<Cases<Record, R>>): (
+    a: A
+  ) => ReturnType<M[keyof M]> extends infer R ? R : never
+  <
+    R,
+    M extends Partial<Cases<Record, R>>,
+    D extends (_: { [k in keyof Record]: Record[k] }[Exclude<keyof Record, keyof M>]) => R
+  >(
+    match: M & Partial<Cases<Record, R>>,
+    def: D
+  ): (
+    a: A
+  ) =>
+    | (ReturnType<NonNullable<M[keyof M]>> extends infer R ? R : never)
+    | (unknown extends ReturnType<D> ? never : ReturnType<D>)
+}
+
+/**
  * Same purpose as `Matcher` but the result type is infered as a union of all branches results types
  */
 interface MatcherWiden<A, Tag extends keyof A> extends MatcherWidenIntern<A, ValueByKeyByTag<A>[Tag]> {}
@@ -66,6 +90,7 @@ export interface Matchers<A, Tag extends keyof A> {
   fold: Folder<A>
   transform: Transform<A, Tag>
   match: MatcherWiden<A, Tag>
+  matchClassic: Matcher<A, Tag>
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
   strict: <R>(f: (_: A) => R) => (_: A) => R
 }
@@ -90,6 +115,7 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
   }
   return {
     match,
+    matchClassic: match,
     transform,
     fold,
     createReducer,

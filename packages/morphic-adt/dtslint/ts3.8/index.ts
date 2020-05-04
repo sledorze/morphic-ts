@@ -28,6 +28,70 @@ fooBar.match({}, x => x) // $ExpectType (a: Foo | Bar | Baz) => Foo | Bar | Baz
 fooBar.match({ foo: () => (undefined as any) as never }, x => x) // $ExpectType (a: Foo | Bar | Baz) => Bar | Baz
 fooBar.match({ foo: x => x.type, bar: x => x.type, baz: x => x.type }) // $ExpectType (a: Foo | Bar | Baz) => "foo" | "bar" | "baz"
 
+fooBar.matchClassic({
+  foo: foo => foo.a.length,
+  bar: _ => 2,
+  baz: _ => 2
+})
+
+fooBar.matchClassic({
+  foo: foo => foo.a.length,
+  // $ExpectError
+  bar: _ => '2',
+  baz: _ => 2
+})
+
+// $ExpectError
+fooBar.matchClassic({
+  foo: foo => foo.a.length,
+  baz: _ => 2
+})
+
+fooBar.matchClassic(
+  {
+    foo: foo => foo.a.length,
+    bar: _ => 2,
+    baz: _ => 2
+  },
+  // $ExpectType (x: never) => number
+  x => 2
+)
+
+fooBar.matchClassic(
+  {
+    foo: foo => foo.a.length,
+    bar: _ => 2
+  },
+  // $ExpectError
+  x => '2'
+)
+
+fooBar.matchClassic(
+  {
+    foo: foo => foo.a.length,
+    // $ExpectError
+    bar: _ => 'zz'
+  },
+  x => 2
+)
+
+// This is a pathological case but it won't be helpful if typechecking (infers never)
+// Also only correct programs would be accepted
+fooBar.matchClassic(
+  {},
+  // $ExpectType (x: never) => number
+  x => 2
+)
+
+fooBar.matchClassic(
+  {
+    foo: foo => foo.a.length,
+    bar: _ => 2
+  },
+  // $ExpectType (x: Baz) => number
+  x => 2
+)
+
 // $ExpectType Reducer<number, Foo | Bar | Baz>
 fooBar.createReducer(0)(
   {
