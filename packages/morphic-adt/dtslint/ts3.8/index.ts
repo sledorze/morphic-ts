@@ -28,12 +28,14 @@ fooBar.match({}, x => x) // $ExpectType (a: Foo | Bar | Baz) => Foo | Bar | Baz
 fooBar.match({ foo: () => (undefined as any) as never }, x => x) // $ExpectType (a: Foo | Bar | Baz) => Bar | Baz
 fooBar.match({ foo: x => x.type, bar: x => x.type, baz: x => x.type }) // $ExpectType (a: Foo | Bar | Baz) => "foo" | "bar" | "baz"
 
+// $ExpectType (a: Foo | Bar | Baz) => number
 fooBar.matchClassic({
   foo: foo => foo.a.length,
   bar: _ => 2,
   baz: _ => 2
 })
 
+// $ExpectType (a: Foo | Bar | Baz) => unknown
 fooBar.matchClassic({
   foo: foo => foo.a.length,
   // $ExpectError
@@ -47,6 +49,7 @@ fooBar.matchClassic({
   baz: _ => 2
 })
 
+// $ExpectType (a: Foo | Bar | Baz) => number
 fooBar.matchClassic(
   {
     foo: foo => foo.a.length,
@@ -57,6 +60,7 @@ fooBar.matchClassic(
   x => 2
 )
 
+// $ExpectType (a: Foo | Bar | Baz) => unknown
 fooBar.matchClassic(
   {
     foo: foo => foo.a.length,
@@ -66,6 +70,7 @@ fooBar.matchClassic(
   x => '2'
 )
 
+// $ExpectType (a: Foo | Bar | Baz) => unknown
 fooBar.matchClassic(
   {
     foo: foo => foo.a.length,
@@ -77,12 +82,16 @@ fooBar.matchClassic(
 
 // This is a pathological case but it won't be helpful if typechecking (infers never)
 // Also only correct programs would be accepted
+
+// $ExpectType (a: Foo | Bar | Baz) => never
 fooBar.matchClassic(
+  // $ExpectError
   {},
-  // $ExpectType (x: never) => number
+  // $ExpectError
   x => 2
 )
 
+// $ExpectType (a: Foo | Bar | Baz) => number
 fooBar.matchClassic(
   {
     foo: foo => foo.a.length,
