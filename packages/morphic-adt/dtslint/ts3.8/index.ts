@@ -83,11 +83,10 @@ fooBar.matchClassic(
 // This is a pathological case but it won't be helpful if typechecking (infers never)
 // Also only correct programs would be accepted
 
-// $ExpectType (a: Foo | Bar | Baz) => never
+// $ExpectType (a: Foo | Bar | Baz) => number
 fooBar.matchClassic(
-  // $ExpectError
   {},
-  // $ExpectError
+  // $ExpectType (x: Foo | Bar | Baz) => number
   x => 2
 )
 
