@@ -1,5 +1,6 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
   "prettier.configPath": "./prettier.config.js",
-  "editor.tabCompletion": "onlySnippets"
+  "editor.tabCompletion": "onlySnippets",
+  "cSpell.words": ["ADTs", "Greenkeeper", "Morphic's", "Reinterpreter", "combinator", "combinators"]
 }
