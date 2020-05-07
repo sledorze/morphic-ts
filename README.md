@@ -4,21 +4,21 @@
 
 Business Models just got a lot easier
 
-This library adress the pain of writting _and maintaining_ code for business _without any Magic_ in Typescript
+This library addresses the pain of writing _and maintaining_ code for business _without any Magic_ in Typescript
 
 The goal is to increase, in order of importance
 
 - Correctness
 - Productivity
-- Developper Experience
+- Developer Experience
 
 It is has two side blended into one; generic ADT manipulation AND Generic, customizable and extensible derivations
 
 ## /!\ New Release UPDATE /!\
 
-### Note: The whole documentation will be updated when things have totally stabilised
+### Note: The whole documentation will be updated when things have totally stabilized
 
-Lastest release introduces Env inference for Config.
+Latest release introduces Env inference for Config.
 It has breaking changes that were supposed to be easy-to-adapt, mostly syntactic, changes.
 This has not received the right amount of feedback before releasing and we'll backtrack on some changes (below annotated BACKTRACKED)
 
@@ -78,7 +78,7 @@ const Person = summonESBST(F =>
   F.interface(
     {
       name: F.string,
-      birthdate: F.date
+      birthDate: F.date
     },
     'Person'
   )
@@ -92,7 +92,7 @@ He can also reinterpret using another summoner.
 const AnotherPerson = summonESBASTJ(Person) // Reinterpreter using another summoner (thus generating different type classes)
 ```
 
-However, it is often desirable to override fastcheck via a config, for instance, to generate realistic arbitraries (here the name with alphabetic letters and a min/max length or a birthdate in the past).
+However, it is often desirable to override fastcheck via a config, for instance, to generate realistic arbitration (here the name with alphabetic letters and a min/max length or a birth date in the past).
 
 Doing so means that one needs to add a config for fastcheck when defining the `Person` members Morphs, thus, including the fastcheck lib.
 
@@ -102,7 +102,7 @@ Config Environment solve this issue by offering the ability to give access to an
 
 The motivation is providing ways to abstract over dependencies used in configs.
 
-We can access an environement to use in a config like so (here IoTsTypes):
+We can access an environnement to use in a config like so (here IoTsTypes):
 
 ```typescript
 summon(F =>
@@ -110,7 +110,7 @@ summon(F =>
 )
 ```
 
-The environement type has to be specified at definition site.
+The environnement type has to be specified at definition site.
 
 To prevent really importing the lib to get it's type (the definition is purely a type), we can rely on type imports from typescript.
 
@@ -118,9 +118,9 @@ To prevent really importing the lib to get it's type (the definition is purely a
 import type * as fc from 'fast-check'
 ```
 
-The new Config also infers the correct Env type and only typechecks correctly if `summon` has been instanciated with correct Env constraints using the `summonFor` constructor.
+The new Config also infers the correct Env type and only typechecks correctly if `summon` has been instantiated with correct Env constraints using the `summonFor` constructor.
 
-Creating the summon requires providing (all) the Envs a summoner will be able to support.
+Creating the summon requires providing (all) the environments a summoner will be able to support.
 
 ```typescript
 export const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({ [IoTsURI]: { WM } })
@@ -136,13 +136,13 @@ export interface AppEnv {
 export const { summon } = summonFor<AppEnv>({ [IoTsURI]: { WM } })
 ```
 
-If the underlying Interpreter of `summoner` does not generate a typeclass (e.g. `io-ts`), then there is no need to feed it at creation time:
+If the underlying Interpreter of `summoner` does not generate a type-class (e.g. `io-ts`), then there is no need to feed it at creation time:
 
 ```typescript
 export const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({})
 ```
 
-This will typecheck accordingly.
+This will type-check accordingly.
 
 However the type constraint of the Env will remain in the summoner signature, so that any (re)interpretation from another summoner will thread that constraint; there no compromise on type safety.
 
@@ -150,13 +150,13 @@ The consequence is that any interpreting summoner Env will need to cover all the
 
 This transitive aspect is the necessary condition for correct (re)interpretations.
 
-### (new) All Algreba Config available
+### (new) All Algebra Config available
 
 This was an unfinished task, now all configurable variants are implemented in all interpreters.
 
 ### (BACKTRACKED) Config inference
 
-Config inference has been modified and now requires wrapping those in an object spread (due to a typescript - or a developper - limitation).
+Config inference has been modified and now requires wrapping those in an object spread (due to a typescript - or a developer - limitation).
 
 Before
 
@@ -203,7 +203,7 @@ This is necessary because of inference limitations of `iotsConfig` like patterns
 
 We are thinking about deprecating `iotsConfig` like helpers are they are confusing in those cases.
 
-### (new) Opaques alias in batteries requiers an extra application
+### (new) Opaques alias in batteries requires an extra application
 
 Before
 
@@ -233,7 +233,7 @@ defineFor(ProgramNoUnionURI)(F => F.string)
 
 ### (new) Dependencies
 
-Tech specific dependencies (like `fp-ts`, `io-ts`) in interpreter packages are now peerdependencies.
+Tech specific dependencies (like `fp-ts`, `io-ts`) in interpreter packages are now peer-dependencies.
 
 ## Two minutes intro
 
@@ -256,13 +256,13 @@ export const Person = summon(F =>
   )
 )
 
-// You now have acces to everything to develop around this Type
+// You now have access to everything to develop around this Type
 Person.build // basic build function (enforcing correct type)
 Person.show // Show from fp-ts
 Person.type // io-ts
 Person.strictType // io-ts
 Person.eq // Eq from fp-ts
-Person.lenseFromPath // and other optics (optionnals, prism, ) from monocle-ts
+Person.lenseFromPath // and other optics (optionals, prism, ) from monocle-ts
 Person.arb // fast-check
 Person.jsonSchema // JsonSchema-ish representation
 ```
@@ -293,12 +293,12 @@ export const Car = summon(F =>
   )
 )
 
-const Vehicule = tagged('type')({ Car, Bicycle })
+const Vehicle = tagged('type')({ Car, Bicycle })
 
 // Now you have access to previously depicted derivation + ADT support (ctors, predicates, optics, matchers,reducers, etc.. see `ADT Manipulation` below)
 ```
 
-### Want opaque nominal (instead of structural) infered types
+### Want opaque nominal (instead of structural) inferred types
 
 You may use this pattern
 
@@ -387,7 +387,7 @@ The feature can be used standalone via the `makeADT` function with support for:
 - Reducers
 - Creation of new ADTs via selection, exclusion, intersection or union of existing ADTs
 
-Ad'hoc usage via `makeADT` (Morphic's `summon` already does that for you):
+Ad-hoc usage via `makeADT` (Morphic's `summon` already does that for you):
 
 Let's define some Types
 
@@ -423,7 +423,7 @@ const Vehicle = makeADT('type')({
 
 Then you have..
 
-### Constuctors
+### Constructors
 
 ```typescript
 Vehicle.of.Bicycle({ color: 'red' }) // type is Car | Motorbike | Bicycle
@@ -458,7 +458,7 @@ Vehicle.match({
   default: _ => 1
 })
 
-// Use matchWiden, then the resturn type will be unified from each results
+// Use matchWiden, then the return type will be unified from each results
 // Here it would be number | 'none'
 Vehicle.matchWiden({
   Car: ({ seats }) => seats,
@@ -470,7 +470,7 @@ Vehicle.matchWiden({
 ### Transformers
 
 ```typescript
-// You may tranform matching a subset
+// You may transform matching a subset
 Vehicle.transform({
   Car: car => ({ ...car, seats: car.seats + 1 })
 })
@@ -492,37 +492,37 @@ Vehicle.createReducer({ totalSeats: 0 })({
 This will help getting unique advantage of Typescript ability to refine Unions
 
 ```typescript
-const Motorised = Vehicle.select('Car', 'Motorbike') // ADT<Car | Motorbike, "type">
+const Motorized = Vehicle.select('Car', 'Motorbike') // ADT<Car | Motorbike, "type">
 
 const TrafficJamProof = Vehicle.exclude('Car') // ADT<Motorbike | Bicycle, "type">
 
-const Faster = intersectADT(Motorised, TrafficJamProof) // ADT<Motorbike, "type">
+const Faster = intersectADT(Motorized, TrafficJamProof) // ADT<Motorbike, "type">
 
-const Faster = intersectADT(Motorised, TrafficJamProof) // ADT<Motorbike, "type">
+const Faster = intersectADT(Motorized, TrafficJamProof) // ADT<Motorbike, "type">
 
-const ManyChoice = unionADT(Motorised, TrafficJamProof) // ADT<Car  | Motorbike | Bicycle, "type">
+const ManyChoice = unionADT(Motorized, TrafficJamProof) // ADT<Car  | Motorbike | Bicycle, "type">
 ```
 
 ### Optics (via Monocle)
 
-We support lenses, optionel, prism pretyped helpers
+We support lenses, optional, prism pre-typed helpers
 
 Lense example:
 
 ```typescript
-const seatLense = Motorised.lenseFromProp('seats') // Lens<Car | Motorbike, number>
+const seatLense = Motorized.lenseFromProp('seats') // Lens<Car | Motorbike, number>
 
 const incSeat = seatLense.modify(increment) // (s: Car | Motorbike) => Car | Motorbike
 ```
 
-## Roadmap
+## Road Map
 
 - Interpreter for persistency (TypeORM)
 - Implement Algebra for APIs
 
 ## Disclaimer
 
-THIS LIBRARY IS USED INTO TWO PROFESSIONAL PROJECTS IN DEVELPOMENT AT THE MOMENT
+THIS LIBRARY IS USED INTO TWO PROFESSIONAL PROJECTS IN DEVELOPMENT AT THE MOMENT
 
 BUT BEWARE, THIS REPO IS A POC (WORK-IN-PROGRESS)
-THE API IS UNLIKELY TO CHANGE TRENDEMOUSLY BUT YOU MAY BE SAFER TO CONSIDER IT UNSTABLE AND USE AT YOUR OWN RISK
+THE API IS UNLIKELY TO CHANGE TREMENDOUSLY BUT YOU MAY BE SAFER TO CONSIDER IT UNSTABLE AND USE AT YOUR OWN RISK
