@@ -1,5 +1,7 @@
 # Morphic-ts
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/sledorze/morphic-ts.svg)](https://greenkeeper.io/)
+
 ![Test CI](https://github.com/sledorze/morphic-ts/workflows/Test%20CI/badge.svg)
 
 Business Models just got a lot easier
