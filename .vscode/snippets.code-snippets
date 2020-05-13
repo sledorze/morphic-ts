@@ -25,7 +25,7 @@
   },
   "Morphic opaque for tagged unions": {
     "prefix": "mot",
-    "body": ["export type $1 = AOfMorhpADT<typeof $1>"],
+    "body": ["export const $1 = tagged('$0')({  })", "export type $1 = AOfMorhpADT<typeof $1>"],
     "description": "Defines a Morphic Tagged union opaque signature"
   }
 }
