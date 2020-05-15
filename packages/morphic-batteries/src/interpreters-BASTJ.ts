@@ -5,7 +5,7 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { NamedSchemas } from '@morphic-ts/json-schema-interpreters/lib/index'
 import { JsonSchemaError } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema-ctors'
 import { Either } from 'fp-ts/lib/Either'
-import { Create } from './create'
+import { Create } from '@morphic-ts/io-ts-interpreters/lib/create'
 
 /**
  *  @since 0.0.1

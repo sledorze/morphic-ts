@@ -6,12 +6,8 @@ import * as U from './usage'
 import { EmptyInterpreterURI } from './interpreters-Empty'
 import { ProgramNoUnionURI } from './program-no-union'
 
-import { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
-import { modelIoTsNonStrictInterpreter, IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
-import { JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib'
 import { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
-import { makeCreate } from './create'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -39,15 +35,11 @@ export interface Summoner<R extends AnyConfigEnv> extends U.Summoners<ProgramNoU
   <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
 }
 
-export const summonFor: <R extends AnyEnv = {}>(
-  env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>
-) => SummonerOps<Summoner<R>> = <R extends AnyConfigEnv = {}>(
-  env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>
+export const summonFor: <R extends AnyEnv = {}>(env: ExtractEnv<R, never>) => SummonerOps<Summoner<R>> = <
+  R extends AnyConfigEnv = {}
+>(
+  _env: ExtractEnv<R, never>
 ) =>
-  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
-    const type = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type
-    return {
-      build: identity,
-      create: makeCreate(type)
-    }
-  })
+  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, _program => ({
+    build: identity
+  }))

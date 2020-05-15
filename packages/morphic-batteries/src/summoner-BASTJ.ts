@@ -18,7 +18,6 @@ import { modelJsonSchemaInterpreter, JsonSchemaURI } from '@morphic-ts/json-sche
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
 import { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
-import { makeCreate } from './create'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -52,13 +51,13 @@ export const summonFor: <R extends AnyEnv = {}>(
   env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>
 ) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
-    const type = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type
+    const { type, create } = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env)
     return {
       build: identity,
       arb: program(modelFastCheckInterpreter<NonNullable<R>>())(env).arb,
       strictType: program(modelIoTsStrictInterpreter<NonNullable<R>>())(env).type,
       type,
       jsonSchema: pipe(program(modelJsonSchemaInterpreter<NonNullable<R>>())(env).schema({}), E.chain(resolveSchema)),
-      create: makeCreate(type)
+      create
     }
   })

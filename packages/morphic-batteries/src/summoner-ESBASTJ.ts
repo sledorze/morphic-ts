@@ -25,7 +25,6 @@ import * as U from './usage'
 import { ESBASTJInterpreterURI } from './interpreters-ESBASTJ'
 import { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
-import { makeCreate } from './create'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -62,7 +61,7 @@ export const summonFor: <R extends AnyEnv = {}>(
   env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI | EqURI | ShowURI>
 ) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
-    const type = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type
+    const { type, create } = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env)
     return {
       build: identity,
       eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,
@@ -71,6 +70,6 @@ export const summonFor: <R extends AnyEnv = {}>(
       strictType: program(modelIoTsStrictInterpreter<NonNullable<R>>())(env).type,
       type,
       jsonSchema: pipe(program(modelJsonSchemaInterpreter<NonNullable<R>>())(env).schema({}), E.chain(resolveSchema)),
-      create: makeCreate(type)
+      create
     }
   })

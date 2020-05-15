@@ -16,7 +16,6 @@ import { ProgramNoUnionURI } from './program-no-union'
 import { ESBASTInterpreterURI } from './interpreters-ESBAST'
 import { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
-import { makeCreate } from './create'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -50,7 +49,7 @@ export const summonFor: <R extends AnyEnv = {}>(
   env: ExtractEnv<R, EqURI | ShowURI | IoTsURI | FastCheckURI>
 ) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
-    const type = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type
+    const { type, create } = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env)
     return {
       build: identity,
       eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,
@@ -58,6 +57,6 @@ export const summonFor: <R extends AnyEnv = {}>(
       arb: program(modelFastCheckInterpreter<NonNullable<R>>())(env).arb,
       strictType: program(modelIoTsStrictInterpreter<NonNullable<R>>())(env).type,
       type,
-      create: makeCreate(type)
+      create
     }
   })
