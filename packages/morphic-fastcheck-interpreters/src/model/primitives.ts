@@ -35,7 +35,9 @@ export const fastCheckPrimitiveInterpreter = memo(
     array: (T, config) => env => new FastCheckType(fastCheckApplyConfig(config)(array(T(env).arb), env)),
     uuid: config => env => new FastCheckType(fastCheckApplyConfig(config)(uuid() as Arbitrary<UUID>, env)),
     either: (e, a, config) => env =>
-      new FastCheckType(fastCheckApplyConfig(config)(oneof(e(env).arb.map(left), a(env).arb.map(right) as any), env)),
+      new FastCheckType(
+        fastCheckApplyConfig(config)(oneof(e(env).arb.map(left), a(env).arb.map(right) as any) as any, env)
+      ),
     option: (a, config) => env =>
       new FastCheckType(fastCheckApplyConfig(config)(oneof(a(env).arb.map(some), constant(none)), env))
   })

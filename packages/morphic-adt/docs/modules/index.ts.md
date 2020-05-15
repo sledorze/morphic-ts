@@ -28,12 +28,10 @@ parent: Modules
 export interface ADT<A, Tag extends keyof A & string>
   extends Ma.Matchers<A, Tag>,
     PU.Predicates<A, Tag>,
-    CU.Ctors<A, Tag>,
+    CtorsWithKeys<A, Tag>,
     M.MonocleFor<A> {
   select: <Keys extends A[Tag][]>(keys: Keys) => ADT<ExtractUnion<A, Tag, ElemType<Keys>>, Tag>
   exclude: <Keys extends A[Tag][]>(keys: Keys) => ADT<ExcludeUnion<A, Tag, ElemType<Keys>>, Tag>
-  tag: Tag
-  keys: KeysDefinition<A, Tag>
 }
 ```
 
@@ -121,9 +119,11 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const unionADT = <AS extends [ADT<any, any>, ADT<any, any>, ...Array<ADT<any, any>>]>(
+export const unionADT = <
+  AS extends [CtorsWithKeys<any, any>, CtorsWithKeys<any, any>, ...Array<CtorsWithKeys<any, any>>]
+>(
   as: AS
-): ADT<ADTType<AS[number]>, AS[number]['tag']> => ...
+): ADT<CU.CtorType<AS[number]>, AS[number]['tag']> => ...
 ```
 
 Added in v0.0.1
