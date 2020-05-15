@@ -22,6 +22,7 @@ parent: Modules
 
 ```ts
 export interface Ctors<A, Tag extends keyof A & string> {
+  tag: Tag
   of: Of<A, Tag>
   as: As<A, Tag>
   make: (a: A) => A
