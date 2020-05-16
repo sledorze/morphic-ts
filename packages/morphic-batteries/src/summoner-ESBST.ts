@@ -1,4 +1,3 @@
-import { identity } from 'fp-ts/lib/function'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
 import { modelEqInterpreter, EqURI } from '@morphic-ts/eq-interpreters/lib/interpreters'
@@ -48,7 +47,7 @@ export const summonFor: <R extends AnyEnv = {}>(
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
     const { type, create } = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env)
     return {
-      build: identity,
+      build: a => a,
       eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,
       show: program(modelShowInterpreter<NonNullable<R>>())(env).show,
       strictType: program(modelIoTsStrictInterpreter<NonNullable<R>>())(env).type,

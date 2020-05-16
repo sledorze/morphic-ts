@@ -1,4 +1,3 @@
-import { identity } from 'fp-ts/lib/function'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
 import * as U from './usage'
@@ -41,5 +40,5 @@ export const summonFor: <R extends AnyEnv = {}>(env: ExtractEnv<R, never>) => Su
   _env: ExtractEnv<R, never>
 ) =>
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, _program => ({
-    build: identity
+    build: a => a
   }))

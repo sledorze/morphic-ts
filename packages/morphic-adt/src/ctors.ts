@@ -1,5 +1,4 @@
 import { Remove, ExtractUnion } from './utils'
-import { identity } from 'fp-ts/lib/function'
 import { KeysDefinition, Tagged } from '.'
 import { record } from 'fp-ts'
 
@@ -45,7 +44,7 @@ export const Ctors = <A extends Tagged<Tag>, Tag extends string>(tag: Tag) => (
   return {
     of: ctors as Of<A, Tag>,
     as: ctors as As<A, Tag>,
-    make: identity,
+    make: <A>(a: A) => a,
     tag
   }
 }

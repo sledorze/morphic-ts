@@ -1,4 +1,3 @@
-import { identity } from 'fp-ts/lib/function'
 import * as E from 'fp-ts/lib/Either'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 import { pipe } from 'fp-ts/lib/pipeable'
@@ -53,7 +52,7 @@ export const summonFor: <R extends AnyEnv = {}>(
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
     const { type, create } = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env)
     return {
-      build: identity,
+      build: a => a,
       arb: program(modelFastCheckInterpreter<NonNullable<R>>())(env).arb,
       strictType: program(modelIoTsStrictInterpreter<NonNullable<R>>())(env).type,
       type,

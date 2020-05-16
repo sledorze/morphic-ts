@@ -1,6 +1,5 @@
 import * as chai from 'chai'
 import { unionADT, intersectADT, makeADT, ofType } from '../src'
-import { identity } from 'fp-ts/lib/function'
 
 describe('Builder', () => {
   interface Foo {
@@ -153,7 +152,7 @@ describe('Builder', () => {
     it('reduce return the previous state', () => {
       const reduce = createReducer({ x: '0' })({
         foo: () => ({ x }) => ({ x: `foo(${x})` }),
-        default: () => identity
+        default: () => a => a
       })
       chai.assert.deepStrictEqual(reduce(undefined, barA), { x: '0' })
     })

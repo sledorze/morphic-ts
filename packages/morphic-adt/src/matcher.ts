@@ -1,4 +1,3 @@
-import { identity } from 'fp-ts/lib/function'
 import { KeysDefinition, isIn } from '.'
 
 type ValueByKeyByTag<Union extends Record<any, any>, Tags extends keyof Union = keyof Union> = {
@@ -76,7 +75,7 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
     return c ? c(a) : a
   }
   const matchWiden = match
-  const fold = identity
+  const fold = <A>(a: A) => a
   const createReducer = <S>(initialState: S): ReducerBuilder<S, A, Tag> => (m: any) => {
     const matcher = match(m)
     return (s: any, a: any) => {

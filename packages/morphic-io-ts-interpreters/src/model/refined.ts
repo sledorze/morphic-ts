@@ -1,7 +1,6 @@
 import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '../hkt'
 import { ModelAlgebraRefined2 } from '@morphic-ts/model-algebras/lib/refined'
-import { identity } from 'fp-ts/lib/function'
 import { iotsApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
@@ -9,8 +8,9 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export interface Customize<RC, E, A> {
   <B>(a: t.BrandC<t.Type<A, E, unknown>, B>, env: RC): t.BrandC<t.Type<A, E, unknown>, B> // t.Type<A, E, unknown>
 }
+const id = <A>(a: A) => a
 export const applyCustomize = <RC, E, A>(c: { [IoTsURI]?: Customize<RC, E, A> } | undefined) =>
-  c !== undefined ? c[IoTsURI] ?? identity : identity
+  c !== undefined ? c[IoTsURI] ?? id : id
 
 /**
  *  @since 0.0.1

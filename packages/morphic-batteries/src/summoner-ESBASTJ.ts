@@ -12,7 +12,6 @@ import { ProgramNoUnionURI } from './program-no-union'
 
 import * as E from 'fp-ts/lib/Either'
 import { pipe } from 'fp-ts/lib/pipeable'
-import { identity } from 'fp-ts/lib/function'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
 import {
   modelIoTsNonStrictInterpreter,
@@ -63,7 +62,7 @@ export const summonFor: <R extends AnyEnv = {}>(
   U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
     const { type, create } = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env)
     return {
-      build: identity,
+      build: a => a,
       eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,
       show: program(modelShowInterpreter<NonNullable<R>>())(env).show,
       arb: program(modelFastCheckInterpreter<NonNullable<R>>())(env).arb,
