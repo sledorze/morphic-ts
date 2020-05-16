@@ -1,7 +1,7 @@
 import { Eq } from 'fp-ts/lib/Eq'
 import { Show } from 'fp-ts/lib/Show'
 import { Type } from 'io-ts'
-import { Create } from './create'
+import { Create } from '@morphic-ts/io-ts-interpreters/lib/create'
 
 /**
  *  @since 0.0.1

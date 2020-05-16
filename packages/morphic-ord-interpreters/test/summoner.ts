@@ -5,7 +5,6 @@ import { Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
 import { ProgramOrderableURI } from '@morphic-ts/batteries/lib/program-orderable'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 import { makeSummoner, Summoners, AnyConfigEnv, ExtractEnv } from '@morphic-ts/batteries/lib/usage/summoner'
-import { identity } from 'fp-ts/lib/function'
 import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 
 interface OrdInterpreter<A> {
@@ -31,7 +30,7 @@ export interface Summoner<R> extends Summoners<ProgramOrderableURI, OrdInterpret
 
 export const summonFor = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, OrdURI>) =>
   makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
-    build: identity,
+    build: <A>(a: A) => a,
     ord: program(modelOrdInterpreter<NonNullable<R>>())(env).ord
   }))
 
