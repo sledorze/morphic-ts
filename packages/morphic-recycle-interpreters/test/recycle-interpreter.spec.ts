@@ -399,18 +399,17 @@ describe('Recycle', () => {
     const { mustRecycle, mustNotRecycle } = makeRecycler(recycle)
 
     const fooA: Foo | Bar = { type: 'foo', a: 'a', b: 12 }
+    const fooABis: Foo | Bar = { type: 'foo', a: 'a', b: 12 }
     const fooB: Foo | Bar = { type: 'foo', a: 'b', b: 12 }
-    const fooC: Foo | Bar = { type: 'foo', a: 'a', b: 12 }
 
     const barA: Foo | Bar = { type: 'bar', c: 'a', d: 12 }
     const barB: Foo | Bar = { type: 'bar', c: 'b', d: 12 }
 
     mustRecycle(fooA, fooA)
-    mustRecycle(fooA, fooC)
+    mustRecycle(fooA, fooABis)
     mustNotRecycle(fooA, fooB)
     mustNotRecycle(fooA, barA)
     mustNotRecycle(barA, barB)
-    mustRecycle(barB, barB)
   })
 
   it('either', () => {
