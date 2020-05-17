@@ -14,7 +14,6 @@ export const recycleObjectInterpreter = memo(
     _F: RecycleURI,
     interface: (props, _name, config) => env =>
       new RecycleType(recycleApplyConfig(config)(getStruct(projectFieldWithEnv(props, env)('recycle')), env)),
-    // relies on Eq<A> whereas we need Eq<Partial<A>> (but works - covered by tests)
     partial: (props, _name, config) => env =>
       asPartial(
         new RecycleType(recycleApplyConfig(config)(getPartialStruct(projectFieldWithEnv(props, env)('recycle')), env))

@@ -11,10 +11,10 @@ export const recycleIntersectionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraIntersection1<RecycleURI, Env> => ({
     _F: RecycleURI,
     intersection: <A>(types: ((env: Env) => RecycleType<A>)[]) => (env: Env) => {
-      const recycle = types.map(getRecycle => getRecycle(env).recycle.recycle)
+      const recycles = types.map(getRecycle => getRecycle(env).recycle.recycle)
       return new RecycleType<A>({
         recycle: (prev: A, next: A) =>
-          fold(monoidAll)(recycle.map(recycle => recycle(prev, next) === prev)) ? prev : next // TODO: optimize
+          fold(monoidAll)(recycles.map(recycle => recycle(prev, next) === prev)) ? prev : next // TODO: optimize
       })
     }
   })

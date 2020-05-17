@@ -11,7 +11,12 @@ export const recycleRecursiveInterpreter = memo(
     _F: RecycleURI,
     recursive: a => {
       const get = memo(() => a(res))
-      const res: ReturnType<typeof a> = env => new RecycleType({ recycle: (a, b) => get()(env).recycle.recycle(a, b) })
+      const res: ReturnType<typeof a> = env => {
+        const {
+          recycle: { recycle }
+        } = get()(env)
+        return new RecycleType({ recycle })
+      }
       return res
     }
   })
