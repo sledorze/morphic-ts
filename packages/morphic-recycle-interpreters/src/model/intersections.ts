@@ -2,6 +2,7 @@ import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/inters
 import { RecycleType, RecycleURI } from '../hkt'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import { fromRecycle } from '../recycle'
 
 /**
  * Recycles an intersection
@@ -13,17 +14,18 @@ export const recycleIntersectionInterpreter = memo(
     _F: RecycleURI,
     intersection: <A>(types: ((env: Env) => RecycleType<A>)[]) => (env: Env) => {
       const recycles = types.map(getRecycle => getRecycle(env).recycle.recycle)
-      return new RecycleType<A>({
+      return new RecycleType<A>(
         /**
          * Recycling an intersection involves calculating the recycling of each parts.
          *
          * By nature, each recycle application will consider only part of the result value
          * Depending on its (partial) check will eventually results the previous value, next value OR a new value including only the partial value
          * if any of the result is the next value; the end result must be the next value overriden by the partial results
-         *    in this case, we can miss some recycling but the natural opacity of intersection is a blocker for us at this point
+         *    ^ in this case, we can miss some recycling from previous but the natural opacity of intersection is a blocker for us at this point
          * if none of the result is the next value; the end result must be the previous value overriden by the partial results
          */
-        recycle: (prev: A, next: A) => {
+
+        fromRecycle((prev: A, next: A) => {
           let isBasePrevious = true
           // TODO: Optimise with presize
           const partials: any[] = []
@@ -41,8 +43,8 @@ export const recycleIntersectionInterpreter = memo(
 
           const base = isBasePrevious ? prev : next
           return partials.length > 0 ? Object.assign({}, ...[base, ...partials]) : base
-        }
-      })
+        })
+      )
     }
   })
 )
