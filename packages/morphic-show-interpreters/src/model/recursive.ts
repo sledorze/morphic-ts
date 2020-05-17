@@ -11,7 +11,10 @@ export const showRecursiveInterpreter = memo(
     _F: ShowURI,
     recursive: a => {
       const get = memo(() => a(res))
-      const res: ReturnType<typeof a> = env => new ShowType({ show: a => get()(env).show.show(a) })
+      const res: ReturnType<typeof a> = env => {
+        const getShow = memo(() => get()(env).show.show)
+        return new ShowType({ show: a => getShow()(a) })
+      }
       return res
     }
   })
