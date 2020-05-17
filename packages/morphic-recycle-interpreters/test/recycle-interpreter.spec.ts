@@ -496,4 +496,42 @@ describe('Recycle', () => {
     mustNotRecycle(a1, b)
     mustNotRecycle(a1, n)
   })
+
+  it('intersection', () => {
+    const { recycle, build } = summon(F =>
+      F.intersection(
+        [
+          F.interface(
+            {
+              a: F.nullable(F.string()),
+              a2: F.nullable(F.string())
+            },
+            'A'
+          ),
+          F.interface(
+            {
+              b: F.nullable(F.string())
+            },
+            'B'
+          )
+        ],
+        'AB'
+      )
+    )
+
+    const { mustRecycle, mustNotRecycle } = makeRecycler(recycle)
+
+    const AaBb = build({ a: O.some('a'), a2: O.some('a'), b: O.some('b') })
+    const AaBbBis = build({ a: O.some('a'), a2: O.some('a'), b: O.some('b') })
+    mustRecycle(AaBb, AaBbBis)
+
+    const AcBd = build({ a: O.some('c'), a2: O.some('x'), b: O.some('d') })
+    mustNotRecycle(AaBb, AcBd)
+
+    const AaBc = build({ a: O.some('a'), a2: O.some('b'), b: O.some('c') })
+    const res = recycle.recycle(AaBb, AaBc)
+    chai.assert.notStrictEqual(res, AaBc)
+    chai.assert.strictEqual(res.a, AaBb.a)
+    chai.assert.strictEqual(res.b, AaBc.b)
+  })
 })
