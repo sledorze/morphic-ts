@@ -136,6 +136,41 @@ export const getStruct = <O extends ReadonlyRecord<string, any>>(
 /**
  *  @since 0.0.1
  */
+export const getPartialStruct = <O extends ReadonlyRecord<string, any>>(
+  recycles: {
+    [K in keyof O]: Recycle<O[K]>
+  }
+): Recycle<O> => {
+  const recyclesArr = Object.keys(recycles).map((k: keyof O) => tuple(k, recycles[k].recycle))
+  return fromRecycle((prev, next) => {
+    const res: O = {} as O
+    let recyclable = true
+    let isNext = true
+    for (const [k, recycle] of recyclesArr) {
+      if (k in next) {
+        const p = prev[k]
+        const n = next[k]
+        const r = recycle(p, n)
+        res[k] = r
+        if (r !== p) {
+          recyclable = false
+        }
+        if (r !== n) {
+          isNext = false
+        }
+      } else {
+        if (k in prev) {
+          recyclable = false
+        }
+      }
+    }
+    return recyclable ? prev : isNext ? next : res
+  })
+}
+
+/**
+ *  @since 0.0.1
+ */
 export const getSet = <A>(_recycle: Recycle<A>): Recycle<Set<A>> =>
   fromRecycle(
     (_prev, next) => next // TODO: revise strategy

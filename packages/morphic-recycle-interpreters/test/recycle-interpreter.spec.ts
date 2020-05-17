@@ -302,6 +302,54 @@ describe('Recycle', () => {
     mustNotRecycle({ type: 'foo' }, {})
   })
 
+  it('partial deep', () => {
+    interface Foo {
+      a: O.Option<string>
+      b: O.Option<number>
+    }
+    const Foo = summon(F =>
+      F.partial(
+        {
+          a: F.nullable(F.string()),
+          b: F.nullable(F.number()),
+          c: F.string()
+        },
+        'Foo'
+      )
+    )
+
+    const { recycle } = Foo
+
+    const a = O.some('a')
+    const aBis = O.some('a')
+    const b = O.some('b')
+    const one = O.some(1)
+    const two = O.some(2)
+
+    const fooA1 = Foo.build({ a, b: one, c: 'c' })
+    const fooA1Bis = Foo.build({ a: aBis, b: one, c: 'c' })
+
+    // recycle member from previous, all values structurally equals
+    const r1 = recycle.recycle(fooA1, fooA1Bis)
+    chai.assert.notStrictEqual(r1, fooA1Bis)
+    chai.assert.strictEqual(r1.a, a)
+    chai.assert.strictEqual(r1.b, one)
+    chai.assert.strictEqual(r1.c, 'c')
+
+    const fooA2 = Foo.build({ a: aBis, b: two })
+    // recycle member from previous, all values not structurally equals AND optional prop
+    const r2 = recycle.recycle(fooA1, fooA2)
+    chai.assert.notStrictEqual(r2, fooA2)
+    chai.assert.strictEqual(r2.a, a)
+    chai.assert.strictEqual(r2.b, two)
+    chai.assert.notProperty(r2, 'c')
+
+    // Nominal case (different)
+    const fooB = Foo.build({ a: b, b: one })
+    const r3 = recycle.recycle(fooA2, fooB)
+    chai.assert.strictEqual(r3, fooB)
+  })
+
   it('taggedUnion', () => {
     interface Foo {
       type: 'foo'

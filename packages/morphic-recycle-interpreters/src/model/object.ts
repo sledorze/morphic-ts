@@ -3,7 +3,7 @@ import { RecycleType, RecycleURI } from '../hkt'
 import { projectFieldWithEnv, memo } from '@morphic-ts/common/lib/utils'
 import { recycleApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
-import { getStruct } from '../recycle'
+import { getStruct, getPartialStruct } from '../recycle'
 
 const asPartial = <T>(x: RecycleType<T>): RecycleType<Partial<T>> => x as any
 /**
@@ -16,6 +16,8 @@ export const recycleObjectInterpreter = memo(
       new RecycleType(recycleApplyConfig(config)(getStruct(projectFieldWithEnv(props, env)('recycle')), env)),
     // relies on Eq<A> whereas we need Eq<Partial<A>> (but works - covered by tests)
     partial: (props, _name, config) => env =>
-      asPartial(new RecycleType(recycleApplyConfig(config)(getStruct(projectFieldWithEnv(props, env)('recycle')), env)))
+      asPartial(
+        new RecycleType(recycleApplyConfig(config)(getPartialStruct(projectFieldWithEnv(props, env)('recycle')), env))
+      )
   })
 )
