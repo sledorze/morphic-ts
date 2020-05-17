@@ -28,7 +28,7 @@ export const recycleIntersectionInterpreter = memo(
         fromRecycle((prev: A, next: A) => {
           let isBasePrevious = true
           // TODO: Optimise with presize
-          const partials: any[] = []
+          const partials: unknown[] = []
 
           for (const recycle of recycles) {
             const res = recycle(prev, next)
