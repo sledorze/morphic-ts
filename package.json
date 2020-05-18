@@ -7,7 +7,7 @@
   ],
   "devDependencies": {
     "@types/chai": "4.2.11",
-    "@types/jest": "25.2.2",
+    "@types/jest": "25.2.3",
     "@types/node": "13.13.3",
     "chai": "4.2.0",
     "docs-ts": "^0.2.1",
