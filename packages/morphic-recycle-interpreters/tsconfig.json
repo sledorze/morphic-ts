@@ -23,7 +23,8 @@
     "strictFunctionTypes": true,
     "skipDefaultLibCheck": true,
     "noStrictGenericChecks": false,
-    "importHelpers": true
+    "importHelpers": true,
+    "downlevelIteration": true
   },
   "include": ["./src/**/*"]
 }

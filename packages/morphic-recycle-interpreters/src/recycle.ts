@@ -5,6 +5,7 @@ import { monoidAll } from 'fp-ts/lib/Monoid'
 import { pipe } from 'fp-ts/lib/pipeable'
 import type { ReadonlyRecord } from 'fp-ts/lib/ReadonlyRecord'
 import { tuple } from 'fp-ts/lib/function'
+import { flatten } from 'fp-ts/lib/Array'
 
 /**
  *  @since 0.0.1
@@ -69,6 +70,8 @@ export const getOption = <A>(recycle: Recycle<A>): Recycle<O.Option<A>> =>
 /**
  *  @since 0.0.1
  */
+// TODO: needs to share as much as possible..
+// TODO: getArrayByKey is a Config optim
 export const getArray = <A>(recycle: Recycle<A>): Recycle<A[]> =>
   fromRecycle((prev, next) =>
     prev.length !== next.length
@@ -81,6 +84,56 @@ export const getArray = <A>(recycle: Recycle<A>): Recycle<A[]> =>
       ? prev
       : next
   )
+
+const mapArrayToIndexedRecord = <A>(getKey: (a: A) => string) => (arr: A[]): Record<string, A> => {
+  // holds null if collision
+  const res: Record<string, A | null> = {}
+  for (const a of arr) {
+    const k = getKey(a)
+    const v = res[k]
+    // collision
+    if (v !== undefined) {
+      if (v !== null) {
+        res[k] = null
+      }
+    } else {
+      res[k] = a
+    }
+  }
+  return removeNullEntries(res)
+}
+
+/**
+ *
+ */
+export const getArrayByKey = <A>(getKey: (a: A) => string) => (recycle: Recycle<A>): Recycle<A[]> =>
+  fromRecycle((prev, next) => {
+    const res = new Array(next.length)
+    let recyclable = true
+    let isNext = true
+
+    const uniq = mapArrayToIndexedRecord(getKey)(prev)
+    let index = 0
+    for (const n of next) {
+      const k = getKey(n)
+      const p = uniq[k] as A | undefined
+      if (p !== undefined) {
+        const r = recycle.recycle(p, n)
+        res[index] = r
+        if (r !== p) {
+          recyclable = false
+        }
+        if (r !== n) {
+          isNext = false
+        }
+      } else {
+        res[index] = n
+        recyclable = false
+      }
+      index++
+    }
+    return recyclable ? prev : isNext ? next : res
+  })
 
 /**
  *  @since 0.0.1
@@ -176,26 +229,90 @@ export const getSet = <A>(_recycle: Recycle<A>): Recycle<Set<A>> =>
     (_prev, next) => next // TODO: revise strategy
   )
 
+const removeNullEntries = <T>(r: Record<string, T | null>): Record<string, NonNullable<T>> => {
+  for (const k in r) {
+    if (r.hasOwnProperty(k)) {
+      if (r[k] === null) {
+        delete r[k]
+      }
+    }
+  }
+  return r as Record<string, NonNullable<T>>
+}
+
+const assumeNotNull = <T>(r: Record<string, T | null>): Record<string, NonNullable<T>> =>
+  r as Record<string, NonNullable<T>>
+
+export const setToRecord = <A>(f: (a: A) => string) => (
+  s: Set<A>
+): { uniq: Record<string, A>; colliding: Record<string, A[]> } => {
+  const uniq: Record<string, A | null> = {}
+  const colliding: Record<string, A[]> = {}
+  let mustFilterNull = false
+  for (const v of s.values()) {
+    const k = f(v)
+    if (k in uniq) {
+      const ov = uniq[k]
+      if (ov === null) {
+        colliding[k].push(v)
+      } else {
+        colliding[k] = [ov, v]
+        uniq[k] = null
+        mustFilterNull = true
+      }
+    } else {
+      uniq[k] = v // General case
+    }
+  }
+
+  return { uniq: mustFilterNull ? removeNullEntries(uniq) : assumeNotNull(uniq), colliding }
+}
+const recordToSet = <A>(r: Record<string, A>, coll: Record<string, A[]>): Set<A> =>
+  new Set([...Object.values(r), ...flatten(Object.values(coll))])
+
+const isEmpty = (x: Record<string, any>) => Object.keys(x).length === 0
+
 /**
  *  @since 0.0.1
  */
-export const getStrMap = <A>(recycle: Recycle<A>): Recycle<Record<string, A>> =>
+export const getStrMap = <A>({ recycle }: Recycle<A>): Recycle<Record<string, A>> =>
   fromRecycle((prev, next) => {
-    const prevKeys = Object.keys(prev)
     const nextKeys = Object.keys(next)
-    if (prevKeys.length !== nextKeys.length) {
-      return next
-    } else {
-      let recyclable = true
-      // TODO: Optimize
-      for (const k of prevKeys) {
-        if (prev.hasOwnProperty(k)) {
-          if (recycle.recycle(prev[k], next[k]) !== prev[k]) {
-            recyclable = false
-            break
-          }
+    const res: Record<string, A> = {}
+    let recyclable = true
+    let isNext = true
+    for (const k of nextKeys) {
+      if (next.hasOwnProperty(k)) {
+        const p = prev[k] as A | undefined
+        const n = next[k]
+        const r = p === undefined ? n : recycle(p, n)
+        res[k] = r
+        if (r !== p) {
+          recyclable = false
+        }
+        if (r !== n) {
+          isNext = false
         }
       }
-      return recyclable ? prev : next
     }
+    return recyclable && Object.keys(prev).length === nextKeys.length ? prev : isNext ? next : res
   })
+
+/**
+ *  @since 0.0.1
+ */
+export const getSetByKey = <A>(getKey: (a: A) => string) => (recycle: Recycle<A>): Recycle<Set<A>> => {
+  const toRecord = setToRecord(getKey)
+  return fromRecycle((prevS, nextS) => {
+    const { uniq: prev, colliding: prevColl } = toRecord(prevS)
+    const { uniq: next, colliding: nextColl } = toRecord(nextS)
+    const res = getStrMap(recycle).recycle(prev, next)
+    return res === prev && isEmpty(prevColl) && isEmpty(nextColl)
+      ? prevS
+      : res === next && isEmpty(nextColl)
+      ? nextS
+      : isEmpty(next)
+      ? nextS
+      : recordToSet(res, nextColl)
+  })
+}

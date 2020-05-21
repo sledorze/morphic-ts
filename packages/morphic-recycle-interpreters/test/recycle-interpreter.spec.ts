@@ -10,11 +10,21 @@ import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { Newtype, iso } from 'newtype-ts'
 import { RecycleURI } from '../src/index'
 import { left, right, Either, isRight, isLeft } from 'fp-ts/lib/Either'
-import { option as O } from 'fp-ts'
-import { Recycle, fromRecycle } from '../src/recycle'
+import { option as O, ord } from 'fp-ts'
+import { Recycle, fromRecycle, setToRecord, getSetByKey, getStrMap, getArrayByKey } from '../src/recycle'
+import { AType } from '@morphic-ts/batteries/lib/usage/utils'
 
 export const RecycleInterpreterURI = 'RecycleInterpreterURI' as const
 export type RecycleInterpreterURI = typeof RecycleInterpreterURI
+
+import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters'
+import { modelOrdInterpreter } from '@morphic-ts/ord-interpreters'
+import { Branded } from 'io-ts'
+import { ordString, ordNumber } from 'fp-ts/lib/Ord'
+import { tuple } from 'fp-ts/lib/function'
+import * as fc from 'fast-check'
+
+const clone = <A extends object>(a: A) => ({ ...a })
 
 interface RecycleInterpreter<A> {
   build: (a: A) => A
@@ -533,5 +543,233 @@ describe('Recycle', () => {
     chai.assert.notStrictEqual(res, AaBc)
     chai.assert.strictEqual(res.a, AaBb.a)
     chai.assert.strictEqual(res.b, AaBc.b)
+  })
+
+  it('preserve structural equality', () => {
+    interface Test extends Newtype<{ readonly Test: unique symbol }, string> {}
+
+    interface NonEmptyBrand {
+      readonly NonEmpty: unique symbol
+    }
+
+    const Obj = summon(F => F.interface({ a: F.string(), b: F.number() }, 'Obj'))
+    const ordObj = ord.ord.contramap(ord.getTupleOrd(ordString, ordNumber), (x: { a: string; b: number }) =>
+      tuple(x.a, x.b)
+    )
+
+    const ObjA = summon(F => F.interface({ type: F.stringLiteral('ObjA'), x: F.string() }, 'ObjA'))
+    const ObjB = summon(F => F.interface({ type: F.stringLiteral('ObjB'), y: F.string() }, 'ObjB'))
+    const ObjC = summon(F => F.interface({ type: F.stringLiteral('ObjC'), z: F.string() }, 'ObjC'))
+
+    const A = summon(F =>
+      F.interface(
+        {
+          bigint: F.bigint(),
+          boolean: F.boolean(),
+          date: F.date(),
+          either: F.either(F.string(), F.number()),
+          keysOf: F.keysOf({ a: null, b: null }),
+          newType: F.newtype<Test>('Test')(F.string()),
+          nullable: F.nullable(F.string()),
+          number: F.number(),
+          option: F.option(F.string()),
+          partial: F.partial({ a: F.string(), b: F.number() }, 'P'),
+          refined: F.refined(F.string(), (x: string): x is Branded<string, NonEmptyBrand> => x.length > 0, 'NonEmpty'),
+          set: F.set(Obj(F), ordObj),
+          strMap: F.strMap(Obj(F)),
+          array: F.array(Obj(F)),
+          stringLiteral: F.stringLiteral('foo'),
+          unknown: F.unknown(),
+          uuid: F.uuid(),
+          taggedUnion: F.taggedUnion(
+            'type',
+            {
+              ObjA: ObjA(F),
+              ObjB: ObjB(F),
+              ObjC: ObjC(F)
+            },
+            'e'
+          )
+        },
+        'A'
+      )
+    )
+    const { arb } = A.derive(modelFastCheckInterpreter())({})
+
+    fc.property(arb, arb, (x, y) => chai.assert.deepStrictEqual(A.recycle.recycle(x, y), y))
+  })
+})
+
+describe('setToRecord', () => {
+  const A = summon(F => F.interface({ a: F.string(), b: F.string() }, 'A'))
+  type A = AType<typeof A>
+
+  const Aa1 = A.build({ a: 'a', b: '1' })
+  const Aa2 = A.build({ a: 'a', b: '2' })
+  const Ab1 = A.build({ a: 'b', b: '1' })
+  const Ab2 = A.build({ a: 'b', b: '2' })
+
+  const toRecordByA = setToRecord<A>(_ => _.a)
+
+  it('index by property', () => {
+    const { uniq, colliding } = toRecordByA(new Set([Aa1, Ab2]))
+    chai.assert.deepStrictEqual(uniq, { a: Aa1, b: Ab2 })
+    chai.assert.deepStrictEqual(colliding, {})
+  })
+
+  it('report colliding keys separately', () => {
+    const { uniq, colliding } = toRecordByA(new Set([Aa1, Aa2, Ab1, Ab2]))
+    chai.assert.deepStrictEqual(uniq, {})
+    chai.assert.deepStrictEqual(colliding, { a: [Aa1, Aa2], b: [Ab1, Ab2] })
+  })
+
+  it('index and report colliding keys', () => {
+    const { uniq, colliding } = toRecordByA(new Set([Aa1, Aa2, Ab1]))
+    chai.assert.deepStrictEqual(uniq, { b: Ab1 })
+    chai.assert.deepStrictEqual(colliding, { a: [Aa1, Aa2] })
+  })
+})
+
+describe('getSetByKey', () => {
+  const A = summon(F => F.interface({ a: F.string(), b: F.nullable(F.string()) }, 'A'))
+  type A = AType<typeof A>
+  const Aa1 = A.build({ a: 'a', b: O.some('1') })
+  const Aa2 = A.build({ a: 'a', b: O.some('2') })
+  const Ab1 = A.build({ a: 'b', b: O.some('1') })
+  const Ab2 = A.build({ a: 'b', b: O.some('2') })
+
+  const getSetByA = getSetByKey<A>(_ => _.a)
+  const recycle = getSetByA(A.recycle)
+  const { mustRecycle, mustNotRecycle } = makeRecycler(recycle)
+
+  it('returns previous if totally recycled', () => {
+    const set1 = new Set([Aa1, Ab1])
+    const set2 = new Set([clone(Aa1), clone(Ab1)])
+    mustRecycle(set1, set2)
+  })
+  it('returns next if no recycling possible', () => {
+    const set1 = new Set([Aa1, Ab1])
+    const set2 = new Set([Aa2, Ab2])
+    mustNotRecycle(set1, set2)
+  })
+  it('returns a mix with recycled parts if sharing is partial', () => {
+    const set1 = new Set([Aa1, Ab1])
+    const set2 = new Set([clone(Aa1), Ab2])
+    const r = recycle.recycle(set1, set2)
+    chai.assert.notStrictEqual(r, set1)
+    chai.assert.notStrictEqual(r, set2)
+    chai.assert.deepStrictEqual(r, set2)
+    mustRecycle(r, new Set([Aa1, Ab2]))
+  })
+  it('returns next values of colliding ones', () => {
+    const set1 = new Set([Aa1])
+    const set2 = new Set([clone(Aa1), Aa2])
+    const r = recycle.recycle(set1, set2)
+    chai.assert.strictEqual(r, set2)
+  })
+  it('does not recycle colliding prev values', () => {
+    const set1 = new Set([clone(Aa1), Aa2])
+    const set2 = new Set([Aa1])
+    const r = recycle.recycle(set1, set2)
+    chai.assert.strictEqual(r, set2)
+  })
+  it('does return all next colliding values if recycling prev', () => {
+    const set1 = new Set([Ab1])
+    const set2 = new Set([Aa1, Aa2, clone(Ab1)])
+    const r = recycle.recycle(set1, set2)
+
+    const setToRecordByAB = setToRecord((_: A) => `${_.a}${_.b}`)
+
+    chai.assert.deepStrictEqual(setToRecordByAB(r), setToRecordByAB(set2))
+    chai.assert.equal(Array.from(r.values()).filter(x => x === Ab1).length, 1)
+  })
+})
+
+describe('strMap', () => {
+  const A = summon(F => F.interface({ b: F.nullable(F.string()) }, 'A'))
+  type A = AType<typeof A>
+  const A1 = A.build({ b: O.some('1') })
+  const A2 = A.build({ b: O.some('2') })
+  const A3 = A.build({ b: O.some('3') })
+  const A4 = A.build({ b: O.some('4') })
+
+  const recycle = getStrMap(A.recycle)
+  const { mustRecycle, mustNotRecycle } = makeRecycler(recycle)
+
+  it('should recycle shared keys', () => {
+    mustRecycle({ a: A1, b: A2 }, { a: clone(A1), b: clone(A2) })
+  })
+
+  it('should not recycle if no shared keys', () => {
+    mustNotRecycle({ a: A1, b: A2 }, { a: A3, b: A4 })
+  })
+
+  it('should paritally recycle', () => {
+    const set1 = { a: A1, b: A2 }
+    const set2 = { a: A1, b: clone(A2) }
+    const r = recycle.recycle(set1, set2)
+    chai.assert.deepStrictEqual(r, set2)
+    chai.assert.strictEqual(r['b'], A2)
+  })
+
+  it('should not leak prev values', () => {
+    const set1 = { a: A1, b: A2, c: A3 }
+    const set2 = { a: A1, b: clone(A2) }
+    chai.assert.deepStrictEqual(recycle.recycle(set1, set2), set2)
+  })
+
+  it('should not leak prev values (2)', () => {
+    const set1 = { a: A1, b: A2, c: A3 }
+    const set2 = { a: A1, b: A2 }
+    chai.assert.deepStrictEqual(recycle.recycle(set1, set2), set2)
+  })
+
+  it('should not forgot next values', () => {
+    const set1 = { a: A1, b: A2 }
+    const set2 = { a: A1, b: A2, c: A3 }
+    chai.assert.deepStrictEqual(recycle.recycle(set1, set2), set2)
+  })
+})
+
+describe('getArrayByKey', () => {
+  const A = summon(F => F.interface({ a: F.string(), b: F.nullable(F.string()) }, 'A'))
+  type A = AType<typeof A>
+
+  const Aa1 = A.build({ a: 'a', b: O.some('1') })
+  const Aa1Bis = A.build({ a: 'a', b: O.some('1') })
+  const Aa2 = A.build({ a: 'a', b: O.some('2') })
+  const Ab1 = A.build({ a: 'b', b: O.some('1') })
+  const Ab1Bis = A.build({ a: 'b', b: O.some('1') })
+  const Ab2 = A.build({ a: 'b', b: O.some('2') })
+  // const Aa2Bis = A.build({ a: 'a', b: O.some('2') })
+  // const Aa3 = A.build({ a: 'a', b: O.some('3') })
+  // const Aa4 = A.build({ a: 'a', b: O.some('4') })
+
+  const recycle = getArrayByKey<A>(_ => _.a)(A.recycle)
+  const { mustRecycle, mustNotRecycle } = makeRecycler(recycle)
+
+  it('should recycle equals values', () => {
+    mustRecycle([Aa1, Ab1], [Aa1Bis, Ab1Bis])
+  })
+
+  it('should not recycle different values', () => {
+    mustNotRecycle([Aa1, Ab1], [Aa2, Ab2])
+  })
+
+  it('should not recycle different values', () => {
+    const arr1 = [Aa1, Ab1]
+    const arr2 = [Aa1Bis, Ab2]
+    const res = recycle.recycle(arr1, arr2)
+    chai.assert.deepStrictEqual(res, arr2)
+    chai.assert.strictEqual(res[0], Aa1)
+    chai.assert.strictEqual(res[1], Ab2)
+  })
+
+  it('should cope with new keys', () => {
+    const arr1 = [Aa1]
+    const arr2 = [Aa1Bis, Ab2]
+    const res = recycle.recycle(arr1, arr2)
+    chai.assert.deepStrictEqual(res, arr2)
+    chai.assert.strictEqual(res[0], Aa1)
   })
 })
