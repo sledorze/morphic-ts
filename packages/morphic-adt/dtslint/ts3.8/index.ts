@@ -53,8 +53,8 @@ fooBar.match({
 fooBar.match(
   {
     foo: foo => foo.a.length,
-    bar: (_) => _.d,
-    baz: (_) => 2
+    bar: _ => _.d,
+    baz: _ => 2
   },
   // $ExpectType (x: never) => number
   x => 2
