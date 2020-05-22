@@ -18,7 +18,6 @@ export const RecycleInterpreterURI = 'RecycleInterpreterURI' as const
 export type RecycleInterpreterURI = typeof RecycleInterpreterURI
 
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters'
-import { modelOrdInterpreter } from '@morphic-ts/ord-interpreters'
 import { Branded } from 'io-ts'
 import { ordString, ordNumber } from 'fp-ts/lib/Ord'
 import { tuple } from 'fp-ts/lib/function'

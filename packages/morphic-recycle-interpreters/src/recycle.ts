@@ -87,20 +87,20 @@ export const getArray = <A>(recycle: Recycle<A>): Recycle<A[]> =>
 
 const mapArrayToIndexedRecord = <A>(getKey: (a: A) => string) => (arr: A[]): Record<string, A> => {
   // holds null if collision
-  const res: Record<string, A | null> = {}
+  const res: Record<string, A> = {}
   for (const a of arr) {
     const k = getKey(a)
-    const v = res[k]
-    // collision
-    if (v !== undefined) {
-      if (v !== null) {
-        res[k] = null
-      }
-    } else {
-      res[k] = a
-    }
+    // const v = res[k]
+    // // collision ?
+    // if (v !== undefined) {
+    //   // if (v !== null) {
+    //   //   res[k] = null // remove colliding entries
+    //   // }
+    // } else {
+    res[k] = a
+    // }
   }
-  return removeNullEntries(res)
+  return res // removeNullEntries(res)
 }
 
 /**
@@ -113,10 +113,10 @@ export const getArrayByKey = <A>(getKey: (a: A) => string) => (recycle: Recycle<
     let isNext = true
 
     const uniq = mapArrayToIndexedRecord(getKey)(prev)
-    let index = 0
-    for (const n of next) {
-      const k = getKey(n)
-      const p = uniq[k] as A | undefined
+    const l = next.length
+    for (let index = 0; index < l; index++) {
+      const n = next[index]
+      const p = uniq[getKey(n)] as A | undefined
       if (p !== undefined) {
         const r = recycle.recycle(p, n)
         res[index] = r
@@ -130,7 +130,6 @@ export const getArrayByKey = <A>(getKey: (a: A) => string) => (recycle: Recycle<
         res[index] = n
         recyclable = false
       }
-      index++
     }
     return recyclable ? prev : isNext ? next : res
   })
