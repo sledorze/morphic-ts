@@ -21,10 +21,11 @@ parent: Modules
 ```ts
 export interface Matchers<A, Tag extends keyof A> {
   fold: Folder<A>
-  match: Matcher<A, Tag>
   transform: Transform<A, Tag>
   matchWiden: MatcherWiden<A, Tag>
+  match: Matcher<A, Tag>
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
+  strict: <R>(f: (_: A) => R) => (_: A) => R
 }
 ```
 
