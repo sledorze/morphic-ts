@@ -454,18 +454,36 @@ const nbSeats = Vehicle.match({
 })
 
 // Alternatively you may use `default`
-Vehicle.match({
+Vehicle.match(
+  {
+    Car: ({ seats }) => seats,
+    Motorbike: ({ seats }) => seats
+  },
+  _ => 1
+)
+
+// match widens the returned type by contructing a union of all branches result types
+// Here it is number | 'none'
+Vehicle.match(
+  {
+    Car: ({ seats }) => seats,
+    Motorbike: ({ seats }) => seats
+  },
+  _ => 'none' as const
+)
+
+// A stricter variant enforcing homogeneous return type in branches exists
+Vehicle.matchStrict({
   Car: ({ seats }) => seats,
   Motorbike: ({ seats }) => seats,
-  default: _ => 1
+  Bicycle: _ => 1
 })
 
-// Use matchWiden, then the return type will be unified from each results
-// Here it would be number | 'none'
-Vehicle.matchWiden({
+// Which would error in case of heterogeneous return types, like this:
+Vehicle.matchStrict({
   Car: ({ seats }) => seats,
   Motorbike: ({ seats }) => seats,
-  default: _ => 'none' as const
+  Bicycle: _ => 'none'
 })
 ```
 
