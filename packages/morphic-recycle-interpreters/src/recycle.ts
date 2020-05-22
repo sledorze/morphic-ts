@@ -85,22 +85,35 @@ export const getArray = <A>(recycle: Recycle<A>): Recycle<A[]> =>
       : next
   )
 
+/**
+ * version discarding all collisions (including the initial collided value)
+ */
+// const mapArrayToIndexedRecord = <A>(getKey: (a: A) => string) => (arr: A[]): Record<string, A> => {
+//   // holds null if collision
+//   const res: Record<string, A | null> = {}
+//   for (const a of arr) {
+//     const k = getKey(a)
+//     const v = res[k]
+//     // collision
+//     if (v !== undefined) {
+//       if (v !== null) {
+//         res[k] = null
+//       }
+//     } else {
+//       res[k] = a
+//     }
+//   }
+//   return removeNullEntries(res)
+// }
+
 const mapArrayToIndexedRecord = <A>(getKey: (a: A) => string) => (arr: A[]): Record<string, A> => {
-  // holds null if collision
   const res: Record<string, A> = {}
-  for (const a of arr) {
-    const k = getKey(a)
-    // const v = res[k]
-    // // collision ?
-    // if (v !== undefined) {
-    //   // if (v !== null) {
-    //   //   res[k] = null // remove colliding entries
-    //   // }
-    // } else {
-    res[k] = a
-    // }
+  const l = arr.length
+  for (let i = 0; i < l; i++) {
+    const a = arr[i]
+    res[getKey(a)] = a
   }
-  return res // removeNullEntries(res)
+  return res
 }
 
 /**
