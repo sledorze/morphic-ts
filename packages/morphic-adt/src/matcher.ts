@@ -50,9 +50,9 @@ interface MatcherStrictInter<A, Rec> {
 interface MatcherWiden<A, Tag extends keyof A> extends MatcherWidenIntern<A, ValueByKeyByTag<A>[Tag]> {}
 
 interface MatcherWidenIntern<A, Record> {
-  <M extends Cases<Record, any>>(match: M): (a: A) => ReturnType<M[keyof M]> extends infer R ? R : never
+  <M extends Cases<Record, unknown>>(match: M): (a: A) => ReturnType<M[keyof M]> extends infer R ? R : never
   <
-    M extends Partial<Cases<Record, any>>,
+    M extends Partial<Cases<Record, unknown>>,
     D extends (_: { [k in keyof Record]: Record[k] }[Exclude<keyof Record, keyof M>]) => any
   >(
     match: M,
