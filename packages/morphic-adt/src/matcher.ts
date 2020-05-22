@@ -40,16 +40,12 @@ interface Matcher<A, Tag extends keyof A> extends MatcherInter<A, ValueByKeyByTa
 
 declare type EmptyIfEmpty<R> = keyof R extends never ? {} : R
 
-interface MatcherInter<A, Record> {
-  <R, M extends Cases<Record, R>>(match: M & Partial<Cases<Record, R>>): (
+interface MatcherInter<A, Rec> {
+  <R, M extends Cases<Rec, R>>(match: M & Record<string, (x: any) => R>): (
     a: A
   ) => ReturnType<M[keyof M]> extends infer R ? R : never
-  <
-    R,
-    M extends Partial<Cases<Record, R>>,
-    D extends (_: { [k in keyof Record]: Record[k] }[Exclude<keyof Record, keyof M>]) => R
-  >(
-    match: EmptyIfEmpty<M> & Partial<Cases<Record, R>>,
+  <R, M extends Partial<Cases<Rec, R>>, D extends (_: { [k in keyof Rec]: Rec[k] }[Exclude<keyof Rec, keyof M>]) => R>(
+    match: EmptyIfEmpty<M> & Partial<Cases<Rec, R>>,
     def: D
   ): (
     a: A
@@ -89,11 +85,17 @@ export interface Reducer<S, A> {
  *  @since 0.0.1
  */
 export interface Matchers<A, Tag extends keyof A> {
+  /** Folds to a value */
   fold: Folder<A>
+  /** Transforms partial values to the same type */
   transform: Transform<A, Tag>
+  /** Matcher which is winden in its Return type (infers a Union of all branches) */
   matchWiden: MatcherWiden<A, Tag>
-  match: Matcher<A, Tag>
+  /** Matcher which is strict in its Return type (should be the same for all branches) */
+  matchStrict: Matcher<A, Tag>
+  /** Creates a reducer enabling State evolution */
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
+  /** Enforces the inner function to return a specificiable type */
   strict: <R>(f: (_: A) => R) => (_: A) => R
 }
 
@@ -116,7 +118,7 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
     }
   }
   return {
-    match,
+    matchStrict: match,
     matchWiden: match,
     transform,
     fold,

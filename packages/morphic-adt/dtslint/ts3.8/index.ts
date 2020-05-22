@@ -29,14 +29,21 @@ fooBar.matchWiden({ foo: () => (undefined as any) as never }, x => x) // $Expect
 fooBar.matchWiden({ foo: x => x.type, bar: x => x.type, baz: x => x.type }) // $ExpectType (a: Foo | Bar | Baz) => "foo" | "bar" | "baz"
 
 // $ExpectType (a: Foo | Bar | Baz) => number
-fooBar.match({
+fooBar.matchStrict({
   foo: foo => foo.a.length,
   bar: _ => 2,
   baz: _ => 2
 })
 
+// $ExpectType (a: Foo | Bar | Baz) => number
+fooBar.matchStrict({
+  foo: foo => foo.a.length,
+  bar: _ => 2,
+  baz: () => 2
+})
+
 // $ExpectType (a: Foo | Bar | Baz) => unknown
-fooBar.match({
+fooBar.matchStrict({
   foo: foo => foo.a.length,
   // $ExpectError
   bar: _ => '2',
@@ -44,13 +51,13 @@ fooBar.match({
 })
 
 // $ExpectError
-fooBar.match({
+fooBar.matchStrict({
   foo: foo => foo.a.length,
   baz: _ => 2
 })
 
 // $ExpectType (a: Foo | Bar | Baz) => number
-fooBar.match(
+fooBar.matchStrict(
   {
     foo: foo => foo.a.length,
     bar: _ => _.d,
@@ -61,7 +68,7 @@ fooBar.match(
 )
 
 // $ExpectType (a: Foo | Bar | Baz) => unknown
-fooBar.match(
+fooBar.matchStrict(
   {
     foo: foo => foo.a.length,
     bar: _ => 2
@@ -71,7 +78,7 @@ fooBar.match(
 )
 
 // $ExpectType (a: Foo | Bar | Baz) => unknown
-fooBar.match(
+fooBar.matchStrict(
   {
     foo: foo => foo.a.length,
     // $ExpectError
@@ -81,14 +88,14 @@ fooBar.match(
 )
 
 // $ExpectType (a: Foo | Bar | Baz) => number
-fooBar.match(
+fooBar.matchStrict(
   {},
   // $ExpectType (x: Foo | Bar | Baz) => number
   x => 2
 )
 
 // $ExpectType (a: Foo | Bar | Baz) => number
-fooBar.match(
+fooBar.matchStrict(
   {
     foo: foo => foo.a.length,
     bar: _ => 2
