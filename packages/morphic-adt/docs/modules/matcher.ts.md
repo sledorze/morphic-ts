@@ -20,11 +20,19 @@ parent: Modules
 
 ```ts
 export interface Matchers<A, Tag extends keyof A> {
+  /** Folds to a value */
   fold: Folder<A>
+  /** Transforms partial values to the same type */
   transform: Transform<A, Tag>
-  matchWiden: MatcherWiden<A, Tag>
-  match: Matcher<A, Tag>
+  /** Matcher which is widens its Return type (infers a Union of all branches), supports a default as last parameter */
+  match: MatcherWiden<A, Tag>
+  /**
+   * Matcher which is strict in its Return type (should be the same for all branches)
+   */
+  matchStrict: MatcherStrict<A, Tag>
+  /** Creates a reducer enabling State evolution */
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
+  /** Enforces the inner function to return a specificiable type */
   strict: <R>(f: (_: A) => R) => (_: A) => R
 }
 ```

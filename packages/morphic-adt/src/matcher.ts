@@ -36,22 +36,12 @@ interface ReducerBuilder<S, A, Tag extends keyof A> {
  * Dispatch calls for each tag value, ensuring a common result type `R`
  */
 
-interface Matcher<A, Tag extends keyof A> extends MatcherInter<A, ValueByKeyByTag<A>[Tag]> {}
+interface MatcherStrict<A, Tag extends keyof A> extends MatcherStrictInter<A, ValueByKeyByTag<A>[Tag]> {}
 
 declare type EmptyIfEmpty<R> = keyof R extends never ? {} : R
 
-interface MatcherInter<A, Rec> {
-  <R, M extends Cases<Rec, R>>(match: M & Record<string, (x: any) => R>): (
-    a: A
-  ) => ReturnType<M[keyof M]> extends infer R ? R : never
-  <R, M extends Partial<Cases<Rec, R>>, D extends (_: { [k in keyof Rec]: Rec[k] }[Exclude<keyof Rec, keyof M>]) => R>(
-    match: EmptyIfEmpty<M> & Partial<Cases<Rec, R>>,
-    def: D
-  ): (
-    a: A
-  ) =>
-    | (ReturnType<NonNullable<M[keyof M]>> extends infer R ? R : never)
-    | (unknown extends ReturnType<D> ? never : ReturnType<D>)
+interface MatcherStrictInter<A, Rec> {
+  <R>(match: Cases<Rec, R>): (a: A) => R
 }
 
 /**
@@ -89,10 +79,12 @@ export interface Matchers<A, Tag extends keyof A> {
   fold: Folder<A>
   /** Transforms partial values to the same type */
   transform: Transform<A, Tag>
-  /** Matcher which is winden in its Return type (infers a Union of all branches) */
-  matchWiden: MatcherWiden<A, Tag>
-  /** Matcher which is strict in its Return type (should be the same for all branches) */
-  matchStrict: Matcher<A, Tag>
+  /** Matcher which is widens its Return type (infers a Union of all branches), supports a default as last parameter */
+  match: MatcherWiden<A, Tag>
+  /**
+   * Matcher which is strict in its Return type (should be the same for all branches)
+   */
+  matchStrict: MatcherStrict<A, Tag>
   /** Creates a reducer enabling State evolution */
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
   /** Enforces the inner function to return a specificiable type */
@@ -119,7 +111,7 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
   }
   return {
     matchStrict: match,
-    matchWiden: match,
+    match,
     transform,
     fold,
     createReducer,
