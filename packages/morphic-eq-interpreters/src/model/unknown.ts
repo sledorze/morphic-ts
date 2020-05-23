@@ -6,6 +6,9 @@ import { eqApplyConfig } from '../config'
 import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
+/**
+ *  @since 0.0.1
+ */
 export interface CustomizeUnknown<RC> {
   compare: 'default-circular' | 'default-non-circular' | ((env: RC) => Eq<unknown>)
 }

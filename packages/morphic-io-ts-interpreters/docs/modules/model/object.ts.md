@@ -18,7 +18,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const ioTsNonStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = ...
+export const ioTsNonStrictObjectInterpreter: <Env extends Partial<Record<"IoTsURI", any>>>() => ModelAlgebraObject2<"IoTsURI", Env> = ...
 ```
 
 Added in v0.0.1
@@ -28,7 +28,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const ioTsStrictObjectInterpreter: ModelAlgebraObject2<IoTsURI> = ...
+export const ioTsStrictObjectInterpreter: <Env extends Partial<Record<"IoTsURI", any>>>() => ModelAlgebraObject2<"IoTsURI", Env> = ...
 ```
 
 Added in v0.0.1

@@ -8,16 +8,27 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [eqConfig (constant)](#eqconfig-constant)
+- [eqApplyConfig (constant)](#eqapplyconfig-constant)
+- [EqURI (export)](#equri-export)
 
 ---
 
-# eqConfig (constant)
+# eqApplyConfig (constant)
 
 **Signature**
 
 ```ts
-export const eqConfig: ConfigWrapper<"EqURI"> = ...
+export const eqApplyConfig: <E, A, R>(config?: { EqURI?: GenConfig<Eq<A>, R>; }) => GenConfig<Eq<A>, R> = ...
+```
+
+Added in v0.0.1
+
+# EqURI (export)
+
+**Signature**
+
+```ts
+'EqURI'
 ```
 
 Added in v0.0.1

@@ -1,7 +1,12 @@
 import { getApplyConfig } from '@morphic-ts/common/lib/config'
 import { ShowURI } from './hkt'
 export * from './model'
-export { ShowURI }
+export {
+  /**
+   *  @since 0.0.1
+   */
+  ShowURI
+}
 /**
  *  @since 0.0.1
  */

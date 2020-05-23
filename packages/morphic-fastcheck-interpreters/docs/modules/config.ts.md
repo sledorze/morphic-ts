@@ -8,16 +8,27 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [fastCheckConfig (constant)](#fastcheckconfig-constant)
+- [fastCheckApplyConfig (constant)](#fastcheckapplyconfig-constant)
+- [FastCheckURI (export)](#fastcheckuri-export)
 
 ---
 
-# fastCheckConfig (constant)
+# fastCheckApplyConfig (constant)
 
 **Signature**
 
 ```ts
-export const fastCheckConfig: ConfigWrapper<"FastCheckURI"> = ...
+export const fastCheckApplyConfig: <E, A, R>(config?: { FastCheckURI?: GenConfig<Arbitrary<A>, R>; }) => GenConfig<Arbitrary<A>, R> = ...
+```
+
+Added in v0.0.1
+
+# FastCheckURI (export)
+
+**Signature**
+
+```ts
+'FastCheckURI'
 ```
 
 Added in v0.0.1

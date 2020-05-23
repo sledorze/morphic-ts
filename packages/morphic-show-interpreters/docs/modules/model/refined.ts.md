@@ -1,6 +1,6 @@
 ---
 title: model/refined.ts
-nav_order: 12
+nav_order: 11
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showRefinedInterpreter: ModelAlgebraRefined1<ShowURI> = ...
+export const showRefinedInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraRefined1<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

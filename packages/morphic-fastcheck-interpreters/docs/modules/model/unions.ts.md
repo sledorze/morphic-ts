@@ -1,6 +1,6 @@
 ---
 title: model/unions.ts
-nav_order: 16
+nav_order: 15
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const fastCheckUnionInterpreter: ModelAlgebraUnions1<FastCheckURI> = ...
+export const fastCheckUnionInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraUnions1<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

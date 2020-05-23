@@ -1,6 +1,6 @@
 ---
 title: model/refined.ts
-nav_order: 12
+nav_order: 11
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const fastCheckRefinedInterpreter: ModelAlgebraRefined1<FastCheckURI> = ...
+export const fastCheckRefinedInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraRefined1<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

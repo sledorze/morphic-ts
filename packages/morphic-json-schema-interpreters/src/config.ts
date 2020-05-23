@@ -1,7 +1,12 @@
 import { getApplyConfig } from '@morphic-ts/common/lib/config'
 import { JsonSchemaURI } from './hkt'
 export * from './model'
-export { JsonSchemaURI }
+export {
+  /**
+   *  @since 0.0.1
+   */
+  JsonSchemaURI
+}
 /**
  *  @since 0.0.1
  */

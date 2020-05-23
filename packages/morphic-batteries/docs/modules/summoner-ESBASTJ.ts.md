@@ -1,6 +1,6 @@
 ---
 title: summoner-ESBASTJ.ts
-nav_order: 9
+nav_order: 12
 parent: Modules
 ---
 
@@ -8,71 +8,81 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [AsOpaque (export)](#asopaque-export)
-- [AsUOpaque (export)](#asuopaque-export)
-- [M (export)](#m-export)
-- [UM (export)](#um-export)
-- [summon (export)](#summon-export)
-- [tagged (export)](#tagged-export)
+- [M (interface)](#m-interface)
+- [Summoner (interface)](#summoner-interface)
+- [UM (interface)](#um-interface)
+- [AsOpaque (function)](#asopaque-function)
+- [AsUOpaque (function)](#asuopaque-function)
+- [summonFor (function)](#summonfor-function)
 
 ---
 
-# AsOpaque (export)
+# M (interface)
+
+Type level override to keep Morph type name short \*/
+/\*\*
 
 **Signature**
 
 ```ts
-<E, A>(x: M<E, A>) => M<E, A>
+export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
 ```
 
 Added in v0.0.1
 
-# AsUOpaque (export)
+# Summoner (interface)
 
 **Signature**
 
 ```ts
-<A>(x: UM<A>) => UM<A>
+export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBASTJInterpreterURI, R> {
+  <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
+}
 ```
 
 Added in v0.0.1
 
-# M (export)
+# UM (interface)
 
 **Signature**
 
 ```ts
-any
+export interface UM<R, A> extends M<R, {}, A> {}
 ```
 
 Added in v0.0.1
 
-# UM (export)
+# AsOpaque (function)
 
 **Signature**
 
 ```ts
-any
+export const AsOpaque = <E, A>() => <X extends M<any, E, A>>(x: X): M<X['_R'], E, A> => ...
 ```
 
 Added in v0.0.1
 
-# summon (export)
+# AsUOpaque (function)
 
 **Signature**
 
 ```ts
-Summoners<"ProgramNoUnionURI", "ESBASTJInterpreterURI">
+export const AsUOpaque = <A>() => <X extends UM<any, A>>(x: X): UM<X['_R'], A> => ...
 ```
 
 Added in v0.0.1
 
-# tagged (export)
+# summonFor (function)
 
 **Signature**
 
 ```ts
-<Tag>(tag: Tag) => <Types>(o: Types) => MorphADT<{ [k in keyof Types]: Types[k] extends InhabitedTypes<infer E, infer A> ? [E, A] : never; }, Tag, "ProgramNoUnionURI", "ESBASTJInterpreterURI">
+export const summonFor: <R extends AnyEnv = {}>(
+  env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI | EqURI | ShowURI>
+) => SummonerOps<Summoner<R>> = <R extends AnyConfigEnv = {}>(
+  env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI | EqURI | ShowURI>
+) =>
+  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ...
 ```
 
 Added in v0.0.1

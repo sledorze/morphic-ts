@@ -1,6 +1,6 @@
 ---
 title: model/unknown.ts
-nav_order: 17
+nav_order: 16
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const fastCheckUnknownInterpreter: ModelAlgebraUnknown1<FastCheckURI> = ...
+export const fastCheckUnknownInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraUnknown1<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

@@ -16,8 +16,17 @@ export interface Summoners<ProgURI extends ProgramURI, InterpURI extends Interpr
   _I: InterpURI
   _R: R
 }
+/**
+ *  @since 0.0.1
+ */
 export type SummonerProgURI<X extends Summoners<any, any, any>> = NonNullable<X['_P']>
+/**
+ *  @since 0.0.1
+ */
 export type SummonerInterpURI<X extends Summoners<any, any, any>> = NonNullable<X['_I']>
+/**
+ *  @since 0.0.1
+ */
 export type SummonerEnv<X extends Summoners<any, any, any>> = NonNullable<X['_R']>
 
 /**
@@ -26,11 +35,17 @@ export type SummonerEnv<X extends Summoners<any, any, any>> = NonNullable<X['_R'
  * - Returns the interpreter extended with matchers, monocle definitions, etc..
  */
 
+/**
+ *  @since 0.0.1
+ */
 export interface MakeSummonerResult<S extends Summoners<any, any, any>> {
   summon: S
   tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface SummonerOps<S extends Summoners<any, any, any> = never> {
   summon: S
   tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
@@ -67,7 +82,13 @@ export function makeSummoner<S extends Summoners<any, any, any> = never>(
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export type ExtractEnv<Env, SummonerEnv extends URIS | URIS2> = {
   [k in SummonerEnv & keyof Env]: NonNullable<Env>[k & keyof Env]
 }
+/**
+ *  @since 0.0.1
+ */
 export type AnyConfigEnv = AnyEnv

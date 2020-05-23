@@ -6,6 +6,7 @@ import type { Validated } from './create'
  *  @since 0.0.1
  */
 export const IoTsURI = 'IoTsURI' as const
+
 /**
  *  @since 0.0.1
  */

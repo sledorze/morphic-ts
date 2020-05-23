@@ -1,6 +1,6 @@
 ---
 title: str-map.ts
-nav_order: 8
+nav_order: 9
 parent: Modules
 ---
 
@@ -21,16 +21,13 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface ModelAlgebraStrMap<F> {
+export interface ModelAlgebraStrMap<F, Env> {
   _F: F
   strMap: {
-    <L, A>(codomain: HKT2<F, L, A>): isOptionalConfig<
-      StrMapConfig<L, A>,
-      HKT2<F, Array<[string, L]>, Record<string, A>>
-    >
-    <L, A>(codomain: HKT2<F, L, A>, config: ByInterp<StrMapConfig<L, A>, URIS | URIS2>): HKT2<
+    <L, A>(codomain: HKT2<F, Env, L, A>, config?: ConfigsForType<Env, Record<string, L>, Record<string, A>>): HKT2<
       F,
-      Array<[string, L]>,
+      Env,
+      Record<string, L>,
       Record<string, A>
     >
   }
@@ -44,9 +41,12 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface ModelAlgebraStrMap1<F extends URIS> {
+export interface ModelAlgebraStrMap1<F extends URIS, Env extends AnyEnv> {
   _F: F
-  strMap: <A>(codomain: Kind<F, A>, config: ByInterp<StrMapConfig<unknown, A>, F>) => Kind<F, Record<string, A>>
+  strMap: <A>(
+    codomain: Kind<F, Env, A>,
+    config?: ConfigsForType<Env, unknown, Record<string, A>>
+  ) => Kind<F, Env, Record<string, A>>
 }
 ```
 
@@ -57,12 +57,12 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface ModelAlgebraStrMap2<F extends URIS2> {
+export interface ModelAlgebraStrMap2<F extends URIS2, Env extends AnyEnv> {
   _F: F
   strMap: <L, A>(
-    codomain: Kind2<F, L, A>,
-    config: ByInterp<StrMapConfig<L, A>, F>
-  ) => Kind2<F, Record<string, L>, Record<string, A>>
+    codomain: Kind2<F, Env, L, A>,
+    config?: ConfigsForType<Env, Record<string, L>, Record<string, A>>
+  ) => Kind2<F, Env, Record<string, L>, Record<string, A>>
 }
 ```
 

@@ -1,6 +1,6 @@
 ---
 title: program.ts
-nav_order: 6
+nav_order: 8
 parent: Modules
 ---
 
@@ -20,7 +20,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface AlgebraUnion<F> extends InferredAlgebra<F, ProgramUnionURI> {}
+export interface AlgebraUnion<F, Env> extends InferredAlgebra<F, ProgramUnionURI, Env> {}
 ```
 
 Added in v0.0.1
@@ -30,7 +30,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface P<E, A> extends InferredProgram<E, A, ProgramUnionURI> {}
+export interface P<R extends AnyConfigEnv, E, A> extends InferredProgram<R, E, A, ProgramUnionURI> {}
 ```
 
 Added in v0.0.1

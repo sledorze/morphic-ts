@@ -1,6 +1,6 @@
 ---
 title: model/newtype.ts
-nav_order: 8
+nav_order: 7
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showNewtypeInterpreter: ModelAlgebraNewtype1<ShowURI> = ...
+export const showNewtypeInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraNewtype1<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

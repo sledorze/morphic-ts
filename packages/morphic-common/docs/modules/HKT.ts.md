@@ -1,6 +1,6 @@
 ---
 title: HKT.ts
-nav_order: 2
+nav_order: 3
 parent: Modules
 ---
 
@@ -28,8 +28,9 @@ Pattern stolen from fp-ts. Type defunctionalization (as describe in [Lightweight
 **Signature**
 
 ```ts
-export interface HKT<URI, A> {
+export interface HKT<URI, R, A> {
   readonly _URI: URI
+  (_R: R): void
   readonly _A: A
 }
 ```
@@ -43,7 +44,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface HKT2<URI, E, A> extends HKT<URI, A> {
+export interface HKT2<URI, R, E, A> extends HKT<URI, R, A> {
   readonly _E: E
 }
 ```
@@ -57,7 +58,8 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface URItoKind<A> {
+export interface URItoKind<R, A> {
+  _R: R
   _A: A
 }
 ```
@@ -71,7 +73,8 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface URItoKind2<E, A> {
+export interface URItoKind2<R, E, A> {
+  _R: R
   _A: A
   _E: E
 }
@@ -86,7 +89,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export declare type Kind<URI extends URIS, A> = URI extends URIS ? URItoKind<A>[URI] : any
+export declare type Kind<URI extends URIS, R, A> = URI extends URIS ? URItoKind<R, A>[URI] : any
 ```
 
 Added in v0.0.1
@@ -98,7 +101,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export declare type Kind2<URI extends URIS2, E, A> = URI extends URIS2 ? URItoKind2<E, A>[URI] : any
+export declare type Kind2<URI extends URIS2, R, E, A> = URI extends URIS2 ? URItoKind2<R, E, A>[URI] : any
 ```
 
 Added in v0.0.1
@@ -110,7 +113,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export declare type URIS = Exclude<keyof URItoKind<any>, '_A'>
+export declare type URIS = Exclude<keyof URItoKind<any, any>, '_A' | '_R'>
 ```
 
 Added in v0.0.1
@@ -122,7 +125,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export declare type URIS2 = Exclude<keyof URItoKind2<any, any>, '_A' | '_E'>
+export declare type URIS2 = Exclude<keyof URItoKind2<any, any, any>, '_A' | '_E' | '_R'>
 ```
 
 Added in v0.0.1

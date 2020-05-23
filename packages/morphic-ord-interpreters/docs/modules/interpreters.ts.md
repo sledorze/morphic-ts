@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelOrdInterpreter: ModelAlgebraRefined1<"OrdURI"> & ModelAlgebraNewtype1<"OrdURI"> & ModelAlgebraPrimitive1<"OrdURI"> & ModelAlgebraIntersection1<"OrdURI"> & ModelAlgebraSet1<"OrdURI"> & ModelAlgebraStrMap1<"OrdURI"> & ModelAlgebraTaggedUnions1<"OrdURI"> = ...
+export const modelOrdInterpreter: <Env extends Partial<Record<"OrdURI", any>>>() => ModelAlgebraRefined1<"OrdURI", Env> & ModelAlgebraNewtype1<"OrdURI", Env> & ModelAlgebraPrimitive1<"OrdURI", Env> & ModelAlgebraIntersection1<"OrdURI", Env> & ModelAlgebraSet1<"OrdURI", Env> & ModelAlgebraStrMap1<"OrdURI", Env> & ModelAlgebraTaggedUnions1<"OrdURI", Env> = ...
 ```
 
 Added in v0.0.1

@@ -20,8 +20,9 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface Algebra<F> {
+export interface Algebra<F, Env> {
   _AF: F
+  _ENV: Env
 }
 ```
 
@@ -32,8 +33,9 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface Algebra1<F extends URIS> {
+export interface Algebra1<F extends URIS, Env extends AnyEnv> {
   _AF: F
+  _ENV: Env
 }
 ```
 
@@ -44,8 +46,9 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface Algebra2<F extends URIS2> {
+export interface Algebra2<F extends URIS2, Env extends AnyEnv> {
   _AF: F
+  _ENV: Env
 }
 ```
 
@@ -56,7 +59,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type AlgebraURIS = keyof Algebra<never>
+export type AlgebraURIS = keyof Algebra<never, never>
 ```
 
 Added in v0.0.1

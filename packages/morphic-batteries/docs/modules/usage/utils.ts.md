@@ -1,6 +1,6 @@
 ---
 title: usage/utils.ts
-nav_order: 17
+nav_order: 21
 parent: Modules
 ---
 
@@ -11,6 +11,7 @@ parent: Modules
 - [InhabitedTypes (interface)](#inhabitedtypes-interface)
 - [AType (type alias)](#atype-type-alias)
 - [EType (type alias)](#etype-type-alias)
+- [RType (type alias)](#rtype-type-alias)
 - [SelectKeyOfMatchingValues (type alias)](#selectkeyofmatchingvalues-type-alias)
 - [assignCallable (function)](#assigncallable-function)
 - [assignFunction (function)](#assignfunction-function)
@@ -24,7 +25,9 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface InhabitedTypes<E, A> {
+export interface InhabitedTypes<R, E, A> {
+  // tslint:disable-next-line: no-unused-expression
+  _R: R
   // tslint:disable-next-line: no-unused-expression
   _E: E
   // tslint:disable-next-line: no-unused-expression
@@ -39,7 +42,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type AType<X extends InhabitedTypes<any, any>> = X['_A']
+export type AType<X extends InhabitedTypes<any, any, any>> = X['_A']
 ```
 
 Added in v0.0.1
@@ -49,7 +52,17 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type EType<X extends InhabitedTypes<any, any>> = X['_E']
+export type EType<X extends InhabitedTypes<any, any, any>> = X['_E']
+```
+
+Added in v0.0.1
+
+# RType (type alias)
+
+**Signature**
+
+```ts
+export type RType<X extends InhabitedTypes<any, any, any>> = X['_R']
 ```
 
 Added in v0.0.1
@@ -95,7 +108,7 @@ Fake inhabitation of types
 **Signature**
 
 ```ts
-export const inhabitTypes = <E, A, T>(t: T): T & InhabitedTypes<E, A> => ...
+export const inhabitTypes = <R, E, A, T>(t: T): T & InhabitedTypes<R, E, A> => ...
 ```
 
 Added in v0.0.1

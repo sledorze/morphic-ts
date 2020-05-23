@@ -1,6 +1,6 @@
 ---
 title: newtype.ts
-nav_order: 2
+nav_order: 3
 parent: Modules
 ---
 
@@ -23,13 +23,12 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface ModelAlgebraNewtype<F> {
+export interface ModelAlgebraNewtype<F, Env> {
   _F: F
   newtype: <N extends AnyNewtype = never>(
     name: string
   ) => {
-    <E>(a: HKT2<F, E, NewtypeA<N>>): isOptionalConfig<NewtypeConfig<E, N>, HKT2<F, E, N>>
-    <E>(a: HKT2<F, E, NewtypeA<N>>, config: ByInterp<NewtypeConfig<E, N>, URIS | URIS2>): HKT2<F, E, N>
+    <E>(a: HKT2<F, Env, E, NewtypeA<N>>, config?: ConfigsForType<Env, E, N>): HKT2<F, Env, E, N>
   }
 }
 ```
@@ -41,11 +40,11 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface ModelAlgebraNewtype1<F extends URIS> {
+export interface ModelAlgebraNewtype1<F extends URIS, Env> {
   _F: F
   newtype<N extends AnyNewtype = never>(
-    name: string
-  ): (a: Kind<F, NewtypeA<N>>, config: ByInterp<NewtypeConfig<unknown, N>, F>) => Kind<F, N>
+    name: string // on purpose type relaxation `Kind<F, R, N>` instead of `Kind<F, R, NewtypeA<N>>`
+  ): (a: Kind<F, Env, N>, config?: ConfigsForType<Env, unknown, N>) => Kind<F, Env, N>
 }
 ```
 
@@ -56,11 +55,11 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface ModelAlgebraNewtype2<F extends URIS2> {
+export interface ModelAlgebraNewtype2<F extends URIS2, Env> {
   _F: F
   newtype<N extends AnyNewtype = never>(
-    name: string
-  ): <E>(a: Kind2<F, E, NewtypeA<N>>, config: ByInterp<NewtypeConfig<E, N>, F>) => Kind2<F, E, N>
+    name: string // on purpose type relaxation `Kind<F, R, N>` instead of `Kind<F, R, NewtypeA<N>>`
+  ): <E>(a: Kind2<F, Env, E, N>, config?: ConfigsForType<Env, E, N>) => Kind2<F, Env, E, N>
 }
 ```
 

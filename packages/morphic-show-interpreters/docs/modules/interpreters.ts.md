@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelShowInterpreter: ModelAlgebraRefined1<"ShowURI"> & ModelAlgebraNewtype1<"ShowURI"> & ModelAlgebraUnknown1<"ShowURI"> & ModelAlgebraPrimitive1<"ShowURI"> & ModelAlgebraIntersection1<"ShowURI"> & ModelAlgebraObject1<"ShowURI"> & ModelAlgebraTaggedUnions1<"ShowURI"> & ModelAlgebraRecursive1<"ShowURI"> & ModelAlgebraSet1<"ShowURI"> & ModelAlgebraStrMap1<"ShowURI"> = ...
+export const modelShowInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraRefined1<"ShowURI", Env> & ModelAlgebraNewtype1<"ShowURI", Env> & ModelAlgebraUnknown1<"ShowURI", Env> & ModelAlgebraPrimitive1<"ShowURI", Env> & ModelAlgebraIntersection1<"ShowURI", Env> & ModelAlgebraObject1<"ShowURI", Env> & ModelAlgebraTaggedUnions1<"ShowURI", Env> & ModelAlgebraRecursive1<"ShowURI", Env> & ModelAlgebraSet1<"ShowURI", Env> & ModelAlgebraStrMap1<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

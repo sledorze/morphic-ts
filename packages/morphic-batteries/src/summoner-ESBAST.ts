@@ -42,6 +42,9 @@ export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBASTInterp
   <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const summonFor: <R extends AnyEnv = {}>(
   env: ExtractEnv<R, EqURI | ShowURI | IoTsURI | FastCheckURI>
 ) => SummonerOps<Summoner<R>> = <R extends AnyConfigEnv = {}>(

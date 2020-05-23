@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const ioTsRecursiveInterpreter: ModelAlgebraRecursive2<IoTsURI> = ...
+export const ioTsRecursiveInterpreter: <Env extends Partial<Record<"IoTsURI", any>>>() => ModelAlgebraRecursive2<"IoTsURI", Env> = ...
 ```
 
 Added in v0.0.1

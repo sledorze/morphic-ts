@@ -1,6 +1,6 @@
 ---
 title: hkt.ts
-nav_order: 2
+nav_order: 3
 parent: Modules
 ---
 
@@ -30,7 +30,7 @@ Added in v0.0.1
 
 ```ts
 export class IOTSType<O, A> {
-  constructor(public type: t.Type<A, O>) { ... }
+  constructor(public type: Type<A, O>) { ... }
   ...
 }
 ```

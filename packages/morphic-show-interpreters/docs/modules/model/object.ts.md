@@ -1,6 +1,6 @@
 ---
 title: model/object.ts
-nav_order: 9
+nav_order: 8
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showObjectInterpreter: ModelAlgebraObject1<ShowURI> = ...
+export const showObjectInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraObject1<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

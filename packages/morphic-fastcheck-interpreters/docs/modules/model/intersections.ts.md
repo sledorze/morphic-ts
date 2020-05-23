@@ -1,6 +1,6 @@
 ---
 title: model/intersections.ts
-nav_order: 7
+nav_order: 6
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const fastCheckIntersectionInterpreter: ModelAlgebraIntersection1<FastCheckURI> = ...
+export const fastCheckIntersectionInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraIntersection1<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1
