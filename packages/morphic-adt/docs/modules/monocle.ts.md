@@ -19,9 +19,9 @@ parent: Modules
 
 ```ts
 export interface MonocleFor<S> {
-  lenseFromProp: LenseFromProp<S>
-  lenseFromProps: LenseFromProps<S>
-  lenseFromPath: m.LensFromPath<S>
+  LensFromProp: LensFromProp<S>
+  LensFromProps: LensFromProps<S>
+  lensFromPath: m.LensFromPath<S>
   indexFromAt: IndexFromAt<S>
   optionalFromOptionProp: OptionalFromOptionProp<S>
   optionalFromNullableProp: OptionalFromNullableProp<S>
