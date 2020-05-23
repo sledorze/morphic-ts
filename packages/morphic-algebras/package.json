@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/algebras",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "Morphic core Algebra package",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -21,7 +21,7 @@
     "es6"
   ],
   "dependencies": {
-    "@morphic-ts/common": "^2.0.0-alpha.1"
+    "@morphic-ts/common": "^2.0.0-alpha.2"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
