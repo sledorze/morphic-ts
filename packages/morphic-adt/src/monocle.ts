@@ -2,11 +2,11 @@ import { Predicate, Refinement } from 'fp-ts/lib/function'
 import * as m from 'monocle-ts'
 import { Option } from 'fp-ts/lib/Option'
 
-interface LenseFromProp<S> {
+interface LensFromProp<S> {
   <P extends keyof S>(prop: P): m.Lens<S, S[P]>
 }
 
-interface LenseFromProps<S> {
+interface LensFromProps<S> {
   <P extends keyof S>(props: Array<P>): m.Lens<
     S,
     {
@@ -37,9 +37,9 @@ interface PrismFromPredicate<S> {
  *  @since 0.0.1
  */
 export interface MonocleFor<S> {
-  lenseFromProp: LenseFromProp<S>
-  lenseFromProps: LenseFromProps<S>
-  lenseFromPath: m.LensFromPath<S>
+  LensFromProp: LensFromProp<S>
+  LensFromProps: LensFromProps<S>
+  lensFromPath: m.LensFromPath<S>
   indexFromAt: IndexFromAt<S>
   optionalFromOptionProp: OptionalFromOptionProp<S>
   optionalFromNullableProp: OptionalFromNullableProp<S>
@@ -48,9 +48,9 @@ export interface MonocleFor<S> {
 }
 
 const makeMonocleFor = <S>(): MonocleFor<S> => ({
-  lenseFromProp: m.Lens.fromProp(),
-  lenseFromProps: m.Lens.fromProps(),
-  lenseFromPath: m.Lens.fromPath(),
+  LensFromProp: m.Lens.fromProp(),
+  LensFromProps: m.Lens.fromProps(),
+  lensFromPath: m.Lens.fromPath(),
   indexFromAt: m.Index.fromAt,
   optionalFromOptionProp: m.Optional.fromOptionProp(), // caused by OptionPropertyNames
   optionalFromNullableProp: m.Optional.fromNullableProp(),

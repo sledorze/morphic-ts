@@ -99,10 +99,6 @@ export const ArraySchema = (p: {
   type: 'array' as 'array',
   ...p
 })
-/**
- *  @since 0.0.1
- */
-export const itemsOfArrayLense = m.Lens.fromProp<ArraySchema>()('items')
 
 /**
  *  @since 0.0.1
