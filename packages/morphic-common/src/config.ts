@@ -7,6 +7,10 @@ export { Kind, Kind2 }
 
 export type URISIndexedAny = Record<URIS | URIS2, any>
 
+/**
+ *  @since 0.0.1
+ */
+
 export type AnyEnv = Partial<URISIndexedAny>
 
 /**
