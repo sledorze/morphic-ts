@@ -37,8 +37,8 @@ interface PrismFromPredicate<S> {
  *  @since 0.0.1
  */
 export interface MonocleFor<S> {
-  LensFromProp: LensFromProp<S>
-  LensFromProps: LensFromProps<S>
+  lensFromProp: LensFromProp<S>
+  lensFromProps: LensFromProps<S>
   lensFromPath: m.LensFromPath<S>
   indexFromAt: IndexFromAt<S>
   optionalFromOptionProp: OptionalFromOptionProp<S>
@@ -48,8 +48,8 @@ export interface MonocleFor<S> {
 }
 
 const makeMonocleFor = <S>(): MonocleFor<S> => ({
-  LensFromProp: m.Lens.fromProp(),
-  LensFromProps: m.Lens.fromProps(),
+  lensFromProp: m.Lens.fromProp(),
+  lensFromProps: m.Lens.fromProps(),
   lensFromPath: m.Lens.fromPath(),
   indexFromAt: m.Index.fromAt,
   optionalFromOptionProp: m.Optional.fromOptionProp(), // caused by OptionPropertyNames
