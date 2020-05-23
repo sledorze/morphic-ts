@@ -16,55 +16,114 @@ The goal is to increase, in order of importance
 
 It is has two side blended into one; generic ADT manipulation AND Generic, customizable and extensible derivations
 
-## /!\ New Release UPDATE /!\
+## Two minutes intro
 
-### Note: The whole documentation will be updated when things have totally stabilized
+Add the batteries package to your repo
 
-Latest release introduces Env inference for Config.
-It has breaking changes that were supposed to be easy-to-adapt, mostly syntactic, changes.
-This has not received the right amount of feedback before releasing and we'll backtrack on some changes (below annotated BACKTRACKED)
-
-The first things you'll read are the latest changes.
-
-### Config helpers removed
-
-Due tu inference issues, xxxConfig combinators have been removed to prevent new users to become confused when those inference errors arise.
-
-You can use the 'naked' xxxURI extension which is always inferred correctly.
-
-Before
-
-```typescript
-summon(F => F.string({ ...iotsConfig(x => x) }))
-summon(F => F.string({ ...iotsConfig((x, e) => x) }))
+```bash
+yarn add '@morphic-ts/batteries'
 ```
 
-After
+Then summon your first Morph
 
 ```typescript
-summon(F => F.stringCfg({ IoTsURI: x => x }))
-summon(F => F.stringCfg({ IoTsURI: (x, e) => x }))
+import { summon } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+
+export const Person = summon(F =>
+  F.interface(
+    {
+      name: F.string(),
+      age: F.number()
+    },
+    'Person'
+  )
+)
 ```
 
-### (BACKTRACKED) Algebra changes
-
-The configurable variants of each Algebra method has been split.
-
-Before
+You now have access to everything to develop around this Type
 
 ```typescript
-summon(F => F.string())
-summon(F => F.string({ ...iotsConfig(x => x) }))
+Person.build // basic build function (enforcing correct type)
+Person.show // Show from fp-ts
+Person.type // io-ts
+Person.strictType // io-ts
+Person.eq // Eq from fp-ts
+Person.lenseFromPath // and other optics (optionals, prism, ) from monocle-ts
+Person.arb // fast-check
+Person.jsonSchema // JsonSchema-ish representation
 ```
 
-After
+### Discriminated, taggedUnion-like models
 
 ```typescript
-summon(F => F.string)
-summon(F => F.stringCfg({ ...iotsConfig(x => x) }))
+import { summon, tagged } from '@morphic-ts/batteries/lib/summoner-ESBASTJ'
+
+export const Bicycle = summon(F =>
+  F.interface(
+    {
+      type: F.stringLiteral('Bicycle'),
+      color: F.string()
+    },
+    'Bicycle'
+  )
+)
+
+export const Car = summon(F =>
+  F.interface(
+    {
+      type: F.stringLiteral('Car'),
+      kind: F.keysOf({ electric: null, fuel: null, gaz: null }),
+      power: F.number()
+    },
+    'Car'
+  )
+)
+
+const Vehicle = tagged('type')({ Car, Bicycle })
 ```
 
-### (new) Config Environment
+Now you have access to previously depicted derivation + ADT support (ctors, predicates, optics, matchers,reducers, etc.. see `ADT Manipulation` below)
+
+### Want opaque nominal (instead of structural) inferred types
+
+You may use this pattern
+
+```typescript
+const Car_ = summon(F =>
+  F.interface(
+    {
+      type: F.stringLiteral('Car'),
+      kind: F.keysOf({ electric: null, fuel: null, gaz: null }),
+      power: F.number()
+    },
+    'Car'
+  )
+)
+export interface Car extends AType<typeof Car_> {}
+export interface CarRaw extends EType<typeof Car_> {}
+export const Car = AsOpaque<CarRaw, Car>(Car_)
+```
+
+We're sorry for the boilerplate, this is a current Typescript limitation but in our experience, this is worth the effort.
+A snippet is available to help with that in this repo .vscode folder; we recommend using it extensively.
+
+### Configurable
+
+As nice as a General DSL solution to specify your Schema is, there's still some specifics you would like to use.
+
+Morphic gives you the ability to change any derivation via an optional config.
+
+For example, we may want to specify how fastcheck should generate some strings:
+
+```typescript
+summon(F => F.array(F.string({ FastCheckURI: arb => arb.filter(s => s.length > 2) })))
+```
+
+Note: _this is type guided and type safe, it's *not* an `any` in disguise_
+
+You may provide several Configurations (by indexing by several URI)
+
+### Config Environment
 
 Configs are used to override some specific interpreter instances and
 this is of great value.
@@ -108,7 +167,7 @@ We can access an environnement to use in a config like so (here IoTsTypes):
 
 ```typescript
 summon(F =>
-  F.interface({ a: F.string({ ...iotsConfig((x, env: IoTsTypes) => env.WM.withMessage(x, () => 'not ok')) }) }, 'a')
+  F.interface({ a: F.string({ IoTsURI: (x, env: IoTsTypes) => env.WM.withMessage(x, () => 'not ok') }) }, 'a')
 )
 ```
 
@@ -120,28 +179,28 @@ To prevent really importing the lib to get it's type (the definition is purely a
 import type * as fc from 'fast-check'
 ```
 
-The new Config also infers the correct Env type and only typechecks correctly if `summon` has been instantiated with correct Env constraints using the `summonFor` constructor.
+The Config also infers the correct Env type and only typechecks correctly if `summon` has been instantiated with correct Env constraints using the `summonFor` constructor.
 
 Creating the summon requires providing (all) the environments a summoner will be able to support.
 
 ```typescript
-export const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({ [IoTsURI]: { WM } })
+export const { summon } = summonFor<{ IoTsURI: IoTsTypes }>({ IoTsURI: { WM } })
 ```
 
 I advise you to use a proxy interface to keep this opaque an lean.
 
 ```typescript
 export interface AppEnv {
-  [IoTsURI]: IoTsTypes
+  IoTsURI: IoTsTypes
 }
 
-export const { summon } = summonFor<AppEnv>({ [IoTsURI]: { WM } })
+export const { summon } = summonFor<AppEnv>({ IoTsURI: { WM } })
 ```
 
 If the underlying Interpreter of `summoner` does not generate a type-class (e.g. `io-ts`), then there is no need to feed it at creation time:
 
 ```typescript
-export const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({})
+export const { summon } = summonFor<{ IoTsURI: IoTsTypes }>({})
 ```
 
 This will type-check accordingly.
@@ -152,74 +211,7 @@ The consequence is that any interpreting summoner Env will need to cover all the
 
 This transitive aspect is the necessary condition for correct (re)interpretations.
 
-### (new) All Algebra Config available
-
-This was an unfinished task, now all configurable variants are implemented in all interpreters.
-
-### (BACKTRACKED) Config inference
-
-Config inference has been modified and now requires wrapping those in an object spread (due to a typescript - or a developer - limitation).
-
-Before
-
-```typescript
-F.array(
-  Data(F),
-  iotsConfig(_ => OneOrArray(Data.type))
-)
-```
-
-After
-
-```typescript
-F.arrayCfg(Data(F))({ ...iotsConfig(_ => OneOrArray(Data.type)) })
-```
-
-### (new) Config inference
-
-We've decided to keep things smoother; not having `F.array` with a `F.arrayCfg` variant.
-To keep that, we'll no more curry the Config.
-
-Before
-
-```typescript
-F.string(iotsConfig(_ => _))
-F.array(Data(F))
-F.array(
-  Data(F),
-  iotsConfig(_ => OneOrArray(Data.type))
-)
-```
-
-After
-
-```typescript
-F.string(iotsConfig(_ => _))
-F.array(Data(F))
-F.array(Data(F), {
-  IoTsURI: _ => OneOrArray(Data.type)
-})
-```
-
-This is necessary because of inference limitations of `iotsConfig` like patterns for definitions taking another `Morph` as parameter (like array, nullable, etc..)
-
-We are thinking about deprecating `iotsConfig` like helpers are they are confusing in those cases.
-
-### (new) Opaques alias in batteries requires an extra application
-
-Before
-
-```typescript
-const A = AsOpaque<ARaw, ARef>(A_)
-```
-
-After
-
-```typescript
-const A = AsOpaque<ARaw, A>()(A_)
-```
-
-### (new) Define
+### Define
 
 Summoners now also provide a `define` member in order to help creating Programs (not Morphs).
 
@@ -231,117 +223,6 @@ You can directly create a `Define` instance by using `defineFor` and specifying 
 
 ```typescript
 defineFor(ProgramNoUnionURI)(F => F.string)
-```
-
-### (new) Dependencies
-
-Tech specific dependencies (like `fp-ts`, `io-ts`) in interpreter packages are now peer-dependencies.
-
-## Two minutes intro
-
-```bash
-yarn add '@morphic-ts/batteries'
-```
-
-Then
-
-```typescript
-import { summon } from '@morphic-ts/batteries/lib/summoner-BASTJ'
-
-export const Person = summon(F =>
-  F.interface(
-    {
-      name: F.string(),
-      age: F.number()
-    },
-    'Person'
-  )
-)
-
-// You now have access to everything to develop around this Type
-Person.build // basic build function (enforcing correct type)
-Person.show // Show from fp-ts
-Person.type // io-ts
-Person.strictType // io-ts
-Person.eq // Eq from fp-ts
-Person.lenseFromPath // and other optics (optionals, prism, ) from monocle-ts
-Person.arb // fast-check
-Person.jsonSchema // JsonSchema-ish representation
-```
-
-### Discriminated, taggedUnion-like models
-
-```typescript
-import { summon, tagged } from '@morphic-ts/batteries/lib/summoner-ESBASTJ'
-
-export const Bicycle = summon(F =>
-  F.interface(
-    {
-      type: F.stringLiteral('Bicycle'),
-      color: F.string()
-    },
-    'Bicycle'
-  )
-)
-
-export const Car = summon(F =>
-  F.interface(
-    {
-      type: F.stringLiteral('Car'),
-      kind: F.keysOf({ electric: null, fuel: null, gaz: null }),
-      power: F.number()
-    },
-    'Car'
-  )
-)
-
-const Vehicle = tagged('type')({ Car, Bicycle })
-
-// Now you have access to previously depicted derivation + ADT support (ctors, predicates, optics, matchers,reducers, etc.. see `ADT Manipulation` below)
-```
-
-### Want opaque nominal (instead of structural) inferred types
-
-You may use this pattern
-
-```typescript
-const Car_ = summon(F =>
-  F.interface(
-    {
-      type: F.stringLiteral('Car'),
-      kind: F.keysOf({ electric: null, fuel: null, gaz: null }),
-      power: F.number()
-    },
-    'Car'
-  )
-)
-export interface Car extends AType<typeof Car_> {}
-export interface CarRaw extends EType<typeof Car_> {}
-export const Car = AsOpaque<CarRaw, Car>(Car_)
-```
-
-We're sorry for the boilerplate, this is a current Typescript limitation but in our experience, this is worth the effort.
-A snippet is available to help with that in this repo .vscode folder; we recommend using it extensively.
-
-### Configurable
-
-As nice as a General DSL solution to specify your Schema is, there's still some specifics you would like to use.
-
-Morphic provides `Interpreter` to expose `Config` for a specific `Algebra` combinator.
-
-For example, we may want to specify how fastcheck should generate some arrays.
-We can add an extra parameter to a definition (last position) and use `Interpreter` specific function (named '*Interpreter*Config', here `fastCheckConfig`) and it will expose the ability to specify the configuration for this `Interpreter` and `combinator`.
-
-```typescript
-summon(F => F.array(F.string(), fastCheckConfig({ minLength: 2, maxLength: 4 })))
-```
-
-Note: _this is type guided and type safe, it's *not* an `any` in disguise_
-
-You may provide several Configuration
-
-```typescript
-summon(F => F.array(F.string(), { ...fastCheckConfig({ minLength: 2, maxLength: 4 }), ...showConfig(...)} ))
 ```
 
 ## How it works
@@ -375,6 +256,8 @@ Example of implementations:
 This is not an exhaustive list, because the design of Morphic enables to define more and more `Interpreters` for your `Schemas` (composed of `Algebras`).
 
 ## ADT Manipulation
+
+Note: ADT behaviour is available via Summoners; however it is also available without the derivation machinery, hence this paragraph, which also applies to summoned Morphs.
 
 ADT stands for `Algebraic Data Types`, this may be strange, just think about it as the pattern to represent your casual Business objects
 

@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const eqSetInterpreter: ModelAlgebraSet1<EqURI> = ...
+export const eqSetInterpreter: <Env extends Partial<Record<"EqURI", any>>>() => ModelAlgebraSet1<"EqURI", Env> = ...
 ```
 
 Added in v0.0.1

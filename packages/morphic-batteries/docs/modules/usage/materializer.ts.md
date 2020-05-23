@@ -1,6 +1,6 @@
 ---
 title: usage/materializer.ts
-nav_order: 12
+nav_order: 16
 parent: Modules
 ---
 
@@ -8,14 +8,40 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [InhabitedInterpreterAndAlbegra (interface)](#inhabitedinterpreterandalbegra-interface)
+- [MorphExtra (interface)](#morphextra-interface)
 - [ProgramInterpreter (interface)](#programinterpreter-interface)
-- [InterpreterURIOfProgramInterpreter (type alias)](#interpreteruriofprograminterpreter-type-alias)
 - [Materialized (type alias)](#materialized-type-alias)
 - [Morph (type alias)](#morph-type-alias)
-- [ProgramURIOfProgramInterpreter (type alias)](#programuriofprograminterpreter-type-alias)
 - [materialize (function)](#materialize-function)
 
 ---
+
+# InhabitedInterpreterAndAlbegra (interface)
+
+**Signature**
+
+```ts
+export interface InhabitedInterpreterAndAlbegra<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
+  _P: ProgURI
+  _I: InterpURI
+}
+```
+
+Added in v0.0.1
+
+# MorphExtra (interface)
+
+**Signature**
+
+```ts
+export interface MorphExtra<R, E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI>
+  extends InhabitedTypes<R, E, A>,
+    InhabitedInterpreterAndAlbegra<ProgURI, InterpURI>,
+    Interpretable<R, E, A, ProgURI> {}
+```
+
+Added in v0.0.1
 
 # ProgramInterpreter (interface)
 
@@ -23,23 +49,8 @@ parent: Modules
 
 ```ts
 export interface ProgramInterpreter<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
-  <E, A>(program: ProgramType<E, A>[ProgURI]): InterpreterResult<E, A>[InterpURI]
+  <R, E, A>(program: ProgramType<R, E, A>[ProgURI]): InterpreterResult<E, A>[InterpURI]
 }
-```
-
-Added in v0.0.1
-
-# InterpreterURIOfProgramInterpreter (type alias)
-
-**Signature**
-
-```ts
-export type InterpreterURIOfProgramInterpreter<X extends ProgramInterpreter<any, any>> = X extends ProgramInterpreter<
-  any,
-  infer R
->
-  ? R
-  : never
 ```
 
 Added in v0.0.1
@@ -49,14 +60,14 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type Materialized<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Morph<
+export type Materialized<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Morph<
+  R,
   E,
   A,
   InterpURI,
   ProgURI
 > &
-  MonocleFor<A> &
-  InhabitedTypes<E, A>
+  MonocleFor<A>
 ```
 
 Added in v0.0.1
@@ -66,26 +77,12 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type Morph<E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = InterpreterResult<
+export type Morph<R, E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI> = InterpreterResult<
   E,
   A
 >[InterpURI] &
-  ProgramType<E, A>[ProgURI]
-```
-
-Added in v0.0.1
-
-# ProgramURIOfProgramInterpreter (type alias)
-
-**Signature**
-
-```ts
-export type ProgramURIOfProgramInterpreter<X extends ProgramInterpreter<any, any>> = X extends ProgramInterpreter<
-  infer P,
-  any
->
-  ? P
-  : never
+  ProgramType<R, E, A>[ProgURI] &
+  MorphExtra<R, E, A, InterpURI, ProgURI>
 ```
 
 Added in v0.0.1
@@ -95,10 +92,10 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export function materialize<E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
-  program: ProgramType<E, A>[ProgURI],
+export function materialize<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI>(
+  program: ProgramType<R, E, A>[ProgURI],
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
-): Materialized<E, A, ProgURI, InterpURI> { ... }
+): Materialized<R, E, A, ProgURI, InterpURI> { ... }
 ```
 
 Added in v0.0.1

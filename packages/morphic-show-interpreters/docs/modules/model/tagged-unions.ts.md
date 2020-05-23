@@ -1,6 +1,6 @@
 ---
 title: model/tagged-unions.ts
-nav_order: 15
+nav_order: 14
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<ShowURI> = ...
+export const showTaggedUnionInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraTaggedUnions1<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

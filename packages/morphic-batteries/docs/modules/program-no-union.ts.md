@@ -1,6 +1,6 @@
 ---
 title: program-no-union.ts
-nav_order: 4
+nav_order: 6
 parent: Modules
 ---
 
@@ -20,7 +20,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface AlgebraNoUnion<F> extends InferredAlgebra<F, ProgramNoUnionURI> {}
+export interface AlgebraNoUnion<F, Env> extends InferredAlgebra<F, ProgramNoUnionURI, Env> {}
 ```
 
 Added in v0.0.1
@@ -30,7 +30,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface P<E, A> extends InferredProgram<E, A, ProgramNoUnionURI> {}
+export interface P<R extends AnyConfigEnv, E, A> extends InferredProgram<R, E, A, ProgramNoUnionURI> {}
 ```
 
 Added in v0.0.1

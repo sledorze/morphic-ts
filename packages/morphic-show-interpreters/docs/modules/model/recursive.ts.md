@@ -1,6 +1,6 @@
 ---
 title: model/recursive.ts
-nav_order: 11
+nav_order: 10
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showRecursiveInterpreter: ModelAlgebraRecursive1<ShowURI> = ...
+export const showRecursiveInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraRecursive1<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

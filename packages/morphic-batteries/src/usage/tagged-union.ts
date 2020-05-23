@@ -59,6 +59,9 @@ const keepKeys = (a: Record<string, any>, toKeep: Array<string>): object =>
 const excludeKeys = (a: Record<string, any>, toExclude: Array<string>): object =>
   recordFromArray(difference(eqString)(Object.keys(a), toExclude).map((k: string) => tuple(k, a[k])))
 
+/**
+ *  @since 0.0.1
+ */
 export type TaggedBuilder<ProgURI extends ProgramURI, InterpURI extends InterpreterURI, R> = <Tag extends string>(
   tag: Tag
 ) => <Types extends UnionTypes<Types, Tag, ProgURI, InterpURI, R>>(
@@ -177,6 +180,9 @@ interface HasTypes<Types extends AnyADTTypes> {
   _Types: Types
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface Refinable<
   Types extends AnyADTTypes,
   Tag extends string,

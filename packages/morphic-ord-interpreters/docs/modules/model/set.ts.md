@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const ordSetInterpreter: ModelAlgebraSet1<OrdURI> = ...
+export const ordSetInterpreter: <Env extends Partial<Record<"OrdURI", any>>>() => ModelAlgebraSet1<"OrdURI", Env> = ...
 ```
 
 Added in v0.0.1

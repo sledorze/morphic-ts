@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const ioTsNewtypeInterpreter: ModelAlgebraNewtype2<IoTsURI> = ...
+export const ioTsNewtypeInterpreter: <Env extends Partial<Record<"IoTsURI", any>>>() => ModelAlgebraNewtype2<"IoTsURI", Env> = ...
 ```
 
 Added in v0.0.1

@@ -8,16 +8,27 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [jsonSchemaConfig (constant)](#jsonschemaconfig-constant)
+- [jsonSchemaApplyConfig (constant)](#jsonschemaapplyconfig-constant)
+- [JsonSchemaURI (export)](#jsonschemauri-export)
 
 ---
 
-# jsonSchemaConfig (constant)
+# jsonSchemaApplyConfig (constant)
 
 **Signature**
 
 ```ts
-export const jsonSchemaConfig: ConfigWrapper<"JsonSchemaURI"> = ...
+export const jsonSchemaApplyConfig: <E, A, R>(config?: { JsonSchemaURI?: GenConfig<JsonSchemaResult<OptionalJSONSchema>, R>; }) => GenConfig<JsonSchemaResult<OptionalJSONSchema>, R> = ...
+```
+
+Added in v0.0.1
+
+# JsonSchemaURI (export)
+
+**Signature**
+
+```ts
+'JsonSchemaURI'
 ```
 
 Added in v0.0.1

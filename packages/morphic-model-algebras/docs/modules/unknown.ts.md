@@ -1,6 +1,6 @@
 ---
 title: unknown.ts
-nav_order: 11
+nav_order: 12
 parent: Modules
 ---
 
@@ -22,11 +22,10 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface ModelAlgebraUnknown<F> {
+export interface ModelAlgebraUnknown<F, Env> {
   _F: F
   unknown: {
-    (): isOptionalConfig<UnknownConfig, HKT2<F, unknown, unknown>>
-    (config: ByInterp<UnknownConfig, URIS | URIS2>): HKT2<F, unknown, unknown>
+    (config?: ConfigsForType<Env, unknown, unknown>): HKT2<F, Env, unknown, unknown>
   }
 }
 ```
@@ -38,9 +37,9 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface ModelAlgebraUnknown1<F extends URIS> {
+export interface ModelAlgebraUnknown1<F extends URIS, Env extends AnyEnv> {
   _F: F
-  unknown(config: ByInterp<UnknownConfig, F>): Kind<F, unknown>
+  unknown(config?: ConfigsForType<Env, unknown, unknown>): Kind<F, Env, unknown>
 }
 ```
 
@@ -51,9 +50,9 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface ModelAlgebraUnknown2<F extends URIS2> {
+export interface ModelAlgebraUnknown2<F extends URIS2, Env extends AnyEnv> {
   _F: F
-  unknown(config: ByInterp<UnknownConfig, F>): Kind2<F, unknown, unknown>
+  unknown(config?: ConfigsForType<Env, unknown, unknown>): Kind2<F, Env, unknown, unknown>
 }
 ```
 

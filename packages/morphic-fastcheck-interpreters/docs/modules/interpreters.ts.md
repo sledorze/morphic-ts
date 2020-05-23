@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelFastCheckInterpreter: ModelAlgebraRefined1<"FastCheckURI"> & ModelAlgebraNewtype1<"FastCheckURI"> & ModelAlgebraUnknown1<"FastCheckURI"> & ModelAlgebraPrimitive1<"FastCheckURI"> & ModelAlgebraIntersection1<"FastCheckURI"> & ModelAlgebraObject1<"FastCheckURI"> & ModelAlgebraUnions1<"FastCheckURI"> & ModelAlgebraTaggedUnions1<"FastCheckURI"> & ModelAlgebraRecursive1<"FastCheckURI"> & ModelAlgebraStrMap1<"FastCheckURI"> & ModelAlgebraSet1<"FastCheckURI"> = ...
+export const modelFastCheckInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraRefined1<"FastCheckURI", Env> & ModelAlgebraNewtype1<"FastCheckURI", Env> & ModelAlgebraUnknown1<"FastCheckURI", Env> & ModelAlgebraPrimitive1<"FastCheckURI", Env> & ModelAlgebraIntersection1<"FastCheckURI", Env> & ModelAlgebraObject1<"FastCheckURI", Env> & ModelAlgebraUnions1<"FastCheckURI", Env> & ModelAlgebraTaggedUnions1<"FastCheckURI", Env> & ModelAlgebraRecursive1<"FastCheckURI", Env> & ModelAlgebraStrMap1<"FastCheckURI", Env> & ModelAlgebraSet1<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

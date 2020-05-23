@@ -240,7 +240,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const StringTypeCtor = (extras?: { format?: 'date' | 'date-time' | 'bigint'; enum?: string[] }) => ...
+export const StringTypeCtor = (extras?: { format?: 'date' | 'date-time' | 'bigint' | 'uuid'; enum?: string[] }) => ...
 ```
 
 Added in v0.0.1

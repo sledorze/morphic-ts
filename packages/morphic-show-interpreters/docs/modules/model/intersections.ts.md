@@ -1,6 +1,6 @@
 ---
 title: model/intersections.ts
-nav_order: 7
+nav_order: 6
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showIntersectionInterpreter: ModelAlgebraIntersection1<ShowURI> = ...
+export const showIntersectionInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraIntersection1<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

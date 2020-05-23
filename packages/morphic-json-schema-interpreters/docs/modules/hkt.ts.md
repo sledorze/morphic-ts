@@ -33,7 +33,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type JsonSchemaResult<T> = SE.StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, T>
+export type JsonSchemaResult<T> = StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, T>
 ```
 
 Added in v0.0.1

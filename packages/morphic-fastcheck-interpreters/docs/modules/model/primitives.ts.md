@@ -1,6 +1,6 @@
 ---
 title: model/primitives.ts
-nav_order: 10
+nav_order: 9
 parent: Modules
 ---
 
@@ -8,30 +8,16 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [MinMaxLength (interface)](#minmaxlength-interface)
 - [fastCheckPrimitiveInterpreter (constant)](#fastcheckprimitiveinterpreter-constant)
 
 ---
-
-# MinMaxLength (interface)
-
-**Signature**
-
-```ts
-export interface MinMaxLength {
-  maxLength: number
-  minLength?: number
-}
-```
-
-Added in v0.0.1
 
 # fastCheckPrimitiveInterpreter (constant)
 
 **Signature**
 
 ```ts
-export const fastCheckPrimitiveInterpreter: ModelAlgebraPrimitive1<FastCheckURI> = ...
+export const fastCheckPrimitiveInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraPrimitive1<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

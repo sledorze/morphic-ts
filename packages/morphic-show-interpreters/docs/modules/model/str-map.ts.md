@@ -1,6 +1,6 @@
 ---
 title: model/str-map.ts
-nav_order: 14
+nav_order: 13
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showStrMapInterpreter: ModelAlgebraStrMap1<ShowURI> = ...
+export const showStrMapInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraStrMap1<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

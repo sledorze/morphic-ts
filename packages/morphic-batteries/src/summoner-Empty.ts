@@ -34,6 +34,9 @@ export interface Summoner<R extends AnyConfigEnv> extends U.Summoners<ProgramNoU
   <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const summonFor: <R extends AnyEnv = {}>(env: ExtractEnv<R, never>) => SummonerOps<Summoner<R>> = <
   R extends AnyConfigEnv = {}
 >(

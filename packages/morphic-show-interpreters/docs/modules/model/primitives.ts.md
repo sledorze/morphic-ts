@@ -1,6 +1,6 @@
 ---
 title: model/primitives.ts
-nav_order: 10
+nav_order: 9
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showPrimitiveInterpreter: ModelAlgebraPrimitive1<ShowURI> = ...
+export const showPrimitiveInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraPrimitive1<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

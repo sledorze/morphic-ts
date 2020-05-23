@@ -1,6 +1,6 @@
 ---
 title: model/unknown.ts
-nav_order: 16
+nav_order: 15
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showUnknownInterpreter: ModelAlgebraUnknown1<ShowURI> = ...
+export const showUnknownInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraUnknown1<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

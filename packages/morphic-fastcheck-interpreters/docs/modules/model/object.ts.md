@@ -1,6 +1,6 @@
 ---
 title: model/object.ts
-nav_order: 9
+nav_order: 8
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const fastCheckObjectInterpreter: ModelAlgebraObject1<FastCheckURI> = ...
+export const fastCheckObjectInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraObject1<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

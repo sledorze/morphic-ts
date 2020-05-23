@@ -1,6 +1,6 @@
 ---
 title: usage/ProgramType.ts
-nav_order: 14
+nav_order: 18
 parent: Modules
 ---
 
@@ -11,7 +11,6 @@ parent: Modules
 - [ProgramAlgebra (interface)](#programalgebra-interface)
 - [ProgramAlgebraURI (interface)](#programalgebrauri-interface)
 - [ProgramType (interface)](#programtype-interface)
-- [ProgramTypes (interface)](#programtypes-interface)
 - [ProgramURI (type alias)](#programuri-type-alias)
 
 ---
@@ -21,7 +20,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface ProgramAlgebra<F> {
+export interface ProgramAlgebra<F, Env> {
   _F: F
 }
 ```
@@ -40,27 +39,14 @@ Added in v0.0.1
 
 # ProgramType (interface)
 
-A Program is expressed within an Algebra to materialize a Morph
-/
-/\*\*
-
 **Signature**
 
 ```ts
-export interface ProgramType<E, A> {
+export interface ProgramType<R extends AnyConfigEnv, E, A> {
+  (_R: R): void
   _E: E
   _A: A
 }
-```
-
-Added in v0.0.1
-
-# ProgramTypes (interface)
-
-**Signature**
-
-```ts
-export interface ProgramTypes {}
 ```
 
 Added in v0.0.1
@@ -70,7 +56,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export declare type ProgramURI = Exclude<keyof ProgramType<any, any>, '_E' | '_A'>
+export declare type ProgramURI = Exclude<keyof ProgramType<any, any, any>, '_E' | '_A' | '_R'>
 ```
 
 Added in v0.0.1

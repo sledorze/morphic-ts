@@ -32,6 +32,9 @@ export interface InferredProgram<R extends AnyConfigEnv, E, A, PURI extends Prog
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface Define<PURI extends ProgramURI, R extends AnyConfigEnv = {}> {
   <E, A>(program: ProgramType<R, E, A>[PURI]): ProgramType<R, E, A>[PURI]
 }
