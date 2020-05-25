@@ -82,7 +82,7 @@ export const summonFor: <R extends AnyEnv = {}>(env: ExtractEnv<R, never>) => Su
 >(
   _env: ExtractEnv<R, never>
 ) =>
-  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, _program => ({
+  makeSummoner<Summoner<R>>(cacheUnaryFunction, _program => ({
     build: a => ...
 ```
 

@@ -82,7 +82,7 @@ export const summonFor: <R extends AnyEnv = {}>(
 ) => SummonerOps<Summoner<R>> = <R extends AnyConfigEnv = {}>(
   env: ExtractEnv<R, EqURI | ShowURI | IoTsURI | FastCheckURI>
 ) =>
-  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ...
+  makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ...
 ```
 
 Added in v0.0.1
