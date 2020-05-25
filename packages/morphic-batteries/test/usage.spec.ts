@@ -1,14 +1,17 @@
 import * as chai from 'chai'
-import { summonFor as summonBASTJFor, M as MBASTJ } from '../src/summoner-BASTJ'
+import type { M as MBASTJ } from '../src/summoner-BASTJ'
+import { summonFor as summonBASTJFor } from '../src/summoner-BASTJ'
 import { summonFor as summonESBSTFor } from '../src/summoner-ESBST'
-import * as E from 'fp-ts/lib/Either'
+
 import { makeTagged } from '../src/usage/tagged-union'
 import { summonFor as summonESBASTJFor } from '../src/summoner-ESBASTJ'
 import { interpretable } from '../src/usage/programs-infer'
 import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
-import { Newtype, iso } from 'newtype-ts'
+import { iso } from 'newtype-ts'
+import type { Newtype } from 'newtype-ts'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
-import * as fc from 'fast-check'
+import { assert as FCassert, property } from 'fast-check'
+import { isRight, right } from 'fp-ts/lib/Either'
 
 const { summon: summonBASTJ } = summonBASTJFor<{}>({})
 const { summon: summonESBASTJ } = summonESBASTJFor<{}>({})
@@ -21,7 +24,7 @@ describe('tagged', () => {
     const tagged = makeTagged(summonBASTJ)
     const Union = tagged('type')({ AType, BType })
     const Used = summonBASTJ(F => F.interface({ x: Union(F) }, 'Used'))
-    chai.assert.deepStrictEqual(E.isRight(Used.jsonSchema), true)
+    chai.assert.deepStrictEqual(isRight(Used.jsonSchema), true)
   })
 
   it('Should infer E in addition of A when be used into another Morph', () => {
@@ -33,7 +36,7 @@ describe('tagged', () => {
     const v = Used.build({ x: { type: 'AType' } })
     const x: { x: { type: string } } = Used.type.encode(v) // Would error if Output type not inferred correctly
     chai.assert.deepStrictEqual(x, v)
-    chai.assert.deepStrictEqual(E.isRight(Used.jsonSchema), true)
+    chai.assert.deepStrictEqual(isRight(Used.jsonSchema), true)
   })
 
   it('Can constraint A type param', () => {
@@ -102,7 +105,7 @@ describe('tagged', () => {
     )
     chai.assert.deepStrictEqual(
       R.type.decode({ a: '2020-02-11T11:00:00' }),
-      E.right({ a: new Date(2020, 1, 11, 11, 0, 0) })
+      right({ a: new Date(2020, 1, 11, 11, 0, 0) })
     )
   })
 
@@ -129,6 +132,6 @@ describe('Morph ESBST', () => {
       )
     )
     const PersonARB = Person.derive(modelFastCheckInterpreter<{}>())({})
-    fc.assert(fc.property(PersonARB.arb, Person.type.is))
+    FCassert(property(PersonARB.arb, Person.type.is))
   })
 })

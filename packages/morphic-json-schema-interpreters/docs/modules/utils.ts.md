@@ -25,7 +25,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const arrayTraverseStateEither: <A, R, E, B>(ta: A[], f: (a: A) => SE.StateEither<R, E, B>) => SE.StateEither<R, E, B[]> = ...
+export const arrayTraverseStateEither: <A, R, E, B>(ta: A[], f: (a: A) => StateEither<R, E, B>) => StateEither<R, E, B[]> = ...
 ```
 
 Added in v0.0.1
@@ -45,8 +45,8 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const getSchema = (name: string): JsonSchemaResult<O.Option<JSONSchema>> =>
-  SE.gets((s: NamedSchemas) => ...
+export const getSchema = (name: string): JsonSchemaResult<Option<JSONSchema>> =>
+  gets((s: NamedSchemas) => ...
 ```
 
 Added in v0.0.1
@@ -59,8 +59,8 @@ Added in v0.0.1
 export const getSchemaStrict = (name: string): JsonSchemaResult<JSONSchema> =>
   pipe(
     getSchema(name),
-    SE.chain<NamedSchemas, NonEmptyArray<JsonSchemaError>, O.Option<JSONSchema>, JSONSchema>(
-      SE.fromOption(() => ...
+    chain<NamedSchemas, NonEmptyArray<JsonSchemaError>, Option<JSONSchema>, JSONSchema>(
+      SEfromOption(() => ...
 ```
 
 Added in v0.0.1
@@ -72,12 +72,12 @@ Added in v0.0.1
 ```ts
 export const registerSchema = (name: string) => (
   v: OptionalJSONSchema
-): SE.StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, OptionalJSONSchema> =>
+): StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, OptionalJSONSchema> =>
   isTypeRef(v.json)
-    ? SE.stateEither.of(v)
+    ? stateEither.of(v)
     : pipe(
         addSchema(name)(v.json),
-        SE.map(_ => ...
+        SEmap(_ => ...
 ```
 
 Added in v0.0.1
@@ -90,11 +90,7 @@ Added in v0.0.1
 export const resolveRef = ({
   json,
   optional
-}: OptionalJSONSchema): SE.StateEither<
-  NamedSchemas,
-  nonEmptyArray.NonEmptyArray<JsonSchemaError>,
-  OptionalJSONSchema
-> => ...
+}: OptionalJSONSchema): StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, OptionalJSONSchema> => ...
 ```
 
 Added in v0.0.1
@@ -106,7 +102,7 @@ Added in v0.0.1
 ```ts
 export const resolveRefJsonSchema = (
   s: SubSchema
-): SE.StateEither<NamedSchemas, nonEmptyArray.NonEmptyArray<JsonSchemaError>, JSONSchema> => ...
+): StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, JSONSchema> => ...
 ```
 
 Added in v0.0.1
@@ -119,8 +115,8 @@ Added in v0.0.1
 export const resolveSchema = ([{ json }, dic]: [OptionalJSONSchema, NamedSchemas]) =>
   pipe(
     resolveSubSchema(dic, json),
-    O.map(j => tuple(j, dic)),
-    E.fromOption(() => ...
+    map(j => tuple(j, dic)),
+    fromOption(() => ...
 ```
 
 Added in v0.0.1
@@ -130,7 +126,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const resolveSubSchema = (ns: NamedSchemas, ref: SubSchema): O.Option<JSONSchema> => ...
+export const resolveSubSchema = (ns: NamedSchemas, ref: SubSchema): Option<JSONSchema> => ...
 ```
 
 Added in v0.0.1

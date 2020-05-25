@@ -1,6 +1,6 @@
-import { Remove, ExtractUnion } from './utils'
-import { KeysDefinition, Tagged } from '.'
-import { record } from 'fp-ts'
+import type { Remove, ExtractUnion } from './utils'
+import type { KeysDefinition, Tagged } from '.'
+import { mapWithIndex } from 'fp-ts/lib/Record'
 
 /**
  *  @since 0.0.1
@@ -37,7 +37,7 @@ export interface Ctors<A, Tag extends keyof A & string> {
 export const Ctors = <A extends Tagged<Tag>, Tag extends string>(tag: Tag) => (
   keys: KeysDefinition<A, Tag>
 ): Ctors<A, Tag> => {
-  const ctors = record.mapWithIndex((key, _) => (props: object) => ({
+  const ctors = mapWithIndex((key, _) => (props: object) => ({
     [tag]: key,
     ...props
   }))(keys)

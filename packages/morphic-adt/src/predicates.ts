@@ -1,6 +1,6 @@
-import { ExtractUnion, ElemType } from './utils'
-import { KeysDefinition } from '.'
-import { record } from 'fp-ts'
+import type { ExtractUnion, ElemType } from './utils'
+import type { KeysDefinition } from '.'
+import { mapWithIndex } from 'fp-ts/lib/Record'
 
 /**
  *  @since 0.0.1
@@ -38,7 +38,7 @@ export interface Predicates<A, Tag extends keyof A & string> {
 export const Predicates = <A, Tag extends keyof A & string>(tag: Tag) => (
   keys: KeysDefinition<A, Tag>
 ): Predicates<A, Tag> => ({
-  is: record.mapWithIndex((key, _) => (rest: A) => (rest[tag] as any) === key)(keys) as any, // FIXME: typecheck that
+  is: mapWithIndex((key, _) => (rest: A) => (rest[tag] as any) === key)(keys) as any, // FIXME: typecheck that
   verified: (a: A): a is A => ((a[tag] as unknown) as string) in keys,
   isAnyOf: <Keys extends A[Tag][]>(keys: Keys) => (rest: A): rest is ExtractUnion<A, Tag, ElemType<Keys>> =>
     keys.indexOf(rest[tag]) !== -1

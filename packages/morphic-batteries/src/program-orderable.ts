@@ -1,14 +1,14 @@
-import { InferredAlgebra, InferredProgram } from './usage/programs-infer'
-import { GetAlgebra } from '@morphic-ts/algebras/lib/core'
+import type { InferredAlgebra, InferredProgram } from './usage/programs-infer'
+import type { GetAlgebra } from '@morphic-ts/algebras/lib/core'
 
-import { IntersectionURI } from '@morphic-ts/model-algebras/lib/intersections'
-import { PrimitiveURI } from '@morphic-ts/model-algebras/lib/primitives'
-import { SetURI } from '@morphic-ts/model-algebras/lib/set'
-import { StrMapURI } from '@morphic-ts/model-algebras/lib/str-map'
-import { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
-import { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
-import { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
-import { AnyConfigEnv } from './usage/summoner'
+import type { IntersectionURI } from '@morphic-ts/model-algebras/lib/intersections'
+import type { PrimitiveURI } from '@morphic-ts/model-algebras/lib/primitives'
+import type { SetURI } from '@morphic-ts/model-algebras/lib/set'
+import type { StrMapURI } from '@morphic-ts/model-algebras/lib/str-map'
+import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
+import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
+import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
+import type { AnyConfigEnv } from './usage/summoner'
 
 /**
  *  @since 0.0.1

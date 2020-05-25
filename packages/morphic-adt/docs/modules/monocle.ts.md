@@ -21,11 +21,11 @@ parent: Modules
 export interface MonocleFor<S> {
   lensFromProp: LensFromProp<S>
   lensFromProps: LensFromProps<S>
-  lensFromPath: m.LensFromPath<S>
+  lensFromPath: LensFromPath<S>
   indexFromAt: IndexFromAt<S>
   optionalFromOptionProp: OptionalFromOptionProp<S>
   optionalFromNullableProp: OptionalFromNullableProp<S>
-  prism: m.Prism<Option<S>, S>
+  prism: Prism<Option<S>, S>
   prismFromPredicate: PrismFromPredicate<S>
 }
 ```

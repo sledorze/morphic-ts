@@ -74,7 +74,7 @@ Added in v0.0.1
 export const Predicates = <A, Tag extends keyof A & string>(tag: Tag) => (
   keys: KeysDefinition<A, Tag>
 ): Predicates<A, Tag> => ({
-  is: record.mapWithIndex((key, _) => (rest: A) => (rest[tag] as any) === key)(keys) as any, // FIXME: typecheck that
+  is: mapWithIndex((key, _) => (rest: A) => (rest[tag] as any) === key)(keys) as any, // FIXME: typecheck that
   verified: (a: A): a is A => ((a[tag] as unknown) as string) in keys,
   isAnyOf: <Keys extends A[Tag][]>(keys: Keys) => (rest: A): rest is ExtractUnion<A, Tag, ElemType<Keys>> => ...
 ```

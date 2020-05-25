@@ -1,8 +1,8 @@
 import { set } from 'fast-check'
 import { FastCheckType, FastCheckURI } from '../hkt'
 import { fromArray } from 'fp-ts/lib/Set'
-import { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**

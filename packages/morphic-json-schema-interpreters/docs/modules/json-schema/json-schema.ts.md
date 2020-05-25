@@ -211,7 +211,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const jsonToObjectSchemaPrism: m.Prism<SubSchema, ObjectSchema> = ...
+export const jsonToObjectSchemaPrism: Prism<SubSchema, ObjectSchema> = ...
 ```
 
 Added in v0.0.1
@@ -221,7 +221,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const objectSchemaOnRequired: m.Lens<ObjectSchema, string[]> = ...
+export const objectSchemaOnRequired: Lens<ObjectSchema, string[]> = ...
 ```
 
 Added in v0.0.1

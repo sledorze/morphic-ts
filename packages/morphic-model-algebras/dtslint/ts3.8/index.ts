@@ -1,10 +1,10 @@
-import { ModelAlgebraTaggedUnions } from '../../src/tagged-unions'
-import { ModelAlgebraPrimitive } from '../../src/primitives'
-import { ModelAlgebraObject } from '../../src/object'
-import { Eq } from 'fp-ts/lib/Eq'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
-import {} from '@morphic-ts/algebras/lib/hkt'
-import { HKT2 } from '@morphic-ts/common/lib/HKT'
+import type { ModelAlgebraTaggedUnions } from '../../src/tagged-unions'
+import type { ModelAlgebraPrimitive } from '../../src/primitives'
+import type { ModelAlgebraObject } from '../../src/object'
+import type { Eq } from 'fp-ts/lib/Eq'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import type {} from '@morphic-ts/algebras/lib/hkt'
+import type { HKT2 } from '@morphic-ts/common/lib/HKT'
 
 declare module '@morphic-ts/common/lib/HKT' {
   interface URItoKind<R, A> {

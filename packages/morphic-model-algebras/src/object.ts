@@ -1,5 +1,5 @@
-import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
+import type { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic-ts/common/lib/HKT'
+import type { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
 
 type AnyMProps<F> = Record<string, HKT2<F, never, any, any>>
 

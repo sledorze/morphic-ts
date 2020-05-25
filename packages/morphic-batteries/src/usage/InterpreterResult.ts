@@ -1,4 +1,4 @@
-import { SelectKeyOfMatchingValues } from './utils'
+import type { SelectKeyOfMatchingValues } from './utils'
 
 /**
  *  @since 0.0.1

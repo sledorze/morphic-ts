@@ -1,7 +1,7 @@
-import { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
+import type { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import { EqType, EqURI } from '../hkt'
 import { mapRecord, memo } from '@morphic-ts/common/lib/utils'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1

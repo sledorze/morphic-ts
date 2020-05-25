@@ -1,9 +1,9 @@
 import { FastCheckType, FastCheckURI } from '../hkt'
-import { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
+import type { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
 import { projectFieldWithEnv } from '@morphic-ts/common/lib/utils'
 import { record } from 'fast-check'
 import { fastCheckApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**

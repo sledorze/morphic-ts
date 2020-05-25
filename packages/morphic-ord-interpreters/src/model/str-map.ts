@@ -1,9 +1,10 @@
-import { array, record } from 'fp-ts'
+import { getOrd as AgetOrd } from 'fp-ts/lib/Array'
+import { toArray as RtoArray } from 'fp-ts/lib/Record'
 import { ord, ordString, getTupleOrd } from 'fp-ts/lib/Ord'
-import { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
+import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
 import { OrdType, OrdURI } from '../hkt'
 import { ordApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**
@@ -14,10 +15,7 @@ export const ordStrMapInterpreter = memo(
     _F: OrdURI,
     strMap: (getCodomain, config) => env =>
       new OrdType(
-        ordApplyConfig(config)(
-          ord.contramap(array.getOrd(getTupleOrd(ordString, getCodomain(env).ord)), record.toArray),
-          env
-        )
+        ordApplyConfig(config)(ord.contramap(AgetOrd(getTupleOrd(ordString, getCodomain(env).ord)), RtoArray), env)
       )
   })
 )

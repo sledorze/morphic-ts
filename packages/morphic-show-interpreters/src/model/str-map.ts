@@ -1,8 +1,8 @@
-import { record } from 'fp-ts'
-import { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
+import { getShow as RgetShow } from 'fp-ts/lib/Record'
+import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
 import { ShowType, ShowURI } from '../hkt'
 import { showApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**
@@ -11,6 +11,6 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const showStrMapInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraStrMap1<ShowURI, Env> => ({
     _F: ShowURI,
-    strMap: (codomain, config) => env => new ShowType(showApplyConfig(config)(record.getShow(codomain(env).show), env))
+    strMap: (codomain, config) => env => new ShowType(showApplyConfig(config)(RgetShow(codomain(env).show), env))
   })
 )

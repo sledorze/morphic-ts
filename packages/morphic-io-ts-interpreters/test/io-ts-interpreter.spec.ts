@@ -1,18 +1,21 @@
 import * as chai from 'chai'
-import { ordString, ord, Ord } from 'fp-ts/lib/Ord'
+import { ordString, ord } from 'fp-ts/lib/Ord'
+import type { Ord } from 'fp-ts/lib/Ord'
 import { fromArray } from 'fp-ts/lib/Set'
-import { right, isLeft, isRight, Either, left } from 'fp-ts/lib/Either'
+import { right, isLeft, isRight, left, getOrElse, either } from 'fp-ts/lib/Either'
+import type { Either } from 'fp-ts/lib/Either'
 import { some, none } from 'fp-ts/lib/Option'
-import { either } from 'fp-ts'
 import { pipe } from 'fp-ts/lib/pipeable'
-import * as PR from 'io-ts/lib/PathReporter'
-import { Errors, Branded } from 'io-ts'
+import { success, failure, PathReporter } from 'io-ts/lib/PathReporter'
+import type { Errors, Branded } from 'io-ts'
 import * as t from 'io-ts'
-import { summonFor, M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+import { summonFor } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+import type { M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 
 import * as WM from 'io-ts-types/lib/withMessage'
-import { Newtype, iso } from 'newtype-ts'
-import { EType, AType } from '@morphic-ts/batteries/lib/usage/utils'
+import { iso } from 'newtype-ts'
+import type { Newtype } from 'newtype-ts'
+import type { EType, AType } from '@morphic-ts/batteries/lib/usage/utils'
 import { IoTsURI } from '../src'
 
 export type Tree = Node | Leaf
@@ -72,7 +75,7 @@ describe('IO-TS', () => {
     const result = codec.decode('baz')
 
     chai.assert.deepStrictEqual(isLeft(result), true)
-    chai.assert.deepStrictEqual(isLeft(result) && PR.failure(result.left), ['not ok'])
+    chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
   })
 
   it('decode to newType', () => {
@@ -89,7 +92,7 @@ describe('IO-TS', () => {
     const NT = summon(F => F.newtype<NT>('NT')(F.date(), { IoTsURI: x => WM.withMessage(x, () => 'not ok') }))
     const result = NT.type.decode('bla')
 
-    chai.assert.deepStrictEqual(isLeft(result) && PR.failure(result.left), ['not ok'])
+    chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
   })
 
   it('customize strMap', () => {
@@ -105,7 +108,7 @@ describe('IO-TS', () => {
     const result = codec.decode([])
 
     chai.assert.deepStrictEqual(isLeft(result), true)
-    chai.assert.deepStrictEqual(isLeft(result) && PR.failure(result.left), ['not ok'])
+    chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
   })
 
   it('refined', () => {
@@ -132,7 +135,7 @@ describe('IO-TS', () => {
       })
     ).type
 
-    chai.assert.deepStrictEqual(PR.PathReporter.report(codec.decode(-1)), ['Not a positive number -1'])
+    chai.assert.deepStrictEqual(PathReporter.report(codec.decode(-1)), ['Not a positive number -1'])
     chai.assert.deepStrictEqual(codec.decode(12), right(12))
   })
 
@@ -244,9 +247,9 @@ describe('IO-TS', () => {
     }
 
     const eee = Bar.strictType
-    either.either.map(eee.decode(1 as unknown), x => x.a)
+    either.map(eee.decode(1 as unknown), x => x.a)
     const fff = Foo.strictType
-    either.either.map(fff.decode(1 as unknown), x => {
+    either.map(fff.decode(1 as unknown), x => {
       const res = x.a.concat('a')
       return res
     })
@@ -497,7 +500,7 @@ describe('IO-TS', () => {
       SetInterfAType.type.encode(
         pipe(
           decoded,
-          either.getOrElse<Errors, Set<{ a: string }>>(() => {
+          getOrElse<Errors, Set<{ a: string }>>(() => {
             throw new Error('bad')
           })
         )
@@ -647,32 +650,27 @@ describe('iotsObjectInterpreter', () => {
     const result = codec.decode([])
 
     chai.assert.deepStrictEqual(isLeft(result), true)
-    chai.assert.deepStrictEqual(isLeft(result) && PR.failure(result.left), ['not ok'])
+    chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
   })
 
   it('uuid', () => {
     const { type } = summon(F => F.uuid())
-    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode('a')), ['Invalid value "a" supplied to : UUID'])
-    chai.assert.deepStrictEqual(
-      PR.PathReporter.report(type.decode('de5dc47c-7bb6-40bb-909e-3027689fb3ad')),
-      PR.success()
-    )
+    chai.assert.deepStrictEqual(PathReporter.report(type.decode('a')), ['Invalid value "a" supplied to : UUID'])
+    chai.assert.deepStrictEqual(PathReporter.report(type.decode('de5dc47c-7bb6-40bb-909e-3027689fb3ad')), success())
   })
 
   it('either', () => {
     const { type } = summon(F => F.either(F.string(), F.number()))
-    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(left('a'))), PR.success())
-    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(right(1))), PR.success())
-    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(1)), [
+    chai.assert.deepStrictEqual(PathReporter.report(type.decode(left('a'))), success())
+    chai.assert.deepStrictEqual(PathReporter.report(type.decode(right(1))), success())
+    chai.assert.deepStrictEqual(PathReporter.report(type.decode(1)), [
       'Invalid value 1 supplied to : Either<string, number>'
     ])
   })
   it('option', () => {
     const { type } = summon(F => F.option(F.string()))
-    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(some('a'))), PR.success())
-    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(none)), PR.success())
-    chai.assert.deepStrictEqual(PR.PathReporter.report(type.decode(1)), [
-      'Invalid value 1 supplied to : Option<string>'
-    ])
+    chai.assert.deepStrictEqual(PathReporter.report(type.decode(some('a'))), success())
+    chai.assert.deepStrictEqual(PathReporter.report(type.decode(none)), success())
+    chai.assert.deepStrictEqual(PathReporter.report(type.decode(1)), ['Invalid value 1 supplied to : Option<string>'])
   })
 })

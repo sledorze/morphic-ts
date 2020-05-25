@@ -1,9 +1,11 @@
-import { option as O, array as A, either as E } from 'fp-ts'
+import { getEq as OgetEq } from 'fp-ts/lib/Option'
+import { getEq as AgetEq } from 'fp-ts/lib/Array'
+import { getEq as EgetEq } from 'fp-ts/lib/Either'
 import { eq, eqNumber, eqString, eqBoolean, eqStrict } from 'fp-ts/lib/Eq'
-import { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
+import type { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { EqType, EqURI } from '../hkt'
 import { eqApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { UUID } from 'io-ts-types/lib/UUID'
 
@@ -26,10 +28,10 @@ export const eqPrimitiveInterpreter = memo(
     bigint: config => env => new EqType<bigint>(eqApplyConfig(config)(eqStrict, env)),
     stringLiteral: (k, config) => env => new EqType<typeof k>(eqApplyConfig(config)(eqString, env)),
     keysOf: (keys, config) => env => new EqType<keyof typeof keys>(eqApplyConfig(config)(eqStrict, env)),
-    nullable: (getType, config) => env => new EqType(eqApplyConfig(config)(O.getEq(getType(env).eq), env)),
-    array: (getType, config) => env => new EqType(eqApplyConfig(config)(A.getEq(getType(env).eq), env)),
+    nullable: (getType, config) => env => new EqType(eqApplyConfig(config)(OgetEq(getType(env).eq), env)),
+    array: (getType, config) => env => new EqType(eqApplyConfig(config)(AgetEq(getType(env).eq), env)),
     uuid: config => env => new EqType<UUID>(eqApplyConfig(config)(eqString, env)),
-    either: (e, a, config) => env => new EqType(eqApplyConfig(config)(E.getEq(e(env).eq, a(env).eq), env)),
-    option: (a, config) => env => new EqType(eqApplyConfig(config)(O.getEq(a(env).eq), env))
+    either: (e, a, config) => env => new EqType(eqApplyConfig(config)(EgetEq(e(env).eq, a(env).eq), env)),
+    option: (a, config) => env => new EqType(eqApplyConfig(config)(OgetEq(a(env).eq), env))
   })
 )

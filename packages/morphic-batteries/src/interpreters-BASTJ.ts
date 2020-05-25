@@ -1,11 +1,11 @@
-import { Arbitrary } from 'fast-check/*'
-import { Type } from 'io-ts'
-import { JSONSchema } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema'
-import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import { NamedSchemas } from '@morphic-ts/json-schema-interpreters/lib/index'
-import { JsonSchemaError } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema-ctors'
-import { Either } from 'fp-ts/lib/Either'
-import { Create } from '@morphic-ts/io-ts-interpreters/lib/create'
+import type { Arbitrary } from 'fast-check/*'
+import type { Type } from 'io-ts'
+import type { JSONSchema } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema'
+import type { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import type { NamedSchemas } from '@morphic-ts/json-schema-interpreters/lib/index'
+import type { JsonSchemaError } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema-ctors'
+import type { Either } from 'fp-ts/lib/Either'
+import type { Create } from '@morphic-ts/io-ts-interpreters/lib/create'
 
 /**
  *  @since 0.0.1

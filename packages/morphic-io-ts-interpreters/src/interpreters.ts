@@ -10,7 +10,7 @@ import { ioTsTaggedUnionInterpreter } from './model/tagged-unions'
 import { ioTsStrMapInterpreter } from './model/str-map'
 import { ioTsSetInterpreter } from './model/set'
 import { ioTsRecursiveInterpreter } from './model/recursive'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 export * from './hkt'
 
 /**

@@ -1,38 +1,56 @@
-import { OptionalJSONSchema, makeOptional, JsonSchemaError } from './json-schema/json-schema-ctors'
-import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import * as SE from 'fp-ts-contrib/lib/StateEither'
-import { SubSchema, JSONSchema, isTypeRef, Ref } from './json-schema/json-schema'
-import { record, nonEmptyArray, array } from 'fp-ts'
+import { makeOptional, JsonSchemaError } from './json-schema/json-schema-ctors'
+import type { OptionalJSONSchema } from './json-schema/json-schema-ctors'
+import type { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import {
+  gets,
+  modify,
+  stateEither,
+  map as SEmap,
+  chain,
+  fromOption as SEfromOption
+} from 'fp-ts-contrib/lib/StateEither'
+import type { StateEither } from 'fp-ts-contrib/lib/StateEither'
+import type { SubSchema, JSONSchema } from './json-schema/json-schema'
+import { Ref } from './json-schema/json-schema'
+import { isTypeRef } from './json-schema/json-schema'
+
+import { insertAt, lookup } from 'fp-ts/lib/Record'
+import { array } from 'fp-ts/lib/Array'
+import { of } from 'fp-ts/lib/NonEmptyArray'
+
 import { pipe } from 'fp-ts/lib/pipeable'
-import * as O from 'fp-ts/lib/Option'
-import * as E from 'fp-ts/lib/Either'
+
 import { tuple } from 'fp-ts/lib/function'
-import { JsonSchemaResult, NamedSchemas } from './hkt'
+import type { JsonSchemaResult, NamedSchemas } from './hkt'
+import { map } from 'fp-ts/lib/Option'
+import { some } from 'fp-ts/lib/Option'
+import type { Option } from 'fp-ts/lib/Option'
+import { fromOption } from 'fp-ts/lib/Either'
 
 /**
  *  @since 0.0.1
  */
 export const addSchema = (name: string) => (schema: JSONSchema): JsonSchemaResult<void> =>
-  SE.modify<NamedSchemas>(record.insertAt(name, schema))
+  modify<NamedSchemas>(insertAt(name, schema))
 
 /**
  *  @since 0.0.1
  */
 export const registerSchema = (name: string) => (
   v: OptionalJSONSchema
-): SE.StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, OptionalJSONSchema> =>
+): StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, OptionalJSONSchema> =>
   isTypeRef(v.json)
-    ? SE.stateEither.of(v)
+    ? stateEither.of(v)
     : pipe(
         addSchema(name)(v.json),
-        SE.map(_ => makeOptional(v.optional)(Ref(name)))
+        SEmap(_ => makeOptional(v.optional)(Ref(name)))
       )
 
 /**
  *  @since 0.0.1
  */
-export const getSchema = (name: string): JsonSchemaResult<O.Option<JSONSchema>> =>
-  SE.gets((s: NamedSchemas) => record.lookup(name, s))
+export const getSchema = (name: string): JsonSchemaResult<Option<JSONSchema>> =>
+  gets((s: NamedSchemas) => lookup(name, s))
 
 /**
  *  @since 0.0.1
@@ -40,15 +58,15 @@ export const getSchema = (name: string): JsonSchemaResult<O.Option<JSONSchema>> 
 export const getSchemaStrict = (name: string): JsonSchemaResult<JSONSchema> =>
   pipe(
     getSchema(name),
-    SE.chain<NamedSchemas, NonEmptyArray<JsonSchemaError>, O.Option<JSONSchema>, JSONSchema>(
-      SE.fromOption(() => nonEmptyArray.of(JsonSchemaError(`cannot find schema ${name}`)))
+    chain<NamedSchemas, NonEmptyArray<JsonSchemaError>, Option<JSONSchema>, JSONSchema>(
+      SEfromOption(() => of(JsonSchemaError(`cannot find schema ${name}`)))
     )
   )
 
 /**
  *  @since 0.0.1
  */
-export const arrayTraverseStateEither = array.array.traverse(SE.stateEither)
+export const arrayTraverseStateEither = array.traverse(stateEither)
 
 /**
  *  @since 0.0.1
@@ -56,25 +74,22 @@ export const arrayTraverseStateEither = array.array.traverse(SE.stateEither)
 export const resolveRef = ({
   json,
   optional
-}: OptionalJSONSchema): SE.StateEither<
-  NamedSchemas,
-  nonEmptyArray.NonEmptyArray<JsonSchemaError>,
-  OptionalJSONSchema
-> => pipe(resolveRefJsonSchema(json), SE.map(makeOptional(optional)))
+}: OptionalJSONSchema): StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, OptionalJSONSchema> =>
+  pipe(resolveRefJsonSchema(json), SEmap(makeOptional(optional)))
 
 /**
  *  @since 0.0.1
  */
 export const resolveRefJsonSchema = (
   s: SubSchema
-): SE.StateEither<NamedSchemas, nonEmptyArray.NonEmptyArray<JsonSchemaError>, JSONSchema> =>
-  isTypeRef(s) ? getSchemaStrict(s.$ref) : SE.stateEither.of(s)
+): StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, JSONSchema> =>
+  isTypeRef(s) ? getSchemaStrict(s.$ref) : stateEither.of(s)
 
 /**
  *  @since 0.0.1
  */
-export const resolveSubSchema = (ns: NamedSchemas, ref: SubSchema): O.Option<JSONSchema> =>
-  isTypeRef(ref) ? record.lookup(ref.$ref, ns) : O.some(ref)
+export const resolveSubSchema = (ns: NamedSchemas, ref: SubSchema): Option<JSONSchema> =>
+  isTypeRef(ref) ? lookup(ref.$ref, ns) : some(ref)
 
 /**
  *  @since 0.0.1
@@ -82,6 +97,6 @@ export const resolveSubSchema = (ns: NamedSchemas, ref: SubSchema): O.Option<JSO
 export const resolveSchema = ([{ json }, dic]: [OptionalJSONSchema, NamedSchemas]) =>
   pipe(
     resolveSubSchema(dic, json),
-    O.map(j => tuple(j, dic)),
-    E.fromOption(() => nonEmptyArray.of(JsonSchemaError('cannot resolve ref ')))
+    map(j => tuple(j, dic)),
+    fromOption(() => of(JsonSchemaError('cannot resolve ref ')))
   )

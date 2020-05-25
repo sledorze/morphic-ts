@@ -2,7 +2,7 @@ import { summonFor } from '../src/summoner-BASTJ'
 import { defineFor } from '../src/usage/programs-infer'
 import { ProgramUnionURI } from '../src/program'
 import * as fc from 'fast-check'
-import { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/hkt'
+import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/hkt'
 import { isRight } from 'fp-ts/lib/Either'
 
 interface FastCheck {

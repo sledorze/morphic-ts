@@ -1,7 +1,7 @@
-import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { Branded } from 'io-ts' // TODO: question that dependency..
-import { Refinement } from 'fp-ts/lib/function'
-import { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
+import type { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
+import type { Branded } from 'io-ts' // TODO: question that dependency..
+import type { Refinement } from 'fp-ts/lib/function'
+import type { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1

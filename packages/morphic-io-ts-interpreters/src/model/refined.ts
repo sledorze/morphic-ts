@@ -1,8 +1,8 @@
 import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '../hkt'
-import { ModelAlgebraRefined2 } from '@morphic-ts/model-algebras/lib/refined'
+import type { ModelAlgebraRefined2 } from '@morphic-ts/model-algebras/lib/refined'
 import { iotsApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**

@@ -1,7 +1,7 @@
 import { FastCheckType, FastCheckURI } from '../hkt'
-import { ModelAlgebraUnions1 } from '@morphic-ts/model-algebras/lib/unions'
+import type { ModelAlgebraUnions1 } from '@morphic-ts/model-algebras/lib/unions'
 import { oneof } from 'fast-check'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**
