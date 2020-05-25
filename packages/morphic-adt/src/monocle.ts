@@ -1,13 +1,14 @@
-import { Predicate, Refinement } from 'fp-ts/lib/function'
-import * as m from 'monocle-ts'
-import { Option } from 'fp-ts/lib/Option'
+import type { Option } from 'fp-ts/lib/Option'
+import type { Predicate, Refinement } from 'fp-ts/lib/function'
+import type { At, LensFromPath } from 'monocle-ts'
+import { Lens, Optional, Prism, Index } from 'monocle-ts'
 
 interface LensFromProp<S> {
-  <P extends keyof S>(prop: P): m.Lens<S, S[P]>
+  <P extends keyof S>(prop: P): Lens<S, S[P]>
 }
 
 interface LensFromProps<S> {
-  <P extends keyof S>(props: Array<P>): m.Lens<
+  <P extends keyof S>(props: Array<P>): Lens<
     S,
     {
       [K in P]: S[K]
@@ -19,18 +20,18 @@ declare type OptionPropertyNames<S> = {
 }[keyof S]
 declare type OptionPropertyType<S, K extends OptionPropertyNames<S>> = S[K] extends Option<infer A> ? A : never
 interface OptionalFromOptionProp<S> {
-  <P extends OptionPropertyNames<S>>(prop: P): m.Optional<S, OptionPropertyType<S, P>>
+  <P extends OptionPropertyNames<S>>(prop: P): Optional<S, OptionPropertyType<S, P>>
 } //
 interface OptionalFromNullableProp<S> {
-  <K extends keyof S>(k: K): m.Optional<S, NonNullable<S[K]>>
+  <K extends keyof S>(k: K): Optional<S, NonNullable<S[K]>>
 }
 interface IndexFromAt<T> {
-  <J, B>(at: m.At<T, J, Option<B>>): m.Index<T, J, B>
+  <J, B>(at: At<T, J, Option<B>>): Index<T, J, B>
 }
 
 interface PrismFromPredicate<S> {
-  <A extends S>(refinement: Refinement<S, A>): m.Prism<S, A>
-  (predicate: Predicate<S>): m.Prism<S, S>
+  <A extends S>(refinement: Refinement<S, A>): Prism<S, A>
+  (predicate: Predicate<S>): Prism<S, S>
 }
 
 /**
@@ -39,23 +40,23 @@ interface PrismFromPredicate<S> {
 export interface MonocleFor<S> {
   lensFromProp: LensFromProp<S>
   lensFromProps: LensFromProps<S>
-  lensFromPath: m.LensFromPath<S>
+  lensFromPath: LensFromPath<S>
   indexFromAt: IndexFromAt<S>
   optionalFromOptionProp: OptionalFromOptionProp<S>
   optionalFromNullableProp: OptionalFromNullableProp<S>
-  prism: m.Prism<Option<S>, S>
+  prism: Prism<Option<S>, S>
   prismFromPredicate: PrismFromPredicate<S>
 }
 
 const makeMonocleFor = <S>(): MonocleFor<S> => ({
-  lensFromProp: m.Lens.fromProp(),
-  lensFromProps: m.Lens.fromProps(),
-  lensFromPath: m.Lens.fromPath(),
-  indexFromAt: m.Index.fromAt,
-  optionalFromOptionProp: m.Optional.fromOptionProp(), // caused by OptionPropertyNames
-  optionalFromNullableProp: m.Optional.fromNullableProp(),
-  prism: m.Prism.some(),
-  prismFromPredicate: m.Prism.fromPredicate
+  lensFromProp: Lens.fromProp(),
+  lensFromProps: Lens.fromProps(),
+  lensFromPath: Lens.fromPath(),
+  indexFromAt: Index.fromAt,
+  optionalFromOptionProp: Optional.fromOptionProp(), // caused by OptionPropertyNames
+  optionalFromNullableProp: Optional.fromNullableProp(),
+  prism: Prism.some(),
+  prismFromPredicate: Prism.fromPredicate
 })
 
 const staticMonocle = makeMonocleFor<any>()

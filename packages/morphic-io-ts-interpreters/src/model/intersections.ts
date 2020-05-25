@@ -1,7 +1,7 @@
 import * as t from 'io-ts'
 import { IOTSType, IoTsURI } from '../hkt'
-import { ModelAlgebraIntersection2 } from '@morphic-ts/model-algebras/lib/intersections'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { ModelAlgebraIntersection2 } from '@morphic-ts/model-algebras/lib/intersections'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**

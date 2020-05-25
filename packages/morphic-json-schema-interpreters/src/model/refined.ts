@@ -1,7 +1,7 @@
 import { JsonSchemaURI, JsonSchema } from '../hkt'
 import type { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
 import { jsonSchemaApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**

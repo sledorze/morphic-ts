@@ -1,11 +1,11 @@
-import { ElemType, ExtractUnion, ExcludeUnion } from './utils'
+import type { ElemType, ExtractUnion, ExcludeUnion } from './utils'
 import * as M from './monocle'
 import * as Ma from './matcher'
 import * as PU from './predicates'
 import * as CU from './ctors'
-import { intersection, difference } from 'fp-ts/lib/Array'
+import { intersection, difference, reduceRight, array } from 'fp-ts/lib/Array'
 import { eqString } from 'fp-ts/lib/Eq'
-import { record, array } from 'fp-ts'
+import { fromFoldable } from 'fp-ts/lib/Record'
 import { tuple, identity } from 'fp-ts/lib/function'
 
 /**
@@ -39,7 +39,7 @@ const mergeKeys = <A extends Tagged<Tag>, B extends Tagged<Tag>, Tag extends str
   b: KeysDefinition<B, Tag>
 ): KeysDefinition<A | B, Tag> => ({ ...a, ...b } as any)
 
-const recordFromArray = record.fromFoldable({ concat: identity }, array.array)
+const recordFromArray = fromFoldable({ concat: identity }, array)
 const toTupleNull = (k: string) => tuple(k, null)
 
 const intersectKeys = <A extends Tagged<Tag>, B extends Tagged<Tag>, Tag extends string>(
@@ -69,7 +69,7 @@ export const unionADT = <
 >(
   as: AS
 ): ADT<CU.CtorType<AS[number]>, AS[number]['tag']> => {
-  const newKeys = array.reduceRight(as[0].keys, (x: AS[number], y) => mergeKeys(x.keys, y))(as)
+  const newKeys = reduceRight(as[0].keys, (x: AS[number], y) => mergeKeys(x.keys, y))(as)
   return makeADT(as[0].tag)(newKeys)
 }
 

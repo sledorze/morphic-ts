@@ -1,7 +1,7 @@
-import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
+import type { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { monoidAll, fold } from 'fp-ts/lib/Monoid'
 import { EqType, EqURI } from '../hkt'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**

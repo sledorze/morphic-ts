@@ -1,8 +1,10 @@
 import * as chai from 'chai'
 
 import { summonFor } from '@morphic-ts/batteries/lib/summoner-ESBASTJ'
-import { Newtype, iso } from 'newtype-ts'
-import { Either, left, right } from 'fp-ts/lib/Either'
+import { iso } from 'newtype-ts'
+import type { Newtype } from 'newtype-ts'
+import type { Either } from 'fp-ts/lib/Either'
+import { left, right } from 'fp-ts/lib/Either'
 import { some, none } from 'fp-ts/lib/Option'
 
 const { summon } = summonFor<{}>({})

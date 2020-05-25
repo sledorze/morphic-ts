@@ -1,5 +1,5 @@
-import { URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1

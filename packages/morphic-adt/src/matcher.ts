@@ -1,4 +1,5 @@
-import { KeysDefinition, isIn } from '.'
+import { isIn } from '.'
+import type { KeysDefinition } from '.'
 
 type ValueByKeyByTag<Union extends Record<any, any>, Tags extends keyof Union = keyof Union> = {
   [Tag in Tags]: { [Key in Union[Tag]]: Union extends { [r in Tag]: Key } ? Union : never }

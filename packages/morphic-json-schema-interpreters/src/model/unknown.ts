@@ -1,9 +1,9 @@
 import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { AnythingTypeCtor } from '../json-schema/json-schema-ctors'
-import * as SE from 'fp-ts-contrib/lib/StateEither'
-import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
+import { stateEither as SEstateEither } from 'fp-ts-contrib/lib/StateEither'
+import type { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
 import { jsonSchemaApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**
@@ -12,6 +12,6 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const jsonSchemaUnknownInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnknown1<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    unknown: config => env => new JsonSchema(jsonSchemaApplyConfig(config)(SE.stateEither.of(AnythingTypeCtor()), env))
+    unknown: config => env => new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(AnythingTypeCtor()), env))
   })
 )

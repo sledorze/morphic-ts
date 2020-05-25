@@ -1,4 +1,4 @@
-import { URIS, URIS2, Kind, Kind2 } from './HKT'
+import type { URIS, URIS2, Kind, Kind2 } from './HKT'
 export {
   /**
    * @since 0.0.1

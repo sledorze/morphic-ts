@@ -1,10 +1,11 @@
-import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
+import type { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
+
 import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { IntersectionTypeCtor } from '../json-schema/json-schema-ctors'
 import { pipe } from 'fp-ts/lib/pipeable'
-import * as SE from 'fp-ts-contrib/lib/StateEither'
+import { chain as SEchain, chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
 import { arrayTraverseStateEither, resolveRef, registerSchema } from '../utils'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**
@@ -17,9 +18,9 @@ export const jsonSchemaIntersectionInterpreter = memo(
       new JsonSchema<A>(
         pipe(
           arrayTraverseStateEither(types, getShema => getShema(env).schema),
-          SE.chain(schemas => arrayTraverseStateEither(schemas, resolveRef)),
-          SE.chainEitherK(IntersectionTypeCtor),
-          SE.chain(registerSchema(name))
+          SEchain(schemas => arrayTraverseStateEither(schemas, resolveRef)),
+          SEchainEitherK(IntersectionTypeCtor),
+          SEchain(registerSchema(name))
         )
       )
   })

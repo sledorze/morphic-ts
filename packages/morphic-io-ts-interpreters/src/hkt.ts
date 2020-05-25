@@ -1,5 +1,6 @@
 import type { Errors, Type } from 'io-ts'
-import { Either, map } from 'fp-ts/lib/Either'
+import type { Either } from 'fp-ts/lib/Either'
+import { map } from 'fp-ts/lib/Either'
 import type { Validated } from './create'
 
 /**

@@ -1,5 +1,6 @@
-import * as m from 'monocle-ts'
-import { fromNullable, Option } from 'fp-ts/lib/Option'
+import { Lens, Prism } from 'monocle-ts'
+import { fromNullable } from 'fp-ts/lib/Option'
+import type { Option } from 'fp-ts/lib/Option'
 /**
  *  @since 0.0.1
  */
@@ -125,7 +126,7 @@ export interface ObjectSchema extends DescriptionSchema {
 /**
  *  @since 0.0.1
  */
-export const objectSchemaOnRequired = m.Lens.fromProp<ObjectSchema>()('required')
+export const objectSchemaOnRequired = Lens.fromProp<ObjectSchema>()('required')
 /**
  *  @since 0.0.1
  */
@@ -143,7 +144,7 @@ export const isObjectSchema = (x: SubSchema): x is ObjectSchema => 'type' in x &
 /**
  *  @since 0.0.1
  */
-export const jsonToObjectSchemaPrism = m.Prism.fromPredicate(isObjectSchema)
+export const jsonToObjectSchemaPrism = Prism.fromPredicate(isObjectSchema)
 
 /**
  *  @since 0.0.1

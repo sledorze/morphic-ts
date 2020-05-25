@@ -1,10 +1,12 @@
-import { SelectKeyOfMatchingValues } from '../../src/usage/utils'
+import type { SelectKeyOfMatchingValues } from '../../src/usage/utils'
 import { summonFor } from '../../src/summoner-BASTJ'
-import { EOfMorhpADT, IfStringLiteral, AOfMorhpADT } from '../../src/usage/tagged-union'
+import type { EOfMorhpADT, IfStringLiteral, AOfMorhpADT } from '../../src/usage/tagged-union'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import { interpretable } from '../../src/usage/programs-infer'
-import { ADT, unionADT, intersectADT } from '@morphic-ts/adt'
-import { Remove, ElemType, ExtractUnion } from '@morphic-ts/adt/lib/utils'
+import type { ADT } from '@morphic-ts/adt'
+// tslint:disable-next-line: no-duplicate-imports
+import { unionADT, intersectADT } from '@morphic-ts/adt'
+import type { Remove, ElemType, ExtractUnion } from '@morphic-ts/adt/lib/utils'
 
 type IsLiteralA = IfStringLiteral<'a', 'ok', 'string', 'notString'> // $ExpectType "ok"
 type IsLiteralString = IfStringLiteral<string, 'ok', 'string', 'notString'> // $ExpectType "string"

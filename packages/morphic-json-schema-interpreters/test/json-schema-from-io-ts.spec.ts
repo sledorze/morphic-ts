@@ -1,11 +1,12 @@
 import * as chai from 'chai'
-import { summonFor, UM } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+import type { UM } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+import { summonFor } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 import { right, left } from 'fp-ts/lib/Either'
-import { either } from 'fp-ts'
+import { either } from 'fp-ts/lib/Either'
 import { JsonSchemaErrors } from '../src/json-schema/json-schema-ctors'
 import { of } from 'fp-ts/lib/NonEmptyArray'
 import { tuple } from 'fp-ts/lib/function'
-import { JSONSchema } from '../src/json-schema/json-schema'
+import type { JSONSchema } from '../src/json-schema/json-schema'
 
 export type Tree = Node | Leaf
 export interface Node {
@@ -182,7 +183,7 @@ describe('a json schema generator', function (this: any) {
     const schema = () => decoder.jsonSchema
 
     chai.assert.deepStrictEqual(
-      either.either.mapLeft(schema(), v => v),
+      either.mapLeft(schema(), v => v),
       left(of(JsonSchemaErrors.ArrayConsumesNoOptional))
     )
   })

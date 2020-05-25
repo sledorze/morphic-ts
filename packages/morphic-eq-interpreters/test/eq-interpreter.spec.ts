@@ -1,18 +1,21 @@
 import * as chai from 'chai'
 
-import { Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
-import { makeSummoner, Summoners, AnyConfigEnv, ExtractEnv } from '@morphic-ts/batteries/lib/usage/summoner'
+import type { Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
+import { makeSummoner } from '@morphic-ts/batteries/lib/usage/summoner'
+import type { Summoners, AnyConfigEnv, ExtractEnv } from '@morphic-ts/batteries/lib/usage/summoner'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
-import { ProgramNoUnionURI } from '@morphic-ts/batteries/lib/program-no-union'
+import type { ProgramNoUnionURI } from '@morphic-ts/batteries/lib/program-no-union'
 import { modelEqInterpreter } from '../src/interpreters'
-import { Eq } from 'fp-ts/lib/Eq'
-import * as eq from 'fp-ts/lib/Eq'
-import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
-import { Newtype, iso } from 'newtype-ts'
-import { EqURI } from '../src/index'
-import { left, right, Either } from 'fp-ts/lib/Either'
-import { option as O } from 'fp-ts'
+import type { Eq } from 'fp-ts/lib/Eq'
+import { fromEquals } from 'fp-ts/lib/Eq'
+import type { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
+import type { Newtype } from 'newtype-ts'
+import { iso } from 'newtype-ts'
+import type { EqURI } from '../src/index'
+import type { Either } from 'fp-ts/lib/Either'
+import { left, right } from 'fp-ts/lib/Either'
+import { some, none } from 'fp-ts/lib/Option'
 
 export const EqInterpreterURI = 'EqInterpreterURI' as const
 export type EqInterpreterURI = typeof EqInterpreterURI
@@ -92,7 +95,7 @@ describe('Eq', () => {
 
   it('recursive compare of non-circular unknown', () => {
     let calls = 0
-    const compare = eq.fromEquals((_a, _b) => {
+    const compare = fromEquals((_a, _b) => {
       calls += 1
       return true
     })
@@ -294,10 +297,10 @@ describe('Eq', () => {
 
   it('option', () => {
     const { eq } = summon(F => F.option(F.string()))
-    const a1 = O.some('a')
-    const a2 = O.some('a')
-    const b = O.some('b')
-    const n = O.none
+    const a1 = some('a')
+    const a2 = some('a')
+    const b = some('b')
+    const n = none
 
     chai.assert.deepStrictEqual(eq.equals(a1, a1), true)
     chai.assert.deepStrictEqual(eq.equals(a1, a2), true)

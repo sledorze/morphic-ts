@@ -1,9 +1,9 @@
-import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
+import type { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
 import { EqType, EqURI } from '../hkt'
-import { Eq } from 'fp-ts/lib/Eq'
+import type { Eq } from 'fp-ts/lib/Eq'
 import { circularDeepEqual } from 'fast-equals'
 import { eqApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**

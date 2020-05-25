@@ -1,8 +1,8 @@
-import { Option } from 'fp-ts/lib/Option'
-import { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
-import { UUID } from 'io-ts-types/lib/UUID'
-import { Either } from 'fp-ts/lib/Either'
+import type { Option } from 'fp-ts/lib/Option'
+import type { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
+import type { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
+import type { UUID } from 'io-ts-types/lib/UUID'
+import type { Either } from 'fp-ts/lib/Either'
 /**
  *  @since 0.0.1
  */

@@ -2,7 +2,7 @@
  * A Program is expressed within an Algebra to materialize a Morph
  */
 
-import { AnyConfigEnv } from './summoner'
+import type { AnyConfigEnv } from './summoner'
 
 /**
  *  @since 0.0.1

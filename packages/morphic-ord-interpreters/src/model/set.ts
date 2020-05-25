@@ -1,9 +1,9 @@
-import { array } from 'fp-ts'
+import { getOrd as AgetOrd } from 'fp-ts/lib/Array'
 import { ord } from 'fp-ts/lib/Ord'
-import { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
+import type { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
 import { OrdType, OrdURI } from '../hkt'
 import { toArray } from 'fp-ts/lib/Set'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**
@@ -12,6 +12,6 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const ordSetInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraSet1<OrdURI, Env> => ({
     _F: OrdURI,
-    set: (getOrd, ordA) => env => new OrdType(ord.contramap(array.getOrd(getOrd(env).ord), toArray(ordA)))
+    set: (getOrd, ordA) => env => new OrdType(ord.contramap(AgetOrd(getOrd(env).ord), toArray(ordA)))
   })
 )

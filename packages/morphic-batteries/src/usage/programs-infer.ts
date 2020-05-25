@@ -1,7 +1,7 @@
-import { HKT2, Kind, Kind2, URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
-import { Algebra1, Algebra2, Algebra } from '@morphic-ts/algebras/lib/core'
-import { ProgramURI, ProgramAlgebra, ProgramAlgebraURI, ProgramType } from './ProgramType'
-import { AnyConfigEnv } from './summoner'
+import type { HKT2, Kind, Kind2, URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
+import type { Algebra1, Algebra2, Algebra } from '@morphic-ts/algebras/lib/core'
+import type { ProgramURI, ProgramAlgebra, ProgramAlgebraURI, ProgramType } from './ProgramType'
+import type { AnyConfigEnv } from './summoner'
 
 /**
  *  @since 0.0.1

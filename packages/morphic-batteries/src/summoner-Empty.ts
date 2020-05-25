@@ -1,12 +1,13 @@
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
-import * as U from './usage'
+import type * as U from './usage'
 
-import { EmptyInterpreterURI } from './interpreters-Empty'
-import { ProgramNoUnionURI } from './program-no-union'
+import type { EmptyInterpreterURI } from './interpreters-Empty'
+import type { ProgramNoUnionURI } from './program-no-union'
 
-import { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
+import { makeSummoner } from './usage/summoner'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -42,6 +43,6 @@ export const summonFor: <R extends AnyEnv = {}>(env: ExtractEnv<R, never>) => Su
 >(
   _env: ExtractEnv<R, never>
 ) =>
-  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, _program => ({
+  makeSummoner<Summoner<R>>(cacheUnaryFunction, _program => ({
     build: a => a
   }))

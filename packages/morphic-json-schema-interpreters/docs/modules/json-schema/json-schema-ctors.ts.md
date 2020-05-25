@@ -103,7 +103,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const optionalJSONSchemaOnJson: m.Optional<OptionalJSONSchema, js.SubSchema> = ...
+export const optionalJSONSchemaOnJson: Optional<OptionalJSONSchema, js.SubSchema> = ...
 ```
 
 Added in v0.0.1
