@@ -1,5 +1,4 @@
 import type { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
-import type { Branded } from 'io-ts' // TODO: question that dependency..
 import type { Refinement } from 'fp-ts/lib/function'
 import type { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
 
@@ -30,12 +29,12 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 export interface ModelAlgebraRefined<F, Env> {
   _F: F
   refined: {
-    <E, A, N extends string, B extends { readonly [K in N]: symbol }>(
+    <E, A, B extends A>(
       a: HKT2<F, Env, E, A>,
-      refinement: Refinement<A, Branded<A, B>>,
-      name: N,
-      config?: ConfigsForType<Env, E, Branded<A, B>>
-    ): HKT2<F, Env, E, Branded<A, B>>
+      refinement: Refinement<A, B>,
+      name: string,
+      config?: ConfigsForType<Env, E, B>
+    ): HKT2<F, Env, E, B>
   }
 }
 
@@ -44,12 +43,12 @@ export interface ModelAlgebraRefined<F, Env> {
  */
 export interface ModelAlgebraRefined1<F extends URIS, Env extends AnyEnv> {
   _F: F
-  refined<A, N extends string, B extends { readonly [K in N]: symbol }>(
+  refined<A, B extends A>(
     a: Kind<F, Env, A>,
-    refinement: Refinement<A, Branded<A, B>>,
-    name: N,
-    config?: ConfigsForType<Env, unknown, Branded<A, B>>
-  ): Kind<F, Env, Branded<A, B>>
+    refinement: Refinement<A, B>,
+    name: string,
+    config?: ConfigsForType<Env, unknown, B>
+  ): Kind<F, Env, B>
 }
 
 /**
@@ -57,10 +56,10 @@ export interface ModelAlgebraRefined1<F extends URIS, Env extends AnyEnv> {
  */
 export interface ModelAlgebraRefined2<F extends URIS2, Env extends AnyEnv> {
   _F: F
-  refined<E, A, N extends string, B extends { readonly [K in N]: symbol }>(
+  refined<E, A, B extends A>(
     a: Kind2<F, Env, E, A>,
-    refinement: Refinement<A, Branded<A, B>>,
-    name: N,
-    config?: ConfigsForType<Env, E, Branded<A, B>>
-  ): Kind2<F, Env, E, Branded<A, B>>
+    refinement: Refinement<A, B>,
+    name: string,
+    config?: ConfigsForType<Env, E, B>
+  ): Kind2<F, Env, E, B>
 }
