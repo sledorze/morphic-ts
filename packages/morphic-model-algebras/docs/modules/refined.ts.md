@@ -24,12 +24,12 @@ parent: Modules
 export interface ModelAlgebraRefined<F, Env> {
   _F: F
   refined: {
-    <E, A, N extends string, B extends { readonly [K in N]: symbol }>(
+    <E, A, B extends A>(
       a: HKT2<F, Env, E, A>,
-      refinement: Refinement<A, Branded<A, B>>,
-      name: N,
-      config?: ConfigsForType<Env, E, Branded<A, B>>
-    ): HKT2<F, Env, E, Branded<A, B>>
+      refinement: Refinement<A, B>,
+      name: string,
+      config?: ConfigsForType<Env, E, B>
+    ): HKT2<F, Env, E, B>
   }
 }
 ```
@@ -43,12 +43,12 @@ Added in v0.0.1
 ```ts
 export interface ModelAlgebraRefined1<F extends URIS, Env extends AnyEnv> {
   _F: F
-  refined<A, N extends string, B extends { readonly [K in N]: symbol }>(
+  refined<A, B extends A>(
     a: Kind<F, Env, A>,
-    refinement: Refinement<A, Branded<A, B>>,
-    name: N,
-    config?: ConfigsForType<Env, unknown, Branded<A, B>>
-  ): Kind<F, Env, Branded<A, B>>
+    refinement: Refinement<A, B>,
+    name: string,
+    config?: ConfigsForType<Env, unknown, B>
+  ): Kind<F, Env, B>
 }
 ```
 
@@ -61,12 +61,12 @@ Added in v0.0.1
 ```ts
 export interface ModelAlgebraRefined2<F extends URIS2, Env extends AnyEnv> {
   _F: F
-  refined<E, A, N extends string, B extends { readonly [K in N]: symbol }>(
+  refined<E, A, B extends A>(
     a: Kind2<F, Env, E, A>,
-    refinement: Refinement<A, Branded<A, B>>,
-    name: N,
-    config?: ConfigsForType<Env, E, Branded<A, B>>
-  ): Kind2<F, Env, E, Branded<A, B>>
+    refinement: Refinement<A, B>,
+    name: string,
+    config?: ConfigsForType<Env, E, B>
+  ): Kind2<F, Env, E, B>
 }
 ```
 

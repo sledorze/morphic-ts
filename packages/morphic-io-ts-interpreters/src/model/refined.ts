@@ -1,4 +1,4 @@
-import * as t from 'io-ts'
+import { success, failure, Type } from 'io-ts'
 import { IOTSType, IoTsURI } from '../hkt'
 import type { ModelAlgebraRefined2 } from '@morphic-ts/model-algebras/lib/refined'
 import { iotsApplyConfig } from '../config'
@@ -8,16 +8,20 @@ import { memo } from '@morphic-ts/common/lib/utils'
 /**
  *  @since 0.0.1
  */
-export interface Customize<RC, E, A> {
-  <B>(a: t.BrandC<t.Type<A, E, unknown>, B>, env: RC): t.BrandC<t.Type<A, E, unknown>, B> // t.Type<A, E, unknown>
-}
-const id = <A>(a: A) => a
-
-/**
- *  @since 0.0.1
- */
-export const applyCustomize = <RC, E, A>(c: { [IoTsURI]?: Customize<RC, E, A> } | undefined) =>
-  c !== undefined ? c[IoTsURI] ?? id : id
+export const refinement = <A, O, B extends A>(T: Type<A, O>, ref: (a: A) => a is B, name: string): Type<B, O> =>
+  new Type<B, O>(
+    name,
+    (x): x is B => T.is(x) && ref(x),
+    (i, c) => {
+      const r = T.decode(i)
+      if (r._tag === 'Left') {
+        return r
+      }
+      const v = r.right
+      return ref(v) ? success(v) : failure(i, c)
+    },
+    T.encode
+  )
 
 /**
  *  @since 0.0.1
@@ -26,6 +30,6 @@ export const ioTsRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined2<IoTsURI, Env> => ({
     _F: IoTsURI,
     refined: (a, ref, name, config) => env =>
-      new IOTSType(iotsApplyConfig(config)(t.brand(a(env).type, ref, name), env))
+      new IOTSType(iotsApplyConfig(config)(refinement(a(env).type, ref, name), env))
   })
 )
