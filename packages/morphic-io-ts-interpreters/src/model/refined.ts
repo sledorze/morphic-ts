@@ -18,7 +18,7 @@ export const refinement = <A, O, B extends A>(T: Type<A, O>, ref: (a: A) => a is
         return r
       }
       const v = r.right
-      return ref(v) ? success(v) : failure(i, c, `cannot refine ${JSON.stringify(i)}, should be ${name}`)
+      return ref(v) ? success(v) : failure(i, c)
     },
     T.encode
   )
