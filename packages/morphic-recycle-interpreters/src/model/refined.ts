@@ -1,7 +1,7 @@
 import type { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
 import { RecycleURI, RecycleType } from '../hkt'
 import { recycleApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { Recycle } from '../recycle'
 

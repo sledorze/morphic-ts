@@ -1,6 +1,6 @@
-import { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
+import type { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
 import { RecycleType, RecycleURI } from '../hkt'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import { getSet } from '../recycle'
 

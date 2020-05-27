@@ -10,7 +10,6 @@ import { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
 import { Newtype, iso } from 'newtype-ts'
 import { RecycleURI } from '../src/index'
 import { left, right, Either, isRight, isLeft } from 'fp-ts/lib/Either'
-import { option as O, ord } from 'fp-ts'
 import { Recycle, fromRecycle, setToRecord, getSetByKey, getStrMap, getArrayByKey } from '../src/recycle'
 import { AType } from '@morphic-ts/batteries/lib/usage/utils'
 
@@ -19,9 +18,12 @@ export type RecycleInterpreterURI = typeof RecycleInterpreterURI
 
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters'
 import { Branded } from 'io-ts'
-import { ordString, ordNumber } from 'fp-ts/lib/Ord'
+import { ordString, ordNumber, getTupleOrd, contramap } from 'fp-ts/lib/Ord'
 import { tuple } from 'fp-ts/lib/function'
 import * as fc from 'fast-check'
+import { some, none } from 'fp-ts/lib/Option'
+import { pipe } from 'fp-ts/lib/pipeable'
+import type { Option } from 'fp-ts/lib/Option'
 
 const clone = <A extends object>(a: A) => ({ ...a })
 
@@ -238,8 +240,8 @@ describe('Recycle', () => {
 
   it('interface', () => {
     interface Foo {
-      a: O.Option<string>
-      b: O.Option<number>
+      a: Option<string>
+      b: Option<number>
     }
     const Foo = summon(F =>
       F.interface(
@@ -253,11 +255,11 @@ describe('Recycle', () => {
 
     const { recycle } = Foo
 
-    const a = O.some('a')
-    const aBis = O.some('a')
-    const b = O.some('b')
-    const one = O.some(1)
-    const two = O.some(2)
+    const a = some('a')
+    const aBis = some('a')
+    const b = some('b')
+    const one = some(1)
+    const two = some(2)
 
     const fooA1 = Foo.build({ a, b: one })
     const fooA1Bis = Foo.build({ a: aBis, b: one })
@@ -313,8 +315,8 @@ describe('Recycle', () => {
 
   it('partial deep', () => {
     interface Foo {
-      a: O.Option<string>
-      b: O.Option<number>
+      a: Option<string>
+      b: Option<number>
     }
     const Foo = summon(F =>
       F.partial(
@@ -329,11 +331,11 @@ describe('Recycle', () => {
 
     const { recycle } = Foo
 
-    const a = O.some('a')
-    const aBis = O.some('a')
-    const b = O.some('b')
-    const one = O.some(1)
-    const two = O.some(2)
+    const a = some('a')
+    const aBis = some('a')
+    const b = some('b')
+    const one = some(1)
+    const two = some(2)
 
     const fooA1 = Foo.build({ a, b: one, c: 'c' })
     const fooA1Bis = Foo.build({ a: aBis, b: one, c: 'c' })
@@ -491,10 +493,10 @@ describe('Recycle', () => {
 
   it('option', () => {
     const { recycle } = summon(F => F.option(F.string()))
-    const a1 = O.some('a')
-    const a2 = O.some('a')
-    const b = O.some('b')
-    const n = O.none
+    const a1 = some('a')
+    const a2 = some('a')
+    const b = some('b')
+    const n = none
 
     const { mustRecycle, mustNotRecycle } = makeRecycler(recycle)
 
@@ -530,14 +532,14 @@ describe('Recycle', () => {
 
     const { mustRecycle, mustNotRecycle } = makeRecycler(recycle)
 
-    const AaBb = build({ a: O.some('a'), a2: O.some('a'), b: O.some('b') })
-    const AaBbBis = build({ a: O.some('a'), a2: O.some('a'), b: O.some('b') })
+    const AaBb = build({ a: some('a'), a2: some('a'), b: some('b') })
+    const AaBbBis = build({ a: some('a'), a2: some('a'), b: some('b') })
     mustRecycle(AaBb, AaBbBis)
 
-    const AcBd = build({ a: O.some('c'), a2: O.some('x'), b: O.some('d') })
+    const AcBd = build({ a: some('c'), a2: some('x'), b: some('d') })
     mustNotRecycle(AaBb, AcBd)
 
-    const AaBc = build({ a: O.some('a'), a2: O.some('b'), b: O.some('c') })
+    const AaBc = build({ a: some('a'), a2: some('b'), b: some('c') })
     const res = recycle.recycle(AaBb, AaBc)
     chai.assert.notStrictEqual(res, AaBc)
     chai.assert.strictEqual(res.a, AaBb.a)
@@ -552,8 +554,9 @@ describe('Recycle', () => {
     }
 
     const Obj = summon(F => F.interface({ a: F.string(), b: F.number() }, 'Obj'))
-    const ordObj = ord.ord.contramap(ord.getTupleOrd(ordString, ordNumber), (x: { a: string; b: number }) =>
-      tuple(x.a, x.b)
+    const ordObj = pipe(
+      getTupleOrd(ordString, ordNumber),
+      contramap((x: { a: string; b: number }) => tuple(x.a, x.b))
     )
 
     const ObjA = summon(F => F.interface({ type: F.stringLiteral('ObjA'), x: F.string() }, 'ObjA'))
@@ -632,10 +635,10 @@ describe('setToRecord', () => {
 describe('getSetByKey', () => {
   const A = summon(F => F.interface({ a: F.string(), b: F.nullable(F.string()) }, 'A'))
   type A = AType<typeof A>
-  const Aa1 = A.build({ a: 'a', b: O.some('1') })
-  const Aa2 = A.build({ a: 'a', b: O.some('2') })
-  const Ab1 = A.build({ a: 'b', b: O.some('1') })
-  const Ab2 = A.build({ a: 'b', b: O.some('2') })
+  const Aa1 = A.build({ a: 'a', b: some('1') })
+  const Aa2 = A.build({ a: 'a', b: some('2') })
+  const Ab1 = A.build({ a: 'b', b: some('1') })
+  const Ab2 = A.build({ a: 'b', b: some('2') })
 
   const getSetByA = getSetByKey<A>(_ => _.a)
   const recycle = getSetByA(A.recycle)
@@ -687,10 +690,10 @@ describe('getSetByKey', () => {
 describe('strMap', () => {
   const A = summon(F => F.interface({ b: F.nullable(F.string()) }, 'A'))
   type A = AType<typeof A>
-  const A1 = A.build({ b: O.some('1') })
-  const A2 = A.build({ b: O.some('2') })
-  const A3 = A.build({ b: O.some('3') })
-  const A4 = A.build({ b: O.some('4') })
+  const A1 = A.build({ b: some('1') })
+  const A2 = A.build({ b: some('2') })
+  const A3 = A.build({ b: some('3') })
+  const A4 = A.build({ b: some('4') })
 
   const recycle = getStrMap(A.recycle)
   const { mustRecycle, mustNotRecycle } = makeRecycler(recycle)
@@ -734,15 +737,15 @@ describe('getArrayByKey', () => {
   const A = summon(F => F.interface({ a: F.string(), b: F.nullable(F.string()) }, 'A'))
   type A = AType<typeof A>
 
-  const Aa1 = A.build({ a: 'a', b: O.some('1') })
-  const Aa1Bis = A.build({ a: 'a', b: O.some('1') })
-  const Aa2 = A.build({ a: 'a', b: O.some('2') })
-  const Ab1 = A.build({ a: 'b', b: O.some('1') })
-  const Ab1Bis = A.build({ a: 'b', b: O.some('1') })
-  const Ab2 = A.build({ a: 'b', b: O.some('2') })
-  // const Aa2Bis = A.build({ a: 'a', b: O.some('2') })
-  // const Aa3 = A.build({ a: 'a', b: O.some('3') })
-  // const Aa4 = A.build({ a: 'a', b: O.some('4') })
+  const Aa1 = A.build({ a: 'a', b: some('1') })
+  const Aa1Bis = A.build({ a: 'a', b: some('1') })
+  const Aa2 = A.build({ a: 'a', b: some('2') })
+  const Ab1 = A.build({ a: 'b', b: some('1') })
+  const Ab1Bis = A.build({ a: 'b', b: some('1') })
+  const Ab2 = A.build({ a: 'b', b: some('2') })
+  // const Aa2Bis = A.build({ a: 'a', b: some('2') })
+  // const Aa3 = A.build({ a: 'a', b: some('3') })
+  // const Aa4 = A.build({ a: 'a', b: some('4') })
 
   const recycle = getArrayByKey<A>(_ => _.a)(A.recycle)
   const { mustRecycle, mustNotRecycle } = makeRecycler(recycle)

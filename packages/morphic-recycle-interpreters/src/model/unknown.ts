@@ -1,7 +1,7 @@
-import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
+import type { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
 import { RecycleType, RecycleURI } from '../hkt'
 import { recycleApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import { recyclePrimitive } from '../recycle'
 

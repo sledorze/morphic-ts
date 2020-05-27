@@ -1,11 +1,12 @@
-import { either as E } from 'fp-ts'
-import { option as O } from 'fp-ts'
-import { array as A } from 'fp-ts'
 import { monoidAll } from 'fp-ts/lib/Monoid'
 import { pipe } from 'fp-ts/lib/pipeable'
 import type { ReadonlyRecord } from 'fp-ts/lib/ReadonlyRecord'
 import { tuple } from 'fp-ts/lib/function'
-import { flatten } from 'fp-ts/lib/Array'
+import { flatten, zip, foldMap } from 'fp-ts/lib/Array'
+import type { Right, Left, Either } from 'fp-ts/lib/Either'
+import { right, left } from 'fp-ts/lib/Either'
+import { some } from 'fp-ts/lib/Option'
+import type { Option } from 'fp-ts/lib/Option'
 
 /**
  *  @since 0.0.1
@@ -57,11 +58,11 @@ export const contramap = <A, B>(recycle: Recycle<A>, f: (b: B) => A): Recycle<B>
 /**
  *  @since 0.0.1
  */
-export const getOption = <A>(recycle: Recycle<A>): Recycle<O.Option<A>> =>
+export const getOption = <A>(recycle: Recycle<A>): Recycle<Option<A>> =>
   fromRecycle((prev, next) => {
     if (prev._tag === 'Some' && next._tag === 'Some') {
       const r = recycle.recycle(prev.value, next.value)
-      return r === prev.value ? prev : next.value === r ? next : O.some(r)
+      return r === prev.value ? prev : next.value === r ? next : some(r)
     } else {
       return next
     }
@@ -78,8 +79,8 @@ export const getArray = <A>(recycle: Recycle<A>): Recycle<A[]> =>
       ? next
       : // TODO: Optimize
       pipe(
-          A.zip(prev, next),
-          A.foldMap(monoidAll)(([p, n]) => recycle.recycle(p, n) === p)
+          zip(prev, next),
+          foldMap(monoidAll)(([p, n]) => recycle.recycle(p, n) === p)
         )
       ? prev
       : next
@@ -150,19 +151,19 @@ export const getArrayByKey = <A>(getKey: (a: A) => string) => (recycle: Recycle<
 /**
  *  @since 0.0.1
  */
-export const getEither = <A, E>(recycleE: Recycle<E>, recycleA: Recycle<A>): Recycle<E.Either<E, A>> =>
+export const getEither = <A, E>(recycleE: Recycle<E>, recycleA: Recycle<A>): Recycle<Either<E, A>> =>
   fromRecycle((prev, next) => {
     if (prev._tag === next._tag) {
       if (prev._tag === 'Right') {
         const pr = prev.right
-        const nr = (next as E.Right<A>).right
+        const nr = (next as Right<A>).right
         const r = recycleA.recycle(pr, nr)
-        return pr === r ? prev : nr === r ? next : E.right(r)
+        return pr === r ? prev : nr === r ? next : right(r)
       } else {
         const pl = prev.left
-        const nl = (next as E.Left<E>).left
+        const nl = (next as Left<E>).left
         const l = recycleE.recycle(pl, nl)
-        return pl === l ? prev : nl === l ? next : E.left(l)
+        return pl === l ? prev : nl === l ? next : left(l)
       }
     } else {
       return next

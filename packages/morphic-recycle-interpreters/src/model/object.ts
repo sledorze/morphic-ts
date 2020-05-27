@@ -1,8 +1,8 @@
-import { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
+import type { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
 import { RecycleType, RecycleURI } from '../hkt'
 import { projectFieldWithEnv, memo } from '@morphic-ts/common/lib/utils'
 import { recycleApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { getStruct, getPartialStruct } from '../recycle'
 
 const asPartial = <T>(x: RecycleType<T>): RecycleType<Partial<T>> => x as any

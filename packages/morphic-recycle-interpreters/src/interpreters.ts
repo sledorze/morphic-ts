@@ -9,7 +9,7 @@ import { recycleTaggedUnionInterpreter } from './model/tagged-unions'
 import { recycleRecursiveInterpreter } from './model/recursive'
 import { recycleStrMapInterpreter } from './model/str-map'
 import { recycleSetInterpreter } from './model/set'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 export * from './hkt'
 
 /**

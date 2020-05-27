@@ -1,4 +1,4 @@
-import { Recycle } from './recycle'
+import type { Recycle } from './recycle'
 
 /**
  *  @since 0.0.1
