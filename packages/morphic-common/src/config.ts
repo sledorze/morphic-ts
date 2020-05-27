@@ -1,12 +1,24 @@
-import { URIS, URIS2, Kind, Kind2 } from './HKT'
-import { identity } from 'fp-ts/lib/function'
-export { Kind, Kind2 }
+import type { URIS, URIS2, Kind, Kind2 } from './HKT'
+export {
+  /**
+   * @since 0.0.1
+   */
+  Kind,
+  /**
+   * @since 0.0.1
+   */
+  Kind2
+}
 
 /**
  *  @since 0.0.1
  */
 
 export type URISIndexedAny = Record<URIS | URIS2, any>
+
+/**
+ *  @since 0.0.1
+ */
 
 export type AnyEnv = Partial<URISIndexedAny>
 
@@ -50,4 +62,4 @@ export const getApplyConfig: <Uri extends URIS | URIS2>(
 ) => <E, A, R extends Record<typeof uri, any>>(
   config?: { [k in Uri]?: GenConfig<ConfigType<E, A>[Uri], R> }
 ) => GenConfig<ConfigType<E, A>[Uri], R> = uri => config => (a, r) =>
-  ((config && config[uri] ? config[uri] : identity) as any)(a, r[uri])
+  ((config && config[uri] ? config[uri] : <A>(a: A) => a) as any)(a, r[uri])

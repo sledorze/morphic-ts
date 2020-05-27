@@ -20,7 +20,6 @@ parent: Modules
 - [JSONSchema (type alias)](#jsonschema-type-alias)
 - [SubSchema (type alias)](#subschema-type-alias)
 - [Anything (constant)](#anything-constant)
-- [itemsOfArrayLense (constant)](#itemsofarraylense-constant)
 - [jsonToObjectSchemaPrism (constant)](#jsontoobjectschemaprism-constant)
 - [objectSchemaOnRequired (constant)](#objectschemaonrequired-constant)
 - [ArraySchema (function)](#arrayschema-function)
@@ -165,7 +164,7 @@ export interface StringSchema extends DescriptionSchema {
   type: 'string'
   minLength?: number
   maxLength?: number
-  format?: 'date-time' | 'date' | 'password' | 'byte' | 'binary' | 'bigint'
+  format?: 'date-time' | 'date' | 'password' | 'byte' | 'binary' | 'bigint' | 'uuid'
 }
 ```
 
@@ -207,22 +206,12 @@ export const Anything: Anything = ...
 
 Added in v0.0.1
 
-# itemsOfArrayLense (constant)
-
-**Signature**
-
-```ts
-export const itemsOfArrayLense: m.Lens<ArraySchema, StringSchema | NumberSchema | BooleanSchema | ArraySchema | ObjectSchema | (EnumSchema & { $schema?: string; }) | Ref | SubSchema[]> = ...
-```
-
-Added in v0.0.1
-
 # jsonToObjectSchemaPrism (constant)
 
 **Signature**
 
 ```ts
-export const jsonToObjectSchemaPrism: m.Prism<SubSchema, ObjectSchema> = ...
+export const jsonToObjectSchemaPrism: Prism<SubSchema, ObjectSchema> = ...
 ```
 
 Added in v0.0.1
@@ -232,7 +221,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const objectSchemaOnRequired: m.Lens<ObjectSchema, string[]> = ...
+export const objectSchemaOnRequired: Lens<ObjectSchema, string[]> = ...
 ```
 
 Added in v0.0.1
@@ -322,7 +311,7 @@ Added in v0.0.1
 export const StringSchema = (x?: {
   minLength?: number
   maxLength?: number
-  format?: 'date-time' | 'date' | 'password' | 'byte' | 'binary' | 'bigint'
+  format?: 'date-time' | 'date' | 'password' | 'byte' | 'binary' | 'bigint' | 'uuid'
   description?: string
 }): StringSchema => ...
 ```

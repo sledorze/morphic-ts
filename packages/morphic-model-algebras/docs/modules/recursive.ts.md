@@ -1,6 +1,6 @@
 ---
 title: recursive.ts
-nav_order: 5
+nav_order: 6
 parent: Modules
 ---
 
@@ -21,9 +21,9 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface ModelAlgebraRecursive<F> {
+export interface ModelAlgebraRecursive<F, Env> {
   _F: F
-  recursive: <L, A>(a: (x: HKT2<F, L, A>) => HKT2<F, L, A>, name: string) => HKT2<F, L, A>
+  recursive: <L, A>(a: (x: HKT2<F, Env, L, A>) => HKT2<F, Env, L, A>, name: string) => HKT2<F, Env, L, A>
 }
 ```
 
@@ -34,9 +34,9 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface ModelAlgebraRecursive1<F extends URIS> {
+export interface ModelAlgebraRecursive1<F extends URIS, Env extends AnyEnv> {
   _F: F
-  recursive: <A>(a: (x: Kind<F, A>) => Kind<F, A>, name: string) => Kind<F, A>
+  recursive: <A>(a: (x: Kind<F, Env, A>) => Kind<F, Env, A>, name: string) => Kind<F, Env, A>
 }
 ```
 
@@ -47,9 +47,9 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface ModelAlgebraRecursive2<F extends URIS2> {
+export interface ModelAlgebraRecursive2<F extends URIS2, Env extends AnyEnv> {
   _F: F
-  recursive: <L, A>(a: (x: Kind2<F, L, A>) => Kind2<F, L, A>, name: string) => Kind2<F, L, A>
+  recursive: <L, A>(a: (x: Kind2<F, Env, L, A>) => Kind2<F, Env, L, A>, name: string) => Kind2<F, Env, L, A>
 }
 ```
 

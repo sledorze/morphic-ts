@@ -1,21 +1,22 @@
-import { identity } from 'fp-ts/lib/function'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
-import { modelEqInterpreter, EqURI } from '@morphic-ts/eq-interpreters/lib/interpreters'
-import { modelShowInterpreter, ShowURI } from '@morphic-ts/show-interpreters/lib/interpreters'
+import type { EqURI } from '@morphic-ts/eq-interpreters/lib/interpreters'
+import { modelEqInterpreter } from '@morphic-ts/eq-interpreters/lib/interpreters'
+import type { ShowURI } from '@morphic-ts/show-interpreters/lib/interpreters'
+import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
+import type { IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 import {
   modelIoTsNonStrictInterpreter,
-  IoTsURI,
   modelIoTsStrictInterpreter
 } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 
-import * as U from './usage'
+import type * as U from './usage'
 
-import { ProgramNoUnionURI } from './program-no-union'
-import { ESBSTInterpreterURI } from './interpreters-ESBST'
-import { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
-import { makeCreate } from './create'
+import type { ProgramNoUnionURI } from './program-no-union'
+import type { ESBSTInterpreterURI } from './interpreters-ESBST'
+import type { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
+import { makeSummoner } from './usage/summoner'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -43,17 +44,20 @@ export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBSTInterpr
   <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const summonFor: <R extends AnyEnv = {}>(
   env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>
 ) => SummonerOps<Summoner<R>> = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>) =>
-  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
-    const type = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type
+  makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
+    const { type, create } = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env)
     return {
-      build: identity,
+      build: a => a,
       eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,
       show: program(modelShowInterpreter<NonNullable<R>>())(env).show,
       strictType: program(modelIoTsStrictInterpreter<NonNullable<R>>())(env).type,
-      type: program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type,
-      create: makeCreate(type)
+      type,
+      create
     }
   })

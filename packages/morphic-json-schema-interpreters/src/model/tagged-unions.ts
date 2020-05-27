@@ -1,12 +1,12 @@
-import { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
+import type { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import { JsonSchemaURI, JsonSchema } from '../hkt'
 import { UnionTypeCtor } from '../json-schema/json-schema-ctors'
-import { record } from 'fp-ts'
+import { toArray } from 'fp-ts/lib/Record'
 import { pipe } from 'fp-ts/lib/pipeable'
-import * as SE from 'fp-ts-contrib/lib/StateEither'
+import { chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
 import { arrayTraverseStateEither } from '../utils'
 import { jsonSchemaApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**
@@ -19,8 +19,8 @@ export const jsonSchemaTaggedUnionInterpreter = memo(
       new JsonSchema(
         jsonSchemaApplyConfig(config)(
           pipe(
-            arrayTraverseStateEither(record.toArray(types), ([_, v]) => v(env).schema),
-            SE.chainEitherK(UnionTypeCtor)
+            arrayTraverseStateEither(toArray(types), ([_, v]) => v(env).schema),
+            SEchainEitherK(UnionTypeCtor)
           ),
           env
         )

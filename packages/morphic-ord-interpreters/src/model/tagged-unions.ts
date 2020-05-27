@@ -1,10 +1,10 @@
 import { ordString } from 'fp-ts/lib/Ord'
 import { OrdType, OrdURI } from '../hkt'
-import { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
+import type { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import { mapRecord } from '@morphic-ts/common/lib/utils'
-import { Ordering } from 'fp-ts/lib/Ordering'
+import type { Ordering } from 'fp-ts/lib/Ordering'
 import { ordApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**

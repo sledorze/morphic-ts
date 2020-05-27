@@ -1,9 +1,13 @@
-import type { Type } from 'io-ts'
+import type { Errors, Type } from 'io-ts'
+import type { Either } from 'fp-ts/lib/Either'
+import { map } from 'fp-ts/lib/Either'
+import type { Validated } from './create'
 
 /**
  *  @since 0.0.1
  */
 export const IoTsURI = 'IoTsURI' as const
+
 /**
  *  @since 0.0.1
  */
@@ -22,7 +26,10 @@ export class IOTSType<O, A> {
   _A!: A
   _E!: O
   _URI!: IoTsURI
-  constructor(public type: Type<A, O>) {}
+  create: (a: A) => Either<Errors, Validated<A>>
+  constructor(public type: Type<A, O>) {
+    this.create = a => map((x: A) => x as Validated<A>)(this.type.decode(this.type.encode(a)))
+  }
 }
 
 declare module '@morphic-ts/common/lib/HKT' {

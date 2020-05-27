@@ -1,8 +1,8 @@
 import { FastCheckType, FastCheckURI } from '../hkt'
-import { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
+import type { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
 import { anything } from 'fast-check'
 import { fastCheckApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**

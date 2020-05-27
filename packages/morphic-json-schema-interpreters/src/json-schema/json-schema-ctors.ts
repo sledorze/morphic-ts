@@ -1,12 +1,13 @@
-import * as A from 'fp-ts/lib/Array'
+import type { Magma } from 'fp-ts/lib/Magma'
+import type { Endomorphism } from 'fp-ts/lib/function'
 import * as js from './json-schema'
-import * as m from 'monocle-ts'
-import { array, record, nonEmptyArray as NEA } from 'fp-ts'
-import { Endomorphism } from 'fp-ts/lib/function'
+import { Lens } from 'monocle-ts'
+import { of } from 'fp-ts/lib/NonEmptyArray'
 import { ordString } from 'fp-ts/lib/Ord'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { left, right } from 'fp-ts/lib/Either'
-import { Magma } from 'fp-ts/lib/Magma'
+import { array, chain, sort } from 'fp-ts/lib/Array'
+import { map, fromFoldable } from 'fp-ts/lib/Record'
 
 /**
  *  @since 0.0.1
@@ -32,7 +33,7 @@ export interface OptionalJSONSchema {
 /**
  *  @since 0.0.1
  */
-export const optionalJSONSchemaOnJson = m.Lens.fromProp<OptionalJSONSchema>()('json').asOptional()
+export const optionalJSONSchemaOnJson = Lens.fromProp<OptionalJSONSchema>()('json').asOptional()
 
 /**
  *  @since 0.0.1
@@ -71,10 +72,10 @@ export const ArrayTypeCtor = ({
   maxItems?: number
 }) => {
   const schemasArr = Array.isArray(schemas) ? schemas : [schemas]
-  const anyOptional = A.array.reduceRight(schemasArr, false, (a, b) => a.optional || b)
+  const anyOptional = array.reduceRight(schemasArr, false, (a, b) => a.optional || b)
   const items = schemasArr.map(_ => _.json)
   return anyOptional
-    ? left(NEA.of(JsonSchemaErrors.ArrayConsumesNoOptional))
+    ? left(of(JsonSchemaErrors.ArrayConsumesNoOptional))
     : right(
         notOptional<js.ArraySchema>({
           type: 'array',
@@ -89,7 +90,7 @@ export const ArrayTypeCtor = ({
  */
 export const SetFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
   optional
-    ? left(NEA.of(JsonSchemaErrors.SetFromArrayTypeConsumesNoOptional))
+    ? left(of(JsonSchemaErrors.SetFromArrayTypeConsumesNoOptional))
     : right(
         notOptional<js.ArraySchema>({
           type: 'array',
@@ -102,7 +103,7 @@ export const SetFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
  */
 export const StrMapTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
   optional
-    ? left(NEA.of(JsonSchemaErrors.SetFromArrayTypeConsumesNoOptional))
+    ? left(of(JsonSchemaErrors.SetFromArrayTypeConsumesNoOptional))
     : right(
         notOptional<js.ObjectSchema>({
           type: 'object',
@@ -115,7 +116,7 @@ export const StrMapTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
  */
 export const NonEmptyArrayFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
   optional
-    ? left(NEA.of(JsonSchemaErrors.ArrayConsumesNoOptional))
+    ? left(of(JsonSchemaErrors.ArrayConsumesNoOptional))
     : right(
         notOptional<js.ArraySchema>({
           type: 'array',
@@ -129,7 +130,7 @@ export const NonEmptyArrayFromArrayTypeCtor = ({ optional, json }: OptionalJSONS
 export const UnionTypeCtor = (types: OptionalJSONSchema[]) => {
   const oneOf: (js.ObjectSchema | js.Ref)[] = types.map(x => x.json).filter(js.isObjectOrRef)
   return oneOf.length !== types.length
-    ? left(NEA.of(JsonSchemaErrors.UnionConsumesOnlyObject))
+    ? left(of(JsonSchemaErrors.UnionConsumesOnlyObject))
     : right(
         notOptional<js.ObjectSchema>({
           type: 'object',
@@ -144,7 +145,7 @@ export const UnionTypeCtor = (types: OptionalJSONSchema[]) => {
 export const IntersectionTypeCtor = (types: OptionalJSONSchema[]) => {
   const objects: js.ObjectSchema[] = types.map(x => x.json).filter(js.isObjectSchema)
   return objects.length !== types.length
-    ? left(NEA.of(JsonSchemaErrors.IntersectionConsumesOnlyObject))
+    ? left(of(JsonSchemaErrors.IntersectionConsumesOnlyObject))
     : right(
         notOptional<js.ObjectSchema>(
           objects.reduce(magmaObjectSchema.concat, {
@@ -208,13 +209,13 @@ export const LiteralTypeCtor = (value: string) =>
 export const ObjectTypeCtor = (isPartial: boolean, props: [string, OptionalJSONSchema][]): OptionalJSONSchema => {
   const required = pipe(
     props,
-    A.chain(([name, jsonOpt]) => (isPartial || jsonOpt.optional ? [] : [name])),
-    A.sort(ordString)
+    chain(([name, jsonOpt]) => (isPartial || jsonOpt.optional ? [] : [name])),
+    sort(ordString)
   )
 
   const properties = pipe(
-    record.fromFoldable({ concat: (fst: OptionalJSONSchema, _snd: OptionalJSONSchema) => fst }, array.array)(props),
-    record.map(({ json }) => json)
+    fromFoldable({ concat: (fst: OptionalJSONSchema, _snd: OptionalJSONSchema) => fst }, array)(props),
+    map(({ json }) => json)
   )
 
   const obj = { type: 'object', properties } as js.ObjectSchema

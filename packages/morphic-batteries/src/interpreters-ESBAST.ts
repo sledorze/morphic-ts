@@ -1,8 +1,8 @@
-import { Eq } from 'fp-ts/lib/Eq'
-import { Show } from 'fp-ts/lib/Show'
-import { Arbitrary } from 'fast-check/*'
-import { Type } from 'io-ts'
-import { Create } from './create'
+import type { Eq } from 'fp-ts/lib/Eq'
+import type { Show } from 'fp-ts/lib/Show'
+import type { Arbitrary } from 'fast-check/*'
+import type { Type } from 'io-ts'
+import type { Create } from '@morphic-ts/io-ts-interpreters/lib/create'
 
 /**
  *  @since 0.0.1

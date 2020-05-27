@@ -1,7 +1,7 @@
 import { ShowURI, ShowType } from '../hkt'
-import { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
+import type { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
 import { showApplyConfig } from '../config'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**

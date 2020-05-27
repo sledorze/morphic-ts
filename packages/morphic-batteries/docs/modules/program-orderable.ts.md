@@ -1,6 +1,6 @@
 ---
 title: program-orderable.ts
-nav_order: 5
+nav_order: 7
 parent: Modules
 ---
 
@@ -20,7 +20,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface AlgebraNoUnion<F> extends InferredAlgebra<F, ProgramOrderableURI> {}
+export interface AlgebraNoUnion<F, Env> extends InferredAlgebra<F, ProgramOrderableURI, Env> {}
 ```
 
 Added in v0.0.1
@@ -30,7 +30,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface P<E, A> extends InferredProgram<E, A, ProgramOrderableURI> {}
+export interface P<R extends AnyConfigEnv, E, A> extends InferredProgram<R, E, A, ProgramOrderableURI> {}
 ```
 
 Added in v0.0.1

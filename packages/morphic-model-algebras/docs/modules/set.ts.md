@@ -1,6 +1,6 @@
 ---
 title: set.ts
-nav_order: 7
+nav_order: 8
 parent: Modules
 ---
 
@@ -21,9 +21,9 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface ModelAlgebraSet<F> {
+export interface ModelAlgebraSet<F, Env> {
   _F: F
-  set: <L, A>(a: HKT2<F, L, A>, ord: Ord<A>) => HKT2<F, Array<L>, Set<A>>
+  set: <L, A>(a: HKT2<F, Env, L, A>, ord: Ord<A>) => HKT2<F, Env, Array<L>, Set<A>>
 }
 ```
 
@@ -34,9 +34,9 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface ModelAlgebraSet1<F extends URIS> {
+export interface ModelAlgebraSet1<F extends URIS, Env extends AnyEnv> {
   _F: F
-  set: <A>(a: Kind<F, A>, ord: Ord<A>) => Kind<F, Set<A>>
+  set: <A>(a: Kind<F, Env, A>, ord: Ord<A>) => Kind<F, Env, Set<A>>
 }
 ```
 
@@ -47,9 +47,9 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface ModelAlgebraSet2<F extends URIS2> {
+export interface ModelAlgebraSet2<F extends URIS2, Env extends AnyEnv> {
   _F: F
-  set: <L, A>(a: Kind2<F, L, A>, ord: Ord<A>) => Kind2<F, Array<L>, Set<A>>
+  set: <L, A>(a: Kind2<F, Env, L, A>, ord: Ord<A>) => Kind2<F, Env, Array<L>, Set<A>>
 }
 ```
 

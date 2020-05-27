@@ -20,7 +20,9 @@ parent: Modules
 **Signature**
 
 ```ts
-export type Algebra<AllAlgebra extends AlgebraURIS, Interp> = UnionToIntersection<AlgAlgebra<Interp>[AllAlgebra]>
+export type Algebra<AllAlgebra extends AlgebraURIS, Interp, Env> = UnionToIntersection<
+  AlgAlgebra<Interp, Env>[AllAlgebra]
+>
 ```
 
 Added in v0.0.1
@@ -30,8 +32,8 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type Algebra1<AllAlgebra extends AlgebraURIS, Interp extends URIS> = UnionToIntersection<
-  AlgAlgebra1<Interp>[AllAlgebra]
+export type Algebra1<AllAlgebra extends AlgebraURIS, Interp extends URIS, Env extends AnyEnv> = UnionToIntersection<
+  AlgAlgebra1<Interp, Env>[AllAlgebra]
 >
 ```
 
@@ -42,8 +44,8 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type Algebra2<AllAlgebra extends AlgebraURIS, Interp extends URIS2> = UnionToIntersection<
-  AlgAlgebra2<Interp>[AllAlgebra]
+export type Algebra2<AllAlgebra extends AlgebraURIS, Interp extends URIS2, Env extends AnyEnv> = UnionToIntersection<
+  AlgAlgebra2<Interp, Env>[AllAlgebra]
 >
 ```
 

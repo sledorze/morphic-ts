@@ -9,7 +9,7 @@ import { eqTaggedUnionInterpreter } from './model/tagged-unions'
 import { eqRecursiveInterpreter } from './model/recursive'
 import { eqStrMapInterpreter } from './model/str-map'
 import { eqSetInterpreter } from './model/set'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 export * from './hkt'
 
 /**

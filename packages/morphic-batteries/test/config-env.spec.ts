@@ -1,12 +1,13 @@
 import * as chai from 'chai'
 import { summonFor as summonESBSTFor } from '../src/summoner-ESBST'
-import * as E from 'fp-ts/lib/Either'
+
 import { summonFor as summonESBASTJFor } from '../src/summoner-ESBASTJ'
-import { modelFastCheckInterpreter, FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import * as fc from 'fast-check'
-import { IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/hkt'
 import * as WM from 'io-ts-types/lib/withMessage'
 import { PathReporter } from 'io-ts/lib/PathReporter'
+import { right } from 'fp-ts/lib/Either'
 
 describe('Morph Config Env', () => {
   interface FastCheckEnv {
@@ -71,7 +72,7 @@ describe('Can specify envs', () => {
     withMessage: typeof WM
   }
   interface AppEnv {
-    [IoTsURI]: IoTsEnv
+    IoTsURI: IoTsEnv
     [FastCheckURI]: FastCheckEnv
   }
 
@@ -79,7 +80,7 @@ describe('Can specify envs', () => {
   // AppEnv only specify Environements for fastCheck and iots
   // So we only need to provide the IoTsEnv to create the Summoner
   const { summon } = summonESBSTFor<AppEnv>({
-    [IoTsURI]: { withMessage: WM }
+    IoTsURI: { withMessage: WM }
   })
 
   // MorphA has M<AppEnv, string, string> signature (note the AppEnv environement specified)
@@ -92,7 +93,7 @@ describe('Can specify envs', () => {
 
   it('Can specify a wider Env than what is needed to provide to a summon', () => {
     chai.assert.deepStrictEqual(PathReporter.report(MorphA.type.decode(4)), ['damn! got 4'])
-    chai.assert.deepStrictEqual(MorphA.type.decode('4'), E.right('4'))
+    chai.assert.deepStrictEqual(MorphA.type.decode('4'), right('4'))
   })
 
   it('Can reuse a Summon definition into another summon with additional Type classes Scopes ', () => {
@@ -100,10 +101,10 @@ describe('Can specify envs', () => {
      * Because ESBASTJ define fastCheck instances, it requires AppEnv's Environnement for fastCheck
      */
     const { summon: summonESBASTJX } = summonESBASTJFor<AppEnv>({
-      [IoTsURI]: {
+      IoTsURI: {
         withMessage: WM
       },
-      [FastCheckURI]: {
+      FastCheckURI: {
         fastCheck: fc
       }
     })
@@ -114,32 +115,32 @@ describe('Can specify envs', () => {
     const MorphB = summonESBASTJX(MorphA)
     fc.assert(fc.property(MorphB.arb, x => x.length <= 1))
     chai.assert.deepStrictEqual(PathReporter.report(MorphB.type.decode(4)), ['damn! got 4'])
-    chai.assert.deepStrictEqual(MorphB.type.decode('4'), E.right('4'))
+    chai.assert.deepStrictEqual(MorphB.type.decode('4'), right('4'))
   })
 
   it('Can ', () => {
     const { summon: summonESBASTJIOTS } = summonESBASTJFor<{
-      [IoTsURI]: IoTsEnv
+      IoTsURI: IoTsEnv
     }>({
-      [IoTsURI]: {
+      IoTsURI: {
         withMessage: WM
       }
     })
 
     const { summon: summonESBASTJIOTS2 } = summonESBASTJFor<{
-      [IoTsURI]: IoTsEnv & { a: string }
+      IoTsURI: IoTsEnv & { a: string }
     }>({
-      [IoTsURI]: {
+      IoTsURI: {
         withMessage: WM,
         a: 'a'
       }
     })
 
     const { summon: summonESBASTJAppEnv } = summonESBASTJFor<AppEnv>({
-      [IoTsURI]: {
+      IoTsURI: {
         withMessage: WM
       },
-      [FastCheckURI]: {
+      FastCheckURI: {
         fastCheck: fc
       }
     })

@@ -1,6 +1,6 @@
 ---
 title: model/tagged-unions.ts
-nav_order: 15
+nav_order: 14
 parent: Modules
 ---
 
@@ -21,7 +21,7 @@ Beware: randomly generated recursive structure with high branching may not end e
 **Signature**
 
 ```ts
-export const fastCheckTaggedUnionInterpreter: ModelAlgebraTaggedUnions1<FastCheckURI> = ...
+export const fastCheckTaggedUnionInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraTaggedUnions1<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

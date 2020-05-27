@@ -1,24 +1,25 @@
-import { identity } from 'fp-ts/lib/function'
-import * as E from 'fp-ts/lib/Either'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 import { pipe } from 'fp-ts/lib/pipeable'
 
-import * as U from './usage'
+import type * as U from './usage'
 
-import { BASTJInterpreterURI } from './interpreters-BASTJ'
-import { ProgramUnionURI } from './program'
+import type { BASTJInterpreterURI } from './interpreters-BASTJ'
+import type { ProgramUnionURI } from './program'
 
-import { modelFastCheckInterpreter, FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import type { IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 import {
   modelIoTsStrictInterpreter,
-  modelIoTsNonStrictInterpreter,
-  IoTsURI
+  modelIoTsNonStrictInterpreter
 } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
-import { modelJsonSchemaInterpreter, JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib'
+import { modelJsonSchemaInterpreter } from '@morphic-ts/json-schema-interpreters/lib'
+import type { JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
-import { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
-import { makeCreate } from './create'
+import type { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
+import { makeSummoner } from './usage/summoner'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { chain as Echain } from 'fp-ts/lib/Either'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -46,19 +47,22 @@ export interface Summoner<R extends AnyConfigEnv> extends U.Summoners<ProgramUni
   <L, A>(F: U.ProgramType<R, L, A>[ProgramUnionURI]): M<R, L, A>
 }
 
+/**
+ *  @since 0.0.1
+ */
 export const summonFor: <R extends AnyEnv = {}>(
   env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>
 ) => SummonerOps<Summoner<R>> = <R extends AnyConfigEnv = {}>(
   env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>
 ) =>
-  U.makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
-    const type = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env).type
+  makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
+    const { type, create } = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env)
     return {
-      build: identity,
+      build: a => a,
       arb: program(modelFastCheckInterpreter<NonNullable<R>>())(env).arb,
       strictType: program(modelIoTsStrictInterpreter<NonNullable<R>>())(env).type,
       type,
-      jsonSchema: pipe(program(modelJsonSchemaInterpreter<NonNullable<R>>())(env).schema({}), E.chain(resolveSchema)),
-      create: makeCreate(type)
+      jsonSchema: pipe(program(modelJsonSchemaInterpreter<NonNullable<R>>())(env).schema({}), Echain(resolveSchema)),
+      create
     }
   })

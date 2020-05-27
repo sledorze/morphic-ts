@@ -1,13 +1,16 @@
-import { Materialized, Morph } from './materializer'
-import { record, array } from 'fp-ts'
-import { HKT2 } from '@morphic-ts/common/lib/HKT'
-import { assignCallable, wrapFun, InhabitedTypes, AType, EType } from './utils'
-import { Algebra } from '@morphic-ts/algebras/lib/hkt'
-import { InterpreterURI } from './InterpreterResult'
-import { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
-import { ProgramURI, ProgramType } from './ProgramType'
-import { ADT, makeADT } from '@morphic-ts/adt/lib/index'
-import { ElemType } from '@morphic-ts/adt/lib/utils'
+import type { Materialized, Morph } from './materializer'
+import { fromFoldable as RfromFoldable, mapWithIndex as RmapWithIndex } from 'fp-ts/lib/Record'
+import { array } from 'fp-ts/lib/Array'
+import type { HKT2 } from '@morphic-ts/common/lib/HKT'
+import { assignCallable, wrapFun } from './utils'
+import type { InhabitedTypes, AType, EType } from './utils'
+import type { Algebra } from '@morphic-ts/algebras/lib/hkt'
+import type { InterpreterURI } from './InterpreterResult'
+import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
+import type { ProgramURI, ProgramType } from './ProgramType'
+import type { ADT } from '@morphic-ts/adt/lib/index'
+import { makeADT } from '@morphic-ts/adt/lib/index'
+import type { ElemType } from '@morphic-ts/adt/lib/utils'
 import { identity, tuple } from 'fp-ts/lib/function'
 import { intersection, difference } from 'fp-ts/lib/Array'
 import { eqString } from 'fp-ts/lib/Eq'
@@ -52,13 +55,16 @@ export type UnionTypes<
 
 type AnyM<ProgURI extends ProgramURI, InterpURI extends InterpreterURI, R> = M<R, any, any, ProgURI, InterpURI>
 
-const recordFromArray = record.fromFoldable({ concat: identity }, array.array)
+const recordFromArray = RfromFoldable({ concat: identity }, array)
 const keepKeys = (a: Record<string, any>, toKeep: Array<string>): object =>
   recordFromArray(intersection(eqString)(Object.keys(a), toKeep).map((k: string) => tuple(k, a[k])))
 
 const excludeKeys = (a: Record<string, any>, toExclude: Array<string>): object =>
   recordFromArray(difference(eqString)(Object.keys(a), toExclude).map((k: string) => tuple(k, a[k])))
 
+/**
+ *  @since 0.0.1
+ */
 export type TaggedBuilder<ProgURI extends ProgramURI, InterpURI extends InterpreterURI, R> = <Tag extends string>(
   tag: Tag
 ) => <Types extends UnionTypes<Types, Tag, ProgURI, InterpURI, R>>(
@@ -102,7 +108,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
     // const summoned:  M<EParam<Types>, AParam<Types>, ProgURI, InterpURI> = summ<EParam<Types>, AParam<Types>>((F: any) =>
 
     const summoned = summ(
-      (F: any) => F.taggedUnion(tag, record.mapWithIndex((_k, v: AnyM<ProgURI, InterpURI, R>) => (v as any)(F))(o)) // FIXME: resolve any
+      (F: any) => F.taggedUnion(tag, RmapWithIndex((_k, v: AnyM<ProgURI, InterpURI, R>) => (v as any)(F))(o)) // FIXME: resolve any
     ) // Trust
     const adt = makeADT(tag)(o as any)
 
@@ -177,6 +183,9 @@ interface HasTypes<Types extends AnyADTTypes> {
   _Types: Types
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface Refinable<
   Types extends AnyADTTypes,
   Tag extends string,

@@ -11,7 +11,7 @@ import { jsonSchemaRecursiveInterpreter } from './model/recursive'
 import { jsonSchemaStrMapInterpreter } from './model/str-map'
 import { jsonSchemaSetInterpreter } from './model/set'
 import { jsonSchemaUnionInterpreter } from './model/unions'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 
 export * from './hkt'
 

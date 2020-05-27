@@ -1,6 +1,6 @@
-import { Ord } from 'fp-ts/lib/Ord'
-import { Kind, URIS, Kind2, URIS2, HKT2 } from '@morphic-ts/common/lib/HKT'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { Ord } from 'fp-ts/lib/Ord'
+import type { Kind, URIS, Kind2, URIS2, HKT2 } from '@morphic-ts/common/lib/HKT'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1

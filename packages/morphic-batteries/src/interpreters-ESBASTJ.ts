@@ -1,14 +1,14 @@
-import { Eq } from 'fp-ts/lib/Eq'
-import { Show } from 'fp-ts/lib/Show'
-import { Arbitrary } from 'fast-check/*'
-import { Type } from 'io-ts'
+import type { Eq } from 'fp-ts/lib/Eq'
+import type { Show } from 'fp-ts/lib/Show'
+import type { Arbitrary } from 'fast-check/*'
+import type { Type } from 'io-ts'
 
-import { JSONSchema } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema'
-import * as E from 'fp-ts/lib/Either'
-import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
-import { NamedSchemas } from '@morphic-ts/json-schema-interpreters/lib/index'
-import { JsonSchemaError } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema-ctors'
-import { Create } from './create'
+import type { JSONSchema } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema'
+import type { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import type { NamedSchemas } from '@morphic-ts/json-schema-interpreters/lib/index'
+import type { JsonSchemaError } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema-ctors'
+import type { Create } from '@morphic-ts/io-ts-interpreters/lib/create'
+import type { Either } from 'fp-ts/lib/Either'
 
 /**
  *  @since 0.0.1
@@ -26,7 +26,7 @@ interface ESBASTJInterpreter<E, A> {
   arb: Arbitrary<A>
   strictType: Type<A, E, unknown>
   type: Type<A, E, unknown>
-  jsonSchema: E.Either<NonEmptyArray<JsonSchemaError>, [JSONSchema, NamedSchemas]>
+  jsonSchema: Either<NonEmptyArray<JsonSchemaError>, [JSONSchema, NamedSchemas]>
   create: Create<A>
 }
 

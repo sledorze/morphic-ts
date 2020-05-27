@@ -1,6 +1,6 @@
 ---
 title: model/recursive.ts
-nav_order: 11
+nav_order: 10
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const fastCheckRecursiveInterpreter: ModelAlgebraRecursive1<FastCheckURI> = ...
+export const fastCheckRecursiveInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraRecursive1<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

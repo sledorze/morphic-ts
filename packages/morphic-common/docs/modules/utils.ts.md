@@ -1,6 +1,6 @@
 ---
 title: utils.ts
-nav_order: 3
+nav_order: 4
 parent: Modules
 ---
 
@@ -8,14 +8,37 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Includes (type alias)](#includes-type-alias)
+- [IsNever (type alias)](#isnever-type-alias)
 - [merge (constant)](#merge-constant)
 - [collect (function)](#collect-function)
 - [conjunction (function)](#conjunction-function)
 - [mapRecord (function)](#maprecord-function)
 - [memo (function)](#memo-function)
 - [projectField (function)](#projectfield-function)
+- [projectFieldWithEnv (function)](#projectfieldwithenv-function)
 
 ---
+
+# Includes (type alias)
+
+**Signature**
+
+```ts
+export type Includes<A, B, Y, N> = IsNever<B, Y, A extends B ? Y : N>
+```
+
+Added in v0.0.1
+
+# IsNever (type alias)
+
+**Signature**
+
+```ts
+export type IsNever<X, Y, N> = 'X' | X extends 'X' ? Y : N
+```
+
+Added in v0.0.1
 
 # merge (constant)
 
@@ -86,7 +109,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const memo = <A>(get: () => A): (() => A) => ...
+export const memo: <F extends () => any>(get: F) => typeof get = <F extends () => any>(get: F): typeof get => ...
 ```
 
 Added in v0.0.1
@@ -101,7 +124,24 @@ export const projectField = <T extends Record<any, Record<any, any>>>(t: T) => <
 ): {
   [q in keyof T]: T[q][K]
 } =>
-  record.record.map(t, p => ...
+  record.map(t, p => ...
+```
+
+Added in v0.0.1
+
+# projectFieldWithEnv (function)
+
+**Signature**
+
+```ts
+export const projectFieldWithEnv = <T extends Record<any, (e: R) => Record<any, any>>, R>(t: T, env: R) => <
+  K extends keyof ReturnType<T[keyof T]>
+>(
+  k: K
+): {
+  [q in keyof T]: ReturnType<T[q]>[K]
+} =>
+  record.map(t, p => ...
 ```
 
 Added in v0.0.1

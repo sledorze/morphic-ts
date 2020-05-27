@@ -1,8 +1,10 @@
-import { InterpreterResult, InterpreterURI } from './InterpreterResult'
-import { assignFunction, wrapFun, assignCallable, InhabitedTypes, inhabitTypes } from './utils'
+import type { InterpreterResult, InterpreterURI } from './InterpreterResult'
+import { assignFunction, wrapFun, assignCallable, inhabitTypes } from './utils'
+import type { InhabitedTypes } from './utils'
 import { MonocleFor } from '@morphic-ts/adt/lib/monocle'
-import { ProgramURI, ProgramType } from './ProgramType'
-import { interpretable, Overloads } from './programs-infer'
+import type { ProgramURI, ProgramType } from './ProgramType'
+import { interpretable } from './programs-infer'
+import type { Overloads } from './programs-infer'
 
 /**
  *  @since 0.0.1
@@ -21,6 +23,9 @@ export type Morph<R, E, A, InterpURI extends InterpreterURI, ProgURI extends Pro
   ProgramType<R, E, A>[ProgURI] &
   MorphExtra<R, E, A, InterpURI, ProgURI>
 
+/**
+ *  @since 0.0.1
+ */
 export interface MorphExtra<R, E, A, InterpURI extends InterpreterURI, ProgURI extends ProgramURI>
   extends InhabitedTypes<R, E, A>,
     InhabitedInterpreterAndAlbegra<ProgURI, InterpURI>,
@@ -30,6 +35,9 @@ const inhabitInterpreterAndAlbegra = <ProgURI extends ProgramURI, InterpURI exte
   t: T
 ): T & InhabitedInterpreterAndAlbegra<ProgURI, InterpURI> => t as T & InhabitedInterpreterAndAlbegra<ProgURI, InterpURI>
 
+/**
+ *  @since 0.0.1
+ */
 export interface InhabitedInterpreterAndAlbegra<ProgURI extends ProgramURI, InterpURI extends InterpreterURI> {
   _P: ProgURI
   _I: InterpURI

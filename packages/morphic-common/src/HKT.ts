@@ -52,6 +52,7 @@ export declare type URIS2 = Exclude<keyof URItoKind2<any, any, any>, '_A' | '_E'
  * @since 0.0.1
  */
 export declare type Kind<URI extends URIS, R, A> = URI extends URIS ? URItoKind<R, A>[URI] : any
+
 /**
  * `* -> * -> *` constructors
  * @since 0.0.1

@@ -1,4 +1,4 @@
-import { IsNever, Includes } from '../../src/utils'
+import type { IsNever, Includes } from '../../src/utils'
 const dummy = 42 // $ExpectType 42
 
 type UA = IsNever<never, 'Y', 'N'> // $ExpectType "Y"

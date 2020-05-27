@@ -1,4 +1,4 @@
-import { record } from 'fp-ts'
+import { record, collect as Rcollect } from 'fp-ts/lib/Record'
 
 /**
  *  @since 0.0.1
@@ -6,7 +6,7 @@ import { record } from 'fp-ts'
 export const mapRecord = <Dic extends { [k in keyof Dic]: any }, B>(
   d: Dic,
   f: (v: Dic[keyof Dic]) => B
-): { [k in keyof Dic]: B } => record.record.map(d, f) as { [k in keyof Dic]: B }
+): { [k in keyof Dic]: B } => record.map(d, f) as { [k in keyof Dic]: B }
 
 /**
  *  @since 0.0.1
@@ -16,7 +16,7 @@ export const projectField = <T extends Record<any, Record<any, any>>>(t: T) => <
 ): {
   [q in keyof T]: T[q][K]
 } =>
-  record.record.map(t, p => p[k]) as {
+  record.map(t, p => p[k]) as {
     [q in keyof T]: T[q][K]
   }
 
@@ -30,7 +30,7 @@ export const projectFieldWithEnv = <T extends Record<any, (e: R) => Record<any, 
 ): {
   [q in keyof T]: ReturnType<T[q]>[K]
 } =>
-  record.record.map(t, p => p(env)[k]) as {
+  record.map(t, p => p(env)[k]) as {
     [q in keyof T]: ReturnType<T[q]>[K]
   }
 
@@ -72,7 +72,7 @@ export const merge = conjunction
 /**
  *  @since 0.0.1
  */
-export const collect = <K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B> => record.collect(f)(d)
+export const collect = <K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B> => Rcollect(f)(d)
 
 /**
  *  @since 0.0.1

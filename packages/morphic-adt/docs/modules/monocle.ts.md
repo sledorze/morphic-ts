@@ -19,13 +19,13 @@ parent: Modules
 
 ```ts
 export interface MonocleFor<S> {
-  lenseFromProp: LenseFromProp<S>
-  lenseFromProps: LenseFromProps<S>
-  lenseFromPath: m.LensFromPath<S>
+  lensFromProp: LensFromProp<S>
+  lensFromProps: LensFromProps<S>
+  lensFromPath: LensFromPath<S>
   indexFromAt: IndexFromAt<S>
   optionalFromOptionProp: OptionalFromOptionProp<S>
   optionalFromNullableProp: OptionalFromNullableProp<S>
-  prism: m.Prism<Option<S>, S>
+  prism: Prism<Option<S>, S>
   prismFromPredicate: PrismFromPredicate<S>
 }
 ```

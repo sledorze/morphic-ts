@@ -1,6 +1,6 @@
 ---
 title: object.ts
-nav_order: 3
+nav_order: 4
 parent: Modules
 ---
 
@@ -23,41 +23,25 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface ModelAlgebraObject<F> {
+export interface ModelAlgebraObject<F, Env> {
   _F: F
   interface: {
-    <Props extends AnyMProps<F>>(props: Props, name: string): isOptionalConfig<
-      ObjectInterfaceConfig<{ [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>,
-      HKT2<F, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>
-    >
     <Props extends AnyMProps<F>>(
       props: Props,
       name: string,
-      config: ByInterp<
-        ObjectInterfaceConfig<{ [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>,
-        URIS | URIS2
-      >
-    ): HKT2<F, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>
+      config?: ConfigsForType<Env, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>
+    ): HKT2<F, Env, { [k in keyof Props]: Props[k]['_E'] }, { [k in keyof Props]: Props[k]['_A'] }>
   }
   partial: {
-    <Props extends AnyMProps<F>>(props: Props, name: string): isOptionalConfig<
-      ObjectPartialConfig<
-        Partial<{ [k in keyof Props]: Props[k]['_E'] }>,
-        Partial<{ [k in keyof Props]: Props[k]['_A'] }>
-      >,
-      HKT2<F, Partial<{ [k in keyof Props]: Props[k]['_E'] }>, Partial<{ [k in keyof Props]: Props[k]['_A'] }>>
-    >
     <Props extends AnyMProps<F>>(
       props: Props,
       name: string,
-      config: ByInterp<
-        ObjectPartialConfig<
-          Partial<{ [k in keyof Props]: Props[k]['_E'] }>,
-          Partial<{ [k in keyof Props]: Props[k]['_A'] }>
-        >,
-        URIS | URIS2
+      config?: ConfigsForType<
+        Env,
+        Partial<{ [k in keyof Props]: Props[k]['_E'] }>,
+        Partial<{ [k in keyof Props]: Props[k]['_A'] }>
       >
-    ): HKT2<F, Partial<{ [k in keyof Props]: Props[k]['_E'] }>, Partial<{ [k in keyof Props]: Props[k]['_A'] }>>
+    ): HKT2<F, Env, Partial<{ [k in keyof Props]: Props[k]['_E'] }>, Partial<{ [k in keyof Props]: Props[k]['_A'] }>>
   }
 }
 ```
@@ -69,18 +53,18 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface ModelAlgebraObject1<F extends URIS> {
+export interface ModelAlgebraObject1<F extends URIS, Env extends AnyEnv> {
   _F: F
   interface: <Props>(
-    props: PropsKind1<F, Props>,
+    props: PropsKind1<F, Props, Env>,
     name: string,
-    config: ByInterp<ObjectInterfaceConfig<Props, Props>, F>
-  ) => Kind<F, Props>
+    config?: ConfigsForType<Env, unknown, Props>
+  ) => Kind<F, Env, Props>
   partial: <Props>(
-    props: PropsKind1<F, Props>,
+    props: PropsKind1<F, Props, Env>,
     name: string,
-    config: ByInterp<ObjectPartialConfig<Props, Props>, F>
-  ) => Kind<F, Partial<Props>>
+    config?: ConfigsForType<Env, unknown, Props>
+  ) => Kind<F, Env, Partial<Props>>
 }
 ```
 
@@ -91,18 +75,18 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface ModelAlgebraObject2<F extends URIS2> {
+export interface ModelAlgebraObject2<F extends URIS2, Env extends AnyEnv> {
   _F: F
   interface: <PropsE, PropsA>(
-    props: PropsKind2<F, PropsE, PropsA>,
+    props: PropsKind2<F, PropsE, PropsA, Env>,
     name: string,
-    config: ByInterp<ObjectInterfaceConfig<PropsE, PropsA>, F>
-  ) => Kind2<F, PropsE, PropsA>
+    config?: ConfigsForType<Env, PropsE, PropsA>
+  ) => Kind2<F, Env, PropsE, PropsA>
   partial: <PropsE, PropsA>(
-    props: PropsKind2<F, PropsE, PropsA>,
+    props: PropsKind2<F, PropsE, PropsA, Env>,
     name: string,
-    config: ByInterp<ObjectPartialConfig<PropsE, PropsA>, F>
-  ) => Kind2<F, Partial<PropsE>, Partial<PropsA>>
+    config?: ConfigsForType<Env, PropsE, PropsA>
+  ) => Kind2<F, Env, Partial<PropsE>, Partial<PropsA>>
 }
 ```
 
@@ -123,7 +107,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type PropsKind1<F extends URIS, PropsA> = { [k in keyof PropsA]: Kind<F, PropsA[k]> }
+export type PropsKind1<F extends URIS, PropsA, R> = { [k in keyof PropsA]: Kind<F, R, PropsA[k]> }
 ```
 
 Added in v0.0.1
@@ -133,8 +117,8 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type PropsKind2<F extends URIS2, PropsA, PropsE> = {
-  [k in keyof PropsA & keyof PropsE]: Kind2<F, PropsA[k], PropsE[k]>
+export type PropsKind2<F extends URIS2, PropsA, PropsE, R> = {
+  [k in keyof PropsA & keyof PropsE]: Kind2<F, R, PropsA[k], PropsE[k]>
 }
 ```
 

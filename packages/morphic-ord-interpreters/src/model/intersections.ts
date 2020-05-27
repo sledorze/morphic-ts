@@ -1,7 +1,8 @@
-import { Ord, getMonoid } from 'fp-ts/lib/Ord'
-import { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
+import { getMonoid } from 'fp-ts/lib/Ord'
+import type { Ord } from 'fp-ts/lib/Ord'
+import type { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
 import { OrdType, OrdURI } from '../hkt'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 const equalsOrd = <T>(): Ord<T> => ({

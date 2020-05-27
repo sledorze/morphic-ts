@@ -1,7 +1,7 @@
-import { set } from 'fp-ts'
-import { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
+import { getEq as SgetEq } from 'fp-ts/lib/Set'
+import type { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
 import { EqType, EqURI } from '../hkt'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**
@@ -10,6 +10,6 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const eqSetInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraSet1<EqURI, Env> => ({
     _F: EqURI,
-    set: getEq => env => new EqType(set.getEq(getEq(env).eq))
+    set: getEq => env => new EqType(SgetEq(getEq(env).eq))
   })
 )

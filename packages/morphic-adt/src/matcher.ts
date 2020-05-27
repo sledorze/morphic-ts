@@ -1,5 +1,5 @@
-import { identity } from 'fp-ts/lib/function'
-import { KeysDefinition, isIn } from '.'
+import { isIn } from '.'
+import type { KeysDefinition } from '.'
 
 type ValueByKeyByTag<Union extends Record<any, any>, Tags extends keyof Union = keyof Union> = {
   [Tag in Tags]: { [Key in Union[Tag]]: Union extends { [r in Tag]: Key } ? Union : never }
@@ -11,19 +11,6 @@ interface Folder<A> {
   <R>(f: (a: A) => R): (a: A) => R
 }
 
-interface Default<A, R> {
-  default: (a: A) => R
-}
-/**
- * Dispatch calls for each tag value, ensuring a common result type `R`
- */
-interface Matcher<A, Tag extends keyof A> extends MatcherInter<A, ValueByKeyByTag<A>[Tag]> {}
-interface MatcherInter<A, Record> {
-  <R>(match: Cases<Record, R>): (a: A) => R
-  // tslint:disable-next-line: unified-signatures
-  <R>(match: Partial<Cases<Record, R>> & Default<A, R>): (a: A) => R
-}
-
 interface Transform<A, Tag extends keyof A> extends TransformInter<A, ValueByKeyByTag<A>[Tag]> {}
 interface TransformInter<A, Record> {
   (match: Partial<Cases<Record, A>>): (a: A) => A
@@ -32,7 +19,30 @@ interface TransformInter<A, Record> {
 interface ReducerBuilder<S, A, Tag extends keyof A> {
   (match: Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>): Reducer<S, A>
   // tslint:disable-next-line: unified-signatures
-  (match: Partial<Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>> & Default<A, (s: S) => S>): Reducer<S, A>
+  <
+    M extends Partial<Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>>,
+    D extends (
+      _: { [k in keyof ValueByKeyByTag<A>[Tag]]: ValueByKeyByTag<A>[Tag][k] }[Exclude<
+        keyof ValueByKeyByTag<A>[Tag],
+        keyof M
+      >]
+    ) => (s: S) => S
+  >(
+    match: M,
+    def: D
+  ): Reducer<S, A>
+}
+
+/**
+ * Dispatch calls for each tag value, ensuring a common result type `R`
+ */
+
+interface MatcherStrict<A, Tag extends keyof A> extends MatcherStrictInter<A, ValueByKeyByTag<A>[Tag]> {}
+
+declare type EmptyIfEmpty<R> = keyof R extends never ? {} : R
+
+interface MatcherStrictInter<A, Rec> {
+  <R>(match: Cases<Rec, R>): (a: A) => R
 }
 
 /**
@@ -41,10 +51,18 @@ interface ReducerBuilder<S, A, Tag extends keyof A> {
 interface MatcherWiden<A, Tag extends keyof A> extends MatcherWidenIntern<A, ValueByKeyByTag<A>[Tag]> {}
 
 interface MatcherWidenIntern<A, Record> {
-  <M extends Cases<Record, any>>(match: M): (a: A) => ReturnType<M[keyof M]> extends infer R ? R : never
-  <M extends Partial<Cases<Record, any>> & Default<A, any>>(match: M): (
+  <M extends Cases<Record, unknown>>(match: M): (a: A) => ReturnType<M[keyof M]> extends infer R ? R : never
+  <
+    M extends Partial<Cases<Record, unknown>>,
+    D extends (_: { [k in keyof Record]: Record[k] }[Exclude<keyof Record, keyof M>]) => any
+  >(
+    match: M,
+    def: D
+  ): (
     a: A
-  ) => ReturnType<NonNullable<M[keyof M]>> extends infer R ? R : never
+  ) =>
+    | (ReturnType<NonNullable<M[keyof M]>> extends infer R ? R : never)
+    | (unknown extends ReturnType<D> ? never : ReturnType<D>)
 }
 
 /**
@@ -58,11 +76,20 @@ export interface Reducer<S, A> {
  *  @since 0.0.1
  */
 export interface Matchers<A, Tag extends keyof A> {
+  /** Folds to a value */
   fold: Folder<A>
-  match: Matcher<A, Tag>
+  /** Transforms partial values to the same type */
   transform: Transform<A, Tag>
-  matchWiden: MatcherWiden<A, Tag>
+  /** Matcher which is widens its Return type (infers a Union of all branches), supports a default as last parameter */
+  match: MatcherWiden<A, Tag>
+  /**
+   * Matcher which is strict in its Return type (should be the same for all branches)
+   */
+  matchStrict: MatcherStrict<A, Tag>
+  /** Creates a reducer enabling State evolution */
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
+  /** Enforces the inner function to return a specificiable type */
+  strict: <R>(f: (_: A) => R) => (_: A) => R
 }
 
 /**
@@ -70,25 +97,25 @@ export interface Matchers<A, Tag extends keyof A> {
  */
 export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinition<A, Tag>): Matchers<A, Tag> => {
   const inKeys = isIn(keys)
-  const match = (match: any) => (a: any): any => (match[a[tag]] || match['default'])(a)
+  const match = (match: any, def?: any) => (a: any): any => (match[a[tag]] || def)(a)
   const transform = (match: any) => (a: any): any => {
     const c = match[a[tag]]
     return c ? c(a) : a
   }
-  const matchWiden = match
-  const fold = identity
-  const createReducer = <S>(initialState: S): ReducerBuilder<S, A, Tag> => (m: any) => {
-    const matcher = match(m)
+  const fold = <A>(a: A) => a
+  const createReducer = <S>(initialState: S): ReducerBuilder<S, A, Tag> => (m: any, def?: any) => {
+    const matcher = match(m, def)
     return (s: any, a: any) => {
       const state = s === undefined ? initialState : s
       return inKeys(a[tag]) ? matcher(a)(state) : state
     }
   }
   return {
+    matchStrict: match,
     match,
-    matchWiden,
     transform,
     fold,
-    createReducer
+    createReducer,
+    strict: <A>(a: A) => a
   }
 }

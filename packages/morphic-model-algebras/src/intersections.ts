@@ -1,6 +1,6 @@
-import { OfType, OfType2 } from '@morphic-ts/common/lib/core'
-import { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic-ts/common/lib//HKT'
-import { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { OfType, OfType2 } from '@morphic-ts/common/lib/core'
+import type { URIS, Kind, URIS2, Kind2, HKT2 } from '@morphic-ts/common/lib//HKT'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 /**
  *  @since 0.0.1
  */

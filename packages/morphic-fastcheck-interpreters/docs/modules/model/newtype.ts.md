@@ -1,6 +1,6 @@
 ---
 title: model/newtype.ts
-nav_order: 8
+nav_order: 7
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const fastCheckNewtypeInterpreter: ModelAlgebraNewtype1<FastCheckURI> = ...
+export const fastCheckNewtypeInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraNewtype1<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

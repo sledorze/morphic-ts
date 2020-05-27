@@ -1,8 +1,7 @@
-import { HKT2, Kind, Kind2, URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
-import { Algebra1, Algebra2, Algebra } from '@morphic-ts/algebras/lib/core'
-import { ProgramURI, ProgramAlgebra, ProgramAlgebraURI, ProgramType } from './ProgramType'
-import { AnyConfigEnv } from './summoner'
-import { identity } from 'fp-ts/lib/function'
+import type { HKT2, Kind, Kind2, URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
+import type { Algebra1, Algebra2, Algebra } from '@morphic-ts/algebras/lib/core'
+import type { ProgramURI, ProgramAlgebra, ProgramAlgebraURI, ProgramType } from './ProgramType'
+import type { AnyConfigEnv } from './summoner'
 
 /**
  *  @since 0.0.1
@@ -33,6 +32,9 @@ export interface InferredProgram<R extends AnyConfigEnv, E, A, PURI extends Prog
   }
 }
 
+/**
+ *  @since 0.0.1
+ */
 export interface Define<PURI extends ProgramURI, R extends AnyConfigEnv = {}> {
   <E, A>(program: ProgramType<R, E, A>[PURI]): ProgramType<R, E, A>[PURI]
 }
@@ -45,4 +47,4 @@ export interface Define<PURI extends ProgramURI, R extends AnyConfigEnv = {}> {
  */
 export const defineFor: <PURI extends ProgramURI>(
   _prog: PURI
-) => <R extends AnyConfigEnv = {}>() => Define<PURI, R> = _ => () => identity
+) => <R extends AnyConfigEnv = {}>() => Define<PURI, R> = _ => () => a => a

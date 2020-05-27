@@ -1,6 +1,6 @@
 ---
 title: model/str-map.ts
-nav_order: 14
+nav_order: 13
 parent: Modules
 ---
 
@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const fastCheckStrMapInterpreter: ModelAlgebraStrMap1<FastCheckURI> = ...
+export const fastCheckStrMapInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraStrMap1<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

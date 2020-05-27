@@ -1,6 +1,5 @@
 import * as chai from 'chai'
 import { unionADT, intersectADT, makeADT, ofType } from '../src'
-import { identity } from 'fp-ts/lib/function'
 
 describe('Builder', () => {
   interface Foo {
@@ -42,7 +41,7 @@ describe('Builder', () => {
       bar: ofType<Bar>()
     })
 
-    const { fold, match, matchWiden, createReducer, transform } = fooBar
+    const { fold, match, createReducer, transform, strict } = fooBar
     const fooA = fooBar.of.foo({ a: 'a', b: 12 })
     const barA = fooBar.of.bar({ c: 'a', d: 12 })
     const barB = fooBar.of.bar({ c: 'b', d: 13 })
@@ -71,16 +70,31 @@ describe('Builder', () => {
     })
 
     it('match with default', () => {
-      const matcherDefault = match({
-        bar: ({ c }) => c,
-        default: () => 'defaultResult'
-      })
+      const matcherDefault = match(
+        {
+          bar: ({ c }) => c
+        },
+        () => 'defaultResult'
+      )
       chai.assert.deepStrictEqual(matcherDefault(barA), 'a', 'barA')
       chai.assert.deepStrictEqual(matcherDefault(fooA), 'defaultResult', 'fooA')
     })
 
-    it('matchWiden', () => {
-      const matcherW = matchWiden({
+    it('match with default - strict', () => {
+      const matcherDefault = strict<number>(
+        match(
+          {
+            bar: _ => 1
+          },
+          () => 2
+        )
+      )
+      chai.assert.deepStrictEqual(matcherDefault(barA), 1, 'barA')
+      chai.assert.deepStrictEqual(matcherDefault(fooA), 2, 'fooA')
+    })
+
+    it('match (widen)', () => {
+      const matcherW = match({
         bar: ({ d }) => d,
         foo: ({ a }) => a
       })
@@ -88,29 +102,35 @@ describe('Builder', () => {
       chai.assert.deepStrictEqual(matcherW(barB), 13, 'barb')
       chai.assert.deepStrictEqual(matcherW(fooA), 'a', 'fooA')
     })
-    it('matchWiden with default', () => {
-      const matcherDefaultW = matchWiden({
-        bar: ({ c }) => c.length,
-        default: () => 'defaultResult'
-      })
+    it('match (widen) with default', () => {
+      const matcherDefaultW = match(
+        {
+          bar: ({ c }) => c.length
+        },
+        () => 'defaultResult'
+      )
       chai.assert.deepStrictEqual(matcherDefaultW(barA), 1, 'bar')
       chai.assert.deepStrictEqual(matcherDefaultW(fooA), 'defaultResult', 'fooA')
     })
 
-    it('matchWiden with default expose the action', () => {
-      const matcherDefaultW = matchWiden({
-        bar: ({ c }) => c.length,
-        default: a => a
-      })
+    it('match (widen) with default expose the action', () => {
+      const matcherDefaultW = match(
+        {
+          bar: ({ c }) => c.length
+        },
+        a => a
+      )
       chai.assert.deepStrictEqual(matcherDefaultW(barA), 1, 'barA')
-      chai.assert.deepStrictEqual(matcherDefaultW(fooA), fooA, 'fooA')
+      chai.assert.deepStrictEqual(matcherDefaultW(fooA), fooA as number | Foo, 'fooA')
     })
 
     it('reduce', () => {
-      const reduce = createReducer({ x: '0' })({
-        foo: () => ({ x }) => ({ x: `foo(${x})` }),
-        default: () => () => ({ x: `default` })
-      })
+      const reduce = createReducer({ x: '0' })(
+        {
+          foo: () => ({ x }) => ({ x: `foo(${x})` })
+        },
+        () => () => ({ x: `default` })
+      )
 
       chai.assert.deepStrictEqual(reduce(undefined, fooA), { x: 'foo(0)' })
       chai.assert.deepStrictEqual(reduce({ x: '1' }, fooA), { x: 'foo(1)' })
@@ -129,10 +149,12 @@ describe('Builder', () => {
     })
 
     it('reduce with default does not change state on unknown Action', () => {
-      const reduce = createReducer({ x: '0' })({
-        foo: () => ({ x }) => ({ x: `foo(${x})` }),
-        default: () => ({ x }) => ({ x: `default(${x})` })
-      })
+      const reduce = createReducer({ x: '0' })(
+        {
+          foo: () => ({ x }) => ({ x: `foo(${x})` })
+        },
+        () => ({ x }) => ({ x: `default(${x})` })
+      )
       const wrongAction = { type: 'unknown' }
       chai.assert.deepStrictEqual(reduce({ x: '1' }, wrongAction as any), {
         x: '1'
@@ -151,10 +173,12 @@ describe('Builder', () => {
     })
 
     it('reduce return the previous state', () => {
-      const reduce = createReducer({ x: '0' })({
-        foo: () => ({ x }) => ({ x: `foo(${x})` }),
-        default: () => identity
-      })
+      const reduce = createReducer({ x: '0' })(
+        {
+          foo: () => ({ x }) => ({ x: `foo(${x})` })
+        },
+        () => a => a
+      )
       chai.assert.deepStrictEqual(reduce(undefined, barA), { x: '0' })
     })
 
@@ -271,7 +295,7 @@ describe('Builder', () => {
     // narrows to Foo
     if (fooBar.is.foo(fooA)) {
       chai.assert.deepStrictEqual(
-        fooBar.select(['foo']).lenseFromProp('type').get(fooA), // ensure type narrowing
+        fooBar.select(['foo']).lensFromProp('type').get(fooA), // ensure type narrowing
         'foo'
       )
     }
@@ -286,7 +310,7 @@ describe('Builder', () => {
       chai.assert.deepStrictEqual(
         fooBarByType
           .select(['bar'])
-          .lenseFromProp('c')
+          .lensFromProp('c')
           .modify(s => `(${s})`)(fooBarByType.as.bar({ c: 'c', d: 1 })),
         fooBarByType.of.bar({ c: '(c)', d: 1 })
       )
@@ -294,7 +318,7 @@ describe('Builder', () => {
       chai.assert.deepStrictEqual(
         fooBarByType
           .select(['bar'])
-          .lenseFromProps(['c', 'd'])
+          .lensFromProps(['c', 'd'])
           .modify(({ c, d }) => ({ c: `(${c})`, d: 1 + d }))(fooBarByType.as.bar({ c: 'c', d: 1 })),
         fooBarByType.of.bar({ c: '(c)', d: 2 })
       )
