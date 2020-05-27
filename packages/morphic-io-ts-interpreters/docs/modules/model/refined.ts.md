@@ -8,23 +8,10 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Customize (interface)](#customize-interface)
 - [ioTsRefinedInterpreter (constant)](#iotsrefinedinterpreter-constant)
-- [applyCustomize (function)](#applycustomize-function)
+- [refinement (function)](#refinement-function)
 
 ---
-
-# Customize (interface)
-
-**Signature**
-
-```ts
-export interface Customize<RC, E, A> {
-  <B>(a: t.BrandC<t.Type<A, E, unknown>, B>, env: RC): t.BrandC<t.Type<A, E, unknown>, B> // t.Type<A, E, unknown>
-}
-```
-
-Added in v0.0.1
 
 # ioTsRefinedInterpreter (constant)
 
@@ -36,12 +23,16 @@ export const ioTsRefinedInterpreter: <Env extends Partial<Record<"IoTsURI", any>
 
 Added in v0.0.1
 
-# applyCustomize (function)
+# refinement (function)
 
 **Signature**
 
 ```ts
-export const applyCustomize = <RC, E, A>(c: { [IoTsURI]?: Customize<RC, E, A> } | undefined) => ...
+export const refinement = <A, O, B extends A>(T: Type<A, O>, ref: (a: A) => a is B, name: string): Type<B, O> =>
+  new Type<B, O>(
+    name,
+    (x): x is B => T.is(x) && ref(x),
+    (i, c) => ...
 ```
 
 Added in v0.0.1
