@@ -1,5 +1,3 @@
-# Morphic-ts
-
 ![Morphic Logo](./assets/logos/morphic-ts_punchline_black.svg)
 
 ![Publish CI](https://github.com/sledorze/morphic-ts/workflows/Publish%20CI/badge.svg)
