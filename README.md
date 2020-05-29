@@ -46,7 +46,7 @@ Person.show // Show from fp-ts
 Person.type // io-ts
 Person.strictType // io-ts
 Person.eq // Eq from fp-ts
-Person.lenseFromPath // and other optics (optionals, prism, ) from monocle-ts
+Person.lensFromPath // and other optics (optionals, prism, ) from monocle-ts
 Person.arb // fast-check
 Person.jsonSchema // JsonSchema-ish representation
 ```
@@ -408,12 +408,12 @@ const ManyChoice = unionADT(Motorized, TrafficJamProof) // ADT<Car  | Motorbike 
 
 We support lenses, optional, prism pre-typed helpers
 
-Lense example:
+Lens example:
 
 ```typescript
-const seatLense = Motorized.lenseFromProp('seats') // Lens<Car | Motorbike, number>
+const seatLens = Motorized.lensFromProp('seats') // Lens<Car | Motorbike, number>
 
-const incSeat = seatLense.modify(increment) // (s: Car | Motorbike) => Car | Motorbike
+const incSeat = seatLens.modify(increment) // (s: Car | Motorbike) => Car | Motorbike
 ```
 
 ## Road Map
