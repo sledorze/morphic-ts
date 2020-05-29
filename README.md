@@ -1,8 +1,9 @@
-![Morphic Logo](./assets/logos/morphic-ts_punchline_black.svg)
+# Easy, robust and magic
+<p align="center">
+  <img width="50%" height="auto" src="./assets/logos/morphic-ts_black.svg">
+</p>
 
 ![Publish CI](https://github.com/sledorze/morphic-ts/workflows/Publish%20CI/badge.svg)
-
-Business Models just got a lot easier
 
 This library addresses the pain of writing _and maintaining_ code for business _without any Magic_ in Typescript
 
