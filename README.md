@@ -2,7 +2,7 @@
 
 
 
-![Test CI](https://github.com/sledorze/morphic-ts/workflows/Test%20CI/badge.svg?branch=master)
+![Publish CI](https://github.com/sledorze/morphic-ts/workflows/Publish%20CI/badge.svg)
 
 Business Models just got a lot easier
 
