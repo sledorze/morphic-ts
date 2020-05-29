@@ -1,6 +1,6 @@
 # Morphic-ts
 
-
+![Morphic Logo](./assets/logos/morphic-ts_punchline.svg)
 
 ![Publish CI](https://github.com/sledorze/morphic-ts/workflows/Publish%20CI/badge.svg)
 
