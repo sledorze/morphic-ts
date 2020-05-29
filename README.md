@@ -5,7 +5,7 @@
 
 ![Publish CI](https://github.com/sledorze/morphic-ts/workflows/Publish%20CI/badge.svg)
 
-This library addresses the pain of writing _and maintaining_ code for business _without any Magic_ in Typescript
+This library addresses the pain of writing _and maintaining_ code for business in Typescript
 
 The goal is to increase, in order of importance
 
