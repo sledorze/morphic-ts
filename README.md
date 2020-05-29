@@ -421,9 +421,6 @@ const incSeat = seatLens.modify(increment) // (s: Car | Motorbike) => Car | Moto
 - Interpreter for persistency (TypeORM)
 - Implement Algebra for APIs
 
-## Disclaimer
+## Get in touch
 
-THIS LIBRARY IS USED INTO TWO PROFESSIONAL PROJECTS IN DEVELOPMENT AT THE MOMENT
-
-BUT BEWARE, THIS REPO IS A POC (WORK-IN-PROGRESS)
-THE API IS UNLIKELY TO CHANGE TREMENDOUSLY BUT YOU MAY BE SAFER TO CONSIDER IT UNSTABLE AND USE AT YOUR OWN RISK
+The best place to reach out is https://fpchat-invite.herokuapp.com (channel #morphic)
