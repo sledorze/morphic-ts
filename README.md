@@ -416,11 +416,6 @@ const seatLens = Motorized.lensFromProp('seats') // Lens<Car | Motorbike, number
 const incSeat = seatLens.modify(increment) // (s: Car | Motorbike) => Car | Motorbike
 ```
 
-## Road Map
-
-- Interpreter for persistency (TypeORM)
-- Implement Algebra for APIs
-
 ## Get in touch
 
-The best place to reach out is https://fpchat-invite.herokuapp.com (channel #morphic)
+The best place to reach out is <https://fpchat-invite.herokuapp.com> (channel #morphic)

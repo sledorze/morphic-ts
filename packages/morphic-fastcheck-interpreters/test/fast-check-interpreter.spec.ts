@@ -337,4 +337,11 @@ describe('FastCheck interpreter', () => {
     const codec = option(t.string)
     fc.assert(fc.property(arb, codec.is))
   })
+
+  it('refined', () => {
+    const hasEvenLength = (s: string): s is string => s.length % 2 === 0
+    const { arb } = summon(F => F.refined(F.string(), hasEvenLength, 'odd string'))
+    const codec = t.string
+    fc.assert(fc.property(arb, s => codec.is(s) && hasEvenLength(s)))
+  })
 })
