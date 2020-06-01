@@ -27,7 +27,7 @@ Then summon your first Morph
 ```typescript
 import { summonFor } from '@morphic-ts/batteries/lib/summoner-BASTJ'
 
-const { summon } = summonFor<{}>({}) // Necessary to Specify the config environement (see Config Environment)
+const { summon } = summonFor<{}>({}) // Necessary to Specify the config environment (see Config Environment)
 
 export const Person = summon(F =>
   F.interface(
