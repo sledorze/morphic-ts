@@ -25,7 +25,9 @@ yarn add '@morphic-ts/batteries'
 Then summon your first Morph
 
 ```typescript
-import { summon } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+import { summonFor } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+
+const { summon } = summonFor<{}>({}) // Necessary to Specify the config environement (see Config Environment)
 
 export const Person = summon(F =>
   F.interface(
@@ -54,7 +56,9 @@ Person.jsonSchema // JsonSchema-ish representation
 ### Discriminated, taggedUnion-like models
 
 ```typescript
-import { summon, tagged } from '@morphic-ts/batteries/lib/summoner-ESBASTJ'
+import { summonFor } from '@morphic-ts/batteries/lib/summoner-ESBASTJ'
+
+const { summon, tagged } = summonFor<{}>({})
 
 export const Bicycle = summon(F =>
   F.interface(
