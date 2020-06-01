@@ -1,12 +1,13 @@
 import * as chai from 'chai'
 import { modelOrdInterpreter, OrdURI } from '../src/interpreters'
 import type { Ord } from 'fp-ts/lib/Ord'
-import type { Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
+import type { Materialized } from '@morphic-ts/summoners'
 import type { ProgramOrderableURI } from '@morphic-ts/batteries/lib/program-orderable'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
-import { makeSummoner } from '@morphic-ts/batteries/lib/usage/summoner'
-import type { Summoners, AnyConfigEnv, ExtractEnv } from '@morphic-ts/batteries/lib/usage/summoner'
-import type { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
+import { makeSummoner } from '@morphic-ts/summoners'
+import type { Summoners } from '@morphic-ts/summoners'
+import type { AnyConfigEnv, ExtractEnv } from '@morphic-ts/summoners/lib/summoner'
+import type { ProgramType } from '@morphic-ts/summoners'
 
 interface OrdInterpreter<A> {
   ord: Ord<A>
@@ -15,7 +16,7 @@ interface OrdInterpreter<A> {
 const OrdInterpreterURI = 'OrdInterpreterURI' as const
 export type OrdInterpreterURI = typeof OrdInterpreterURI
 
-declare module '@morphic-ts/batteries/lib/usage/InterpreterResult' {
+declare module '@morphic-ts/summoners/lib/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [OrdInterpreterURI]: OrdInterpreter<A>
   }

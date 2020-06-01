@@ -1,5 +1,5 @@
 import { summonFor, AsOpaque } from '../../src/summoner-BASTJ'
-import type { AType, EType } from '../../src/usage/utils'
+import type { AType, EType } from '@morphic-ts/summoners/lib/utils'
 
 const { summon, tagged } = summonFor<{}>({})
 

@@ -1,0 +1,65 @@
+{
+  "name": "@morphic-ts/summoners",
+  "version": "2.0.0-alpha.0",
+  "description": "Morphic summoners package to create summoners",
+  "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
+  "homepage": "",
+  "license": "MIT",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "lib",
+  "module": "es6",
+  "typings": "lib",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "files": [
+    "lib",
+    "es6"
+  ],
+  "peerDependencies": {
+    "fp-ts": "^2.5.3"
+  },
+  "devDependencies": {
+    "fp-ts": "^2.5.3"
+  },
+  "dependencies": {
+    "@morphic-ts/adt": "^2.0.0-alpha.5",
+    "@morphic-ts/algebras": "^2.0.0-alpha.3",
+    "@morphic-ts/common": "^2.0.0-alpha.3",
+    "@morphic-ts/model-algebras": "^2.0.0-alpha.3"
+  },
+  "scripts": {
+    "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
+    "jest": "jest",
+    "jest-coverage": "jest --ci --coverage",
+    "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples}/**/*.ts\"",
+    "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples}/**/*.ts\"",
+    "test": "yarn run prettier && yarn run lint && yarn run dtslint && yarn run jest && yarn run docs",
+    "clean": "rimraf lib/* && rimraf es6/*",
+    "build": "yarn run clean && tsc --build tsconfig.build.json && tsc --build tsconfig.es6.json && yarn import-path-rewrite",
+    "prepublish": "yarn run build",
+    "docs-fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser markdown --write \"README.md\"",
+    "dtslint": "dtslint dtslint",
+    "mocha": "TS_NODE_CACHE=false mocha -r ts-node/register test/*.ts",
+    "docs": "docs-ts"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "test",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "testPathIgnorePatterns": [
+      "utils"
+    ]
+  },
+  "gitHead": "302e1beb5ddd6fbd1d5ebbf66125ad5f5982e532"
+}

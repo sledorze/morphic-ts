@@ -20,11 +20,11 @@ import {
   modelIoTsStrictInterpreter
 } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 
-import type * as U from './usage'
+import type * as U from '@morphic-ts/summoners'
 
 import type { ESBASTJInterpreterURI } from './interpreters-ESBASTJ'
-import type { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
-import { makeSummoner } from './usage/summoner'
+import type { AnyConfigEnv, ExtractEnv, SummonerOps } from '@morphic-ts/summoners/lib/summoner'
+import { makeSummoner } from '@morphic-ts/summoners/lib/summoner'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /** Type level override to keep Morph type name short */

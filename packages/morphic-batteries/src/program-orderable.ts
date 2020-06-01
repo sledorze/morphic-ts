@@ -1,4 +1,4 @@
-import type { InferredAlgebra, InferredProgram } from './usage/programs-infer'
+import type { InferredAlgebra, InferredProgram } from '@morphic-ts/summoners/lib/programs-infer'
 import type { GetAlgebra } from '@morphic-ts/algebras/lib/core'
 
 import type { IntersectionURI } from '@morphic-ts/model-algebras/lib/intersections'
@@ -8,7 +8,7 @@ import type { StrMapURI } from '@morphic-ts/model-algebras/lib/str-map'
 import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
-import type { AnyConfigEnv } from './usage/summoner'
+import type { AnyConfigEnv } from '@morphic-ts/summoners/lib/summoner'
 
 /**
  *  @since 0.0.1
@@ -28,7 +28,7 @@ export interface AlgebraNoUnion<F, Env> extends InferredAlgebra<F, ProgramOrdera
  */
 export interface P<R extends AnyConfigEnv, E, A> extends InferredProgram<R, E, A, ProgramOrderableURI> {}
 
-declare module './usage/ProgramType' {
+declare module '@morphic-ts/summoners/lib/ProgramType' {
   interface ProgramAlgebraURI {
     [ProgramOrderableURI]: GetAlgebra<
       PrimitiveURI | IntersectionURI | SetURI | StrMapURI | TaggedUnionsURI | NewtypeURI | RefinedURI

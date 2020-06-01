@@ -2,6 +2,7 @@ import type { HKT2, Kind, Kind2, URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
 import type { Algebra1, Algebra2, Algebra } from '@morphic-ts/algebras/lib/core'
 import type { ProgramURI, ProgramAlgebra, ProgramAlgebraURI, ProgramType } from './ProgramType'
 import type { AnyConfigEnv } from './summoner'
+import {} from './tagged-union'
 
 /**
  *  @since 0.0.1

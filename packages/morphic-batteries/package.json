@@ -40,6 +40,7 @@
     "@morphic-ts/adt": "^2.0.0-alpha.5",
     "@morphic-ts/algebras": "^2.0.0-alpha.3",
     "@morphic-ts/common": "^2.0.0-alpha.3",
+    "@morphic-ts/summoners": "^2.0.0-alpha.0",
     "@morphic-ts/eq-interpreters": "^2.0.0-alpha.3",
     "@morphic-ts/fastcheck-interpreters": "^2.0.0-alpha.3",
     "@morphic-ts/io-ts-interpreters": "^2.0.0-alpha.3",

@@ -30,7 +30,7 @@ interface ESBASTJInterpreter<E, A> {
   create: Create<A>
 }
 
-declare module './usage/InterpreterResult' {
+declare module '@morphic-ts/summoners/lib/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [ESBASTJInterpreterURI]: ESBASTJInterpreter<E, A>
   }

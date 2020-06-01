@@ -1,15 +1,16 @@
 import * as chai from 'chai'
 
-import type { Materialized } from '@morphic-ts/batteries/lib/usage/materializer'
-import { makeSummoner } from '@morphic-ts/batteries/lib/usage/summoner'
-import type { Summoners, AnyConfigEnv, ExtractEnv } from '@morphic-ts/batteries/lib/usage/summoner'
+import type { Materialized } from '@morphic-ts/summoners'
+import { makeSummoner } from '@morphic-ts/summoners'
+import type { Summoners } from '@morphic-ts/summoners'
+import type { AnyConfigEnv, ExtractEnv } from '@morphic-ts/summoners/lib/summoner'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
 import type { ProgramNoUnionURI } from '@morphic-ts/batteries/lib/program-no-union'
 import { modelEqInterpreter } from '../src/interpreters'
 import type { Eq } from 'fp-ts/lib/Eq'
 import { fromEquals } from 'fp-ts/lib/Eq'
-import type { ProgramType } from '@morphic-ts/batteries/lib/usage/ProgramType'
+import type { ProgramType } from '@morphic-ts/summoners'
 import type { Newtype } from 'newtype-ts'
 import { iso } from 'newtype-ts'
 import type { EqURI } from '../src/index'
@@ -24,7 +25,7 @@ interface EqInterpreter<A> {
   eq: Eq<A>
 }
 
-declare module '@morphic-ts/batteries/lib/usage/InterpreterResult' {
+declare module '@morphic-ts/summoners/lib/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [EqInterpreterURI]: EqInterpreter<A>
   }

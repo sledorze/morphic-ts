@@ -11,7 +11,7 @@ interface EmptyInterpreter<_E, A> {
   build: (a: A) => A
 }
 
-declare module './usage/InterpreterResult' {
+declare module '@morphic-ts/summoners/lib/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [EmptyInterpreterURI]: EmptyInterpreter<E, A>
   }

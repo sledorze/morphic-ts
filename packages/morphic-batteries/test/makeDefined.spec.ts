@@ -1,5 +1,5 @@
 import { summonFor } from '../src/summoner-BASTJ'
-import { defineFor } from '../src/usage/programs-infer'
+import { defineFor } from '@morphic-ts/summoners/lib/programs-infer'
 import { ProgramUnionURI } from '../src/program'
 import * as fc from 'fast-check'
 import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/hkt'

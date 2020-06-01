@@ -1,8 +1,8 @@
-import type { SelectKeyOfMatchingValues } from '../../src/usage/utils'
+import type { SelectKeyOfMatchingValues } from '@morphic-ts/summoners/lib/utils'
 import { summonFor } from '../../src/summoner-BASTJ'
-import type { EOfMorhpADT, IfStringLiteral, AOfMorhpADT } from '../../src/usage/tagged-union'
+import type { EOfMorhpADT, IfStringLiteral, AOfMorhpADT } from '@morphic-ts/summoners/lib/tagged-union'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
-import { interpretable } from '../../src/usage/programs-infer'
+import { interpretable } from '@morphic-ts/summoners/lib/programs-infer'
 import type { ADT } from '@morphic-ts/adt'
 // tslint:disable-next-line: no-duplicate-imports
 import { unionADT, intersectADT } from '@morphic-ts/adt'
