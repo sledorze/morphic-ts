@@ -6,7 +6,6 @@ import type { NamedSchemas } from '@morphic-ts/json-schema-interpreters/lib/inde
 import type { JsonSchemaError } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema-ctors'
 import type { Either } from 'fp-ts/lib/Either'
 import type { Create } from '@morphic-ts/io-ts-interpreters/lib/create'
-import {} from '@morphic-ts/summoners/lib/InterpreterResult'
 
 /**
  *  @since 0.0.1

@@ -1,5 +1,4 @@
 import type { SelectKeyOfMatchingValues } from '../../src/utils'
-import { summonFor } from '../../src/summoner-BASTJ'
 import type { EOfMorhpADT, IfStringLiteral, AOfMorhpADT } from '../../src/tagged-union'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import { interpretable } from '../../src/index'
@@ -7,6 +6,7 @@ import type { ADT } from '@morphic-ts/adt'
 // tslint:disable-next-line: no-duplicate-imports
 import { unionADT, intersectADT } from '@morphic-ts/adt'
 import type { Remove, ElemType, ExtractUnion } from '@morphic-ts/adt/lib/utils'
+import { summonFor } from './summoner'
 
 type IsLiteralA = IfStringLiteral<'a', 'ok', 'string', 'notString'> // $ExpectType "ok"
 type IsLiteralString = IfStringLiteral<string, 'ok', 'string', 'notString'> // $ExpectType "string"
@@ -96,17 +96,17 @@ const A = summon<ARaw, A>(F => F.interface({ type: F.stringLiteral('A'), a: F.st
 const B = summon<BRaw, B>(F => F.interface({ type: F.stringLiteral('B'), b: F.string() }, 'B'))
 const C = summon<CRaw, C>(F => F.interface({ type: F.stringLiteral('C'), c: F.string() }, 'C'))
 
-// $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; C: [CRaw, C]; }, "type", "ProgramUnionURI", "BASTJInterpreterURI", {}>
+// $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; C: [CRaw, C]; }, "type", "ProgramUnionURI", "FastCheckTestURI", {}>
 const ABC = tagged('type')({
   A,
   B,
   C
 })
 
-// $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; }, "type", "ProgramUnionURI", "BASTJInterpreterURI", {}>
+// $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; }, "type", "ProgramUnionURI", "FastCheckTestURI", {}>
 ABC.selectMorph(['A', 'B'])
 
-// $ExpectType MorphADT<{ B: [BRaw, B]; C: [CRaw, C]; }, "type", "ProgramUnionURI", "BASTJInterpreterURI", {}>
+// $ExpectType MorphADT<{ B: [BRaw, B]; C: [CRaw, C]; }, "type", "ProgramUnionURI", "FastCheckTestURI", {}>
 ABC.excludeMorph(['A'])
 
 // $ExpectType A | B | C

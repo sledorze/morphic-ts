@@ -16,8 +16,8 @@ import {
 import { modelJsonSchemaInterpreter } from '@morphic-ts/json-schema-interpreters/lib'
 import type { JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
-import type { AnyConfigEnv, ExtractEnv, SummonerOps } from '@morphic-ts/summoners/lib/summoner'
-import { makeSummoner } from '@morphic-ts/summoners/lib/summoner'
+import type { AnyConfigEnv, ExtractEnv, SummonerOps } from '@morphic-ts/summoners'
+import { makeSummoner } from '@morphic-ts/summoners'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { chain as Echain } from 'fp-ts/lib/Either'
 

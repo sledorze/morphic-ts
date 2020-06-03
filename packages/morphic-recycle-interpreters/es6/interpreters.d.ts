@@ -1,0 +1,5 @@
+export * from './hkt';
+/**
+ *  @since 0.0.1
+ */
+export declare const modelRecycleInterpreter: <Env extends Partial<Record<"RecycleURI", any>>>() => import("@morphic-ts/model-algebras/lib/refined").ModelAlgebraRefined1<"RecycleURI", Env> & import("@morphic-ts/model-algebras/lib/newtype").ModelAlgebraNewtype1<"RecycleURI", Env> & import("@morphic-ts/model-algebras/lib/unknown").ModelAlgebraUnknown1<"RecycleURI", Env> & import("@morphic-ts/model-algebras/lib/primitives").ModelAlgebraPrimitive1<"RecycleURI", Env> & import("@morphic-ts/model-algebras/lib/intersections").ModelAlgebraIntersection1<"RecycleURI", Env> & import("@morphic-ts/model-algebras/lib/object").ModelAlgebraObject1<"RecycleURI", Env> & import("@morphic-ts/model-algebras/lib/tagged-unions").ModelAlgebraTaggedUnions1<"RecycleURI", Env> & import("@morphic-ts/model-algebras/lib/recursive").ModelAlgebraRecursive1<"RecycleURI", Env> & import("@morphic-ts/model-algebras/lib/str-map").ModelAlgebraStrMap1<"RecycleURI", Env> & import("@morphic-ts/model-algebras/lib/set").ModelAlgebraSet1<"RecycleURI", Env>;

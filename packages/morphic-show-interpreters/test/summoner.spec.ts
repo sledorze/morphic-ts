@@ -1,11 +1,11 @@
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
 import type * as U from '@morphic-ts/summoners'
-import type { ExtractEnv, SummonerOps } from '@morphic-ts/summoners/lib/summoner'
-import { makeSummoner } from '@morphic-ts/summoners/lib/summoner'
+import type { ExtractEnv, SummonerOps } from '@morphic-ts/summoners'
+import { makeSummoner } from '@morphic-ts/summoners'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 
-import type { InferredAlgebra, InferredProgram } from '@morphic-ts/summoners/lib/programs-infer'
+import type { InferredAlgebra, InferredProgram } from '@morphic-ts/summoners'
 import type { GetAlgebra } from '@morphic-ts/algebras/lib/core'
 
 import type { IntersectionURI } from '@morphic-ts/model-algebras/lib/intersections'
@@ -18,7 +18,7 @@ import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unio
 import type { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
 import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
-import type { AnyConfigEnv } from '@morphic-ts/summoners/lib/summoner'
+import type { AnyConfigEnv } from '@morphic-ts/summoners'
 import { Show } from 'fp-ts/lib/Show'
 import { modelShowInterpreter, ShowURI } from '../src/interpreters'
 /**

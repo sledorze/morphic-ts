@@ -1,8 +1,7 @@
-import { summonFor } from '../../src/summoner-BASTJ'
 import * as t from 'io-ts'
 import { defineFor } from '../../src/programs-infer'
-import { ProgramUnionURI } from '../../src/program'
 import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/hkt'
+import { summonFor, ProgramUnionURI } from './summoner'
 
 interface FastCheck {
   fc: string

@@ -9,7 +9,19 @@ export {
   /**
    *  @since 0.0.1
    */
-  makeSummoner
+  makeSummoner,
+  /**
+   *  @since 0.0.1
+   */
+  AnyConfigEnv,
+  /**
+   *  @since 0.0.1
+   */
+  ExtractEnv,
+  /**
+   *  @since 0.0.1
+   */
+  SummonerOps
 } from './summoner'
 export {
   /**
@@ -21,7 +33,19 @@ export {
   /**
    *  @since 0.0.1
    */
-  interpretable
+  interpretable,
+  /**
+   *  @since 0.0.1
+   */
+  defineFor,
+  /**
+   *  @since 0.0.1
+   */
+  InferredAlgebra,
+  /**
+   *  @since 0.0.1
+   */
+  InferredProgram
 } from './programs-infer'
 export {
   /**
@@ -41,6 +65,18 @@ export {
    */
   Materialized
 } from './materializer'
+
+export {
+  /**
+   *  @since 0.0.1
+   */
+
+  AType,
+  /**
+   *  @since 0.0.1
+   */
+  EType
+} from './utils'
 
 declare module './InterpreterResult' {
   interface InterpreterResult<E, A> {

@@ -5,8 +5,8 @@ import type * as U from '@morphic-ts/summoners'
 import type { EmptyInterpreterURI } from './interpreters-Empty'
 import type { ProgramNoUnionURI } from './program-no-union'
 
-import type { AnyConfigEnv, ExtractEnv, SummonerOps } from '@morphic-ts/summoners/lib/summoner'
-import { makeSummoner } from '@morphic-ts/summoners/lib/summoner'
+import type { AnyConfigEnv, ExtractEnv, SummonerOps } from '@morphic-ts/summoners'
+import { makeSummoner } from '@morphic-ts/summoners'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 
 /** Type level override to keep Morph type name short */

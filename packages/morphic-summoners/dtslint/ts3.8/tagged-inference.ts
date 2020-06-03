@@ -1,5 +1,5 @@
-import { summonFor, AsOpaque } from '../../src/summoner-BASTJ'
 import type { AType, EType } from '../../src/utils'
+import { summonFor, AsOpaque } from './summoner'
 
 const { summon, tagged } = summonFor<{}>({})
 

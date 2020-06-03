@@ -7,7 +7,7 @@ import { makeSummoner } from '@morphic-ts/summoners'
 import type { Summoners } from '@morphic-ts/summoners'
 import type { ProgramType } from '@morphic-ts/summoners'
 
-import type { InferredAlgebra, InferredProgram } from '@morphic-ts/summoners/lib/programs-infer'
+import type { InferredAlgebra, InferredProgram } from '@morphic-ts/summoners'
 import type { GetAlgebra } from '@morphic-ts/algebras/lib/core'
 
 import type { IntersectionURI } from '@morphic-ts/model-algebras/lib/intersections'
@@ -17,7 +17,7 @@ import type { StrMapURI } from '@morphic-ts/model-algebras/lib/str-map'
 import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
-import type { AnyConfigEnv, ExtractEnv } from '@morphic-ts/summoners/lib/summoner'
+import type { AnyConfigEnv, ExtractEnv } from '@morphic-ts/summoners'
 
 /**
  *  @since 0.0.1
