@@ -3,24 +3,17 @@ import { ordString, ord } from 'fp-ts/lib/Ord'
 import type { Ord } from 'fp-ts/lib/Ord'
 import { fromArray } from 'fp-ts/lib/Set'
 import { right, isLeft, isRight, left, getOrElse, either } from 'fp-ts/lib/Either'
-import type { Either } from 'fp-ts/lib/Either'
 import { some, none } from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { success, failure, PathReporter } from 'io-ts/lib/PathReporter'
 import type { Errors, Branded } from 'io-ts'
 import * as t from 'io-ts'
-// import { summonFor } from '@morphic-ts/batteries/lib/summoner-BASTJ'
-import type { M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+import { summonFor, M } from './summoner.spec'
 
 import * as WM from 'io-ts-types/lib/withMessage'
 import { iso } from 'newtype-ts'
 import type { Newtype } from 'newtype-ts'
-import type { EType, AType } from '@morphic-ts/summoners/lib/utils'
 import { IoTsURI } from '../src'
-import { defineFor, interpretable, InferredProgram, overloadsSymb } from '@morphic-ts/summoners/lib/programs-infer'
-import { ProgramUnionURI, P } from '@morphic-ts/batteries/lib/program'
-import { modelIoTsStrictInterpreter } from '../lib/interpreters'
-import { ProgramURI } from '@morphic-ts/summoners/lib/ProgramType'
 
 export type Tree = Node | Leaf
 export interface Node {
@@ -52,11 +45,9 @@ interface IoTsTypesEx {
   toto: number
 }
 
-const summon = defineFor(ProgramUnionURI)<{ [IoTsURI]: IoTsTypes }>()
+const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({ IoTsURI: { WM } })
 
-// const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({ [IoTsURI]: { WM } })
-// const { summon: summon2 } = summonFor<{ [IoTsURI]: IoTsTypesEx }>({ [IoTsURI]: { toto: 54, WM } })
-const summon2 = defineFor(ProgramUnionURI)<{ [IoTsURI]: IoTsTypesEx }>()
+const { summon: summon2 } = summonFor<{ [IoTsURI]: IoTsTypesEx }>({ IoTsURI: { WM, toto: 12 } })
 
 describe('IO-TS Env', () => {
   it('can be composed', () => {
@@ -73,18 +64,10 @@ describe('IO-TS Env', () => {
   })
 })
 
-const interpretForEnv = <Env>(env: Env) => <E, A, PURI extends ProgramURI>(
-  x: InferredProgram<Env, E, A, PURI>,
-  p: NonNullable<InferredProgram<Env, E, A, PURI>[typeof overloadsSymb]>
-): ReturnType<ReturnType<typeof p>> => interpretable(x)(p<Env>() as any)(env) as any // I don't get why
-
-const interpretProgram = interpretForEnv({ IoTsURI: { WM } })
-
 describe('IO-TS', () => {
   it('customize keyof', () => {
-    const codec = interpretProgram(
-      summon(F => F.keysOf({ foo: null, bar: null }, { IoTsURI: (x, _env) => WM.withMessage(x, () => 'not ok') })),
-      modelIoTsStrictInterpreter
+    const codec = summon(F =>
+      F.keysOf({ foo: null, bar: null }, { IoTsURI: (x, _env) => WM.withMessage(x, () => 'not ok') })
     ).type
 
     const result = codec.decode('baz')
@@ -95,10 +78,7 @@ describe('IO-TS', () => {
 
   it('decode to newType', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
-    const NT = interpretProgram(
-      summon(F => F.newtype<NT>('NT')(F.date())),
-      modelIoTsStrictInterpreter
-    )
+    const NT = summon(F => F.newtype<NT>('NT')(F.date()))
     const date = new Date()
 
     chai.assert.deepStrictEqual(NT.type.decode(date.toISOString()), right(iso<NT>().wrap(date)))
@@ -106,23 +86,17 @@ describe('IO-TS', () => {
 
   it('newtype raw type should work - customize', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
-    const NT = interpretProgram(
-      summon(F => F.newtype<NT>('NT')(F.date(), { IoTsURI: x => WM.withMessage(x, () => 'not ok') })),
-      modelIoTsStrictInterpreter
-    )
+    const NT = summon(F => F.newtype<NT>('NT')(F.date(), { IoTsURI: x => WM.withMessage(x, () => 'not ok') }))
     const result = NT.type.decode('bla')
 
     chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
   })
 
   it('customize strMap', () => {
-    const codec = interpretProgram(
-      summon(F =>
-        F.strMap(F.string({ IoTsURI: _ => t.string }), {
-          IoTsURI: x => WM.withMessage(x, () => 'not ok')
-        })
-      ),
-      modelIoTsStrictInterpreter
+    const codec = summon(F =>
+      F.strMap(F.string({ IoTsURI: _ => t.string }), {
+        IoTsURI: x => WM.withMessage(x, () => 'not ok')
+      })
     ).type
 
     const result1 = codec.decode({ a: 'a' })
@@ -139,9 +113,8 @@ describe('IO-TS', () => {
       readonly PosNum: unique symbol
     }
 
-    const codec = interpretProgram(
-      summon(F => F.refined(F.number(), (x: number): x is Branded<number, PositiveNumberBrand> => x > 0, 'PosNum')),
-      modelIoTsStrictInterpreter
+    const codec = summon(F =>
+      F.refined(F.number(), (x: number): x is Branded<number, PositiveNumberBrand> => x > 0, 'PosNum')
     ).type
 
     chai.assert.deepStrictEqual(isLeft(codec.decode(-1)), true)
@@ -153,13 +126,10 @@ describe('IO-TS', () => {
       readonly PosNum: unique symbol
     }
 
-    const codec = interpretProgram(
-      summon(F =>
-        F.refined(F.number(), (x: number): x is Branded<number, PositiveNumberBrand> => x > 0, 'PosNum', {
-          IoTsURI: x => WM.withMessage(x, x => `Not a positive number ${x}`)
-        })
-      ),
-      modelIoTsStrictInterpreter
+    const codec = summon(F =>
+      F.refined(F.number(), (x: number): x is Branded<number, PositiveNumberBrand> => x > 0, 'PosNum', {
+        IoTsURI: x => WM.withMessage(x, x => `Not a positive number ${x}`)
+      })
     ).type
 
     chai.assert.deepStrictEqual(PathReporter.report(codec.decode(-1)), ['Not a positive number -1'])
@@ -168,29 +138,20 @@ describe('IO-TS', () => {
 
   it('unknown', () => {
     // Definition
-    const codec = interpretProgram(
-      summon(F => F.unknown()),
-      modelIoTsStrictInterpreter
-    ).type
+    const codec = summon(F => F.unknown()).type
     chai.assert.deepStrictEqual(codec.decode('b'), right('b'))
     chai.assert.deepStrictEqual(codec.decode(12), right(12))
   })
 
   it('string', () => {
     // Definition
-    const codec = interpretProgram(
-      summon(F => F.string()),
-      modelIoTsStrictInterpreter
-    ).type
+    const codec = summon(F => F.string()).type
     chai.assert.deepStrictEqual(codec.decode('b'), right('b'))
   })
 
   it('bigint', () => {
     // Definition
-    const codec = interpretProgram(
-      summon(F => F.bigint()),
-      modelIoTsStrictInterpreter
-    ).type
+    const codec = summon(F => F.bigint()).type
     chai.assert.deepStrictEqual(codec.decode('10'), right(BigInt(10)))
     chai.assert.deepStrictEqual(codec.encode(BigInt(10)), '10')
     chai.assert.deepStrictEqual(isLeft(codec.decode('nope')), true)
@@ -198,30 +159,21 @@ describe('IO-TS', () => {
 
   it('boolean', () => {
     // Definition
-    const codec = interpretProgram(
-      summon(F => F.boolean()),
-      modelIoTsStrictInterpreter
-    ).type
+    const codec = summon(F => F.boolean()).type
     chai.assert.deepStrictEqual(codec.decode(true), right(true))
     chai.assert.deepStrictEqual(codec.decode(false), right(false))
   })
 
   it('stringLiteral', () => {
     // Definition
-    const codec = interpretProgram(
-      summon(F => F.stringLiteral('x')),
-      modelIoTsStrictInterpreter
-    ).type
+    const codec = summon(F => F.stringLiteral('x')).type
 
     chai.assert.deepStrictEqual(codec.decode('x'), right('x'))
   })
 
   it('keysOf', () => {
     // Definition
-    const codec = interpretProgram(
-      summon(F => F.keysOf({ a: null, b: null })),
-      modelIoTsStrictInterpreter
-    ).type
+    const codec = summon(F => F.keysOf({ a: null, b: null })).type
 
     chai.assert.deepStrictEqual(codec.decode('a'), right('a'))
     chai.assert.deepStrictEqual(codec.decode('b'), right('b'))
@@ -229,10 +181,7 @@ describe('IO-TS', () => {
   })
 
   it('nullable', () => {
-    const codec = interpretProgram(
-      summon(F => F.nullable(F.string())),
-      modelIoTsStrictInterpreter
-    ).type
+    const codec = summon(F => F.nullable(F.string())).type
 
     chai.assert.deepStrictEqual(codec.decode('a'), right(some('a')))
     chai.assert.deepStrictEqual(codec.decode(null), right(none))
@@ -240,10 +189,7 @@ describe('IO-TS', () => {
   })
 
   it('array', () => {
-    const codec = interpretProgram(
-      summon(F => F.array(F.string())),
-      modelIoTsStrictInterpreter
-    )
+    const codec = summon(F => F.array(F.string()))
     chai.assert.deepStrictEqual(codec.type.decode(['a', 'b']), right(['a', 'b']))
   })
 

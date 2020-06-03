@@ -1,48 +1,12 @@
 import * as chai from 'chai'
 
-import type { Materialized } from '@morphic-ts/summoners'
-import { makeSummoner } from '@morphic-ts/summoners'
-import type { Summoners } from '@morphic-ts/summoners'
-import type { AnyConfigEnv, ExtractEnv } from '@morphic-ts/summoners/lib/summoner'
-import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
-
-import type { ProgramNoUnionURI } from '@morphic-ts/batteries/lib/program-no-union'
-import { modelEqInterpreter } from '../src/interpreters'
-import type { Eq } from 'fp-ts/lib/Eq'
 import { fromEquals } from 'fp-ts/lib/Eq'
-import type { ProgramType } from '@morphic-ts/summoners'
 import type { Newtype } from 'newtype-ts'
 import { iso } from 'newtype-ts'
-import type { EqURI } from '../src/index'
 import type { Either } from 'fp-ts/lib/Either'
 import { left, right } from 'fp-ts/lib/Either'
 import { some, none } from 'fp-ts/lib/Option'
-
-export const EqInterpreterURI = 'EqInterpreterURI' as const
-export type EqInterpreterURI = typeof EqInterpreterURI
-
-interface EqInterpreter<A> {
-  eq: Eq<A>
-}
-
-declare module '@morphic-ts/summoners/lib/InterpreterResult' {
-  interface InterpreterResult<E, A> {
-    [EqInterpreterURI]: EqInterpreter<A>
-  }
-}
-
-/** Type level override to keep Morph type name short */
-export interface M<R, L, A> extends Materialized<R, L, A, ProgramNoUnionURI, EqInterpreterURI> {}
-export interface UM<R, A> extends Materialized<R, {}, A, ProgramNoUnionURI, EqInterpreterURI> {}
-
-interface Summoner<R> extends Summoners<ProgramNoUnionURI, EqInterpreterURI, R> {
-  <L, A>(F: ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
-}
-
-export const summonFor = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, EqURI>) =>
-  makeSummoner<Summoner<R>>(cacheUnaryFunction, program => ({
-    eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq
-  }))
+import { summonFor } from './summoner.spec'
 
 const { summon } = summonFor<{}>({})
 
