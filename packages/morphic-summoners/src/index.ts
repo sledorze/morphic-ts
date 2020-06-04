@@ -27,7 +27,15 @@ export {
   /**
    *  @since 0.0.1
    */
-  makeTagged
+  makeTagged,
+  /**
+   *  @since 0.0.1
+   */
+  AOfMorhpADT,
+  /**
+   *  @since 0.0.1
+   */
+  EOfMorhpADT
 } from './tagged-union'
 export {
   /**
