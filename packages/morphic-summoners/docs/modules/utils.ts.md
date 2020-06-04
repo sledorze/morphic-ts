@@ -1,6 +1,6 @@
 ---
-title: usage/utils.ts
-nav_order: 21
+title: utils.ts
+nav_order: 8
 parent: Modules
 ---
 

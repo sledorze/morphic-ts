@@ -8,8 +8,8 @@ import type { Algebra } from '@morphic-ts/algebras/lib/hkt'
 import type { InterpreterURI } from './InterpreterResult'
 import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import type { ProgramURI, ProgramType } from './ProgramType'
-import type { ADT } from '@morphic-ts/adt/lib/index'
-import { makeADT } from '@morphic-ts/adt/lib/index'
+import type { ADT } from '@morphic-ts/adt/lib'
+import { makeADT } from '@morphic-ts/adt/lib'
 import type { ElemType } from '@morphic-ts/adt/lib/utils'
 import { identity, tuple } from 'fp-ts/lib/function'
 import { intersection, difference } from 'fp-ts/lib/Array'
@@ -108,7 +108,7 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
     // const summoned:  M<EParam<Types>, AParam<Types>, ProgURI, InterpURI> = summ<EParam<Types>, AParam<Types>>((F: any) =>
 
     const summoned = summ(
-      (F: any) => F.taggedUnion(tag, RmapWithIndex((_k, v: AnyM<ProgURI, InterpURI, R>) => (v as any)(F))(o)) // FIXME: resolve any
+      ((F: any) => F.taggedUnion(tag, RmapWithIndex((_k, v: AnyM<ProgURI, InterpURI, R>) => (v as any)(F))(o))) as any // FIXME: resolve any
     ) // Trust
     const adt = makeADT(tag)(o as any)
 
@@ -117,9 +117,9 @@ export function makeTagged<ProgURI extends ProgramURI, InterpURI extends Interpr
     const selectMorph = (selectedKeys: string[]) => preTagged(keepKeys(o, selectedKeys as string[]))
     const excludeMorph = (selectedKeys: string[]) => preTagged(excludeKeys(o, selectedKeys as string[]))
 
+    // FIXME: as any
     const res = assignCallable(wrapFun(summoned as any), {
-      // FIXME: as any
-      ...summoned,
+      ...(summoned as {}), // FIXME: as {}
       ...adt,
       selectMorph,
       excludeMorph

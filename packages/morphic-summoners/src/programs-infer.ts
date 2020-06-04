@@ -2,6 +2,7 @@ import type { HKT2, Kind, Kind2, URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
 import type { Algebra1, Algebra2, Algebra } from '@morphic-ts/algebras/lib/core'
 import type { ProgramURI, ProgramAlgebra, ProgramAlgebraURI, ProgramType } from './ProgramType'
 import type { AnyConfigEnv } from './summoner'
+import {} from './tagged-union'
 
 /**
  *  @since 0.0.1
@@ -25,6 +26,7 @@ export type Overloads<I extends { [overloadsSymb]?: any }> = NonNullable<I[typeo
  *  @since 0.0.1
  */
 export interface InferredProgram<R extends AnyConfigEnv, E, A, PURI extends ProgramURI> {
+  _PURI?: PURI
   <G, Env extends R>(a: ProgramAlgebra<G, Env>[PURI]): HKT2<G, Env, E, A>
   [overloadsSymb]?: {
     <G extends URIS>(a: Algebra1<ProgramAlgebraURI[PURI], G, R>): Kind<G, { [k in G & keyof R]: R[k] }, A>

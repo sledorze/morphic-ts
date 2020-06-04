@@ -19,18 +19,21 @@ export interface Summoners<ProgURI extends ProgramURI, InterpURI extends Interpr
   _I: InterpURI
   _R: R
 }
+
+type AnySummoners = Summoners<any, any, any> // ProgramURI, InterpreterURI, AnyConfigEnv>
+
 /**
  *  @since 0.0.1
  */
-export type SummonerProgURI<X extends Summoners<any, any, any>> = NonNullable<X['_P']>
+export type SummonerProgURI<X extends AnySummoners> = NonNullable<X['_P']>
 /**
  *  @since 0.0.1
  */
-export type SummonerInterpURI<X extends Summoners<any, any, any>> = NonNullable<X['_I']>
+export type SummonerInterpURI<X extends AnySummoners> = NonNullable<X['_I']>
 /**
  *  @since 0.0.1
  */
-export type SummonerEnv<X extends Summoners<any, any, any>> = NonNullable<X['_R']>
+export type SummonerEnv<X extends AnySummoners> = NonNullable<X['_R']>
 
 /**
  * - Cache application of the given interpreter
@@ -41,7 +44,7 @@ export type SummonerEnv<X extends Summoners<any, any, any>> = NonNullable<X['_R'
 /**
  *  @since 0.0.1
  */
-export interface MakeSummonerResult<S extends Summoners<any, any, any>> {
+export interface MakeSummonerResult<S extends AnySummoners> {
   summon: S
   tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
 }
@@ -49,7 +52,7 @@ export interface MakeSummonerResult<S extends Summoners<any, any, any>> {
 /**
  *  @since 0.0.1
  */
-export interface SummonerOps<S extends Summoners<any, any, any> = never> {
+export interface SummonerOps<S extends AnySummoners = never> {
   summon: S
   tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
   define: Define<SummonerProgURI<S>, SummonerEnv<S>>
@@ -58,7 +61,7 @@ export interface SummonerOps<S extends Summoners<any, any, any> = never> {
 /**
  *  @since 0.0.1
  */
-export function makeSummoner<S extends Summoners<any, any, any> = never>(
+export function makeSummoner<S extends AnySummoners = never>(
   cacheProgramEval: CacheType,
   programInterpreter: <E, A>(
     program: Overloads<ProgramType<SummonerEnv<S>, E, A>[SummonerProgURI<S>]>

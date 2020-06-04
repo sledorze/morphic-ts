@@ -76,8 +76,8 @@ export function materialize<R, E, A, ProgURI extends ProgramURI, InterpURI exten
   programInterpreter: ProgramInterpreter<ProgURI, InterpURI>
 ): Materialized<R, E, A, ProgURI, InterpURI> {
   const morph = interpreteWithProgram(program, programInterpreter)
-  return assignCallable(morph, {
+  return assignCallable(morph as any, {
     ...MonocleFor<A>(),
-    derive: interpretable(morph)
-  })
+    derive: interpretable(morph as any)
+  }) as any
 }

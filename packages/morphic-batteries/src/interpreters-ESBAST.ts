@@ -23,7 +23,7 @@ interface ESBASTInterpreter<E, A> {
   create: Create<A>
 }
 
-declare module './usage/InterpreterResult' {
+declare module '@morphic-ts/summoners/lib/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [ESBASTInterpreterURI]: ESBASTInterpreter<E, A>
   }

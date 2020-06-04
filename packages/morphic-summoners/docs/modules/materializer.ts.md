@@ -1,6 +1,6 @@
 ---
-title: usage/materializer.ts
-nav_order: 16
+title: materializer.ts
+nav_order: 3
 parent: Modules
 ---
 

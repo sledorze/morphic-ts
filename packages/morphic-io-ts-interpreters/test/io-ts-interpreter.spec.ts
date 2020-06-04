@@ -3,19 +3,16 @@ import { ordString, ord } from 'fp-ts/lib/Ord'
 import type { Ord } from 'fp-ts/lib/Ord'
 import { fromArray } from 'fp-ts/lib/Set'
 import { right, isLeft, isRight, left, getOrElse, either } from 'fp-ts/lib/Either'
-import type { Either } from 'fp-ts/lib/Either'
 import { some, none } from 'fp-ts/lib/Option'
 import { pipe } from 'fp-ts/lib/pipeable'
 import { success, failure, PathReporter } from 'io-ts/lib/PathReporter'
 import type { Errors, Branded } from 'io-ts'
 import * as t from 'io-ts'
-import { summonFor } from '@morphic-ts/batteries/lib/summoner-BASTJ'
-import type { M } from '@morphic-ts/batteries/lib/summoner-BASTJ'
+import { summonFor, M } from './summoner.spec'
 
 import * as WM from 'io-ts-types/lib/withMessage'
 import { iso } from 'newtype-ts'
 import type { Newtype } from 'newtype-ts'
-import type { EType, AType } from '@morphic-ts/batteries/lib/usage/utils'
 import { IoTsURI } from '../src'
 
 export type Tree = Node | Leaf
@@ -48,8 +45,9 @@ interface IoTsTypesEx {
   toto: number
 }
 
-const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({ [IoTsURI]: { WM } })
-const { summon: summon2 } = summonFor<{ [IoTsURI]: IoTsTypesEx }>({ [IoTsURI]: { toto: 54, WM } })
+const { summon } = summonFor<{ [IoTsURI]: IoTsTypes }>({ IoTsURI: { WM } })
+
+const { summon: summon2 } = summonFor<{ [IoTsURI]: IoTsTypesEx }>({ IoTsURI: { WM, toto: 12 } })
 
 describe('IO-TS Env', () => {
   it('can be composed', () => {
@@ -81,10 +79,9 @@ describe('IO-TS', () => {
   it('decode to newType', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
     const NT = summon(F => F.newtype<NT>('NT')(F.date()))
-    const dec = (_: EType<typeof NT>): Either<Errors, AType<typeof NT>> => NT.type.decode(_)
     const date = new Date()
 
-    chai.assert.deepStrictEqual(dec(date.toISOString()), right(iso<NT>().wrap(date)))
+    chai.assert.deepStrictEqual(NT.type.decode(date.toISOString()), right(iso<NT>().wrap(date)))
   })
 
   it('newtype raw type should work - customize', () => {

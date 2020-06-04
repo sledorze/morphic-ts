@@ -1,6 +1,6 @@
 ---
-title: usage/summoner.ts
-nav_order: 19
+title: summoner.ts
+nav_order: 6
 parent: Modules
 ---
 
@@ -31,7 +31,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface MakeSummonerResult<S extends Summoners<any, any, any>> {
+export interface MakeSummonerResult<S extends AnySummoners> {
   summon: S
   tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
 }
@@ -44,7 +44,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface SummonerOps<S extends Summoners<any, any, any> = never> {
+export interface SummonerOps<S extends AnySummoners = never> {
   summon: S
   tagged: TaggedBuilder<SummonerProgURI<S>, SummonerInterpURI<S>, SummonerEnv<S>>
   define: Define<SummonerProgURI<S>, SummonerEnv<S>>
@@ -95,7 +95,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type SummonerEnv<X extends Summoners<any, any, any>> = NonNullable<X['_R']>
+export type SummonerEnv<X extends AnySummoners> = NonNullable<X['_R']>
 ```
 
 Added in v0.0.1
@@ -105,7 +105,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type SummonerInterpURI<X extends Summoners<any, any, any>> = NonNullable<X['_I']>
+export type SummonerInterpURI<X extends AnySummoners> = NonNullable<X['_I']>
 ```
 
 Added in v0.0.1
@@ -115,7 +115,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type SummonerProgURI<X extends Summoners<any, any, any>> = NonNullable<X['_P']>
+export type SummonerProgURI<X extends AnySummoners> = NonNullable<X['_P']>
 ```
 
 Added in v0.0.1
@@ -125,7 +125,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export function makeSummoner<S extends Summoners<any, any, any> = never>(
+export function makeSummoner<S extends AnySummoners = never>(
   cacheProgramEval: CacheType,
   programInterpreter: <E, A>(
     program: Overloads<ProgramType<SummonerEnv<S>, E, A>[SummonerProgURI<S>]>

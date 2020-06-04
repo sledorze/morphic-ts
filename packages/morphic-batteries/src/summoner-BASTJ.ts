@@ -1,7 +1,7 @@
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 import { pipe } from 'fp-ts/lib/pipeable'
 
-import type * as U from './usage'
+import type * as U from '@morphic-ts/summoners'
 
 import type { BASTJInterpreterURI } from './interpreters-BASTJ'
 import type { ProgramUnionURI } from './program'
@@ -16,8 +16,8 @@ import {
 import { modelJsonSchemaInterpreter } from '@morphic-ts/json-schema-interpreters/lib'
 import type { JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
-import type { AnyConfigEnv, ExtractEnv, SummonerOps } from './usage/summoner'
-import { makeSummoner } from './usage/summoner'
+import type { AnyConfigEnv, ExtractEnv, SummonerOps } from '@morphic-ts/summoners'
+import { makeSummoner } from '@morphic-ts/summoners'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { chain as Echain } from 'fp-ts/lib/Either'
 

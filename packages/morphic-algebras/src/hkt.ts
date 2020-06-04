@@ -25,4 +25,4 @@ export interface Algebra2<F extends URIS2, Env extends AnyEnv> {
 /**
  *  @since 0.0.1
  */
-export type AlgebraURIS = keyof Algebra<never, never>
+export type AlgebraURIS = Exclude<keyof Algebra<never, never>, '_AF' | '_ENV'>

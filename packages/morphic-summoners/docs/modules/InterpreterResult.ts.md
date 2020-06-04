@@ -1,6 +1,6 @@
 ---
-title: usage/InterpreterResult.ts
-nav_order: 15
+title: InterpreterResult.ts
+nav_order: 2
 parent: Modules
 ---
 

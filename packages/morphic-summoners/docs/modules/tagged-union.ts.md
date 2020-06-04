@@ -1,6 +1,6 @@
 ---
-title: usage/tagged-union.ts
-nav_order: 20
+title: tagged-union.ts
+nav_order: 7
 parent: Modules
 ---
 

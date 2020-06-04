@@ -25,7 +25,7 @@ interface BASTJInterpreter<E, A> {
   create: Create<A>
 }
 
-declare module './usage/InterpreterResult' {
+declare module '@morphic-ts/summoners/lib/InterpreterResult' {
   interface InterpreterResult<E, A> {
     [BASTJInterpreterURI]: BASTJInterpreter<E, A>
   }

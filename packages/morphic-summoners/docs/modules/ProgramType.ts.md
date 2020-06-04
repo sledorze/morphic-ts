@@ -1,6 +1,6 @@
 ---
-title: usage/ProgramType.ts
-nav_order: 18
+title: ProgramType.ts
+nav_order: 5
 parent: Modules
 ---
 

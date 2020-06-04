@@ -11,6 +11,7 @@ import { ioTsStrMapInterpreter } from './model/str-map'
 import { ioTsSetInterpreter } from './model/set'
 import { ioTsRecursiveInterpreter } from './model/recursive'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
+
 export * from './hkt'
 
 /**

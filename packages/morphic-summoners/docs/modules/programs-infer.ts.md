@@ -1,6 +1,6 @@
 ---
-title: usage/programs-infer.ts
-nav_order: 17
+title: programs-infer.ts
+nav_order: 4
 parent: Modules
 ---
 
@@ -36,6 +36,7 @@ Added in v0.0.1
 
 ```ts
 export interface InferredProgram<R extends AnyConfigEnv, E, A, PURI extends ProgramURI> {
+  _PURI?: PURI
   <G, Env extends R>(a: ProgramAlgebra<G, Env>[PURI]): HKT2<G, Env, E, A>
   [overloadsSymb]?: {
     <G extends URIS>(a: Algebra1<ProgramAlgebraURI[PURI], G, R>): Kind<G, { [k in G & keyof R]: R[k] }, A>
