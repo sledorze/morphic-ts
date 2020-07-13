@@ -46,6 +46,22 @@ describe('Builder', () => {
     const barA = fooBar.of.bar({ c: 'a', d: 12 })
     const barB = fooBar.of.bar({ c: 'b', d: 13 })
 
+    it('build overrides discriminant', () => {
+      interface Foo2 {
+        type: 'foo2'
+        a: string
+        b: number
+      }
+      const fooFoo2 = makeADT('type')({
+        foo: ofType<Foo>(),
+        foo2: ofType<Foo2>()
+      })
+
+      const foo = fooFoo2.of.foo({ a: 'a', b: 12 })
+      const foo2 = fooFoo2.of.foo2(foo)
+      chai.assert.isTrue(fooFoo2.is.foo2(foo2))
+    })
+
     it('prelude', () => {
       chai.assert.deepStrictEqual({ type: 'foo', a: 'a', b: 12 }, fooA, 'fooA')
       chai.assert.deepStrictEqual({ type: 'bar', c: 'a', d: 12 }, barA, 'barA')
