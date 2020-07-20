@@ -59,9 +59,25 @@ interface Bag {
   [symC]: { tag: number; type: string }
 }
 
-type SelectKeyOfMatchingValuesA = SelectKeyOfMatchingValues<Bag, { type: string }> // $ExpectType typeof symA | typeof symC
+// $ExpectType "Y"
+type SelectKeyOfMatchingValuesA = SelectKeyOfMatchingValues<Bag, { type: string }> extends typeof symA | typeof symC
+  ? 'Y'
+  : 'N'
+// $ExpectType "Y"
+type SelectKeyOfMatchingValuesABis = typeof symA | typeof symC extends SelectKeyOfMatchingValues<Bag, { type: string }>
+  ? 'Y'
+  : 'N'
 type SelectKeyOfMatchingValuesB = SelectKeyOfMatchingValues<Bag, { type: number }> // $ExpectType never
-type SelectKeyOfMatchingValuesC = SelectKeyOfMatchingValues<Bag, { tag: any }> // $ExpectType typeof symB | typeof symC
+
+// $ExpectType "Y"
+type SelectKeyOfMatchingValuesC = SelectKeyOfMatchingValues<Bag, { tag: any }> extends typeof symB | typeof symC
+  ? 'Y'
+  : 'N'
+// $ExpectType "Y"
+type SelectKeyOfMatchingValuesCBis = typeof symB | typeof symC extends SelectKeyOfMatchingValues<Bag, { tag: any }>
+  ? 'Y'
+  : 'N'
+
 type SelectKeyOfMatchingValuesD = SelectKeyOfMatchingValues<Bag, { tag: number; type: string }> // $ExpectType typeof symC
 type SelectKeyOfMatchingValuesE = SelectKeyOfMatchingValues<Bag, { atag: number }> // $ExpectType never
 

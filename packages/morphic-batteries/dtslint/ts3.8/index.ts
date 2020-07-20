@@ -1,4 +1,3 @@
-import type { SelectKeyOfMatchingValues } from '@morphic-ts/summoners/lib/utils'
 import { summonFor } from '../../src/summoner-BASTJ'
 import type { EOfMorhpADT, IfStringLiteral, AOfMorhpADT } from '@morphic-ts/summoners/lib/tagged-union'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
@@ -52,18 +51,6 @@ type Extracted = ExtractUnion<{ type: 'x'; b: string } | { type: 'y'; c: string 
 const symA = Symbol()
 const symB = Symbol()
 const symC = Symbol()
-
-interface Bag {
-  [symA]: { type: string }
-  [symB]: { tag: number }
-  [symC]: { tag: number; type: string }
-}
-
-type SelectKeyOfMatchingValuesA = SelectKeyOfMatchingValues<Bag, { type: string }> // $ExpectType typeof symA | typeof symC
-type SelectKeyOfMatchingValuesB = SelectKeyOfMatchingValues<Bag, { type: number }> // $ExpectType never
-type SelectKeyOfMatchingValuesC = SelectKeyOfMatchingValues<Bag, { tag: any }> // $ExpectType typeof symB | typeof symC
-type SelectKeyOfMatchingValuesD = SelectKeyOfMatchingValues<Bag, { tag: number; type: string }> // $ExpectType typeof symC
-type SelectKeyOfMatchingValuesE = SelectKeyOfMatchingValues<Bag, { atag: number }> // $ExpectType never
 
 interface ARaw {
   a: string
