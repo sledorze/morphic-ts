@@ -1,5 +1,6 @@
 import { getEq as OgetEq } from 'fp-ts/lib/Option'
 import { getEq as AgetEq } from 'fp-ts/lib/Array'
+import { getEq as NEAgetEq } from 'fp-ts/lib/NonEmptyArray'
 import { getEq as EgetEq } from 'fp-ts/lib/Either'
 import { eq, eqNumber, eqString, eqBoolean, eqStrict } from 'fp-ts/lib/Eq'
 import type { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
@@ -30,6 +31,7 @@ export const eqPrimitiveInterpreter = memo(
     keysOf: (keys, config) => env => new EqType<keyof typeof keys>(eqApplyConfig(config)(eqStrict, env)),
     nullable: (getType, config) => env => new EqType(eqApplyConfig(config)(OgetEq(getType(env).eq), env)),
     array: (getType, config) => env => new EqType(eqApplyConfig(config)(AgetEq(getType(env).eq), env)),
+    nonEmptyArray: (getType, config) => env => new EqType(eqApplyConfig(config)(NEAgetEq(getType(env).eq), env)),
     uuid: config => env => new EqType<UUID>(eqApplyConfig(config)(eqString, env)),
     either: (e, a, config) => env => new EqType(eqApplyConfig(config)(EgetEq(e(env).eq, a(env).eq), env)),
     option: (a, config) => env => new EqType(eqApplyConfig(config)(OgetEq(a(env).eq), env))

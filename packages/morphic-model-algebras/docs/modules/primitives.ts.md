@@ -48,6 +48,14 @@ export interface ModelAlgebraPrimitive<F, Env> {
   array: {
     <L, A>(a: HKT2<F, Env, L, A>, config?: ConfigsForType<Env, Array<L>, Array<A>>): HKT2<F, Env, Array<L>, Array<A>>
   }
+  nonEmptyArray: {
+    <L, A>(a: HKT2<F, Env, L, A>, config?: ConfigsForType<Env, L[], NonEmptyArray<A>>): HKT2<
+      F,
+      Env,
+      L[],
+      NonEmptyArray<A>
+    >
+  }
   date: {
     (config?: ConfigsForType<Env, string, Date>): HKT2<F, Env, string, Date>
   }
@@ -89,6 +97,10 @@ export interface ModelAlgebraPrimitive1<F extends URIS, Env extends AnyEnv> {
   stringLiteral: <T extends string>(value: T, config?: ConfigsForType<Env, string, T>) => Kind<F, Env, typeof value>
   keysOf: <K extends Keys>(keys: K, config?: ConfigsForType<Env, string, keyof K>) => Kind<F, Env, keyof typeof keys>
   array: <A>(a: Kind<F, Env, A>, config?: ConfigsForType<Env, unknown[], A[]>) => Kind<F, Env, Array<A>>
+  nonEmptyArray: <A>(
+    a: Kind<F, Env, A>,
+    config?: ConfigsForType<Env, unknown[], NonEmptyArray<A>>
+  ) => Kind<F, Env, NonEmptyArray<A>>
   date(config?: ConfigsForType<Env, string, Date>): Kind<F, Env, Date>
   uuid(config?: ConfigsForType<Env, string, UUID>): Kind<F, Env, UUID>
   either: <EA, AA>(
@@ -131,6 +143,10 @@ export interface ModelAlgebraPrimitive2<F extends URIS2, Env extends AnyEnv> {
     a: Kind2<F, Env, L, A>,
     config?: ConfigsForType<Env, Array<L>, Array<A>>
   ) => Kind2<F, Env, Array<L>, Array<A>>
+  nonEmptyArray: <L, A>(
+    a: Kind2<F, Env, L, A>,
+    config?: ConfigsForType<Env, L[], NonEmptyArray<A>>
+  ) => Kind2<F, Env, L[], NonEmptyArray<A>>
   date(config?: ConfigsForType<Env, string, Date>): Kind2<F, Env, string, Date>
   uuid(config?: ConfigsForType<Env, string, UUID>): Kind2<F, Env, string, UUID>
   either: <EE, EA, AE, AA>(

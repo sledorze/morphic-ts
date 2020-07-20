@@ -11,6 +11,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 import { UUID } from 'io-ts-types/lib/UUID'
 import { either as Teither } from 'io-ts-types/lib/either'
 import { option as Toption } from 'io-ts-types/lib/option'
+import { nonEmptyArray } from 'io-ts-types/lib/nonEmptyArray'
 
 /**
  *  @since 0.0.1
@@ -53,6 +54,7 @@ export const ioTsPrimitiveInterpreter = memo(
       new IOTSType(iotsApplyConfig(config)(t.keyof(k) as t.Type<keyof typeof k, string, unknown>, env)),
     nullable: (T, config) => env => new IOTSType(iotsApplyConfig(config)(optionFromNullable(T(env).type), env)),
     array: (T, config) => env => new IOTSType(iotsApplyConfig(config)(t.array(T(env).type), env)),
+    nonEmptyArray: (T, config) => env => new IOTSType(iotsApplyConfig(config)(nonEmptyArray(T(env).type), env)),
     uuid: config => env => new IOTSType(iotsApplyConfig(config)(UUID, env)),
     either: (e, a, config) => env => new IOTSType(iotsApplyConfig(config)(Teither(e(env).type, a(env).type), env)),
     option: (a, config) => env => new IOTSType(iotsApplyConfig(config)(Toption(a(env).type), env))
