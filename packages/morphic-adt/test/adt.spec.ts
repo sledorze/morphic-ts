@@ -1,6 +1,5 @@
-import { pipe } from 'fp-ts/lib/pipeable'
 import * as O from 'fp-ts/lib/Option'
-import * as L from 'monocle-ts/lib/Lens'
+import * as M from 'monocle-ts'
 import * as chai from 'chai'
 import { unionADT, intersectADT, makeADT, ofType } from '../src'
 
@@ -129,8 +128,8 @@ describe('Builder', () => {
 
     it('matchLens', () => {
       const matchedLens = matchLens({
-        bar: pipe(L.id<Bar>(), L.prop('d')),
-        foo: pipe(L.id<Foo>(), L.prop('b'))
+        bar: M.Lens.fromProp<Bar>()('d'),
+        foo: M.Lens.fromProp<Foo>()('b')
       })
       chai.assert.deepStrictEqual(matchedLens.get(barA), 12, 'get barA')
       chai.assert.deepStrictEqual(matchedLens.get(fooA), 12, 'get fooA')
@@ -140,7 +139,7 @@ describe('Builder', () => {
 
     it('matchOptional', () => {
       const matchedOptional = matchOptional({
-        bar: pipe(L.id<Bar>(), L.prop('d'), L.asOptional)
+        bar: M.Lens.fromProp<Bar>()('d').asOptional()
       })
       chai.assert.deepStrictEqual(matchedOptional.getOption(barA), O.some(12), 'getOption barA')
       chai.assert.deepStrictEqual(matchedOptional.getOption(fooA), O.none, 'getOption fooA')

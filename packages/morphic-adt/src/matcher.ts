@@ -1,6 +1,5 @@
 import { none } from 'fp-ts/lib/Option'
-import type { Lens } from 'monocle-ts/lib/Lens'
-import type { Optional } from 'monocle-ts/lib/Optional'
+import { Lens, Optional } from 'monocle-ts'
 import { isIn } from '.'
 import type { KeysDefinition } from '.'
 
@@ -121,14 +120,16 @@ export interface Matchers<A, Tag extends keyof A> {
 export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinition<A, Tag>): Matchers<A, Tag> => {
   const inKeys = isIn(keys)
   const match = (match: any, def?: any) => (a: any): any => (match[a[tag]] || def)(a)
-  const matchLens = (cases: any) => ({
-    get: (a: any) => cases[a[tag]].get(a),
-    set: (a: any) => (s: any) => cases[s[tag]].set(a)(s)
-  })
-  const matchOptional = (cases: any) => ({
-    getOption: (s: any) => (s[tag] in cases ? cases[s[tag]].getOption(s) : none),
-    set: (a: any) => (s: any) => (s[tag] in cases ? cases[s[tag]].set(a)(s) : s)
-  })
+  const matchLens = (cases: any) =>
+    new Lens(
+      (a: any) => cases[a[tag]].get(a),
+      (a: any) => (s: any) => cases[s[tag]].set(a)(s)
+    )
+  const matchOptional = (cases: any) =>
+    new Optional(
+      (s: any) => (s[tag] in cases ? cases[s[tag]].getOption(s) : none),
+      (a: any) => (s: any) => (s[tag] in cases ? cases[s[tag]].set(a)(s) : s)
+    )
   const transform = (match: any) => (a: any): any => {
     const c = match[a[tag]]
     return c ? c(a) : a
