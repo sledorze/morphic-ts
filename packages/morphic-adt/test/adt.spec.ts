@@ -44,15 +44,7 @@ describe('Builder', () => {
       bar: ofType<Bar>()
     })
 
-    const {
-      fold,
-      match, 
-      createReducer, 
-      transform, 
-      strict, 
-      matchLens, 
-      matchOptional 
-    } = fooBar
+    const { fold, match, createReducer, transform, strict, matchLens, matchOptional } = fooBar
     const fooA = fooBar.of.foo({ a: 'a', b: 12 })
     const barA = fooBar.of.bar({ c: 'a', d: 12 })
     const barB = fooBar.of.bar({ c: 'b', d: 13 })
@@ -137,14 +129,8 @@ describe('Builder', () => {
 
     it('matchLens', () => {
       const matchedLens = matchLens({
-        bar: pipe(
-          L.id<Bar>(),
-          L.prop('d')
-        ),
-        foo: pipe(
-          L.id<Foo>(),
-          L.prop('b')
-        )
+        bar: pipe(L.id<Bar>(), L.prop('d')),
+        foo: pipe(L.id<Foo>(), L.prop('b'))
       })
       chai.assert.deepStrictEqual(matchedLens.get(barA), 12, 'get barA')
       chai.assert.deepStrictEqual(matchedLens.get(fooA), 12, 'get fooA')
@@ -154,11 +140,7 @@ describe('Builder', () => {
 
     it('matchOptional', () => {
       const matchedOptional = matchOptional({
-        bar: pipe(
-          L.id<Bar>(),
-          L.prop('d'),
-          L.asOptional
-        )
+        bar: pipe(L.id<Bar>(), L.prop('d'), L.asOptional)
       })
       chai.assert.deepStrictEqual(matchedOptional.getOption(barA), O.some(12), 'getOption barA')
       chai.assert.deepStrictEqual(matchedOptional.getOption(fooA), O.none, 'getOption fooA')

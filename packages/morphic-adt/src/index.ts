@@ -106,9 +106,7 @@ export const ofType = <T>(): TypeDef<T> => 1 as any
 /**
  *  @since 0.0.1
  */
-export const makeADT = <
-  Tag extends string
->(tag: Tag) => <
+export const makeADT = <Tag extends string>(tag: Tag) => <
   R extends {
     [x in keyof R]: TypeDef<{ [t in Tag]: x }>
   }

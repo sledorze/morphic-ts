@@ -1,13 +1,10 @@
-import { none } from 'fp-ts/lib/Option';
+import { none } from 'fp-ts/lib/Option'
 import type { Lens } from 'monocle-ts/lib/Lens'
 import type { Optional } from 'monocle-ts/lib/Optional'
 import { isIn } from '.'
 import type { KeysDefinition } from '.'
 
-export type ValueByKeyByTag<
-  Union extends Record<any, any>,
-  Tags extends keyof Union = keyof Union
-> = {
+type ValueByKeyByTag<Union extends Record<any, any>, Tags extends keyof Union = keyof Union> = {
   [Tag in Tags]: {
     [Key in Union[Tag]]: Union extends { [r in Tag]: Key } ? Union : never
   }
@@ -128,15 +125,11 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
   const match = (match: any, def?: any) => (a: any): any => (match[a[tag]] || def)(a)
   const matchLens = (cases: any) => ({
     get: (a: any) => cases[a[tag]].get(a),
-    set: (a: any) => (s: any) => cases[s[tag]].set(a)(s),
+    set: (a: any) => (s: any) => cases[s[tag]].set(a)(s)
   })
   const matchOptional = (cases: any) => ({
-    getOption: (s: any) => s[tag] in cases
-      ? cases[s[tag]].getOption(s)
-      : none,
-    set: (a: any) => (s: any) => s[tag] in cases
-      ? cases[s[tag]].set(a)(s)
-      : s,
+    getOption: (s: any) => (s[tag] in cases ? cases[s[tag]].getOption(s) : none),
+    set: (a: any) => (s: any) => (s[tag] in cases ? cases[s[tag]].set(a)(s) : s)
   })
   const transform = (match: any) => (a: any): any => {
     const c = match[a[tag]]
@@ -158,6 +151,6 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
     createReducer,
     strict: <A>(a: A) => a,
     matchLens,
-    matchOptional,
+    matchOptional
   }
 }

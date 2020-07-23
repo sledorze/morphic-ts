@@ -97,7 +97,11 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const makeADT = <Tag extends string>(tag: Tag) => <R extends { [x in keyof R]: TypeDef<{ [t in Tag]: x }> }>(
+export const makeADT = <Tag extends string>(tag: Tag) => <
+  R extends {
+    [x in keyof R]: TypeDef<{ [t in Tag]: x }>
+  }
+>(
   _keys: R
 ): ADT<TypeOfDef<R[keyof R]>, Tag> => ...
 ```
