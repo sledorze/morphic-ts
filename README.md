@@ -417,13 +417,13 @@ Lens example:
 ```typescript
 const motorizedSeatLens = Motorized.lensFromProp('seats') // Lens<Car | Motorbike, number>
 
+const incSeat = motorizedSeatLens.modify(increment) // (s: Car | Motorbike) => Car | Motorbike
+
 const vehicleSeatOptional = Vehicle.matchOptional<number>({
-  Motorbike: motorizedSeatLens,
-  Car: motorizedSeatLens,
+  Motorbike: motorizedSeatLens.asOptional(),
+  Car: motorizedSeatLens.asOptional(),
   // undesired cases can be omitted
 }) // Optional<Vehicle, number>
-
-const incSeat = seatLens.modify(increment) // (s: Car | Motorbike) => Car | Motorbike
 ```
 
 ## Get in touch
