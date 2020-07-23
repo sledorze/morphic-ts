@@ -415,7 +415,13 @@ We support lenses, optional, prism pre-typed helpers
 Lens example:
 
 ```typescript
-const seatLens = Motorized.lensFromProp('seats') // Lens<Car | Motorbike, number>
+const motorizedSeatLens = Motorized.lensFromProp('seats') // Lens<Car | Motorbike, number>
+
+const vehicleSeatOptional = Vehicle.matchOptional<number>({
+  Motorbike: motorizedSeatLens,
+  Car: motorizedSeatLens,
+  // undesired cases can be omitted
+}) // Optional<Vehicle, number>
 
 const incSeat = seatLens.modify(increment) // (s: Car | Motorbike) => Car | Motorbike
 ```
