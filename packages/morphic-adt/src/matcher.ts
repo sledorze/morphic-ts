@@ -122,7 +122,7 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
   const match = (match: any, def?: any) => (a: any): any => (match[a[tag]] || def)(a)
   const matchLens = (cases: any) =>
     new Lens(
-      (a: any) => cases[a[tag]].get(a),
+      (s: any) => cases[s[tag]].get(s),
       (a: any) => (s: any) => cases[s[tag]].set(a)(s)
     )
   const matchOptional = (cases: any) =>
