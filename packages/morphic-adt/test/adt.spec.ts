@@ -1,3 +1,6 @@
+import { pipe } from 'fp-ts/lib/pipeable'
+import * as O from 'fp-ts/lib/Option'
+import * as L from 'monocle-ts/lib/Lens'
 import * as chai from 'chai'
 import { unionADT, intersectADT, makeADT, ofType } from '../src'
 
@@ -41,7 +44,15 @@ describe('Builder', () => {
       bar: ofType<Bar>()
     })
 
-    const { fold, match, createReducer, transform, strict } = fooBar
+    const {
+      fold,
+      match, 
+      createReducer, 
+      transform, 
+      strict, 
+      matchLens, 
+      matchOptional 
+    } = fooBar
     const fooA = fooBar.of.foo({ a: 'a', b: 12 })
     const barA = fooBar.of.bar({ c: 'a', d: 12 })
     const barB = fooBar.of.bar({ c: 'b', d: 13 })
@@ -122,6 +133,37 @@ describe('Builder', () => {
       )
       chai.assert.deepStrictEqual(matcherDefaultW(barA), 1, 'barA')
       chai.assert.deepStrictEqual(matcherDefaultW(fooA), fooA as number | Foo, 'fooA')
+    })
+
+    it('matchLens', () => {
+      const matchedLens = matchLens({
+        bar: pipe(
+          L.id<Bar>(),
+          L.prop('d')
+        ),
+        foo: pipe(
+          L.id<Foo>(),
+          L.prop('b')
+        )
+      })
+      chai.assert.deepStrictEqual(matchedLens.get(barA), 12, 'get barA')
+      chai.assert.deepStrictEqual(matchedLens.get(fooA), 12, 'get fooA')
+      chai.assert.deepStrictEqual(matchedLens.set(11)(barA), fooBar.of.bar({ c: 'a', d: 11 }), 'set barA')
+      chai.assert.deepStrictEqual(matchedLens.set(11)(fooA), fooBar.of.foo({ a: 'a', b: 11 }), 'set fooA')
+    })
+
+    it('matchOptional', () => {
+      const matchedOptional = matchOptional({
+        bar: pipe(
+          L.id<Bar>(),
+          L.prop('d'),
+          L.asOptional
+        )
+      })
+      chai.assert.deepStrictEqual(matchedOptional.getOption(barA), O.some(12), 'getOption barA')
+      chai.assert.deepStrictEqual(matchedOptional.getOption(fooA), O.none, 'getOption fooA')
+      chai.assert.deepStrictEqual(matchedOptional.set(11)(barA), fooBar.of.bar({ c: 'a', d: 11 }), 'set barA')
+      chai.assert.deepStrictEqual(matchedOptional.set(11)(fooA), fooBar.of.foo({ a: 'a', b: 12 }), 'set fooA')
     })
 
     it('reduce', () => {

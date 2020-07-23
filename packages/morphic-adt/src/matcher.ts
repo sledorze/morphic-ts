@@ -1,8 +1,16 @@
+import { none } from 'fp-ts/lib/Option';
+import type { Lens } from 'monocle-ts/lib/Lens'
+import type { Optional } from 'monocle-ts/lib/Optional'
 import { isIn } from '.'
 import type { KeysDefinition } from '.'
 
-type ValueByKeyByTag<Union extends Record<any, any>, Tags extends keyof Union = keyof Union> = {
-  [Tag in Tags]: { [Key in Union[Tag]]: Union extends { [r in Tag]: Key } ? Union : never }
+export type ValueByKeyByTag<
+  Union extends Record<any, any>,
+  Tags extends keyof Union = keyof Union
+> = {
+  [Tag in Tags]: {
+    [Key in Union[Tag]]: Union extends { [r in Tag]: Key } ? Union : never
+  }
 }
 
 type Cases<Record, R> = { [key in keyof Record]: (v: Record[key]) => R }
@@ -65,6 +73,18 @@ interface MatcherWidenIntern<A, Record> {
     | (unknown extends ReturnType<D> ? never : ReturnType<D>)
 }
 
+type LensCases<Record, R> = { [key in keyof Record]: Lens<Record[key], R> }
+interface LensMatcher<A, Tag extends keyof A> extends LensMatcherInter<A, ValueByKeyByTag<A>[Tag]> {}
+interface LensMatcherInter<A, Rec> {
+  <R>(match: LensCases<Rec, R>): Lens<A, R>
+}
+
+type OptionalCases<Record, R> = { [key in keyof Record]?: Optional<Record[key], R> }
+interface OptionalMatcher<A, Tag extends keyof A> extends OptionalMatcherInter<A, ValueByKeyByTag<A>[Tag]> {}
+interface OptionalMatcherInter<A, Rec> {
+  <R>(match: OptionalCases<Rec, R>): Optional<A, R>
+}
+
 /**
  *  @since 0.0.1
  */
@@ -86,6 +106,14 @@ export interface Matchers<A, Tag extends keyof A> {
    * Matcher which is strict in its Return type (should be the same for all branches)
    */
   matchStrict: MatcherStrict<A, Tag>
+  /**
+   * Matcher which composes lenses across different cases (all cases must be specified)
+   */
+  matchLens: LensMatcher<A, Tag>
+  /**
+   * Matcher which composes optionals across different cases (undesired cases can be omitted)
+   */
+  matchOptional: OptionalMatcher<A, Tag>
   /** Creates a reducer enabling State evolution */
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
   /** Enforces the inner function to return a specificiable type */
@@ -98,6 +126,18 @@ export interface Matchers<A, Tag extends keyof A> {
 export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinition<A, Tag>): Matchers<A, Tag> => {
   const inKeys = isIn(keys)
   const match = (match: any, def?: any) => (a: any): any => (match[a[tag]] || def)(a)
+  const matchLens = (cases: any) => ({
+    get: (a: any) => cases[a[tag]].get(a),
+    set: (a: any) => (s: any) => cases[s[tag]].set(a)(s),
+  })
+  const matchOptional = (cases: any) => ({
+    getOption: (s: any) => s[tag] in cases
+      ? cases[s[tag]].getOption(s)
+      : none,
+    set: (a: any) => (s: any) => s[tag] in cases
+      ? cases[s[tag]].set(a)(s)
+      : s,
+  })
   const transform = (match: any) => (a: any): any => {
     const c = match[a[tag]]
     return c ? c(a) : a
@@ -116,6 +156,8 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
     transform,
     fold,
     createReducer,
-    strict: <A>(a: A) => a
+    strict: <A>(a: A) => a,
+    matchLens,
+    matchOptional,
   }
 }
