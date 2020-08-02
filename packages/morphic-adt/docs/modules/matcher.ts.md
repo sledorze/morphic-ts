@@ -30,6 +30,14 @@ export interface Matchers<A, Tag extends keyof A> {
    * Matcher which is strict in its Return type (should be the same for all branches)
    */
   matchStrict: MatcherStrict<A, Tag>
+  /**
+   * Matcher which composes lenses across different cases (all cases must be specified)
+   */
+  matchLens: LensMatcher<A, Tag>
+  /**
+   * Matcher which composes optionals across different cases (undesired cases can be omitted)
+   */
+  matchOptional: OptionalMatcher<A, Tag>
   /** Creates a reducer enabling State evolution */
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
   /** Enforces the inner function to return a specificiable type */
