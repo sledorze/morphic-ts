@@ -73,10 +73,10 @@ interface LensMatcherInter<A, Rec> {
   <R>(match: LensCases<Rec, R>): Lens<A, R>
 }
 
-type OptionalCases<Record, R> = { [key in keyof Record]?: Optional<Record[key], R> }
+type keys<Record, R> = { [key in keyof Record]?: Optional<Record[key], R> }
 interface OptionalMatcher<A, Tag extends keyof A> extends OptionalMatcherInter<A, ValueByKeyByTag<A>[Tag]> {}
 interface OptionalMatcherInter<A, Rec> {
-  <R>(match: OptionalCases<Rec, R>): Optional<A, R>
+  <R>(match: keys<Rec, R>): Optional<A, R>
 }
 
 /**
@@ -127,8 +127,14 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
     )
   const matchOptional = (cases: any) =>
     new Optional(
-      (s: any) => (s[tag] in cases ? cases[s[tag]].getOption(s) : none),
-      (a: any) => (s: any) => (s[tag] in cases ? cases[s[tag]].set(a)(s) : s)
+      (s: any) => {
+        const key = s[tag]
+        return key in cases ? cases[key].getOption(s) : none
+      },
+      (a: any) => (s: any) => {
+        const key = s[tag]
+        return key in cases ? cases[key].set(a)(s) : s
+      }
     )
   const transform = (match: any) => (a: any): any => {
     const c = match[a[tag]]
