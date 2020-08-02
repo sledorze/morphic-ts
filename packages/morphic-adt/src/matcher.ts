@@ -73,10 +73,10 @@ interface LensMatcherInter<A, Rec> {
   <R>(match: LensCases<Rec, R>): Lens<A, R>
 }
 
-type keys<Record, R> = { [key in keyof Record]?: Optional<Record[key], R> }
+type OptionalCases<Record, R> = { [key in keyof Record]?: Optional<Record[key], R> }
 interface OptionalMatcher<A, Tag extends keyof A> extends OptionalMatcherInter<A, ValueByKeyByTag<A>[Tag]> {}
 interface OptionalMatcherInter<A, Rec> {
-  <R>(match: keys<Rec, R>): Optional<A, R>
+  <R>(match: OptionalCases<Rec, R>): Optional<A, R>
 }
 
 /**
