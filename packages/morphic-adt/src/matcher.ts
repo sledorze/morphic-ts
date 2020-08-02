@@ -128,12 +128,12 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
   const matchOptional = (cases: any) =>
     new Optional(
       (s: any) => {
-        const key = s[tag]
-        return key in cases ? cases[key].getOption(s) : none
+        const optionalCase = cases[s[tag]]
+        return optionalCase !== undefined ? optionalCase.getOption(s) : none
       },
       (a: any) => (s: any) => {
-        const key = s[tag]
-        return key in cases ? cases[key].set(a)(s) : s
+        const optionalCase = cases[s[tag]]
+        return optionalCase !== undefined ? optionalCase.set(a)(s) : s
       }
     )
   const transform = (match: any) => (a: any): any => {
