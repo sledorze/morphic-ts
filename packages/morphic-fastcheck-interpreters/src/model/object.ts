@@ -17,11 +17,21 @@ export const fastCheckObjectInterpreter = memo(
         fastCheckApplyConfig(config)(
           record(projectFieldWithEnv(props, env)('arb'), {
             withDeletedKeys: true
-          }) as any, // FIXME: not acceptable (explicit coerce at list)
+          }),
           env
         )
       ),
     interface: (props, _name, config) => env =>
-      new FastCheckType(fastCheckApplyConfig(config)(record(projectFieldWithEnv(props, env)('arb')), env))
+      new FastCheckType(fastCheckApplyConfig(config)(record(projectFieldWithEnv(props, env)('arb')), env)),
+    both: (props, partial, _name, config) => env => {
+      const arbs = projectFieldWithEnv(props, env)('arb')
+      const partialArbs = projectFieldWithEnv(partial, env)('arb')
+      return new FastCheckType(
+        fastCheckApplyConfig(config)(
+          record(arbs).chain(p => record(partialArbs, { withDeletedKeys: true }).map(pp => ({ ...p, ...pp }))),
+          env
+        )
+      )
+    }
   })
 )

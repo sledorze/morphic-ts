@@ -207,8 +207,24 @@ describe('IO-TS', () => {
     )
 
     chai.assert.deepStrictEqual(codec.type.decode({ a: 'a', b: 1 }), right({ a: 'a', b: 1 }))
-    chai.assert.deepStrictEqual(codec.type.decode({ a: 'a', b: 1 }), right({ a: 'a', b: 1 }))
     chai.assert.deepStrictEqual(codec.type.decode({ b: 1 }), right({ b: 1 }))
+    chai.assert.deepStrictEqual(codec.type.decode({ a: 'a' }), right({ a: 'a' }))
+  })
+
+  it('both', () => {
+    const codec = summon(F =>
+      F.both(
+        {
+          a: F.string()
+        },
+        {
+          b: F.number()
+        },
+        'Codec'
+      )
+    )
+
+    chai.assert.deepStrictEqual(codec.type.decode({ a: 'a', b: 1 }), right({ a: 'a', b: 1 }))
     chai.assert.deepStrictEqual(codec.type.decode({ a: 'a' }), right({ a: 'a' }))
   })
 

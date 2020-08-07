@@ -23,10 +23,28 @@ export const ioTsNonStrictObjectInterpreter = memo(
     partial: <PropsE, PropsA>(
       props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
       name: string,
-      config?: ConfigsForType<Env, PropsE, PropsA>
+      config?: ConfigsForType<Env, Partial<PropsE>, Partial<PropsA>>
     ) => (env: Env) =>
       new IOTSType<Partial<PropsE>, Partial<PropsA>>(
         iotsApplyConfig(config)(t.partial(projectFieldWithEnv(props, env)('type'), name) as any, env) as any
+      ),
+    both: <PropsE, PPropsE, PropsA, PPropsA>(
+      props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
+      partial: PropsKind2<IoTsURI, PPropsE, PPropsA, Env>,
+      name: string,
+      config?: ConfigsForType<Env, PropsE & Partial<PPropsE>, PropsA & Partial<PPropsA>>
+    ) => (env: Env) =>
+      new IOTSType<PropsE & Partial<PPropsE>, PropsA & Partial<PPropsA>>(
+        iotsApplyConfig(config)(
+          t.intersection(
+            [
+              t.interface(projectFieldWithEnv(props, env)('type')),
+              t.partial(projectFieldWithEnv(partial, env)('type'))
+            ],
+            name
+          ) as any,
+          env
+        ) as any
       )
   })
 )
@@ -48,10 +66,30 @@ export const ioTsStrictObjectInterpreter = memo(
     partial: <PropsE, PropsA>(
       props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
       name: string,
-      config?: ConfigsForType<Env, PropsE, PropsA>
+      config?: ConfigsForType<Env, Partial<PropsE>, Partial<PropsA>>
     ) => (env: Env) =>
       new IOTSType<Partial<PropsE>, Partial<PropsA>>(
         iotsApplyConfig(config)(t.exact(t.partial(projectFieldWithEnv(props, env)('type'), name)) as any, env) as any
+      ),
+    both: <PropsE, PPropsE, PropsA, PPropsA>(
+      props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
+      partial: PropsKind2<IoTsURI, PPropsE, PPropsA, Env>,
+      name: string,
+      config?: ConfigsForType<Env, PropsE & Partial<PPropsE>, PropsA & Partial<PPropsA>>
+    ) => (env: Env) =>
+      new IOTSType<PropsE & Partial<PPropsE>, PropsA & Partial<PPropsA>>(
+        iotsApplyConfig(config)(
+          t.exact(
+            t.intersection(
+              [
+                t.interface(projectFieldWithEnv(props, env)('type')),
+                t.partial(projectFieldWithEnv(partial, env)('type'))
+              ],
+              name
+            )
+          ) as any,
+          env
+        ) as any
       )
   })
 )

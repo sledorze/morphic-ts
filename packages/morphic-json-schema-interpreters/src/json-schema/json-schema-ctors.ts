@@ -206,10 +206,10 @@ export const LiteralTypeCtor = (value: string) =>
 /**
  *  @since 0.0.1
  */
-export const ObjectTypeCtor = (isPartial: boolean, props: [string, OptionalJSONSchema][]): OptionalJSONSchema => {
+export const ObjectTypeCtor = (props: [string, OptionalJSONSchema][]): OptionalJSONSchema => {
   const required = pipe(
     props,
-    chain(([name, jsonOpt]) => (isPartial || jsonOpt.optional ? [] : [name])),
+    chain(([name, jsonOpt]) => (jsonOpt.optional ? [] : [name])),
     sort(ordString)
   )
 

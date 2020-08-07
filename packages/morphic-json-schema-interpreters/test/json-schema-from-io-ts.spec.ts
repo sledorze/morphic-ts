@@ -114,6 +114,23 @@ describe('a json schema generator', function (this: any) {
     chai.assert.deepStrictEqual(schema, right(tuple(TotoAndTata, { TotoAndTata, Toto, Tata })))
   })
 
+  it('generate an interface from both', () => {
+    const Morph = summon(F => F.both({ tata: F.number() }, { toto: F.number() }, 'TotoAndTata'))
+
+    const schema = Morph.jsonSchema
+
+    const TotoAndTata: JSONSchema = {
+      required: ['tata'],
+      properties: {
+        toto: { type: 'number' as const },
+        tata: { type: 'number' as const }
+      },
+      type: 'object' as const
+    }
+
+    chai.assert.deepStrictEqual(schema, right(tuple(TotoAndTata, { TotoAndTata })))
+  })
+
   it('generate from a complex type', () => {
     const Morph = summon(F => F.interface({ arr: F.array(F.interface({ x: F.string() }, 'X')) }, 'Arrs'))
     const schema = Morph.jsonSchema

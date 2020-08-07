@@ -119,6 +119,31 @@ describe('Show', () => {
     chai.assert.deepStrictEqual(show.show({ a: 'foo' }), `{ type: undefined, a: "foo", b: undefined }`)
   })
 
+  it('both', () => {
+    interface Foo {
+      type: 'foo'
+      a: string
+      b: number
+    }
+    const Foo = summon(F =>
+      F.both(
+        {
+          type: F.stringLiteral('foo')
+        },
+        {
+          a: F.string(),
+          b: F.number()
+        },
+        'Foo'
+      )
+    )
+
+    const { show } = Foo
+    chai.assert.deepStrictEqual(show.show({ type: 'foo' }), `{ type: "foo", a: undefined, b: undefined }`)
+    chai.assert.deepStrictEqual(show.show({ type: 'foo', a: 'foo' }), `{ type: "foo", a: "foo", b: undefined }`)
+    chai.assert.deepStrictEqual(show.show({ type: 'foo', b: 12 }), `{ type: "foo", a: undefined, b: 12 }`)
+  })
+
   it('taggedUnion', () => {
     interface Foo {
       type: 'foo'

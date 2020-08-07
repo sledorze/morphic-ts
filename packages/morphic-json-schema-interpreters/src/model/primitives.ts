@@ -74,7 +74,7 @@ export const jsonSchemaPrimitiveInterpreter = memo(
               .bind('a', a(env).schema)
               .bindL('leftE', ({ e }) =>
                 SEright(
-                  ObjectTypeCtor(false, [
+                  ObjectTypeCtor([
                     ['left', e],
                     ['_tag', LiteralTypeCtor('Left')]
                   ])
@@ -82,7 +82,7 @@ export const jsonSchemaPrimitiveInterpreter = memo(
               )
               .bindL('rightA', ({ a }) =>
                 SEright(
-                  ObjectTypeCtor(false, [
+                  ObjectTypeCtor([
                     ['right', a],
                     ['_tag', LiteralTypeCtor('Right')]
                   ])
@@ -103,6 +103,6 @@ export const jsonSchemaPrimitiveInterpreter = memo(
       )
   })
 )
-const None = ObjectTypeCtor(false, [['_tag', LiteralTypeCtor('None')]])
+const None = ObjectTypeCtor([['_tag', LiteralTypeCtor('None')]])
 const someTag = tuple('_tag', LiteralTypeCtor('Some'))
-const GetSome = (v: OptionalJSONSchema) => ObjectTypeCtor(false, [['value', v], someTag])
+const GetSome = (v: OptionalJSONSchema) => ObjectTypeCtor([['value', v], someTag])

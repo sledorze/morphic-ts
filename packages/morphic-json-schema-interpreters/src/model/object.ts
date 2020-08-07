@@ -1,7 +1,7 @@
 import type { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
 import { JsonSchemaURI } from '../hkt'
 import { JsonSchema } from '../hkt'
-import { ObjectTypeCtor, notOptional } from '../json-schema/json-schema-ctors'
+import { ObjectTypeCtor, notOptional, makeOptional } from '../json-schema/json-schema-ctors'
 import { toArray } from 'fp-ts/lib/Record'
 import { tuple } from 'fp-ts/lib/function'
 import { pipe } from 'fp-ts/lib/pipeable'
@@ -28,7 +28,7 @@ export const jsonSchemaObjectInterpreter = memo(
                 SEmap(schema => tuple(k, schema))
               )
             ),
-            SEchain(props => resolveRefJsonSchema(ObjectTypeCtor(false, props).json)),
+            SEchain(props => resolveRefJsonSchema(ObjectTypeCtor(props).json)),
             SEchain(addSchema(name)),
             SEmap(_ => notOptional(Ref(name)))
           ),
@@ -42,15 +42,52 @@ export const jsonSchemaObjectInterpreter = memo(
             arrayTraverseStateEither(toArray(props), ([k, v]) =>
               pipe(
                 v(env).schema,
-                SEmap(schema => tuple(k, schema))
+                SEmap(schema => tuple(k, makeOptional(true)(schema.json)))
               )
             ),
-            SEchain(props => resolveRefJsonSchema(ObjectTypeCtor(true, props).json)),
+            SEchain(props => resolveRefJsonSchema(ObjectTypeCtor(props).json)),
+            SEchain(addSchema(name)),
+            SEmap(_ => notOptional(Ref(name)))
+          ),
+          env
+        )
+      ),
+    both: (props, partial, name, config) => env => {
+      const nonPartialprops = pipe(
+        arrayTraverseStateEither(toArray(props), ([k, v]) =>
+          pipe(
+            v(env).schema,
+            SEmap(schema => tuple(k, schema))
+          )
+        )
+      )
+      const partialProps = pipe(
+        arrayTraverseStateEither(toArray(partial), ([k, v]) =>
+          pipe(
+            v(env).schema,
+            SEmap(schema => tuple(k, makeOptional(true)(schema.json)))
+          )
+        )
+      )
+
+      return new JsonSchema(
+        jsonSchemaApplyConfig(config)(
+          pipe(
+            nonPartialprops,
+            SEchain(nonPartialprops =>
+              pipe(
+                partialProps,
+                SEchain(partialProps =>
+                  resolveRefJsonSchema(ObjectTypeCtor([...partialProps, ...nonPartialprops]).json)
+                )
+              )
+            ),
             SEchain(addSchema(name)),
             SEmap(_ => notOptional(Ref(name)))
           ),
           env
         )
       )
+    }
   })
 )

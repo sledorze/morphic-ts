@@ -43,6 +43,23 @@ export interface ModelAlgebraObject<F, Env> {
       >
     ): HKT2<F, Env, Partial<{ [k in keyof Props]: Props[k]['_E'] }>, Partial<{ [k in keyof Props]: Props[k]['_A'] }>>
   }
+  both: {
+    <Props extends AnyMProps<F>, PProps extends AnyMProps<F>>(
+      props: Props,
+      partial: PProps,
+      name: string,
+      config?: ConfigsForType<
+        Env,
+        { [k in keyof Props]: Props[k]['_E'] } & Partial<{ [k in keyof PProps]: PProps[k]['_E'] }>,
+        { [k in keyof Props]: Props[k]['_A'] } & Partial<{ [k in keyof PProps]: PProps[k]['_A'] }>
+      >
+    ): HKT2<
+      F,
+      Env,
+      { [k in keyof Props]: Props[k]['_E'] } & Partial<{ [k in keyof PProps]: PProps[k]['_E'] }>,
+      { [k in keyof Props]: Props[k]['_A'] } & Partial<{ [k in keyof PProps]: PProps[k]['_A'] }>
+    >
+  }
 }
 ```
 
@@ -63,8 +80,14 @@ export interface ModelAlgebraObject1<F extends URIS, Env extends AnyEnv> {
   partial: <Props>(
     props: PropsKind1<F, Props, Env>,
     name: string,
-    config?: ConfigsForType<Env, unknown, Props>
+    config?: ConfigsForType<Env, unknown, Partial<Props>>
   ) => Kind<F, Env, Partial<Props>>
+  both: <Props, PProps>(
+    props: PropsKind1<F, Props, Env>,
+    partial: PropsKind1<F, PProps, Env>,
+    name: string,
+    config?: ConfigsForType<Env, unknown, Props & Partial<PProps>>
+  ) => Kind<F, Env, Props & Partial<PProps>>
 }
 ```
 
@@ -85,8 +108,14 @@ export interface ModelAlgebraObject2<F extends URIS2, Env extends AnyEnv> {
   partial: <PropsE, PropsA>(
     props: PropsKind2<F, PropsE, PropsA, Env>,
     name: string,
-    config?: ConfigsForType<Env, PropsE, PropsA>
+    config?: ConfigsForType<Env, Partial<PropsE>, Partial<PropsA>>
   ) => Kind2<F, Env, Partial<PropsE>, Partial<PropsA>>
+  both: <PropsE, PPropsE, PropsA, PPropsA>(
+    props: PropsKind2<F, PropsE, PropsA, Env>,
+    partial: PropsKind2<F, PPropsE, PPropsA, Env>,
+    name: string,
+    config?: ConfigsForType<Env, PropsE & Partial<PPropsE>, PropsA & Partial<PPropsA>>
+  ) => Kind2<F, Env, PropsE & Partial<PPropsE>, PropsA & Partial<PPropsA>>
 }
 ```
 

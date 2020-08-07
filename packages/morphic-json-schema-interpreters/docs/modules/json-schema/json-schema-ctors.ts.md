@@ -210,7 +210,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const ObjectTypeCtor = (isPartial: boolean, props: [string, OptionalJSONSchema][]): OptionalJSONSchema => ...
+export const ObjectTypeCtor = (props: [string, OptionalJSONSchema][]): OptionalJSONSchema => ...
 ```
 
 Added in v0.0.1

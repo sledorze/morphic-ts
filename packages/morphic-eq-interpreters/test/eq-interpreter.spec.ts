@@ -5,7 +5,7 @@ import type { Newtype } from 'newtype-ts'
 import { iso } from 'newtype-ts'
 import type { Either } from 'fp-ts/lib/Either'
 import { left, right } from 'fp-ts/lib/Either'
-import { some, none } from 'fp-ts/lib/Option'
+import { some, none, Option } from 'fp-ts/lib/Option'
 import { summonFor } from './summoner.spec'
 
 const { summon } = summonFor<{}>({})
@@ -156,14 +156,14 @@ describe('Eq', () => {
   it('partial', () => {
     interface Foo {
       type: 'foo'
-      a: string
+      a: Option<string>
       b: number
     }
     const Foo = summon(F =>
       F.partial(
         {
           type: F.stringLiteral('foo'),
-          a: F.string(),
+          a: F.nullable(F.string()),
           b: F.number()
         },
         'Foo'
@@ -173,11 +173,43 @@ describe('Eq', () => {
     const { eq } = Foo
     chai.assert.deepStrictEqual(eq.equals({}, {}), true)
     chai.assert.deepStrictEqual(eq.equals({ type: 'foo' }, { type: 'foo' }), true)
-    chai.assert.deepStrictEqual(eq.equals({ type: 'foo' }, { type: 'foo', a: 'foo' }), false)
-    chai.assert.deepStrictEqual(eq.equals({ type: 'foo', a: 'foo' }, { type: 'foo' }), false)
-    chai.assert.deepStrictEqual(eq.equals({ type: 'foo' }, { a: 'foo' }), false)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo', a: some('foo') }, { type: 'foo', a: some('foo') }), true)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo', a: none }, { type: 'foo', a: none }), true)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo', a: none }, { type: 'foo', a: some('foo') }), false)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo' }, { type: 'foo', a: some('foo') }), false)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo', a: some('foo') }, { type: 'foo' }), false)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo' }, { a: some('foo') }), false)
     chai.assert.deepStrictEqual(eq.equals({}, { type: 'foo' }), false)
     chai.assert.deepStrictEqual(eq.equals({ type: 'foo' }, {}), false)
+  })
+
+  it('both', () => {
+    interface Foo {
+      type: 'foo'
+      a: Option<string>
+      b: number
+    }
+    const Foo = summon(F =>
+      F.both(
+        {
+          type: F.string()
+        },
+        {
+          a: F.nullable(F.string()),
+          b: F.number()
+        },
+        'Foo'
+      )
+    )
+
+    const { eq } = Foo
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo' }, { type: 'foo' }), true)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo' }, { type: 'bar' }), false)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo', a: some('foo') }, { type: 'foo', a: some('foo') }), true)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo', a: none }, { type: 'foo', a: none }), true)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo', a: none }, { type: 'foo', a: some('foo') }), false)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo' }, { type: 'foo', a: some('foo') }), false)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo', a: some('foo') }, { type: 'foo' }), false)
   })
 
   it('taggedUnion', () => {

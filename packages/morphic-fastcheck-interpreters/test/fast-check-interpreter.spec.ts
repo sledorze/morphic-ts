@@ -89,6 +89,22 @@ describe('FastCheck interpreter', () => {
     )
   })
 
+  it('both', () => {
+    testProgram(
+      summon(F =>
+        F.both(
+          {
+            a: F.string()
+          },
+          {
+            b: F.number()
+          },
+          'AB'
+        )
+      )
+    )
+  })
+
   it('compose', () => {
     // type Foo
     const Foo = summon(F =>
