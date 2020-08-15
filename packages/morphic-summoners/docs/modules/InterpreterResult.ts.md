@@ -19,7 +19,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface InterpreterResult<E, A> extends Record<keyof InterpreterResult<any, any>, { build: (x: A) => A }> {}
+export interface InterpreterResult<E, A> {}
 ```
 
 Added in v0.0.1
