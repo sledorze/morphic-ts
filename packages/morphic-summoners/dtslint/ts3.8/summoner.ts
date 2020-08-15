@@ -72,14 +72,14 @@ export const FastCheckTestURI = 'FastCheckTestURI' as const
  */
 export type FastCheckTestURI = typeof FastCheckTestURI
 
-interface IoTsTestInterpreter<E, A> {
+interface FastCheckTestInterpreter<E, A> {
   build: (a: A) => A
   arb: Arbitrary<A>
 }
 
 declare module '../../src/InterpreterResult' {
   interface InterpreterResult<E, A> {
-    [FastCheckTestURI]: IoTsTestInterpreter<E, A>
+    [FastCheckTestURI]: FastCheckTestInterpreter<E, A>
   }
 }
 

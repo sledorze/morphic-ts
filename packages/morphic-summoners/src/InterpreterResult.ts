@@ -3,7 +3,8 @@ import type { SelectKeyOfMatchingValues } from './utils'
 /**
  *  @since 0.0.1
  */
-export interface InterpreterResult<E, A> extends Record<keyof InterpreterResult<any, any>, { build: (x: A) => A }> {}
+export interface InterpreterResult<E, A> {}
+
 /**
  *  @since 0.0.1
  */
