@@ -1,6 +1,5 @@
 import { none } from 'fp-ts/lib/Option'
 import { Lens, Optional } from 'monocle-ts'
-import { isIn } from '.'
 import type { KeysDefinition } from '.'
 
 type ValueByKeyByTag<Union extends Record<any, any>, Tags extends keyof Union = keyof Union> = {
@@ -124,7 +123,6 @@ export interface Matchers<A, Tag extends keyof A> {
  *  @since 0.0.1
  */
 export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinition<A, Tag>): Matchers<A, Tag> => {
-  const inKeys = isIn(keys)
   const match = (match: any, def?: any) => (a: any): any => (match[a[tag]] || def)(a)
   const matchLens = (cases: any) =>
     new Lens(
@@ -148,10 +146,10 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
   }
   const fold = <A>(a: A) => a
   const createReducer = <S>(initialState: S): ReducerBuilder<S, A, Tag> => (m: any, def?: any) => {
-    const matcher = match(m, def || ((_a: any) => (_s: any) => _s))
+    const matcher = match(m, def || ((_a: any) => (s: S) => s))
     return (s: any, a: any) => {
       const state = s === undefined ? initialState : s
-      return inKeys(a[tag]) ? matcher(a)(state) : state
+      return a[tag] in keys ? matcher(a)(state) : state
     }
   }
   return {

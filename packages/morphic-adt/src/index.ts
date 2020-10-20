@@ -88,11 +88,6 @@ export type KeysDefinition<A, Tag extends keyof A> = {
   [k in A[Tag] & string]: any
 }
 
-/**
- *  @since 0.0.1
- */
-export const isIn = <A, Tag extends keyof A>(keys: KeysDefinition<A, Tag>) => (k: string) => k in keys
-
 interface TypeDef<T> {
   _TD: T
 }

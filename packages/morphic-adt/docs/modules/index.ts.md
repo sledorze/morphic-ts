@@ -13,7 +13,6 @@ parent: Modules
 - [KeysDefinition (type alias)](#keysdefinition-type-alias)
 - [Tagged (type alias)](#tagged-type-alias)
 - [intersectADT (function)](#intersectadt-function)
-- [isIn (function)](#isin-function)
 - [makeADT (function)](#makeadt-function)
 - [ofType (function)](#oftype-function)
 - [unionADT (function)](#unionadt-function)
@@ -78,16 +77,6 @@ export const intersectADT = <A extends Tagged<Tag>, B extends Tagged<Tag>, Tag e
   a: ADT<A, Tag>,
   b: ADT<B, Tag>
 ): ADT<Extract<A, B>, Tag> => ...
-```
-
-Added in v0.0.1
-
-# isIn (function)
-
-**Signature**
-
-```ts
-export const isIn = <A, Tag extends keyof A>(keys: KeysDefinition<A, Tag>) => (k: string) => ...
 ```
 
 Added in v0.0.1
