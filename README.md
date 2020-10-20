@@ -392,6 +392,14 @@ Vehicle.createReducer({ totalSeats: 0 })({
 })
 ```
 
+```typescript
+// Partial reducers are also supported
+Vehicle.createPartialReducer({ totalSeats: 0 })({
+  Car: ({ seats }) => ({ totalSeats }) => ({ totalSeats: totalSeats + seats }),
+  Motorbike: ({ seats }) => ({ totalSeats }) => ({ totalSeats: totalSeats + seats })
+})
+```
+
 ### Selection, Exclusion, Intersection and Union of ADTs
 
 This will help getting unique advantage of Typescript ability to refine Unions
@@ -421,7 +429,7 @@ const incSeat = motorizedSeatLens.modify(increment) // (s: Car | Motorbike) => C
 
 const vehicleSeatOptional = Vehicle.matchOptional<number>({
   Motorbike: motorizedSeatLens.asOptional(),
-  Car: motorizedSeatLens.asOptional(),
+  Car: motorizedSeatLens.asOptional()
   // undesired cases can be omitted
 }) // Optional<Vehicle, number>
 ```

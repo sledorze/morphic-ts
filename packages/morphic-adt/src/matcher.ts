@@ -35,6 +35,11 @@ interface ReducerBuilder<S, A, Tag extends keyof A> {
   ): Reducer<S, A>
 }
 
+interface PartialReducerBuilder<S, A, Tag extends keyof A> {
+  // tslint:disable-next-line: unified-signatures
+  <M extends Partial<Cases<ValueByKeyByTag<A>[Tag], (s: S) => S>>>(match: M): Reducer<S, A>
+}
+
 /**
  * Dispatch calls for each tag value, ensuring a common result type `R`
  */
@@ -110,6 +115,7 @@ export interface Matchers<A, Tag extends keyof A> {
   matchOptional: OptionalMatcher<A, Tag>
   /** Creates a reducer enabling State evolution */
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
+  createPartialReducer: <S>(initialState: S) => PartialReducerBuilder<S, A, Tag>
   /** Enforces the inner function to return a specificiable type */
   strict: <R>(f: (_: A) => R) => (_: A) => R
 }
@@ -154,6 +160,7 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
     transform,
     fold,
     createReducer,
+    createPartialReducer: createReducer,
     strict: <A>(a: A) => a,
     matchLens,
     matchOptional

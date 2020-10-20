@@ -43,7 +43,7 @@ describe('Builder', () => {
       bar: ofType<Bar>()
     })
 
-    const { fold, match, createReducer, transform, strict, matchLens, matchOptional } = fooBar
+    const { fold, match, createReducer, createPartialReducer, transform, strict, matchLens, matchOptional } = fooBar
     const fooA = fooBar.of.foo({ a: 'a', b: 12 })
     const barA = fooBar.of.bar({ c: 'a', d: 12 })
     const barB = fooBar.of.bar({ c: 'b', d: 13 })
@@ -174,6 +174,18 @@ describe('Builder', () => {
       chai.assert.deepStrictEqual(reduce(undefined, fooA), { x: 'foo(0)' })
       chai.assert.deepStrictEqual(reduce({ x: '1' }, fooA), { x: 'foo(1)' })
       chai.assert.deepStrictEqual(reduce(undefined, barA), { x: 'default' })
+    })
+
+    it('partially reduce return previous state on unmatched action', () => {
+      const reduce = createPartialReducer({ x: '0' })({
+        foo: () => ({ x }) => ({ x: `foo(${x})` })
+      })
+      chai.assert.deepStrictEqual(reduce({ x: '1' }, fooA), {
+        x: 'foo(1)'
+      })
+      chai.assert.deepStrictEqual(reduce({ x: '1' }, barA), {
+        x: '1'
+      })
     })
 
     it('reduce without default does not change state on unknown Action', () => {
