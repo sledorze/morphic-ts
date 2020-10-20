@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/summoners",
-  "version": "2.0.0-alpha.9",
+  "version": "2.0.0-alpha.10",
   "description": "Morphic summoners package to create summoners",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -27,7 +27,7 @@
     "fp-ts": "^2.5.3"
   },
   "dependencies": {
-    "@morphic-ts/adt": "^2.0.0-alpha.9",
+    "@morphic-ts/adt": "^2.0.0-alpha.10",
     "@morphic-ts/algebras": "^2.0.0-alpha.8",
     "@morphic-ts/common": "^2.0.0-alpha.4",
     "@morphic-ts/model-algebras": "^2.0.0-alpha.9"
