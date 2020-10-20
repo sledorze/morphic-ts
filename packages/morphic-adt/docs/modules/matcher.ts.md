@@ -40,6 +40,7 @@ export interface Matchers<A, Tag extends keyof A> {
   matchOptional: OptionalMatcher<A, Tag>
   /** Creates a reducer enabling State evolution */
   createReducer: <S>(initialState: S) => ReducerBuilder<S, A, Tag>
+  createPartialReducer: <S>(initialState: S) => PartialReducerBuilder<S, A, Tag>
   /** Enforces the inner function to return a specificiable type */
   strict: <R>(f: (_: A) => R) => (_: A) => R
 }

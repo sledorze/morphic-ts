@@ -148,7 +148,7 @@ export const Matchers = <A, Tag extends keyof A>(tag: Tag) => (keys: KeysDefinit
   }
   const fold = <A>(a: A) => a
   const createReducer = <S>(initialState: S): ReducerBuilder<S, A, Tag> => (m: any, def?: any) => {
-    const matcher = match(m, def)
+    const matcher = match(m, def || ((_a: any) => (_s: any) => _s))
     return (s: any, a: any) => {
       const state = s === undefined ? initialState : s
       return inKeys(a[tag]) ? matcher(a)(state) : state
