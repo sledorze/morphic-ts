@@ -1,11 +1,11 @@
 import * as chai from 'chai'
 
-import { fromEquals } from 'fp-ts/lib/Eq'
+import { fromEquals } from 'fp-ts/Eq'
 import type { Newtype } from 'newtype-ts'
 import { iso } from 'newtype-ts'
-import type { Either } from 'fp-ts/lib/Either'
-import { left, right } from 'fp-ts/lib/Either'
-import { some, none, Option } from 'fp-ts/lib/Option'
+import type { Either } from 'fp-ts/Either'
+import { left, right } from 'fp-ts/Either'
+import { some, none, Option } from 'fp-ts/Option'
 import { summonFor } from './summoner.spec'
 
 const { summon } = summonFor<{}>({})

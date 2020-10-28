@@ -1,5 +1,5 @@
 import type { Branded, Errors } from 'io-ts'
-import type { Either } from 'fp-ts/lib/Either'
+import type { Either } from 'fp-ts/Either'
 
 /**
  *  @since 0.0.1

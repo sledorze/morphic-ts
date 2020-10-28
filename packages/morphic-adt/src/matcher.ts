@@ -1,4 +1,4 @@
-import { none } from 'fp-ts/lib/Option'
+import { none } from 'fp-ts/Option'
 import { Lens, Optional } from 'monocle-ts'
 import type { KeysDefinition } from '.'
 

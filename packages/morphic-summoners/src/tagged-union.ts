@@ -1,6 +1,6 @@
 import type { Materialized, Morph } from './materializer'
-import { fromFoldable as RfromFoldable, mapWithIndex as RmapWithIndex } from 'fp-ts/lib/Record'
-import { array } from 'fp-ts/lib/Array'
+import { fromFoldable as RfromFoldable, mapWithIndex as RmapWithIndex } from 'fp-ts/Record'
+import { array } from 'fp-ts/Array'
 import type { HKT2 } from '@morphic-ts/common/lib/HKT'
 import { assignCallable, wrapFun } from './utils'
 import type { InhabitedTypes, AType, EType } from './utils'
@@ -11,9 +11,9 @@ import type { ProgramURI, ProgramType } from './ProgramType'
 import type { ADT } from '@morphic-ts/adt/lib'
 import { makeADT } from '@morphic-ts/adt/lib'
 import type { ElemType } from '@morphic-ts/adt/lib/utils'
-import { identity, tuple } from 'fp-ts/lib/function'
-import { intersection, difference } from 'fp-ts/lib/Array'
-import { eqString } from 'fp-ts/lib/Eq'
+import { identity, tuple } from 'fp-ts/function'
+import { intersection, difference } from 'fp-ts/Array'
+import { eqString } from 'fp-ts/Eq'
 
 /**
  *  @since 0.0.1

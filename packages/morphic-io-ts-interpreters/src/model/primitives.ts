@@ -3,7 +3,7 @@ import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 import { IOTSType, IoTsURI } from '../hkt'
 import type { ModelAlgebraPrimitive2 } from '@morphic-ts/model-algebras/lib/primitives'
-import { either } from 'fp-ts/lib/Either'
+import { either } from 'fp-ts/Either'
 
 import { iotsApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'

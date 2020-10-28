@@ -1,6 +1,6 @@
 import * as chai from 'chai'
 import { modelOrdInterpreter, OrdURI } from '../src/interpreters'
-import type { Ord } from 'fp-ts/lib/Ord'
+import type { Ord } from 'fp-ts/Ord'
 import type { Materialized } from '@morphic-ts/summoners'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 import { makeSummoner } from '@morphic-ts/summoners'

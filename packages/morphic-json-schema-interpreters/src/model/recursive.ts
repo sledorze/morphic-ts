@@ -4,14 +4,14 @@ import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { memo } from '@morphic-ts/common/lib/utils'
 import { notOptional, JsonSchemaError } from '../json-schema/json-schema-ctors'
 import { Ref, isnotTypeRef } from '../json-schema/json-schema'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/pipeable'
 import {
   stateEither as SEstateEither,
   chain as SEchain,
   fromPredicate as SEfromPredicate,
   map as SEmap
 } from 'fp-ts-contrib/lib/StateEither'
-import { of as NEof } from 'fp-ts/lib/NonEmptyArray'
+import { of as NEof } from 'fp-ts/NonEmptyArray'
 import { addSchema, getSchemaStrict } from '../utils'
 
 // FIXME: Create a reference JsonSchema => "$ref": "#/definitions/MySchemaRef" <- Track down how to do that!

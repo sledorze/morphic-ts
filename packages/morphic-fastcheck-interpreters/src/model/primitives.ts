@@ -1,13 +1,13 @@
 import { FastCheckType, FastCheckURI } from '../hkt'
 import type { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
-import { fromNullable, none, some } from 'fp-ts/lib/Option'
+import { fromNullable, none, some } from 'fp-ts/Option'
 import { constant, integer, boolean, string, float, oneof, array, option, bigInt, uuid, Arbitrary } from 'fast-check'
 import { fastCheckApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { UUID } from 'io-ts-types/lib/UUID'
-import { left, right } from 'fp-ts/lib/Either'
-import { cons } from 'fp-ts/lib/NonEmptyArray'
+import { left, right } from 'fp-ts/Either'
+import { cons } from 'fp-ts/NonEmptyArray'
 
 /**
  *  @since 0.0.1

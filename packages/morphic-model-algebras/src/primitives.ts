@@ -1,9 +1,9 @@
-import type { Option } from 'fp-ts/lib/Option'
+import type { Option } from 'fp-ts/Option'
 import type { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
 import type { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
 import type { UUID } from 'io-ts-types/lib/UUID'
-import type { Either } from 'fp-ts/lib/Either'
-import type { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import type { Either } from 'fp-ts/Either'
+import type { NonEmptyArray } from 'fp-ts/NonEmptyArray'
 /**
  *  @since 0.0.1
  */

@@ -7,7 +7,7 @@ import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interp
 import * as fc from 'fast-check'
 import * as WM from 'io-ts-types/lib/withMessage'
 import { PathReporter } from 'io-ts/lib/PathReporter'
-import { right } from 'fp-ts/lib/Either'
+import { right } from 'fp-ts/Either'
 
 describe('Morph Config Env', () => {
   interface FastCheckEnv {

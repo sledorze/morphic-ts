@@ -1,8 +1,8 @@
 import type { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
 import { EqType, EqURI } from '../hkt'
 import { projectFieldWithEnv, memo, mapRecord } from '@morphic-ts/common/lib/utils'
-import { getStructEq } from 'fp-ts/lib/Eq'
-import type { Eq } from 'fp-ts/lib/Eq'
+import { getStructEq } from 'fp-ts/Eq'
+import type { Eq } from 'fp-ts/Eq'
 import { eqApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 

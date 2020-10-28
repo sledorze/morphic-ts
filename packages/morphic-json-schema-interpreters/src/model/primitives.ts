@@ -19,9 +19,9 @@ import {
 } from 'fp-ts-contrib/lib/StateEither'
 import { jsonSchemaApplyConfig } from '../config'
 import { memo } from '@morphic-ts/common/lib/utils'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/pipeable'
 import { Do } from 'fp-ts-contrib/lib/Do'
-import { tuple } from 'fp-ts/lib/function'
+import { tuple } from 'fp-ts/function'
 
 /**
  *  @since 0.0.1

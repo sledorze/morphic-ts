@@ -20,14 +20,14 @@ import type { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
 import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
 import type { AnyConfigEnv } from '@morphic-ts/summoners'
-import { Either, chain } from 'fp-ts/lib/Either'
-import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { Either, chain } from 'fp-ts/Either'
+import { NonEmptyArray } from 'fp-ts/NonEmptyArray'
 import { JsonSchemaError } from '../src/json-schema/json-schema-ctors'
 import { JSONSchema } from '../src/json-schema/json-schema'
 import { NamedSchemas, JsonSchemaURI } from '../src/hkt'
 import { resolveSchema } from '../src/utils'
 import { modelJsonSchemaInterpreter } from '../src'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/pipeable'
 /**
  *  @since 0.0.1
  */

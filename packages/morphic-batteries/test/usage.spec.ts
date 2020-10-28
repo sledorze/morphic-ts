@@ -11,7 +11,7 @@ import { iso } from 'newtype-ts'
 import type { Newtype } from 'newtype-ts'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import { assert as FCassert, property } from 'fast-check'
-import { isRight, right } from 'fp-ts/lib/Either'
+import { isRight, right } from 'fp-ts/Either'
 
 const { summon: summonBASTJ } = summonBASTJFor<{}>({})
 const { summon: summonESBASTJ } = summonESBASTJFor<{}>({})

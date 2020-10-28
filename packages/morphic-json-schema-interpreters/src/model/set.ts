@@ -3,7 +3,7 @@ import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { SetFromArrayTypeCtor } from '../json-schema/json-schema-ctors'
 import { chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/pipeable'
 import { memo } from '@morphic-ts/common/lib/utils'
 
 /**

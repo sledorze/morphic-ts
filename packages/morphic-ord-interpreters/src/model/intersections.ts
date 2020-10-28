@@ -1,5 +1,5 @@
-import { getMonoid } from 'fp-ts/lib/Ord'
-import type { Ord } from 'fp-ts/lib/Ord'
+import { getMonoid } from 'fp-ts/Ord'
+import type { Ord } from 'fp-ts/Ord'
 import type { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
 import { OrdType, OrdURI } from '../hkt'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'

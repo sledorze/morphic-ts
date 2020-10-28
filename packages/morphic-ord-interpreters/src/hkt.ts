@@ -1,4 +1,4 @@
-import type { Ord } from 'fp-ts/lib/Ord'
+import type { Ord } from 'fp-ts/Ord'
 
 /**
  *  @since 0.0.1

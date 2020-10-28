@@ -1,9 +1,9 @@
 import * as chai from 'chai'
-import { lt, gt, ordNumber, ord } from 'fp-ts/lib/Ord'
+import { lt, gt, ordNumber, ord } from 'fp-ts/Ord'
 import { summonFor } from './summoner'
-import { left, right } from 'fp-ts/lib/Either'
-import type { Either } from 'fp-ts/lib/Either'
-import { some, none } from 'fp-ts/lib/Option'
+import { left, right } from 'fp-ts/Either'
+import type { Either } from 'fp-ts/Either'
+import { some, none } from 'fp-ts/Option'
 
 const { summon } = summonFor<{}>({})
 

@@ -9,7 +9,7 @@ import {
   modelIoTsStrictInterpreter,
   modelIoTsNonStrictInterpreter
 } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
-import { either, right } from 'fp-ts/lib/Either'
+import { either, right } from 'fp-ts/Either'
 
 const { summon } = summonFor<{}>({})
 

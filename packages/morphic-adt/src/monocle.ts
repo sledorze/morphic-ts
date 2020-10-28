@@ -1,5 +1,5 @@
-import type { Option } from 'fp-ts/lib/Option'
-import type { Predicate, Refinement } from 'fp-ts/lib/function'
+import type { Option } from 'fp-ts/Option'
+import type { Predicate, Refinement } from 'fp-ts/function'
 import type { At, LensFromPath } from 'monocle-ts'
 import { Lens, Optional, Prism, Index } from 'monocle-ts'
 

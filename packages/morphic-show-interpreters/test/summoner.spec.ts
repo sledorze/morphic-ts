@@ -19,7 +19,7 @@ import type { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
 import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
 import type { AnyConfigEnv } from '@morphic-ts/summoners'
-import { Show } from 'fp-ts/lib/Show'
+import { Show } from 'fp-ts/Show'
 import { modelShowInterpreter, ShowURI } from '../src/interpreters'
 /**
  *  @since 0.0.1

@@ -1,4 +1,4 @@
-import { getShow as RgetShow } from 'fp-ts/lib/Record'
+import { getShow as RgetShow } from 'fp-ts/Record'
 import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
 import { ShowType, ShowURI } from '../hkt'
 import { showApplyConfig } from '../config'

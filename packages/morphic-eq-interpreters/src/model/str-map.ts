@@ -1,4 +1,4 @@
-import { getEq as RgetEq } from 'fp-ts/lib/Record'
+import { getEq as RgetEq } from 'fp-ts/Record'
 import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
 import { EqType, EqURI } from '../hkt'
 import { eqApplyConfig } from '../config'

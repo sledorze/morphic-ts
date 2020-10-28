@@ -5,7 +5,7 @@ import { withValidate } from 'io-ts-types/lib/withValidate'
 import { PathReporter } from 'io-ts/lib/PathReporter'
 import { failure, success } from 'io-ts'
 import type { Type } from 'io-ts'
-import { right as Eright, either } from 'fp-ts/lib/Either'
+import { right as Eright, either } from 'fp-ts/Either'
 
 const { summon } = summonFor<{}>({})
 

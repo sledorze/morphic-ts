@@ -3,7 +3,7 @@ import { defineFor } from '@morphic-ts/summoners'
 import { ProgramUnionURI } from '../src/program'
 import * as fc from 'fast-check'
 import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/hkt'
-import { isRight } from 'fp-ts/lib/Either'
+import { isRight } from 'fp-ts/Either'
 
 interface FastCheck {
   fc: typeof fc

@@ -1,6 +1,6 @@
 import { makeOptional, JsonSchemaError } from './json-schema/json-schema-ctors'
 import type { OptionalJSONSchema } from './json-schema/json-schema-ctors'
-import type { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import type { NonEmptyArray } from 'fp-ts/NonEmptyArray'
 import {
   gets,
   modify,
@@ -14,18 +14,18 @@ import type { SubSchema, JSONSchema } from './json-schema/json-schema'
 import { Ref } from './json-schema/json-schema'
 import { isTypeRef } from './json-schema/json-schema'
 
-import { insertAt, lookup } from 'fp-ts/lib/Record'
-import { array } from 'fp-ts/lib/Array'
-import { of } from 'fp-ts/lib/NonEmptyArray'
+import { insertAt, lookup } from 'fp-ts/Record'
+import { array } from 'fp-ts/Array'
+import { of } from 'fp-ts/NonEmptyArray'
 
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/pipeable'
 
-import { tuple } from 'fp-ts/lib/function'
+import { tuple } from 'fp-ts/function'
 import type { JsonSchemaResult, NamedSchemas } from './hkt'
-import { map } from 'fp-ts/lib/Option'
-import { some } from 'fp-ts/lib/Option'
-import type { Option } from 'fp-ts/lib/Option'
-import { fromOption } from 'fp-ts/lib/Either'
+import { map } from 'fp-ts/Option'
+import { some } from 'fp-ts/Option'
+import type { Option } from 'fp-ts/Option'
+import { fromOption } from 'fp-ts/Either'
 
 /**
  *  @since 0.0.1

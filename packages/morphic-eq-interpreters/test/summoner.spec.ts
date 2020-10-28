@@ -19,7 +19,7 @@ import type { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
 import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
 import type { AnyConfigEnv } from '@morphic-ts/summoners'
-import { Eq } from 'fp-ts/lib/Eq'
+import { Eq } from 'fp-ts/Eq'
 import { modelEqInterpreter, EqURI } from '../src'
 
 /**

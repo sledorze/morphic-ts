@@ -1,4 +1,4 @@
-import type { Eq } from 'fp-ts/lib/Eq'
+import type { Eq } from 'fp-ts/Eq'
 
 /**
  *  @since 0.0.1

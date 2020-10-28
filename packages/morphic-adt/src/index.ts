@@ -3,10 +3,10 @@ import * as M from './monocle'
 import * as Ma from './matcher'
 import * as PU from './predicates'
 import * as CU from './ctors'
-import { intersection, difference, reduceRight, array } from 'fp-ts/lib/Array'
-import { eqString } from 'fp-ts/lib/Eq'
-import { fromFoldable } from 'fp-ts/lib/Record'
-import { tuple, identity } from 'fp-ts/lib/function'
+import { intersection, difference, reduceRight, array } from 'fp-ts/Array'
+import { eqString } from 'fp-ts/Eq'
+import { fromFoldable } from 'fp-ts/Record'
+import { tuple, identity } from 'fp-ts/function'
 
 /**
  *  @since 0.0.1

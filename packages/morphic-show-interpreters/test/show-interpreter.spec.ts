@@ -2,9 +2,9 @@ import * as chai from 'chai'
 
 import { iso } from 'newtype-ts'
 import type { Newtype } from 'newtype-ts'
-import type { Either } from 'fp-ts/lib/Either'
-import { left, right } from 'fp-ts/lib/Either'
-import { some, none } from 'fp-ts/lib/Option'
+import type { Either } from 'fp-ts/Either'
+import { left, right } from 'fp-ts/Either'
+import { some, none } from 'fp-ts/Option'
 import { summonFor } from './summoner.spec'
 
 const { summon } = summonFor<{}>({})

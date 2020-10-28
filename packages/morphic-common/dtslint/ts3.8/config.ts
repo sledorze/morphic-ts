@@ -1,7 +1,7 @@
 import type { ConfigsForType, AnyEnv } from '../../src/config'
 import type { URIS, HKT, URIS2 } from '../../src/HKT'
-import type { Ord } from 'fp-ts/lib/Ord'
-import type { Eq } from 'fp-ts/lib/Eq'
+import type { Ord } from 'fp-ts/Ord'
+import type { Eq } from 'fp-ts/Eq'
 import type { Type } from 'io-ts'
 
 declare module '../../src/HKT' {

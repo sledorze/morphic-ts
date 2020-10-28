@@ -1,7 +1,7 @@
 import type { ModelAlgebraTaggedUnions } from '../../src/tagged-unions'
 import type { ModelAlgebraPrimitive } from '../../src/primitives'
 import type { ModelAlgebraObject } from '../../src/object'
-import type { Eq } from 'fp-ts/lib/Eq'
+import type { Eq } from 'fp-ts/Eq'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import type {} from '@morphic-ts/algebras/lib/hkt'
 import type { HKT2 } from '@morphic-ts/common/lib/HKT'

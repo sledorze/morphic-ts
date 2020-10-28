@@ -1,5 +1,5 @@
 import type { OptionalJSONSchema, JsonSchemaError } from './json-schema/json-schema-ctors'
-import type { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import type { NonEmptyArray } from 'fp-ts/NonEmptyArray'
 import type { StateEither } from 'fp-ts-contrib/lib/StateEither'
 import type { JSONSchema } from './json-schema/json-schema'
 

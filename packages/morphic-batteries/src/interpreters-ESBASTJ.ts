@@ -1,14 +1,14 @@
-import type { Eq } from 'fp-ts/lib/Eq'
-import type { Show } from 'fp-ts/lib/Show'
+import type { Eq } from 'fp-ts/Eq'
+import type { Show } from 'fp-ts/Show'
 import type { Arbitrary } from 'fast-check/*'
 import type { Type } from 'io-ts'
 
 import type { JSONSchema } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema'
-import type { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import type { NonEmptyArray } from 'fp-ts/NonEmptyArray'
 import type { NamedSchemas } from '@morphic-ts/json-schema-interpreters/lib/index'
 import type { JsonSchemaError } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema-ctors'
 import type { Create } from '@morphic-ts/io-ts-interpreters/lib/create'
-import type { Either } from 'fp-ts/lib/Either'
+import type { Either } from 'fp-ts/Either'
 
 /**
  *  @since 0.0.1

@@ -1,6 +1,6 @@
 import { Lens, Prism } from 'monocle-ts'
-import { fromNullable } from 'fp-ts/lib/Option'
-import type { Option } from 'fp-ts/lib/Option'
+import { fromNullable } from 'fp-ts/Option'
+import type { Option } from 'fp-ts/Option'
 /**
  *  @since 0.0.1
  */

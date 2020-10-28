@@ -1,9 +1,9 @@
 import * as chai from 'chai'
-import { right, left } from 'fp-ts/lib/Either'
-import { either } from 'fp-ts/lib/Either'
+import { right, left } from 'fp-ts/Either'
+import { either } from 'fp-ts/Either'
 import { JsonSchemaErrors } from '../src/json-schema/json-schema-ctors'
-import { of } from 'fp-ts/lib/NonEmptyArray'
-import { tuple } from 'fp-ts/lib/function'
+import { of } from 'fp-ts/NonEmptyArray'
+import { tuple } from 'fp-ts/function'
 import type { JSONSchema } from '../src/json-schema/json-schema'
 import { summonFor, UM } from './summoner.spec'
 

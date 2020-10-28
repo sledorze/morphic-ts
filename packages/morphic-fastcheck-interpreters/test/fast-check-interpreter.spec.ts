@@ -1,5 +1,5 @@
 import * as fc from 'fast-check'
-import { ordString, ord } from 'fp-ts/lib/Ord'
+import { ordString, ord } from 'fp-ts/Ord'
 import type { ProgramType } from '@morphic-ts/summoners'
 import * as t from 'io-ts'
 import { UUID } from 'io-ts-types/lib/UUID'

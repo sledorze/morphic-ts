@@ -1,13 +1,13 @@
-import type { Magma } from 'fp-ts/lib/Magma'
-import type { Endomorphism } from 'fp-ts/lib/function'
+import type { Magma } from 'fp-ts/Magma'
+import type { Endomorphism } from 'fp-ts/function'
 import * as js from './json-schema'
 import { Lens } from 'monocle-ts'
-import { of } from 'fp-ts/lib/NonEmptyArray'
-import { ordString } from 'fp-ts/lib/Ord'
-import { pipe } from 'fp-ts/lib/pipeable'
-import { left, right } from 'fp-ts/lib/Either'
-import { array, chain, sort } from 'fp-ts/lib/Array'
-import { map, fromFoldable } from 'fp-ts/lib/Record'
+import { of } from 'fp-ts/NonEmptyArray'
+import { ordString } from 'fp-ts/Ord'
+import { pipe } from 'fp-ts/pipeable'
+import { left, right } from 'fp-ts/Either'
+import { array, chain, sort } from 'fp-ts/Array'
+import { map, fromFoldable } from 'fp-ts/Record'
 
 /**
  *  @since 0.0.1

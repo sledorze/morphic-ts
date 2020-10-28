@@ -11,8 +11,8 @@ import { modelJsonSchemaInterpreter } from '@morphic-ts/json-schema-interpreters
 
 import type { ProgramNoUnionURI } from './program-no-union'
 
-import { chain as EChain } from 'fp-ts/lib/Either'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { chain as EChain } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/pipeable'
 import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
 import type { IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 import {

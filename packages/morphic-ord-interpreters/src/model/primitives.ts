@@ -1,15 +1,15 @@
-import { getOrd as OgetOrd } from 'fp-ts/lib/Option'
-import { ordNumber, ordString, ord, ordBoolean, fromCompare } from 'fp-ts/lib/Ord'
-import type { Ord } from 'fp-ts/lib/Ord'
-import { getOrd as getArrayOrd } from 'fp-ts/lib/Array'
+import { getOrd as OgetOrd } from 'fp-ts/Option'
+import { ordNumber, ordString, ord, ordBoolean, fromCompare } from 'fp-ts/Ord'
+import type { Ord } from 'fp-ts/Ord'
+import { getOrd as getArrayOrd } from 'fp-ts/Array'
 import type { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { OrdType, OrdURI } from '../hkt'
-import { eqStrict } from 'fp-ts/lib/Eq'
+import { eqStrict } from 'fp-ts/Eq'
 import { ordApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
-import { isLeft, isRight } from 'fp-ts/lib/Either'
-import type { Either } from 'fp-ts/lib/Either'
+import { isLeft, isRight } from 'fp-ts/Either'
+import type { Either } from 'fp-ts/Either'
 
 /**
  *  @since 0.0.1

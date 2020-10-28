@@ -1,4 +1,4 @@
-import { getShow as SgetShow } from 'fp-ts/lib/Set'
+import { getShow as SgetShow } from 'fp-ts/Set'
 import type { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
 import { ShowType, ShowURI } from '../hkt'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'

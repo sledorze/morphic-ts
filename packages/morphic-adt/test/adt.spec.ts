@@ -1,4 +1,4 @@
-import * as O from 'fp-ts/lib/Option'
+import * as O from 'fp-ts/Option'
 import * as M from 'monocle-ts'
 import * as chai from 'chai'
 import { unionADT, intersectADT, makeADT, ofType } from '../src'

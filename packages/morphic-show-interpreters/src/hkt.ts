@@ -1,4 +1,4 @@
-import type { Show } from 'fp-ts/lib/Show'
+import type { Show } from 'fp-ts/Show'
 
 /**
  *  @since 0.0.1

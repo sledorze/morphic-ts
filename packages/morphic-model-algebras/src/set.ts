@@ -1,4 +1,4 @@
-import type { Ord } from 'fp-ts/lib/Ord'
+import type { Ord } from 'fp-ts/Ord'
 import type { Kind, URIS, Kind2, URIS2, HKT2 } from '@morphic-ts/common/lib/HKT'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 
