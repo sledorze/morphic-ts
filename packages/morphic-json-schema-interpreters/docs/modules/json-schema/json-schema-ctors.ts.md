@@ -28,6 +28,7 @@ parent: Modules
 - [SetFromArrayTypeCtor (function)](#setfromarraytypector-function)
 - [StrMapTypeCtor (function)](#strmaptypector-function)
 - [StringTypeCtor (function)](#stringtypector-function)
+- [TagTypeCtor (function)](#tagtypector-function)
 - [UnionTypeCtor (function)](#uniontypector-function)
 - [makeOptional (function)](#makeoptional-function)
 
@@ -241,6 +242,16 @@ Added in v0.0.1
 
 ```ts
 export const StringTypeCtor = (extras?: { format?: 'date' | 'date-time' | 'bigint' | 'uuid'; enum?: string[] }) => ...
+```
+
+Added in v0.0.1
+
+# TagTypeCtor (function)
+
+**Signature**
+
+```ts
+export const TagTypeCtor = (value: string) => ...
 ```
 
 Added in v0.0.1

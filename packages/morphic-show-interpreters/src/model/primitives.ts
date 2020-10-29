@@ -22,6 +22,7 @@ export const showPrimitiveInterpreter = memo(
     number: config => env => new ShowType(showApplyConfig(config)(showNumber, env)),
     bigint: config => env => new ShowType(showApplyConfig(config)({ show: a => JSON.stringify(a) }, env)),
     stringLiteral: (_, config) => env => new ShowType(showApplyConfig(config)(showString, env)),
+    tag: (_, config) => env => new ShowType(showApplyConfig(config)(showString, env)),
     keysOf: (_keys, config) => env => new ShowType(showApplyConfig(config)(showString as Show<any>, env)),
     nullable: (getShow, config) => env => new ShowType(showApplyConfig(config)(OgetShow(getShow(env).show), env)),
     array: (getShow, config) => env => new ShowType(showApplyConfig(config)(AgetShow(getShow(env).show), env)),

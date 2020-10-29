@@ -27,6 +27,7 @@ export const fastCheckPrimitiveInterpreter = memo(
     number: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(float(), env)),
     bigint: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(bigInt(), env)),
     stringLiteral: (l, config) => env => new FastCheckType(fastCheckApplyConfig(config)(constant(l), env)),
+    tag: (l, config) => env => new FastCheckType(fastCheckApplyConfig(config)(constant(l), env)),
     keysOf: (k, config) => env =>
       new FastCheckType(
         fastCheckApplyConfig(config)(oneof(...(Object.keys(k) as (keyof typeof k)[]).map(constant)), env)

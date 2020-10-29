@@ -37,6 +37,14 @@ export const BigIntString: BigIntStringC = new t.Type<bigint, string, unknown>(
   a => a.toString(10)
 )
 
+const tag = <S extends string>(s: S): t.Type<S, undefined, unknown> =>
+  new t.Type(
+    s,
+    (u: unknown): u is S => u === s,
+    (_i, _c) => t.success(s),
+    _a => undefined
+  )
+
 /**
  *  @since 0.0.1
  */
@@ -50,6 +58,7 @@ export const ioTsPrimitiveInterpreter = memo(
     number: config => env => new IOTSType(iotsApplyConfig(config)(t.number, env)),
     bigint: config => env => new IOTSType(iotsApplyConfig(config)(BigIntString, env)),
     stringLiteral: (l, config) => env => new IOTSType(iotsApplyConfig(config)(t.literal(l, l), env)),
+    tag: (l, config) => env => new IOTSType(iotsApplyConfig(config)(tag(l), env)),
     keysOf: (k, config) => env =>
       new IOTSType(iotsApplyConfig(config)(t.keyof(k) as t.Type<keyof typeof k, string, unknown>, env)),
     nullable: (T, config) => env => new IOTSType(iotsApplyConfig(config)(optionFromNullable(T(env).type), env)),
