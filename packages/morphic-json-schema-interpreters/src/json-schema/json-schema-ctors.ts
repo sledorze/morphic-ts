@@ -206,6 +206,15 @@ export const LiteralTypeCtor = (value: string) =>
 /**
  *  @since 0.0.1
  */
+export const TagTypeCtor = (value: string) =>
+  optional<js.EnumSchema>({
+    type: 'string',
+    enum: [value]
+  })
+
+/**
+ *  @since 0.0.1
+ */
 export const ObjectTypeCtor = (props: [string, OptionalJSONSchema][]): OptionalJSONSchema => {
   const required = pipe(
     props,

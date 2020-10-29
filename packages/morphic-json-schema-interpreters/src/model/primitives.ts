@@ -10,7 +10,8 @@ import {
   ArrayTypeCtor,
   UnionTypeCtor,
   ObjectTypeCtor,
-  OptionalJSONSchema
+  OptionalJSONSchema,
+  TagTypeCtor
 } from '../json-schema/json-schema-ctors'
 import {
   stateEither as SEstateEither,
@@ -38,6 +39,7 @@ export const jsonSchemaPrimitiveInterpreter = memo(
     boolean: config => env => new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(BooleanTypeCtor()), env)),
     stringLiteral: (v, config) => env =>
       new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(LiteralTypeCtor(v)), env)),
+    tag: (v, config) => env => new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(TagTypeCtor(v)), env)),
     keysOf: (_keys, config) => env =>
       new JsonSchema(
         jsonSchemaApplyConfig(config)(SEstateEither.of(StringTypeCtor({ enum: Object.keys(_keys) })), env)

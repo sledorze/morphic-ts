@@ -32,6 +32,7 @@ export const ordPrimitiveInterpreter = memo(
         ordApplyConfig(config)({ equals: eqStrict.equals, compare: (x, y) => (x < y ? -1 : x > y ? 1 : 0) }, env)
       ),
     stringLiteral: (k, config) => env => new OrdType<typeof k>(ordApplyConfig(config)(ordString, env)),
+    tag: (k, config) => env => new OrdType<typeof k>(ordApplyConfig(config)(ordString, env)),
     keysOf: (keys, config) => env =>
       new OrdType<keyof typeof keys>(
         ordApplyConfig(config)(

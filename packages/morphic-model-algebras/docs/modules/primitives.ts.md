@@ -42,6 +42,9 @@ export interface ModelAlgebraPrimitive<F, Env> {
   stringLiteral: {
     <T extends string>(value: T, config?: ConfigsForType<Env, string, T>): HKT2<F, Env, string, typeof value>
   }
+  tag: {
+    <T extends string>(value: T, config?: ConfigsForType<Env, undefined, T>): HKT2<F, Env, undefined, typeof value>
+  }
   keysOf: {
     <K extends Keys>(keys: K, config?: ConfigsForType<Env, string, keyof K>): HKT2<F, Env, string, keyof typeof keys>
   }
@@ -95,6 +98,7 @@ export interface ModelAlgebraPrimitive1<F extends URIS, Env extends AnyEnv> {
   bigint(config?: ConfigsForType<Env, string, bigint>): Kind<F, Env, bigint>
   string(config?: ConfigsForType<Env, string, string>): Kind<F, Env, string>
   stringLiteral: <T extends string>(value: T, config?: ConfigsForType<Env, string, T>) => Kind<F, Env, typeof value>
+  tag: <T extends string>(value: T, config?: ConfigsForType<Env, undefined, T>) => Kind<F, Env, typeof value>
   keysOf: <K extends Keys>(keys: K, config?: ConfigsForType<Env, string, keyof K>) => Kind<F, Env, keyof typeof keys>
   array: <A>(a: Kind<F, Env, A>, config?: ConfigsForType<Env, unknown[], A[]>) => Kind<F, Env, Array<A>>
   nonEmptyArray: <A>(
@@ -135,6 +139,10 @@ export interface ModelAlgebraPrimitive2<F extends URIS2, Env extends AnyEnv> {
     value: T,
     config?: ConfigsForType<Env, string, T>
   ) => Kind2<F, Env, string, typeof value>
+  tag: <T extends string>(
+    value: T,
+    config?: ConfigsForType<Env, undefined, T>
+  ) => Kind2<F, Env, undefined, typeof value>
   keysOf: <K extends Keys>(
     keys: K,
     config?: ConfigsForType<Env, string, keyof K>

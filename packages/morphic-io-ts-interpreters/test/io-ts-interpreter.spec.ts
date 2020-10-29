@@ -687,3 +687,39 @@ describe('iotsObjectInterpreter', () => {
     chai.assert.deepStrictEqual(PathReporter.report(type.decode(1)), ['Invalid value 1 supplied to : Option<string>'])
   })
 })
+
+describe('tag', () => {
+  it('can add a tag on decode for use at app level without serializing it on encode', () => {
+    const Person = summon(F =>
+      F.interface(
+        {
+          type: F.tag('Person'),
+          name: F.string(),
+          age: F.number()
+        },
+        'Person'
+      )
+    )
+
+    chai.assert.deepStrictEqual(PathReporter.report(Person.type.decode({ name: 'john', age: 42 })), success())
+
+    chai.assert.deepStrictEqual(
+      Person.type.decode({ name: 'john', age: 42 }),
+      right({ type: 'Person', name: 'john', age: 42 })
+    )
+
+    chai.assert.deepStrictEqual(Person.type.encode({ type: 'Person', name: 'john', age: 42 }), {
+      type: undefined,
+      name: 'john',
+      age: 42
+    })
+
+    chai.assert.deepStrictEqual(
+      JSON.parse(JSON.stringify(Person.type.encode({ type: 'Person', name: 'john', age: 42 }))),
+      {
+        name: 'john',
+        age: 42
+      }
+    )
+  })
+})
