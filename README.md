@@ -65,7 +65,9 @@ These naming are derived from the exposed derivations:
 - ST((Strict) ioTs codecs)
 - J(JsonSchema)
 
-Typically, ESBST is best for runtime with lower memory footprint (no fastcheck) and maybe the right default.
+Typically, ESBST is best for runtime with lower memory footprint (no fastcheck) and maybe the right default
+
+You can create yours in userland, it's quite easy if you check how it's done in the batteries package
 
 ### Discriminated, taggedUnion-like models
 
