@@ -102,6 +102,34 @@ const Vehicle = tagged('type')({ Car, Bicycle })
 
 Now you have access to previously depicted derivation + ADT support (ctors, predicates, optics, matchers,reducers, etc.. see `ADT Manipulation` below)
 
+### Use `tag` if your input model does not have a discriminant
+
+in case your existing model do not expose a discriminant, you can use `tag` to enrich at decode time your model; that enrichment won't be serialized on encoding.
+
+For instance for Car, the solution would be:
+
+```typescript
+export const Car = summon(F =>
+  F.interface(
+    {
+      type: F.tag('Car'),
+      kind: F.keysOf({ electric: null, fuel: null, gaz: null }),
+      power: F.number()
+    },
+    'Car'
+  )
+)
+```
+
+Which would accept an input with shape
+
+```json
+{
+  "kind": "electric",
+  "power": 90
+}
+```
+
 ### Want opaque nominal (instead of structural) inferred types
 
 You may use this pattern

@@ -404,8 +404,8 @@ describe('IO-TS', () => {
       )
     )
 
-    const FooBar = summon(F => {
-      const res = F.taggedUnion(
+    const FooBar = summon(F =>
+      F.taggedUnion(
         'type',
         {
           foo1: Foo(F),
@@ -413,8 +413,7 @@ describe('IO-TS', () => {
         },
         'FooBar'
       )
-      return res
-    })
+    )
 
     const codec = FooBar
 
