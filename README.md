@@ -53,6 +53,20 @@ Person.arb // fast-check
 Person.jsonSchema // JsonSchema-ish representation
 ```
 
+Note that batteries exposes several summoners:
+
+BASTJ, ESBAST, ESBASTJ, ESBST
+These naming are derived from the exposed derivations:
+
+- E(Eq)
+- B(Build)
+- A(Arbitraries from fast-check)
+- S(Show)
+- ST((Strict) ioTs codecs)
+- J(JsonSchema)
+
+Typically, ESBST is best for runtime with lower memory footprint (no fastcheck) and maybe the right default.
+
 ### Discriminated, taggedUnion-like models
 
 ```typescript
