@@ -722,3 +722,17 @@ describe('tag', () => {
     )
   })
 })
+
+describe('record', () => {
+  it('can specify a domain AND codomain', () => {
+    const Codec = summon(F => F.record(F.keysOf({ ka: null, kb: null }), F.keysOf({ vc: null, vd: null })))
+    chai.assert.deepStrictEqual(Codec.type.decode({ ka: 'vc', kb: 'vd' }), right({ ka: 'vc', kb: 'vd' }))
+    // this strange error is leaking from io-ts; to investigate
+    chai.assert.deepStrictEqual(PathReporter.report(Codec.type.decode({ ka: 'vc', kc: 'vd' })), [
+      'Invalid value undefined supplied to : { [K in "ka" | "kb"]: "vc" | "vd" }/kb: "vc" | "vd"'
+    ])
+    chai.assert.deepStrictEqual(PathReporter.report(Codec.type.decode({ ka: 'va', kb: 'vd' })), [
+      'Invalid value "va" supplied to : { [K in "ka" | "kb"]: "vc" | "vd" }/ka: "vc" | "vd"'
+    ])
+  })
+})

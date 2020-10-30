@@ -18,6 +18,10 @@ export const fastCheckStrMapInterpreter = memo(
     strMap: (codomain, config) => env =>
       new FastCheckType(
         fastCheckApplyConfig(config)(FCArray(tuple(string(), codomain(env).arb)).map(strmapFromArray()), env)
+      ),
+    record: (domain, codomain, config) => env =>
+      new FastCheckType(
+        fastCheckApplyConfig(config)(FCArray(tuple(domain(env).arb, codomain(env).arb)).map(strmapFromArray()), env)
       )
   })
 )

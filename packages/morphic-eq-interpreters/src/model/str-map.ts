@@ -11,6 +11,8 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const eqStrMapInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraStrMap1<EqURI, Env> => ({
     _F: EqURI,
-    strMap: (getCodomain, config) => env => new EqType(eqApplyConfig(config)(RgetEq(getCodomain(env).eq), env))
+    strMap: (getCodomain, config) => env => new EqType(eqApplyConfig(config)(RgetEq(getCodomain(env).eq), env)),
+    record: (_getDomain, getCodomain, config) => env =>
+      new EqType(eqApplyConfig(config)(RgetEq(getCodomain(env).eq), env)) // domain is always comparable (this is handled by record Eq)
   })
 )

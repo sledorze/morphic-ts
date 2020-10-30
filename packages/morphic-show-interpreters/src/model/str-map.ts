@@ -11,6 +11,8 @@ import { memo } from '@morphic-ts/common/lib/utils'
 export const showStrMapInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraStrMap1<ShowURI, Env> => ({
     _F: ShowURI,
-    strMap: (codomain, config) => env => new ShowType(showApplyConfig(config)(RgetShow(codomain(env).show), env))
+    strMap: (codomain, config) => env => new ShowType(showApplyConfig(config)(RgetShow(codomain(env).show), env)),
+    record: (_domain, codomain, config) => env =>
+      new ShowType(showApplyConfig(config)(RgetShow(codomain(env).show), env))
   })
 )

@@ -14,6 +14,10 @@ export const jsonSchemaStrMapInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraStrMap1<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
     strMap: (getSchema, config) => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(pipe(getSchema(env).schema, SEchainEitherK(StrMapTypeCtor)), env))
+      new JsonSchema(jsonSchemaApplyConfig(config)(pipe(getSchema(env).schema, SEchainEitherK(StrMapTypeCtor)), env)),
+    record: (_getdDomainSchema, getCodomainSchema, config) => env =>
+      new JsonSchema(
+        jsonSchemaApplyConfig(config)(pipe(getCodomainSchema(env).schema, SEchainEitherK(StrMapTypeCtor)), env)
+      )
   })
 )
