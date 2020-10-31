@@ -1,6 +1,8 @@
+import * as chai from 'chai'
 import { summonFor, AsOpaque } from '../src/summoner-BASTJ'
 import type { AType, EType } from '@morphic-ts/summoners'
 import { unionADT, intersectADT } from '@morphic-ts/adt'
+import { right } from 'fp-ts/lib/Either'
 
 const { summon, tagged } = summonFor<{}>({})
 
@@ -39,11 +41,33 @@ const TaggedAC = tagged('type')({
   ObjC
 })
 
+const ObjCTag_ = summon(F => F.interface({ type: F.tag('ObjCTag'), x: F.string() }, 'ObjCTag'))
+export interface ObjCTag extends AType<typeof ObjCTag_> {}
+export interface ObjCTagRaw extends EType<typeof ObjCTag_> {}
+export const ObjCTag = AsOpaque<ObjCTagRaw, ObjCTag>()(ObjCTag_)
+
+const ObjDTag_ = summon(F => F.interface({ type: F.tag('ObjDTag'), y: F.number() }, 'ObjDTag'))
+export interface ObjDTag extends AType<typeof ObjDTag_> {}
+export interface ObjDTagRaw extends EType<typeof ObjDTag_> {}
+export const ObjDTag = AsOpaque<ObjDTagRaw, ObjDTag>()(ObjDTag_)
+
+const TaggedABTag = tagged('type')({
+  ObjCTag,
+  ObjDTag
+})
+
 describe('tagged-union', () => {
   it('can union via unionADT (should compile)', () => {
     unionADT([TaggedAB, TaggedBC, TaggedAC])
   })
   it('can intersect via intersectADT (should compile)', () => {
     intersectADT(TaggedAB, TaggedBC)
+  })
+
+  it('decoded with `tag`', () => {
+    const objcTag: unknown = { x: 's' }
+    const objdTag: unknown = { y: 1 }
+    chai.assert.deepStrictEqual(TaggedABTag.type.decode(objcTag), right({ type: 'ObjCTag' as const, x: 's' }))
+    chai.assert.deepStrictEqual(TaggedABTag.type.decode(objdTag), right({ type: 'ObjDTag' as const, y: 1 }))
   })
 })

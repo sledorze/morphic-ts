@@ -130,6 +130,8 @@ Which would accept an input with shape
 }
 ```
 
+Beware that using this with `taggedUnion` (or `tagged` construct) is very inefficient on decoding (trying to decode all Morphs one after the other until it finds a matching one)
+
 ### Want opaque nominal (instead of structural) inferred types
 
 You may use this pattern
