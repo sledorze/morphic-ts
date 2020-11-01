@@ -225,4 +225,20 @@ describe('Show', () => {
     chai.assert.deepStrictEqual(show.show(a1), 'some("a")')
     chai.assert.deepStrictEqual(show.show(n), 'none')
   })
+  it('strMap', () => {
+    const { show } = summon(F => F.strMap(F.string()))
+    const a1 = { a: 'a' }
+    const n = {}
+
+    chai.assert.deepStrictEqual(show.show(a1), '{ "a": "a" }')
+    chai.assert.deepStrictEqual(show.show(n), '{}')
+  })
+  it('record', () => {
+    const { show } = summon(F => F.record(F.string(), F.number()))
+    const a1 = { a: 1 }
+    const n = {}
+
+    chai.assert.deepStrictEqual(show.show(a1), '{ "a": 1 }')
+    chai.assert.deepStrictEqual(show.show(n), '{}')
+  })
 })

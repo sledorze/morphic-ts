@@ -422,4 +422,30 @@ describe('a json schema generator', function (this: any) {
 
     chai.assert.deepStrictEqual(jsonSchema, right(tuple(OptionStr, {})))
   })
+
+  it('strMap', () => {
+    const { jsonSchema } = summon(F => F.strMap(F.string()))
+
+    const OptionStr: JSONSchema = {
+      additionalProperties: {
+        type: 'string'
+      },
+      type: 'object'
+    }
+
+    chai.assert.deepStrictEqual(jsonSchema, right(tuple(OptionStr, {})))
+  })
+
+  it('record', () => {
+    const { jsonSchema } = summon(F => F.record(F.string(), F.number()))
+
+    const OptionStr: JSONSchema = {
+      additionalProperties: {
+        type: 'number'
+      },
+      type: 'object'
+    }
+
+    chai.assert.deepStrictEqual(jsonSchema, right(tuple(OptionStr, {})))
+  })
 })

@@ -306,4 +306,32 @@ describe('Eq', () => {
     chai.assert.deepStrictEqual(eq.equals(a1, b), false)
     chai.assert.deepStrictEqual(eq.equals(a1, n), false)
   })
+
+  it('strMap', () => {
+    const { eq } = summon(F => F.strMap(F.string()))
+    const a1 = { a: 'a' }
+    const a2 = { a: 'a' }
+    const b = { b: 'b' }
+    const n = {}
+
+    chai.assert.deepStrictEqual(eq.equals(a1, a1), true)
+    chai.assert.deepStrictEqual(eq.equals(a1, a2), true)
+    chai.assert.deepStrictEqual(eq.equals(n, n), true)
+
+    chai.assert.deepStrictEqual(eq.equals(a1, b), false)
+  })
+
+  it('record', () => {
+    const { eq } = summon(F => F.record(F.string(), F.number()))
+    const a1 = { a: 1 }
+    const a2 = { a: 1 }
+    const b = { b: 2 }
+    const n = {}
+
+    chai.assert.deepStrictEqual(eq.equals(a1, a1), true)
+    chai.assert.deepStrictEqual(eq.equals(a1, a2), true)
+    chai.assert.deepStrictEqual(eq.equals(n, n), true)
+
+    chai.assert.deepStrictEqual(eq.equals(a1, b), false)
+  })
 })

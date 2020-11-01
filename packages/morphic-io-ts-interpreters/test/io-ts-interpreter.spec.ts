@@ -108,6 +108,22 @@ describe('IO-TS', () => {
     chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
   })
 
+  it('record', () => {
+    const codec = summon(F =>
+      F.record(F.keysOf({ a: null, b: null }), F.string({ IoTsURI: _ => t.string }), {
+        IoTsURI: x => WM.withMessage(x, () => 'not ok')
+      })
+    ).type
+
+    const result1 = codec.decode({ a: 'a', b: 'b' })
+    chai.assert.deepStrictEqual(isRight(result1) && result1.right, { a: 'a', b: 'b' })
+
+    const result = codec.decode({ a: 'a' })
+
+    chai.assert.deepStrictEqual(isLeft(result), true)
+    chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
+  })
+
   it('refined', () => {
     interface PositiveNumberBrand {
       readonly PosNum: unique symbol
@@ -720,5 +736,20 @@ describe('tag', () => {
         age: 42
       }
     )
+  })
+})
+
+describe('record', () => {
+  it('can specify a domain AND codomain', () => {
+    const Codec = summon(F => F.record(F.keysOf({ ka: null, kb: null }), F.keysOf({ vc: null, vd: null })))
+
+    chai.assert.deepStrictEqual(Codec.type.decode({ ka: 'vc', kb: 'vd' }), right({ ka: 'vc', kb: 'vd' }))
+    // kb is missing here
+    chai.assert.deepStrictEqual(PathReporter.report(Codec.type.decode({ ka: 'vc', kc: 'vd' })), [
+      'Invalid value undefined supplied to : { [K in "ka" | "kb"]: "vc" | "vd" }/kb: "vc" | "vd"'
+    ])
+    chai.assert.deepStrictEqual(PathReporter.report(Codec.type.decode({ ka: 'va', kb: 'vd' })), [
+      'Invalid value "va" supplied to : { [K in "ka" | "kb"]: "vc" | "vd" }/ka: "vc" | "vd"'
+    ])
   })
 })
