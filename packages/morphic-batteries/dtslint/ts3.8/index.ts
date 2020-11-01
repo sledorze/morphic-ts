@@ -1,5 +1,5 @@
 import { summonFor } from '../../src/summoner-BASTJ'
-import type { EOfMorhpADT, IfStringLiteral, AOfMorhpADT } from '@morphic-ts/summoners/lib/tagged-union'
+import type { EOfMorphADT, IfStringLiteral, AOfMorphADT } from '@morphic-ts/summoners/lib/tagged-union'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import { interpretable } from '@morphic-ts/summoners'
 import type { ADT } from '@morphic-ts/adt'
@@ -97,9 +97,9 @@ ABC.selectMorph(['A', 'B'])
 ABC.excludeMorph(['A'])
 
 // $ExpectType A | B | C
-type AM = AOfMorhpADT<typeof ABC>
+type AM = AOfMorphADT<typeof ABC>
 // $ExpectType ARaw | BRaw | CRaw
-type EM = EOfMorhpADT<typeof ABC>
+type EM = EOfMorphADT<typeof ABC>
 
 // $ExpectType (env: {}) => FastCheckType<A | B | C>
 interpretable(ABC)(modelFastCheckInterpreter())

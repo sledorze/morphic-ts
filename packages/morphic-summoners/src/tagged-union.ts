@@ -152,7 +152,7 @@ export type AOfTypes<Types extends AnyADTTypes> = Types[keyof Types][1]
 /**
  *  @since 0.0.1
  */
-export type AOfMorhpADT<T extends HasTypes<any>> = AOfTypes<T['_Types']>
+export type AOfMorphADT<T extends HasTypes<any>> = AOfTypes<T['_Types']>
 
 /**
  * Extracts the type of `E` for a given Morph type
@@ -160,7 +160,7 @@ export type AOfMorhpADT<T extends HasTypes<any>> = AOfTypes<T['_Types']>
 /**
  *  @since 0.0.1
  */
-export type EOfMorhpADT<T extends HasTypes<any>> = EOfTypes<T['_Types']>
+export type EOfMorphADT<T extends HasTypes<any>> = EOfTypes<T['_Types']>
 
 /**
  *  @since 0.0.1
