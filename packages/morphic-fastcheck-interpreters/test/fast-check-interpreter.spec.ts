@@ -358,4 +358,16 @@ describe('FastCheck interpreter', () => {
     const codec = t.string
     fc.assert(fc.property(arb, s => codec.is(s) && hasEvenLength(s)))
   })
+
+  it('strMap', () => {
+    const { arb } = summon(F => F.strMap(F.string()))
+    const codec = t.record(t.string, t.string)
+    fc.assert(fc.property(arb, s => codec.is(s)))
+  })
+
+  it('record', () => {
+    const { arb } = summon(F => F.record(F.string(), F.number()))
+    const codec = t.record(t.string, t.number)
+    fc.assert(fc.property(arb, s => codec.is(s)))
+  })
 })

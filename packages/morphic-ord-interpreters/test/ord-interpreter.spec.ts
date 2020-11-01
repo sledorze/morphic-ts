@@ -4,6 +4,9 @@ import { summonFor } from './summoner'
 import { left, right } from 'fp-ts/Either'
 import type { Either } from 'fp-ts/Either'
 import { some, none } from 'fp-ts/Option'
+import { modelFastCheckInterpreter } from '../../morphic-fastcheck-interpreters'
+import fc from 'fast-check'
+import * as ordering from 'fp-ts/Ordering'
 
 const { summon } = summonFor<{}>({})
 
@@ -68,6 +71,7 @@ describe('Ord', () => {
 
   it('option', () => {
     const { ord } = summon(F => F.option(F.string()))
+
     const a1 = some('a')
     const a2 = some('a')
     const b = some('b')
@@ -81,5 +85,19 @@ describe('Ord', () => {
     chai.assert.deepStrictEqual(lt(ord)(a1, b), true)
     chai.assert.deepStrictEqual(gt(ord)(b, a1), true)
     chai.assert.deepStrictEqual(lt(ord)(n, a1), true)
+  })
+
+  it('strMap', () => {
+    const T = summon(F => F.strMap(F.string()))
+    const TArb = T.derive(modelFastCheckInterpreter())({})
+    fc.property(fc.tuple(TArb.arb, TArb.arb), ([a, b]) => T.ord.compare(a, b) === ordering.invert(T.ord.compare(b, a)))
+    fc.property(TArb.arb, a => T.ord.compare(a, a) === 0)
+  })
+
+  it('record', () => {
+    const T = summon(F => F.record(F.string(), F.number()))
+    const TArb = T.derive(modelFastCheckInterpreter())({})
+    fc.property(fc.tuple(TArb.arb, TArb.arb), ([a, b]) => T.ord.compare(a, b) === ordering.invert(T.ord.compare(b, a)))
+    fc.property(TArb.arb, a => T.ord.compare(a, a) === 0)
   })
 })

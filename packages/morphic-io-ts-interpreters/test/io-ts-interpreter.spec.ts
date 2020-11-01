@@ -108,6 +108,22 @@ describe('IO-TS', () => {
     chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
   })
 
+  it('record', () => {
+    const codec = summon(F =>
+      F.record(F.keysOf({ a: null, b: null }), F.string({ IoTsURI: _ => t.string }), {
+        IoTsURI: x => WM.withMessage(x, () => 'not ok')
+      })
+    ).type
+
+    const result1 = codec.decode({ a: 'a', b: 'b' })
+    chai.assert.deepStrictEqual(isRight(result1) && result1.right, { a: 'a', b: 'b' })
+
+    const result = codec.decode({ a: 'a' })
+
+    chai.assert.deepStrictEqual(isLeft(result), true)
+    chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
+  })
+
   it('refined', () => {
     interface PositiveNumberBrand {
       readonly PosNum: unique symbol
