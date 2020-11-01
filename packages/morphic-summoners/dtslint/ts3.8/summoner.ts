@@ -17,7 +17,7 @@ import type { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
 import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
 import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/hkt'
-import { Arbitrary } from 'fast-check/*'
+import { Arbitrary } from 'fast-check'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 
 /**

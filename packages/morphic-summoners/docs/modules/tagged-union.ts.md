@@ -9,9 +9,9 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [Refinable (interface)](#refinable-interface)
-- [AOfMorhpADT (type alias)](#aofmorhpadt-type-alias)
+- [AOfMorphADT (type alias)](#aofmorphadt-type-alias)
 - [AOfTypes (type alias)](#aoftypes-type-alias)
-- [EOfMorhpADT (type alias)](#eofmorhpadt-type-alias)
+- [EOfMorphADT (type alias)](#eofmorphadt-type-alias)
 - [EOfTypes (type alias)](#eoftypes-type-alias)
 - [IfStringLiteral (type alias)](#ifstringliteral-type-alias)
 - [MorphADT (type alias)](#morphadt-type-alias)
@@ -61,7 +61,7 @@ export interface Refinable<
 
 Added in v0.0.1
 
-# AOfMorhpADT (type alias)
+# AOfMorphADT (type alias)
 
 Extracts the type of `A` for a given Morph type
 /
@@ -70,7 +70,7 @@ Extracts the type of `A` for a given Morph type
 **Signature**
 
 ```ts
-export type AOfMorhpADT<T extends HasTypes<any>> = AOfTypes<T['_Types']>
+export type AOfMorphADT<T extends HasTypes<any>> = AOfTypes<T['_Types']>
 ```
 
 Added in v0.0.1
@@ -85,7 +85,7 @@ export type AOfTypes<Types extends AnyADTTypes> = Types[keyof Types][1]
 
 Added in v0.0.1
 
-# EOfMorhpADT (type alias)
+# EOfMorphADT (type alias)
 
 Extracts the type of `E` for a given Morph type
 /
@@ -94,7 +94,7 @@ Extracts the type of `E` for a given Morph type
 **Signature**
 
 ```ts
-export type EOfMorhpADT<T extends HasTypes<any>> = EOfTypes<T['_Types']>
+export type EOfMorphADT<T extends HasTypes<any>> = EOfTypes<T['_Types']>
 ```
 
 Added in v0.0.1

@@ -1,6 +1,6 @@
 import type { Eq } from 'fp-ts/Eq'
 import type { Show } from 'fp-ts/Show'
-import type { Arbitrary } from 'fast-check/*'
+import type { Arbitrary } from 'fast-check'
 import type { Type } from 'io-ts'
 
 import type { JSONSchema } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema'

@@ -1,4 +1,4 @@
-import type { Arbitrary } from 'fast-check/*'
+import type { Arbitrary } from 'fast-check'
 import type { Type } from 'io-ts'
 import type { JSONSchema } from '@morphic-ts/json-schema-interpreters/lib/json-schema/json-schema'
 import type { NonEmptyArray } from 'fp-ts/NonEmptyArray'

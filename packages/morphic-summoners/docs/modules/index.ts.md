@@ -8,10 +8,10 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [AOfMorhpADT (export)](#aofmorhpadt-export)
+- [AOfMorphADT (export)](#aofmorphadt-export)
 - [AType (export)](#atype-export)
 - [AnyConfigEnv (export)](#anyconfigenv-export)
-- [EOfMorhpADT (export)](#eofmorhpadt-export)
+- [EOfMorphADT (export)](#eofmorphadt-export)
 - [EType (export)](#etype-export)
 - [ExtractEnv (export)](#extractenv-export)
 - [InferredAlgebra (export)](#inferredalgebra-export)
@@ -28,7 +28,7 @@ parent: Modules
 
 ---
 
-# AOfMorhpADT (export)
+# AOfMorphADT (export)
 
 **Signature**
 
@@ -58,7 +58,7 @@ any
 
 Added in v0.0.1
 
-# EOfMorhpADT (export)
+# EOfMorphADT (export)
 
 **Signature**
 

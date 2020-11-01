@@ -86,7 +86,7 @@ describe('Can specify envs', () => {
   // MorphA has M<AppEnv, string, string> signature (note the AppEnv environement specified)
   const MorphA = summon(F =>
     F.string({
-      FastCheckURI: (_x, { fastCheck }) => fastCheck.string(1), // We're using the FastCheckEnv here, that only type checks because summon defines it as Env
+      FastCheckURI: (_x, { fastCheck }) => fastCheck.string({ minLength: 1, maxLength: 1 }), // We're using the FastCheckEnv here, that only type checks because summon defines it as Env
       IoTsURI: (_x, { withMessage }) => withMessage.withMessage(_x, x => `damn! got ${x}`)
     })
   )

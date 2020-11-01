@@ -24,7 +24,7 @@ import type { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
 import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
 import type { AnyConfigEnv } from '@morphic-ts/summoners'
-import { Arbitrary } from 'fast-check/*'
+import { Arbitrary } from 'fast-check'
 
 /**
  *  @since 0.0.1
