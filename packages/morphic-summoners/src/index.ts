@@ -31,11 +31,11 @@ export {
   /**
    *  @since 0.0.1
    */
-  AOfMorhpADT,
+  AOfMorphADT,
   /**
    *  @since 0.0.1
    */
-  EOfMorhpADT
+  EOfMorphADT
 } from './tagged-union'
 export {
   /**

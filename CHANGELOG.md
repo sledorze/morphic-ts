@@ -17,3 +17,5 @@
   - add `record`
 - **Polish**
   - add tests for `strMap`
+- **Breaking Change**
+  - fix wording of `AOfMorphADT` and `EOfMorphADT` (`Morhp` to `Morph`) (thanks @erlandsona)
