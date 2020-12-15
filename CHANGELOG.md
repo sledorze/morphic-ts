@@ -11,6 +11,10 @@
 > - [Experimental]
 > - [Deprecation]
 
+## 2.0.0
+
+Promotion from 2.0.0-alpha.19
+
 ## 2.0.0-alpha.19
 
 - **New Feature**
