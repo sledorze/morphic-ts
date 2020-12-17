@@ -34,6 +34,7 @@ export const fastCheckPrimitiveInterpreter = memo(
       ),
     nullable: (T, config) => env =>
       new FastCheckType(fastCheckApplyConfig(config)(option(T(env).arb).map(fromNullable), env)),
+    mutable: (T, config) => env => new FastCheckType(fastCheckApplyConfig(config)(T(env).arb, env)),
     array: (T, config) => env => new FastCheckType(fastCheckApplyConfig(config)(array(T(env).arb), env)),
     nonEmptyArray: (T, config) => env => {
       const gen = T(env).arb

@@ -1,3 +1,4 @@
+import { array } from 'fast-check'
 import { summonFor } from '../../src/summoner-BASTJ'
 import type { EOfMorphADT, IfStringLiteral, AOfMorphADT } from '@morphic-ts/summoners/lib/tagged-union'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
@@ -104,5 +105,11 @@ type EM = EOfMorphADT<typeof ABC>
 // $ExpectType (env: {}) => FastCheckType<A | B | C>
 interpretable(ABC)(modelFastCheckInterpreter())
 
-// $ExpectType M<{}, { a: string; b: string; }, { a: string; b: string; }>
+// $ExpectType M<{}, Readonly<{ a: string; b: string; }>, Readonly<{ a: string; b: string; }>>
 summon(F => F.interface({ a: F.string(), b: F.string() }, 'A'))
+
+// $ExpectType M<{}, Mutable<Readonly<{ a: string; b: string; }>>, Mutable<Readonly<{ a: string; b: string; }>>>
+summon(F => F.mutable(F.interface({ a: F.string(), b: F.string() }, 'A')))
+
+// $ExpectType M<{}, string[], string[]>
+summon(F => F.mutable(F.array(F.string())))

@@ -1,7 +1,7 @@
 import { getOrd as OgetOrd } from 'fp-ts/Option'
 import { ordNumber, ordString, ord, ordBoolean, fromCompare } from 'fp-ts/Ord'
 import type { Ord } from 'fp-ts/Ord'
-import { getOrd as getArrayOrd } from 'fp-ts/Array'
+import { getOrd as getArrayOrd } from 'fp-ts/ReadonlyArray'
 import type { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { OrdType, OrdURI } from '../hkt'
 import { eqStrict } from 'fp-ts/Eq'
@@ -41,6 +41,7 @@ export const ordPrimitiveInterpreter = memo(
         )
       ),
     nullable: (getOrd, config) => env => new OrdType(ordApplyConfig(config)(OgetOrd(getOrd(env).ord), env)),
+    mutable: (getOrd, config) => env => new OrdType(ordApplyConfig(config)(getOrd(env).ord, env)),
     array: (getOrd, config) => env => new OrdType(ordApplyConfig(config)(getArrayOrd(getOrd(env).ord), env)),
     nonEmptyArray: (getOrd, config) => env => new OrdType(ordApplyConfig(config)(getArrayOrd(getOrd(env).ord), env)),
     uuid: config => env => new OrdType(ordApplyConfig(config)(ordString, env)),

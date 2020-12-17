@@ -1,8 +1,8 @@
 import type { Show } from 'fp-ts/Show'
 import { showNumber, showString, showBoolean } from 'fp-ts/Show'
 import { getShow as OgetShow } from 'fp-ts/Option'
-import { getShow as AgetShow } from 'fp-ts/Array'
-import { getShow as NEAgetShow } from 'fp-ts/NonEmptyArray'
+import { getShow as AgetShow } from 'fp-ts/ReadonlyArray'
+import { getShow as NEAgetShow } from 'fp-ts/ReadonlyNonEmptyArray'
 import { getShow as EgetShow } from 'fp-ts/Either'
 import type { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
 import { ShowType, ShowURI } from '../hkt'
@@ -25,6 +25,7 @@ export const showPrimitiveInterpreter = memo(
     tag: (_, config) => env => new ShowType(showApplyConfig(config)(showString, env)),
     keysOf: (_keys, config) => env => new ShowType(showApplyConfig(config)(showString as Show<any>, env)),
     nullable: (getShow, config) => env => new ShowType(showApplyConfig(config)(OgetShow(getShow(env).show), env)),
+    mutable: (getShow, config) => env => new ShowType(showApplyConfig(config)(getShow(env).show, env)),
     array: (getShow, config) => env => new ShowType(showApplyConfig(config)(AgetShow(getShow(env).show), env)),
     nonEmptyArray: (getShow, config) => env =>
       new ShowType(showApplyConfig(config)(NEAgetShow(getShow(env).show), env)),

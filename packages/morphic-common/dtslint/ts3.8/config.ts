@@ -61,7 +61,7 @@ interface Foo<F extends URIS | URIS2, Env extends AnyEnv> {
 
 // Program
 
-const doIt = <Env extends AnyEnv = {}>() => <F extends URIS | URIS2>(f: (x: Foo<F, Env>) => void) => f
+const doIt = <Env extends AnyEnv = {}>() => <F extends URIS | URIS2>(f: (x: Foo<F, Env>) => undefined) => f
 
 doIt<{ Ord: { x: string } }>()(F => {
   // $ExpectType HKT<"Eq" | "Ord" | "IOTs", { Ord: { x: string; }; }, string>
@@ -72,6 +72,7 @@ doIt<{ Ord: { x: string } }>()(F => {
         // $ExpectType Ord<string>
         x
   })
+  return undefined
 })
 
 doIt<{ Ord: { b: number } }>()(F => {
@@ -83,6 +84,7 @@ doIt<{ Ord: { b: number } }>()(F => {
         // $ExpectType Ord<string>
         x
   })
+  return undefined
 })
 
 doIt<{ Ord: { b: number } }>()(F => {
@@ -92,6 +94,7 @@ doIt<{ Ord: { b: number } }>()(F => {
       // $ExpectType Ord<string>
       x
   })
+  return undefined
 })
 
 doIt<{ Eq: { a: string } } & { Ord: { b: number } }>()(F => {
@@ -116,6 +119,7 @@ doIt<{ Eq: { a: string } } & { Ord: { b: number } }>()(F => {
         return x
       }
   })
+  return undefined
 })
 
 doIt<{ Eq: { a: string } }>()(F => {
@@ -132,6 +136,7 @@ doIt<{ Eq: { a: string } }>()(F => {
         // $ExpectType Eq<string>
         x
   })
+  return undefined
 })
 
 doIt<{ IOTs: { c: string } } & { Eq: { a: string } } & { Ord: { b: number } }>()(F => {
@@ -165,6 +170,7 @@ doIt<{ IOTs: { c: string } } & { Eq: { a: string } } & { Ord: { b: number } }>()
         return x
       }
   })
+  return undefined
 })
 
 interface Foo2<F extends URIS | URIS2, Env extends AnyEnv> {
@@ -172,10 +178,11 @@ interface Foo2<F extends URIS | URIS2, Env extends AnyEnv> {
   term: <R, A>() => HKT<F, R, A>
 }
 
-const doIt2 = <Env extends AnyEnv>() => <F extends URIS | URIS2>(f: (x: Foo2<F, Env>) => void) => f
+const doIt2 = <Env extends AnyEnv>() => <F extends URIS | URIS2>(f: (x: Foo2<F, Env>) => undefined) => f
 
 doIt2<{ Eq: { a: string } }>()(F => {
   F.myFunc(F.term<{}, string>())({
     Ord: (x, e) => x
   })
+  return undefined
 })

@@ -133,5 +133,5 @@ type EM = EOfMorphADT<typeof ABC>
 // $ExpectType (env: {}) => FastCheckType<A | B | C>
 interpretable(ABC)(modelFastCheckInterpreter())
 
-// $ExpectType M<{}, { a: string; b: string; }, { a: string; b: string; }>
+// $ExpectType M<{}, Readonly<{ a: string; b: string; }>, Readonly<{ a: string; b: string; }>>
 summon(F => F.interface({ a: F.string(), b: F.string() }, 'A'))
