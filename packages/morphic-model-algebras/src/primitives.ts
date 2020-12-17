@@ -1,9 +1,11 @@
 import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
 import type { HKT2, Kind, Kind2, URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
 import type { Either } from 'fp-ts/Either'
-import type { NonEmptyArray } from 'fp-ts/NonEmptyArray'
 import type { Option } from 'fp-ts/Option'
+import type { ReadonlyNonEmptyArray } from 'fp-ts/ReadonlyNonEmptyArray'
 import type { UUID } from 'io-ts-types/lib/UUID'
+
+import type { Array, Mutable } from './types'
 /**
  *  @since 0.0.1
  */
@@ -59,15 +61,23 @@ export interface ModelAlgebraPrimitive<F, Env> {
   keysOf: {
     <K extends Keys>(keys: K, config?: ConfigsForType<Env, string, keyof K>): HKT2<F, Env, string, keyof typeof keys>
   }
+  mutable: {
+    <L, A>(a: HKT2<F, Env, L, A>, config?: ConfigsForType<Env, Mutable<L>, Mutable<A>>): HKT2<
+      F,
+      Env,
+      Mutable<L>,
+      Mutable<A>
+    >
+  }
   array: {
     <L, A>(a: HKT2<F, Env, L, A>, config?: ConfigsForType<Env, Array<L>, Array<A>>): HKT2<F, Env, Array<L>, Array<A>>
   }
   nonEmptyArray: {
-    <L, A>(a: HKT2<F, Env, L, A>, config?: ConfigsForType<Env, L[], NonEmptyArray<A>>): HKT2<
+    <L, A>(a: HKT2<F, Env, L, A>, config?: ConfigsForType<Env, L[], ReadonlyNonEmptyArray<A>>): HKT2<
       F,
       Env,
       L[],
-      NonEmptyArray<A>
+      ReadonlyNonEmptyArray<A>
     >
   }
   date: {
@@ -106,11 +116,15 @@ export interface ModelAlgebraPrimitive1<F extends URIS, Env extends AnyEnv> {
   stringLiteral: <T extends string>(value: T, config?: ConfigsForType<Env, string, T>) => Kind<F, Env, typeof value>
   tag: <T extends string>(value: T, config?: ConfigsForType<Env, undefined, T>) => Kind<F, Env, typeof value>
   keysOf: <K extends Keys>(keys: K, config?: ConfigsForType<Env, string, keyof K>) => Kind<F, Env, keyof typeof keys>
-  array: <A>(a: Kind<F, Env, A>, config?: ConfigsForType<Env, unknown[], A[]>) => Kind<F, Env, Array<A>>
+  mutable: <A>(
+    a: Kind<F, Env, A>,
+    config?: ConfigsForType<Env, Mutable<unknown>, Mutable<A>>
+  ) => Kind<F, Env, Mutable<A>>
+  array: <A>(a: Kind<F, Env, A>, config?: ConfigsForType<Env, Array<unknown>, Array<A>>) => Kind<F, Env, Array<A>>
   nonEmptyArray: <A>(
     a: Kind<F, Env, A>,
-    config?: ConfigsForType<Env, unknown[], NonEmptyArray<A>>
-  ) => Kind<F, Env, NonEmptyArray<A>>
+    config?: ConfigsForType<Env, Array<unknown>, ReadonlyNonEmptyArray<A>>
+  ) => Kind<F, Env, ReadonlyNonEmptyArray<A>>
   date(config?: ConfigsForType<Env, string, Date>): Kind<F, Env, Date>
   uuid(config?: ConfigsForType<Env, string, UUID>): Kind<F, Env, UUID>
   either: <EA, AA>(
@@ -148,14 +162,18 @@ export interface ModelAlgebraPrimitive2<F extends URIS2, Env extends AnyEnv> {
     keys: K,
     config?: ConfigsForType<Env, string, keyof K>
   ) => Kind2<F, Env, string, keyof typeof keys>
+  mutable: <L, A>(
+    a: Kind2<F, Env, L, A>,
+    config?: ConfigsForType<Env, Mutable<L>, Mutable<A>>
+  ) => Kind2<F, Env, Mutable<L>, Mutable<A>>
   array: <L, A>(
     a: Kind2<F, Env, L, A>,
     config?: ConfigsForType<Env, Array<L>, Array<A>>
   ) => Kind2<F, Env, Array<L>, Array<A>>
   nonEmptyArray: <L, A>(
     a: Kind2<F, Env, L, A>,
-    config?: ConfigsForType<Env, L[], NonEmptyArray<A>>
-  ) => Kind2<F, Env, L[], NonEmptyArray<A>>
+    config?: ConfigsForType<Env, Array<L>, ReadonlyNonEmptyArray<A>>
+  ) => Kind2<F, Env, Array<L>, ReadonlyNonEmptyArray<A>>
   date(config?: ConfigsForType<Env, string, Date>): Kind2<F, Env, string, Date>
   uuid(config?: ConfigsForType<Env, string, UUID>): Kind2<F, Env, string, UUID>
   either: <EE, EA, AE, AA>(

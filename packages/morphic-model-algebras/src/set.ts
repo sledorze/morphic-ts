@@ -2,6 +2,8 @@ import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import type { HKT2, Kind, Kind2, URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
 import type { Ord } from 'fp-ts/Ord'
 
+import type { Array } from './types'
+
 /**
  *  @since 0.0.1
  */

@@ -5,9 +5,9 @@ import { either } from 'fp-ts/Either'
 import * as t from 'io-ts'
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 import { either as Teither } from 'io-ts-types/lib/either'
-import { nonEmptyArray } from 'io-ts-types/lib/nonEmptyArray'
 import { option as Toption } from 'io-ts-types/lib/option'
 import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
+import { readonlyNonEmptyArray } from 'io-ts-types/lib/readonlyNonEmptyArray'
 import { UUID } from 'io-ts-types/lib/UUID'
 
 import { iotsApplyConfig } from '../config'
@@ -62,8 +62,9 @@ export const ioTsPrimitiveInterpreter = memo(
     keysOf: (k, config) => env =>
       new IOTSType(iotsApplyConfig(config)(t.keyof(k) as t.Type<keyof typeof k, string, unknown>, env)),
     nullable: (T, config) => env => new IOTSType(iotsApplyConfig(config)(optionFromNullable(T(env).type), env)),
-    array: (T, config) => env => new IOTSType(iotsApplyConfig(config)(t.array(T(env).type), env)),
-    nonEmptyArray: (T, config) => env => new IOTSType(iotsApplyConfig(config)(nonEmptyArray(T(env).type), env)),
+    mutable: (T, config) => env => new IOTSType(iotsApplyConfig(config)(T(env).type, env)),
+    array: (T, config) => env => new IOTSType(iotsApplyConfig(config)(t.readonlyArray(T(env).type), env)),
+    nonEmptyArray: (T, config) => env => new IOTSType(iotsApplyConfig(config)(readonlyNonEmptyArray(T(env).type), env)),
     uuid: config => env => new IOTSType(iotsApplyConfig(config)(UUID, env)),
     either: (e, a, config) => env => new IOTSType(iotsApplyConfig(config)(Teither(e(env).type, a(env).type), env)),
     option: (a, config) => env => new IOTSType(iotsApplyConfig(config)(Toption(a(env).type), env))

@@ -27,10 +27,10 @@ const summon = <MEnv>() => <F, R extends HKT2<F, Env, any, any>, Env extends MEn
   f: (x: ModelAlgebraTaggedUnions<F, Env> & ModelAlgebraPrimitive<F, Env> & ModelAlgebraObject<F, Env>) => R
 ) => f
 
-// $ExpectType HKT2<unknown, {}, { type: string; }, { type: "a"; }>
+// $ExpectType HKT2<unknown, {}, Readonly<{ type: string; }>, Readonly<{ type: "a"; }>>
 foo()(F => F.taggedUnion('type', { a: F.interface({ type: F.stringLiteral('a') }, 'A') }, 'X'))
 
-// $ExpectType HKT2<unknown, {}, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
+// $ExpectType HKT2<unknown, {}, Readonly<{ type: string; }> | Readonly<{ type: string; }>, Readonly<{ type: "a"; }> | Readonly<{ type: "b"; }>>
 foo()(F =>
   F.taggedUnion(
     'type',
@@ -58,7 +58,7 @@ interface Deps2 extends AnyEnv {
 // $ExpezctType HKT2<unknown, { Eq: Deps; }, string, "a">
 foo<Deps>()(F => F.stringLiteral<'a'>('a', { Eq: (x, d: EqDeps) => x }))
 
-// $ExpectType HKT2<unknown, Deps, { type: string; }, { type: "a"; }>
+// $ExpectType HKT2<unknown, Deps, Readonly<{ type: string; }>, Readonly<{ type: "a"; }>>
 foo<Deps>()(F =>
   F.interface(
     { type: F.stringLiteral<'a'>('a', { Eq: (x, d: EqDeps) => x }) },
@@ -66,7 +66,7 @@ foo<Deps>()(F =>
   )
 )
 
-// $ExpectType HKT2<unknown, Deps, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
+// $ExpectType HKT2<unknown, Deps, Readonly<{ type: string; }> | Readonly<{ type: string; }>, Readonly<{ type: "a"; }> | Readonly<{ type: "b"; }>>
 foo<Deps>()(F =>
   F.taggedUnion(
     'type',
@@ -84,7 +84,7 @@ foo<Deps>()(F =>
   )
 )
 
-// $ExpectType HKT2<unknown, Deps & Deps2, { type: string; } | { type: string; }, { type: "a"; } | { type: "b"; }>
+// $ExpectType HKT2<unknown, Deps & Deps2, Readonly<{ type: string; }> | Readonly<{ type: string; }>, Readonly<{ type: "a"; }> | Readonly<{ type: "b"; }>>
 foo<Deps & Deps2>()(F =>
   F.taggedUnion(
     'type',

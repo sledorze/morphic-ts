@@ -52,6 +52,7 @@ export const jsonSchemaPrimitiveInterpreter = memo(
           env
         )
       ),
+    mutable: (getSchema, config) => env => new JsonSchema(jsonSchemaApplyConfig(config)(getSchema(env).schema, env)),
     array: (getSchema, config) => env =>
       new JsonSchema(
         jsonSchemaApplyConfig(config)(

@@ -11,6 +11,13 @@
 > - [Experimental]
 > - [Deprecation]
 
+## 3.0.0-RC0
+
+- **New Feature**
+  - add `mutable`
+- **Breaking Change**
+  - make `array`, `nonempty`, `interface`, `partial`, `both` readonly
+
 ## 2.0.0
 
 Promotion from 2.0.0-alpha.19
