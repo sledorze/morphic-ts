@@ -1,9 +1,10 @@
-import { getShow as RgetShow } from 'fp-ts/Record'
-import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
-import { ShowType, ShowURI } from '../hkt'
-import { showApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
+import { getShow as RgetShow } from 'fp-ts/Record'
+
+import { showApplyConfig } from '../config'
+import { ShowType, ShowURI } from '../hkt'
 
 /**
  *  @since 0.0.1

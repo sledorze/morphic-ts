@@ -1,11 +1,13 @@
-import * as fc from 'fast-check'
-import { ordString, ord } from 'fp-ts/Ord'
 import type { ProgramType } from '@morphic-ts/summoners'
+import * as fc from 'fast-check'
+import { ord, ordString } from 'fp-ts/Ord'
 import * as t from 'io-ts'
-import { UUID } from 'io-ts-types/lib/UUID'
 import { either } from 'io-ts-types/lib/either'
 import { option } from 'io-ts-types/lib/option'
-import { summonFor, M, ProgramUnionURI } from './summoner.spec'
+import { UUID } from 'io-ts-types/lib/UUID'
+
+import type { M, ProgramUnionURI } from './summoner.spec'
+import { summonFor } from './summoner.spec'
 
 const { summon } = summonFor<{}>({})
 

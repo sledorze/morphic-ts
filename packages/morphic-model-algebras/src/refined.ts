@@ -1,6 +1,6 @@
-import type { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
+import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
+import type { HKT2, Kind, Kind2, URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
 import type { Refinement } from 'fp-ts/function'
-import type { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
 
 /**
  *  @since 0.0.1

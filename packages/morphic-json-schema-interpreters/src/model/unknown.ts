@@ -1,10 +1,11 @@
-import { JsonSchema, JsonSchemaURI } from '../hkt'
-import { AnythingTypeCtor } from '../json-schema/json-schema-ctors'
-import { stateEither as SEstateEither } from 'fp-ts-contrib/lib/StateEither'
-import type { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
-import { jsonSchemaApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraUnknown1 } from '@morphic-ts/model-algebras/lib/unknown'
+import { stateEither as SEstateEither } from 'fp-ts-contrib/lib/StateEither'
+
+import { jsonSchemaApplyConfig } from '../config'
+import { JsonSchema, JsonSchemaURI } from '../hkt'
+import { AnythingTypeCtor } from '../json-schema/json-schema-ctors'
 
 /**
  *  @since 0.0.1

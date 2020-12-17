@@ -1,5 +1,7 @@
 import { getApplyConfig } from '@morphic-ts/common/lib/config'
+
 import { IoTsURI } from './hkt'
+
 export * from './model' // to thread type level augmentations
 export {
   /**

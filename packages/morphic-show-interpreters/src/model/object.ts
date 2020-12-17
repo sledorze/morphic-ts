@@ -1,11 +1,11 @@
-import type { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
-import { ShowType, ShowURI } from '../hkt'
-import { projectFieldWithEnv, mapRecord } from '@morphic-ts/common/lib/utils'
-import { getStructShow } from 'fp-ts/Show'
-import type { Show } from 'fp-ts/Show'
-import { showApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import { memo } from '@morphic-ts/common/lib/utils'
+import { mapRecord, memo, projectFieldWithEnv } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
+import type { Show } from 'fp-ts/Show'
+import { getStructShow } from 'fp-ts/Show'
+
+import { showApplyConfig } from '../config'
+import { ShowType, ShowURI } from '../hkt'
 
 const asPartialShow = <T>(x: Show<T>): Show<Partial<T>> => x as any
 

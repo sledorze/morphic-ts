@@ -1,10 +1,10 @@
-import * as t from 'io-ts'
-import { IOTSType, IoTsURI } from '../hkt'
+import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
+import { memo, projectFieldWithEnv } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraObject2, PropsKind2 } from '@morphic-ts/model-algebras/lib/object'
-import { projectFieldWithEnv } from '@morphic-ts/common/lib/utils'
-import type { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
+import * as t from 'io-ts'
+
 import { iotsApplyConfig } from '../config'
-import { memo } from '@morphic-ts/common/lib/utils'
+import { IOTSType, IoTsURI } from '../hkt'
 
 /**
  *  @since 0.0.1

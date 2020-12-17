@@ -1,8 +1,9 @@
-import * as t from 'io-ts'
-import { IOTSType, IoTsURI } from '../hkt'
-import type { ModelAlgebraRecursive2 } from '@morphic-ts/model-algebras/lib/recursive'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraRecursive2 } from '@morphic-ts/model-algebras/lib/recursive'
+import * as t from 'io-ts'
+
+import { IOTSType, IoTsURI } from '../hkt'
 
 /**
  *  @since 0.0.1

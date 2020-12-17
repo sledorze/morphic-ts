@@ -1,7 +1,8 @@
+import * as chai from 'chai'
 import * as O from 'fp-ts/Option'
 import * as M from 'monocle-ts'
-import * as chai from 'chai'
-import { unionADT, intersectADT, makeADT, ofType } from '../src'
+
+import { intersectADT, makeADT, ofType, unionADT } from '../src'
 
 describe('Builder', () => {
   interface Foo {
@@ -43,7 +44,7 @@ describe('Builder', () => {
       bar: ofType<Bar>()
     })
 
-    const { fold, match, createReducer, createPartialReducer, transform, strict, matchLens, matchOptional } = fooBar
+    const { createPartialReducer, createReducer, fold, match, matchLens, matchOptional, strict, transform } = fooBar
     const fooA = fooBar.of.foo({ a: 'a', b: 12 })
     const barA = fooBar.of.bar({ c: 'a', d: 12 })
     const barB = fooBar.of.bar({ c: 'b', d: 13 })

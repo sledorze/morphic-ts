@@ -1,14 +1,15 @@
-import { defineFor } from './programs-infer'
-import type { InferredProgram, Overloads, Define } from './programs-infer'
-import { materialize } from './materializer'
-import type { Materialized } from './materializer'
-import type { InterpreterURI, InterpreterResult } from './InterpreterResult'
-import type { CacheType } from '@morphic-ts/common/lib/core'
-import type { ProgramURI, ProgramType } from './ProgramType'
-import { makeTagged } from './tagged-union'
-import type { TaggedBuilder } from './tagged-union'
-import type { URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { CacheType } from '@morphic-ts/common/lib/core'
+import type { URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
+
+import type { InterpreterResult, InterpreterURI } from './InterpreterResult'
+import type { Materialized } from './materializer'
+import { materialize } from './materializer'
+import type { Define, InferredProgram, Overloads } from './programs-infer'
+import { defineFor } from './programs-infer'
+import type { ProgramType, ProgramURI } from './ProgramType'
+import type { TaggedBuilder } from './tagged-union'
+import { makeTagged } from './tagged-union'
 
 /**
  *  @since 0.0.1

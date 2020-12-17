@@ -1,11 +1,12 @@
-import { getOrd as AgetOrd } from 'fp-ts/Array'
-import { toArray as RtoArray } from 'fp-ts/Record'
-import { ord, ordString, getTupleOrd } from 'fp-ts/Ord'
-import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
-import { OrdType, OrdURI } from '../hkt'
-import { ordApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
+import { getOrd as AgetOrd } from 'fp-ts/Array'
+import { getTupleOrd, ord, ordString } from 'fp-ts/Ord'
+import { toArray as RtoArray } from 'fp-ts/Record'
+
+import { ordApplyConfig } from '../config'
+import { OrdType, OrdURI } from '../hkt'
 
 /**
  *  @since 0.0.1

@@ -12,6 +12,7 @@ export interface ProgramType<R extends AnyConfigEnv, E, A> {
   _E: E
   _A: A
 }
+
 /**
  *  @since 0.0.1
  */

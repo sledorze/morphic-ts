@@ -1,8 +1,9 @@
-import type { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import { EqURI, EqType } from '../hkt'
-import { eqApplyConfig } from '../config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
+
+import { eqApplyConfig } from '../config'
+import { EqType, EqURI } from '../hkt'
 
 /**
  *  @since 0.0.1

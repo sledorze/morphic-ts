@@ -1,10 +1,11 @@
-import type { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
-import { EqType, EqURI } from '../hkt'
-import { projectFieldWithEnv, memo, mapRecord } from '@morphic-ts/common/lib/utils'
-import { getStructEq } from 'fp-ts/Eq'
-import type { Eq } from 'fp-ts/Eq'
-import { eqApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { mapRecord, memo, projectFieldWithEnv } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
+import type { Eq } from 'fp-ts/Eq'
+import { getStructEq } from 'fp-ts/Eq'
+
+import { eqApplyConfig } from '../config'
+import { EqType, EqURI } from '../hkt'
 
 const asPartialEq = <T>(x: Eq<T>): Eq<Partial<T>> => x as any
 

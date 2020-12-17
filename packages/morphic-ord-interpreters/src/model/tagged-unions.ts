@@ -1,11 +1,11 @@
-import { ordString } from 'fp-ts/Ord'
-import { OrdType, OrdURI } from '../hkt'
-import type { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
-import { mapRecord } from '@morphic-ts/common/lib/utils'
-import type { Ordering } from 'fp-ts/Ordering'
-import { ordApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import { memo } from '@morphic-ts/common/lib/utils'
+import { mapRecord, memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
+import { ordString } from 'fp-ts/Ord'
+import type { Ordering } from 'fp-ts/Ordering'
+
+import { ordApplyConfig } from '../config'
+import { OrdType, OrdURI } from '../hkt'
 
 /**
  * This is kind of useless as required interfaces are not supported in Ord

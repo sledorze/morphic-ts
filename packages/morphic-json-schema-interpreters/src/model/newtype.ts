@@ -1,8 +1,9 @@
-import { JsonSchemaURI, JsonSchema } from '../hkt'
-import type { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
-import { jsonSchemaApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraNewtype1 } from '@morphic-ts/model-algebras/lib/newtype'
+
+import { jsonSchemaApplyConfig } from '../config'
+import { JsonSchema, JsonSchemaURI } from '../hkt'
 
 /**
  *  @since 0.0.1

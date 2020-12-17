@@ -1,12 +1,13 @@
-import { FastCheckType, FastCheckURI } from '../hkt'
-import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
-import { fromFoldable } from 'fp-ts/Record'
-import { array } from 'fp-ts/Array'
-import { getFirstSemigroup } from 'fp-ts/Semigroup'
-import { tuple, array as FCArray, string } from 'fast-check'
-import { fastCheckApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
+import { array as FCArray, string, tuple } from 'fast-check'
+import { array } from 'fp-ts/Array'
+import { fromFoldable } from 'fp-ts/Record'
+import { getFirstSemigroup } from 'fp-ts/Semigroup'
+
+import { fastCheckApplyConfig } from '../config'
+import { FastCheckType, FastCheckURI } from '../hkt'
 
 const strmapFromArray = <A>() => fromFoldable(getFirstSemigroup<A>(), array)
 /**

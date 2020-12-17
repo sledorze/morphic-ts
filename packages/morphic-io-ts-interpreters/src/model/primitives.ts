@@ -1,17 +1,17 @@
-import * as t from 'io-ts'
-import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
-import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
-import { IOTSType, IoTsURI } from '../hkt'
-import type { ModelAlgebraPrimitive2 } from '@morphic-ts/model-algebras/lib/primitives'
-import { either } from 'fp-ts/Either'
-
-import { iotsApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
-import { UUID } from 'io-ts-types/lib/UUID'
+import type { ModelAlgebraPrimitive2 } from '@morphic-ts/model-algebras/lib/primitives'
+import { either } from 'fp-ts/Either'
+import * as t from 'io-ts'
+import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
 import { either as Teither } from 'io-ts-types/lib/either'
-import { option as Toption } from 'io-ts-types/lib/option'
 import { nonEmptyArray } from 'io-ts-types/lib/nonEmptyArray'
+import { option as Toption } from 'io-ts-types/lib/option'
+import { optionFromNullable } from 'io-ts-types/lib/optionFromNullable'
+import { UUID } from 'io-ts-types/lib/UUID'
+
+import { iotsApplyConfig } from '../config'
+import { IOTSType, IoTsURI } from '../hkt'
 
 /**
  *  @since 0.0.1

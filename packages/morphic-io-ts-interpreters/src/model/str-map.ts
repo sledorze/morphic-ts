@@ -1,9 +1,10 @@
-import * as t from 'io-ts'
-import { IOTSType, IoTsURI } from '../hkt'
-import type { ModelAlgebraStrMap2 } from '@morphic-ts/model-algebras/lib/str-map'
-import { iotsApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraStrMap2 } from '@morphic-ts/model-algebras/lib/str-map'
+import * as t from 'io-ts'
+
+import { iotsApplyConfig } from '../config'
+import { IOTSType, IoTsURI } from '../hkt'
 
 /**
  *  @since 0.0.1

@@ -1,25 +1,25 @@
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
-import { pipe } from 'fp-ts/pipeable'
-
+import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import type { IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
+import {
+  modelIoTsNonStrictInterpreter,
+  modelIoTsStrictInterpreter
+} from '@morphic-ts/io-ts-interpreters/lib/interpreters'
+import type { JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib'
+import { modelJsonSchemaInterpreter } from '@morphic-ts/json-schema-interpreters/lib'
+import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
+// eslint-disable-next-line import/no-duplicates
 import type * as U from '@morphic-ts/summoners'
+// eslint-disable-next-line import/no-duplicates
+import type { AnyConfigEnv, ExtractEnv, SummonerOps } from '@morphic-ts/summoners'
+import { makeSummoner } from '@morphic-ts/summoners'
+import { chain as Echain } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/pipeable'
 
 import type { BASTJInterpreterURI } from './interpreters-BASTJ'
 import type { ProgramUnionURI } from './program'
-
-import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
-import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
-import type { IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
-import {
-  modelIoTsStrictInterpreter,
-  modelIoTsNonStrictInterpreter
-} from '@morphic-ts/io-ts-interpreters/lib/interpreters'
-import { modelJsonSchemaInterpreter } from '@morphic-ts/json-schema-interpreters/lib'
-import type { JsonSchemaURI } from '@morphic-ts/json-schema-interpreters/lib'
-import { resolveSchema } from '@morphic-ts/json-schema-interpreters/lib/utils'
-import type { AnyConfigEnv, ExtractEnv, SummonerOps } from '@morphic-ts/summoners'
-import { makeSummoner } from '@morphic-ts/summoners'
-import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import { chain as Echain } from 'fp-ts/Either'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -56,7 +56,7 @@ export const summonFor: <R extends AnyEnv = {}>(
   env: ExtractEnv<R, JsonSchemaURI | IoTsURI | FastCheckURI>
 ) =>
   makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
-    const { type, create } = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env)
+    const { create, type } = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env)
     return {
       build: a => a,
       arb: program(modelFastCheckInterpreter<NonNullable<R>>())(env).arb,

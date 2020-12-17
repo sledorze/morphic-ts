@@ -1,17 +1,16 @@
-import * as chai from 'chai'
-import type { M as MBASTJ } from '../src/summoner-BASTJ'
-import { summonFor as summonBASTJFor } from '../src/summoner-BASTJ'
-import { summonFor as summonESBSTFor } from '../src/summoner-ESBST'
-
-import { makeTagged } from '@morphic-ts/summoners'
-import { summonFor as summonESBASTJFor } from '../src/summoner-ESBASTJ'
-import { interpretable } from '@morphic-ts/summoners'
-import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
-import { iso } from 'newtype-ts'
-import type { Newtype } from 'newtype-ts'
 import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
+import { interpretable, makeTagged } from '@morphic-ts/summoners'
+import * as chai from 'chai'
 import { assert as FCassert, property } from 'fast-check'
 import { isRight, right } from 'fp-ts/Either'
+import type { Newtype } from 'newtype-ts'
+import { iso } from 'newtype-ts'
+
+import type { M as MBASTJ } from '../src/summoner-BASTJ'
+import { summonFor as summonBASTJFor } from '../src/summoner-BASTJ'
+import { summonFor as summonESBASTJFor } from '../src/summoner-ESBASTJ'
+import { summonFor as summonESBSTFor } from '../src/summoner-ESBST'
 
 const { summon: summonBASTJ } = summonBASTJFor<{}>({})
 const { summon: summonESBASTJ } = summonESBASTJFor<{}>({})

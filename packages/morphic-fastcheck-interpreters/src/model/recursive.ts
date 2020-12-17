@@ -1,8 +1,9 @@
-import { FastCheckType, FastCheckURI } from '../hkt'
-import type { ModelAlgebraRecursive1 } from '@morphic-ts/model-algebras/lib/recursive'
-import { memo } from '@morphic-ts/common/lib/utils'
-import { constant } from 'fast-check'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraRecursive1 } from '@morphic-ts/model-algebras/lib/recursive'
+import { constant } from 'fast-check'
+
+import { FastCheckType, FastCheckURI } from '../hkt'
 
 /**
  *  @since 0.0.1

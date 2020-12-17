@@ -1,7 +1,8 @@
-import type { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
-import { ShowType, ShowURI } from '../hkt'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
+
+import { ShowType, ShowURI } from '../hkt'
 
 /**
  *  @since 0.0.1

@@ -1,28 +1,29 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import type { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
-import { JsonSchema, JsonSchemaURI } from '../hkt'
-import {
-  StringTypeCtor,
-  NumberTypeCtor,
-  BooleanTypeCtor,
-  LiteralTypeCtor,
-  optional,
-  ArrayTypeCtor,
-  UnionTypeCtor,
-  ObjectTypeCtor,
-  OptionalJSONSchema,
-  TagTypeCtor
-} from '../json-schema/json-schema-ctors'
-import {
-  stateEither as SEstateEither,
-  fromEither as SEfromEither,
-  right as SEright
-} from 'fp-ts-contrib/lib/StateEither'
-import { jsonSchemaApplyConfig } from '../config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
+import { tuple } from 'fp-ts/function'
 import { pipe } from 'fp-ts/pipeable'
 import { Do } from 'fp-ts-contrib/lib/Do'
-import { tuple } from 'fp-ts/function'
+import {
+  fromEither as SEfromEither,
+  right as SEright,
+  stateEither as SEstateEither
+} from 'fp-ts-contrib/lib/StateEither'
+
+import { jsonSchemaApplyConfig } from '../config'
+import { JsonSchema, JsonSchemaURI } from '../hkt'
+import type { OptionalJSONSchema } from '../json-schema/json-schema-ctors'
+import {
+  ArrayTypeCtor,
+  BooleanTypeCtor,
+  LiteralTypeCtor,
+  NumberTypeCtor,
+  ObjectTypeCtor,
+  optional,
+  StringTypeCtor,
+  TagTypeCtor,
+  UnionTypeCtor
+} from '../json-schema/json-schema-ctors'
 
 /**
  *  @since 0.0.1

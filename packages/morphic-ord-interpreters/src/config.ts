@@ -1,5 +1,7 @@
 import { getApplyConfig } from '@morphic-ts/common/lib/config'
+
 import { OrdURI } from './hkt'
+
 export * from './model'
 export {
   /**

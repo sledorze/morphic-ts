@@ -1,8 +1,9 @@
-import type { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
-import { OrdURI, OrdType } from '../hkt'
-import { ordApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraRefined1 } from '@morphic-ts/model-algebras/lib/refined'
+
+import { ordApplyConfig } from '../config'
+import { OrdType, OrdURI } from '../hkt'
 
 /**
  *  @since 0.0.1

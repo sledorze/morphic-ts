@@ -1,9 +1,9 @@
-import type { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
-import { ShowType, ShowURI } from '../hkt'
-import { mapRecord } from '@morphic-ts/common/lib/utils'
-import { showApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import { memo } from '@morphic-ts/common/lib/utils'
+import { mapRecord, memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
+
+import { showApplyConfig } from '../config'
+import { ShowType, ShowURI } from '../hkt'
 
 /**
  *  @since 0.0.1

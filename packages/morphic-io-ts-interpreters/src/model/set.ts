@@ -1,8 +1,9 @@
-import { setFromArray } from 'io-ts-types/lib/setFromArray'
-import { IOTSType, IoTsURI } from '../hkt'
-import type { ModelAlgebraSet2 } from '@morphic-ts/model-algebras/lib/set'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraSet2 } from '@morphic-ts/model-algebras/lib/set'
+import { setFromArray } from 'io-ts-types/lib/setFromArray'
+
+import { IOTSType, IoTsURI } from '../hkt'
 
 /**
  *  @since 0.0.1

@@ -1,11 +1,12 @@
-import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
-import { JsonSchema, JsonSchemaURI } from '../hkt'
-import { StrMapTypeCtor } from '../json-schema/json-schema-ctors'
-import { chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
-import { pipe } from 'fp-ts/pipeable'
-import { jsonSchemaApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
+import { pipe } from 'fp-ts/pipeable'
+import { chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
+
+import { jsonSchemaApplyConfig } from '../config'
+import { JsonSchema, JsonSchemaURI } from '../hkt'
+import { StrMapTypeCtor } from '../json-schema/json-schema-ctors'
 
 /**
  *  @since 0.0.1

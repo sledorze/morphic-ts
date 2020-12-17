@@ -1,10 +1,11 @@
-import type { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraSet1 } from '@morphic-ts/model-algebras/lib/set'
+import { pipe } from 'fp-ts/pipeable'
+import { chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
+
 import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { SetFromArrayTypeCtor } from '../json-schema/json-schema-ctors'
-import { chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
-import { pipe } from 'fp-ts/pipeable'
-import { memo } from '@morphic-ts/common/lib/utils'
 
 /**
  *  @since 0.0.1

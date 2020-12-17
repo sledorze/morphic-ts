@@ -1,13 +1,14 @@
-import type { Magma } from 'fp-ts/Magma'
+import { array, chain, sort } from 'fp-ts/Array'
+import { left, right } from 'fp-ts/Either'
 import type { Endomorphism } from 'fp-ts/function'
-import * as js from './json-schema'
-import { Lens } from 'monocle-ts'
+import type { Magma } from 'fp-ts/Magma'
 import { of } from 'fp-ts/NonEmptyArray'
 import { ordString } from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/pipeable'
-import { left, right } from 'fp-ts/Either'
-import { array, chain, sort } from 'fp-ts/Array'
-import { map, fromFoldable } from 'fp-ts/Record'
+import { fromFoldable, map } from 'fp-ts/Record'
+import { Lens } from 'monocle-ts'
+
+import * as js from './json-schema'
 
 /**
  *  @since 0.0.1
@@ -88,7 +89,7 @@ export const ArrayTypeCtor = ({
 /**
  *  @since 0.0.1
  */
-export const SetFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
+export const SetFromArrayTypeCtor = ({ json, optional }: OptionalJSONSchema) =>
   optional
     ? left(of(JsonSchemaErrors.SetFromArrayTypeConsumesNoOptional))
     : right(
@@ -101,7 +102,7 @@ export const SetFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
 /**
  *  @since 0.0.1
  */
-export const StrMapTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
+export const StrMapTypeCtor = ({ json, optional }: OptionalJSONSchema) =>
   optional
     ? left(of(JsonSchemaErrors.SetFromArrayTypeConsumesNoOptional))
     : right(
@@ -114,7 +115,7 @@ export const StrMapTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
 /**
  *  @since 0.0.1
  */
-export const NonEmptyArrayFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) =>
+export const NonEmptyArrayFromArrayTypeCtor = ({ json, optional }: OptionalJSONSchema) =>
   optional
     ? left(of(JsonSchemaErrors.ArrayConsumesNoOptional))
     : right(
@@ -149,7 +150,7 @@ export const IntersectionTypeCtor = (types: OptionalJSONSchema[]) => {
     : right(
         notOptional<js.ObjectSchema>(
           objects.reduce(magmaObjectSchema.concat, {
-            type: 'object' as 'object'
+            type: 'object' as const
           })
         )
       )
@@ -174,7 +175,7 @@ export const AnythingTypeCtor = () => notOptional<js.Anything>({})
  */
 export const StringTypeCtor = (extras?: { format?: 'date' | 'date-time' | 'bigint' | 'uuid'; enum?: string[] }) =>
   notOptional<js.StringSchema>({
-    type: 'string' as 'string',
+    type: 'string' as const,
     ...(extras !== undefined ? extras : {})
   })
 
@@ -183,7 +184,7 @@ export const StringTypeCtor = (extras?: { format?: 'date' | 'date-time' | 'bigin
  */
 export const NumberTypeCtor = () =>
   notOptional<js.NumberSchema>({
-    type: 'number' as 'number'
+    type: 'number' as const
   })
 
 /**
@@ -191,7 +192,7 @@ export const NumberTypeCtor = () =>
  */
 export const BooleanTypeCtor = () =>
   notOptional<js.BooleanSchema>({
-    type: 'boolean' as 'boolean'
+    type: 'boolean' as const
   })
 
 /**

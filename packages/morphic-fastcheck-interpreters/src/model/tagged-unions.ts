@@ -1,10 +1,10 @@
-import { FastCheckType, FastCheckURI } from '../hkt'
-import type { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
-import { collect } from '@morphic-ts/common/lib/utils'
-import { oneof } from 'fast-check'
-import { fastCheckApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import { memo } from '@morphic-ts/common/lib/utils'
+import { collect, memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
+import { oneof } from 'fast-check'
+
+import { fastCheckApplyConfig } from '../config'
+import { FastCheckType, FastCheckURI } from '../hkt'
 
 /**
  * Beware: randomly generated recursive structure with high branching may not end early enough

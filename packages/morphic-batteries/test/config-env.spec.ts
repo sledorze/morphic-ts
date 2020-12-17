@@ -1,13 +1,13 @@
+import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
+import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import * as chai from 'chai'
-import { summonFor as summonESBSTFor } from '../src/summoner-ESBST'
+import * as fc from 'fast-check'
+import { right } from 'fp-ts/Either'
+import { PathReporter } from 'io-ts/lib/PathReporter'
+import * as WM from 'io-ts-types/lib/withMessage'
 
 import { summonFor as summonESBASTJFor } from '../src/summoner-ESBASTJ'
-import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
-import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
-import * as fc from 'fast-check'
-import * as WM from 'io-ts-types/lib/withMessage'
-import { PathReporter } from 'io-ts/lib/PathReporter'
-import { right } from 'fp-ts/Either'
+import { summonFor as summonESBSTFor } from '../src/summoner-ESBST'
 
 describe('Morph Config Env', () => {
   interface FastCheckEnv {

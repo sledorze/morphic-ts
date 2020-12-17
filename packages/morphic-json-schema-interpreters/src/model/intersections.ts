@@ -1,12 +1,12 @@
-import type { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
+import { pipe } from 'fp-ts/pipeable'
+import { chain as SEchain, chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
 
 import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { IntersectionTypeCtor } from '../json-schema/json-schema-ctors'
-import { pipe } from 'fp-ts/pipeable'
-import { chain as SEchain, chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
-import { arrayTraverseStateEither, resolveRef, registerSchema } from '../utils'
-import { memo } from '@morphic-ts/common/lib/utils'
+import { arrayTraverseStateEither, registerSchema, resolveRef } from '../utils'
 
 /**
  *  @since 0.0.1

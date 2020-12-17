@@ -1,12 +1,13 @@
-import type { ElemType, ExtractUnion, ExcludeUnion } from './utils'
-import * as M from './monocle'
-import * as Ma from './matcher'
-import * as PU from './predicates'
-import * as CU from './ctors'
-import { intersection, difference, reduceRight, array } from 'fp-ts/Array'
+import { array, difference, intersection, reduceRight } from 'fp-ts/Array'
 import { eqString } from 'fp-ts/Eq'
+import { identity, tuple } from 'fp-ts/function'
 import { fromFoldable } from 'fp-ts/Record'
-import { tuple, identity } from 'fp-ts/function'
+
+import * as CU from './ctors'
+import * as Ma from './matcher'
+import * as M from './monocle'
+import * as PU from './predicates'
+import type { ElemType, ExcludeUnion, ExtractUnion } from './utils'
 
 /**
  *  @since 0.0.1

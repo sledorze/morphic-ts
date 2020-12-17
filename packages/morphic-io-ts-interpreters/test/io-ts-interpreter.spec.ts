@@ -1,19 +1,20 @@
 import * as chai from 'chai'
-import { ordString, ord } from 'fp-ts/Ord'
+import { either, getOrElse, isLeft, isRight, left, right } from 'fp-ts/Either'
+import { none, some } from 'fp-ts/Option'
 import type { Ord } from 'fp-ts/Ord'
-import { fromArray } from 'fp-ts/Set'
-import { right, isLeft, isRight, left, getOrElse, either } from 'fp-ts/Either'
-import { some, none } from 'fp-ts/Option'
+import { ord, ordString } from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/pipeable'
-import { success, failure, PathReporter } from 'io-ts/lib/PathReporter'
-import type { Errors, Branded } from 'io-ts'
+import { fromArray } from 'fp-ts/Set'
+import type { Branded, Errors } from 'io-ts'
 import * as t from 'io-ts'
-import { summonFor, M } from './summoner.spec'
-
+import { failure, PathReporter, success } from 'io-ts/lib/PathReporter'
 import * as WM from 'io-ts-types/lib/withMessage'
-import { iso } from 'newtype-ts'
 import type { Newtype } from 'newtype-ts'
+import { iso } from 'newtype-ts'
+
 import { IoTsURI } from '../src'
+import type { M } from './summoner.spec'
+import { summonFor } from './summoner.spec'
 
 export type Tree = Node | Leaf
 export interface Node {
@@ -435,11 +436,11 @@ describe('IO-TS', () => {
 
     chai.assert.deepStrictEqual(
       codec.type.decode({ type: 'foo1', a: 'a', b: 12 }),
-      right({ type: 'foo1' as 'foo1', a: 'a', b: 12 })
+      right({ type: 'foo1' as const, a: 'a', b: 12 })
     )
     chai.assert.deepStrictEqual(
       codec.type.decode({ type: 'bar1', c: 'a', d: 12 }),
-      right({ type: 'bar1' as 'bar1', c: 'a', d: 12 })
+      right({ type: 'bar1' as const, c: 'a', d: 12 })
     )
     chai.assert.deepStrictEqual(isLeft(codec.type.decode({ a: 'a', d: 12 })), true)
   })
@@ -478,9 +479,9 @@ describe('IO-TS', () => {
 
     const decoder = FooBar.type
 
-    chai.assert.deepStrictEqual(decoder.decode({ type: 'foo2', a: 'a' }), right({ type: 'foo2' as 'foo2', a: 'a' }))
+    chai.assert.deepStrictEqual(decoder.decode({ type: 'foo2', a: 'a' }), right({ type: 'foo2' as const, a: 'a' }))
     chai.assert(isLeft(decoder.decode({ type: 'foo2', b: 3 })))
-    chai.assert.deepStrictEqual(decoder.decode({ type: 'baz2', b: 1 }), right({ type: 'baz2' as 'baz2', b: 1 }))
+    chai.assert.deepStrictEqual(decoder.decode({ type: 'baz2', b: 1 }), right({ type: 'baz2' as const, b: 1 }))
     chai.assert(isLeft(decoder.decode({ type: 'baz2', a: 'a' })))
     chai.assert(isLeft(decoder.decode({})))
   })
@@ -662,7 +663,7 @@ describe('iotsObjectInterpreter', () => {
       [IoTsURI]: IOTSEnv & WithMessage
     }
     // Types Should be defined beforehand at Summon creation ? (no..)
-    const { summon: summonIOTS } = summonFor<AppEnv>({ [IoTsURI]: { iots: t, WM: WM } })
+    const { summon: summonIOTS } = summonFor<AppEnv>({ [IoTsURI]: { iots: t, WM } })
 
     const Codec = summonIOTS(F => F.string({ IoTsURI: (_, { iots }: IOTSEnv) => iots.string }))
 

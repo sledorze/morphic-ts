@@ -1,8 +1,8 @@
-import type { URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
-import type { Algebra as AlgAlgebra, Algebra1 as AlgAlgebra1, Algebra2 as AlgAlgebra2, AlgebraURIS } from './hkt'
-
-import type { UnionToIntersection } from '@morphic-ts/common/lib/core'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { UnionToIntersection } from '@morphic-ts/common/lib/core'
+import type { URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
+
+import type { Algebra as AlgAlgebra, Algebra1 as AlgAlgebra1, Algebra2 as AlgAlgebra2, AlgebraURIS } from './hkt'
 
 /**
  *  @since 0.0.1

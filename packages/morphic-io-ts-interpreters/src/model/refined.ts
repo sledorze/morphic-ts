@@ -1,9 +1,10 @@
-import { success, failure, Type } from 'io-ts'
-import { IOTSType, IoTsURI } from '../hkt'
-import type { ModelAlgebraRefined2 } from '@morphic-ts/model-algebras/lib/refined'
-import { iotsApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraRefined2 } from '@morphic-ts/model-algebras/lib/refined'
+import { failure, success, Type } from 'io-ts'
+
+import { iotsApplyConfig } from '../config'
+import { IOTSType, IoTsURI } from '../hkt'
 
 /**
  *  @since 0.0.1

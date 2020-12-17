@@ -1,5 +1,6 @@
-import { AnyConfigEnv } from './summoner'
-import { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
+import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
+
+import type { AnyConfigEnv } from './summoner'
 
 export {
   /**

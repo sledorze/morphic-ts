@@ -1,26 +1,25 @@
-import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
-
-import type * as U from '@morphic-ts/summoners'
-import type { ExtractEnv, SummonerOps } from '@morphic-ts/summoners'
-import { makeSummoner } from '@morphic-ts/summoners'
-import type { AnyEnv } from '@morphic-ts/common/lib/config'
-
-import type { InferredAlgebra, InferredProgram } from '@morphic-ts/summoners'
 import type { GetAlgebra } from '@morphic-ts/algebras/lib/core'
-
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 import type { IntersectionURI } from '@morphic-ts/model-algebras/lib/intersections'
+import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { ObjectURI } from '@morphic-ts/model-algebras/lib/object'
 import type { PrimitiveURI } from '@morphic-ts/model-algebras/lib/primitives'
 import type { RecursiveURI } from '@morphic-ts/model-algebras/lib/recursive'
+import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
 import type { SetURI } from '@morphic-ts/model-algebras/lib/set'
 import type { StrMapURI } from '@morphic-ts/model-algebras/lib/str-map'
 import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import type { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
-import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
-import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
-import type { AnyConfigEnv } from '@morphic-ts/summoners'
-import { Eq } from 'fp-ts/Eq'
-import { modelEqInterpreter, EqURI } from '../src'
+// eslint-disable-next-line import/no-duplicates
+import type * as U from '@morphic-ts/summoners'
+// eslint-disable-next-line import/no-duplicates
+import type { AnyConfigEnv, ExtractEnv, InferredAlgebra, InferredProgram, SummonerOps } from '@morphic-ts/summoners'
+import { makeSummoner } from '@morphic-ts/summoners'
+import type { Eq } from 'fp-ts/Eq'
+
+import type { EqURI } from '../src'
+import { modelEqInterpreter } from '../src'
 
 /**
  *  @since 0.0.1

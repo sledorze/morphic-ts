@@ -1,12 +1,13 @@
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { merge } from '@morphic-ts/common/lib/utils'
-import { ordRefinedInterpreter } from './model/refined'
+
+import { ordIntersectionInterpreter } from './model/intersections'
 import { ordNewtypeInterpreter } from './model/newtype'
 import { ordPrimitiveInterpreter } from './model/primitives'
-import { ordIntersectionInterpreter } from './model/intersections'
+import { ordRefinedInterpreter } from './model/refined'
 import { ordSetInterpreter } from './model/set'
 import { ordStrMapInterpreter } from './model/str-map'
 import { ordTaggedUnionInterpreter } from './model/tagged-unions'
-import type { AnyEnv } from '@morphic-ts/common/lib/config'
 
 export * from './hkt'
 
