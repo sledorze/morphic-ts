@@ -1,6 +1,6 @@
 import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
 import { memo, projectFieldWithEnv } from '@morphic-ts/common/lib/utils'
-import type { ModelAlgebraObject2, PropsKind2 } from '@morphic-ts/model-algebras/lib/object'
+import type { AnyProps, ModelAlgebraObject, PropsA, PropsE, PropsKind } from '@morphic-ts/model-algebras/lib/object'
 import * as t from 'io-ts'
 
 import { iotsApplyConfig } from '../config'
@@ -10,31 +10,38 @@ import { IOTSType, IoTsURI } from '../hkt'
  *  @since 0.0.1
  */
 export const ioTsNonStrictObjectInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraObject2<IoTsURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraObject<IoTsURI, Env> => ({
     _F: IoTsURI,
-    interface: <PropsE, PropsA>(
-      props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
+    interface: <Props extends AnyProps<Props, Env>>(
+      props: Props,
       name: string,
-      config?: ConfigsForType<Env, PropsE, PropsA>
+      config?: ConfigsForType<Env, Readonly<PropsE<Props>>, Readonly<PropsA<Props>>>
     ) => (env: Env) =>
-      new IOTSType<PropsE, PropsA>(
-        iotsApplyConfig(config)(t.type(projectFieldWithEnv(props, env)('type'), name) as any, env)
+      new IOTSType<PropsE<Props>, PropsA<Props>>(
+        iotsApplyConfig(config)(t.type(projectFieldWithEnv(props as any, env)('type'), name) as any, env)
       ),
-    partial: <PropsE, PropsA>(
-      props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
+    partial: <Props extends AnyProps<Props, Env>>(
+      props: Props,
       name: string,
-      config?: ConfigsForType<Env, Partial<PropsE>, Partial<PropsA>>
+      config?: ConfigsForType<Env, Partial<Readonly<PropsE<Props>>>, Partial<Readonly<PropsA<Props>>>>
     ) => (env: Env) =>
-      new IOTSType<Partial<PropsE>, Partial<PropsA>>(
-        iotsApplyConfig(config)(t.partial(projectFieldWithEnv(props, env)('type'), name) as any, env) as any
+      new IOTSType<Partial<PropsE<Props>>, Partial<PropsA<Props>>>(
+        iotsApplyConfig(config)(t.partial(projectFieldWithEnv(props as any, env)('type'), name) as any, env) as any
       ),
-    both: <PropsE, PPropsE, PropsA, PPropsA>(
-      props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
-      partial: PropsKind2<IoTsURI, PPropsE, PPropsA, Env>,
+    both: <Props extends AnyProps<Props, Env>, PartialProps extends AnyProps<PartialProps, Env>>(
+      props: PropsKind<IoTsURI, PropsE<Props>, PropsA<Props>, Env>,
+      partial: PropsKind<IoTsURI, PropsE<PartialProps>, PropsA<PartialProps>, Env>,
       name: string,
-      config?: ConfigsForType<Env, PropsE & Partial<PPropsE>, PropsA & Partial<PPropsA>>
+      config?: ConfigsForType<
+        Env,
+        Readonly<PropsE<Props> & Partial<PropsE<PartialProps>>>,
+        Readonly<PropsA<Props> & Partial<PropsA<PartialProps>>>
+      >
     ) => (env: Env) =>
-      new IOTSType<PropsE & Partial<PPropsE>, PropsA & Partial<PPropsA>>(
+      new IOTSType<
+        Readonly<PropsE<Props> & Partial<PropsE<PartialProps>>>,
+        Readonly<PropsA<Props> & Partial<PropsA<PartialProps>>>
+      >(
         iotsApplyConfig(config)(
           t.intersection(
             [
@@ -53,31 +60,41 @@ export const ioTsNonStrictObjectInterpreter = memo(
  *  @since 0.0.1
  */
 export const ioTsStrictObjectInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraObject2<IoTsURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraObject<IoTsURI, Env> => ({
     _F: IoTsURI,
-    interface: <PropsE, PropsA>(
-      props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
+    interface: <Props extends AnyProps<Props, Env>>(
+      props: Props,
       name: string,
-      config?: ConfigsForType<Env, PropsE, PropsA>
+      config?: ConfigsForType<Env, Readonly<PropsE<Props>>, Readonly<PropsA<Props>>>
     ) => (env: Env) =>
-      new IOTSType<PropsE, PropsA>(
-        iotsApplyConfig(config)(t.strict(projectFieldWithEnv(props, env)('type'), name) as any, env)
+      new IOTSType<PropsE<Props>, PropsA<Props>>(
+        iotsApplyConfig(config)(t.strict(projectFieldWithEnv(props as any, env)('type'), name) as any, env)
       ),
-    partial: <PropsE, PropsA>(
-      props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
+    partial: <Props extends AnyProps<Props, Env>>(
+      props: Props,
       name: string,
-      config?: ConfigsForType<Env, Partial<PropsE>, Partial<PropsA>>
+      config?: ConfigsForType<Env, Partial<Readonly<PropsE<Props>>>, Partial<Readonly<PropsA<Props>>>>
     ) => (env: Env) =>
-      new IOTSType<Partial<PropsE>, Partial<PropsA>>(
-        iotsApplyConfig(config)(t.exact(t.partial(projectFieldWithEnv(props, env)('type'), name)) as any, env) as any
+      new IOTSType<Partial<PropsE<Props>>, Partial<PropsA<Props>>>(
+        iotsApplyConfig(config)(
+          t.exact(t.partial(projectFieldWithEnv(props as any, env)('type'), name)) as any,
+          env
+        ) as any
       ),
-    both: <PropsE, PPropsE, PropsA, PPropsA>(
-      props: PropsKind2<IoTsURI, PropsE, PropsA, Env>,
-      partial: PropsKind2<IoTsURI, PPropsE, PPropsA, Env>,
+    both: <Props extends AnyProps<Props, Env>, PartialProps extends AnyProps<PartialProps, Env>>(
+      props: PropsKind<IoTsURI, PropsE<Props>, PropsA<Props>, Env>,
+      partial: PropsKind<IoTsURI, PropsE<PartialProps>, PropsA<PartialProps>, Env>,
       name: string,
-      config?: ConfigsForType<Env, PropsE & Partial<PPropsE>, PropsA & Partial<PPropsA>>
+      config?: ConfigsForType<
+        Env,
+        Readonly<PropsE<Props> & Partial<PropsE<PartialProps>>>,
+        Readonly<PropsA<Props> & Partial<PropsA<PartialProps>>>
+      >
     ) => (env: Env) =>
-      new IOTSType<PropsE & Partial<PPropsE>, PropsA & Partial<PPropsA>>(
+      new IOTSType<
+        Readonly<PropsE<Props> & Partial<PropsE<PartialProps>>>,
+        Readonly<PropsA<Props> & Partial<PropsA<PartialProps>>>
+      >(
         iotsApplyConfig(config)(
           t.exact(
             t.intersection(

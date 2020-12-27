@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const ioTsUnionInterpreter: <Env extends Partial<Record<"IoTsURI", any>>>() => ModelAlgebraUnions2<"IoTsURI", Env> = ...
+export const ioTsUnionInterpreter: <Env extends Partial<Readonly<Record<"IoTsURI", any>>>>() => ModelAlgebraUnions<"IoTsURI", Env> = ...
 ```
 
 Added in v0.0.1

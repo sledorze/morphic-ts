@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showRecursiveInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraRecursive1<"ShowURI", Env> = ...
+export const showRecursiveInterpreter: <Env extends Partial<Readonly<Record<"ShowURI", any>>>>() => ModelAlgebraRecursive<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

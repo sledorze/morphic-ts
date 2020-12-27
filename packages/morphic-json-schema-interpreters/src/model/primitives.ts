@@ -1,6 +1,6 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
-import type { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
+import type { ModelAlgebraPrimitive } from '@morphic-ts/model-algebras/lib/primitives'
 import { tuple } from 'fp-ts/function'
 import { pipe } from 'fp-ts/pipeable'
 import { Do } from 'fp-ts-contrib/lib/Do'
@@ -29,7 +29,7 @@ import {
  *  @since 0.0.1
  */
 export const jsonSchemaPrimitiveInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraPrimitive1<JsonSchemaURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraPrimitive<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
     date: config => env =>
       new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(StringTypeCtor({ format: 'date' })), env)),

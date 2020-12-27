@@ -1,6 +1,6 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
-import type { ModelAlgebraRecursive1 } from '@morphic-ts/model-algebras/lib/recursive'
+import type { ModelAlgebraRecursive } from '@morphic-ts/model-algebras/lib/recursive'
 import { of as NEof } from 'fp-ts/NonEmptyArray'
 import { pipe } from 'fp-ts/pipeable'
 import {
@@ -20,7 +20,7 @@ import { addSchema, getSchemaStrict } from '../utils'
  *  @since 0.0.1
  */
 export const jsonSchemaRecursiveInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraRecursive1<JsonSchemaURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraRecursive<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
     recursive: <A>(
       rec: (x: (r: Env) => JsonSchema<A>) => (r: Env) => JsonSchema<A>,

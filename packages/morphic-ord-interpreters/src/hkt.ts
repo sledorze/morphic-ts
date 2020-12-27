@@ -26,7 +26,7 @@ export class OrdType<A> {
 }
 
 declare module '@morphic-ts/common/lib/HKT' {
-  interface URItoKind<R, A> {
+  interface URItoKind<R, E, A> {
     [OrdURI]: (env: R) => OrdType<A>
   }
 }

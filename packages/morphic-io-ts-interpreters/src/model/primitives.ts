@@ -1,6 +1,6 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
-import type { ModelAlgebraPrimitive2 } from '@morphic-ts/model-algebras/lib/primitives'
+import type { ModelAlgebraPrimitive } from '@morphic-ts/model-algebras/lib/primitives'
 import { either } from 'fp-ts/Either'
 import * as t from 'io-ts'
 import { DateFromISOString } from 'io-ts-types/lib/DateFromISOString'
@@ -50,7 +50,7 @@ const tag = <S extends string>(s: S): t.Type<S, undefined, unknown> =>
  */
 /* istanbul ignore next */
 export const ioTsPrimitiveInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraPrimitive2<IoTsURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraPrimitive<IoTsURI, Env> => ({
     _F: IoTsURI,
     date: config => env => new IOTSType(iotsApplyConfig(config)(DateFromISOString, env)),
     boolean: config => env => new IOTSType(iotsApplyConfig(config)(t.boolean, env)),

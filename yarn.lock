@@ -3183,8 +3183,8 @@ dot-prop@^5.1.0:
     is-obj "^2.0.0"
 
 "dtslint@github:gcanti/dtslint":
-  version "0.4.3"
-  resolved "https://codeload.github.com/gcanti/dtslint/tar.gz/de9181e0f1069b16ea15da87f74d88ed9bc221b7"
+  version "0.4.4"
+  resolved "https://codeload.github.com/gcanti/dtslint/tar.gz/ef28f0ad1d3bd64b8367f6f543cf6fd3b9b09c1b"
   dependencies:
     fs-extra "^6.0.1"
     parsimmon "^1.12.0"

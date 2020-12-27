@@ -1,6 +1,7 @@
 import type { GetAlgebra } from '@morphic-ts/algebras/lib/core'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
+import type { URIS } from '@morphic-ts/common/lib/HKT'
 import type { IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 import {
   modelIoTsNonStrictInterpreter,
@@ -36,7 +37,7 @@ export type ProgramUnionURI = typeof ProgramUnionURI
 /**
  *  @since 0.0.1
  */
-export interface AlgebraUnion<F, Env> extends InferredAlgebra<F, ProgramUnionURI, Env> {}
+export interface AlgebraUnion<F extends URIS, Env> extends InferredAlgebra<F, ProgramUnionURI, Env> {}
 /**
  *  @since 0.0.1
  */
@@ -58,7 +59,7 @@ declare module '@morphic-ts/summoners/lib/ProgramType' {
       | RefinedURI
     >
   }
-  interface ProgramAlgebra<F, Env> {
+  interface ProgramAlgebra<F extends URIS, Env> {
     [ProgramUnionURI]: AlgebraUnion<F, Env>
   }
   interface ProgramType<R extends AnyConfigEnv, E, A> {

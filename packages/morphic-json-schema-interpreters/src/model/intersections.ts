@@ -1,6 +1,6 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
-import type { ModelAlgebraIntersection1 } from '@morphic-ts/model-algebras/lib/intersections'
+import type { ModelAlgebraIntersection } from '@morphic-ts/model-algebras/lib/intersections'
 import { pipe } from 'fp-ts/pipeable'
 import { chain as SEchain, chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
 
@@ -12,7 +12,7 @@ import { arrayTraverseStateEither, registerSchema, resolveRef } from '../utils'
  *  @since 0.0.1
  */
 export const jsonSchemaIntersectionInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraIntersection1<JsonSchemaURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraIntersection<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
     intersection: <A>(types: Array<(env: Env) => JsonSchema<A>>, name: string) => (env: Env) =>
       new JsonSchema<A>(

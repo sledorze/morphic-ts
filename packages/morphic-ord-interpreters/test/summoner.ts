@@ -1,5 +1,6 @@
 import type { GetAlgebra } from '@morphic-ts/algebras/lib/core'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
+import type { URIS } from '@morphic-ts/common/lib/HKT'
 import type { IntersectionURI } from '@morphic-ts/model-algebras/lib/intersections'
 import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { PrimitiveURI } from '@morphic-ts/model-algebras/lib/primitives'
@@ -35,7 +36,7 @@ export type ProgramOrderableURI = typeof ProgramOrderableURI
 /**
  *  @since 0.0.1
  */
-export interface AlgebraNoUnion<F, Env> extends InferredAlgebra<F, ProgramOrderableURI, Env> {}
+export interface AlgebraNoUnion<F extends URIS, Env> extends InferredAlgebra<F, ProgramOrderableURI, Env> {}
 /**
  *  @since 0.0.1
  */
@@ -48,7 +49,7 @@ declare module '@morphic-ts/summoners/lib/ProgramType' {
     >
   }
 
-  interface ProgramAlgebra<F, Env> {
+  interface ProgramAlgebra<F extends URIS, Env> {
     [ProgramOrderableURI]: AlgebraNoUnion<F, Env>
   }
 

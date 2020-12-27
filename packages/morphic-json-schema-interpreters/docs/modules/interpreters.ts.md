@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelJsonSchemaInterpreter: <Env extends Partial<Record<"JsonSchemaURI", any>>>() => ModelAlgebraRefined1<"JsonSchemaURI", Env> & ModelAlgebraNewtype1<"JsonSchemaURI", Env> & ModelAlgebraUnknown1<"JsonSchemaURI", Env> & ModelAlgebraPrimitive1<"JsonSchemaURI", Env> & ModelAlgebraIntersection1<"JsonSchemaURI", Env> & ModelAlgebraObject1<"JsonSchemaURI", Env> & ModelAlgebraTaggedUnions1<"JsonSchemaURI", Env> & ModelAlgebraRecursive1<"JsonSchemaURI", Env> & ModelAlgebraStrMap1<"JsonSchemaURI", Env> & ModelAlgebraSet1<"JsonSchemaURI", Env> & ModelAlgebraUnions1<"JsonSchemaURI", Env> = ...
+export const modelJsonSchemaInterpreter: <Env extends Partial<Readonly<Record<"JsonSchemaURI", any>>>>() => ModelAlgebraRefined<"JsonSchemaURI", Env> & ModelAlgebraNewtype<"JsonSchemaURI", Env> & ModelAlgebraUnknown<"JsonSchemaURI", Env> & ModelAlgebraPrimitive<"JsonSchemaURI", Env> & ModelAlgebraIntersection<"JsonSchemaURI", Env> & ModelAlgebraObject<"JsonSchemaURI", Env> & ModelAlgebraTaggedUnions<"JsonSchemaURI", Env> & ModelAlgebraRecursive<"JsonSchemaURI", Env> & ModelAlgebraStrMap<"JsonSchemaURI", Env> & ModelAlgebraSet<"JsonSchemaURI", Env> & ModelAlgebraUnions<"JsonSchemaURI", Env> = ...
 ```
 
 Added in v0.0.1

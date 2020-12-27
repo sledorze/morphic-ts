@@ -187,13 +187,13 @@ describe('Eq', () => {
   it('both', () => {
     interface Foo {
       type: 'foo'
-      a: Option<string>
-      b: number
+      a?: Option<string>
+      b?: number
     }
-    const Foo = summon(F =>
+    const Foo = summon<unknown, Foo>(F =>
       F.both(
         {
-          type: F.string()
+          type: F.stringLiteral('foo')
         },
         {
           a: F.nullable(F.string()),
@@ -205,7 +205,7 @@ describe('Eq', () => {
 
     const { eq } = Foo
     chai.assert.deepStrictEqual(eq.equals({ type: 'foo' }, { type: 'foo' }), true)
-    chai.assert.deepStrictEqual(eq.equals({ type: 'foo' }, { type: 'bar' }), false)
+    chai.assert.deepStrictEqual(eq.equals({ type: 'foo' }, ({ type: 'bar' } as any) as Foo), false)
     chai.assert.deepStrictEqual(eq.equals({ type: 'foo', a: some('foo') }, { type: 'foo', a: some('foo') }), true)
     chai.assert.deepStrictEqual(eq.equals({ type: 'foo', a: none }, { type: 'foo', a: none }), true)
     chai.assert.deepStrictEqual(eq.equals({ type: 'foo', a: none }, { type: 'foo', a: some('foo') }), false)
@@ -235,7 +235,7 @@ describe('Eq', () => {
       c: string
       d: number
     }
-    const Bar = summon<unknown, Bar>(F =>
+    const Bar = summon(F =>
       F.interface(
         {
           type: F.stringLiteral('bar'),

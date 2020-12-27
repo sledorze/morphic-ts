@@ -163,7 +163,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-<PURI extends "Dummy">(_prog: PURI) => <R extends Partial<Record<never, any>> = {}>() => Define<PURI, R>
+<PURI extends "Dummy">(_prog: PURI) => <R extends Partial<Readonly<Record<never, any>>> = {}>() => Define<PURI, R>
 ```
 
 Added in v0.0.1

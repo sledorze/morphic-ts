@@ -1,4 +1,5 @@
 import type { GetAlgebra } from '@morphic-ts/algebras/lib/core'
+import type { URIS } from '@morphic-ts/common/lib/HKT'
 import type { IntersectionURI } from '@morphic-ts/model-algebras/lib/intersections'
 import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { ObjectURI } from '@morphic-ts/model-algebras/lib/object'
@@ -23,7 +24,7 @@ export type ProgramNoUnionURI = typeof ProgramNoUnionURI
 /**
  *  @since 0.0.1
  */
-export interface AlgebraNoUnion<F, Env> extends InferredAlgebra<F, ProgramNoUnionURI, Env> {}
+export interface AlgebraNoUnion<F extends URIS, Env> extends InferredAlgebra<F, ProgramNoUnionURI, Env> {}
 /**
  *  @since 0.0.1
  */
@@ -45,7 +46,7 @@ declare module '@morphic-ts/summoners/lib/ProgramType' {
     >
   }
 
-  interface ProgramAlgebra<F, Env> {
+  interface ProgramAlgebra<F extends URIS, Env> {
     [ProgramNoUnionURI]: AlgebraNoUnion<F, Env>
   }
 

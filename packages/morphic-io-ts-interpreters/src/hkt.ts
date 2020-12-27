@@ -34,7 +34,7 @@ export class IOTSType<O, A> {
 }
 
 declare module '@morphic-ts/common/lib/HKT' {
-  interface URItoKind2<R, E, A> {
+  interface URItoKind<R, E, A> {
     [IoTsURI]: (env: R) => IOTSType<E, A>
   }
 }

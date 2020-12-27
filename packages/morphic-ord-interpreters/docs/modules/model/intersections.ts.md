@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const ordIntersectionInterpreter: <Env extends Partial<Record<"OrdURI", any>>>() => ModelAlgebraIntersection1<"OrdURI", Env> = ...
+export const ordIntersectionInterpreter: <Env extends Partial<Readonly<Record<"OrdURI", any>>>>() => ModelAlgebraIntersection<"OrdURI", Env> = ...
 ```
 
 Added in v0.0.1

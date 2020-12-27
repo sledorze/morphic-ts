@@ -8,7 +8,7 @@ import type { AnyConfigEnv } from './summoner'
  *  @since 0.0.1
  */
 export interface ProgramType<R extends AnyConfigEnv, E, A> {
-  (_R: R): void
+  _R: (_: R) => void
   _E: E
   _A: A
 }

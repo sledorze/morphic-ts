@@ -20,7 +20,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface AlgebraNoUnion<F, Env> extends InferredAlgebra<F, ProgramNoUnionURI, Env> {}
+export interface AlgebraNoUnion<F extends URIS, Env> extends InferredAlgebra<F, ProgramNoUnionURI, Env> {}
 ```
 
 Added in v0.0.1

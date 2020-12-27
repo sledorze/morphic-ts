@@ -1,6 +1,6 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
-import type { ModelAlgebraStrMap1 } from '@morphic-ts/model-algebras/lib/str-map'
+import type { ModelAlgebraStrMap } from '@morphic-ts/model-algebras/lib/str-map'
 import { getOrd as AgetOrd } from 'fp-ts/Array'
 import { getTupleOrd, ord, ordString } from 'fp-ts/Ord'
 import { toArray as RtoArray } from 'fp-ts/Record'
@@ -12,7 +12,7 @@ import { OrdType, OrdURI } from '../hkt'
  *  @since 0.0.1
  */
 export const ordStrMapInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraStrMap1<OrdURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraStrMap<OrdURI, Env> => ({
     _F: OrdURI,
     strMap: (getCodomain, config) => env =>
       new OrdType(

@@ -1,6 +1,6 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import type { CacheType } from '@morphic-ts/common/lib/core'
-import type { URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
+import type { URIS } from '@morphic-ts/common/lib/HKT'
 
 import type { InterpreterResult, InterpreterURI } from './InterpreterResult'
 import type { Materialized } from './materializer'
@@ -16,9 +16,9 @@ import { makeTagged } from './tagged-union'
  */
 export interface Summoners<ProgURI extends ProgramURI, InterpURI extends InterpreterURI, R extends AnyConfigEnv> {
   <L, A>(F: InferredProgram<R, L, A, ProgURI>): Materialized<R, L, A, ProgURI, InterpURI>
+  _R: R
   _P: ProgURI
   _I: InterpURI
-  _R: R
 }
 
 type AnySummoners = Summoners<any, any, any> // ProgramURI, InterpreterURI, AnyConfigEnv>
@@ -92,7 +92,7 @@ export function makeSummoner<S extends AnySummoners = never>(
 /**
  *  @since 0.0.1
  */
-export type ExtractEnv<Env, SummonerEnv extends URIS | URIS2> = {
+export type ExtractEnv<Env, SummonerEnv extends URIS> = {
   [k in SummonerEnv & keyof Env]: NonNullable<Env>[k & keyof Env]
 }
 /**

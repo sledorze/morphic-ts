@@ -1,21 +1,17 @@
-import type { Kind, Kind2, URIS, URIS2 } from './HKT'
+import type { Kind, URIS_ } from './HKT'
 
 export {
   /**
    * @since 0.0.1
    */
-  Kind,
-  /**
-   * @since 0.0.1
-   */
-  Kind2
+  Kind
 }
 
 /**
  *  @since 0.0.1
  */
 
-export type URISIndexedAny = Record<URIS | URIS2, any>
+export type URISIndexedAny = Readonly<Record<URIS_, any>>
 
 /**
  *  @since 0.0.1
@@ -39,7 +35,7 @@ export type NoEnv = unknown
  *  @since 0.0.1
  */
 export type MapToGenConfig<R extends AnyEnv, T extends URISIndexedAny> = {
-  [k in URIS | URIS2]?: GenConfig<T[k], R[k]>
+  [k in URIS_]?: GenConfig<T[k], R[k]>
 }
 
 /**
@@ -48,6 +44,7 @@ export type MapToGenConfig<R extends AnyEnv, T extends URISIndexedAny> = {
 export interface ConfigType<E, A> {
   _E: E
   _A: A
+  readonly ['HKT']: never
 }
 
 /**
@@ -58,7 +55,7 @@ export type ConfigsForType<R extends AnyEnv, E, A> = MapToGenConfig<R, ConfigTyp
 /**
  *  @since 0.0.1
  */
-export const getApplyConfig: <Uri extends URIS | URIS2>(
+export const getApplyConfig: <Uri extends URIS_>(
   uri: Uri
 ) => <E, A, R extends Record<typeof uri, any>>(
   config?: { [k in Uri]?: GenConfig<ConfigType<E, A>[Uri], R> }

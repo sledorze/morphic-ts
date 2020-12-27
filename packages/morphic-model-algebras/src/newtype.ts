@@ -1,5 +1,5 @@
 import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
-import type { HKT2, Kind, Kind2, URIS, URIS2 } from '@morphic-ts/common/lib/HKT'
+import type { Kind, URIS } from '@morphic-ts/common/lib/HKT'
 import type { Newtype } from 'newtype-ts'
 /**
  *  @since 0.0.1
@@ -11,14 +11,8 @@ export const NewtypeURI = 'NewtypeURI' as const
 export type NewtypeURI = typeof NewtypeURI
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface Algebra<F, Env> {
+  export interface Algebra<F extends URIS, Env extends AnyEnv> {
     [NewtypeURI]: ModelAlgebraNewtype<F, Env>
-  }
-  export interface Algebra1<F extends URIS, Env extends AnyEnv> {
-    [NewtypeURI]: ModelAlgebraNewtype1<F, Env>
-  }
-  export interface Algebra2<F extends URIS2, Env extends AnyEnv> {
-    [NewtypeURI]: ModelAlgebraNewtype2<F, Env>
   }
 }
 
@@ -35,31 +29,9 @@ export type NewtypeA<N extends AnyNewtype> = N extends Newtype<any, infer A> ? A
 /**
  *  @since 0.0.1
  */
-export interface ModelAlgebraNewtype<F, Env> {
-  _F: F
-  newtype: <N extends AnyNewtype = never>(
-    name: string
-  ) => {
-    <E>(a: HKT2<F, Env, E, NewtypeA<N>>, config?: ConfigsForType<Env, E, N>): HKT2<F, Env, E, N>
-  }
-}
-
-/**
- *  @since 0.0.1
- */
-export interface ModelAlgebraNewtype1<F extends URIS, Env> {
+export interface ModelAlgebraNewtype<F extends URIS, Env> {
   _F: F
   newtype<N extends AnyNewtype = never>(
     name: string // on purpose type relaxation `Kind<F, R, N>` instead of `Kind<F, R, NewtypeA<N>>`
-  ): (a: Kind<F, Env, N>, config?: ConfigsForType<Env, unknown, N>) => Kind<F, Env, N>
-}
-
-/**
- *  @since 0.0.1
- */
-export interface ModelAlgebraNewtype2<F extends URIS2, Env> {
-  _F: F
-  newtype<N extends AnyNewtype = never>(
-    name: string // on purpose type relaxation `Kind<F, R, N>` instead of `Kind<F, R, NewtypeA<N>>`
-  ): <E>(a: Kind2<F, Env, E, N>, config?: ConfigsForType<Env, E, N>) => Kind2<F, Env, E, N>
+  ): <E>(a: Kind<F, Env, E, NewtypeA<N>>, config?: ConfigsForType<Env, E, N>) => Kind<F, Env, E, N>
 }

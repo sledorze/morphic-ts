@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showUnknownInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraUnknown1<"ShowURI", Env> = ...
+export const showUnknownInterpreter: <Env extends Partial<Readonly<Record<"ShowURI", any>>>>() => ModelAlgebraUnknown<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

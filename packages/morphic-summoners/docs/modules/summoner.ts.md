@@ -60,9 +60,9 @@ Added in v0.0.1
 ```ts
 export interface Summoners<ProgURI extends ProgramURI, InterpURI extends InterpreterURI, R extends AnyConfigEnv> {
   <L, A>(F: InferredProgram<R, L, A, ProgURI>): Materialized<R, L, A, ProgURI, InterpURI>
+  _R: R
   _P: ProgURI
   _I: InterpURI
-  _R: R
 }
 ```
 
@@ -83,7 +83,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type ExtractEnv<Env, SummonerEnv extends URIS | URIS2> = {
+export type ExtractEnv<Env, SummonerEnv extends URIS> = {
   [k in SummonerEnv & keyof Env]: NonNullable<Env>[k & keyof Env]
 }
 ```

@@ -1,6 +1,6 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
-import type { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
+import type { ModelAlgebraPrimitive } from '@morphic-ts/model-algebras/lib/primitives'
 import type { Either } from 'fp-ts/Either'
 import { isLeft, isRight } from 'fp-ts/Either'
 import { eqStrict } from 'fp-ts/Eq'
@@ -16,7 +16,7 @@ import { OrdType, OrdURI } from '../hkt'
  *  @since 0.0.1
  */
 export const ordPrimitiveInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraPrimitive1<OrdURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraPrimitive<OrdURI, Env> => ({
     _F: OrdURI,
     date: config => env =>
       new OrdType(

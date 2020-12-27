@@ -39,7 +39,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const ioTsPrimitiveInterpreter: <Env extends Partial<Record<"IoTsURI", any>>>() => ModelAlgebraPrimitive2<"IoTsURI", Env> = ...
+export const ioTsPrimitiveInterpreter: <Env extends Partial<Readonly<Record<"IoTsURI", any>>>>() => ModelAlgebraPrimitive<"IoTsURI", Env> = ...
 ```
 
 Added in v0.0.1

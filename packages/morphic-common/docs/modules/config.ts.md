@@ -17,7 +17,6 @@ parent: Modules
 - [URISIndexedAny (type alias)](#urisindexedany-type-alias)
 - [getApplyConfig (function)](#getapplyconfig-function)
 - [Kind (export)](#kind-export)
-- [Kind2 (export)](#kind2-export)
 
 ---
 
@@ -29,6 +28,7 @@ parent: Modules
 export interface ConfigType<E, A> {
   _E: E
   _A: A
+  readonly ['HKT']: never
 }
 ```
 
@@ -72,7 +72,7 @@ Added in v0.0.1
 
 ```ts
 export type MapToGenConfig<R extends AnyEnv, T extends URISIndexedAny> = {
-  [k in URIS | URIS2]?: GenConfig<T[k], R[k]>
+  [k in URIS_]?: GenConfig<T[k], R[k]>
 }
 ```
 
@@ -93,7 +93,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type URISIndexedAny = Record<URIS | URIS2, any>
+export type URISIndexedAny = Readonly<Record<URIS_, any>>
 ```
 
 Added in v0.0.1
@@ -103,7 +103,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const getApplyConfig: <Uri extends URIS | URIS2>(
+export const getApplyConfig: <Uri extends URIS_>(
   uri: Uri
 ) => <E, A, R extends Record<typeof uri, any>>(
   config?: { [k in Uri]?: GenConfig<ConfigType<E, A>[Uri], R> }
@@ -114,16 +114,6 @@ export const getApplyConfig: <Uri extends URIS | URIS2>(
 Added in v0.0.1
 
 # Kind (export)
-
-**Signature**
-
-```ts
-any
-```
-
-Added in v0.0.1
-
-# Kind2 (export)
 
 **Signature**
 

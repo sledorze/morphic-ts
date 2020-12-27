@@ -2,7 +2,7 @@ import type { ADT } from '@morphic-ts/adt/lib'
 import { makeADT } from '@morphic-ts/adt/lib'
 import type { ElemType } from '@morphic-ts/adt/lib/utils'
 import type { Algebra } from '@morphic-ts/algebras/lib/hkt'
-import type { HKT2 } from '@morphic-ts/common/lib/HKT'
+import type { HKT, URIS } from '@morphic-ts/common/lib/HKT'
 import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import { array, difference, intersection } from 'fp-ts/Array'
 import { eqString } from 'fp-ts/Eq'
@@ -28,7 +28,7 @@ export type IfStringLiteral<T, IfLiteral, IfString, IfNotString> = T extends str
  *  @since 0.0.1
  */
 export type TaggedUnionProg<R, E, A, ProgURI extends ProgramURI> = ProgramType<R, E, A>[ProgURI] &
-  (<G>(a: Algebra<G, R>[TaggedUnionsURI]) => HKT2<G, R, E, A>)
+  (<G extends URIS>(a: Algebra<G, R>[TaggedUnionsURI]) => HKT<R, E, A>)
 
 type M<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Materialized<
   R,

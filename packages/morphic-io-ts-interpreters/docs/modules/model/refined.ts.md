@@ -18,7 +18,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const ioTsRefinedInterpreter: <Env extends Partial<Record<"IoTsURI", any>>>() => ModelAlgebraRefined2<"IoTsURI", Env> = ...
+export const ioTsRefinedInterpreter: <Env extends Partial<Readonly<Record<"IoTsURI", any>>>>() => ModelAlgebraRefined<"IoTsURI", Env> = ...
 ```
 
 Added in v0.0.1
