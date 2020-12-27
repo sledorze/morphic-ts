@@ -1,6 +1,7 @@
-import type { Errors, Type } from 'io-ts'
 import type { Either } from 'fp-ts/Either'
 import { map } from 'fp-ts/Either'
+import type { Errors, Type } from 'io-ts'
+
 import type { Validated } from './create'
 
 /**
@@ -33,7 +34,7 @@ export class IOTSType<O, A> {
 }
 
 declare module '@morphic-ts/common/lib/HKT' {
-  interface URItoKind2<R, E, A> {
+  interface URItoKind<R, E, A> {
     [IoTsURI]: (env: R) => IOTSType<E, A>
   }
 }

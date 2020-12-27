@@ -25,7 +25,7 @@ export class FastCheckType<A> {
 }
 
 declare module '@morphic-ts/common/lib/HKT' {
-  interface URItoKind<R, A> {
+  interface URItoKind<R, E, A> {
     [FastCheckURI]: (env: R) => FastCheckType<A>
   }
 }

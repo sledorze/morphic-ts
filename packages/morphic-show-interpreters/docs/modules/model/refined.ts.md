@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showRefinedInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraRefined1<"ShowURI", Env> = ...
+export const showRefinedInterpreter: <Env extends Partial<Readonly<Record<"ShowURI", any>>>>() => ModelAlgebraRefined<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

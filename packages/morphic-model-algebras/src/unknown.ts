@@ -1,5 +1,5 @@
-import type { URIS2, Kind2, URIS, Kind, HKT2 } from '@morphic-ts/common/lib/HKT'
-import type { ConfigsForType, AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
+import type { Kind, URIS } from '@morphic-ts/common/lib/HKT'
 
 /**
  *  @since 0.0.1
@@ -16,39 +16,15 @@ export const UnknownURI = 'UnknownURI' as const
 export type UnknownURI = typeof UnknownURI
 
 declare module '@morphic-ts/algebras/lib/hkt' {
-  export interface Algebra<F, Env> {
+  export interface Algebra<F extends URIS, Env extends AnyEnv> {
     [UnknownURI]: ModelAlgebraUnknown<F, Env>
   }
-  export interface Algebra1<F extends URIS, Env extends AnyEnv> {
-    [UnknownURI]: ModelAlgebraUnknown1<F, Env>
-  }
-  export interface Algebra2<F extends URIS2, Env extends AnyEnv> {
-    [UnknownURI]: ModelAlgebraUnknown2<F, Env>
-  }
 }
 
 /**
  *  @since 0.0.1
  */
-export interface ModelAlgebraUnknown<F, Env> {
+export interface ModelAlgebraUnknown<F extends URIS, Env extends AnyEnv> {
   _F: F
-  unknown: {
-    (config?: ConfigsForType<Env, unknown, unknown>): HKT2<F, Env, unknown, unknown>
-  }
-}
-
-/**
- *  @since 0.0.1
- */
-export interface ModelAlgebraUnknown1<F extends URIS, Env extends AnyEnv> {
-  _F: F
-  unknown(config?: ConfigsForType<Env, unknown, unknown>): Kind<F, Env, unknown>
-}
-
-/**
- *  @since 0.0.1
- */
-export interface ModelAlgebraUnknown2<F extends URIS2, Env extends AnyEnv> {
-  _F: F
-  unknown(config?: ConfigsForType<Env, unknown, unknown>): Kind2<F, Env, unknown, unknown>
+  unknown(config?: ConfigsForType<Env, unknown, unknown>): Kind<F, Env, unknown, unknown>
 }

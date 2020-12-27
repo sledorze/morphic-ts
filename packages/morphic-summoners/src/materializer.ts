@@ -1,10 +1,11 @@
-import type { InterpreterResult, InterpreterURI } from './InterpreterResult'
-import { assignFunction, wrapFun, assignCallable, inhabitTypes } from './utils'
-import type { InhabitedTypes } from './utils'
 import { MonocleFor } from '@morphic-ts/adt/lib/monocle'
-import type { ProgramURI, ProgramType } from './ProgramType'
-import { interpretable } from './programs-infer'
+
+import type { InterpreterResult, InterpreterURI } from './InterpreterResult'
 import type { Overloads } from './programs-infer'
+import { interpretable } from './programs-infer'
+import type { ProgramType, ProgramURI } from './ProgramType'
+import type { InhabitedTypes } from './utils'
+import { assignCallable, assignFunction, inhabitTypes, wrapFun } from './utils'
 
 /**
  *  @since 0.0.1

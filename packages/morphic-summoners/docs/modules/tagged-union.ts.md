@@ -170,7 +170,7 @@ Added in v0.0.1
 
 ```ts
 export type TaggedUnionProg<R, E, A, ProgURI extends ProgramURI> = ProgramType<R, E, A>[ProgURI] &
-  (<G>(a: Algebra<G, R>[TaggedUnionsURI]) => HKT2<G, R, E, A>)
+  (<G extends URIS>(a: Algebra<G, R>[TaggedUnionsURI]) => HKT<R, E, A>)
 ```
 
 Added in v0.0.1

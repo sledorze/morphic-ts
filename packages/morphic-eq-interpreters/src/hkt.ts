@@ -25,7 +25,7 @@ export class EqType<A> {
 }
 
 declare module '@morphic-ts/common/lib/HKT' {
-  interface URItoKind<R, A> {
+  interface URItoKind<R, E, A> {
     [EqURI]: (env: R) => EqType<A>
   }
 }

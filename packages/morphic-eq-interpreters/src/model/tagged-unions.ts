@@ -1,24 +1,25 @@
-import type { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
-import { EqType, EqURI } from '../hkt'
-import { mapRecord, memo } from '@morphic-ts/common/lib/utils'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { mapRecord, memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraTaggedUnions } from '@morphic-ts/model-algebras/lib/tagged-unions'
+
+import { EqType, EqURI } from '../hkt'
 
 /**
  *  @since 0.0.1
  */
 export const eqTaggedUnionInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraTaggedUnions1<EqURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraTaggedUnions<EqURI, Env> => ({
     _F: EqURI,
     taggedUnion: (tag, types, _name, _config) => env => {
       // TODO: add customize
-      const equals = mapRecord(types, a => a(env).eq.equals)
+      const equals = mapRecord(types, a => (a as any)(env).eq.equals)
       return new EqType({
         equals: (a, b): boolean => {
           if (a === b) {
             return true
           } else {
-            const aTag = a[tag]
-            return aTag === b[tag] ? equals[aTag](a, b) : false
+            const aTag = (a as any)[tag]
+            return aTag === (b as any)[tag] ? (equals as any)[aTag](a, b) : false
           }
         }
       })

@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const eqPrimitiveInterpreter: <Env extends Partial<Record<"EqURI", any>>>() => ModelAlgebraPrimitive1<"EqURI", Env> = ...
+export const eqPrimitiveInterpreter: <Env extends Partial<Readonly<Record<"EqURI", any>>>>() => ModelAlgebraPrimitive<"EqURI", Env> = ...
 ```
 
 Added in v0.0.1

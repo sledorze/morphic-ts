@@ -11,7 +11,6 @@ parent: Modules
 - [CacheType (type alias)](#cachetype-type-alias)
 - [Compact (type alias)](#compact-type-alias)
 - [OfType (type alias)](#oftype-type-alias)
-- [OfType2 (type alias)](#oftype2-type-alias)
 - [UnionToIntersection (type alias)](#uniontointersection-type-alias)
 - [cacheUnaryFunction (function)](#cacheunaryfunction-function)
 
@@ -44,17 +43,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type OfType<F extends URIS, A, RC> = Kind<F, RC, A>
-```
-
-Added in v0.0.1
-
-# OfType2 (type alias)
-
-**Signature**
-
-```ts
-export type OfType2<F extends URIS2, L, A, RC> = Kind2<F, RC, L, A>
+export type OfType<F extends URIS, L, A, RC> = Kind<F, RC, L, A>
 ```
 
 Added in v0.0.1

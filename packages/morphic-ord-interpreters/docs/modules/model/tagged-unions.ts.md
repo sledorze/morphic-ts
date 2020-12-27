@@ -21,7 +21,7 @@ This is kind of useless as required interfaces are not supported in Ord
 **Signature**
 
 ```ts
-export const ordTaggedUnionInterpreter: <Env extends Partial<Record<"OrdURI", any>>>() => ModelAlgebraTaggedUnions1<"OrdURI", Env> = ...
+export const ordTaggedUnionInterpreter: <Env extends Partial<Readonly<Record<"OrdURI", any>>>>() => ModelAlgebraTaggedUnions<"OrdURI", Env> = ...
 ```
 
 Added in v0.0.1

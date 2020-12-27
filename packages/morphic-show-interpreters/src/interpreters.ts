@@ -1,15 +1,16 @@
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { merge } from '@morphic-ts/common/lib/utils'
-import { showRefinedInterpreter } from './model/refined'
-import { showNewtypeInterpreter } from './model/newtype'
-import { showUnknownInterpreter } from './model/unknown'
-import { showPrimitiveInterpreter } from './model/primitives'
+
 import { showIntersectionInterpreter } from './model/intersections'
+import { showNewtypeInterpreter } from './model/newtype'
 import { showObjectInterpreter } from './model/object'
-import { showTaggedUnionInterpreter } from './model/tagged-unions'
+import { showPrimitiveInterpreter } from './model/primitives'
 import { showRecursiveInterpreter } from './model/recursive'
+import { showRefinedInterpreter } from './model/refined'
 import { showSetInterpreter } from './model/set'
 import { showStrMapInterpreter } from './model/str-map'
-import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { showTaggedUnionInterpreter } from './model/tagged-unions'
+import { showUnknownInterpreter } from './model/unknown'
 
 export * from './hkt'
 

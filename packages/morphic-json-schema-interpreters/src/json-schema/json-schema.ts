@@ -1,6 +1,6 @@
-import { Lens, Prism } from 'monocle-ts'
-import { fromNullable } from 'fp-ts/Option'
 import type { Option } from 'fp-ts/Option'
+import { fromNullable } from 'fp-ts/Option'
+import { Lens, Prism } from 'monocle-ts'
 /**
  *  @since 0.0.1
  */
@@ -97,7 +97,7 @@ export const ArraySchema = (p: {
   minItems?: number
   maxItems?: number
 }) => ({
-  type: 'array' as 'array',
+  type: 'array' as const,
   ...p
 })
 
@@ -135,7 +135,7 @@ export const ObjectSchema = (x: {
   required?: string[]
   properties?: Record<string, SubSchema>
   oneOf?: (ObjectSchema | Ref)[]
-}): ObjectSchema => ({ type: 'object' as 'object', ...x })
+}): ObjectSchema => ({ type: 'object' as const, ...x })
 
 /**
  *  @since 0.0.1

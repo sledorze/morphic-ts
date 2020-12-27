@@ -1,12 +1,13 @@
 import * as chai from 'chai'
-import { lt, gt, ordNumber, ord } from 'fp-ts/Ord'
-import { summonFor } from './summoner'
-import { left, right } from 'fp-ts/Either'
-import type { Either } from 'fp-ts/Either'
-import { some, none } from 'fp-ts/Option'
-import { modelFastCheckInterpreter } from '../../morphic-fastcheck-interpreters'
 import fc from 'fast-check'
+import type { Either } from 'fp-ts/Either'
+import { left, right } from 'fp-ts/Either'
+import { none, some } from 'fp-ts/Option'
+import { gt, lt, ord, ordNumber } from 'fp-ts/Ord'
 import * as ordering from 'fp-ts/Ordering'
+
+import { modelFastCheckInterpreter } from '../../morphic-fastcheck-interpreters'
+import { summonFor } from './summoner'
 
 const { summon } = summonFor<{}>({})
 

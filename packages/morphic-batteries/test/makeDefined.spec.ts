@@ -1,9 +1,10 @@
-import { summonFor } from '../src/summoner-BASTJ'
-import { defineFor } from '@morphic-ts/summoners'
-import { ProgramUnionURI } from '../src/program'
-import * as fc from 'fast-check'
 import type { FastCheckURI } from '@morphic-ts/fastcheck-interpreters/lib/hkt'
+import { defineFor } from '@morphic-ts/summoners'
+import * as fc from 'fast-check'
 import { isRight } from 'fp-ts/Either'
+
+import { ProgramUnionURI } from '../src/program'
+import { summonFor } from '../src/summoner-BASTJ'
 
 interface FastCheck {
   fc: typeof fc
@@ -32,7 +33,7 @@ describe('defineFor', () => {
 })
 
 describe('define', () => {
-  const { summon, define } = summonFor<AppEnv>({
+  const { define, summon } = summonFor<AppEnv>({
     FastCheckURI: {
       fc
     }

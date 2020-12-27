@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const fastCheckUnionInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraUnions1<"FastCheckURI", Env> = ...
+export const fastCheckUnionInterpreter: <Env extends Partial<Readonly<Record<"FastCheckURI", any>>>>() => ModelAlgebraUnions<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

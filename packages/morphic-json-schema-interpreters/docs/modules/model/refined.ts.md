@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const jsonSchemaRefinedInterpreter: <Env extends Partial<Record<"JsonSchemaURI", any>>>() => ModelAlgebraRefined1<"JsonSchemaURI", Env> = ...
+export const jsonSchemaRefinedInterpreter: <Env extends Partial<Readonly<Record<"JsonSchemaURI", any>>>>() => ModelAlgebraRefined<"JsonSchemaURI", Env> = ...
 ```
 
 Added in v0.0.1

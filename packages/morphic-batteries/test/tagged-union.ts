@@ -1,8 +1,9 @@
-import * as chai from 'chai'
-import { summonFor, AsOpaque } from '../src/summoner-BASTJ'
+import { intersectADT, unionADT } from '@morphic-ts/adt'
 import type { AType, EType } from '@morphic-ts/summoners'
-import { unionADT, intersectADT } from '@morphic-ts/adt'
+import * as chai from 'chai'
 import { right } from 'fp-ts/lib/Either'
+
+import { AsOpaque, summonFor } from '../src/summoner-BASTJ'
 
 const { summon, tagged } = summonFor<{}>({})
 

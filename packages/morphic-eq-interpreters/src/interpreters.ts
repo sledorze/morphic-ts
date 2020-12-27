@@ -1,15 +1,17 @@
-import { merge, memo } from '@morphic-ts/common/lib/utils'
-import { eqRefinedInterpreter } from './model/refined'
-import { eqNewtypeInterpreter } from './model/newtype'
-import { eqUnknownInterpreter } from './model/unknown'
-import { eqPrimitiveInterpreter } from './model/primitives'
-import { eqIntersectionInterpreter } from './model/intersections'
-import { eqObjectInterpreter } from './model/object'
-import { eqTaggedUnionInterpreter } from './model/tagged-unions'
-import { eqRecursiveInterpreter } from './model/recursive'
-import { eqStrMapInterpreter } from './model/str-map'
-import { eqSetInterpreter } from './model/set'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { memo, merge } from '@morphic-ts/common/lib/utils'
+
+import { eqIntersectionInterpreter } from './model/intersections'
+import { eqNewtypeInterpreter } from './model/newtype'
+import { eqObjectInterpreter } from './model/object'
+import { eqPrimitiveInterpreter } from './model/primitives'
+import { eqRecursiveInterpreter } from './model/recursive'
+import { eqRefinedInterpreter } from './model/refined'
+import { eqSetInterpreter } from './model/set'
+import { eqStrMapInterpreter } from './model/str-map'
+import { eqTaggedUnionInterpreter } from './model/tagged-unions'
+import { eqUnknownInterpreter } from './model/unknown'
+
 export * from './hkt'
 
 /**

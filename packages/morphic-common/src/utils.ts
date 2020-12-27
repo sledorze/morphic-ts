@@ -1,4 +1,4 @@
-import { record, collect as Rcollect } from 'fp-ts/Record'
+import { collect as Rcollect, record } from 'fp-ts/Record'
 
 /**
  *  @since 0.0.1

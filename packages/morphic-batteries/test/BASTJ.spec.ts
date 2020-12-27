@@ -1,11 +1,11 @@
 import * as chai from 'chai'
+import { either, right as Eright } from 'fp-ts/Either'
+import type { Type } from 'io-ts'
+import { failure, success } from 'io-ts'
+import { PathReporter } from 'io-ts/lib/PathReporter'
+import { withValidate } from 'io-ts-types/lib/withValidate'
 
 import { summonFor } from '../src/summoner-BASTJ'
-import { withValidate } from 'io-ts-types/lib/withValidate'
-import { PathReporter } from 'io-ts/lib/PathReporter'
-import { failure, success } from 'io-ts'
-import type { Type } from 'io-ts'
-import { right as Eright, either } from 'fp-ts/Either'
 
 const { summon } = summonFor<{}>({})
 

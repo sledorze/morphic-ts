@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const ordNewtypeInterpreter: <Env extends Partial<Record<"OrdURI", any>>>() => ModelAlgebraNewtype1<"OrdURI", Env> = ...
+export const ordNewtypeInterpreter: <Env extends Partial<Readonly<Record<"OrdURI", any>>>>() => ModelAlgebraNewtype<"OrdURI", Env> = ...
 ```
 
 Added in v0.0.1

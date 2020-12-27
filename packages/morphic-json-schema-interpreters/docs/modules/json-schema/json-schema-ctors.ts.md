@@ -191,7 +191,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const NonEmptyArrayFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) => ...
+export const NonEmptyArrayFromArrayTypeCtor = ({ json, optional }: OptionalJSONSchema) => ...
 ```
 
 Added in v0.0.1
@@ -221,7 +221,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const SetFromArrayTypeCtor = ({ optional, json }: OptionalJSONSchema) => ...
+export const SetFromArrayTypeCtor = ({ json, optional }: OptionalJSONSchema) => ...
 ```
 
 Added in v0.0.1
@@ -231,7 +231,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const StrMapTypeCtor = ({ optional, json }: OptionalJSONSchema) => ...
+export const StrMapTypeCtor = ({ json, optional }: OptionalJSONSchema) => ...
 ```
 
 Added in v0.0.1

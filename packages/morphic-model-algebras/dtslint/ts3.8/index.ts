@@ -4,10 +4,10 @@ import type { ModelAlgebraObject } from '../../src/object'
 import type { Eq } from 'fp-ts/Eq'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import type {} from '@morphic-ts/algebras/lib/hkt'
-import type { HKT2 } from '@morphic-ts/common/lib/HKT'
+import type { HKT, Kind, URIS } from '@morphic-ts/common/lib/HKT'
 
 declare module '@morphic-ts/common/lib/HKT' {
-  interface URItoKind<R, A> {
+  interface URItoKind<R, E, A> {
     ['Eq']: (env: R) => TypeEq<A>
   }
 }
@@ -20,17 +20,17 @@ export class TypeEq<A> {
 
 const dummy = 42 // $ExpectType 42
 
-const foo = <MEnv extends AnyEnv = {}>() => <F, R extends HKT2<F, Env, any, any>, Env extends MEnv>(
-  f: (x: ModelAlgebraTaggedUnions<F, Env> & ModelAlgebraPrimitive<F, Env> & ModelAlgebraObject<F, Env>) => R
+const foo = <MEnv extends AnyEnv = {}>() => <R extends Kind<"HKT", Env, any, any>, Env extends MEnv>(
+  f: (x: ModelAlgebraTaggedUnions<"HKT", Env> & ModelAlgebraPrimitive<"HKT", Env> & ModelAlgebraObject<"HKT", Env>) => R
 ): R => f as any
-const summon = <MEnv>() => <F, R extends HKT2<F, Env, any, any>, Env extends MEnv>(
-  f: (x: ModelAlgebraTaggedUnions<F, Env> & ModelAlgebraPrimitive<F, Env> & ModelAlgebraObject<F, Env>) => R
+const summon = <MEnv>() => <R extends Kind<"HKT", Env, any, any>, Env extends MEnv>(
+  f: (x: ModelAlgebraTaggedUnions<"HKT", Env> & ModelAlgebraPrimitive<"HKT", Env> & ModelAlgebraObject<"HKT", Env>) => R
 ) => f
 
-// $ExpectType HKT2<unknown, {}, Readonly<{ type: string; }>, Readonly<{ type: "a"; }>>
+// $ExpectType HKT<{}, Readonly<{ type: string; }>, Readonly<{ type: "a"; }>>
 foo()(F => F.taggedUnion('type', { a: F.interface({ type: F.stringLiteral('a') }, 'A') }, 'X'))
 
-// $ExpectType HKT2<unknown, {}, Readonly<{ type: string; }> | Readonly<{ type: string; }>, Readonly<{ type: "a"; }> | Readonly<{ type: "b"; }>>
+// $ExpectType HKT<{}, Readonly<{ type: string; }>, Readonly<{ type: "a"; }> | Readonly<{ type: "b"; }>>
 foo()(F =>
   F.taggedUnion(
     'type',
@@ -55,10 +55,10 @@ interface Deps2 extends AnyEnv {
   Eq: EqDeps2
 }
 
-// $ExpezctType HKT2<unknown, { Eq: Deps; }, string, "a">
+// $ExpezctType HKT<unknown, { Eq: Deps; }, string, "a">
 foo<Deps>()(F => F.stringLiteral<'a'>('a', { Eq: (x, d: EqDeps) => x }))
 
-// $ExpectType HKT2<unknown, Deps, Readonly<{ type: string; }>, Readonly<{ type: "a"; }>>
+// $ExpectType HKT<Deps, Readonly<{ type: string; }>, Readonly<{ type: "a"; }>>
 foo<Deps>()(F =>
   F.interface(
     { type: F.stringLiteral<'a'>('a', { Eq: (x, d: EqDeps) => x }) },
@@ -66,7 +66,8 @@ foo<Deps>()(F =>
   )
 )
 
-// $ExpectType HKT2<unknown, Deps, Readonly<{ type: string; }> | Readonly<{ type: string; }>, Readonly<{ type: "a"; }> | Readonly<{ type: "b"; }>>
+// tslint:disable-next-line: max-line-length
+// $ExpectType HKT<Deps, Readonly<{ type: string; }>, Readonly<{ type: "a"; }> | Readonly<{ type: "b"; }>>
 foo<Deps>()(F =>
   F.taggedUnion(
     'type',
@@ -84,7 +85,8 @@ foo<Deps>()(F =>
   )
 )
 
-// $ExpectType HKT2<unknown, Deps & Deps2, Readonly<{ type: string; }> | Readonly<{ type: string; }>, Readonly<{ type: "a"; }> | Readonly<{ type: "b"; }>>
+// tslint:disable-next-line: max-line-length
+// $ExpectType HKT<Deps & Deps2, Readonly<{ type: string; }>, Readonly<{ type: "a"; }> | Readonly<{ type: "b"; }>>
 foo<Deps & Deps2>()(F =>
   F.taggedUnion(
     'type',

@@ -1,10 +1,11 @@
-import type { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
-import { EqType, EqURI } from '../hkt'
-import { projectFieldWithEnv, memo, mapRecord } from '@morphic-ts/common/lib/utils'
-import { getStructEq } from 'fp-ts/Eq'
-import type { Eq } from 'fp-ts/Eq'
-import { eqApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { mapRecord, memo, projectFieldWithEnv } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraObject } from '@morphic-ts/model-algebras/lib/object'
+import type { Eq } from 'fp-ts/Eq'
+import { getStructEq } from 'fp-ts/Eq'
+
+import { eqApplyConfig } from '../config'
+import { EqType, EqURI } from '../hkt'
 
 const asPartialEq = <T>(x: Eq<T>): Eq<Partial<T>> => x as any
 
@@ -18,15 +19,15 @@ export const eqOrUndefined = <A>(eq: Eq<A>): Eq<A | undefined> => ({
  *  @since 0.0.1
  */
 export const eqObjectInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraObject1<EqURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraObject<EqURI, Env> => ({
     _F: EqURI,
     interface: (props, _name, config) => env =>
-      new EqType(eqApplyConfig(config)(getStructEq(projectFieldWithEnv(props, env)('eq')), env)),
+      new EqType(eqApplyConfig(config)(getStructEq(projectFieldWithEnv(props as any, env)('eq')), env)),
     // relies on Eq<A> whereas we need Eq<Partial<A>> (but works - covered by tests)
     partial: (props, _name, config) => env =>
       new EqType(
         eqApplyConfig(config)(
-          asPartialEq(getStructEq(mapRecord(projectFieldWithEnv(props, env)('eq'), eqOrUndefined))),
+          asPartialEq(getStructEq(mapRecord(projectFieldWithEnv(props as any, env)('eq'), eqOrUndefined))),
           env
         )
       ),

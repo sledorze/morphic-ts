@@ -1,10 +1,10 @@
-import { FastCheckType, FastCheckURI } from '../hkt'
-import type { ModelAlgebraTaggedUnions1 } from '@morphic-ts/model-algebras/lib/tagged-unions'
-import { collect } from '@morphic-ts/common/lib/utils'
-import { oneof } from 'fast-check'
-import { fastCheckApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import { memo } from '@morphic-ts/common/lib/utils'
+import { collect, memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraTaggedUnions } from '@morphic-ts/model-algebras/lib/tagged-unions'
+import { oneof } from 'fast-check'
+
+import { fastCheckApplyConfig } from '../config'
+import { FastCheckType, FastCheckURI } from '../hkt'
 
 /**
  * Beware: randomly generated recursive structure with high branching may not end early enough
@@ -13,7 +13,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
  *  @since 0.0.1
  */
 export const fastCheckTaggedUnionInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraTaggedUnions1<FastCheckURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraTaggedUnions<FastCheckURI, Env> => ({
     _F: FastCheckURI,
     taggedUnion: (_tag, dic, _name, config) => env =>
       new FastCheckType(fastCheckApplyConfig(config)(oneof(...collect(dic, (_, getArb) => getArb(env).arb)), env))

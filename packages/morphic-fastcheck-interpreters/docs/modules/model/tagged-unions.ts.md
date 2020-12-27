@@ -21,7 +21,7 @@ Beware: randomly generated recursive structure with high branching may not end e
 **Signature**
 
 ```ts
-export const fastCheckTaggedUnionInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraTaggedUnions1<"FastCheckURI", Env> = ...
+export const fastCheckTaggedUnionInterpreter: <Env extends Partial<Readonly<Record<"FastCheckURI", any>>>>() => ModelAlgebraTaggedUnions<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

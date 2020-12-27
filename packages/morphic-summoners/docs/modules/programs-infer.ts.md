@@ -37,10 +37,9 @@ Added in v0.0.1
 ```ts
 export interface InferredProgram<R extends AnyConfigEnv, E, A, PURI extends ProgramURI> {
   _PURI?: PURI
-  <G, Env extends R>(a: ProgramAlgebra<G, Env>[PURI]): HKT2<G, Env, E, A>
+  <Env extends R>(a: ProgramAlgebra<'HKT', Env>[PURI]): HKT<Env, E, A>
   [overloadsSymb]?: {
-    <G extends URIS>(a: Algebra1<ProgramAlgebraURI[PURI], G, R>): Kind<G, { [k in G & keyof R]: R[k] }, A>
-    <G extends URIS2>(a: Algebra2<ProgramAlgebraURI[PURI], G, R>): Kind2<G, { [k in G & keyof R]: R[k] }, E, A>
+    <G extends URIS_>(a: Algebra<ProgramAlgebraURI[PURI], G, R>): Kind<G, { [k in G & keyof R]: R[k] }, E, A>
   }
 }
 ```
@@ -52,7 +51,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export type InferredAlgebra<F, PURI extends ProgramURI, R> = Algebra<ProgramAlgebraURI[PURI], F, R>
+export type InferredAlgebra<F extends URIS, PURI extends ProgramURI, R> = Algebra<ProgramAlgebraURI[PURI], F, R>
 ```
 
 Added in v0.0.1

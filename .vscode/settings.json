@@ -2,5 +2,86 @@
   "typescript.tsdk": "./node_modules/typescript/lib",
   "prettier.configPath": "./prettier.config.js",
   "editor.tabCompletion": "onlySnippets",
-  "cSpell.words": ["ADTs", "Greenkeeper", "Morphic's", "Reinterpreter", "combinator", "combinators"]
+  "cSpell.words": [
+    "ADTs",
+    "Greenkeeper",
+    "Morphic's",
+    "Reinterpreter",
+    "combinator",
+    "combinators"
+  ],
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+
+  "editor.cursorStyle": "block",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.formatOnType": true,
+  "editor.autoIndent": "full",
+  "workbench.editor.showIcons": true,
+  "search.exclude": {
+    "**/node_modules": false,
+    "**/bower_components": true,
+    "**/build": true,
+    ".tmp": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/node_modules/**": true,
+    "**/.temp/**": true,
+    "**/.tmp/**": true,
+    "**/build/**": true,
+    "**/.tmp": true,
+    ".tmp": true,
+    "**/target": true
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/.git/objects": true,
+    "**/node_modules": false,
+    "**/.temp/**": true,
+    "**/.tmp/**": true,
+    "**/build/**": false,
+    "**/.tmp": true,
+    ".tmp": true
+  },
+  "extensions.autoUpdate": true,
+  "tslint.packageManager": "npm",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "editor.formatOnSave": true,
+  "eslint.format.enable": true,
+
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "prettier.disableLanguages": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.validate": ["markdown", "javascript", "typescript"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+  "eslint.alwaysShowStatus": true,
+  "eslint.run": "onSave",
+  "eslint.packageManager": "yarn"
 }

@@ -1,17 +1,18 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import type { ModelAlgebraRecursive1 } from '@morphic-ts/model-algebras/lib/recursive'
-import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { memo } from '@morphic-ts/common/lib/utils'
-import { notOptional, JsonSchemaError } from '../json-schema/json-schema-ctors'
-import { Ref, isnotTypeRef } from '../json-schema/json-schema'
+import type { ModelAlgebraRecursive } from '@morphic-ts/model-algebras/lib/recursive'
+import { of as NEof } from 'fp-ts/NonEmptyArray'
 import { pipe } from 'fp-ts/pipeable'
 import {
-  stateEither as SEstateEither,
   chain as SEchain,
   fromPredicate as SEfromPredicate,
-  map as SEmap
+  map as SEmap,
+  stateEither as SEstateEither
 } from 'fp-ts-contrib/lib/StateEither'
-import { of as NEof } from 'fp-ts/NonEmptyArray'
+
+import { JsonSchema, JsonSchemaURI } from '../hkt'
+import { isnotTypeRef, Ref } from '../json-schema/json-schema'
+import { JsonSchemaError, notOptional } from '../json-schema/json-schema-ctors'
 import { addSchema, getSchemaStrict } from '../utils'
 
 // FIXME: Create a reference JsonSchema => "$ref": "#/definitions/MySchemaRef" <- Track down how to do that!
@@ -19,7 +20,7 @@ import { addSchema, getSchemaStrict } from '../utils'
  *  @since 0.0.1
  */
 export const jsonSchemaRecursiveInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraRecursive1<JsonSchemaURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraRecursive<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
     recursive: <A>(
       rec: (x: (r: Env) => JsonSchema<A>) => (r: Env) => JsonSchema<A>,

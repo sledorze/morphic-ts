@@ -1,22 +1,20 @@
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
-
 import type { EqURI } from '@morphic-ts/eq-interpreters/lib/interpreters'
 import { modelEqInterpreter } from '@morphic-ts/eq-interpreters/lib/interpreters'
-import type { ShowURI } from '@morphic-ts/show-interpreters/lib/interpreters'
-import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
 import type { IoTsURI } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 import {
   modelIoTsNonStrictInterpreter,
   modelIoTsStrictInterpreter
 } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
-
+import type { ShowURI } from '@morphic-ts/show-interpreters/lib/interpreters'
+import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
 import type * as U from '@morphic-ts/summoners'
-
-import type { ProgramNoUnionURI } from './program-no-union'
-import type { ESBSTInterpreterURI } from './interpreters-ESBST'
 import type { AnyConfigEnv, ExtractEnv, SummonerOps } from '@morphic-ts/summoners'
 import { makeSummoner } from '@morphic-ts/summoners'
-import type { AnyEnv } from '@morphic-ts/common/lib/config'
+
+import type { ESBSTInterpreterURI } from './interpreters-ESBST'
+import type { ProgramNoUnionURI } from './program-no-union'
 
 /** Type level override to keep Morph type name short */
 /**
@@ -51,7 +49,7 @@ export const summonFor: <R extends AnyEnv = {}>(
   env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>
 ) => SummonerOps<Summoner<R>> = <R extends AnyConfigEnv = {}>(env: ExtractEnv<R, EqURI | ShowURI | IoTsURI>) =>
   makeSummoner<Summoner<R>>(cacheUnaryFunction, program => {
-    const { type, create } = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env)
+    const { create, type } = program(modelIoTsNonStrictInterpreter<NonNullable<R>>())(env)
     return {
       build: a => a,
       eq: program(modelEqInterpreter<NonNullable<R>>())(env).eq,

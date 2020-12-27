@@ -1,19 +1,19 @@
-import type { Materialized, Morph } from './materializer'
-import { fromFoldable as RfromFoldable, mapWithIndex as RmapWithIndex } from 'fp-ts/Record'
-import { array } from 'fp-ts/Array'
-import type { HKT2 } from '@morphic-ts/common/lib/HKT'
-import { assignCallable, wrapFun } from './utils'
-import type { InhabitedTypes, AType, EType } from './utils'
-import type { Algebra } from '@morphic-ts/algebras/lib/hkt'
-import type { InterpreterURI } from './InterpreterResult'
-import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
-import type { ProgramURI, ProgramType } from './ProgramType'
 import type { ADT } from '@morphic-ts/adt/lib'
 import { makeADT } from '@morphic-ts/adt/lib'
 import type { ElemType } from '@morphic-ts/adt/lib/utils'
-import { identity, tuple } from 'fp-ts/function'
-import { intersection, difference } from 'fp-ts/Array'
+import type { Algebra } from '@morphic-ts/algebras/lib/hkt'
+import type { HKT, URIS } from '@morphic-ts/common/lib/HKT'
+import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
+import { array, difference, intersection } from 'fp-ts/Array'
 import { eqString } from 'fp-ts/Eq'
+import { identity, tuple } from 'fp-ts/function'
+import { fromFoldable as RfromFoldable, mapWithIndex as RmapWithIndex } from 'fp-ts/Record'
+
+import type { InterpreterURI } from './InterpreterResult'
+import type { Materialized, Morph } from './materializer'
+import type { ProgramType, ProgramURI } from './ProgramType'
+import type { AType, EType, InhabitedTypes } from './utils'
+import { assignCallable, wrapFun } from './utils'
 
 /**
  *  @since 0.0.1
@@ -28,7 +28,7 @@ export type IfStringLiteral<T, IfLiteral, IfString, IfNotString> = T extends str
  *  @since 0.0.1
  */
 export type TaggedUnionProg<R, E, A, ProgURI extends ProgramURI> = ProgramType<R, E, A>[ProgURI] &
-  (<G>(a: Algebra<G, R>[TaggedUnionsURI]) => HKT2<G, R, E, A>)
+  (<G extends URIS>(a: Algebra<G, R>[TaggedUnionsURI]) => HKT<R, E, A>)
 
 type M<R, E, A, ProgURI extends ProgramURI, InterpURI extends InterpreterURI> = Materialized<
   R,

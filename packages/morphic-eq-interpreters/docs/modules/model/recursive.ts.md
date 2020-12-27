@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const eqRecursiveInterpreter: <Env extends Partial<Record<"EqURI", any>>>() => ModelAlgebraRecursive1<"EqURI", Env> = ...
+export const eqRecursiveInterpreter: <Env extends Partial<Readonly<Record<"EqURI", any>>>>() => ModelAlgebraRecursive<"EqURI", Env> = ...
 ```
 
 Added in v0.0.1

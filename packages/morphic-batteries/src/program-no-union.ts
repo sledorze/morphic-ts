@@ -1,17 +1,16 @@
-import type { InferredAlgebra, InferredProgram } from '@morphic-ts/summoners'
 import type { GetAlgebra } from '@morphic-ts/algebras/lib/core'
-
+import type { URIS } from '@morphic-ts/common/lib/HKT'
 import type { IntersectionURI } from '@morphic-ts/model-algebras/lib/intersections'
+import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { ObjectURI } from '@morphic-ts/model-algebras/lib/object'
 import type { PrimitiveURI } from '@morphic-ts/model-algebras/lib/primitives'
 import type { RecursiveURI } from '@morphic-ts/model-algebras/lib/recursive'
+import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
 import type { SetURI } from '@morphic-ts/model-algebras/lib/set'
 import type { StrMapURI } from '@morphic-ts/model-algebras/lib/str-map'
 import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import type { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
-import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
-import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
-import type { AnyConfigEnv } from '@morphic-ts/summoners'
+import type { AnyConfigEnv, InferredAlgebra, InferredProgram } from '@morphic-ts/summoners'
 
 /**
  *  @since 0.0.1
@@ -25,7 +24,7 @@ export type ProgramNoUnionURI = typeof ProgramNoUnionURI
 /**
  *  @since 0.0.1
  */
-export interface AlgebraNoUnion<F, Env> extends InferredAlgebra<F, ProgramNoUnionURI, Env> {}
+export interface AlgebraNoUnion<F extends URIS, Env> extends InferredAlgebra<F, ProgramNoUnionURI, Env> {}
 /**
  *  @since 0.0.1
  */
@@ -47,7 +46,7 @@ declare module '@morphic-ts/summoners/lib/ProgramType' {
     >
   }
 
-  interface ProgramAlgebra<F, Env> {
+  interface ProgramAlgebra<F extends URIS, Env> {
     [ProgramNoUnionURI]: AlgebraNoUnion<F, Env>
   }
 

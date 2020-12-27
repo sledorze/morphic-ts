@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showTaggedUnionInterpreter: <Env extends Partial<Record<"ShowURI", any>>>() => ModelAlgebraTaggedUnions1<"ShowURI", Env> = ...
+export const showTaggedUnionInterpreter: <Env extends Partial<Readonly<Record<"ShowURI", any>>>>() => ModelAlgebraTaggedUnions<"ShowURI", Env> = ...
 ```
 
 Added in v0.0.1

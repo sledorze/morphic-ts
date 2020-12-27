@@ -1,20 +1,21 @@
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraPrimitive } from '@morphic-ts/model-algebras/lib/primitives'
+import { getEq as EgetEq } from 'fp-ts/Either'
+import { eq, eqBoolean, eqNumber, eqStrict, eqString } from 'fp-ts/Eq'
 import { getEq as OgetEq } from 'fp-ts/Option'
 import { getEq as AgetEq } from 'fp-ts/ReadonlyArray'
 import { getEq as NEAgetEq } from 'fp-ts/ReadonlyNonEmptyArray'
-import { getEq as EgetEq } from 'fp-ts/Either'
-import { eq, eqNumber, eqString, eqBoolean, eqStrict } from 'fp-ts/Eq'
-import type { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
-import { EqType, EqURI } from '../hkt'
-import { eqApplyConfig } from '../config'
-import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import { memo } from '@morphic-ts/common/lib/utils'
 import type { UUID } from 'io-ts-types/lib/UUID'
+
+import { eqApplyConfig } from '../config'
+import { EqType, EqURI } from '../hkt'
 
 /**
  *  @since 0.0.1
  */
 export const eqPrimitiveInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraPrimitive1<EqURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraPrimitive<EqURI, Env> => ({
     _F: EqURI,
     date: config => env =>
       new EqType(

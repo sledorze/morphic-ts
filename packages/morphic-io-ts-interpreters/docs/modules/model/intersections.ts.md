@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const ioTsIntersectionInterpreter: <Env extends Partial<Record<"IoTsURI", any>>>() => ModelAlgebraIntersection2<"IoTsURI", Env> = ...
+export const ioTsIntersectionInterpreter: <Env extends Partial<Readonly<Record<"IoTsURI", any>>>>() => ModelAlgebraIntersection<"IoTsURI", Env> = ...
 ```
 
 Added in v0.0.1

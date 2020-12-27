@@ -43,7 +43,7 @@ Added in v0.0.1
 
 ```ts
 export interface ProgramType<R extends AnyConfigEnv, E, A> {
-  (_R: R): void
+  _R: (_: R) => void
   _E: E
   _A: A
 }

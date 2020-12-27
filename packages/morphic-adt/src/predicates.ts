@@ -1,6 +1,7 @@
-import type { ExtractUnion, ElemType } from './utils'
-import type { KeysDefinition } from '.'
 import { mapWithIndex } from 'fp-ts/Record'
+
+import type { KeysDefinition } from '.'
+import type { ElemType, ExtractUnion } from './utils'
 
 /**
  *  @since 0.0.1

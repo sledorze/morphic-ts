@@ -1,11 +1,12 @@
 import * as chai from 'chai'
-import { right, left } from 'fp-ts/Either'
-import { either } from 'fp-ts/Either'
-import { JsonSchemaErrors } from '../src/json-schema/json-schema-ctors'
-import { of } from 'fp-ts/NonEmptyArray'
+import { either, left, right } from 'fp-ts/Either'
 import { tuple } from 'fp-ts/function'
+import { of } from 'fp-ts/NonEmptyArray'
+
 import type { JSONSchema } from '../src/json-schema/json-schema'
-import { summonFor, UM } from './summoner.spec'
+import { JsonSchemaErrors } from '../src/json-schema/json-schema-ctors'
+import type { UM } from './summoner.spec'
+import { summonFor } from './summoner.spec'
 
 export type Tree = Node | Leaf
 export interface Node {

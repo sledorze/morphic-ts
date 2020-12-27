@@ -1,11 +1,11 @@
-import type { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
-import { ShowType, ShowURI } from '../hkt'
-import { projectFieldWithEnv, mapRecord } from '@morphic-ts/common/lib/utils'
-import { getStructShow } from 'fp-ts/Show'
-import type { Show } from 'fp-ts/Show'
-import { showApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import { memo } from '@morphic-ts/common/lib/utils'
+import { mapRecord, memo, projectFieldWithEnv } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraObject } from '@morphic-ts/model-algebras/lib/object'
+import type { Show } from 'fp-ts/Show'
+import { getStructShow } from 'fp-ts/Show'
+
+import { showApplyConfig } from '../config'
+import { ShowType, ShowURI } from '../hkt'
 
 const asPartialShow = <T>(x: Show<T>): Show<Partial<T>> => x as any
 
@@ -16,14 +16,14 @@ const showOrUndefined = <A>(s: Show<A>): Show<A | undefined> => ({
  *  @since 0.0.1
  */
 export const showObjectInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraObject1<ShowURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraObject<ShowURI, Env> => ({
     _F: ShowURI,
     interface: (props, _name, config) => env =>
-      new ShowType(showApplyConfig(config)(getStructShow(projectFieldWithEnv(props, env)('show')), env)),
+      new ShowType(showApplyConfig(config)(getStructShow(projectFieldWithEnv(props as any, env)('show')), env)),
     partial: (props, _name, config) => env =>
       new ShowType(
         showApplyConfig(config)(
-          asPartialShow(getStructShow(mapRecord(projectFieldWithEnv(props, env)('show'), showOrUndefined))),
+          asPartialShow(getStructShow(mapRecord(projectFieldWithEnv(props as any, env)('show'), showOrUndefined))),
           env
         )
       ),

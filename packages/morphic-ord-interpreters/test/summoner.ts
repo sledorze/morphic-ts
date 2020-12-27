@@ -1,23 +1,28 @@
-import * as chai from 'chai'
-import { modelOrdInterpreter, OrdURI } from '../src/interpreters'
-import type { Ord } from 'fp-ts/Ord'
-import type { Materialized } from '@morphic-ts/summoners'
-import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
-import { makeSummoner } from '@morphic-ts/summoners'
-import type { Summoners } from '@morphic-ts/summoners'
-import type { ProgramType } from '@morphic-ts/summoners'
-
-import type { InferredAlgebra, InferredProgram } from '@morphic-ts/summoners'
 import type { GetAlgebra } from '@morphic-ts/algebras/lib/core'
-
+import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
+import type { URIS } from '@morphic-ts/common/lib/HKT'
 import type { IntersectionURI } from '@morphic-ts/model-algebras/lib/intersections'
+import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { PrimitiveURI } from '@morphic-ts/model-algebras/lib/primitives'
+import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
 import type { SetURI } from '@morphic-ts/model-algebras/lib/set'
 import type { StrMapURI } from '@morphic-ts/model-algebras/lib/str-map'
 import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
-import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
-import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
-import type { AnyConfigEnv, ExtractEnv } from '@morphic-ts/summoners'
+import type {
+  AnyConfigEnv,
+  ExtractEnv,
+  InferredAlgebra,
+  InferredProgram,
+  Materialized,
+  ProgramType,
+  Summoners
+} from '@morphic-ts/summoners'
+import { makeSummoner } from '@morphic-ts/summoners'
+import * as chai from 'chai'
+import type { Ord } from 'fp-ts/Ord'
+
+import type { OrdURI } from '../src/interpreters'
+import { modelOrdInterpreter } from '../src/interpreters'
 
 /**
  *  @since 0.0.1
@@ -31,7 +36,7 @@ export type ProgramOrderableURI = typeof ProgramOrderableURI
 /**
  *  @since 0.0.1
  */
-export interface AlgebraNoUnion<F, Env> extends InferredAlgebra<F, ProgramOrderableURI, Env> {}
+export interface AlgebraNoUnion<F extends URIS, Env> extends InferredAlgebra<F, ProgramOrderableURI, Env> {}
 /**
  *  @since 0.0.1
  */
@@ -44,7 +49,7 @@ declare module '@morphic-ts/summoners/lib/ProgramType' {
     >
   }
 
-  interface ProgramAlgebra<F, Env> {
+  interface ProgramAlgebra<F extends URIS, Env> {
     [ProgramOrderableURI]: AlgebraNoUnion<F, Env>
   }
 

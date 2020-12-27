@@ -1,14 +1,9 @@
-import type { Kind, URIS, URIS2, Kind2 } from './HKT'
+import type { Kind, URIS } from './HKT'
 
 /**
  *  @since 0.0.1
  */
-export type OfType<F extends URIS, A, RC> = Kind<F, RC, A>
-
-/**
- *  @since 0.0.1
- */
-export type OfType2<F extends URIS2, L, A, RC> = Kind2<F, RC, L, A>
+export type OfType<F extends URIS, L, A, RC> = Kind<F, RC, L, A>
 
 type Function1 = (a: any) => any
 

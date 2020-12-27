@@ -1,26 +1,32 @@
-import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
-
-import type * as U from '@morphic-ts/summoners'
-import type { ExtractEnv, SummonerOps } from '@morphic-ts/summoners'
-import { makeSummoner } from '@morphic-ts/summoners'
-import type { AnyEnv } from '@morphic-ts/common/lib/config'
-
-import type { InferredAlgebra, InferredProgram } from '@morphic-ts/summoners'
 import type { GetAlgebra } from '@morphic-ts/algebras/lib/core'
-
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
+import type { URIS } from '@morphic-ts/common/lib/HKT'
 import type { IntersectionURI } from '@morphic-ts/model-algebras/lib/intersections'
+import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
 import type { ObjectURI } from '@morphic-ts/model-algebras/lib/object'
 import type { PrimitiveURI } from '@morphic-ts/model-algebras/lib/primitives'
 import type { RecursiveURI } from '@morphic-ts/model-algebras/lib/recursive'
+import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
 import type { SetURI } from '@morphic-ts/model-algebras/lib/set'
 import type { StrMapURI } from '@morphic-ts/model-algebras/lib/str-map'
 import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
 import type { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
-import type { NewtypeURI } from '@morphic-ts/model-algebras/lib/newtype'
-import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
-import type { AnyConfigEnv } from '@morphic-ts/summoners'
-import { Show } from 'fp-ts/Show'
-import { modelShowInterpreter, ShowURI } from '../src/interpreters'
+import type {
+  AnyConfigEnv,
+  ExtractEnv,
+  InferredAlgebra,
+  InferredProgram,
+  Materialized,
+  ProgramType,
+  SummonerOps,
+  Summoners
+} from '@morphic-ts/summoners'
+import { makeSummoner } from '@morphic-ts/summoners'
+import type { Show } from 'fp-ts/Show'
+
+import type { ShowURI } from '../src/interpreters'
+import { modelShowInterpreter } from '../src/interpreters'
 /**
  *  @since 0.0.1
  */
@@ -33,7 +39,7 @@ export type ProgramUnionURI = typeof ProgramUnionURI
 /**
  *  @since 0.0.1
  */
-export interface AlgebraUnion<F, Env> extends InferredAlgebra<F, ProgramUnionURI, Env> {}
+export interface AlgebraUnion<F extends URIS, Env> extends InferredAlgebra<F, ProgramUnionURI, Env> {}
 /**
  *  @since 0.0.1
  */
@@ -54,7 +60,7 @@ declare module '@morphic-ts/summoners/lib/ProgramType' {
       | RefinedURI
     >
   }
-  interface ProgramAlgebra<F, Env> {
+  interface ProgramAlgebra<F extends URIS, Env> {
     [ProgramUnionURI]: AlgebraUnion<F, Env>
   }
   interface ProgramType<R extends AnyConfigEnv, E, A> {
@@ -87,7 +93,7 @@ declare module '@morphic-ts/summoners/lib/InterpreterResult' {
 /**
  *  @since 0.0.1
  */
-export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramUnionURI, JsonSchemaTestURI> {}
+export interface M<R, L, A> extends Materialized<R, L, A, ProgramUnionURI, JsonSchemaTestURI> {}
 /**
  *  @since 0.0.1
  */
@@ -105,8 +111,8 @@ export const AsUOpaque = <A>() => <X extends UM<any, A>>(x: X): UM<X['_R'], A> =
 /**
  *  @since 0.0.1
  */
-export interface Summoner<R extends AnyConfigEnv> extends U.Summoners<ProgramUnionURI, JsonSchemaTestURI, R> {
-  <L, A>(F: U.ProgramType<R, L, A>[ProgramUnionURI]): M<R, L, A>
+export interface Summoner<R extends AnyConfigEnv> extends Summoners<ProgramUnionURI, JsonSchemaTestURI, R> {
+  <L, A>(F: ProgramType<R, L, A>[ProgramUnionURI]): M<R, L, A>
 }
 
 /**

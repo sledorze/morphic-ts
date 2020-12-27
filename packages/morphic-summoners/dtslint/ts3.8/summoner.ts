@@ -1,3 +1,4 @@
+import { URIS } from '@morphic-ts/common/lib/HKT';
 import { cacheUnaryFunction } from '@morphic-ts/common/lib/core'
 
 import * as U from '../../src'
@@ -32,7 +33,7 @@ export type ProgramUnionURI = typeof ProgramUnionURI
 /**
  *  @since 0.0.1
  */
-export interface AlgebraUnion<F, Env> extends U.InferredAlgebra<F, ProgramUnionURI, Env> {}
+export interface AlgebraUnion<F extends URIS, Env> extends U.InferredAlgebra<F, ProgramUnionURI, Env> {}
 /**
  *  @since 0.0.1
  */
@@ -54,7 +55,7 @@ declare module '../../src/ProgramType' {
       | RefinedURI
     >
   }
-  interface ProgramAlgebra<F, Env> {
+  interface ProgramAlgebra<F extends URIS, Env> {
     [ProgramUnionURI]: AlgebraUnion<F, Env>
   }
   interface ProgramType<R extends U.AnyConfigEnv, E, A> {

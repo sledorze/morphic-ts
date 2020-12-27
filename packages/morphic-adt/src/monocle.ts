@@ -1,7 +1,7 @@
-import type { Option } from 'fp-ts/Option'
 import type { Predicate, Refinement } from 'fp-ts/function'
+import type { Option } from 'fp-ts/Option'
 import type { At, LensFromPath } from 'monocle-ts'
-import { Lens, Optional, Prism, Index } from 'monocle-ts'
+import { Index, Lens, Optional, Prism } from 'monocle-ts'
 
 interface LensFromProp<S> {
   <P extends keyof S>(prop: P): Lens<S, S[P]>

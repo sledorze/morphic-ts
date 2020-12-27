@@ -1,20 +1,21 @@
-import type { Show } from 'fp-ts/Show'
-import { showNumber, showString, showBoolean } from 'fp-ts/Show'
+import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraPrimitive } from '@morphic-ts/model-algebras/lib/primitives'
+import { getShow as EgetShow } from 'fp-ts/Either'
 import { getShow as OgetShow } from 'fp-ts/Option'
 import { getShow as AgetShow } from 'fp-ts/ReadonlyArray'
 import { getShow as NEAgetShow } from 'fp-ts/ReadonlyNonEmptyArray'
-import { getShow as EgetShow } from 'fp-ts/Either'
-import type { ModelAlgebraPrimitive1 } from '@morphic-ts/model-algebras/lib/primitives'
-import { ShowType, ShowURI } from '../hkt'
+import type { Show } from 'fp-ts/Show'
+import { showBoolean, showNumber, showString } from 'fp-ts/Show'
+
 import { showApplyConfig } from '../config'
-import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import { memo } from '@morphic-ts/common/lib/utils'
+import { ShowType, ShowURI } from '../hkt'
 
 /**
  *  @since 0.0.1
  */
 export const showPrimitiveInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraPrimitive1<ShowURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraPrimitive<ShowURI, Env> => ({
     _F: ShowURI,
     date: config => env => new ShowType(showApplyConfig(config)({ show: (date: Date) => date.toISOString() }, env)),
     boolean: config => env => new ShowType(showApplyConfig(config)(showBoolean, env)),

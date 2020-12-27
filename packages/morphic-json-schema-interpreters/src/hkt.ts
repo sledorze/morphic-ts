@@ -1,7 +1,8 @@
-import type { OptionalJSONSchema, JsonSchemaError } from './json-schema/json-schema-ctors'
 import type { NonEmptyArray } from 'fp-ts/NonEmptyArray'
 import type { StateEither } from 'fp-ts-contrib/lib/StateEither'
+
 import type { JSONSchema } from './json-schema/json-schema'
+import type { JsonSchemaError, OptionalJSONSchema } from './json-schema/json-schema-ctors'
 
 /**
  *  @since 0.0.1
@@ -39,7 +40,7 @@ export class JsonSchema<A> {
 }
 
 declare module '@morphic-ts/common/lib/HKT' {
-  interface URItoKind<R, A> {
+  interface URItoKind<R, E, A> {
     [JsonSchemaURI]: (r: R) => JsonSchema<A>
   }
 }

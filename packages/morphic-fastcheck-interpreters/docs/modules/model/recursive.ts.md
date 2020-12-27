@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const fastCheckRecursiveInterpreter: <Env extends Partial<Record<"FastCheckURI", any>>>() => ModelAlgebraRecursive1<"FastCheckURI", Env> = ...
+export const fastCheckRecursiveInterpreter: <Env extends Partial<Readonly<Record<"FastCheckURI", any>>>>() => ModelAlgebraRecursive<"FastCheckURI", Env> = ...
 ```
 
 Added in v0.0.1

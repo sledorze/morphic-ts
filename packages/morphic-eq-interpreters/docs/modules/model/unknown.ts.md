@@ -30,7 +30,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const eqUnknownInterpreter: <Env extends Partial<Record<"EqURI", any>>>() => ModelAlgebraUnknown1<"EqURI", Env> = ...
+export const eqUnknownInterpreter: <Env extends Partial<Readonly<Record<"EqURI", any>>>>() => ModelAlgebraUnknown<"EqURI", Env> = ...
 ```
 
 Added in v0.0.1

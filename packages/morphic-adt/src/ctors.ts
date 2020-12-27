@@ -1,6 +1,7 @@
-import type { Remove, ExtractUnion } from './utils'
-import type { KeysDefinition, Tagged } from '.'
 import { mapWithIndex } from 'fp-ts/Record'
+
+import type { KeysDefinition, Tagged } from '.'
+import type { ExtractUnion, Remove } from './utils'
 
 /**
  *  @since 0.0.1

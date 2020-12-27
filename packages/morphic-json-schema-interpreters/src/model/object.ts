@@ -1,22 +1,22 @@
-import type { ModelAlgebraObject1 } from '@morphic-ts/model-algebras/lib/object'
-import { JsonSchemaURI } from '../hkt'
-import { JsonSchema } from '../hkt'
-import { ObjectTypeCtor, notOptional, makeOptional } from '../json-schema/json-schema-ctors'
-import { toArray } from 'fp-ts/Record'
-import { tuple } from 'fp-ts/function'
-import { pipe } from 'fp-ts/pipeable'
-import { map as SEmap, chain as SEchain } from 'fp-ts-contrib/lib/StateEither'
-import { Ref } from '../json-schema/json-schema'
-import { arrayTraverseStateEither, resolveRefJsonSchema, addSchema } from '../utils'
-import { jsonSchemaApplyConfig } from '../config'
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { ModelAlgebraObject } from '@morphic-ts/model-algebras/lib/object'
+import { tuple } from 'fp-ts/function'
+import { pipe } from 'fp-ts/pipeable'
+import { toArray } from 'fp-ts/Record'
+import { chain as SEchain, map as SEmap } from 'fp-ts-contrib/lib/StateEither'
+
+import { jsonSchemaApplyConfig } from '../config'
+import { JsonSchema, JsonSchemaURI } from '../hkt'
+import { Ref } from '../json-schema/json-schema'
+import { makeOptional, notOptional, ObjectTypeCtor } from '../json-schema/json-schema-ctors'
+import { addSchema, arrayTraverseStateEither, resolveRefJsonSchema } from '../utils'
 
 /**
  *  @since 0.0.1
  */
 export const jsonSchemaObjectInterpreter = memo(
-  <Env extends AnyEnv>(): ModelAlgebraObject1<JsonSchemaURI, Env> => ({
+  <Env extends AnyEnv>(): ModelAlgebraObject<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
     interface: (props, name, config) => env =>
       new JsonSchema(
@@ -24,11 +24,11 @@ export const jsonSchemaObjectInterpreter = memo(
           pipe(
             arrayTraverseStateEither(toArray(props), ([k, v]) =>
               pipe(
-                v(env).schema,
+                (v as any)(env).schema,
                 SEmap(schema => tuple(k, schema))
               )
-            ),
-            SEchain(props => resolveRefJsonSchema(ObjectTypeCtor(props).json)),
+            ) as any,
+            SEchain(props => resolveRefJsonSchema(ObjectTypeCtor(props as any).json)),
             SEchain(addSchema(name)),
             SEmap(_ => notOptional(Ref(name)))
           ),
@@ -41,11 +41,11 @@ export const jsonSchemaObjectInterpreter = memo(
           pipe(
             arrayTraverseStateEither(toArray(props), ([k, v]) =>
               pipe(
-                v(env).schema,
-                SEmap(schema => tuple(k, makeOptional(true)(schema.json)))
+                (v as any)(env).schema,
+                SEmap(schema => tuple(k, makeOptional(true)((schema as any).json)))
               )
-            ),
-            SEchain(props => resolveRefJsonSchema(ObjectTypeCtor(props).json)),
+            ) as any,
+            SEchain(props => resolveRefJsonSchema(ObjectTypeCtor(props as any).json)),
             SEchain(addSchema(name)),
             SEmap(_ => notOptional(Ref(name)))
           ),

@@ -1,31 +1,27 @@
-import { makeOptional, JsonSchemaError } from './json-schema/json-schema-ctors'
-import type { OptionalJSONSchema } from './json-schema/json-schema-ctors'
-import type { NonEmptyArray } from 'fp-ts/NonEmptyArray'
-import {
-  gets,
-  modify,
-  stateEither,
-  map as SEmap,
-  chain,
-  fromOption as SEfromOption
-} from 'fp-ts-contrib/lib/StateEither'
-import type { StateEither } from 'fp-ts-contrib/lib/StateEither'
-import type { SubSchema, JSONSchema } from './json-schema/json-schema'
-import { Ref } from './json-schema/json-schema'
-import { isTypeRef } from './json-schema/json-schema'
-
-import { insertAt, lookup } from 'fp-ts/Record'
 import { array } from 'fp-ts/Array'
-import { of } from 'fp-ts/NonEmptyArray'
-
-import { pipe } from 'fp-ts/pipeable'
-
-import { tuple } from 'fp-ts/function'
-import type { JsonSchemaResult, NamedSchemas } from './hkt'
-import { map } from 'fp-ts/Option'
-import { some } from 'fp-ts/Option'
-import type { Option } from 'fp-ts/Option'
 import { fromOption } from 'fp-ts/Either'
+import { tuple } from 'fp-ts/function'
+import type { NonEmptyArray } from 'fp-ts/NonEmptyArray'
+import { of } from 'fp-ts/NonEmptyArray'
+import type { Option } from 'fp-ts/Option'
+import { map, some } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/pipeable'
+import { insertAt, lookup } from 'fp-ts/Record'
+import type { StateEither } from 'fp-ts-contrib/lib/StateEither'
+import {
+  chain,
+  fromOption as SEfromOption,
+  gets,
+  map as SEmap,
+  modify,
+  stateEither
+} from 'fp-ts-contrib/lib/StateEither'
+
+import type { JsonSchemaResult, NamedSchemas } from './hkt'
+import type { JSONSchema, SubSchema } from './json-schema/json-schema'
+import { isTypeRef, Ref } from './json-schema/json-schema'
+import type { OptionalJSONSchema } from './json-schema/json-schema-ctors'
+import { JsonSchemaError, makeOptional } from './json-schema/json-schema-ctors'
 
 /**
  *  @since 0.0.1
