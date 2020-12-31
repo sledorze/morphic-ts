@@ -372,7 +372,7 @@ Vehicle.as.Car({ kind: 'electric', power: 2, seats: 4 }) // type is Car
 Vehicle.is.Bicycle // (a: Car | Motorbike | Bicycle) => a is Bicycle
 
 // Exist also for several Types
-const isTrafficJamProof = Vehicle.isAnyOf('Motorbike', 'Bicycle') // (a: Car | Motorbike | Bicycle) => a is Motorbike | Bicycle
+const isTrafficJamProof = Vehicle.isAnyOf(['Motorbike', 'Bicycle']) // (a: Car | Motorbike | Bicycle) => a is Motorbike | Bicycle
 ```
 
 ### Matchers
@@ -451,9 +451,9 @@ Vehicle.createPartialReducer({ totalSeats: 0 })({
 This will help getting unique advantage of Typescript ability to refine Unions
 
 ```typescript
-const Motorized = Vehicle.select('Car', 'Motorbike') // ADT<Car | Motorbike, "type">
+const Motorized = Vehicle.select(['Car', 'Motorbike']) // ADT<Car | Motorbike, "type">
 
-const TrafficJamProof = Vehicle.exclude('Car') // ADT<Motorbike | Bicycle, "type">
+const TrafficJamProof = Vehicle.exclude(['Car']) // ADT<Motorbike | Bicycle, "type">
 
 const Faster = intersectADT(Motorized, TrafficJamProof) // ADT<Motorbike, "type">
 
