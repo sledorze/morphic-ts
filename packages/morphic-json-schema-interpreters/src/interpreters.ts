@@ -1,7 +1,6 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { merge } from '@morphic-ts/common/lib/utils'
 
-import { memo } from './../../morphic-common/src/utils'
 import { jsonSchemaIntersectionInterpreter } from './model/intersections'
 import { jsonSchemaNewtypeInterpreter } from './model/newtype'
 import { jsonSchemaObjectInterpreter } from './model/object'
