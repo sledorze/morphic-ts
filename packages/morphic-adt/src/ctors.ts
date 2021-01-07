@@ -1,7 +1,7 @@
 import { mapWithIndex } from 'fp-ts/Record'
 
 import type { KeysDefinition, Tagged } from '.'
-import type { ExtractUnion, Remove } from './utils'
+import type { ExtractUnion } from './utils'
 
 /**
  *  @since 0.0.1
@@ -12,14 +12,14 @@ export type CtorType<C extends Ctors<any, any>> = C extends Ctors<infer A, any> 
  *  @since 0.0.1
  */
 export type Of<A, Tag extends keyof A> = {
-  [key in A[Tag] & string]: (a: Remove<ExtractUnion<A, Tag, key>, Tag>) => A
+  [key in A[Tag] & string]: (a: Omit<ExtractUnion<A, Tag, key>, Tag>) => A
 }
 
 /**
  *  @since 0.0.1
  */
 export type As<A, Tag extends keyof A> = {
-  [key in A[Tag] & string]: (a: Remove<ExtractUnion<A, Tag, key>, Tag>) => ExtractUnion<A, Tag, key>
+  [key in A[Tag] & string]: (a: Omit<ExtractUnion<A, Tag, key>, Tag>) => ExtractUnion<A, Tag, key>
 }
 
 /**

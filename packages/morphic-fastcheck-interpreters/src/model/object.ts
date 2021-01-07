@@ -15,25 +15,27 @@ export const fastCheckObjectInterpreter = memo(
     partial: (props, _name, config) => env =>
       new FastCheckType(
         fastCheckApplyConfig(config)(
-          record(projectFieldWithEnv(props as any, env)('arb'), {
+          record(projectFieldWithEnv(props as any, env, {})('arb'), {
             withDeletedKeys: true
           }) as any,
-          env
+          env,
+          {}
         )
       ),
     interface: (props, _name, config) => env =>
       new FastCheckType(
-        fastCheckApplyConfig(config)(record(projectFieldWithEnv(props as any, env)('arb')) as any, env)
+        fastCheckApplyConfig(config)(record(projectFieldWithEnv(props as any, env, {})('arb')) as any, env, {})
       ),
     both: (props, partial, _name, config) => env => {
-      const arbs = projectFieldWithEnv(props, env)('arb')
-      const partialArbs = projectFieldWithEnv(partial, env)('arb')
+      const arbs = projectFieldWithEnv(props, env, {})('arb')
+      const partialArbs = projectFieldWithEnv(partial, env, {})('arb')
       return new FastCheckType(
         fastCheckApplyConfig(config)(
           record(arbs as any).chain(p =>
             record(partialArbs as any, { withDeletedKeys: true }).map(pp => ({ ...p, ...pp }))
           ) as any,
-          env
+          env,
+          {}
         )
       )
     }

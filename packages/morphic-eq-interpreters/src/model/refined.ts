@@ -11,6 +11,6 @@ import { EqType, EqURI } from '../hkt'
 export const eqRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined<EqURI, Env> => ({
     _F: EqURI,
-    refined: (getEq, _ref, _name, config) => env => new EqType(eqApplyConfig(config)(getEq(env).eq, env))
+    refined: (getEq, _ref, _name, config) => env => new EqType(eqApplyConfig(config)(getEq(env).eq, env, {}))
   })
 )

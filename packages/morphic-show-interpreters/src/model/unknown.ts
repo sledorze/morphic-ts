@@ -11,6 +11,6 @@ import { ShowType, ShowURI } from '../hkt'
 export const showUnknownInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnknown<ShowURI, Env> => ({
     _F: ShowURI,
-    unknown: config => env => new ShowType(showApplyConfig(config)({ show: (_any: any) => '<unknown>' }, env))
+    unknown: config => env => new ShowType(showApplyConfig(config)({ show: (_any: any) => '<unknown>' }, env, {}))
   })
 )

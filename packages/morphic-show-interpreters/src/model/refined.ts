@@ -12,6 +12,6 @@ export const showRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined<ShowURI, Env> => ({
     _F: ShowURI,
     refined: (getShow, _ref, name, config) => env =>
-      new ShowType({ show: x => `<${name}>(${showApplyConfig(config)(getShow(env).show, env).show(x)})` })
+      new ShowType({ show: x => `<${name}>(${showApplyConfig(config)(getShow(env).show, env, {}).show(x)})` })
   })
 )

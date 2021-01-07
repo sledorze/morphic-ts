@@ -19,22 +19,24 @@ export const showObjectInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraObject<ShowURI, Env> => ({
     _F: ShowURI,
     interface: (props, _name, config) => env =>
-      new ShowType(showApplyConfig(config)(getStructShow(projectFieldWithEnv(props as any, env)('show')), env)),
+      new ShowType(showApplyConfig(config)(getStructShow(projectFieldWithEnv(props as any, env, {})('show')), env, {})),
     partial: (props, _name, config) => env =>
       new ShowType(
         showApplyConfig(config)(
-          asPartialShow(getStructShow(mapRecord(projectFieldWithEnv(props as any, env)('show'), showOrUndefined))),
-          env
+          asPartialShow(getStructShow(mapRecord(projectFieldWithEnv(props as any, env, {})('show'), showOrUndefined))),
+          env,
+          {}
         )
       ),
     both: (props, pprops, _name, config) => env =>
       new ShowType(
         showApplyConfig(config)(
           getStructShow({
-            ...projectFieldWithEnv(props, env)('show'),
-            ...mapRecord(projectFieldWithEnv(pprops, env)('show'), showOrUndefined)
+            ...projectFieldWithEnv(props, env, {})('show'),
+            ...mapRecord(projectFieldWithEnv(pprops, env, {})('show'), showOrUndefined)
           } as any),
-          env
+          env,
+          {}
         )
       )
   })

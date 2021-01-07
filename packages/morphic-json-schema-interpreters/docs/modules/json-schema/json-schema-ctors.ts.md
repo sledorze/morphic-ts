@@ -21,7 +21,8 @@ parent: Modules
 - [IntersectionTypeCtor (function)](#intersectiontypector-function)
 - [JsonSchemaError (function)](#jsonschemaerror-function)
 - [KeyofTypeCtor (function)](#keyoftypector-function)
-- [LiteralTypeCtor (function)](#literaltypector-function)
+- [LiteralNumberTypeCtor (function)](#literalnumbertypector-function)
+- [LiteralStringTypeCtor (function)](#literalstringtypector-function)
 - [NonEmptyArrayFromArrayTypeCtor (function)](#nonemptyarrayfromarraytypector-function)
 - [NumberTypeCtor (function)](#numbertypector-function)
 - [ObjectTypeCtor (function)](#objecttypector-function)
@@ -176,12 +177,22 @@ export const KeyofTypeCtor = (p: { keys: string[] }) => ...
 
 Added in v0.0.1
 
-# LiteralTypeCtor (function)
+# LiteralNumberTypeCtor (function)
 
 **Signature**
 
 ```ts
-export const LiteralTypeCtor = (value: string) => ...
+export const LiteralNumberTypeCtor = (value: number) => ...
+```
+
+Added in v0.0.1
+
+# LiteralStringTypeCtor (function)
+
+**Signature**
+
+```ts
+export const LiteralStringTypeCtor = (value: string) => ...
 ```
 
 Added in v0.0.1

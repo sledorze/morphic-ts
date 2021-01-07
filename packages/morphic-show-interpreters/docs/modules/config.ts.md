@@ -18,7 +18,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const showApplyConfig: <E, A, R>(config?: { ShowURI?: GenConfig<Show<A>, R>; }) => GenConfig<Show<A>, R> = ...
+export const showApplyConfig: <E, A, R, K>(config?: { ShowURI?: GenConfig<Show<A>, R, K>; }) => GenConfig<Show<A>, R, K> = ...
 ```
 
 Added in v0.0.1

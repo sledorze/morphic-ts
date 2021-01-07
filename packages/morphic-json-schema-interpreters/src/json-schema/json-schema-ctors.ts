@@ -160,7 +160,7 @@ export const IntersectionTypeCtor = (types: OptionalJSONSchema[]) => {
  *  @since 0.0.1
  */
 export const KeyofTypeCtor = (p: { keys: string[] }) =>
-  notOptional<js.EnumSchema>({
+  notOptional<js.EnumStringSchema>({
     type: 'string',
     enum: p.keys
   })
@@ -198,8 +198,8 @@ export const BooleanTypeCtor = () =>
 /**
  *  @since 0.0.1
  */
-export const LiteralTypeCtor = (value: string) =>
-  notOptional<js.EnumSchema>({
+export const LiteralStringTypeCtor = (value: string) =>
+  notOptional<js.EnumStringSchema>({
     type: 'string',
     enum: [value]
   })
@@ -207,8 +207,17 @@ export const LiteralTypeCtor = (value: string) =>
 /**
  *  @since 0.0.1
  */
+export const LiteralNumberTypeCtor = (value: number) =>
+  notOptional<js.EnumNumberSchema>({
+    type: 'number',
+    enum: [value]
+  })
+
+/**
+ *  @since 0.0.1
+ */
 export const TagTypeCtor = (value: string) =>
-  optional<js.EnumSchema>({
+  optional<js.EnumStringSchema>({
     type: 'string',
     enum: [value]
   })

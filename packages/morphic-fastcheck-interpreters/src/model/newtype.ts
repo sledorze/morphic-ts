@@ -11,6 +11,6 @@ import { FastCheckType, FastCheckURI } from '../hkt'
 export const fastCheckNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    newtype: () => (getArb, config) => env => new FastCheckType(fastCheckApplyConfig(config)(getArb(env).arb, env))
+    newtype: () => (getArb, config) => env => new FastCheckType(fastCheckApplyConfig(config)(getArb(env).arb, env, {}))
   })
 )

@@ -21,7 +21,11 @@ parent: Modules
 ```ts
 export interface ModelAlgebraSet<F extends URIS, Env extends AnyEnv> {
   _F: F
-  set: <L, A>(a: Kind<F, Env, L, A>, ord: Ord<A>) => Kind<F, Env, Array<L>, Set<A>>
+  set: <L, A>(
+    a: Kind<F, Env, L, A>,
+    ord: Ord<A>,
+    config?: ConfigsForType<Env, Array<L>, Set<A>>
+  ) => Kind<F, Env, Array<L>, Set<A>>
 }
 ```
 

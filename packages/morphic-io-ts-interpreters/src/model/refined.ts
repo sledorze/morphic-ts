@@ -31,6 +31,6 @@ export const ioTsRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined<IoTsURI, Env> => ({
     _F: IoTsURI,
     refined: (a, ref, name, config) => env =>
-      new IOTSType(iotsApplyConfig(config)(refinement(a(env).type, ref, name), env))
+      new IOTSType(iotsApplyConfig(config)(refinement(a(env).type, ref, name), env, {}))
   })
 )

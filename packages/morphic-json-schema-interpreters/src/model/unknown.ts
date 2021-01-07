@@ -13,6 +13,7 @@ import { AnythingTypeCtor } from '../json-schema/json-schema-ctors'
 export const jsonSchemaUnknownInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnknown<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    unknown: config => env => new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(AnythingTypeCtor()), env))
+    unknown: config => env =>
+      new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(AnythingTypeCtor()), env, {}))
   })
 )

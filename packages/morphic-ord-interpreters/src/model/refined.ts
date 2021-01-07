@@ -11,6 +11,6 @@ import { OrdType, OrdURI } from '../hkt'
 export const ordRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined<OrdURI, Env> => ({
     _F: OrdURI,
-    refined: (getOrd, _ref, _name, config) => env => new OrdType(ordApplyConfig(config)(getOrd(env).ord, env))
+    refined: (getOrd, _ref, _name, config) => env => new OrdType(ordApplyConfig(config)(getOrd(env).ord, env, {}))
   })
 )

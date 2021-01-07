@@ -12,8 +12,8 @@ import { EqType, EqURI } from '../hkt'
 export const eqStrMapInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraStrMap<EqURI, Env> => ({
     _F: EqURI,
-    strMap: (getCodomain, config) => env => new EqType(eqApplyConfig(config)(RgetEq(getCodomain(env).eq), env)),
+    strMap: (getCodomain, config) => env => new EqType(eqApplyConfig(config)(RgetEq(getCodomain(env).eq), env, {})),
     record: (_getDomain, getCodomain, config) => env =>
-      new EqType(eqApplyConfig(config)(RgetEq(getCodomain(env).eq), env)) // domain is always comparable (this is handled by record Eq)
+      new EqType(eqApplyConfig(config)(RgetEq(getCodomain(env).eq), env, {})) // domain is always comparable (this is handled by record Eq)
   })
 )

@@ -12,7 +12,8 @@ parent: Modules
 - [ArraySchema (interface)](#arrayschema-interface)
 - [BooleanSchema (interface)](#booleanschema-interface)
 - [DescriptionSchema (interface)](#descriptionschema-interface)
-- [EnumSchema (interface)](#enumschema-interface)
+- [EnumNumberSchema (interface)](#enumnumberschema-interface)
+- [EnumStringSchema (interface)](#enumstringschema-interface)
 - [NumberSchema (interface)](#numberschema-interface)
 - [ObjectSchema (interface)](#objectschema-interface)
 - [Ref (interface)](#ref-interface)
@@ -24,7 +25,8 @@ parent: Modules
 - [objectSchemaOnRequired (constant)](#objectschemaonrequired-constant)
 - [ArraySchema (function)](#arrayschema-function)
 - [BooleanSchema (function)](#booleanschema-function)
-- [EnumSchema (function)](#enumschema-function)
+- [EnumNumberSchema (function)](#enumnumberschema-function)
+- [EnumStringSchema (function)](#enumstringschema-function)
 - [NumberSchema (function)](#numberschema-function)
 - [ObjectSchema (function)](#objectschema-function)
 - [Ref (function)](#ref-function)
@@ -96,12 +98,25 @@ export interface DescriptionSchema {
 
 Added in v0.0.1
 
-# EnumSchema (interface)
+# EnumNumberSchema (interface)
 
 **Signature**
 
 ```ts
-export interface EnumSchema extends DescriptionSchema {
+export interface EnumNumberSchema extends DescriptionSchema {
+  type: 'number'
+  enum: number[]
+}
+```
+
+Added in v0.0.1
+
+# EnumStringSchema (interface)
+
+**Signature**
+
+```ts
+export interface EnumStringSchema extends DescriptionSchema {
   type: 'string'
   enum: string[]
 }
@@ -181,7 +196,7 @@ export type JSONSchema =
   | BooleanSchema
   | ArraySchema
   | ObjectSchema
-  | (EnumSchema & { $schema?: string })
+  | ((EnumStringSchema | EnumNumberSchema) & { $schema?: string })
 ```
 
 Added in v0.0.1
@@ -251,12 +266,22 @@ export const BooleanSchema = (p: { description?: string }) => ...
 
 Added in v0.0.1
 
-# EnumSchema (function)
+# EnumNumberSchema (function)
 
 **Signature**
 
 ```ts
-export const EnumSchema = (p: { enum: string[]; description?: string }): EnumSchema => ...
+export const EnumNumberSchema = (p: { enum: number[]; description?: string }): EnumNumberSchema => ...
+```
+
+Added in v0.0.1
+
+# EnumStringSchema (function)
+
+**Signature**
+
+```ts
+export const EnumStringSchema = (p: { enum: string[]; description?: string }): EnumStringSchema => ...
 ```
 
 Added in v0.0.1
@@ -363,7 +388,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const isEnumSchema = (x: JSONSchema): x is EnumSchema => ...
+export const isEnumSchema = (x: JSONSchema): x is EnumStringSchema | EnumNumberSchema => ...
 ```
 
 Added in v0.0.1

@@ -1,4 +1,4 @@
-import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
 import type { Kind, URIS } from '@morphic-ts/common/lib/HKT'
 
 /**
@@ -21,5 +21,9 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export interface ModelAlgebraRecursive<F extends URIS, Env extends AnyEnv> {
   _F: F
-  recursive: <L, A>(a: (x: Kind<F, Env, L, A>) => Kind<F, Env, L, A>, name: string) => Kind<F, Env, L, A>
+  recursive: <L, A>(
+    a: (x: Kind<F, Env, L, A>) => Kind<F, Env, L, A>,
+    name: string,
+    config?: ConfigsForType<Env, L, A>
+  ) => Kind<F, Env, L, A>
 }

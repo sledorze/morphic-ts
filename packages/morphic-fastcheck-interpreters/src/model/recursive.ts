@@ -3,6 +3,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraRecursive } from '@morphic-ts/model-algebras/lib/recursive'
 import { constant } from 'fast-check'
 
+import { fastCheckApplyConfig } from '../config'
 import { FastCheckType, FastCheckURI } from '../hkt'
 
 /**
@@ -11,10 +12,17 @@ import { FastCheckType, FastCheckURI } from '../hkt'
 export const fastCheckRecursiveInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRecursive<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    recursive: f => {
+    recursive: (f, _name, config) => {
       type FA = ReturnType<typeof f>
       const get = memo(() => f(res))
-      const res: FA = env => new FastCheckType(constant(null).chain(_ => get()(env).arb))
+      const res: FA = env =>
+        new FastCheckType(
+          fastCheckApplyConfig(config)(
+            constant(null).chain(_ => get()(env).arb),
+            env,
+            {}
+          )
+        )
       return res
     }
   })

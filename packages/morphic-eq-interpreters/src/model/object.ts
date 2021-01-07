@@ -22,23 +22,25 @@ export const eqObjectInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraObject<EqURI, Env> => ({
     _F: EqURI,
     interface: (props, _name, config) => env =>
-      new EqType(eqApplyConfig(config)(getStructEq(projectFieldWithEnv(props as any, env)('eq')), env)),
+      new EqType(eqApplyConfig(config)(getStructEq(projectFieldWithEnv(props as any, env, {})('eq')), env, {})),
     // relies on Eq<A> whereas we need Eq<Partial<A>> (but works - covered by tests)
     partial: (props, _name, config) => env =>
       new EqType(
         eqApplyConfig(config)(
-          asPartialEq(getStructEq(mapRecord(projectFieldWithEnv(props as any, env)('eq'), eqOrUndefined))),
-          env
+          asPartialEq(getStructEq(mapRecord(projectFieldWithEnv(props as any, env, {})('eq'), eqOrUndefined))),
+          env,
+          {}
         )
       ),
     both: (props, pprops, _name, config) => env =>
       new EqType(
         eqApplyConfig(config)(
           getStructEq({
-            ...mapRecord(projectFieldWithEnv(pprops, env)('eq'), eqOrUndefined),
-            ...projectFieldWithEnv(props, env)('eq')
+            ...mapRecord(projectFieldWithEnv(pprops, env, {})('eq'), eqOrUndefined),
+            ...projectFieldWithEnv(props, env, {})('eq')
           } as any),
-          env
+          env,
+          {}
         )
       )
   })

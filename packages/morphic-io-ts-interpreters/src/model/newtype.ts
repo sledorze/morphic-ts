@@ -14,6 +14,6 @@ const coerce = <N extends AnyNewtype, O, I>(e: Type<NewtypeA<N>, O, I>): Type<N,
 export const ioTsNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype<IoTsURI, Env> => ({
     _F: IoTsURI,
-    newtype: () => (a, config) => env => new IOTSType(iotsApplyConfig(config)(coerce(a(env).type), env))
+    newtype: () => (a, config) => env => new IOTSType(iotsApplyConfig(config)(coerce(a(env).type), env, {}))
   })
 )

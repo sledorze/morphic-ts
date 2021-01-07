@@ -18,7 +18,7 @@ export const ioTsNonStrictObjectInterpreter = memo(
       config?: ConfigsForType<Env, Readonly<PropsE<Props>>, Readonly<PropsA<Props>>>
     ) => (env: Env) =>
       new IOTSType<PropsE<Props>, PropsA<Props>>(
-        iotsApplyConfig(config)(t.type(projectFieldWithEnv(props as any, env)('type'), name) as any, env)
+        iotsApplyConfig(config)(t.type(projectFieldWithEnv(props as any, env, {})('type'), name) as any, env, {})
       ),
     partial: <Props extends AnyProps<Props, Env>>(
       props: Props,
@@ -26,7 +26,11 @@ export const ioTsNonStrictObjectInterpreter = memo(
       config?: ConfigsForType<Env, Partial<Readonly<PropsE<Props>>>, Partial<Readonly<PropsA<Props>>>>
     ) => (env: Env) =>
       new IOTSType<Partial<PropsE<Props>>, Partial<PropsA<Props>>>(
-        iotsApplyConfig(config)(t.partial(projectFieldWithEnv(props as any, env)('type'), name) as any, env) as any
+        iotsApplyConfig(config)(
+          t.partial(projectFieldWithEnv(props as any, env, {})('type'), name) as any,
+          env,
+          {}
+        ) as any
       ),
     both: <Props extends AnyProps<Props, Env>, PartialProps extends AnyProps<PartialProps, Env>>(
       props: PropsKind<IoTsURI, PropsE<Props>, PropsA<Props>, Env>,
@@ -45,12 +49,13 @@ export const ioTsNonStrictObjectInterpreter = memo(
         iotsApplyConfig(config)(
           t.intersection(
             [
-              t.interface(projectFieldWithEnv(props, env)('type')),
-              t.partial(projectFieldWithEnv(partial, env)('type'))
+              t.interface(projectFieldWithEnv(props, env, {})('type')),
+              t.partial(projectFieldWithEnv(partial, env, {})('type'))
             ],
             name
           ) as any,
-          env
+          env,
+          {}
         ) as any
       )
   })
@@ -68,7 +73,7 @@ export const ioTsStrictObjectInterpreter = memo(
       config?: ConfigsForType<Env, Readonly<PropsE<Props>>, Readonly<PropsA<Props>>>
     ) => (env: Env) =>
       new IOTSType<PropsE<Props>, PropsA<Props>>(
-        iotsApplyConfig(config)(t.strict(projectFieldWithEnv(props as any, env)('type'), name) as any, env)
+        iotsApplyConfig(config)(t.strict(projectFieldWithEnv(props as any, env, {})('type'), name) as any, env, {})
       ),
     partial: <Props extends AnyProps<Props, Env>>(
       props: Props,
@@ -77,8 +82,9 @@ export const ioTsStrictObjectInterpreter = memo(
     ) => (env: Env) =>
       new IOTSType<Partial<PropsE<Props>>, Partial<PropsA<Props>>>(
         iotsApplyConfig(config)(
-          t.exact(t.partial(projectFieldWithEnv(props as any, env)('type'), name)) as any,
-          env
+          t.exact(t.partial(projectFieldWithEnv(props as any, env, {})('type'), name)) as any,
+          env,
+          {}
         ) as any
       ),
     both: <Props extends AnyProps<Props, Env>, PartialProps extends AnyProps<PartialProps, Env>>(
@@ -99,13 +105,14 @@ export const ioTsStrictObjectInterpreter = memo(
           t.exact(
             t.intersection(
               [
-                t.interface(projectFieldWithEnv(props, env)('type')),
-                t.partial(projectFieldWithEnv(partial, env)('type'))
+                t.interface(projectFieldWithEnv(props, env, {})('type')),
+                t.partial(projectFieldWithEnv(partial, env, {})('type'))
               ],
               name
             )
           ) as any,
-          env
+          env,
+          {}
         ) as any
       )
   })

@@ -12,6 +12,6 @@ export const jsonSchemaRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
     refined: (getJsonSchema, _ref, _name, config) => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(getJsonSchema(env).schema, env))
+      new JsonSchema(jsonSchemaApplyConfig(config)(getJsonSchema(env).schema, env, {}))
   })
 )

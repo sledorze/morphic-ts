@@ -11,6 +11,7 @@ import { JsonSchema, JsonSchemaURI } from '../hkt'
 export const jsonSchemaNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    newtype: () => (getJson, config) => env => new JsonSchema(jsonSchemaApplyConfig(config)(getJson(env).schema, env))
+    newtype: () => (getJson, config) => env =>
+      new JsonSchema(jsonSchemaApplyConfig(config)(getJson(env).schema, env, {}))
   })
 )

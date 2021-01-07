@@ -32,7 +32,8 @@ export const jsonSchemaObjectInterpreter = memo(
             SEchain(addSchema(name)),
             SEmap(_ => notOptional(Ref(name)))
           ),
-          env
+          env,
+          {}
         )
       ),
     partial: (props, name, config) => env =>
@@ -49,7 +50,8 @@ export const jsonSchemaObjectInterpreter = memo(
             SEchain(addSchema(name)),
             SEmap(_ => notOptional(Ref(name)))
           ),
-          env
+          env,
+          {}
         )
       ),
     both: (props, partial, name, config) => env => {
@@ -85,7 +87,8 @@ export const jsonSchemaObjectInterpreter = memo(
             SEchain(addSchema(name)),
             SEmap(_ => notOptional(Ref(name)))
           ),
-          env
+          env,
+          {}
         )
       )
     }

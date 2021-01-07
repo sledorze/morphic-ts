@@ -23,7 +23,8 @@ export const jsonSchemaTaggedUnionInterpreter = memo(
             arrayTraverseStateEither(toArray(types), ([_, v]) => v(env).schema),
             SEchainEitherK(UnionTypeCtor)
           ),
-          env
+          env,
+          {}
         )
       )
   })

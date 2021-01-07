@@ -23,7 +23,7 @@ export const eqUnknownInterpreter = memo(
     unknown: cfg => env => {
       const config = eqApplyConfig(cfg)
       return new EqType(
-        config === undefined ? { equals: circularDeepEqual } : config({ equals: circularDeepEqual }, env)
+        config === undefined ? { equals: circularDeepEqual } : config({ equals: circularDeepEqual }, env, {})
       )
     }
   })

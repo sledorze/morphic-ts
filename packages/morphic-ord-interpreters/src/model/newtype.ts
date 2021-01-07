@@ -13,6 +13,6 @@ const coerce = <N extends AnyNewtype>(e: Ord<NewtypeA<N>>): Ord<N> => e as Ord<N
 export const ordNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype<OrdURI, Env> => ({
     _F: OrdURI,
-    newtype: () => (getOrd, config) => env => new OrdType(ordApplyConfig(config)(coerce(getOrd(env).ord), env))
+    newtype: () => (getOrd, config) => env => new OrdType(ordApplyConfig(config)(coerce(getOrd(env).ord), env, {}))
   })
 )

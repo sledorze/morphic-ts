@@ -12,6 +12,6 @@ import { IOTSType, IoTsURI } from '../hkt'
 export const ioTsUnknownInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnknown<IoTsURI, Env> => ({
     _F: IoTsURI,
-    unknown: config => env => new IOTSType(iotsApplyConfig(config)(t.unknown, env))
+    unknown: config => env => new IOTSType(iotsApplyConfig(config)(t.unknown, env, {}))
   })
 )

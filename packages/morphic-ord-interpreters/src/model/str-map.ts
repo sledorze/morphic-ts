@@ -16,13 +16,14 @@ export const ordStrMapInterpreter = memo(
     _F: OrdURI,
     strMap: (getCodomain, config) => env =>
       new OrdType(
-        ordApplyConfig(config)(ord.contramap(AgetOrd(getTupleOrd(ordString, getCodomain(env).ord)), RtoArray), env)
+        ordApplyConfig(config)(ord.contramap(AgetOrd(getTupleOrd(ordString, getCodomain(env).ord)), RtoArray), env, {})
       ),
     record: (getDomain, getCodomain, config) => env =>
       new OrdType(
         ordApplyConfig(config)(
           ord.contramap(AgetOrd(getTupleOrd(getDomain(env).ord, getCodomain(env).ord)), RtoArray),
-          env
+          env,
+          {}
         )
       )
   })

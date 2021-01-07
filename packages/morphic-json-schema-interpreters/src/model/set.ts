@@ -6,6 +6,7 @@ import { chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
 
 import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { SetFromArrayTypeCtor } from '../json-schema/json-schema-ctors'
+import { jsonSchemaApplyConfig } from './../config'
 
 /**
  *  @since 0.0.1
@@ -13,6 +14,9 @@ import { SetFromArrayTypeCtor } from '../json-schema/json-schema-ctors'
 export const jsonSchemaSetInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraSet<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    set: getSchema => env => new JsonSchema(pipe(getSchema(env).schema, SEchainEitherK(SetFromArrayTypeCtor)))
+    set: (getSchema, _name, config) => env =>
+      new JsonSchema(
+        jsonSchemaApplyConfig(config)(pipe(getSchema(env).schema, SEchainEitherK(SetFromArrayTypeCtor)), env, {})
+      )
   })
 )

@@ -12,6 +12,6 @@ export const fastCheckRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined<FastCheckURI, Env> => ({
     _F: FastCheckURI,
     refined: (getArb, ref, _name, config) => env =>
-      new FastCheckType(fastCheckApplyConfig(config)(getArb(env).arb.filter(ref), env))
+      new FastCheckType(fastCheckApplyConfig(config)(getArb(env).arb.filter(ref), env, {}))
   })
 )

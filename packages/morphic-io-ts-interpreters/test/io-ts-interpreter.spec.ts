@@ -77,6 +77,21 @@ describe('IO-TS', () => {
     chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
   })
 
+  it('oneOfLiterals', () => {
+    const codec = summon(F => F.oneOfLiterals(['a', 1])).type
+
+    chai.assert.deepStrictEqual(isLeft(codec.decode('baz')), true)
+    chai.assert.deepStrictEqual(isRight(codec.decode('a')), true)
+    const res = codec.decode(1)
+    chai.assert.deepStrictEqual(res, t.success(1))
+    if (isLeft(res)) {
+      console.log('error: ', PathReporter.report(res))
+      chai.assert.deepStrictEqual(PathReporter.report(res), ['ok'])
+    }
+
+    chai.assert.deepStrictEqual(isLeft(codec.decode(2)), true)
+  })
+
   it('decode to newType', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
     const NT = summon(F => F.newtype<NT>('NT')(F.date()))

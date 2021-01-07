@@ -11,6 +11,17 @@
 > - [Experimental]
 > - [Deprecation]
 
+## 3.0.0-alpha.3
+
+- **New Feature**
+  - add `a last param on config callbacks to easy customisation of 'container' types (either, array, etc..`
+  - add `numberLiteral`
+  - add `oneOfLiterals`
+  - add `optional`
+  - add `unknownE`
+- **Bug Fix**
+  - optional inference in constructor (favor `Omit` over `Remove`)
+
 ## 3.0.0-RC0
 
 - **New Feature**

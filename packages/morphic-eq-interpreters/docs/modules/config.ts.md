@@ -18,7 +18,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const eqApplyConfig: <E, A, R>(config?: { EqURI?: GenConfig<Eq<A>, R>; }) => GenConfig<Eq<A>, R> = ...
+export const eqApplyConfig: <E, A, R, K>(config?: { EqURI?: GenConfig<Eq<A>, R, K>; }) => GenConfig<Eq<A>, R, K> = ...
 ```
 
 Added in v0.0.1

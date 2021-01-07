@@ -15,6 +15,6 @@ export const showNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype<ShowURI, Env> => ({
     _F: ShowURI,
     newtype: name => (a, config) => env =>
-      new ShowType(showApplyConfig(config)(coerce({ show: x => `<${name}>(${a(env).show.show(x)})` }), env))
+      new ShowType(showApplyConfig(config)(coerce({ show: x => `<${name}>(${a(env).show.show(x)})` }), env, {}))
   })
 )

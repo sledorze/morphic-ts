@@ -11,7 +11,6 @@ parent: Modules
 - [ElemType (type alias)](#elemtype-type-alias)
 - [ExcludeUnion (type alias)](#excludeunion-type-alias)
 - [ExtractUnion (type alias)](#extractunion-type-alias)
-- [Remove (type alias)](#remove-type-alias)
 
 ---
 
@@ -41,16 +40,6 @@ Added in v0.0.1
 
 ```ts
 export type ExtractUnion<A, Tag extends keyof A, Tags extends A[Tag]> = Extract<A, Record<Tag, Tags>>
-```
-
-Added in v0.0.1
-
-# Remove (type alias)
-
-**Signature**
-
-```ts
-export type Remove<A, Tag> = { [k in Exclude<keyof A, Tag>]: A[k] }
 ```
 
 Added in v0.0.1

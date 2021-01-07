@@ -18,11 +18,11 @@ export const fastCheckStrMapInterpreter = memo(
     _F: FastCheckURI,
     strMap: (codomain, config) => env =>
       new FastCheckType(
-        fastCheckApplyConfig(config)(FCArray(tuple(string(), codomain(env).arb)).map(strmapFromArray()), env)
+        fastCheckApplyConfig(config)(FCArray(tuple(string(), codomain(env).arb)).map(strmapFromArray()), env, {})
       ),
     record: (domain, codomain, config) => env =>
       new FastCheckType(
-        fastCheckApplyConfig(config)(FCArray(tuple(domain(env).arb, codomain(env).arb)).map(strmapFromArray()), env)
+        fastCheckApplyConfig(config)(FCArray(tuple(domain(env).arb, codomain(env).arb)).map(strmapFromArray()), env, {})
       )
   })
 )

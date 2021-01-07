@@ -3,6 +3,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraRecursive } from '@morphic-ts/model-algebras/lib/recursive'
 
 import { ShowType, ShowURI } from '../hkt'
+import { showApplyConfig } from './../config'
 
 /**
  *  @since 0.0.1
@@ -10,9 +11,10 @@ import { ShowType, ShowURI } from '../hkt'
 export const showRecursiveInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRecursive<ShowURI, Env> => ({
     _F: ShowURI,
-    recursive: a => {
+    recursive: (a, _name, config) => {
       const get = memo(() => a(res))
-      const res: ReturnType<typeof a> = env => new ShowType({ show: a => get()(env).show.show(a) })
+      const res: ReturnType<typeof a> = env =>
+        new ShowType(showApplyConfig(config)({ show: a => get()(env).show.show(a) }, env, {}))
       return res
     }
   })

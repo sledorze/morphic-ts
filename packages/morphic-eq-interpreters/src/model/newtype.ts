@@ -13,6 +13,6 @@ const coerce = <N extends AnyNewtype>(e: Eq<NewtypeA<N>>): Eq<N> => e as Eq<N>
 export const eqNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype<EqURI, Env> => ({
     _F: EqURI,
-    newtype: () => (getEq, config) => env => new EqType(eqApplyConfig(config)(coerce(getEq(env).eq), env))
+    newtype: () => (getEq, config) => env => new EqType(eqApplyConfig(config)(coerce(getEq(env).eq), env, {}))
   })
 )

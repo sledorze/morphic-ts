@@ -4,6 +4,7 @@ import type { ModelAlgebraSet } from '@morphic-ts/model-algebras/lib/set'
 import { getShow as SgetShow } from 'fp-ts/Set'
 
 import { ShowType, ShowURI } from '../hkt'
+import { showApplyConfig } from './../config'
 
 /**
  *  @since 0.0.1
@@ -11,6 +12,6 @@ import { ShowType, ShowURI } from '../hkt'
 export const showSetInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraSet<ShowURI, Env> => ({
     _F: ShowURI,
-    set: getShow => env => new ShowType(SgetShow(getShow(env).show))
+    set: (getShow, _ord, config) => env => new ShowType(showApplyConfig(config)(SgetShow(getShow(env).show), env, {}))
   })
 )
