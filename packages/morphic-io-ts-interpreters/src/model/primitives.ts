@@ -118,14 +118,6 @@ declare module '@morphic-ts/model-algebras/lib/primitives' {
   }
 }
 
-// const makeObj = <T extends LiteralT>(xs: readonly T[]): { [k in T]: null } => {
-//   const res: { [k in T]: null } = {} as any
-//   for (const k of xs) {
-//     res[k] = null
-//   }
-//   return res
-// }
-
 /**
  *  @since 0.0.1
  */

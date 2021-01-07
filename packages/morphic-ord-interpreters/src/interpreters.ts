@@ -9,6 +9,14 @@ import { ordSetInterpreter } from './model/set'
 import { ordStrMapInterpreter } from './model/str-map'
 import { ordTaggedUnionInterpreter } from './model/tagged-unions'
 
+export {} from './model/intersections'
+export {} from './model/newtype'
+export {} from './model/primitives'
+export {} from './model/refined'
+export {} from './model/set'
+export {} from './model/str-map'
+export {} from './model/tagged-unions'
+
 export * from './hkt'
 
 /**
