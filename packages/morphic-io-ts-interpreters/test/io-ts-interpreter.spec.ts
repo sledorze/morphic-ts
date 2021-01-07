@@ -78,12 +78,12 @@ describe('IO-TS', () => {
   })
 
   it('oneOfLiterals', () => {
-    const codec = summon(F => F.oneOfLiterals(['a', 1])).type
+    const codec = summon(F => F.oneOfLiterals(['a', 1] as const)).type
 
     chai.assert.deepStrictEqual(isLeft(codec.decode('baz')), true)
     chai.assert.deepStrictEqual(isRight(codec.decode('a')), true)
     const res = codec.decode(1)
-    chai.assert.deepStrictEqual(res, t.success(1))
+    chai.assert.deepStrictEqual(res, t.success(1 as const))
     if (isLeft(res)) {
       console.log('error: ', PathReporter.report(res))
       chai.assert.deepStrictEqual(PathReporter.report(res), ['ok'])
