@@ -1,6 +1,7 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraIntersection } from '@morphic-ts/model-algebras/lib/intersections'
+import type { Array } from '@morphic-ts/model-algebras/lib/types'
 import { pipe } from 'fp-ts/pipeable'
 import { chain as SEchain, chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
 

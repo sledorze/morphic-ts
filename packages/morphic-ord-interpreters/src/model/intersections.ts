@@ -1,6 +1,7 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraIntersection } from '@morphic-ts/model-algebras/lib/intersections'
+import type { Array } from '@morphic-ts/model-algebras/lib/types'
 import type { Ord } from 'fp-ts/Ord'
 import { getMonoid } from 'fp-ts/Ord'
 
@@ -17,7 +18,7 @@ const equalsOrd = <T>(): Ord<T> => ({
 export const ordIntersectionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraIntersection<OrdURI, Env> => ({
     _F: OrdURI,
-    intersection: <A>(types: ((_: Env) => OrdType<A>)[]) => (env: Env) => {
+    intersection: <A>(types: Array<(_: Env) => OrdType<A>>) => (env: Env) => {
       const { concat } = getMonoid<A>()
       const empty = equalsOrd<A>()
       return new OrdType<A>(types.map(t => t(env).ord).reduce(concat, empty))

@@ -1,5 +1,6 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { Array } from '@morphic-ts/model-algebras/lib/types'
 import type { ModelAlgebraUnions } from '@morphic-ts/model-algebras/lib/unions'
 import { pipe } from 'fp-ts/pipeable'
 import { chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
@@ -14,7 +15,7 @@ import { arrayTraverseStateEither } from '../utils'
 export const jsonSchemaUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnions<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    union: <A>(types: ((env: Env) => JsonSchema<A>)[]) => (env: Env) =>
+    union: <A>(types: Array<(env: Env) => JsonSchema<A>>) => (env: Env) =>
       new JsonSchema<A>(
         pipe(
           arrayTraverseStateEither(types, j => j(env).schema),

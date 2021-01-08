@@ -1,5 +1,6 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { Array } from '@morphic-ts/model-algebras/lib/types'
 import type { ModelAlgebraUnions } from '@morphic-ts/model-algebras/lib/unions'
 import { oneof } from 'fast-check'
 
@@ -11,7 +12,7 @@ import { FastCheckType, FastCheckURI } from '../hkt'
 export const fastCheckUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnions<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    union: <A>(items: ((env: Env) => FastCheckType<A>)[]) => (env: Env) =>
+    union: <A>(items: Array<(env: Env) => FastCheckType<A>>) => (env: Env) =>
       new FastCheckType(oneof(...items.map(v => v(env).arb)))
   })
 )

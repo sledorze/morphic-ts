@@ -1,5 +1,4 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import type { OfType } from '@morphic-ts/common/lib/core'
 import type { Kind, URIS } from '@morphic-ts/common/lib/HKT'
 
 /**
@@ -23,25 +22,15 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 export interface ModelAlgebraUnions<F extends URIS, Env extends AnyEnv> {
   _F: F
   union: {
-    <A, B, LA, LB>(types: [OfType<F, LA, A, Env>, OfType<F, LB, B, Env>], name: string): Kind<F, Env, LA | LB, A | B>
-    <A, B, C, LA, LB, LC>(
-      types: [OfType<F, LA, A, Env>, OfType<F, LB, B, Env>, OfType<F, LC, C, Env>],
-      name: string
-    ): Kind<F, Env, LA | LB | LC, A | B | C>
-    <A, B, C, D, LA, LB, LC, LD>(
-      types: [OfType<F, LA, A, Env>, OfType<F, LB, B, Env>, OfType<F, LC, C, Env>, OfType<F, LD, D, Env>],
-      name: string
-    ): Kind<F, Env, LA | LB | LC | LD, A | B | C | D>
-    <A, B, C, D, E, LA, LB, LC, LD, LE>(
-      types: [
-        OfType<F, LA, A, Env>,
-        OfType<F, LB, B, Env>,
-        OfType<F, LC, C, Env>,
-        OfType<F, LD, D, Env>,
-        OfType<F, LE, E, Env>
-      ],
-      name: string
-    ): Kind<F, Env, LA | LB | LC | LD | LE, A | B | C | D | E>
-    <L, A>(types: Array<OfType<F, L, A, Env>>, name: string): Kind<F, Env, Array<L>, Array<A>>
+    <Types extends readonly [Kind<F, Env, any, any>, ...Kind<F, Env, any, any>[]]>(types: Types, name: string): Kind<
+      F,
+      Env,
+      {
+        [h in keyof Types]: [Types[h]] extends [Kind<F, Env, infer E, infer A>] ? E : never
+      }[keyof Types & number],
+      {
+        [h in keyof Types]: [Types[h]] extends [Kind<F, Env, infer E, infer A>] ? A : never
+      }[keyof Types & number]
+    >
   }
 }

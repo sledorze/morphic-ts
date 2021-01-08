@@ -1,5 +1,6 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
+import type { Array } from '@morphic-ts/model-algebras/lib/types'
 import type { ModelAlgebraUnions } from '@morphic-ts/model-algebras/lib/unions'
 import * as t from 'io-ts'
 

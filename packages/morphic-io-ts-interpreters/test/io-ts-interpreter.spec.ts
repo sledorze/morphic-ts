@@ -333,7 +333,13 @@ describe('IO-TS', () => {
 
   it('intersection', () => {
     // type Foo
-    const Foo = summon(F =>
+
+    interface Foo {
+      a: string
+      b: number
+    }
+
+    const Foo = summon<Foo, Foo>(F =>
       F.interface(
         {
           a: F.string(),
@@ -343,7 +349,11 @@ describe('IO-TS', () => {
       )
     )
 
-    const Bar = summon(F =>
+    interface Bar {
+      c: string
+      d: number
+    }
+    const Bar = summon<Bar, Bar>(F =>
       F.interface(
         {
           c: F.string(),
@@ -369,7 +379,7 @@ describe('IO-TS', () => {
       a: string
       b: number
     }
-    const Foo = summon(F =>
+    const Foo = summon<Foo, Foo>(F =>
       F.interface(
         {
           a: F.string(),
@@ -383,7 +393,7 @@ describe('IO-TS', () => {
       c: string
       d: number
     }
-    const Bar = summon(F =>
+    const Bar = summon<Bar, Bar>(F =>
       F.interface(
         {
           c: F.string(),
