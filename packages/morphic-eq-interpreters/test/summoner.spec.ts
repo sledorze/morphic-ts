@@ -11,6 +11,7 @@ import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
 import type { SetURI } from '@morphic-ts/model-algebras/lib/set'
 import type { StrMapURI } from '@morphic-ts/model-algebras/lib/str-map'
 import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
+import type { UnionsURI } from '@morphic-ts/model-algebras/lib/unions'
 import type { UnknownURI } from '@morphic-ts/model-algebras/lib/unknown'
 // eslint-disable-next-line import/no-duplicates
 import type * as U from '@morphic-ts/summoners'
@@ -53,6 +54,7 @@ declare module '@morphic-ts/summoners/lib/ProgramType' {
       | UnknownURI
       | NewtypeURI
       | RefinedURI
+      | UnionsURI
     >
   }
   interface ProgramAlgebra<F extends URIS, Env> {

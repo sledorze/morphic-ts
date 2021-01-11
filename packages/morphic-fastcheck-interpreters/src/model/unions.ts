@@ -12,7 +12,7 @@ import { FastCheckType, FastCheckURI } from '../hkt'
 export const fastCheckUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnions<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    union: <A>(items: Array<(env: Env) => FastCheckType<A>>) => (env: Env) =>
+    union: <A>(items: Array<(env: Env) => FastCheckType<A>>) => (_guards, _name) => (env: Env) =>
       new FastCheckType(oneof(...items.map(v => v(env).arb)))
   })
 )

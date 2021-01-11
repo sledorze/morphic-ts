@@ -27,7 +27,7 @@ export interface ModelAlgebraIntersection<F extends URIS, Env extends AnyEnv> {
       Env,
       UnionToIntersection<
         {
-          [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>]
+          [k in keyof Types]: Types[k] extends OfType<F, infer LA, infer A, Env>
             ? unknown extends LA
               ? never
               : LA
@@ -36,7 +36,7 @@ export interface ModelAlgebraIntersection<F extends URIS, Env extends AnyEnv> {
       >,
       UnionToIntersection<
         {
-          [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>]
+          [k in keyof Types]: Types[k] extends OfType<F, infer LA, infer A, Env>
             ? unknown extends A
               ? never
               : A

@@ -23,13 +23,13 @@ import { chain as EChain } from 'fp-ts/Either'
 import { pipe } from 'fp-ts/pipeable'
 
 import type { ESBASTJInterpreterURI } from './interpreters-ESBASTJ'
-import type { ProgramNoUnionURI } from './program-no-union'
+import type { ProgramUnionURI } from './program'
 
 /** Type level override to keep Morph type name short */
 /**
  *  @since 0.0.1
  */
-export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramNoUnionURI, ESBASTJInterpreterURI> {}
+export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramUnionURI, ESBASTJInterpreterURI> {}
 /**
  *  @since 0.0.1
  */
@@ -47,8 +47,8 @@ export const AsUOpaque = <A>() => <X extends UM<any, A>>(x: X): UM<X['_R'], A> =
 /**
  *  @since 0.0.1
  */
-export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBASTJInterpreterURI, R> {
-  <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
+export interface Summoner<R> extends U.Summoners<ProgramUnionURI, ESBASTJInterpreterURI, R> {
+  <L, A>(F: U.ProgramType<R, L, A>[ProgramUnionURI]): M<R, L, A>
 }
 
 /**

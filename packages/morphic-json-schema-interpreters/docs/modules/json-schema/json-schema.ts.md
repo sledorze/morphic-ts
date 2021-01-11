@@ -68,7 +68,7 @@ Added in v0.0.1
 ```ts
 export interface ArraySchema extends DescriptionSchema {
   type: 'array'
-  items: SubSchema | SubSchema[]
+  items: SubSchema | Array<SubSchema>
 }
 ```
 
@@ -105,7 +105,7 @@ Added in v0.0.1
 ```ts
 export interface EnumNumberSchema extends DescriptionSchema {
   type: 'number'
-  enum: number[]
+  enum: Array<number>
 }
 ```
 
@@ -118,7 +118,7 @@ Added in v0.0.1
 ```ts
 export interface EnumStringSchema extends DescriptionSchema {
   type: 'string'
-  enum: string[]
+  enum: Array<string>
 }
 ```
 
@@ -149,10 +149,10 @@ Added in v0.0.1
 export interface ObjectSchema extends DescriptionSchema {
   type?: 'object'
   description?: string
-  required?: string[]
+  required?: Array<string>
   properties?: Record<string, SubSchema>
   additionalProperties?: SubSchema
-  oneOf?: (ObjectSchema | Ref)[]
+  oneOf?: Array<ObjectSchema | Ref>
 }
 ```
 
@@ -236,7 +236,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const objectSchemaOnRequired: Lens<ObjectSchema, string[]> = ...
+export const objectSchemaOnRequired: Lens<ObjectSchema, Array<string>> = ...
 ```
 
 Added in v0.0.1
@@ -247,7 +247,7 @@ Added in v0.0.1
 
 ```ts
 export const ArraySchema = (p: {
-  items: SubSchema | SubSchema[]
+  items: SubSchema | Array<SubSchema>
   description?: string
   minItems?: number
   maxItems?: number
@@ -271,7 +271,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const EnumNumberSchema = (p: { enum: number[]; description?: string }): EnumNumberSchema => ...
+export const EnumNumberSchema = (p: { enum: Array<number>; description?: string }): EnumNumberSchema => ...
 ```
 
 Added in v0.0.1
@@ -281,7 +281,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const EnumStringSchema = (p: { enum: string[]; description?: string }): EnumStringSchema => ...
+export const EnumStringSchema = (p: { enum: Array<string>; description?: string }): EnumStringSchema => ...
 ```
 
 Added in v0.0.1
@@ -310,9 +310,9 @@ Added in v0.0.1
 ```ts
 export const ObjectSchema = (x: {
   description?: string
-  required?: string[]
+  required?: Array<string>
   properties?: Record<string, SubSchema>
-  oneOf?: (ObjectSchema | Ref)[]
+  oneOf?: Array<ObjectSchema | Ref>
 }): ObjectSchema => ...
 ```
 
@@ -368,7 +368,7 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const getOneOf = (obj: ObjectSchema): Option<(ObjectSchema | Ref)[]> => ...
+export const getOneOf = (obj: ObjectSchema): Option<Array<ObjectSchema | Ref>> => ...
 ```
 
 Added in v0.0.1

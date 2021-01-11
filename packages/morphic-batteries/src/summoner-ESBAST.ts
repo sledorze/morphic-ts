@@ -18,13 +18,13 @@ import type { AnyConfigEnv, ExtractEnv, SummonerOps } from '@morphic-ts/summoner
 import { makeSummoner } from '@morphic-ts/summoners'
 
 import type { ESBASTInterpreterURI } from './interpreters-ESBAST'
-import type { ProgramNoUnionURI } from './program-no-union'
+import type { ProgramUnionURI } from './program'
 
 /** Type level override to keep Morph type name short */
 /**
  *  @since 0.0.1
  */
-export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramNoUnionURI, ESBASTInterpreterURI> {}
+export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramUnionURI, ESBASTInterpreterURI> {}
 /**
  *  @since 0.0.1
  */
@@ -42,8 +42,8 @@ export const AsUOpaque = <A>() => <X extends UM<any, A>>(x: X): UM<X['_R'], A> =
 /**
  *  @since 0.0.1
  */
-export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBASTInterpreterURI, R> {
-  <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
+export interface Summoner<R> extends U.Summoners<ProgramUnionURI, ESBASTInterpreterURI, R> {
+  <L, A>(F: U.ProgramType<R, L, A>[ProgramUnionURI]): M<R, L, A>
 }
 
 /**

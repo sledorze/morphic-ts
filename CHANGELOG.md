@@ -11,6 +11,13 @@
 > - [Experimental]
 > - [Deprecation]
 
+## 3.0.0-alpha.6
+
+- **New Feature**
+  - `Union` is parametrized with guards, enabling `Union` on `Eq`, `Ord` and `Show`
+- **Breaking Change**
+  - Remove `program-orderable` and `program-no-union`
+
 ## 3.0.0-alpha.3
 
 - **New Feature**

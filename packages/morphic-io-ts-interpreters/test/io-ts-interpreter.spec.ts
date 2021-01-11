@@ -403,7 +403,9 @@ describe('IO-TS', () => {
       )
     )
 
-    const FooBar = summon(F => F.union([Foo(F), Bar(F)], 'FooBar'))
+    const FooBar = summon(F =>
+      F.union([Foo(F), Bar(F)])([_ => ('a' in _ ? right(_) : left(_)), _ => ('c' in _ ? right(_) : left(_))], 'FooBar')
+    )
 
     const codec = FooBar
 

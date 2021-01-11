@@ -10,6 +10,7 @@ import { eqRefinedInterpreter } from './model/refined'
 import { eqSetInterpreter } from './model/set'
 import { eqStrMapInterpreter } from './model/str-map'
 import { eqTaggedUnionInterpreter } from './model/tagged-unions'
+import { eqUnionInterpreter } from './model/unions'
 import { eqUnknownInterpreter } from './model/unknown'
 
 export {} from './model/intersections'
@@ -30,6 +31,7 @@ export * from './hkt'
  */
 const allModelEq = <Env extends AnyEnv>() =>
   merge(
+    eqUnionInterpreter<Env>(),
     eqRefinedInterpreter<Env>(),
     eqNewtypeInterpreter<Env>(),
     eqUnknownInterpreter<Env>(),

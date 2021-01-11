@@ -335,4 +335,16 @@ describe('Eq', () => {
 
     chai.assert.deepStrictEqual(eq.equals(a1, b), false)
   })
+
+  it('union', () => {
+    const A = summon(F => F.interface({ a: F.string(), b: F.number() }, 'A'))
+    const B = summon(F => F.interface({ c: F.string(), d: F.number() }, 'B'))
+
+    const AorB = summon(F =>
+      F.union([A(F), B(F)])([_ => ('a' in _ ? right(_) : left(_)), _ => ('c' in _ ? right(_) : left(_))], 'a')
+    )
+    chai.assert.deepStrictEqual(AorB.eq.equals({ a: 'a', b: 1 }, { c: 'a', d: 1 }), false)
+    chai.assert.deepStrictEqual(AorB.eq.equals({ a: 'a', b: 1 }, { a: 'a', b: 2 }), false)
+    chai.assert.deepStrictEqual(AorB.eq.equals({ a: 'a', b: 1 }, { a: 'a', b: 1 }), true)
+  })
 })

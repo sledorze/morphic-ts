@@ -8,7 +8,9 @@ import { ordRefinedInterpreter } from './model/refined'
 import { ordSetInterpreter } from './model/set'
 import { ordStrMapInterpreter } from './model/str-map'
 import { ordTaggedUnionInterpreter } from './model/tagged-unions'
+import { ordUnionInterpreter } from './model/unions'
 
+export {} from './model/unions'
 export {} from './model/intersections'
 export {} from './model/newtype'
 export {} from './model/primitives'
@@ -24,6 +26,7 @@ export * from './hkt'
  */
 const allModelOrd = <Env extends AnyEnv>() =>
   merge(
+    ordUnionInterpreter<Env>(),
     ordRefinedInterpreter<Env>(),
     ordNewtypeInterpreter<Env>(),
     ordPrimitiveInterpreter<Env>(),

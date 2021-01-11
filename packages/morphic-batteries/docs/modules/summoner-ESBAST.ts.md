@@ -1,6 +1,6 @@
 ---
 title: summoner-ESBAST.ts
-nav_order: 11
+nav_order: 9
 parent: Modules
 ---
 
@@ -25,7 +25,7 @@ Type level override to keep Morph type name short \*/
 **Signature**
 
 ```ts
-export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramNoUnionURI, ESBASTInterpreterURI> {}
+export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramUnionURI, ESBASTInterpreterURI> {}
 ```
 
 Added in v0.0.1
@@ -35,8 +35,8 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBASTInterpreterURI, R> {
-  <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
+export interface Summoner<R> extends U.Summoners<ProgramUnionURI, ESBASTInterpreterURI, R> {
+  <L, A>(F: U.ProgramType<R, L, A>[ProgramUnionURI]): M<R, L, A>
 }
 ```
 
