@@ -110,7 +110,7 @@ export type Includes<A, B, Y, N> = IsNever<B, Y, A extends B ? Y : N>
 export const getGuardId = (guards: ((x: unknown) => Either<any, any>)[], sym: symbol): ((a: unknown) => number) => {
   const len = guards.length
   return (a: any): number => {
-    const isObj = typeof a === 'object'
+    const isObj = typeof a === 'object' && a !== null
     if (isObj) {
       const r: number | undefined = a[sym]
       if (r !== undefined) {
@@ -118,8 +118,7 @@ export const getGuardId = (guards: ((x: unknown) => Either<any, any>)[], sym: sy
       }
     }
     for (let i = 0; i < len; i++) {
-      const g: (x: unknown) => Either<any, any> = guards[i]
-      if (g(a)._tag === 'Right') {
+      if (guards[i](a)._tag === 'Right') {
         if (isObj) {
           a[sym] = i
         }
