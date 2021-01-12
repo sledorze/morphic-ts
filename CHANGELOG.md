@@ -11,6 +11,11 @@
 > - [Experimental]
 > - [Deprecation]
 
+## 3.0.0-alpha.7
+
+- **Internal**
+  - `Union` guard evaluation is optimized and relevant Ids are stored inside the Union Objects
+
 ## 3.0.0-alpha.6
 
 - **New Feature**

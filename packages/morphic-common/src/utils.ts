@@ -1,3 +1,4 @@
+import type { Either } from 'fp-ts/lib/Either'
 import { collect as Rcollect, record } from 'fp-ts/Record'
 
 /**
@@ -99,3 +100,32 @@ export type IsNever<X, Y, N> = 'X' | X extends 'X' ? Y : N
  *  @since 0.0.1
  */
 export type Includes<A, B, Y, N> = IsNever<B, Y, A extends B ? Y : N>
+
+/**
+ *  @since 0.0.1
+ *
+ * Returns a function returning the index of the first guard matching a particular Objet
+ * Caching the result under the given Symbol inside the Object
+ */
+export const getGuardId = (guards: ((x: unknown) => Either<any, any>)[], sym: symbol): ((a: unknown) => number) => {
+  const len = guards.length
+  return (a: any): number => {
+    const isObj = typeof a === 'object'
+    if (isObj) {
+      const r: number | undefined = a[sym]
+      if (r !== undefined) {
+        return r
+      }
+    }
+    for (let i = 0; i < len; i++) {
+      const g: (x: unknown) => Either<any, any> = guards[i]
+      if (g(a)._tag === 'Right') {
+        if (isObj) {
+          a[sym] = i
+        }
+        return i
+      }
+    }
+    return -1
+  }
+}

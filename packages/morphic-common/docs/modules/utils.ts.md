@@ -13,6 +13,7 @@ parent: Modules
 - [merge (constant)](#merge-constant)
 - [collect (function)](#collect-function)
 - [conjunction (function)](#conjunction-function)
+- [getGuardId (function)](#getguardid-function)
 - [mapRecord (function)](#maprecord-function)
 - [memo (function)](#memo-function)
 - [projectField (function)](#projectfield-function)
@@ -87,6 +88,16 @@ export function conjunction<A, B, C, D, E, F, G, H, I, J, K, L>(
 export function conjunction<A, B, C, D, E, F, G, H, I, J, K, L, M>(
   ...x: [A, B, C, D, E, F, G, H, I, J, K, L, M]
 ): A & B & C & D & E & F & G & H & I & J & K & L & M { ... }
+```
+
+Added in v0.0.1
+
+# getGuardId (function)
+
+**Signature**
+
+```ts
+export const getGuardId = (guards: ((x: unknown) => Either<any, any>)[], sym: symbol) => ...
 ```
 
 Added in v0.0.1

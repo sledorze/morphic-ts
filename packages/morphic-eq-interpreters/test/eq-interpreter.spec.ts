@@ -343,8 +343,14 @@ describe('Eq', () => {
     const AorB = summon(F =>
       F.union([A(F), B(F)])([_ => ('a' in _ ? right(_) : left(_)), _ => ('c' in _ ? right(_) : left(_))], 'a')
     )
-    chai.assert.deepStrictEqual(AorB.eq.equals({ a: 'a', b: 1 }, { c: 'a', d: 1 }), false)
-    chai.assert.deepStrictEqual(AorB.eq.equals({ a: 'a', b: 1 }, { a: 'a', b: 2 }), false)
-    chai.assert.deepStrictEqual(AorB.eq.equals({ a: 'a', b: 1 }, { a: 'a', b: 1 }), true)
+    const A1 = { a: 'a', b: 1 }
+    const A2 = { a: 'a', b: 2 }
+    const B1 = { c: 'a', d: 1 }
+
+    chai.assert.deepStrictEqual(AorB.eq.equals(A1, B1), false)
+    chai.assert.deepStrictEqual(AorB.eq.equals(A1, B1), false)
+
+    chai.assert.deepStrictEqual(AorB.eq.equals(A1, A2), false)
+    chai.assert.deepStrictEqual(AorB.eq.equals(A1, A1), true)
   })
 })
