@@ -183,7 +183,7 @@ describe('FastCheck interpreter', () => {
       )
     )
 
-    const FooBar = summon(F => F.intersection([Foo(F), Bar(F)], 'FooBar'))
+    const FooBar = summon(F => F.intersection(Foo(F), Bar(F))('FooBar'))
 
     testProgram(FooBar)
   })

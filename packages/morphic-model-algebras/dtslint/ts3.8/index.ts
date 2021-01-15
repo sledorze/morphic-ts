@@ -1,3 +1,5 @@
+import { IoTsURI } from './../../../morphic-io-ts-interpreters/src/hkt';
+import type { ModelAlgebraIntersection } from '../../src/intersections';
 import type { ModelAlgebraTaggedUnions } from '../../src/tagged-unions'
 import type { ModelAlgebraPrimitive } from '../../src/primitives'
 import type { ModelAlgebraObject } from '../../src/object'
@@ -21,14 +23,17 @@ export class TypeEq<A> {
 const dummy = 42 // $ExpectType 42
 
 const foo = <MEnv extends AnyEnv = {}>() => <R extends Kind<"HKT", Env, any, any>, Env extends MEnv>(
-  f: (x: ModelAlgebraTaggedUnions<"HKT", Env> & ModelAlgebraPrimitive<"HKT", Env> & ModelAlgebraObject<"HKT", Env>) => R
+  f: (x: ModelAlgebraTaggedUnions<"HKT", Env> & ModelAlgebraIntersection<"HKT", Env> & ModelAlgebraPrimitive<"HKT", Env> & ModelAlgebraObject<"HKT", Env>) => R
 ): R => f as any
 const summon = <MEnv>() => <R extends Kind<"HKT", Env, any, any>, Env extends MEnv>(
-  f: (x: ModelAlgebraTaggedUnions<"HKT", Env> & ModelAlgebraPrimitive<"HKT", Env> & ModelAlgebraObject<"HKT", Env>) => R
+  f: (x: ModelAlgebraTaggedUnions<"HKT", Env> & ModelAlgebraIntersection<"HKT", Env> & ModelAlgebraPrimitive<"HKT", Env> & ModelAlgebraObject<"HKT", Env>) => R
 ) => f
 
 // $ExpectType HKT<{}, Readonly<{ type: string; }>, Readonly<{ type: "a"; }>>
 foo()(F => F.taggedUnion('type', { a: F.interface({ type: F.stringLiteral('a') }, 'A') }, 'X'))
+
+// $ExpectType HKT<{}, Readonly<{ type: string; }> & Readonly<{ kind: string; }>, Readonly<{ type: "a"; }> & Readonly<{ kind: "b"; }>>
+foo()(F => F.intersection(F.interface({ type: F.stringLiteral('a') }, 'A'), F.interface({ kind: F.stringLiteral('b') }, 'B'))('X'))
 
 // $ExpectType HKT<{}, Readonly<{ type: string; }>, Readonly<{ type: "a"; }> | Readonly<{ type: "b"; }>>
 foo()(F =>

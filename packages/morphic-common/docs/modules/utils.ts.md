@@ -97,10 +97,13 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const getGuardId = (guards: ((x: unknown) => Either<any, any>)[], sym: symbol) => ...
+export const getGuardId = (guards: ((x: unknown) => Either<any, any>)[], sym: symbol): ((a: unknown) => number) => ...
 ```
 
 Added in v0.0.1
+
+Returns a function returning the index of the first guard matching a particular Objet
+Caching the result under the given Symbol inside the Object
 
 # mapRecord (function)
 

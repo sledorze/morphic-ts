@@ -1,10 +1,18 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraIntersection } from '@morphic-ts/model-algebras/lib/intersections'
-import type { Array } from '@morphic-ts/model-algebras/lib/types'
 import * as t from 'io-ts'
 
 import { IOTSType, IoTsURI } from '../hkt'
+import { iotsApplyConfig } from './../config'
+
+declare module '@morphic-ts/model-algebras/lib/intersections' {
+  export interface IntersectionConfig<L extends readonly unknown[], A extends readonly unknown[]> {
+    [IoTsURI]: {
+      codecs: IntersectionLA<L, A, IoTsURI>
+    }
+  }
+}
 
 /**
  *  @since 0.0.1
@@ -12,7 +20,9 @@ import { IOTSType, IoTsURI } from '../hkt'
 export const ioTsIntersectionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraIntersection<IoTsURI, Env> => ({
     _F: IoTsURI,
-    intersection: <L, A>(items: Array<(_: Env) => IOTSType<L, A>>, name: string) => (env: Env) =>
-      new IOTSType(t.intersection(items.map(x => x(env).type) as any, name)) // TODO: fix (follow up: https://github.com/gcanti/io-ts/issues/312)
+    intersection: (...items) => (name, config) => env => {
+      const codecs = items.map(x => x(env).type)
+      return new IOTSType(iotsApplyConfig(config)(t.intersection(codecs as any, name), env, { codecs } as any))
+    }
   })
 )

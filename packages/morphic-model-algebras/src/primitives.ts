@@ -39,13 +39,13 @@ export interface NonEmptyArrayConfig<L, A> {}
 /**
  * @since 0.0.1
  */
-
 export interface ArrayConfig<L, A> {}
+
 /**
  * @since 0.0.1
  */
-
 export interface NullableConfig<L, A> {}
+
 /**
  * @since 0.0.1
  */

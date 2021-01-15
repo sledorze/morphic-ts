@@ -13,8 +13,12 @@
 
 ## 3.0.0-alpha.7
 
+- **New Feature**
+  - `Intersection` can be configured
 - **Internal**
   - `Union` guard evaluation is optimized and relevant Ids are stored inside the Union Objects
+- **Breaking Change**
+  - `Intersection` takes Morphs as parameters, no more in an Array. Also, it takes name and config as extra params (curried)
 
 ## 3.0.0-alpha.6
 

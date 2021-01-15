@@ -14,6 +14,8 @@ Pattern stolen from fp-ts. Type defunctionalization (as describe in [Lightweight
 
 - [HKT (interface)](#hkt-interface)
 - [URItoKind (interface)](#uritokind-interface)
+- [ConfigTypeKind (type alias)](#configtypekind-type-alias)
+- [ConfigTypeURIS (type alias)](#configtypeuris-type-alias)
 - [Kind (type alias)](#kind-type-alias)
 - [URIS (type alias)](#uris-type-alias)
 - [URIS\_ (type alias)](#uris_-type-alias)
@@ -21,6 +23,8 @@ Pattern stolen from fp-ts. Type defunctionalization (as describe in [Lightweight
 ---
 
 # HKT (interface)
+
+`* -> * -> *` constructors
 
 **Signature**
 
@@ -48,6 +52,30 @@ export interface URItoKind<R, E, A> {
 
   readonly ['HKT']: HKT<R, E, A>
 }
+```
+
+Added in v0.0.1
+
+# ConfigTypeKind (type alias)
+
+Helper to resolve a ConfigType for a particular URI(s)
+
+**Signature**
+
+```ts
+export type ConfigTypeKind<URI extends ConfigTypeURIS, E, A> = ConfigType<E, A>[URI]
+```
+
+Added in v0.0.1
+
+# ConfigTypeURIS (type alias)
+
+The URIS to Index ConfigType
+
+**Signature**
+
+```ts
+export type ConfigTypeURIS = keyof ConfigType<any, any>
 ```
 
 Added in v0.0.1
