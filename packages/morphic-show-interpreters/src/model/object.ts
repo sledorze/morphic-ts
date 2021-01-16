@@ -50,16 +50,16 @@ export const showObjectInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraObject<ShowURI, Env> => ({
     _F: ShowURI,
     interface: (props, _name, config) => env => {
-      const shows = projectFieldWithEnv(props as any, env, {})('show')
+      const shows = projectFieldWithEnv(props as any, env)('show')
       return new ShowType(showApplyConfig(config)(getStructShow(shows), env, { shows } as any))
     },
     partial: (props, _name, config) => env => {
-      const shows = mapRecord(projectFieldWithEnv(props as any, env, {})('show'), showOrUndefined)
+      const shows = mapRecord(projectFieldWithEnv(props as any, env)('show'), showOrUndefined)
       return new ShowType(showApplyConfig(config)(asPartialShow(getStructShow(shows)), env, { shows } as any))
     },
     both: (props, pprops, _name, config) => env => {
-      const shows = projectFieldWithEnv(props, env, {})('show')
-      const showsPartial = mapRecord(projectFieldWithEnv(pprops, env, {})('show'), showOrUndefined)
+      const shows = projectFieldWithEnv(props, env)('show')
+      const showsPartial = mapRecord(projectFieldWithEnv(pprops, env)('show'), showOrUndefined)
       return new ShowType(
         showApplyConfig(config)(
           getStructShow({
