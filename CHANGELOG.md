@@ -15,6 +15,9 @@
 
 - **New Feature**
   - `Intersection` can be configured
+  - `Interface`, `Partial`, `Both` can be configured
+  - `Newtype`  can be configured
+  - added `NewtypeIso`, `NewtypePrism` (which can be configured)
 - **Internal**
   - `Union` guard evaluation is optimized and relevant Ids are stored inside the Union Objects
 - **Breaking Change**

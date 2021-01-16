@@ -116,11 +116,9 @@ Added in v0.0.1
 **Signature**
 
 ```ts
-export const projectFieldWithEnv = <T extends Record<any, (e: R, c: C) => Record<any, any>>, R, C>(
-  t: T,
-  env: R,
-  c: C
-) => <K extends keyof ReturnType<T[keyof T]>>(
+export const projectFieldWithEnv = <T extends Record<any, (e: R) => Record<any, any>>, R>(t: T, env: R) => <
+  K extends keyof ReturnType<T[keyof T]>
+>(
   k: K
 ): {
   [q in keyof T]: ReturnType<T[q]>[K]
