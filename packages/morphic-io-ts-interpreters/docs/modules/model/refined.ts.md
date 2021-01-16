@@ -9,6 +9,7 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [ioTsRefinedInterpreter (constant)](#iotsrefinedinterpreter-constant)
+- [predicate (function)](#predicate-function)
 - [refinement (function)](#refinement-function)
 
 ---
@@ -19,6 +20,20 @@ parent: Modules
 
 ```ts
 export const ioTsRefinedInterpreter: <Env extends Partial<Readonly<Record<"IoTsURI", any>>>>() => ModelAlgebraRefined<"IoTsURI", Env> = ...
+```
+
+Added in v0.0.1
+
+# predicate (function)
+
+**Signature**
+
+```ts
+export const predicate = <A, O>(T: Type<A, O>, predicate: Predicate<A>, name: string): Type<A, O> =>
+  new Type<A, O>(
+    name,
+    (x): x is A => T.is(x) && predicate(x),
+    (i, c) => ...
 ```
 
 Added in v0.0.1
