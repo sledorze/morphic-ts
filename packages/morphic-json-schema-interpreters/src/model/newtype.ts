@@ -1,7 +1,7 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraNewtype } from '@morphic-ts/model-algebras/lib/newtype'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/lib/function'
 
 import { jsonSchemaApplyConfig } from '../config'
 import type { JsonSchemaResult } from '../hkt'

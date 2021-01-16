@@ -2,7 +2,7 @@ import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraRefined } from '@morphic-ts/model-algebras/lib/refined'
 import type { Eq } from 'fp-ts/lib/Eq'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/lib/function'
 
 import { eqApplyConfig } from '../config'
 import { EqType, EqURI } from '../hkt'

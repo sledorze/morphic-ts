@@ -13,6 +13,11 @@ export const SetURI = 'SetURI' as const
  */
 export type SetURI = typeof SetURI
 
+/**
+ *  @since 0.0.1
+ */
+export interface SetConfig<L, A> {}
+
 declare module '@morphic-ts/algebras/lib/hkt' {
   export interface Algebra<F extends URIS, Env extends AnyEnv> {
     [SetURI]: ModelAlgebraSet<F, Env>
@@ -27,6 +32,6 @@ export interface ModelAlgebraSet<F extends URIS, Env extends AnyEnv> {
   set: <L, A>(
     a: Kind<F, Env, L, A>,
     ord: Ord<A>,
-    config?: ConfigsForType<Env, Array<L>, Set<A>>
+    config?: ConfigsForType<Env, Array<L>, Set<A>, SetConfig<L, A>>
   ) => Kind<F, Env, Array<L>, Set<A>>
 }

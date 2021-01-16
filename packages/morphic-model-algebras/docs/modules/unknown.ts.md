@@ -9,6 +9,7 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [ModelAlgebraUnknown (interface)](#modelalgebraunknown-interface)
+- [UnknownConfig (interface)](#unknownconfig-interface)
 - [Keys (type alias)](#keys-type-alias)
 - [UnknownURI (type alias)](#unknownuri-type-alias)
 - [UnknownURI (constant)](#unknownuri-constant)
@@ -22,8 +23,18 @@ parent: Modules
 ```ts
 export interface ModelAlgebraUnknown<F extends URIS, Env extends AnyEnv> {
   _F: F
-  unknown(config?: ConfigsForType<Env, unknown, unknown>): Kind<F, Env, unknown, unknown>
+  unknown(config?: ConfigsForType<Env, unknown, unknown, UnknownConfig>): Kind<F, Env, unknown, unknown>
 }
+```
+
+Added in v0.0.1
+
+# UnknownConfig (interface)
+
+**Signature**
+
+```ts
+export interface UnknownConfig {}
 ```
 
 Added in v0.0.1

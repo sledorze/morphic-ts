@@ -20,6 +20,7 @@
   - added `NewtypeIso`, `NewtypePrism` (which can be configured)
   - `Refine`  can be configured
   - added `Constrained` (which can be configured)
+  - `Set`, `StrMap`, `Record`, `Unknown` can be configured
 - **Internal**
   - `Union` guard evaluation is optimized and relevant Ids are stored inside the Union Objects
 - **Breaking Change**

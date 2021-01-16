@@ -1,7 +1,7 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { AnyNewtype, ModelAlgebraNewtype, NewtypeA } from '@morphic-ts/model-algebras/lib/newtype'
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/lib/function'
 import type { Show } from 'fp-ts/lib/Show'
 
 import { showApplyConfig } from '../config'

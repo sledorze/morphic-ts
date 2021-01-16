@@ -9,6 +9,7 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [ModelAlgebraSet (interface)](#modelalgebraset-interface)
+- [SetConfig (interface)](#setconfig-interface)
 - [SetURI (type alias)](#seturi-type-alias)
 - [SetURI (constant)](#seturi-constant)
 
@@ -24,9 +25,19 @@ export interface ModelAlgebraSet<F extends URIS, Env extends AnyEnv> {
   set: <L, A>(
     a: Kind<F, Env, L, A>,
     ord: Ord<A>,
-    config?: ConfigsForType<Env, Array<L>, Set<A>>
+    config?: ConfigsForType<Env, Array<L>, Set<A>, SetConfig<L, A>>
   ) => Kind<F, Env, Array<L>, Set<A>>
 }
+```
+
+Added in v0.0.1
+
+# SetConfig (interface)
+
+**Signature**
+
+```ts
+export interface SetConfig<L, A> {}
 ```
 
 Added in v0.0.1
