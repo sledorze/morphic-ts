@@ -10,12 +10,11 @@ parent: Modules
 
 - [Includes (type alias)](#includes-type-alias)
 - [IsNever (type alias)](#isnever-type-alias)
-- [merge (constant)](#merge-constant)
 - [collect (function)](#collect-function)
-- [conjunction (function)](#conjunction-function)
 - [getGuardId (function)](#getguardid-function)
 - [mapRecord (function)](#maprecord-function)
 - [memo (function)](#memo-function)
+- [merge (function)](#merge-function)
 - [projectField (function)](#projectfield-function)
 - [projectFieldWithEnv (function)](#projectfieldwithenv-function)
 
@@ -41,53 +40,12 @@ export type IsNever<X, Y, N> = 'X' | X extends 'X' ? Y : N
 
 Added in v0.0.1
 
-# merge (constant)
-
-**Signature**
-
-```ts
-export const merge: typeof conjunction = ...
-```
-
-Added in v0.0.1
-
 # collect (function)
 
 **Signature**
 
 ```ts
 export const collect = <K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B> => ...
-```
-
-Added in v0.0.1
-
-# conjunction (function)
-
-**Signature**
-
-```ts
-export function conjunction<A, B>(...x: [A, B]): A & B
-export function conjunction<A, B, C>(...x: [A, B, C]): A & B & C
-export function conjunction<A, B, C, D>(...x: [A, B, C, D]): A & B & C & D
-export function conjunction<A, B, C, D, E>(...x: [A, B, C, D, E]): A & B & C & D & E
-export function conjunction<A, B, C, D, E, F>(...x: [A, B, C, D, E, F]): A & B & C & D & E & F
-export function conjunction<A, B, C, D, E, F, G>(...x: [A, B, C, D, E, F, G]): A & B & C & D & E & F & G
-export function conjunction<A, B, C, D, E, F, G, H>(...x: [A, B, C, D, E, F, G, H]): A & B & C & D & E & F & G & H
-export function conjunction<A, B, C, D, E, F, G, H, I>(
-  ...x: [A, B, C, D, E, F, G, H, I]
-): A & B & C & D & E & F & G & H & I
-export function conjunction<A, B, C, D, E, F, G, H, I, J>(
-  ...x: [A, B, C, D, E, F, G, H, I, J]
-): A & B & C & D & E & F & G & H & I & J
-export function conjunction<A, B, C, D, E, F, G, H, I, J, K>(
-  ...x: [A, B, C, D, E, F, G, H, I, J, K]
-): A & B & C & D & E & F & G & H & I & J & K
-export function conjunction<A, B, C, D, E, F, G, H, I, J, K, L>(
-  ...x: [A, B, C, D, E, F, G, H, I, J, K, L]
-): A & B & C & D & E & F & G & H & I & J & K & L
-export function conjunction<A, B, C, D, E, F, G, H, I, J, K, L, M>(
-  ...x: [A, B, C, D, E, F, G, H, I, J, K, L, M]
-): A & B & C & D & E & F & G & H & I & J & K & L & M { ... }
 ```
 
 Added in v0.0.1
@@ -124,6 +82,16 @@ Added in v0.0.1
 
 ```ts
 export const memo: <F extends () => any>(get: F) => typeof get = <F extends () => any>(get: F): typeof get => ...
+```
+
+Added in v0.0.1
+
+# merge (function)
+
+**Signature**
+
+```ts
+export const merge = <R extends unknown[]>(...x: R): UnionToIntersection<R[number]> => ...
 ```
 
 Added in v0.0.1
