@@ -17,6 +17,11 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 }
 
 /**
+ * @since 0.0.1
+ */
+export interface RecursiveConfig<L, A> {}
+
+/**
  *  @since 0.0.1
  */
 export interface ModelAlgebraRecursive<F extends URIS, Env extends AnyEnv> {
@@ -24,6 +29,6 @@ export interface ModelAlgebraRecursive<F extends URIS, Env extends AnyEnv> {
   recursive: <L, A>(
     a: (x: Kind<F, Env, L, A>) => Kind<F, Env, L, A>,
     name: string,
-    config?: ConfigsForType<Env, L, A>
+    config?: ConfigsForType<Env, L, A, RecursiveConfig<L, A>>
   ) => Kind<F, Env, L, A>
 }
