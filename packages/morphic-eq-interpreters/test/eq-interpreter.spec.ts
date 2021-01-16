@@ -353,4 +353,34 @@ describe('Eq', () => {
     chai.assert.deepStrictEqual(AorB.eq.equals(A1, A2), false)
     chai.assert.deepStrictEqual(AorB.eq.equals(A1, A1), true)
   })
+
+  it('intersection is correctly configurable', () => {
+    const Foo = summon(F =>
+      F.intersection(
+        F.interface(
+          {
+            a: F.string()
+          },
+          'Foo'
+        ),
+        F.interface(
+          {
+            b: F.date()
+          },
+          'Bar'
+        )
+      )('Name', {
+        EqURI: (_c, _e, { equals: [eqA, eqB] }) => ({
+          equals: (a, b) => eqA.equals({ a: a.a }, { a: b.a }) && eqB.equals({ b: a.b }, { b: b.b })
+        })
+      })
+    )
+
+    const dateA = new Date(12345)
+    const dateB = new Date(54321)
+    chai.assert.isFalse(Foo.eq.equals({ a: '', b: dateA }, { a: 'x', b: dateA }))
+    chai.assert.isFalse(Foo.eq.equals({ a: '', b: dateA }, { a: '', b: dateB }))
+    chai.assert.isFalse(Foo.eq.equals({ a: 'x', b: dateA }, { a: '', b: dateB }))
+    chai.assert.isTrue(Foo.eq.equals({ a: 'x', b: dateA }, { a: 'x', b: dateA }))
+  })
 })
