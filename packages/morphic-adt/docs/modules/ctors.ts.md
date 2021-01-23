@@ -37,7 +37,7 @@ Added in v0.0.1
 
 ```ts
 export type As<A, Tag extends keyof A> = {
-  [key in A[Tag] & string]: (a: Remove<ExtractUnion<A, Tag, key>, Tag>) => ExtractUnion<A, Tag, key>
+  [key in A[Tag] & string]: (a: Omit<ExtractUnion<A, Tag, key>, Tag>) => ExtractUnion<A, Tag, key>
 }
 ```
 
@@ -59,7 +59,7 @@ Added in v0.0.1
 
 ```ts
 export type Of<A, Tag extends keyof A> = {
-  [key in A[Tag] & string]: (a: Remove<ExtractUnion<A, Tag, key>, Tag>) => A
+  [key in A[Tag] & string]: (a: Omit<ExtractUnion<A, Tag, key>, Tag>) => A
 }
 ```
 

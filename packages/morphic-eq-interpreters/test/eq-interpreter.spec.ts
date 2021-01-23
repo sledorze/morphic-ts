@@ -1,7 +1,7 @@
 import * as chai from 'chai'
 import type { Either } from 'fp-ts/Either'
 import { left, right } from 'fp-ts/Either'
-import { fromEquals } from 'fp-ts/Eq'
+import { fromEquals, getStructEq } from 'fp-ts/Eq'
 import type { Option } from 'fp-ts/Option'
 import { none, some } from 'fp-ts/Option'
 import type { Newtype } from 'newtype-ts'
@@ -334,5 +334,86 @@ describe('Eq', () => {
     chai.assert.deepStrictEqual(eq.equals(n, n), true)
 
     chai.assert.deepStrictEqual(eq.equals(a1, b), false)
+  })
+
+  it('union', () => {
+    const A = summon(F => F.interface({ a: F.string(), b: F.number() }, 'A'))
+    const B = summon(F => F.interface({ c: F.string(), d: F.number() }, 'B'))
+
+    const AorB = summon(F =>
+      F.union([A(F), B(F)])([_ => ('a' in _ ? right(_) : left(_)), _ => ('c' in _ ? right(_) : left(_))], 'a')
+    )
+    const A1 = { a: 'a', b: 1 }
+    const A2 = { a: 'a', b: 2 }
+    const B1 = { c: 'a', d: 1 }
+
+    chai.assert.deepStrictEqual(AorB.eq.equals(A1, B1), false)
+    chai.assert.deepStrictEqual(AorB.eq.equals(A1, B1), false)
+
+    chai.assert.deepStrictEqual(AorB.eq.equals(A1, A2), false)
+    chai.assert.deepStrictEqual(AorB.eq.equals(A1, A1), true)
+  })
+
+  it('intersection is correctly configurable', () => {
+    const Foo = summon(F =>
+      F.intersection(
+        F.interface(
+          {
+            a: F.string()
+          },
+          'Foo'
+        ),
+        F.interface(
+          {
+            b: F.date()
+          },
+          'Bar'
+        )
+      )('Name', {
+        EqURI: (_c, _e, { equals: [eqA, eqB] }) => ({
+          equals: (a, b) => eqA.equals({ a: a.a }, { a: b.a }) && eqB.equals({ b: a.b }, { b: b.b })
+        })
+      })
+    )
+
+    const dateA = new Date(12345)
+    const dateB = new Date(54321)
+    chai.assert.isFalse(Foo.eq.equals({ a: '', b: dateA }, { a: 'x', b: dateA }))
+    chai.assert.isFalse(Foo.eq.equals({ a: '', b: dateA }, { a: '', b: dateB }))
+    chai.assert.isFalse(Foo.eq.equals({ a: 'x', b: dateA }, { a: '', b: dateB }))
+    chai.assert.isTrue(Foo.eq.equals({ a: 'x', b: dateA }, { a: 'x', b: dateA }))
+  })
+  it('configure is correctly mapped in interface', () => {
+    const Foo = summon(F =>
+      F.interface(
+        {
+          a: F.string({
+            EqURI: _ => ({
+              equals: (a, b) => true
+            })
+          })
+        },
+        'Foo'
+      )
+    )
+    chai.assert.isTrue(Foo.eq.equals({ a: 'a' }, { a: 'b' }))
+  })
+  it('configure is correctly mapped through configured interface', () => {
+    const Foo = summon(F =>
+      F.interface(
+        {
+          a: F.string({
+            EqURI: _ => ({
+              equals: (a, b) => true
+            })
+          })
+        },
+        'Foo',
+        {
+          EqURI: (c, e, { equals }) => getStructEq({ a: equals.a })
+        }
+      )
+    )
+    chai.assert.isTrue(Foo.eq.equals({ a: 'a' }, { a: 'b' }))
   })
 })

@@ -101,4 +101,21 @@ describe('Ord', () => {
     fc.property(fc.tuple(TArb.arb, TArb.arb), ([a, b]) => T.ord.compare(a, b) === ordering.invert(T.ord.compare(b, a)))
     fc.property(TArb.arb, a => T.ord.compare(a, a) === 0)
   })
+
+  it('union', () => {
+    const A = summon(F => F.string())
+    const B = summon(F => F.number())
+
+    const AorB = summon(F =>
+      F.union([A(F), B(F)])(
+        [_ => (typeof _ === 'string' ? right(_) : left(_)), _ => (typeof _ === 'number' ? right(_) : left(_))],
+        'a'
+      )
+    )
+    chai.assert.deepStrictEqual(AorB.ord.compare('a', 'a'), 0)
+    chai.assert.deepStrictEqual(AorB.ord.compare('a', 'b'), -1)
+    chai.assert.deepStrictEqual(AorB.ord.compare(2, 1), 1)
+    chai.assert.deepStrictEqual(AorB.ord.compare('a', 1), -1)
+    chai.assert.deepStrictEqual(AorB.ord.compare(1, 'a'), 1)
+  })
 })

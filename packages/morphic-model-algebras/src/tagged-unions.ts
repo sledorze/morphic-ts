@@ -19,6 +19,11 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 /**
  *  @since 0.0.1
  */
+export interface TaggedUnionConfig<Types> {}
+
+/**
+ *  @since 0.0.1
+ */
 type TaggedTypes<F extends URIS, X, R> = {
   [o in keyof X]: Kind<F, R, any, any>
 }
@@ -36,7 +41,7 @@ export interface ModelAlgebraTaggedUnions<F extends URIS, Env> {
       tag: Tag,
       types: Types,
       name: string,
-      config?: ConfigsForType<Env, PropsE<Types>, PropsA<Types>>
+      config?: ConfigsForType<Env, PropsE<Types>, PropsA<Types>, TaggedUnionConfig<Types>>
     ): Kind<F, Env, PropsE<Types>, PropsA<Types>>
   }
 }

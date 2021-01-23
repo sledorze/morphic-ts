@@ -1,3 +1,4 @@
+import type { Array } from '@morphic-ts/model-algebras/lib/types'
 import type { Option } from 'fp-ts/Option'
 import { fromNullable } from 'fp-ts/Option'
 import { Lens, Prism } from 'monocle-ts'
@@ -29,14 +30,14 @@ export const StringSchema = (x?: {
 /**
  *  @since 0.0.1
  */
-export interface EnumSchema extends DescriptionSchema {
+export interface EnumStringSchema extends DescriptionSchema {
   type: 'string'
-  enum: string[]
+  enum: Array<string>
 }
 /**
  *  @since 0.0.1
  */
-export const EnumSchema = (p: { enum: string[]; description?: string }): EnumSchema => ({
+export const EnumStringSchema = (p: { enum: Array<string>; description?: string }): EnumStringSchema => ({
   type: 'string',
   ...p
 })
@@ -44,8 +45,23 @@ export const EnumSchema = (p: { enum: string[]; description?: string }): EnumSch
 /**
  *  @since 0.0.1
  */
-export const isEnumSchema = (x: JSONSchema): x is EnumSchema =>
-  x.type === 'string' && Array.isArray((x as EnumSchema).enum)
+export interface EnumNumberSchema extends DescriptionSchema {
+  type: 'number'
+  enum: Array<number>
+}
+/**
+ *  @since 0.0.1
+ */
+export const EnumNumberSchema = (p: { enum: Array<number>; description?: string }): EnumNumberSchema => ({
+  type: 'number',
+  ...p
+})
+
+/**
+ *  @since 0.0.1
+ */
+export const isEnumSchema = (x: JSONSchema): x is EnumStringSchema | EnumNumberSchema =>
+  (x.type === 'string' || x.type === 'number') && Array.isArray((x as EnumStringSchema | EnumNumberSchema).enum)
 
 /**
  *  @since 0.0.1
@@ -86,13 +102,13 @@ export const BooleanSchema = (p: { description?: string }) => ({ type: 'boolean'
  */
 export interface ArraySchema extends DescriptionSchema {
   type: 'array'
-  items: SubSchema | SubSchema[]
+  items: SubSchema | Array<SubSchema>
 }
 /**
  *  @since 0.0.1
  */
 export const ArraySchema = (p: {
-  items: SubSchema | SubSchema[]
+  items: SubSchema | Array<SubSchema>
   description?: string
   minItems?: number
   maxItems?: number
@@ -118,10 +134,10 @@ export const Ref = ($ref: string): Ref => ({ $ref })
 export interface ObjectSchema extends DescriptionSchema {
   type?: 'object'
   description?: string
-  required?: string[]
+  required?: Array<string>
   properties?: Record<string, SubSchema>
   additionalProperties?: SubSchema
-  oneOf?: (ObjectSchema | Ref)[]
+  oneOf?: Array<ObjectSchema | Ref>
 }
 /**
  *  @since 0.0.1
@@ -132,9 +148,9 @@ export const objectSchemaOnRequired = Lens.fromProp<ObjectSchema>()('required')
  */
 export const ObjectSchema = (x: {
   description?: string
-  required?: string[]
+  required?: Array<string>
   properties?: Record<string, SubSchema>
-  oneOf?: (ObjectSchema | Ref)[]
+  oneOf?: Array<ObjectSchema | Ref>
 }): ObjectSchema => ({ type: 'object' as const, ...x })
 
 /**
@@ -173,18 +189,19 @@ export type JSONSchema =
   | BooleanSchema
   | ArraySchema
   | ObjectSchema
-  | (EnumSchema & { $schema?: string })
+  | ((EnumStringSchema | EnumNumberSchema) & { $schema?: string })
 
 /**
  *  @since 0.0.1
  */
 export const isTypeObject = (schema: JSONSchema | SubSchema): schema is ObjectSchema =>
+  // eslint-disable-next-line no-prototype-builtins
   !isTypeRef(schema) && (schema.type === 'object' || schema.hasOwnProperty('properties'))
 
 /**
  *  @since 0.0.1
  */
-export const getOneOf = (obj: ObjectSchema): Option<(ObjectSchema | Ref)[]> => fromNullable(obj.oneOf)
+export const getOneOf = (obj: ObjectSchema): Option<Array<ObjectSchema | Ref>> => fromNullable(obj.oneOf)
 
 /**
  *  @since 0.0.1
@@ -194,10 +211,12 @@ export const isTypeArray = (schema: JSONSchema | SubSchema): schema is ArraySche
 /**
  *  @since 0.0.1
  */
+// eslint-disable-next-line no-prototype-builtins
 export const isTypeRef = (schema: JSONSchema | SubSchema): schema is Ref => schema.hasOwnProperty('$ref')
 /**
  *  @since 0.0.1
  */
+// eslint-disable-next-line no-prototype-builtins
 export const isnotTypeRef = (schema: JSONSchema | SubSchema): schema is JSONSchema => !schema.hasOwnProperty('$ref')
 
 /**

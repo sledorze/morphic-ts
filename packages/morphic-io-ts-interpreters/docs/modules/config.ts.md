@@ -18,7 +18,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const iotsApplyConfig: <E, A, R>(config?: { IoTsURI?: GenConfig<Type<A, E, unknown>, R>; }) => GenConfig<Type<A, E, unknown>, R> = ...
+export const iotsApplyConfig: <E, A, R, K>(config?: { IoTsURI?: GenConfig<Type<A, E, unknown>, R, K>; }) => GenConfig<Type<A, E, unknown>, R, K> = ...
 ```
 
 Added in v0.0.1

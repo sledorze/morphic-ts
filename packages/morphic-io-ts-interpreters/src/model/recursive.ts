@@ -4,6 +4,7 @@ import type { ModelAlgebraRecursive } from '@morphic-ts/model-algebras/lib/recur
 import * as t from 'io-ts'
 
 import { IOTSType, IoTsURI } from '../hkt'
+import { iotsApplyConfig } from './../config'
 
 /**
  *  @since 0.0.1
@@ -11,6 +12,13 @@ import { IOTSType, IoTsURI } from '../hkt'
 export const ioTsRecursiveInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRecursive<IoTsURI, Env> => ({
     _F: IoTsURI,
-    recursive: lazyA => env => new IOTSType(t.recursion(`recursive`, Self => lazyA(_ => new IOTSType(Self))(env).type))
+    recursive: (lazyA, _name, config) => env =>
+      new IOTSType(
+        iotsApplyConfig(config)(
+          t.recursion(`recursive`, Self => lazyA(_ => new IOTSType(Self))(env).type),
+          env,
+          {}
+        )
+      )
   })
 )

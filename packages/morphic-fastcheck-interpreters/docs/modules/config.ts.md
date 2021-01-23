@@ -18,7 +18,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const fastCheckApplyConfig: <E, A, R>(config?: { FastCheckURI?: GenConfig<Arbitrary<A>, R>; }) => GenConfig<Arbitrary<A>, R> = ...
+export const fastCheckApplyConfig: <E, A, R, K>(config?: { FastCheckURI?: GenConfig<Arbitrary<A>, R, K>; }) => GenConfig<Arbitrary<A>, R, K> = ...
 ```
 
 Added in v0.0.1

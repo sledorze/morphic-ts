@@ -3,6 +3,15 @@ import { memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraIntersection } from '@morphic-ts/model-algebras/lib/intersections'
 
 import { ShowType, ShowURI } from '../hkt'
+import { showApplyConfig } from './../config'
+
+declare module '@morphic-ts/model-algebras/lib/intersections' {
+  export interface IntersectionConfig<L extends readonly unknown[], A extends readonly unknown[]> {
+    [ShowURI]: {
+      shows: IntersectionLA<L, A, ShowURI>
+    }
+  }
+}
 
 /**
  *  @since 0.0.1
@@ -10,11 +19,19 @@ import { ShowType, ShowURI } from '../hkt'
 export const showIntersectionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraIntersection<ShowURI, Env> => ({
     _F: ShowURI,
-    intersection: <A>(types: Array<(_: Env) => ShowType<A>>) => (env: Env) => {
-      const shows = types.map(getShow => getShow(env).show.show)
-      return new ShowType<A>({
-        show: (a: A) => shows.map(s => s(a)).join(' & ')
-      })
+    intersection: (...types) => (name, config) => (env: Env) => {
+      const shows = types.map(getShow => getShow(env).show)
+      return new ShowType(
+        showApplyConfig(config)(
+          {
+            show: a => shows.map(s => s.show(a)).join(' & ')
+          },
+          env,
+          {
+            shows
+          } as any
+        )
+      )
     }
   })
 )

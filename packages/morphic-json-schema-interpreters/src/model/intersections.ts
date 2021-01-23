@@ -8,14 +8,18 @@ import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { IntersectionTypeCtor } from '../json-schema/json-schema-ctors'
 import { arrayTraverseStateEither, registerSchema, resolveRef } from '../utils'
 
+declare module '@morphic-ts/model-algebras/lib/intersections' {
+  export interface IntersectionConfig<L extends readonly unknown[], A extends readonly unknown[]> {}
+}
+
 /**
  *  @since 0.0.1
  */
 export const jsonSchemaIntersectionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraIntersection<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    intersection: <A>(types: Array<(env: Env) => JsonSchema<A>>, name: string) => (env: Env) =>
-      new JsonSchema<A>(
+    intersection: (...types) => (name, config) => (env: Env) =>
+      new JsonSchema(
         pipe(
           arrayTraverseStateEither(types, getShema => getShema(env).schema),
           SEchain(schemas => arrayTraverseStateEither(schemas, resolveRef)),

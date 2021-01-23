@@ -9,6 +9,7 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [ModelAlgebraTaggedUnions (interface)](#modelalgebrataggedunions-interface)
+- [TaggedUnionConfig (interface)](#taggedunionconfig-interface)
 - [TaggedUnionsURI (type alias)](#taggedunionsuri-type-alias)
 - [TaggedUnionsURI (constant)](#taggedunionsuri-constant)
 
@@ -26,10 +27,20 @@ export interface ModelAlgebraTaggedUnions<F extends URIS, Env> {
       tag: Tag,
       types: Types,
       name: string,
-      config?: ConfigsForType<Env, PropsE<Types>, PropsA<Types>>
+      config?: ConfigsForType<Env, PropsE<Types>, PropsA<Types>, TaggedUnionConfig<Types>>
     ): Kind<F, Env, PropsE<Types>, PropsA<Types>>
   }
 }
+```
+
+Added in v0.0.1
+
+# TaggedUnionConfig (interface)
+
+**Signature**
+
+```ts
+export interface TaggedUnionConfig<Types> {}
 ```
 
 Added in v0.0.1

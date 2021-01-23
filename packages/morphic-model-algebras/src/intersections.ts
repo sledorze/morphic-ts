@@ -1,6 +1,7 @@
-import type { Kind, URIS } from '@morphic-ts/common/lib//HKT'
-import type { AnyEnv } from '@morphic-ts/common/lib/config'
-import type { OfType } from '@morphic-ts/common/lib/core'
+import type { ConfigTypeKind, ConfigTypeURIS, HKT, Kind, URIS } from '@morphic-ts/common/lib//HKT'
+import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
+import type { OfType, UnionToIntersection } from '@morphic-ts/common/lib/core'
+
 /**
  *  @since 0.0.1
  */
@@ -17,30 +18,84 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 }
 
 /**
+ * @since 0.0.1
+ */
+export interface IntersectionConfig<L extends readonly unknown[], A extends readonly unknown[]> {}
+
+/**
+ *  Map an Array of E and A to an Array of ConfigType for a particular URI
+ *  @since 0.0.1
+ */
+export type IntersectionLA<L extends readonly unknown[], A extends readonly unknown[], URI extends ConfigTypeURIS> = {
+  [k in keyof L]: k extends keyof A ? ConfigTypeKind<URI, L[k], A[k]> : never
+}
+
+/**
+ *  Map some Props to their ConfigTypes for a particular URI
+ *  @since 0.0.1
+ */
+export type InterfaceLA<Props, URI extends ConfigTypeURIS> = {
+  [k in keyof Props]: Props[k] extends HKT<infer R, infer E, infer A> ? ConfigTypeKind<URI, E, A> : never
+}
+
+/**
  *  @since 0.0.1
  */
 export interface ModelAlgebraIntersection<F extends URIS, Env extends AnyEnv> {
   _F: F
   intersection: {
-    <A, B, LA, LB>(types: [OfType<F, LA, A, Env>, OfType<F, LB, B, Env>], name: string): Kind<F, Env, LA & LB, A & B>
-    <A, B, C, LA, LB, LC, Env>(
-      types: [OfType<F, LA, A, Env>, OfType<F, LB, B, Env>, OfType<F, LC, C, Env>],
-      name: string
-    ): Kind<F, Env, LA & LB & LC, A & B & C>
-    <A, B, C, D, LA, LB, LC, LD>(
-      types: [OfType<F, LA, A, Env>, OfType<F, LB, B, Env>, OfType<F, LC, C, Env>, OfType<F, LD, D, Env>],
-      name: string
-    ): Kind<F, Env, LA & LB & LC & LD, A & B & C & D>
-    <A, B, C, D, E, LA, LB, LC, LD, LE, Env>(
-      types: [
-        OfType<F, LA, A, Env>,
-        OfType<F, LB, B, Env>,
-        OfType<F, LC, C, Env>,
-        OfType<F, LD, D, Env>,
-        OfType<F, LE, E, Env>
-      ],
-      name: string
-    ): Kind<F, Env, LA & LB & LC & LD & LE, A & B & C & D & E>
-    <L, A, Env>(types: Array<OfType<F, L, A, Env>>, name: string): Kind<F, Env, Array<L>, Array<A>>
+    <Types extends readonly OfType<F, any, any, Env>[]>(...types: Types): (
+      name: string,
+      config?: ConfigsForType<
+        Env,
+        UnionToIntersection<
+          {
+            [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>]
+              ? unknown extends LA
+                ? never
+                : LA
+              : never
+          }[number]
+        >,
+        UnionToIntersection<
+          {
+            [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>]
+              ? unknown extends A
+                ? never
+                : A
+              : never
+          }[number]
+        >,
+        IntersectionConfig<
+          {
+            [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>] ? LA : never
+          },
+          {
+            [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>] ? A : never
+          }
+        >
+      >
+    ) => Kind<
+      F,
+      Env,
+      UnionToIntersection<
+        {
+          [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>]
+            ? unknown extends LA
+              ? never
+              : LA
+            : never
+        }[number]
+      >,
+      UnionToIntersection<
+        {
+          [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>]
+            ? unknown extends A
+              ? never
+              : A
+            : never
+        }[number]
+      >
+    >
   }
 }

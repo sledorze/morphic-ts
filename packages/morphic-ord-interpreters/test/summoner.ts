@@ -8,6 +8,7 @@ import type { RefinedURI } from '@morphic-ts/model-algebras/lib/refined'
 import type { SetURI } from '@morphic-ts/model-algebras/lib/set'
 import type { StrMapURI } from '@morphic-ts/model-algebras/lib/str-map'
 import type { TaggedUnionsURI } from '@morphic-ts/model-algebras/lib/tagged-unions'
+import type { UnionsURI } from '@morphic-ts/model-algebras/lib/unions'
 import type {
   AnyConfigEnv,
   ExtractEnv,
@@ -45,7 +46,7 @@ export interface P<R extends AnyConfigEnv, E, A> extends InferredProgram<R, E, A
 declare module '@morphic-ts/summoners/lib/ProgramType' {
   interface ProgramAlgebraURI {
     [ProgramOrderableURI]: GetAlgebra<
-      PrimitiveURI | IntersectionURI | SetURI | StrMapURI | TaggedUnionsURI | NewtypeURI | RefinedURI
+      PrimitiveURI | IntersectionURI | SetURI | StrMapURI | TaggedUnionsURI | NewtypeURI | RefinedURI | UnionsURI
     >
   }
 

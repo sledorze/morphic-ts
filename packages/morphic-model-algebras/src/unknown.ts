@@ -24,7 +24,13 @@ declare module '@morphic-ts/algebras/lib/hkt' {
 /**
  *  @since 0.0.1
  */
+
+export interface UnknownConfig {}
+
+/**
+ *  @since 0.0.1
+ */
 export interface ModelAlgebraUnknown<F extends URIS, Env extends AnyEnv> {
   _F: F
-  unknown(config?: ConfigsForType<Env, unknown, unknown>): Kind<F, Env, unknown, unknown>
+  unknown(config?: ConfigsForType<Env, unknown, unknown, UnknownConfig>): Kind<F, Env, unknown, unknown>
 }

@@ -5,14 +5,14 @@ import { interpretable } from '../../src/index'
 import type { ADT } from '@morphic-ts/adt'
 // tslint:disable-next-line: no-duplicate-imports
 import { unionADT, intersectADT } from '@morphic-ts/adt'
-import type { Remove, ElemType, ExtractUnion } from '@morphic-ts/adt/lib/utils'
+import type { ElemType, ExtractUnion } from '@morphic-ts/adt/lib/utils'
 import { summonFor } from './summoner'
 
 type IsLiteralA = IfStringLiteral<'a', 'ok', 'string', 'notString'> // $ExpectType "ok"
 type IsLiteralString = IfStringLiteral<string, 'ok', 'string', 'notString'> // $ExpectType "string"
 type IsLiteralNumber = IfStringLiteral<number, 'ok', 'string', 'notString'> // $ExpectType "notString"
 
-type RemoveAFromAB = keyof Remove<{ a: number; b: string }, 'a'> // "b"
+type RemoveAFromAB = keyof Omit<{ a: number; b: string }, 'a'> // "b"
 
 interface Dummy {
   dummyValue: string

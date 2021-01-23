@@ -22,26 +22,18 @@ parent: Modules
 export interface ModelAlgebraUnions<F extends URIS, Env extends AnyEnv> {
   _F: F
   union: {
-    <A, B, LA, LB>(types: [OfType<F, LA, A, Env>, OfType<F, LB, B, Env>], name: string): Kind<F, Env, LA | LB, A | B>
-    <A, B, C, LA, LB, LC>(
-      types: [OfType<F, LA, A, Env>, OfType<F, LB, B, Env>, OfType<F, LC, C, Env>],
+    <Types extends readonly [Kind<F, Env, any, any>, ...Kind<F, Env, any, any>[]]>(types: Types): (
+      guards: {
+        [k in keyof Types]: (
+          _: {
+            [h in keyof Types]: Types[h] extends Kind<F, Env, infer E, infer A> ? A : never
+          }[number]
+        ) => Types[k] extends HKT<any, any, any>
+          ? Either<Exclude<Types[number]['_A'], Types[k]['_A']>, Types[k]['_A']>
+          : never
+      },
       name: string
-    ): Kind<F, Env, LA | LB | LC, A | B | C>
-    <A, B, C, D, LA, LB, LC, LD>(
-      types: [OfType<F, LA, A, Env>, OfType<F, LB, B, Env>, OfType<F, LC, C, Env>, OfType<F, LD, D, Env>],
-      name: string
-    ): Kind<F, Env, LA | LB | LC | LD, A | B | C | D>
-    <A, B, C, D, E, LA, LB, LC, LD, LE>(
-      types: [
-        OfType<F, LA, A, Env>,
-        OfType<F, LB, B, Env>,
-        OfType<F, LC, C, Env>,
-        OfType<F, LD, D, Env>,
-        OfType<F, LE, E, Env>
-      ],
-      name: string
-    ): Kind<F, Env, LA | LB | LC | LD | LE, A | B | C | D | E>
-    <L, A>(types: Array<OfType<F, L, A, Env>>, name: string): Kind<F, Env, Array<L>, Array<A>>
+    ) => Kind<F, Env, Types[number]['_E'], Types[number]['_A']>
   }
 }
 ```

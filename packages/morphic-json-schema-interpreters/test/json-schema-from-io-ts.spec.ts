@@ -82,10 +82,7 @@ describe('a json schema generator', function (this: any) {
 
   it('generate an interface from an intersection', () => {
     const Morph = summon(F =>
-      F.intersection(
-        [F.partial({ toto: F.number() }, 'Toto'), F.interface({ tata: F.number() }, 'Tata')],
-        'TotoAndTata'
-      )
+      F.intersection(F.partial({ toto: F.number() }, 'Toto'), F.interface({ tata: F.number() }, 'Tata'))('TotoAndTata')
     )
 
     const schema = Morph.jsonSchema
@@ -156,7 +153,7 @@ describe('a json schema generator', function (this: any) {
 
   it('encodes an intersection', () => {
     const Morph = summon(F =>
-      F.intersection([F.interface({ a: F.string() }, 'A'), F.interface({ b: F.number() }, 'B')], 'AB')
+      F.intersection(F.interface({ a: F.string() }, 'A'), F.interface({ b: F.number() }, 'B'))('AB')
     )
 
     const schema = Morph.jsonSchema

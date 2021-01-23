@@ -9,6 +9,8 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [ModelAlgebraRefined (interface)](#modelalgebrarefined-interface)
+- [PredicateConfig (interface)](#predicateconfig-interface)
+- [RefinedConfig (interface)](#refinedconfig-interface)
 - [RefinedURI (type alias)](#refineduri-type-alias)
 - [RefinedURI (constant)](#refineduri-constant)
 
@@ -25,9 +27,35 @@ export interface ModelAlgebraRefined<F extends URIS, Env extends AnyEnv> {
     a: Kind<F, Env, E, A>,
     refinement: Refinement<A, B>,
     name: string,
-    config?: ConfigsForType<Env, E, B>
+    config?: ConfigsForType<Env, E, B, RefinedConfig<E, A, B>>
   ): Kind<F, Env, E, B>
+  constrained<E, A>(
+    a: Kind<F, Env, E, A>,
+    predicate: Predicate<A>,
+    name: string,
+    config?: ConfigsForType<Env, E, A, PredicateConfig<E, A>>
+  ): Kind<F, Env, E, A>
 }
+```
+
+Added in v0.0.1
+
+# PredicateConfig (interface)
+
+**Signature**
+
+```ts
+export interface PredicateConfig<E, A> {}
+```
+
+Added in v0.0.1
+
+# RefinedConfig (interface)
+
+**Signature**
+
+```ts
+export interface RefinedConfig<E, A, B> {}
 ```
 
 Added in v0.0.1

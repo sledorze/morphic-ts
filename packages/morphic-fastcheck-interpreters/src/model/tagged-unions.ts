@@ -16,6 +16,6 @@ export const fastCheckTaggedUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraTaggedUnions<FastCheckURI, Env> => ({
     _F: FastCheckURI,
     taggedUnion: (_tag, dic, _name, config) => env =>
-      new FastCheckType(fastCheckApplyConfig(config)(oneof(...collect(dic, (_, getArb) => getArb(env).arb)), env))
+      new FastCheckType(fastCheckApplyConfig(config)(oneof(...collect(dic, (_, getArb) => getArb(env).arb)), env, {}))
   })
 )

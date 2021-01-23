@@ -13,6 +13,18 @@ import { ioTsTaggedUnionInterpreter } from './model/tagged-unions'
 import { ioTsUnionInterpreter } from './model/unions'
 import { ioTsUnknownInterpreter } from './model/unknown'
 
+export {} from './model/intersections'
+export {} from './model/newtype'
+export {} from './model/object'
+export {} from './model/primitives'
+export {} from './model/recursive'
+export {} from './model/refined'
+export {} from './model/set'
+export {} from './model/str-map'
+export {} from './model/tagged-unions'
+export {} from './model/unions'
+export {} from './model/unknown'
+
 export * from './hkt'
 
 /**

@@ -17,7 +17,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const modelEqInterpreter: <Env extends Partial<Readonly<Record<"EqURI", any>>>>() => ModelAlgebraRefined<"EqURI", Env> & ModelAlgebraNewtype<"EqURI", Env> & ModelAlgebraUnknown<"EqURI", Env> & ModelAlgebraPrimitive<"EqURI", Env> & ModelAlgebraIntersection<"EqURI", Env> & ModelAlgebraObject<"EqURI", Env> & ModelAlgebraTaggedUnions<"EqURI", Env> & ModelAlgebraRecursive<"EqURI", Env> & ModelAlgebraStrMap<"EqURI", Env> & ModelAlgebraSet<"EqURI", Env> = ...
+export const modelEqInterpreter: <Env extends Partial<Readonly<Record<"EqURI", any>>>>() => ModelAlgebraUnions<"EqURI", Env> & ModelAlgebraRefined<"EqURI", Env> & ModelAlgebraNewtype<"EqURI", Env> & ModelAlgebraUnknown<"EqURI", Env> & ModelAlgebraPrimitive<"EqURI", Env> & ModelAlgebraIntersection<"EqURI", Env> & ModelAlgebraObject<"EqURI", Env> & ModelAlgebraTaggedUnions<"EqURI", Env> & ModelAlgebraRecursive<"EqURI", Env> & ModelAlgebraStrMap<"EqURI", Env> & ModelAlgebraSet<"EqURI", Env> = ...
 ```
 
 Added in v0.0.1

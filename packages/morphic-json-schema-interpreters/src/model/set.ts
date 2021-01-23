@@ -4,8 +4,22 @@ import type { ModelAlgebraSet } from '@morphic-ts/model-algebras/lib/set'
 import { pipe } from 'fp-ts/pipeable'
 import { chainEitherK as SEchainEitherK } from 'fp-ts-contrib/lib/StateEither'
 
+import type { JsonSchemaResult } from '../hkt'
 import { JsonSchema, JsonSchemaURI } from '../hkt'
+import type { OptionalJSONSchema } from '../json-schema/json-schema-ctors'
 import { SetFromArrayTypeCtor } from '../json-schema/json-schema-ctors'
+import { jsonSchemaApplyConfig } from './../config'
+
+declare module '@morphic-ts/model-algebras/lib/set' {
+  /**
+   *  @since 0.0.1
+   */
+  export interface SetConfig<L, A> {
+    [JsonSchemaURI]: {
+      schema: JsonSchemaResult<OptionalJSONSchema>
+    }
+  }
+}
 
 /**
  *  @since 0.0.1
@@ -13,6 +27,13 @@ import { SetFromArrayTypeCtor } from '../json-schema/json-schema-ctors'
 export const jsonSchemaSetInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraSet<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    set: getSchema => env => new JsonSchema(pipe(getSchema(env).schema, SEchainEitherK(SetFromArrayTypeCtor)))
+    set: (getSchema, _name, config) => env =>
+      pipe(
+        getSchema(env).schema,
+        schema =>
+          new JsonSchema(
+            jsonSchemaApplyConfig(config)(pipe(schema, SEchainEitherK(SetFromArrayTypeCtor)), env, { schema })
+          )
+      )
   })
 )

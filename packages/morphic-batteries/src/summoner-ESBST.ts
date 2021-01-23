@@ -9,18 +9,20 @@ import {
 } from '@morphic-ts/io-ts-interpreters/lib/interpreters'
 import type { ShowURI } from '@morphic-ts/show-interpreters/lib/interpreters'
 import { modelShowInterpreter } from '@morphic-ts/show-interpreters/lib/interpreters'
+// eslint-disable-next-line import/no-duplicates
 import type * as U from '@morphic-ts/summoners'
+// eslint-disable-next-line import/no-duplicates
 import type { AnyConfigEnv, ExtractEnv, SummonerOps } from '@morphic-ts/summoners'
 import { makeSummoner } from '@morphic-ts/summoners'
 
 import type { ESBSTInterpreterURI } from './interpreters-ESBST'
-import type { ProgramNoUnionURI } from './program-no-union'
+import type { ProgramUnionURI } from './program'
 
 /** Type level override to keep Morph type name short */
 /**
  *  @since 0.0.1
  */
-export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramNoUnionURI, ESBSTInterpreterURI> {}
+export interface M<R, L, A> extends U.Materialized<R, L, A, ProgramUnionURI, ESBSTInterpreterURI> {}
 /**
  *  @since 0.0.1
  */
@@ -38,8 +40,8 @@ export const AsUOpaque = <A>() => <X extends UM<any, A>>(x: X): UM<X['_R'], A> =
 /**
  *  @since 0.0.1
  */
-export interface Summoner<R> extends U.Summoners<ProgramNoUnionURI, ESBSTInterpreterURI, R> {
-  <L, A>(F: U.ProgramType<R, L, A>[ProgramNoUnionURI]): M<R, L, A>
+export interface Summoner<R> extends U.Summoners<ProgramUnionURI, ESBSTInterpreterURI, R> {
+  <L, A>(F: U.ProgramType<R, L, A>[ProgramUnionURI]): M<R, L, A>
 }
 
 /**

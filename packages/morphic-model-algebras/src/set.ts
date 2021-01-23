@@ -1,4 +1,4 @@
-import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
 import type { Kind, URIS } from '@morphic-ts/common/lib/HKT'
 import type { Ord } from 'fp-ts/Ord'
 
@@ -13,6 +13,11 @@ export const SetURI = 'SetURI' as const
  */
 export type SetURI = typeof SetURI
 
+/**
+ *  @since 0.0.1
+ */
+export interface SetConfig<L, A> {}
+
 declare module '@morphic-ts/algebras/lib/hkt' {
   export interface Algebra<F extends URIS, Env extends AnyEnv> {
     [SetURI]: ModelAlgebraSet<F, Env>
@@ -24,5 +29,9 @@ declare module '@morphic-ts/algebras/lib/hkt' {
  */
 export interface ModelAlgebraSet<F extends URIS, Env extends AnyEnv> {
   _F: F
-  set: <L, A>(a: Kind<F, Env, L, A>, ord: Ord<A>) => Kind<F, Env, Array<L>, Set<A>>
+  set: <L, A>(
+    a: Kind<F, Env, L, A>,
+    ord: Ord<A>,
+    config?: ConfigsForType<Env, Array<L>, Set<A>, SetConfig<L, A>>
+  ) => Kind<F, Env, Array<L>, Set<A>>
 }

@@ -18,7 +18,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const ordApplyConfig: <E, A, R>(config?: { OrdURI?: GenConfig<Ord<A>, R>; }) => GenConfig<Ord<A>, R> = ...
+export const ordApplyConfig: <E, A, R, K>(config?: { OrdURI?: GenConfig<Ord<A>, R, K>; }) => GenConfig<Ord<A>, R, K> = ...
 ```
 
 Added in v0.0.1

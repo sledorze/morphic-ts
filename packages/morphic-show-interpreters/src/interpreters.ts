@@ -10,7 +10,20 @@ import { showRefinedInterpreter } from './model/refined'
 import { showSetInterpreter } from './model/set'
 import { showStrMapInterpreter } from './model/str-map'
 import { showTaggedUnionInterpreter } from './model/tagged-unions'
+import { showUnionInterpreter } from './model/unions'
 import { showUnknownInterpreter } from './model/unknown'
+
+export {} from './model/unions'
+export {} from './model/intersections'
+export {} from './model/newtype'
+export {} from './model/object'
+export {} from './model/primitives'
+export {} from './model/recursive'
+export {} from './model/refined'
+export {} from './model/set'
+export {} from './model/str-map'
+export {} from './model/tagged-unions'
+export {} from './model/unknown'
 
 export * from './hkt'
 
@@ -19,6 +32,7 @@ export * from './hkt'
  */
 const allModelShow = <Env extends AnyEnv>() =>
   merge(
+    showUnionInterpreter<Env>(),
     showRefinedInterpreter<Env>(),
     showNewtypeInterpreter<Env>(),
     showUnknownInterpreter<Env>(),

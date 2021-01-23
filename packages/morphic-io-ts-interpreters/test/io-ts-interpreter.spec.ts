@@ -77,6 +77,21 @@ describe('IO-TS', () => {
     chai.assert.deepStrictEqual(isLeft(result) && failure(result.left), ['not ok'])
   })
 
+  it('oneOfLiterals', () => {
+    const codec = summon(F => F.oneOfLiterals(['a', 1] as const)).type
+
+    chai.assert.deepStrictEqual(isLeft(codec.decode('baz')), true)
+    chai.assert.deepStrictEqual(isRight(codec.decode('a')), true)
+    const res = codec.decode(1)
+    chai.assert.deepStrictEqual(res, t.success(1 as const))
+    if (isLeft(res)) {
+      console.log('error: ', PathReporter.report(res))
+      chai.assert.deepStrictEqual(PathReporter.report(res), ['ok'])
+    }
+
+    chai.assert.deepStrictEqual(isLeft(codec.decode(2)), true)
+  })
+
   it('decode to newType', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
     const NT = summon(F => F.newtype<NT>('NT')(F.date()))
@@ -318,7 +333,13 @@ describe('IO-TS', () => {
 
   it('intersection', () => {
     // type Foo
-    const Foo = summon(F =>
+
+    interface Foo {
+      a: string
+      b: number
+    }
+
+    const Foo = summon<Foo, Foo>(F =>
       F.interface(
         {
           a: F.string(),
@@ -328,7 +349,11 @@ describe('IO-TS', () => {
       )
     )
 
-    const Bar = summon(F =>
+    interface Bar {
+      c: string
+      d: number
+    }
+    const Bar = summon<Bar, Bar>(F =>
       F.interface(
         {
           c: F.string(),
@@ -338,7 +363,7 @@ describe('IO-TS', () => {
       )
     )
 
-    const FooBar = summon(F => F.intersection([Foo(F), Bar(F)], 'FooBar'))
+    const FooBar = summon(F => F.intersection(Foo(F), Bar(F))('FooBar'))
 
     const codec = FooBar
 
@@ -354,7 +379,7 @@ describe('IO-TS', () => {
       a: string
       b: number
     }
-    const Foo = summon(F =>
+    const Foo = summon<Foo, Foo>(F =>
       F.interface(
         {
           a: F.string(),
@@ -368,7 +393,7 @@ describe('IO-TS', () => {
       c: string
       d: number
     }
-    const Bar = summon(F =>
+    const Bar = summon<Bar, Bar>(F =>
       F.interface(
         {
           c: F.string(),
@@ -378,7 +403,9 @@ describe('IO-TS', () => {
       )
     )
 
-    const FooBar = summon(F => F.union([Foo(F), Bar(F)], 'FooBar'))
+    const FooBar = summon(F =>
+      F.union([Foo(F), Bar(F)])([_ => ('a' in _ ? right(_) : left(_)), _ => ('c' in _ ? right(_) : left(_))], 'FooBar')
+    )
 
     const codec = FooBar
 

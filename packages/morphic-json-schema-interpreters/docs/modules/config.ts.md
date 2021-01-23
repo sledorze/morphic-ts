@@ -18,7 +18,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const jsonSchemaApplyConfig: <E, A, R>(config?: { JsonSchemaURI?: GenConfig<JsonSchemaResult<OptionalJSONSchema>, R>; }) => GenConfig<JsonSchemaResult<OptionalJSONSchema>, R> = ...
+export const jsonSchemaApplyConfig: <E, A, R, K>(config?: { JsonSchemaURI?: GenConfig<JsonSchemaResult<OptionalJSONSchema>, R, K>; }) => GenConfig<JsonSchemaResult<OptionalJSONSchema>, R, K> = ...
 ```
 
 Added in v0.0.1

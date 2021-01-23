@@ -1,5 +1,6 @@
 import type { ProgramType } from '@morphic-ts/summoners'
 import * as fc from 'fast-check'
+import { left, right } from 'fp-ts/lib/Either'
 import { ord, ordString } from 'fp-ts/Ord'
 import * as t from 'io-ts'
 import { either } from 'io-ts-types/lib/either'
@@ -182,7 +183,7 @@ describe('FastCheck interpreter', () => {
       )
     )
 
-    const FooBar = summon(F => F.intersection([Foo(F), Bar(F)], 'FooBar'))
+    const FooBar = summon(F => F.intersection(Foo(F), Bar(F))('FooBar'))
 
     testProgram(FooBar)
   })
@@ -235,7 +236,17 @@ describe('FastCheck interpreter', () => {
       )
     )
 
-    const FooBar = summon(F => F.union([Foo(F), Bar(F), Bara(F), Barb(F)], 'FooBar'))
+    const FooBar = summon(F =>
+      F.union([Foo(F), Bar(F), Bara(F), Barb(F)])(
+        [
+          _ => ('a' in _ ? right(_) : left(_)),
+          _ => ('c' in _ ? right(_) : left(_)),
+          _ => ('ca' in _ ? right(_) : left(_)),
+          _ => ('cb' in _ ? right(_) : left(_))
+        ],
+        'FooBar'
+      )
+    )
 
     testProgram(FooBar)
   })

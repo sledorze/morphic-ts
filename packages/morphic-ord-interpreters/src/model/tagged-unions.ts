@@ -33,7 +33,8 @@ export const ordTaggedUnionInterpreter = memo(
               return aTag === (b as any)[tag] ? equals[aTag](a, b) : false
             }
           },
-          env
+          env,
+          {}
         )
       )
     }

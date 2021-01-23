@@ -25,7 +25,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const arrayTraverseStateEither: <A, R, E, B>(ta: A[], f: (a: A) => StateEither<R, E, B>) => StateEither<R, E, B[]> = ...
+export const arrayTraverseStateEither: <A, R, E, B>(ta: readonly A[], f: (a: A) => StateEither<R, E, B>) => StateEither<R, E, readonly B[]> = ...
 ```
 
 Added in v0.0.1

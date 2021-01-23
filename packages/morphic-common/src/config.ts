@@ -1,4 +1,4 @@
-import type { Kind, URIS_ } from './HKT'
+import type { Kind, URIS, URIS_ } from './HKT'
 
 export {
   /**
@@ -22,8 +22,8 @@ export type AnyEnv = Partial<URISIndexedAny>
 /**
  *  @since 0.0.1
  */
-export interface GenConfig<A, R> {
-  (a: A, r: R): A
+export interface GenConfig<A, R, K> {
+  (a: A, r: R, k: K): A
 }
 
 /**
@@ -34,8 +34,8 @@ export type NoEnv = unknown
 /**
  *  @since 0.0.1
  */
-export type MapToGenConfig<R extends AnyEnv, T extends URISIndexedAny> = {
-  [k in URIS_]?: GenConfig<T[k], R[k]>
+export type MapToGenConfig<R extends AnyEnv, T extends URISIndexedAny, K> = {
+  [k in URIS_]?: GenConfig<T[k], R[k], ThreadURI<K, k>>
 }
 
 /**
@@ -50,14 +50,19 @@ export interface ConfigType<E, A> {
 /**
  *  @since 0.0.1
  */
-export type ConfigsForType<R extends AnyEnv, E, A> = MapToGenConfig<R, ConfigType<E, A>>
+export type ConfigsForType<R extends AnyEnv, E, A, K = {}> = MapToGenConfig<R, ConfigType<E, A>, K>
+
+/**
+ *  @since 0.0.1
+ */
+export type ThreadURI<C, URI extends URIS> = URI extends keyof C ? C[URI] : unknown
 
 /**
  *  @since 0.0.1
  */
 export const getApplyConfig: <Uri extends URIS_>(
   uri: Uri
-) => <E, A, R extends Record<typeof uri, any>>(
-  config?: { [k in Uri]?: GenConfig<ConfigType<E, A>[Uri], R> }
-) => GenConfig<ConfigType<E, A>[Uri], R> = uri => config => (a, r) =>
-  ((config && config[uri] ? config[uri] : <A>(a: A) => a) as any)(a, r[uri])
+) => <E, A, R extends Record<typeof uri, any>, K>(
+  config?: { [k in Uri]?: GenConfig<ConfigType<E, A>[Uri], R, K> }
+) => GenConfig<ConfigType<E, A>[Uri], R, K> = uri => config => (a, r, k) =>
+  ((config && config[uri] ? config[uri] : <A>(a: A) => a) as any)(a, r[uri], k)

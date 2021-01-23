@@ -1,6 +1,9 @@
 /**
  * @file Pattern stolen from fp-ts. Type defunctionalization (as describe in [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf))
  */
+
+import type { ConfigType } from './config'
+
 /**
  * `* -> * -> *` constructors
  * @since 0.0.1
@@ -40,3 +43,15 @@ export declare type URIS_ = Exclude<URIS, 'HKT'>
  * @since 0.0.1
  */
 export declare type Kind<URI extends URIS, R, E, A> = URItoKind<R, E, A>[URI]
+
+/**
+ * The URIS to Index ConfigType
+ * @since 0.0.1
+ */
+export type ConfigTypeURIS = keyof ConfigType<any, any>
+
+/**
+ * Helper to resolve a ConfigType for a particular URI(s)
+ * @since 0.0.1
+ */
+export type ConfigTypeKind<URI extends ConfigTypeURIS, E, A> = ConfigType<E, A>[URI]

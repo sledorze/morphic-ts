@@ -18,7 +18,8 @@ export const showTaggedUnionInterpreter = memo(
           {
             show: (a): string => shows[(a as any)[tag]](a as any)
           },
-          env
+          env,
+          {}
         )
       )
     }

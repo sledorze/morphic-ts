@@ -16,7 +16,7 @@ export const ioTsTaggedUnionInterpreter = memo(
     _F: IoTsURI,
     taggedUnion: (_tag, dic, name, config) => env =>
       new IOTSType(
-        iotsApplyConfig(config)(t.union(coerce(collect(dic, (_, getType) => getType(env).type)), name) as any, env)
+        iotsApplyConfig(config)(t.union(coerce(collect(dic, (_, getType) => getType(env).type)), name) as any, env, {})
       )
   })
 )

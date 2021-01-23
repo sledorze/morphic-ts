@@ -1,6 +1,6 @@
-import { array } from 'fp-ts/Array'
 import { fromOption } from 'fp-ts/Either'
 import { tuple } from 'fp-ts/function'
+import { readonlyArray } from 'fp-ts/lib/ReadonlyArray'
 import type { NonEmptyArray } from 'fp-ts/NonEmptyArray'
 import { of } from 'fp-ts/NonEmptyArray'
 import type { Option } from 'fp-ts/Option'
@@ -62,7 +62,7 @@ export const getSchemaStrict = (name: string): JsonSchemaResult<JSONSchema> =>
 /**
  *  @since 0.0.1
  */
-export const arrayTraverseStateEither = array.traverse(stateEither)
+export const arrayTraverseStateEither = readonlyArray.traverse(stateEither)
 
 /**
  *  @since 0.0.1
