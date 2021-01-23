@@ -11,6 +11,11 @@
 > - [Experimental]
 > - [Deprecation]
 
+## 3.0.0-alpha.8
+
+- **Internal**
+  - fix `Intersection` distributivity
+
 ## 3.0.0-alpha.7
 
 - **New Feature**
