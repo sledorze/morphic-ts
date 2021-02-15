@@ -556,7 +556,7 @@ describe('IO-TS', () => {
       SetInterfAType.type.encode(
         pipe(
           decoded,
-          getOrElse<Errors, Set<{ a: string }>>(() => {
+          getOrElse<Errors, ReadonlySet<{ a: string }>>(() => {
             throw new Error('bad')
           })
         )

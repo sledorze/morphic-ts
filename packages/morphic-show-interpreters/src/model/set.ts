@@ -3,7 +3,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraSet } from '@morphic-ts/model-algebras/lib/set'
 import { pipe } from 'fp-ts/function'
 import type { Show } from 'fp-ts/lib/Show'
-import { getShow as SgetShow } from 'fp-ts/Set'
+import { getShow as SgetShow } from 'fp-ts/ReadonlySet'
 
 import { ShowType, ShowURI } from '../hkt'
 import { showApplyConfig } from './../config'

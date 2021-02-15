@@ -3,7 +3,7 @@ import { memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraSet } from '@morphic-ts/model-algebras/lib/set'
 import { pipe } from 'fp-ts/function'
 import type { Eq } from 'fp-ts/lib/Eq'
-import { getEq as SgetEq } from 'fp-ts/Set'
+import { getEq as SgetEq } from 'fp-ts/ReadonlySet'
 
 import { eqApplyConfig } from '../config'
 import { EqType, EqURI } from '../hkt'
