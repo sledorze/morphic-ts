@@ -11,6 +11,11 @@
 > - [Experimental]
 > - [Deprecation]
 
+## 3.0.0-alpha.9
+
+- **Breaking Change**
+  - `set` is readlonly (@mbresson)
+
 ## 3.0.0-alpha.8
 
 - **Internal**
