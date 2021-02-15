@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/summoners",
-  "version": "3.0.0-alpha.7",
+  "version": "3.0.0-alpha.8",
   "description": "Morphic summoners package to create summoners",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -27,10 +27,10 @@
     "fp-ts": "^2.5.3"
   },
   "dependencies": {
-    "@morphic-ts/adt": "^3.0.0-alpha.3",
-    "@morphic-ts/algebras": "^3.0.0-alpha.5",
-    "@morphic-ts/common": "^3.0.0-alpha.5",
-    "@morphic-ts/model-algebras": "^3.0.0-alpha.7"
+    "@morphic-ts/adt": "^3.0.0-alpha.4",
+    "@morphic-ts/algebras": "^3.0.0-alpha.6",
+    "@morphic-ts/common": "^3.0.0-alpha.6",
+    "@morphic-ts/model-algebras": "^3.0.0-alpha.8"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
