@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/batteries",
-  "version": "3.0.0-alpha.10",
+  "version": "3.0.0-alpha.11",
   "description": "Morphic batteries package to bootstrap projects",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -37,17 +37,17 @@
     "newtype-ts": "^0.3.3"
   },
   "dependencies": {
-    "@morphic-ts/adt": "^3.0.0-alpha.5",
-    "@morphic-ts/algebras": "^3.0.0-alpha.7",
-    "@morphic-ts/common": "^3.0.0-alpha.7",
-    "@morphic-ts/eq-interpreters": "^3.0.0-alpha.10",
-    "@morphic-ts/fastcheck-interpreters": "^3.0.0-alpha.10",
-    "@morphic-ts/io-ts-interpreters": "^3.0.0-alpha.10",
-    "@morphic-ts/json-schema-interpreters": "^3.0.0-alpha.10",
-    "@morphic-ts/model-algebras": "^3.0.0-alpha.9",
-    "@morphic-ts/ord-interpreters": "^3.0.0-alpha.10",
-    "@morphic-ts/show-interpreters": "^3.0.0-alpha.10",
-    "@morphic-ts/summoners": "^3.0.0-alpha.9"
+    "@morphic-ts/adt": "^3.0.0-alpha.6",
+    "@morphic-ts/algebras": "^3.0.0-alpha.8",
+    "@morphic-ts/common": "^3.0.0-alpha.8",
+    "@morphic-ts/eq-interpreters": "^3.0.0-alpha.11",
+    "@morphic-ts/fastcheck-interpreters": "^3.0.0-alpha.11",
+    "@morphic-ts/io-ts-interpreters": "^3.0.0-alpha.11",
+    "@morphic-ts/json-schema-interpreters": "^3.0.0-alpha.11",
+    "@morphic-ts/model-algebras": "^3.0.0-alpha.10",
+    "@morphic-ts/ord-interpreters": "^3.0.0-alpha.11",
+    "@morphic-ts/show-interpreters": "^3.0.0-alpha.11",
+    "@morphic-ts/summoners": "^3.0.0-alpha.10"
   },
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
