@@ -457,8 +457,6 @@ const TrafficJamProof = Vehicle.exclude(['Car']) // ADT<Motorbike | Bicycle, "t
 
 const Faster = intersectADT(Motorized, TrafficJamProof) // ADT<Motorbike, "type">
 
-const Faster = intersectADT(Motorized, TrafficJamProof) // ADT<Motorbike, "type">
-
 const ManyChoice = unionADT(Motorized, TrafficJamProof) // ADT<Car  | Motorbike | Bicycle, "type">
 ```
 
