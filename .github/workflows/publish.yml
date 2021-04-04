@@ -28,7 +28,7 @@ jobs:
           lerna run jest --parallel
           lerna run docs --parallel
           cp .ci.npmrc .npmrc
-          lerna publish from-package --yes
+          lerna publish from-package --pre-dist-tag next --yes
         env:
           CI: 'true'
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
