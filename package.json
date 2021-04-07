@@ -11,7 +11,6 @@
     "test": "ultra -r test",
     "lint": "ultra -r lint",
     "fix-eslint": "eslint --fix --ext .ts ./packages",
-    "prepublishOnly": "yarn prettier --write \"./packages*/*/build/**/*.ts\"",
     "version:alpha": "lerna version prerelease --conventional-commits --preid=alpha",
     "version:preminor": "lerna version preminor --conventional-commits",
     "version:minor": "lerna version preminor --conventional-commits",

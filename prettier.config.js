@@ -11,7 +11,5 @@ module.exports = {
   bracketSpacing: true,
   cursorOffset: -1,
   insertPragma: false,
-  requirePragma: false,
-  trailingComma: 'none',
-  singleQuote: true
+  requirePragma: false
 }
