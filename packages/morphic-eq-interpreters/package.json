@@ -1,6 +1,6 @@
 {
   "name": "@morphic-ts/eq-interpreters",
-  "version": "3.0.0-alpha.11",
+  "version": "3.0.0",
   "description": "Morphic Eq (fp-ts) package for equality",
   "author": "Stéphane Le Dorze <stephane.ledorze@gmail.com>",
   "homepage": "",
@@ -21,13 +21,13 @@
     "es6"
   ],
   "dependencies": {
-    "@morphic-ts/algebras": "^3.0.0-alpha.8",
-    "@morphic-ts/common": "^3.0.0-alpha.8",
-    "@morphic-ts/model-algebras": "^3.0.0-alpha.10",
+    "@morphic-ts/algebras": "^3.0.0",
+    "@morphic-ts/common": "^3.0.0",
+    "@morphic-ts/model-algebras": "^3.0.0",
     "fast-equals": "^2.0.0"
   },
   "devDependencies": {
-    "@morphic-ts/summoners": "^3.0.0-alpha.10",
+    "@morphic-ts/summoners": "^3.0.0",
     "fp-ts": "^2.5.3",
     "io-ts": "^2.1.3",
     "io-ts-types": "^0.5.6",
