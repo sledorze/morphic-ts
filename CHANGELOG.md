@@ -11,6 +11,33 @@
 > - [Experimental]
 > - [Deprecation]
 
+## 3.0.0
+
+- **New Feature**
+  - `Intersection` can be configured
+  - `Interface`, `Partial`, `Both` can be configured
+  - `Newtype`  can be configured
+  - added `NewtypeIso`, `NewtypePrism` (which can be configured)
+  - `Refine`  can be configured
+  - added `Constrained` (which can be configured)
+  - `Set`, `StrMap`, `Record`, `Unknown` can be configured
+  - `Union` is parametrized with guards, enabling `Union` on `Eq`, `Ord` and `Show`
+  - add `a last param on config callbacks to easy customisation of 'container' types (either, array, etc..`
+  - add `numberLiteral`
+  - add `oneOfLiterals`
+  - add `optional`
+  - add `unknownE`
+  - add `mutable`
+- **Bug Fix**
+  - optional inference in constructor (favor `Omit` over `Remove`)
+- **Breaking Change**
+  - `Intersection` takes Morphs as parameters, no more in an Array. Also, it takes name and config as extra params (curried)
+  - `set` is readlonly (@mbresson)
+  - Remove `program-orderable` and `program-no-union`
+  - make `array`, `nonempty`, `interface`, `partial`, `both` readonly
+- **Internal**
+  - fix `Intersection` distributivity
+  - `Union` guard evaluation is optimized and relevant Ids are stored inside the Union Objects
 
 ## 3.0.0-alpha.10
 
