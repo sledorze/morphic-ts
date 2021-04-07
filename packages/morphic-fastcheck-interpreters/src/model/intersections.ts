@@ -1,7 +1,7 @@
 import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraIntersection } from '@morphic-ts/model-algebras/lib/intersections'
-import { genericTuple } from 'fast-check'
+import { tuple } from 'fast-check'
 
 import { FastCheckType, FastCheckURI } from '../hkt'
 import { fastCheckApplyConfig } from './../config'
@@ -24,7 +24,7 @@ export const fastCheckIntersectionInterpreter = memo(
       const arbs = items.map(getArb => getArb(env).arb)
       return new FastCheckType(
         fastCheckApplyConfig(config)(
-          genericTuple(arbs).map(all => Object.assign({}, ...all)),
+          tuple(...arbs).map(all => Object.assign({}, ...all)),
           env,
           {
             arbs
