@@ -11,6 +11,9 @@
 > - [Experimental]
 > - [Deprecation]
 
+This changelog is no more useful
+Each package has now an automated changelog from lerna's conventional commit support
+
 ## 3.0.0
 
 - **New Feature**

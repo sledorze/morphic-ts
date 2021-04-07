@@ -5,3 +5,4 @@ dev
 coverage
 __tests__
 .ultra.cache.json
+!.husky
