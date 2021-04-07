@@ -17,15 +17,20 @@
     "version:minor": "lerna version preminor --conventional-commits",
     "version:prepatch": "lerna version prepatch --conventional-commits",
     "version:patch": "lerna version patch --conventional-commits",
-    "version:graduate": "lerna version --conventional-commits --conventional-graduate"
+    "version:graduate": "lerna version --conventional-commits --conventional-graduate",
+    "postinstall": "husky install"
   },
   "devDependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "@commitlint/config-lerna-scopes": "^12.1.1",
     "@types/chai": "4.2.11",
     "@types/jest": "^26.0.19",
     "@types/node": "^14.14.37",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
     "chai": "^4.2.0",
+    "cz-conventional-changelog": "^3.3.0",
     "docs-ts": "^0.2.1",
     "dtslint": "github:gcanti/dtslint",
     "eslint": "^7.23.0",
@@ -41,6 +46,7 @@
     "fast-equals": "^2.0.0",
     "fp-ts": "^2.4.1",
     "fp-ts-contrib": "^0.1.15",
+    "husky": "^6.0.0",
     "import-path-rewrite": "github:mikearnaldi/import-path-rewrite",
     "io-ts": "^2.1.3",
     "io-ts-types": "^0.5.6",
@@ -64,6 +70,11 @@
     "hooks": {
       "pre-commit": "./ensure-deduplicate.sh",
       "pre-push": "./pre-push.sh"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
   }
 }
