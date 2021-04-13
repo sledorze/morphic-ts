@@ -16,6 +16,7 @@
     "version:minor": "lerna version preminor --conventional-commits",
     "version:prepatch": "lerna version prepatch --conventional-commits",
     "version:patch": "lerna version patch --conventional-commits",
+    "version:premajor": "lerna version premajor --conventional-commits --preid=alpha",
     "version:graduate": "lerna version --conventional-commits --conventional-graduate",
     "postinstall": "husky install"
   },
