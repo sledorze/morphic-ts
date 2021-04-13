@@ -80,9 +80,9 @@ interface C {
 
 const { summon, tagged } = summonFor<{}>({})
 
-const A = summon<ARaw, A>(F => F.interface({ type: F.stringLiteral('A'), a: F.string() }, 'A'))
-const B = summon<BRaw, B>(F => F.interface({ type: F.stringLiteral('B'), b: F.string() }, 'B'))
-const C = summon<CRaw, C>(F => F.interface({ type: F.stringLiteral('C'), c: F.string() }, 'C'))
+const A = summon<ARaw, A>(F => F.interface({ type: F.stringLiteral('A'), a: F.string() }, { name: 'A' }))
+const B = summon<BRaw, B>(F => F.interface({ type: F.stringLiteral('B'), b: F.string() }, { name: 'B' }))
+const C = summon<CRaw, C>(F => F.interface({ type: F.stringLiteral('C'), c: F.string() }, { name: 'C' }))
 
 // $ExpectType MorphADT<{ A: [ARaw, A]; B: [BRaw, B]; C: [CRaw, C]; }, "type", "ProgramUnionURI", "BASTJInterpreterURI", {}>
 const ABC = tagged('type')({
@@ -106,10 +106,10 @@ type EM = EOfMorphADT<typeof ABC>
 interpretable(ABC)(modelFastCheckInterpreter())
 
 // $ExpectType M<{}, Readonly<{ a: string; b: string; }>, Readonly<{ a: string; b: string; }>>
-summon(F => F.interface({ a: F.string(), b: F.string() }, 'A'))
+summon(F => F.interface({ a: F.string(), b: F.string() }, { name: 'A' }))
 
 // $ExpectType M<{}, Mutable<Readonly<{ a: string; b: string; }>>, Mutable<Readonly<{ a: string; b: string; }>>>
-summon(F => F.mutable(F.interface({ a: F.string(), b: F.string() }, 'A')))
+summon(F => F.mutable(F.interface({ a: F.string(), b: F.string() }, { name: 'A' })))
 
 // $ExpectType M<{}, string[], string[]>
 summon(F => F.mutable(F.array(F.string())))

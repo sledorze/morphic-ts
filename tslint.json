@@ -31,7 +31,7 @@
     "prefer-const": [true],
     "prefer-readonly": [true],
     "arrow-return-shorthand": [true, "multiline"],
-    "interface-over-type-literal": [true],
+    "interface-over-type-literal": [false],
     "no-angle-bracket-type-assertion": [true],
     "no-unnecessary-callback-wrapper": [true],
     "prefer-function-over-method": [true],

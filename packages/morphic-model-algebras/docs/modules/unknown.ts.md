@@ -23,7 +23,7 @@ parent: Modules
 ```ts
 export interface ModelAlgebraUnknown<F extends URIS, Env extends AnyEnv> {
   _F: F
-  unknown(config?: ConfigsForType<Env, unknown, unknown, UnknownConfig>): Kind<F, Env, unknown, unknown>
+  unknown(config?: Named<ConfigsForType<Env, unknown, unknown, UnknownConfig>>): Kind<F, Env, unknown, unknown>
 }
 ```
 

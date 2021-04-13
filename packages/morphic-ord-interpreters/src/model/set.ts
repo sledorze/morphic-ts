@@ -30,7 +30,8 @@ export const ordSetInterpreter = memo(
     set: (getOrd, ordA, config) => env =>
       pipe(
         getOrd(env).ord,
-        ord => new OrdType(ordApplyConfig(config)(ord_.contramap(AgetOrd(ord), toReadonlyArray(ordA)), env, { ord }))
+        ord =>
+          new OrdType(ordApplyConfig(config?.conf)(ord_.contramap(AgetOrd(ord), toReadonlyArray(ordA)), env, { ord }))
       )
   })
 )

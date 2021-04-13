@@ -13,6 +13,7 @@ parent: Modules
 - [AnyEnv (type alias)](#anyenv-type-alias)
 - [ConfigsForType (type alias)](#configsfortype-type-alias)
 - [MapToGenConfig (type alias)](#maptogenconfig-type-alias)
+- [Named (type alias)](#named-type-alias)
 - [NoEnv (type alias)](#noenv-type-alias)
 - [ThreadURI (type alias)](#threaduri-type-alias)
 - [URISIndexedAny (type alias)](#urisindexedany-type-alias)
@@ -74,6 +75,19 @@ Added in v0.0.1
 ```ts
 export type MapToGenConfig<R extends AnyEnv, T extends URISIndexedAny, K> = {
   [k in URIS_]?: GenConfig<T[k], R[k], ThreadURI<K, k>>
+}
+```
+
+Added in v0.0.1
+
+# Named (type alias)
+
+**Signature**
+
+```ts
+export type Named<A> = {
+  name?: string
+  conf?: A
 }
 ```
 

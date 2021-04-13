@@ -33,15 +33,18 @@ export const fastCheckNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype<FastCheckURI, Env> => ({
     _F: FastCheckURI,
     newtype: () => (getArb, config) => env =>
-      pipe(getArb(env).arb, arb => new FastCheckType(fastCheckApplyConfig(config)(arb, env, { arb }))),
-    newtypeIso: (iso, getArb, name, config) => env =>
-      pipe(getArb(env).arb, arb => new FastCheckType(fastCheckApplyConfig(config)(arb.map(iso.get), env, { arb }))),
-    newtypePrism: (prism, getArb, name, config) => env =>
+      pipe(getArb(env).arb, arb => new FastCheckType(fastCheckApplyConfig(config?.conf)(arb, env, { arb }))),
+    newtypeIso: (iso, getArb, config) => env =>
+      pipe(
+        getArb(env).arb,
+        arb => new FastCheckType(fastCheckApplyConfig(config?.conf)(arb.map(iso.get), env, { arb }))
+      ),
+    newtypePrism: (prism, getArb, config) => env =>
       pipe(
         getArb(env).arb,
         arb =>
           new FastCheckType(
-            fastCheckApplyConfig(config)(
+            fastCheckApplyConfig(config?.conf)(
               arb.filter(a => prism.getOption(a)._tag === 'Some').map(a => (prism.getOption(a) as Some<any>).value),
               env,
               { arb }

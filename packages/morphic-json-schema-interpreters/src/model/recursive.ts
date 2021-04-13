@@ -1,4 +1,4 @@
-import type { AnyEnv } from '@morphic-ts/common/lib/config'
+import type { AnyEnv, Named } from '@morphic-ts/common/lib/config'
 import { memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraRecursive } from '@morphic-ts/model-algebras/lib/recursive'
 import { of as NEof } from 'fp-ts/NonEmptyArray'
@@ -13,7 +13,7 @@ import {
 import { JsonSchema, JsonSchemaURI } from '../hkt'
 import { isnotTypeRef, Ref } from '../json-schema/json-schema'
 import { JsonSchemaError, notOptional } from '../json-schema/json-schema-ctors'
-import { addSchema, getSchemaStrict } from '../utils'
+import { addSchema, getName, getSchemaStrict } from '../utils'
 
 // FIXME: Create a reference JsonSchema => "$ref": "#/definitions/MySchemaRef" <- Track down how to do that!
 /**
@@ -24,21 +24,26 @@ export const jsonSchemaRecursiveInterpreter = memo(
     _F: JsonSchemaURI,
     recursive: <A>(
       rec: (x: (r: Env) => JsonSchema<A>) => (r: Env) => JsonSchema<A>,
-      name: string
+      config: Named<unknown> | undefined
     ): ((env: Env) => JsonSchema<A>) => {
       const cache = (env: Env) =>
         memo(() =>
           pipe(
-            rec(_env => new JsonSchema(SEstateEither.of(notOptional(Ref(name)))))(env).schema, // call `rec` definition with brand new Ref (named as per the recursion)
-            SEchain(_ =>
-              SEfromPredicate(
-                isnotTypeRef,
-                _ => NEof(JsonSchemaError('A type cannot be defined as a pure Ref')) // A Ref should not be resolved as another Ref
-              )(_.json)
-            ),
-            SEchain(addSchema(name)), // We add the newly created Schema to the dictionnary of Schemas
-            SEchain(_ => getSchemaStrict(name)), // We resolve it and refuse to fail doing it
-            SEmap(notOptional)
+            getName(config),
+            SEchain(name =>
+              pipe(
+                rec(_env => new JsonSchema(SEstateEither.of(notOptional(Ref(name)))))(env).schema, // call `rec` definition with brand new Ref (named as per the recursion)
+                SEchain(_ =>
+                  SEfromPredicate(
+                    isnotTypeRef,
+                    _ => NEof(JsonSchemaError('A type cannot be defined as a pure Ref')) // A Ref should not be resolved as another Ref
+                  )(_.json)
+                ),
+                SEchain(addSchema(name)), // We add the newly created Schema to the dictionnary of Schemas
+                SEchain(_ => getSchemaStrict(name)), // We resolve it and refuse to fail doing it
+                SEmap(notOptional)
+              )
+            )
           )
         )
       return env => new JsonSchema(cache(env)())

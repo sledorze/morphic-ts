@@ -19,8 +19,8 @@ const { summon } = summonFor<{ FastCheckURI: FastCheck }>({ FastCheckURI: { fc: 
 summon(F => {
   const res = F.interface(
     // $ExpectError
-    { a: F.string({ FastCheckURI: (x, e: FastCheck & { a: string }) => x }), b: F.string() },
-    'A'
+    { a: F.string({ conf: { FastCheckURI: (x, e: FastCheck & { a: string }) => x } }), b: F.string() },
+    { name: 'A' }
   )
   return res
 })
@@ -29,15 +29,17 @@ summon(F => {
   const res = F.interface(
     {
       a: F.string({
-        FastCheckURI: (x, e) => {
-          // $ExpectType Env["FastCheckURI"]
-          e
-          return x
+        conf: {
+          FastCheckURI: (x, e) => {
+            // $ExpectType Env["FastCheckURI"]
+            e
+            return x
+          }
         }
       }),
       b: F.string()
     },
-    'A'
+    { name: 'A' }
   )
   return res
 })
@@ -46,31 +48,35 @@ summon(F => {
 summon(F =>
   F.array(
     F.string({
-      FastCheckURI: (x, { fc }) => {
-        // $ExpecetType string
-        fc
-        return x
+      conf: {
+        FastCheckURI: (x, { fc }) => {
+          // $ExpecetType string
+          fc
+          return x
+        }
       }
     })
   )
 )
 
 // $ExpectError
-summon(F => F.array(F.string({ IoTsURI: (x, e: { t: typeof t }) => x })))
+summon(F => F.array(F.string({ conf: { IoTsURI: (x, e: { t: typeof t }) => x } })))
 
 // $ExpectType P<{ FastCheckURI: { x: string; }; }, string, string>
 defineFor(ProgramUnionURI)<{ FastCheckURI: { x: string } }>()(F =>
   // $ExpectError
-  F.string({ FastCheckURI: (_, env: FastCheck) => _ })
+  F.string({ conf: { FastCheckURI: (_, env: FastCheck) => _ } })
 )
 
 // $ExpectType P<{ FastCheckURI: FastCheck; }, string, string>
 defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F =>
   F.string({
-    FastCheckURI: (_, env) => {
-      // $ExpectType Env["FastCheckURI"]
-      env
-      return _
+    conf: {
+      FastCheckURI: (_, env) => {
+        // $ExpectType Env["FastCheckURI"]
+        env
+        return _
+      }
     }
   })
 )
@@ -78,44 +84,50 @@ defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F =>
 // $ExpectType P<{}, string, string>
 defineFor(ProgramUnionURI)<{}>()(F =>
   // $ExpectError
-  F.string({ FastCheckURI: (_, env: FastCheck) => _ })
+  F.string({ conf: { FastCheckURI: (_, env: FastCheck) => _ } })
 )
 
 // $ExpectType P<{ FastCheckURI: FastCheck; }, string, string>
-defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F => F.string({ FastCheckURI: (_, env: FastCheck) => _ }))
+defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F =>
+  F.string({ conf: { FastCheckURI: (_, env: FastCheck) => _ } })
+)
 
 // $ExpeectType P<{ FastCheckURI: FastCheck; }, string, string>
-const model = defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F => F.string({ FastCheckURI: (_, _env) => _ }))
+const model = defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F =>
+  F.string({ conf: { FastCheckURI: (_, _env) => _ } })
+)
 
 // $ExpectError
-defineFor(ProgramUnionURI)<{}>()(F => F.interface({ a: model(F), b: F.number() }, 'A'))
+defineFor(ProgramUnionURI)<{}>()(F => F.interface({ a: model(F), b: F.number() }, { name: 'A' }))
 
 // $ExpectType P<{ FastCheckURI: FastCheck; }, Readonly<{ a: string; b: number; }>, Readonly<{ a: string; b: number; }>>
-defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F => F.interface({ a: model(F), b: F.number() }, 'A'))
-
-defineFor(ProgramUnionURI)()(F =>
-  // $ExpectError
-  F.interface({ a: model(F) }, 'A')
+defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F =>
+  F.interface({ a: model(F), b: F.number() }, { name: 'A' })
 )
 
 defineFor(ProgramUnionURI)()(F =>
   // $ExpectError
-  F.interface({ b: F.number({ FastCheckURI: (_, env: FastCheck2) => _ }) }, 'A')
+  F.interface({ a: model(F) }, { name: 'A' })
+)
+
+defineFor(ProgramUnionURI)()(F =>
+  // $ExpectError
+  F.interface({ b: F.number({ conf: { FastCheckURI: (_, env: FastCheck2) => _ } }) }, { name: 'A' })
 )
 
 defineFor(ProgramUnionURI)<{}>()(F =>
   // $ExpectError
-  F.interface({ b: F.number({ FastCheckURI: (_, env: FastCheck2) => _ }) }, 'A')
+  F.interface({ b: F.number({ conf: { FastCheckURI: (_, env: FastCheck2) => _ } }) }, { name: 'A' })
 )
 
 defineFor(ProgramUnionURI)<{}>()(F =>
   // $ExpectError
-  F.interface({ b: F.number({ FastCheckURI: (_, env: FastCheck2) => _ }) }, 'A')
+  F.interface({ b: F.number({ conf: { FastCheckURI: (_, env: FastCheck2) => _ } }) }, { name: 'A' })
 )
 
 // $ExpectType P<{ FastCheckURI: FastCheck & FastCheck2; }, Readonly<{ a: string; b: number; }>, Readonly<{ a: string; b: number; }>>
 const prg = defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck & FastCheck2 }>()(F =>
-  F.interface({ a: model(F), b: F.number({ FastCheckURI: (_, env: FastCheck2) => _ }) }, 'A')
+  F.interface({ a: model(F), b: F.number({ conf: { FastCheckURI: (_, env: FastCheck2) => _ } }) }, { name: 'A' })
 )
 
 // $ExpectError

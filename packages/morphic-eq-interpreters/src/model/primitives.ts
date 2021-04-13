@@ -86,38 +86,39 @@ export const eqPrimitiveInterpreter = memo(
     _F: EqURI,
     date: config => env =>
       new EqType(
-        eqApplyConfig(config)(
+        eqApplyConfig(config?.conf)(
           eq.contramap(eqNumber, (date: Date) => date.getTime()),
           env,
           {}
         )
       ),
-    boolean: config => env => new EqType(eqApplyConfig(config)(eqBoolean, env, {})),
-    string: config => env => new EqType(eqApplyConfig(config)(eqString, env, {})),
-    number: config => env => new EqType(eqApplyConfig(config)(eqNumber, env, {})),
-    bigint: config => env => new EqType<bigint>(eqApplyConfig(config)(eqStrict, env, {})),
-    stringLiteral: (k, config) => env => new EqType<typeof k>(eqApplyConfig(config)(eqString, env, {})),
-    numberLiteral: (k, config) => env => new EqType<typeof k>(eqApplyConfig(config)(eqNumber, env, {})),
-    oneOfLiterals: (k, config) => env => new EqType<typeof k[number]>(eqApplyConfig(config)(eqStrict, env, {})),
-    tag: (k, config) => env => new EqType<typeof k>(eqApplyConfig(config)(eqString, env, {})),
-    keysOf: (keys, config) => env => new EqType<keyof typeof keys>(eqApplyConfig(config)(eqStrict, env, {})),
+    boolean: config => env => new EqType(eqApplyConfig(config?.conf)(eqBoolean, env, {})),
+    string: config => env => new EqType(eqApplyConfig(config?.conf)(eqString, env, {})),
+    number: config => env => new EqType(eqApplyConfig(config?.conf)(eqNumber, env, {})),
+    bigint: config => env => new EqType<bigint>(eqApplyConfig(config?.conf)(eqStrict, env, {})),
+    stringLiteral: (k, config) => env => new EqType<typeof k>(eqApplyConfig(config?.conf)(eqString, env, {})),
+    numberLiteral: (k, config) => env => new EqType<typeof k>(eqApplyConfig(config?.conf)(eqNumber, env, {})),
+    oneOfLiterals: (k, config) => env => new EqType<typeof k[number]>(eqApplyConfig(config?.conf)(eqStrict, env, {})),
+    tag: (k, config) => env => new EqType<typeof k>(eqApplyConfig(config?.conf)(eqString, env, {})),
+    keysOf: (keys, config) => env => new EqType<keyof typeof keys>(eqApplyConfig(config?.conf)(eqStrict, env, {})),
     nullable: (getType, config) => env =>
-      pipe(getType(env).eq, eq => new EqType(eqApplyConfig(config)(OgetEq(eq), env, { eq }))),
+      pipe(getType(env).eq, eq => new EqType(eqApplyConfig(config?.conf)(OgetEq(eq), env, { eq }))),
     optional: (getType, config) => env =>
-      pipe(getType(env).eq, eq => new EqType(eqApplyConfig(config)(getOptionalEq(eq), env, { eq }))),
+      pipe(getType(env).eq, eq => new EqType(eqApplyConfig(config?.conf)(getOptionalEq(eq), env, { eq }))),
     mutable: (getType, config) => env =>
-      pipe(getType(env).eq, eq => new EqType(eqApplyConfig(config)(eq, env, { eq }))),
+      pipe(getType(env).eq, eq => new EqType(eqApplyConfig(config?.conf)(eq, env, { eq }))),
     array: (getType, config) => env =>
-      pipe(getType(env).eq, eq => new EqType(eqApplyConfig(config)(AgetEq(eq), env, { eq }))),
+      pipe(getType(env).eq, eq => new EqType(eqApplyConfig(config?.conf)(AgetEq(eq), env, { eq }))),
     nonEmptyArray: (getType, config) => env =>
-      pipe(getType(env).eq, eq => new EqType(eqApplyConfig(config)(NEAgetEq(eq), env, { eq }))),
-    uuid: config => env => new EqType<UUID>(eqApplyConfig(config)(eqString, env, {})),
+      pipe(getType(env).eq, eq => new EqType(eqApplyConfig(config?.conf)(NEAgetEq(eq), env, { eq }))),
+    uuid: config => env => new EqType<UUID>(eqApplyConfig(config?.conf)(eqString, env, {})),
     either: (e, a, config) => env =>
-      ((left, right) => new EqType(eqApplyConfig(config)(EgetEq(left, right), env, { left, right })))(
+      ((left, right) => new EqType(eqApplyConfig(config?.conf)(EgetEq(left, right), env, { left, right })))(
         e(env).eq,
         a(env).eq
       ),
-    option: (a, config) => env => pipe(a(env).eq, eq => new EqType(eqApplyConfig(config)(OgetEq(eq), env, { eq }))),
-    unknownE: (a, config) => env => new EqType(eqApplyConfig(config)(a(env).eq, env, {}))
+    option: (a, config) => env =>
+      pipe(a(env).eq, eq => new EqType(eqApplyConfig(config?.conf)(OgetEq(eq), env, { eq }))),
+    unknownE: (a, config) => env => new EqType(eqApplyConfig(config?.conf)(a(env).eq, env, {}))
   })
 )

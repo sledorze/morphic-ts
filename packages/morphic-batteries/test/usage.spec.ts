@@ -18,20 +18,20 @@ const { summon: summonESBST } = summonESBSTFor<{}>({})
 
 describe('tagged', () => {
   it('Should be reused to create another Morph', () => {
-    const AType = summonBASTJ(F => F.interface({ type: F.stringLiteral('AType') }, 'AType'))
-    const BType = summonBASTJ(F => F.interface({ type: F.stringLiteral('BType') }, 'BType'))
+    const AType = summonBASTJ(F => F.interface({ type: F.stringLiteral('AType') }, { name: 'AType' }))
+    const BType = summonBASTJ(F => F.interface({ type: F.stringLiteral('BType') }, { name: 'BType' }))
     const tagged = makeTagged(summonBASTJ)
     const Union = tagged('type')({ AType, BType })
-    const Used = summonBASTJ(F => F.interface({ x: Union(F) }, 'Used'))
+    const Used = summonBASTJ(F => F.interface({ x: Union(F) }, { name: 'Used' }))
     chai.assert.deepStrictEqual(isRight(Used.jsonSchema), true)
   })
 
   it('Should infer E in addition of A when be used into another Morph', () => {
-    const AType = summonBASTJ(F => F.interface({ type: F.stringLiteral('AType') }, 'AType'))
-    const BType = summonBASTJ(F => F.interface({ type: F.stringLiteral('BType') }, 'BType'))
+    const AType = summonBASTJ(F => F.interface({ type: F.stringLiteral('AType') }, { name: 'AType' }))
+    const BType = summonBASTJ(F => F.interface({ type: F.stringLiteral('BType') }, { name: 'BType' }))
     const tagged = makeTagged(summonBASTJ)
     const Union = tagged('type')({ AType, BType })
-    const Used = summonBASTJ(F => F.interface({ x: Union(F) }, 'Used'))
+    const Used = summonBASTJ(F => F.interface({ x: Union(F) }, { name: 'Used' }))
     const v = Used.build({ x: { type: 'AType' } })
     const x: { x: { type: string } } = Used.type.encode(v) // Would error if Output type not inferred correctly
     chai.assert.deepStrictEqual(x, v)
@@ -39,7 +39,7 @@ describe('tagged', () => {
   })
 
   it('Can constraint A type param', () => {
-    const CType = summonBASTJ(F => F.interface({ tag: F.stringLiteral('CType') }, 'CType'))
+    const CType = summonBASTJ(F => F.interface({ tag: F.stringLiteral('CType') }, { name: 'CType' }))
     const Action = <E, P>(_p: MBASTJ<{}, E, P & { type?: never }>): void => undefined
     Action(CType) // Should not become red
   })
@@ -63,9 +63,9 @@ describe('tagged', () => {
     interface CRawType {
       type: string
     }
-    const AType = summonBASTJ<ARawType, AType>(F => F.interface({ type: F.stringLiteral('AType') }, 'AType'))
-    const BType = summonBASTJ<BRawType, BType>(F => F.interface({ type: F.stringLiteral('BType') }, 'BType'))
-    const CType = summonBASTJ<CRawType, CType>(F => F.interface({ type: F.stringLiteral('CType') }, 'CType'))
+    const AType = summonBASTJ<ARawType, AType>(F => F.interface({ type: F.stringLiteral('AType') }, { name: 'AType' }))
+    const BType = summonBASTJ<BRawType, BType>(F => F.interface({ type: F.stringLiteral('BType') }, { name: 'BType' }))
+    const CType = summonBASTJ<CRawType, CType>(F => F.interface({ type: F.stringLiteral('CType') }, { name: 'CType' }))
 
     const a = AType.build({ type: 'AType' })
     const b = BType.build({ type: 'BType' })
@@ -99,7 +99,7 @@ describe('tagged', () => {
         {
           a: T(F)
         },
-        'R'
+        { name: 'R' }
       )
     )
     chai.assert.deepStrictEqual(
@@ -110,7 +110,9 @@ describe('tagged', () => {
 
   it('can fully be reinterpreted with an interpreter', () => {
     interface NT extends Newtype<{ readonly NT: unique symbol }, Date> {}
-    const Thing = summonESBASTJ(F => F.interface({ date: F.newtype<NT>('NT')(F.date()), name: F.string() }, 'Thing'))
+    const Thing = summonESBASTJ(F =>
+      F.interface({ date: F.newtype<NT>()(F.date(), { name: 'NT' }), name: F.string() }, { name: 'Thing' })
+    )
 
     const date = new Date(2020, 2, 20, 2, 20, 20)
     const show = interpretable(Thing)(modelShowInterpreter<{}>())({}).show
@@ -127,7 +129,7 @@ describe('Morph ESBST', () => {
           name: F.string(),
           birthdate: F.date()
         },
-        'Person'
+        { name: 'Person' }
       )
     )
     const PersonARB = Person.derive(modelFastCheckInterpreter<{}>())({})

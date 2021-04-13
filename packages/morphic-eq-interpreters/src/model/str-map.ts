@@ -36,10 +36,11 @@ export const eqStrMapInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraStrMap<EqURI, Env> => ({
     _F: EqURI,
     strMap: (getCodomain, config) => env =>
-      pipe(getCodomain(env).eq, eq => new EqType(eqApplyConfig(config)(RgetEq(eq), env, { eq }))),
+      pipe(getCodomain(env).eq, eq => new EqType(eqApplyConfig(config?.conf)(RgetEq(eq), env, { eq }))),
     record: (getDomain, getCodomain, config) => env =>
       // domain is always comparable (this is handled by record Eq)
-      ((domainEq, codomainEq) => new EqType(eqApplyConfig(config)(RgetEq(codomainEq), env, { domainEq, codomainEq })))(
+      ((domainEq, codomainEq) =>
+        new EqType(eqApplyConfig(config?.conf)(RgetEq(codomainEq), env, { domainEq, codomainEq })))(
         getDomain(env).eq,
         getCodomain(env).eq
       )

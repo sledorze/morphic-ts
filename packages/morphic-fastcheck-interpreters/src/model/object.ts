@@ -43,10 +43,10 @@ declare module '@morphic-ts/model-algebras/lib/object' {
 export const fastCheckObjectInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraObject<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    partial: (props, _name, config) => env => {
+    partial: (props, config) => env => {
       const arbs = projectFieldWithEnv(props as any, env)('arb')
       return new FastCheckType(
-        fastCheckApplyConfig(config)(
+        fastCheckApplyConfig(config?.conf)(
           record(arbs, {
             withDeletedKeys: true
           }) as any,
@@ -55,15 +55,15 @@ export const fastCheckObjectInterpreter = memo(
         )
       )
     },
-    interface: (props, _name, config) => env => {
+    interface: (props, config) => env => {
       const arbs = projectFieldWithEnv(props as any, env)('arb')
-      return new FastCheckType(fastCheckApplyConfig(config)(record(arbs) as any, env, { arbs } as any))
+      return new FastCheckType(fastCheckApplyConfig(config?.conf)(record(arbs) as any, env, { arbs } as any))
     },
-    both: (props, partial, _name, config) => env => {
+    both: (props, partial, config) => env => {
       const arbs = projectFieldWithEnv(props, env)('arb')
       const partialArbs = projectFieldWithEnv(partial, env)('arb')
       return new FastCheckType(
-        fastCheckApplyConfig(config)(
+        fastCheckApplyConfig(config?.conf)(
           record(arbs as any).chain(p =>
             record(partialArbs as any, { withDeletedKeys: true }).map(pp => ({ ...p, ...pp }))
           ) as any,

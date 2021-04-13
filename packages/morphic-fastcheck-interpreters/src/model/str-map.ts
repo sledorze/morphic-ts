@@ -44,13 +44,13 @@ export const fastCheckStrMapInterpreter = memo(
         codomain(env).arb,
         arb =>
           new FastCheckType(
-            fastCheckApplyConfig(config)(FCArray(tuple(string(), arb)).map(strmapFromArray()), env, { arb })
+            fastCheckApplyConfig(config?.conf)(FCArray(tuple(string(), arb)).map(strmapFromArray()), env, { arb })
           )
       ),
     record: (domain, codomain, config) => env =>
       ((domainArb, codomainArb) =>
         new FastCheckType(
-          fastCheckApplyConfig(config)(FCArray(tuple(domainArb, codomainArb)).map(strmapFromArray()), env, {
+          fastCheckApplyConfig(config?.conf)(FCArray(tuple(domainArb, codomainArb)).map(strmapFromArray()), env, {
             domainArb,
             codomainArb
           })

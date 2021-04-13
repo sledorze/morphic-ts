@@ -38,24 +38,20 @@ Added in v0.0.1
 ```ts
 export interface ModelAlgebraNewtype<F extends URIS, Env> {
   _F: F
-  newtype<N extends AnyNewtype = never>(
-    name: string
-  ): <E>(
+  newtype<N extends AnyNewtype = never>(): <E>(
     a: Kind<F, Env, E, NewtypeA<N>>,
-    config?: ConfigsForType<Env, E, N, NewtypeConfig<E, NewtypeA<N>, N>>
+    config?: Named<ConfigsForType<Env, E, N, NewtypeConfig<E, NewtypeA<N>, N>>>
   ) => Kind<F, Env, E, N>
   newtypeIso<E, A, N extends Newtype<any, A>>(
     iso: Iso<A, N>,
     a: Kind<F, Env, E, A>,
-    name: string,
-    config?: ConfigsForType<Env, E, N, IsoConfig<E, A, N>>
+    config?: Named<ConfigsForType<Env, E, N, IsoConfig<E, A, N>>>
   ): Kind<F, Env, E, N>
   newtypePrism: {
     <E, A, N extends Newtype<any, A>>(
       prism: Prism<A, N>,
       a: Kind<F, Env, E, A>,
-      name: string,
-      config?: ConfigsForType<Env, E, N, PrismConfig<E, A, N>>
+      config?: Named<ConfigsForType<Env, E, N, PrismConfig<E, A, N>>>
     ): Kind<F, Env, E, N>
   }
 }

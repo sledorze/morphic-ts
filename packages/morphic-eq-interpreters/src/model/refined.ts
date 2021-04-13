@@ -33,9 +33,9 @@ declare module '@morphic-ts/model-algebras/lib/refined' {
 export const eqRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined<EqURI, Env> => ({
     _F: EqURI,
-    refined: (getEq, _ref, _name, config) => env =>
-      pipe(getEq(env).eq, eq => new EqType(eqApplyConfig(config)(eq, env, { eq }))),
-    constrained: (getEq, _ref, _name, config) => env =>
-      pipe(getEq(env).eq, eq => new EqType(eqApplyConfig(config)(eq, env, { eq })))
+    refined: (getEq, _ref, config) => env =>
+      pipe(getEq(env).eq, eq => new EqType(eqApplyConfig(config?.conf)(eq, env, { eq }))),
+    constrained: (getEq, _ref, config) => env =>
+      pipe(getEq(env).eq, eq => new EqType(eqApplyConfig(config?.conf)(eq, env, { eq })))
   })
 )

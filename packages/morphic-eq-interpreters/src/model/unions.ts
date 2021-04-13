@@ -2,6 +2,7 @@ import type { AnyEnv } from '@morphic-ts/common/lib/config'
 import { getGuardId, memo } from '@morphic-ts/common/lib/utils'
 import type { ModelAlgebraUnions } from '@morphic-ts/model-algebras/lib/unions'
 
+import { eqApplyConfig } from './../config'
 import { EqType, EqURI } from './../hkt'
 
 /**
@@ -10,18 +11,24 @@ import { EqType, EqURI } from './../hkt'
 export const eqUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnions<EqURI, Env> => ({
     _F: EqURI,
-    union: items => (guards, _name) => (env: Env) => {
+    union: (...items) => (guards, config) => (env: Env) => {
       const items_ = items.map(_ => _(env).eq.equals)
       const guardId = getGuardId(guards as any, Symbol())
-      return new EqType({
-        equals: (a, b) => {
-          if (a === b) {
-            return true
-          }
-          const iA = guardId(a)
-          return iA === guardId(b) && items_[iA](a, b)
-        }
-      })
+      return new EqType(
+        eqApplyConfig(config?.conf)(
+          {
+            equals: (a, b) => {
+              if (a === b) {
+                return true
+              }
+              const iA = guardId(a)
+              return iA === guardId(b) && items_[iA](a, b)
+            }
+          },
+          env,
+          {}
+        )
+      )
     }
   })
 )

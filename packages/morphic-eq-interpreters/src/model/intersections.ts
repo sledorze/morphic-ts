@@ -20,10 +20,10 @@ declare module '@morphic-ts/model-algebras/lib/intersections' {
 export const eqIntersectionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraIntersection<EqURI, Env> => ({
     _F: EqURI,
-    intersection: (...types) => (_name, config) => (env: Env) => {
+    intersection: (...types) => config => (env: Env) => {
       const equals = types.map(getEq => getEq(env).eq)
       return new EqType(
-        eqApplyConfig(config)(
+        eqApplyConfig(config?.conf)(
           {
             equals: (a, b) => fold(monoidAll)(equals.map(eq => eq.equals(a, b))) // TODO: optimize
           },

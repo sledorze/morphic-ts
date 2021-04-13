@@ -26,6 +26,6 @@ export const eqSetInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraSet<EqURI, Env> => ({
     _F: EqURI,
     set: (getEq, _ord, config) => env =>
-      pipe(getEq(env).eq, eq => new EqType(eqApplyConfig(config)(SgetEq(eq), env, { eq })))
+      pipe(getEq(env).eq, eq => new EqType(eqApplyConfig(config?.conf)(SgetEq(eq), env, { eq })))
   })
 )

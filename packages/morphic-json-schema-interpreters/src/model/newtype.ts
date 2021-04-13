@@ -33,10 +33,10 @@ export const jsonSchemaNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
     newtype: () => (getJson, config) => env =>
-      pipe(getJson(env).schema, schema => new JsonSchema(jsonSchemaApplyConfig(config)(schema, env, { schema }))),
-    newtypeIso: (iso, getJson, name, config) => env =>
-      pipe(getJson(env).schema, schema => new JsonSchema(jsonSchemaApplyConfig(config)(schema, env, { schema }))),
-    newtypePrism: (prism, getJson, name, config) => env =>
-      pipe(getJson(env).schema, schema => new JsonSchema(jsonSchemaApplyConfig(config)(schema, env, { schema })))
+      pipe(getJson(env).schema, schema => new JsonSchema(jsonSchemaApplyConfig(config?.conf)(schema, env, { schema }))),
+    newtypeIso: (iso, getJson, config) => env =>
+      pipe(getJson(env).schema, schema => new JsonSchema(jsonSchemaApplyConfig(config?.conf)(schema, env, { schema }))),
+    newtypePrism: (prism, getJson, config) => env =>
+      pipe(getJson(env).schema, schema => new JsonSchema(jsonSchemaApplyConfig(config?.conf)(schema, env, { schema })))
   })
 )

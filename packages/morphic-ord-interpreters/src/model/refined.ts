@@ -33,9 +33,9 @@ declare module '@morphic-ts/model-algebras/lib/refined' {
 export const ordRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined<OrdURI, Env> => ({
     _F: OrdURI,
-    refined: (getOrd, _ref, _name, config) => env =>
-      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config)(ord, env, { ord }))),
-    constrained: (getOrd, _ref, _name, config) => env =>
-      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config)(ord, env, { ord })))
+    refined: (getOrd, _ref, config) => env =>
+      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config?.conf)(ord, env, { ord }))),
+    constrained: (getOrd, _ref, config) => env =>
+      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config?.conf)(ord, env, { ord })))
   })
 )

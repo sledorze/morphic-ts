@@ -26,6 +26,6 @@ export const showSetInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraSet<ShowURI, Env> => ({
     _F: ShowURI,
     set: (getShow, _ord, config) => env =>
-      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config)(SgetShow(show), env, { show })))
+      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config?.conf)(SgetShow(show), env, { show })))
   })
 )

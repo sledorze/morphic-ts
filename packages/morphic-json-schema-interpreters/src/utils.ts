@@ -1,3 +1,4 @@
+import type { Named } from '@morphic-ts/common/lib/config'
 import { fromOption } from 'fp-ts/Either'
 import { tuple } from 'fp-ts/function'
 import { readonlyArray } from 'fp-ts/lib/ReadonlyArray'
@@ -12,8 +13,10 @@ import {
   chain,
   fromOption as SEfromOption,
   gets,
+  left as SELeft,
   map as SEmap,
   modify,
+  right as SERight,
   stateEither
 } from 'fp-ts-contrib/lib/StateEither'
 
@@ -21,13 +24,22 @@ import type { JsonSchemaResult, NamedSchemas } from './hkt'
 import type { JSONSchema, SubSchema } from './json-schema/json-schema'
 import { isTypeRef, Ref } from './json-schema/json-schema'
 import type { OptionalJSONSchema } from './json-schema/json-schema-ctors'
-import { JsonSchemaError, makeOptional } from './json-schema/json-schema-ctors'
+import { JsonSchemaError, makeOptional, notOptional } from './json-schema/json-schema-ctors'
 
 /**
  *  @since 0.0.1
  */
 export const addSchema = (name: string) => (schema: JSONSchema): JsonSchemaResult<void> =>
   modify<NamedSchemas>(insertAt(name, schema))
+
+/**
+ *  @since 0.0.1
+ */
+export const addNotOptionalNamedSchemaAndRef = (name: string, schema: JSONSchema) =>
+  pipe(
+    addSchema(name)(schema),
+    SEmap(_ => notOptional(Ref(name)))
+  )
 
 /**
  *  @since 0.0.1
@@ -96,3 +108,13 @@ export const resolveSchema = ([{ json }, dic]: [OptionalJSONSchema, NamedSchemas
     map(j => tuple(j, dic)),
     fromOption(() => of(JsonSchemaError('cannot resolve ref ')))
   )
+
+/**
+ *  @since 0.0.1
+ */
+export const getName = <T>(
+  config: Named<T> | undefined
+): StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, string> => {
+  const name = config?.name
+  return name === undefined ? SELeft(of(JsonSchemaError('Type lacks a proper name'))) : SERight(name)
+}

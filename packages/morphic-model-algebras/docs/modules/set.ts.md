@@ -25,7 +25,7 @@ export interface ModelAlgebraSet<F extends URIS, Env extends AnyEnv> {
   set: <L, A>(
     a: Kind<F, Env, L, A>,
     ord: Ord<A>,
-    config?: ConfigsForType<Env, Array<L>, ReadonlySet<A>, SetConfig<L, A>>
+    config?: Named<ConfigsForType<Env, Array<L>, ReadonlySet<A>, SetConfig<L, A>>>
   ) => Kind<F, Env, Array<L>, ReadonlySet<A>>
 }
 ```

@@ -15,7 +15,7 @@ const { summon } = summonFor<{}>({})
 
 describe('Empty', () => {
   it('has non strict io-ts', () => {
-    const A = summon(F => F.interface({ a: F.string(), b: F.string() }, 'A'))
+    const A = summon(F => F.interface({ a: F.string(), b: F.string() }, { name: 'A' }))
     const ACodec = A.derive(modelIoTsNonStrictInterpreter())({})
 
     chai.assert.deepStrictEqual(ACodec.type.decode({ a: 'a', b: 'b', c: 'c' }), right({ a: 'a', b: 'b', c: 'c' }))
@@ -26,7 +26,7 @@ describe('Empty', () => {
     } as any)
   })
   it('has a strict io-ts', () => {
-    const A = summon(F => F.interface({ a: F.string(), b: F.string() }, 'A'))
+    const A = summon(F => F.interface({ a: F.string(), b: F.string() }, { name: 'A' }))
     const ACodec = A.derive(modelIoTsStrictInterpreter())({})
     chai.assert.deepStrictEqual(ACodec.type.decode({ a: 'a', b: 'b', c: 'c' }), right({ a: 'a', b: 'b' }))
     chai.assert.deepStrictEqual(ACodec.type.encode({ a: 'a', b: 'b', c: 'c' } as any), { a: 'a', b: 'b' })
@@ -41,7 +41,9 @@ describe('Empty', () => {
 
     const A = summon(F =>
       F.string({
-        IoTsURI: StringLessThan(2)
+        conf: {
+          IoTsURI: StringLessThan(2)
+        }
       })
     )
     const ACodec = A.derive(modelIoTsStrictInterpreter())({})

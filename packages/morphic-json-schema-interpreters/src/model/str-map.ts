@@ -41,14 +41,16 @@ export const jsonSchemaStrMapInterpreter = memo(
       pipe(
         getSchema(env).schema,
         schema =>
-          new JsonSchema(jsonSchemaApplyConfig(config)(pipe(schema, SEchainEitherK(StrMapTypeCtor)), env, { schema }))
+          new JsonSchema(
+            jsonSchemaApplyConfig(config?.conf)(pipe(schema, SEchainEitherK(StrMapTypeCtor)), env, { schema })
+          )
       ),
     record: (getDomainSchema, getCodomainSchema, config) => env =>
       pipe(
         [getDomainSchema(env).schema, getCodomainSchema(env).schema],
         ([domainSchema, codomainSchema]) =>
           new JsonSchema(
-            jsonSchemaApplyConfig(config)(pipe(codomainSchema, SEchainEitherK(StrMapTypeCtor)), env, {
+            jsonSchemaApplyConfig(config?.conf)(pipe(codomainSchema, SEchainEitherK(StrMapTypeCtor)), env, {
               domainSchema,
               codomainSchema
             })

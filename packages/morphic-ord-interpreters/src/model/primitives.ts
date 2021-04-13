@@ -94,51 +94,55 @@ export const ordPrimitiveInterpreter = memo(
     _F: OrdURI,
     date: config => env =>
       new OrdType(
-        ordApplyConfig(config)(
+        ordApplyConfig(config?.conf)(
           ord.contramap(ordNumber, date => date.getTime()),
           env,
           {}
         )
       ),
-    boolean: config => env => new OrdType(ordApplyConfig(config)(ordBoolean, env, {})),
-    string: config => env => new OrdType(ordApplyConfig(config)(ordString, env, {})),
-    number: config => env => new OrdType(ordApplyConfig(config)(ordNumber, env, {})),
+    boolean: config => env => new OrdType(ordApplyConfig(config?.conf)(ordBoolean, env, {})),
+    string: config => env => new OrdType(ordApplyConfig(config?.conf)(ordString, env, {})),
+    number: config => env => new OrdType(ordApplyConfig(config?.conf)(ordNumber, env, {})),
     bigint: config => env =>
       new OrdType<bigint>(
-        ordApplyConfig(config)({ equals: eqStrict.equals, compare: (x, y) => (x < y ? -1 : x > y ? 1 : 0) }, env, {})
+        ordApplyConfig(config?.conf)(
+          { equals: eqStrict.equals, compare: (x, y) => (x < y ? -1 : x > y ? 1 : 0) },
+          env,
+          {}
+        )
       ),
-    stringLiteral: (k, config) => env => new OrdType<typeof k>(ordApplyConfig(config)(ordString, env, {})),
-    numberLiteral: (k, config) => env => new OrdType<typeof k>(ordApplyConfig(config)(ordNumber, env, {})),
+    stringLiteral: (k, config) => env => new OrdType<typeof k>(ordApplyConfig(config?.conf)(ordString, env, {})),
+    numberLiteral: (k, config) => env => new OrdType<typeof k>(ordApplyConfig(config?.conf)(ordNumber, env, {})),
     oneOfLiterals: (k, config) => env =>
-      new OrdType<typeof k[number]>(ordApplyConfig(config)(ordNumberOrString, env, {})),
-    tag: (k, config) => env => new OrdType<typeof k>(ordApplyConfig(config)(ordString, env, {})),
+      new OrdType<typeof k[number]>(ordApplyConfig(config?.conf)(ordNumberOrString, env, {})),
+    tag: (k, config) => env => new OrdType<typeof k>(ordApplyConfig(config?.conf)(ordString, env, {})),
     keysOf: (keys, config) => env =>
       new OrdType<keyof typeof keys>(
-        ordApplyConfig(config)(
+        ordApplyConfig(config?.conf)(
           ord.contramap(ordString, k => k as string),
           env,
           {}
         )
       ),
     nullable: (getOrd, config) => env =>
-      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config)(OgetOrd(ord), env, { ord }))),
+      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config?.conf)(OgetOrd(ord), env, { ord }))),
     optional: (getOrd, config) => env =>
-      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config)(ordUndefinedOf(ord), env, { ord }))),
+      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config?.conf)(ordUndefinedOf(ord), env, { ord }))),
     mutable: (getOrd, config) => env =>
-      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config)(ord, env, { ord }))),
+      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config?.conf)(ord, env, { ord }))),
     array: (getOrd, config) => env =>
-      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config)(getArrayOrd(ord), env, { ord }))),
+      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config?.conf)(getArrayOrd(ord), env, { ord }))),
     nonEmptyArray: (getOrd, config) => env =>
-      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config)(getArrayOrd(ord), env, { ord }))),
-    uuid: config => env => new OrdType(ordApplyConfig(config)(ordString, env, {})),
+      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config?.conf)(getArrayOrd(ord), env, { ord }))),
+    uuid: config => env => new OrdType(ordApplyConfig(config?.conf)(ordString, env, {})),
     either: (e, a, config) => env =>
-      ((left, right) => new OrdType(ordApplyConfig(config)(getEitherOrd(left, right), env, { left, right })))(
+      ((left, right) => new OrdType(ordApplyConfig(config?.conf)(getEitherOrd(left, right), env, { left, right })))(
         e(env).ord,
         a(env).ord
       ),
     option: (a, config) => env =>
-      pipe(a(env).ord, ord => new OrdType(ordApplyConfig(config)(OgetOrd(ord), env, { ord }))),
-    unknownE: (a, config) => env => new OrdType(ordApplyConfig(config)(a(env).ord, env, {}))
+      pipe(a(env).ord, ord => new OrdType(ordApplyConfig(config?.conf)(OgetOrd(ord), env, { ord }))),
+    unknownE: (a, config) => env => new OrdType(ordApplyConfig(config?.conf)(a(env).ord, env, {}))
   })
 )
 

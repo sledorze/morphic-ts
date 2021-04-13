@@ -20,9 +20,11 @@ declare module '@morphic-ts/model-algebras/lib/intersections' {
 export const ioTsIntersectionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraIntersection<IoTsURI, Env> => ({
     _F: IoTsURI,
-    intersection: (...items) => (name, config) => env => {
+    intersection: (...items) => config => env => {
       const codecs = items.map(x => x(env).type)
-      return new IOTSType(iotsApplyConfig(config)(t.intersection(codecs as any, name), env, { codecs } as any))
+      return new IOTSType(
+        iotsApplyConfig(config?.conf)(t.intersection(codecs as any, config?.name), env, { codecs } as any)
+      )
     }
   })
 )

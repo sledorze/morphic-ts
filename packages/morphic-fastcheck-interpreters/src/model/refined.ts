@@ -33,12 +33,15 @@ declare module '@morphic-ts/model-algebras/lib/refined' {
 export const fastCheckRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    refined: (getArb, ref, _name, config) => env =>
-      pipe(getArb(env).arb, arb => new FastCheckType(fastCheckApplyConfig(config)(arb.filter(ref), env, { arb }))),
-    constrained: (getArb, ref, _name, config) => env =>
+    refined: (getArb, ref, config) => env =>
       pipe(
         getArb(env).arb,
-        arb => new FastCheckType(fastCheckApplyConfig(config)(getArb(env).arb.filter(ref), env, { arb }))
+        arb => new FastCheckType(fastCheckApplyConfig(config?.conf)(arb.filter(ref), env, { arb }))
+      ),
+    constrained: (getArb, ref, config) => env =>
+      pipe(
+        getArb(env).arb,
+        arb => new FastCheckType(fastCheckApplyConfig(config?.conf)(getArb(env).arb.filter(ref), env, { arb }))
       )
   })
 )

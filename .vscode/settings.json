@@ -2,14 +2,7 @@
   "typescript.tsdk": "./node_modules/typescript/lib",
   "prettier.configPath": "./prettier.config.js",
   "editor.tabCompletion": "onlySnippets",
-  "cSpell.words": [
-    "ADTs",
-    "Greenkeeper",
-    "Morphic's",
-    "Reinterpreter",
-    "combinator",
-    "combinators"
-  ],
+  "cSpell.words": ["ADTs", "Greenkeeper", "Morphic's", "Reinterpreter", "combinator", "combinators"],
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
 
   "editor.cursorStyle": "block",
@@ -66,12 +59,7 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
   },
-  "prettier.disableLanguages": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "prettier.disableLanguages": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "eslint.validate": ["markdown", "javascript", "typescript"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true

@@ -35,12 +35,14 @@ export const ioTsStrMapInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraStrMap<IoTsURI, Env> => ({
     _F: IoTsURI,
     strMap: (codomain, config) => env =>
-      pipe(codomain(env).type, type => new IOTSType(iotsApplyConfig(config)(t.record(t.string, type), env, { type }))),
+      pipe(
+        codomain(env).type,
+        type => new IOTSType(iotsApplyConfig(config?.conf)(t.record(t.string, type), env, { type }))
+      ),
     record: (domain, codomain, config) => env =>
       ((domainType, codomainType) =>
-        new IOTSType(iotsApplyConfig(config)(t.record(domainType, codomainType), env, { domainType, codomainType })))(
-        domain(env).type,
-        codomain(env).type
-      )
+        new IOTSType(
+          iotsApplyConfig(config?.conf)(t.record(domainType, codomainType), env, { domainType, codomainType })
+        ))(domain(env).type, codomain(env).type)
   })
 )

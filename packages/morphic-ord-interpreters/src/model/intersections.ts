@@ -26,13 +26,13 @@ declare module '@morphic-ts/model-algebras/lib/intersections' {
 export const ordIntersectionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraIntersection<OrdURI, Env> => ({
     _F: OrdURI,
-    intersection: (...types) => (_name, config) => env => {
+    intersection: (...types) => config => env => {
       const { concat } = getMonoid<any>()
       const empty = equalsOrd()
       const ords = types.map(t => t(env).ord)
       const allOrd = ords.reduce(concat, empty)
       return new OrdType(
-        ordApplyConfig(config)(allOrd, env, {
+        ordApplyConfig(config?.conf)(allOrd, env, {
           ords
         } as any)
       )

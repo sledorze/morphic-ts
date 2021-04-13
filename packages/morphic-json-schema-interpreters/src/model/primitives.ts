@@ -95,31 +95,37 @@ export const jsonSchemaPrimitiveInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraPrimitive<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
     date: config => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(StringTypeCtor({ format: 'date' })), env, {})),
+      new JsonSchema(
+        jsonSchemaApplyConfig(config?.conf)(SEstateEither.of(StringTypeCtor({ format: 'date' })), env, {})
+      ),
     string: config => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(StringTypeCtor({})), env, {})),
-    number: config => env => new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(NumberTypeCtor()), env, {})),
+      new JsonSchema(jsonSchemaApplyConfig(config?.conf)(SEstateEither.of(StringTypeCtor({})), env, {})),
+    number: config => env =>
+      new JsonSchema(jsonSchemaApplyConfig(config?.conf)(SEstateEither.of(NumberTypeCtor()), env, {})),
     bigint: config => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(StringTypeCtor({ format: 'bigint' })), env, {})),
+      new JsonSchema(
+        jsonSchemaApplyConfig(config?.conf)(SEstateEither.of(StringTypeCtor({ format: 'bigint' })), env, {})
+      ),
     boolean: config => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(BooleanTypeCtor()), env, {})),
+      new JsonSchema(jsonSchemaApplyConfig(config?.conf)(SEstateEither.of(BooleanTypeCtor()), env, {})),
     stringLiteral: (v, config) => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(LiteralStringTypeCtor(v)), env, {})),
+      new JsonSchema(jsonSchemaApplyConfig(config?.conf)(SEstateEither.of(LiteralStringTypeCtor(v)), env, {})),
     numberLiteral: (v, config) => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(LiteralNumberTypeCtor(v)), env, {})),
+      new JsonSchema(jsonSchemaApplyConfig(config?.conf)(SEstateEither.of(LiteralNumberTypeCtor(v)), env, {})),
     oneOfLiterals: (v, config) => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(LiteralStringTypeCtor(`${v}`)), env, {})), // TODO: This is a lie
-    tag: (v, config) => env => new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(TagTypeCtor(v)), env, {})),
+      new JsonSchema(jsonSchemaApplyConfig(config?.conf)(SEstateEither.of(LiteralStringTypeCtor(`${v}`)), env, {})), // TODO: This is a lie
+    tag: (v, config) => env =>
+      new JsonSchema(jsonSchemaApplyConfig(config?.conf)(SEstateEither.of(TagTypeCtor(v)), env, {})),
     keysOf: (_keys, config) => env =>
       new JsonSchema(
-        jsonSchemaApplyConfig(config)(SEstateEither.of(StringTypeCtor({ enum: Object.keys(_keys) })), env, {})
+        jsonSchemaApplyConfig(config?.conf)(SEstateEither.of(StringTypeCtor({ enum: Object.keys(_keys) })), env, {})
       ),
     nullable: (getSchema, config) => env =>
       pipe(
         getSchema(env).schema,
         schema =>
           new JsonSchema(
-            jsonSchemaApplyConfig(config)(
+            jsonSchemaApplyConfig(config?.conf)(
               SEstateEither.map(schema, v => optional(v.json)),
               env,
               { schema }
@@ -131,7 +137,7 @@ export const jsonSchemaPrimitiveInterpreter = memo(
         getSchema(env).schema,
         schema =>
           new JsonSchema(
-            jsonSchemaApplyConfig(config)(
+            jsonSchemaApplyConfig(config?.conf)(
               SEstateEither.map(schema, v => optional(v.json)),
               env,
               { schema }
@@ -139,13 +145,16 @@ export const jsonSchemaPrimitiveInterpreter = memo(
           )
       ),
     mutable: (getSchema, config) => env =>
-      pipe(getSchema(env).schema, schema => new JsonSchema(jsonSchemaApplyConfig(config)(schema, env, { schema }))),
+      pipe(
+        getSchema(env).schema,
+        schema => new JsonSchema(jsonSchemaApplyConfig(config?.conf)(schema, env, { schema }))
+      ),
     array: (getSchema, config) => env =>
       pipe(
         getSchema(env).schema,
         schema =>
           new JsonSchema(
-            jsonSchemaApplyConfig(config)(
+            jsonSchemaApplyConfig(config?.conf)(
               SEstateEither.chain(schema, schemas => SEfromEither(ArrayTypeCtor({ schemas }))),
               env,
               { schema }
@@ -157,7 +166,7 @@ export const jsonSchemaPrimitiveInterpreter = memo(
         getSchema(env).schema,
         schema =>
           new JsonSchema(
-            jsonSchemaApplyConfig(config)(
+            jsonSchemaApplyConfig(config?.conf)(
               SEstateEither.chain(schema, schemas => SEfromEither(ArrayTypeCtor({ schemas, minItems: 1 }))),
               env,
               { schema }
@@ -165,10 +174,12 @@ export const jsonSchemaPrimitiveInterpreter = memo(
           )
       ),
     uuid: config => env =>
-      new JsonSchema(jsonSchemaApplyConfig(config)(SEstateEither.of(StringTypeCtor({ format: 'uuid' })), env, {})),
+      new JsonSchema(
+        jsonSchemaApplyConfig(config?.conf)(SEstateEither.of(StringTypeCtor({ format: 'uuid' })), env, {})
+      ),
     either: (e, a, config) => env =>
       new JsonSchema(
-        jsonSchemaApplyConfig(config)(
+        jsonSchemaApplyConfig(config?.conf)(
           Do(SEstateEither)
             .bind('e', e(env).schema)
             .bind('a', a(env).schema)
@@ -199,7 +210,7 @@ export const jsonSchemaPrimitiveInterpreter = memo(
         getSchema(env).schema,
         schema =>
           new JsonSchema(
-            jsonSchemaApplyConfig(config)(
+            jsonSchemaApplyConfig(config?.conf)(
               SEstateEither.chain(schema, v => SEfromEither(UnionTypeCtor([None, GetSome(v)]))),
               env,
               { schema }
@@ -211,7 +222,7 @@ export const jsonSchemaPrimitiveInterpreter = memo(
         getSchema(env).schema,
         schema =>
           new JsonSchema(
-            jsonSchemaApplyConfig(config)(
+            jsonSchemaApplyConfig(config?.conf)(
               SEstateEither.chain(getSchema(env).schema, v => SEfromEither(UnionTypeCtor([None, GetSome(v)]))),
               env,
               { schema }

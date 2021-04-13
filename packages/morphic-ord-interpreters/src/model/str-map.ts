@@ -42,13 +42,13 @@ export const ordStrMapInterpreter = memo(
         getCodomain(env).ord,
         ord =>
           new OrdType(
-            ordApplyConfig(config)(ord_.contramap(AgetOrd(getTupleOrd(ordString, ord)), RtoArray), env, { ord })
+            ordApplyConfig(config?.conf)(ord_.contramap(AgetOrd(getTupleOrd(ordString, ord)), RtoArray), env, { ord })
           )
       ),
     record: (getDomain, getCodomain, config) => env =>
       ((domainOrd, codomainOrd) =>
         new OrdType(
-          ordApplyConfig(config)(ord_.contramap(AgetOrd(getTupleOrd(domainOrd, codomainOrd)), RtoArray), env, {
+          ordApplyConfig(config?.conf)(ord_.contramap(AgetOrd(getTupleOrd(domainOrd, codomainOrd)), RtoArray), env, {
             domainOrd,
             codomainOrd
           })

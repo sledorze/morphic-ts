@@ -11,10 +11,10 @@ import { EqType, EqURI } from '../hkt'
 export const eqRecursiveInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRecursive<EqURI, Env> => ({
     _F: EqURI,
-    recursive: (a, _name, config) => {
+    recursive: (a, config) => {
       const get = memo(() => a(res))
       const res: ReturnType<typeof a> = env =>
-        new EqType(eqApplyConfig(config)({ equals: (a, b) => get()(env).eq.equals(a, b) }, env, {}))
+        new EqType(eqApplyConfig(config?.conf)({ equals: (a, b) => get()(env).eq.equals(a, b) }, env, {}))
       return res
     }
   })

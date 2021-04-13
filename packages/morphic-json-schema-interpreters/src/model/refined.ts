@@ -34,9 +34,15 @@ declare module '@morphic-ts/model-algebras/lib/refined' {
 export const jsonSchemaRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    refined: (getJsonSchema, _ref, _name, config) => env =>
-      pipe(getJsonSchema(env).schema, schema => new JsonSchema(jsonSchemaApplyConfig(config)(schema, env, { schema }))),
-    constrained: (getJsonSchema, _ref, _name, config) => env =>
-      pipe(getJsonSchema(env).schema, schema => new JsonSchema(jsonSchemaApplyConfig(config)(schema, env, { schema })))
+    refined: (getJsonSchema, _ref, config) => env =>
+      pipe(
+        getJsonSchema(env).schema,
+        schema => new JsonSchema(jsonSchemaApplyConfig(config?.conf)(schema, env, { schema }))
+      ),
+    constrained: (getJsonSchema, _ref, config) => env =>
+      pipe(
+        getJsonSchema(env).schema,
+        schema => new JsonSchema(jsonSchemaApplyConfig(config?.conf)(schema, env, { schema }))
+      )
   })
 )

@@ -29,7 +29,7 @@ export const fastCheckSetInterpreter = memo(
     set: (a, ord, config) => env =>
       pipe(
         a(env).arb,
-        arb => new FastCheckType(fastCheckApplyConfig(config)(set(arb).map(fromArray(ord)), env, { arb }))
+        arb => new FastCheckType(fastCheckApplyConfig(config?.conf)(set(arb).map(fromArray(ord)), env, { arb }))
       )
   })
 )

@@ -1,5 +1,5 @@
 import type { ConfigTypeKind, ConfigTypeURIS, HKT, Kind, URIS } from '@morphic-ts/common/lib//HKT'
-import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
+import type { AnyEnv, ConfigsForType, Named } from '@morphic-ts/common/lib/config'
 import type { OfType, UnionToIntersection } from '@morphic-ts/common/lib/core'
 
 /**
@@ -45,34 +45,35 @@ export interface ModelAlgebraIntersection<F extends URIS, Env extends AnyEnv> {
   _F: F
   intersection: {
     <Types extends readonly OfType<F, any, any, Env>[]>(...types: Types): (
-      name: string,
-      config?: ConfigsForType<
-        Env,
-        UnionToIntersection<
-          {
-            [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>]
-              ? unknown extends LA
-                ? never
-                : LA
-              : never
-          }[number]
-        >,
-        UnionToIntersection<
-          {
-            [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>]
-              ? unknown extends A
-                ? never
-                : A
-              : never
-          }[number]
-        >,
-        IntersectionConfig<
-          {
-            [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>] ? LA : never
-          },
-          {
-            [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>] ? A : never
-          }
+      config?: Named<
+        ConfigsForType<
+          Env,
+          UnionToIntersection<
+            {
+              [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>]
+                ? unknown extends LA
+                  ? never
+                  : LA
+                : never
+            }[number]
+          >,
+          UnionToIntersection<
+            {
+              [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>]
+                ? unknown extends A
+                  ? never
+                  : A
+                : never
+            }[number]
+          >,
+          IntersectionConfig<
+            {
+              [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>] ? LA : never
+            },
+            {
+              [k in keyof Types]: [Types[k]] extends [OfType<F, infer LA, infer A, Env>] ? A : never
+            }
+          >
         >
       >
     ) => Kind<

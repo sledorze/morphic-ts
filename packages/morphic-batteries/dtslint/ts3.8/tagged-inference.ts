@@ -17,7 +17,7 @@ const TypeA_ = summon(F =>
       event: F.stringLiteral('TypeA'),
       common: CommonType(F)
     },
-    'TypeA'
+    { name: 'TypeA' }
   )
 )
 interface TypeA extends AType<typeof TypeA_> {}
@@ -31,7 +31,7 @@ const TypeB_ = summon(F =>
       event: F.stringLiteral('TypeB'),
       common: CommonType(F)
     },
-    'TypeB'
+    { name: 'TypeB' }
   )
 )
 interface TypeB extends AType<typeof TypeB_> {}

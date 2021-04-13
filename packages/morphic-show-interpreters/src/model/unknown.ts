@@ -27,7 +27,7 @@ export const showUnknownInterpreter = memo(
     unknown: config => env =>
       pipe(
         { show: (_any: any) => '<unknown>' } as Show<unknown>,
-        show => new ShowType(showApplyConfig(config)(show, env, { show }))
+        show => new ShowType(showApplyConfig(config?.conf)(show, env, { show }))
       )
   })
 )

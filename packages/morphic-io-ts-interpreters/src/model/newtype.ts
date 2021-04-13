@@ -42,15 +42,15 @@ export const ioTsNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype<IoTsURI, Env> => ({
     _F: IoTsURI,
     newtype: () => (a, config) => env =>
-      pipe(a(env).type, type => new IOTSType(iotsApplyConfig(config)(coerce(type), env, { type }))),
-    newtypeIso: (iso, a, name, config) => env =>
+      pipe(a(env).type, type => new IOTSType(iotsApplyConfig(config?.conf)(coerce(type), env, { type }))),
+    newtypeIso: (iso, a, config) => env =>
       pipe(a(env).type, type => {
         type N = AOfIso<typeof iso>
         const is: Is<N> = (v): v is N => type.is(v)
         return new IOTSType(
-          iotsApplyConfig(config)(
+          iotsApplyConfig(config?.conf)(
             new Type(
-              name,
+              config?.name || `NewtypeIso(${type.name})`,
               is,
               (i, c) => pipe(type.validate(i, c), E.map(iso.get)),
               v => type.encode(iso.reverseGet(v))
@@ -60,14 +60,14 @@ export const ioTsNewtypeInterpreter = memo(
           )
         )
       }),
-    newtypePrism: (prism, a, name, config) => env =>
+    newtypePrism: (prism, a, config) => env =>
       pipe(a(env).type, type => {
         type N = AOfPrism<typeof prism>
         const is: Is<N> = (v): v is N => type.is(v)
         return new IOTSType(
-          iotsApplyConfig(config)(
+          iotsApplyConfig(config?.conf)(
             new Type(
-              name,
+              config?.name || `NewtypePrism(${type.name})`,
               is,
               (i, c) =>
                 pipe(

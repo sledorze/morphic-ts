@@ -32,7 +32,7 @@ export const jsonSchemaUnknownInterpreter = memo(
         SEstateEither.of(AnythingTypeCtor()),
         (schema: JsonSchemaResult<OptionalJSONSchema>) =>
           new JsonSchema(
-            jsonSchemaApplyConfig(config)(schema, env, {
+            jsonSchemaApplyConfig(config?.conf)(schema, env, {
               schema
             })
           )

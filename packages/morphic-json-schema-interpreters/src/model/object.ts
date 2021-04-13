@@ -8,9 +8,8 @@ import { chain as SEchain, map as SEmap } from 'fp-ts-contrib/lib/StateEither'
 
 import { jsonSchemaApplyConfig } from '../config'
 import { JsonSchema, JsonSchemaURI } from '../hkt'
-import { Ref } from '../json-schema/json-schema'
-import { makeOptional, notOptional, ObjectTypeCtor } from '../json-schema/json-schema-ctors'
-import { addSchema, arrayTraverseStateEither, resolveRefJsonSchema } from '../utils'
+import { makeOptional, ObjectTypeCtor } from '../json-schema/json-schema-ctors'
+import { addNotOptionalNamedSchemaAndRef, arrayTraverseStateEither, getName, resolveRefJsonSchema } from '../utils'
 
 /**
  *  @since 0.0.1
@@ -18,9 +17,9 @@ import { addSchema, arrayTraverseStateEither, resolveRefJsonSchema } from '../ut
 export const jsonSchemaObjectInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraObject<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    interface: (props, name, config) => env =>
+    interface: (props, config) => env =>
       new JsonSchema(
-        jsonSchemaApplyConfig(config)(
+        jsonSchemaApplyConfig(config?.conf)(
           pipe(
             arrayTraverseStateEither(toArray(props), ([k, v]) =>
               pipe(
@@ -29,16 +28,20 @@ export const jsonSchemaObjectInterpreter = memo(
               )
             ) as any,
             SEchain(props => resolveRefJsonSchema(ObjectTypeCtor(props as any).json)),
-            SEchain(addSchema(name)),
-            SEmap(_ => notOptional(Ref(name)))
+            SEchain(schema =>
+              pipe(
+                getName(config),
+                SEchain(name => addNotOptionalNamedSchemaAndRef(name, schema))
+              )
+            )
           ),
           env,
           {}
         )
       ),
-    partial: (props, name, config) => env =>
+    partial: (props, config) => env =>
       new JsonSchema(
-        jsonSchemaApplyConfig(config)(
+        jsonSchemaApplyConfig(config?.conf)(
           pipe(
             arrayTraverseStateEither(toArray(props), ([k, v]) =>
               pipe(
@@ -47,14 +50,18 @@ export const jsonSchemaObjectInterpreter = memo(
               )
             ) as any,
             SEchain(props => resolveRefJsonSchema(ObjectTypeCtor(props as any).json)),
-            SEchain(addSchema(name)),
-            SEmap(_ => notOptional(Ref(name)))
+            SEchain(schema =>
+              pipe(
+                getName(config),
+                SEchain(name => addNotOptionalNamedSchemaAndRef(name, schema))
+              )
+            )
           ),
           env,
           {}
         )
       ),
-    both: (props, partial, name, config) => env => {
+    both: (props, partial, config) => env => {
       const nonPartialprops = pipe(
         arrayTraverseStateEither(toArray(props), ([k, v]) =>
           pipe(
@@ -73,7 +80,7 @@ export const jsonSchemaObjectInterpreter = memo(
       )
 
       return new JsonSchema(
-        jsonSchemaApplyConfig(config)(
+        jsonSchemaApplyConfig(config?.conf)(
           pipe(
             nonPartialprops,
             SEchain(nonPartialprops =>
@@ -84,8 +91,12 @@ export const jsonSchemaObjectInterpreter = memo(
                 )
               )
             ),
-            SEchain(addSchema(name)),
-            SEmap(_ => notOptional(Ref(name)))
+            SEchain(schema =>
+              pipe(
+                getName(config),
+                SEchain(name => addNotOptionalNamedSchemaAndRef(name, schema))
+              )
+            )
           ),
           env,
           {}

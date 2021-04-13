@@ -6,6 +6,7 @@ import type { Show } from 'fp-ts/lib/Show'
 
 import { showApplyConfig } from '../config'
 import { ShowType, ShowURI } from '../hkt'
+import { wrapShow } from '../utils'
 
 declare module '@morphic-ts/model-algebras/lib/refined' {
   /**
@@ -33,15 +34,17 @@ declare module '@morphic-ts/model-algebras/lib/refined' {
 export const showRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined<ShowURI, Env> => ({
     _F: ShowURI,
-    refined: (getShow, _ref, name, config) => env =>
+    refined: (getShow, _ref, config) => env =>
       pipe(
         getShow(env).show,
-        show => new ShowType({ show: x => `<${name}>(${showApplyConfig(config)(show, env, { show }).show(x)})` })
+        show =>
+          new ShowType({ show: x => wrapShow(config, showApplyConfig(config?.conf)(show, env, { show }).show(x)) })
       ),
-    constrained: (getShow, _ref, name, config) => env =>
+    constrained: (getShow, _ref, config) => env =>
       pipe(
         getShow(env).show,
-        show => new ShowType({ show: x => `<${name}>(${showApplyConfig(config)(show, env, { show }).show(x)})` })
+        show =>
+          new ShowType({ show: x => wrapShow(config, showApplyConfig(config?.conf)(show, env, { show }).show(x)) })
       )
   })
 )

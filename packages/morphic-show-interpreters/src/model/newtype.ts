@@ -6,6 +6,7 @@ import type { Show } from 'fp-ts/lib/Show'
 
 import { showApplyConfig } from '../config'
 import { ShowType, ShowURI } from '../hkt'
+import { wrapShow } from '../utils'
 
 declare module '@morphic-ts/model-algebras/lib/newtype' {
   export interface NewtypeConfig<L, A, N> {
@@ -33,26 +34,30 @@ const coerce = <N extends AnyNewtype>(e: Show<NewtypeA<N>>): Show<N> => e as Sho
 export const showNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype<ShowURI, Env> => ({
     _F: ShowURI,
-    newtype: name => (a, config) => env =>
-      pipe(
-        a(env).show,
-        show =>
-          new ShowType(showApplyConfig(config)(coerce({ show: x => `<${name}>(${show.show(x)})` }), env, { show }))
-      ),
-    newtypeIso: (iso, a, name, config) => env =>
+    newtype: () => (a, config) => env =>
       pipe(
         a(env).show,
         show =>
           new ShowType(
-            showApplyConfig(config)({ show: x => `<${name}>(${show.show(iso.reverseGet(x))})` }, env, { show })
+            showApplyConfig(config?.conf)(coerce({ show: x => wrapShow(config, show.show(x)) }), env, { show })
           )
       ),
-    newtypePrism: (prism, a, name, config) => env =>
+    newtypeIso: (iso, a, config) => env =>
       pipe(
         a(env).show,
         show =>
           new ShowType(
-            showApplyConfig(config)({ show: x => `<${name}>(${show.show(prism.reverseGet(x))})` }, env, { show })
+            showApplyConfig(config?.conf)({ show: x => wrapShow(config, show.show(iso.reverseGet(x))) }, env, { show })
+          )
+      ),
+    newtypePrism: (prism, a, config) => env =>
+      pipe(
+        a(env).show,
+        show =>
+          new ShowType(
+            showApplyConfig(config?.conf)({ show: x => wrapShow(config, show.show(prism.reverseGet(x))) }, env, {
+              show
+            })
           )
       )
   })

@@ -17,11 +17,11 @@ import { OrdType, OrdURI } from '../hkt'
 export const ordTaggedUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraTaggedUnions<OrdURI, Env> => ({
     _F: OrdURI,
-    taggedUnion: (tag, types, _name, config) => env => {
+    taggedUnion: (tag, types, config) => env => {
       const equals = mapRecord(types, a => a(env).ord.equals)
       const compares = mapRecord(types, a => a(env).ord.compare)
       return new OrdType(
-        ordApplyConfig(config)(
+        ordApplyConfig(config?.conf)(
           {
             compare: (a, b): Ordering => {
               const aTag = (a as any)[tag]

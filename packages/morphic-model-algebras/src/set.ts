@@ -1,4 +1,4 @@
-import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
+import type { AnyEnv, ConfigsForType, Named } from '@morphic-ts/common/lib/config'
 import type { Kind, URIS } from '@morphic-ts/common/lib/HKT'
 import type { Ord } from 'fp-ts/Ord'
 
@@ -32,6 +32,6 @@ export interface ModelAlgebraSet<F extends URIS, Env extends AnyEnv> {
   set: <L, A>(
     a: Kind<F, Env, L, A>,
     ord: Ord<A>,
-    config?: ConfigsForType<Env, Array<L>, ReadonlySet<A>, SetConfig<L, A>>
+    config?: Named<ConfigsForType<Env, Array<L>, ReadonlySet<A>, SetConfig<L, A>>>
   ) => Kind<F, Env, Array<L>, ReadonlySet<A>>
 }

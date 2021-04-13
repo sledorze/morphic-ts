@@ -12,9 +12,9 @@ import { iotsApplyConfig } from './../config'
 export const ioTsRecursiveInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRecursive<IoTsURI, Env> => ({
     _F: IoTsURI,
-    recursive: (lazyA, _name, config) => env =>
+    recursive: (lazyA, config) => env =>
       new IOTSType(
-        iotsApplyConfig(config)(
+        iotsApplyConfig(config?.conf)(
           t.recursion(`recursive`, Self => lazyA(_ => new IOTSType(Self))(env).type),
           env,
           {}

@@ -1,4 +1,4 @@
-import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
+import type { AnyEnv, ConfigsForType, Named } from '@morphic-ts/common/lib/config'
 import type { Kind, URIS } from '@morphic-ts/common/lib/HKT'
 
 /**
@@ -32,5 +32,5 @@ export interface UnknownConfig {}
  */
 export interface ModelAlgebraUnknown<F extends URIS, Env extends AnyEnv> {
   _F: F
-  unknown(config?: ConfigsForType<Env, unknown, unknown, UnknownConfig>): Kind<F, Env, unknown, unknown>
+  unknown(config?: Named<ConfigsForType<Env, unknown, unknown, UnknownConfig>>): Kind<F, Env, unknown, unknown>
 }

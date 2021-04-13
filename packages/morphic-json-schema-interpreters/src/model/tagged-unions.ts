@@ -16,9 +16,9 @@ import { arrayTraverseStateEither } from '../utils'
 export const jsonSchemaTaggedUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraTaggedUnions<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    taggedUnion: (_tag, types, _name, config) => env =>
+    taggedUnion: (_tag, types, config) => env =>
       new JsonSchema(
-        jsonSchemaApplyConfig(config)(
+        jsonSchemaApplyConfig(config?.conf)(
           pipe(
             arrayTraverseStateEither(toReadonlyArray(types), ([_, v]) => v(env).schema),
             SEchainEitherK(UnionTypeCtor)

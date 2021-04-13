@@ -34,25 +34,25 @@ export const ordNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype<OrdURI, Env> => ({
     _F: OrdURI,
     newtype: () => (getOrd, config) => env =>
-      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config)(coerce(ord), env, { ord }))),
-    newtypeIso: (iso, getOrd, name, config) => env =>
+      pipe(getOrd(env).ord, ord => new OrdType(ordApplyConfig(config?.conf)(coerce(ord), env, { ord }))),
+    newtypeIso: (iso, getOrd, config) => env =>
       pipe(
         getOrd(env).ord,
         ord =>
           new OrdType(
-            ordApplyConfig(config)(
+            ordApplyConfig(config?.conf)(
               fromCompare((a, b) => ord.compare(iso.reverseGet(a), iso.reverseGet(b))),
               env,
               { ord }
             )
           )
       ),
-    newtypePrism: (prism, getOrd, name, config) => env =>
+    newtypePrism: (prism, getOrd, config) => env =>
       pipe(
         getOrd(env).ord,
         ord =>
           new OrdType(
-            ordApplyConfig(config)(
+            ordApplyConfig(config?.conf)(
               fromCompare((a, b) => ord.compare(prism.reverseGet(a), prism.reverseGet(b))),
               env,
               { ord }

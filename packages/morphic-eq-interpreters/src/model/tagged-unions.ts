@@ -11,11 +11,11 @@ import { EqType, EqURI } from '../hkt'
 export const eqTaggedUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraTaggedUnions<EqURI, Env> => ({
     _F: EqURI,
-    taggedUnion: (tag, types, _name, config) => env => {
+    taggedUnion: (tag, types, config) => env => {
       // TODO: add customize
       const equals = mapRecord(types, a => (a as any)(env).eq.equals)
       return new EqType(
-        eqApplyConfig(config)(
+        eqApplyConfig(config?.conf)(
           {
             equals: (a, b): boolean => {
               if (a === b) {

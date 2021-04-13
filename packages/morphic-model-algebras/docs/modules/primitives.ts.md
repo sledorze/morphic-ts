@@ -104,63 +104,61 @@ export interface ModelAlgebraPrimitive<F extends URIS, Env extends AnyEnv> {
   _F: F
   nullable: <L, A>(
     T: Kind<F, Env, L, A>,
-    config?: ConfigsForType<Env, null | L, Option<A>, NullableConfig<L, A>>
+    config?: Named<ConfigsForType<Env, null | L, Option<A>, NullableConfig<L, A>>>
   ) => Kind<F, Env, null | L, Option<A>>
-  boolean(config?: ConfigsForType<Env, boolean, boolean, BooleanConfig>): Kind<F, Env, boolean, boolean>
-  number(config?: ConfigsForType<Env, number, number, NumberConfig>): Kind<F, Env, number, number>
-  bigint(config?: ConfigsForType<Env, string, bigint, BigIntConfig>): Kind<F, Env, string, bigint>
-  string(config?: ConfigsForType<Env, string, string, StringConfig>): Kind<F, Env, string, string>
+  boolean(config?: Named<ConfigsForType<Env, boolean, boolean, BooleanConfig>>): Kind<F, Env, boolean, boolean>
+  number(config?: Named<ConfigsForType<Env, number, number, NumberConfig>>): Kind<F, Env, number, number>
+  bigint(config?: Named<ConfigsForType<Env, string, bigint, BigIntConfig>>): Kind<F, Env, string, bigint>
+  string(config?: Named<ConfigsForType<Env, string, string, StringConfig>>): Kind<F, Env, string, string>
   stringLiteral: <T extends string>(
     value: T,
-    config?: ConfigsForType<Env, string, T, StringLiteralConfig<T>>
+    config?: Named<ConfigsForType<Env, string, T, StringLiteralConfig<T>>>
   ) => Kind<F, Env, string, typeof value>
   numberLiteral: <T extends number>(
     value: T,
-    config?: ConfigsForType<Env, number, T, NumberLiteralConfig<T>>
+    config?: Named<ConfigsForType<Env, number, T, NumberLiteralConfig<T>>>
   ) => Kind<F, Env, number, typeof value>
 
   oneOfLiterals: <T extends readonly [LiteralT, ...LiteralT[]]>(
     value: T,
-    config?: ConfigsForType<Env, LiteralT, T[number], OneOfLiteralsConfig<T[number]>>
+    config?: Named<ConfigsForType<Env, LiteralT, T[number], OneOfLiteralsConfig<T[number]>>>
   ) => Kind<F, Env, LiteralT, T[number]>
 
   tag: <T extends string>(
     value: T,
-    config?: ConfigsForType<Env, undefined, T, TagConfig<T>>
+    config?: Named<ConfigsForType<Env, undefined, T, TagConfig<T>>>
   ) => Kind<F, Env, undefined, typeof value>
   keysOf: <K extends Keys>(
     keys: K,
-    config?: ConfigsForType<Env, string, keyof K, KeysOfConfig<K>>
+    config?: Named<ConfigsForType<Env, string, keyof K, KeysOfConfig<K>>>
   ) => Kind<F, Env, string, keyof typeof keys>
   mutable: <L, A>(
     a: Kind<F, Env, L, A>,
-    config?: ConfigsForType<Env, Mutable<L>, Mutable<A>, MutableConfig<L, A>>
+    config?: Named<ConfigsForType<Env, Mutable<L>, Mutable<A>, MutableConfig<L, A>>>
   ) => Kind<F, Env, Mutable<L>, Mutable<A>>
   array: <L, A>(
     a: Kind<F, Env, L, A>,
-    config?: ConfigsForType<Env, Array<L>, Array<A>, ArrayConfig<L, A>>
+    config?: Named<ConfigsForType<Env, Array<L>, Array<A>, ArrayConfig<L, A>>>
   ) => Kind<F, Env, Array<L>, Array<A>>
   nonEmptyArray: <L, A>(
     a: Kind<F, Env, L, A>,
-    config?: ConfigsForType<Env, Array<L>, ReadonlyNonEmptyArray<A>, NonEmptyArrayConfig<L, A>>
+    config?: Named<ConfigsForType<Env, Array<L>, ReadonlyNonEmptyArray<A>, NonEmptyArrayConfig<L, A>>>
   ) => Kind<F, Env, Array<L>, ReadonlyNonEmptyArray<A>>
-  date(config?: ConfigsForType<Env, string, Date, DateConfig>): Kind<F, Env, string, Date>
-  uuid(config?: ConfigsForType<Env, string, UUID, UUIDConfig>): Kind<F, Env, string, UUID>
+  date(config?: Named<ConfigsForType<Env, string, Date, DateConfig>>): Kind<F, Env, string, Date>
+  uuid(config?: Named<ConfigsForType<Env, string, UUID, UUIDConfig>>): Kind<F, Env, string, UUID>
   either: <EE, EA, AE, AA>(
     e: Kind<F, Env, EE, EA>,
     a: Kind<F, Env, AE, AA>,
-    config?: ConfigsForType<Env, Either<EE, AE>, Either<EA, AA>, EitherConfig<EE, EA, AE, AA>>
+    config?: Named<ConfigsForType<Env, Either<EE, AE>, Either<EA, AA>, EitherConfig<EE, EA, AE, AA>>>
   ) => Kind<F, Env, Either<EE, AE>, Either<EA, AA>>
   optional: {
-    <E, A>(a: Kind<F, Env, E, A>, config?: ConfigsForType<Env, E | undefined, A | undefined, OptionConfig<E, A>>): Kind<
-      F,
-      Env,
-      E | undefined,
-      A | undefined
-    >
+    <E, A>(
+      a: Kind<F, Env, E, A>,
+      config?: Named<ConfigsForType<Env, E | undefined, A | undefined, OptionConfig<E, A>>>
+    ): Kind<F, Env, E | undefined, A | undefined>
   }
   option: {
-    <E, A>(a: Kind<F, Env, E, A>, config?: ConfigsForType<Env, Option<E>, Option<A>, OptionConfig<E, A>>): Kind<
+    <E, A>(a: Kind<F, Env, E, A>, config?: Named<ConfigsForType<Env, Option<E>, Option<A>, OptionConfig<E, A>>>): Kind<
       F,
       Env,
       Option<E>,
@@ -168,7 +166,7 @@ export interface ModelAlgebraPrimitive<F extends URIS, Env extends AnyEnv> {
     >
   }
   unknownE: {
-    <L, A>(T: Kind<F, Env, L, A>, config?: ConfigsForType<Env, unknown, A, UnknownEConfig<L, A>>): Kind<
+    <L, A>(T: Kind<F, Env, L, A>, config?: Named<ConfigsForType<Env, unknown, A, UnknownEConfig<L, A>>>): Kind<
       F,
       Env,
       unknown,

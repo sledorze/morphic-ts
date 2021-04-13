@@ -81,36 +81,36 @@ export const fastCheckPrimitiveInterpreter = memo(
     _F: FastCheckURI,
     date: configs => env =>
       new FastCheckType(
-        fastCheckApplyConfig(configs)(
+        fastCheckApplyConfig(configs?.conf)(
           integer().map(n => new Date(n)),
           env,
           {}
         )
       ),
-    boolean: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(boolean(), env, {})),
-    string: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(string(), env, {})),
-    number: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(float(), env, {})),
-    bigint: configs => env => new FastCheckType(fastCheckApplyConfig(configs)(bigInt(), env, {})),
-    stringLiteral: (l, config) => env => new FastCheckType(fastCheckApplyConfig(config)(constant(l), env, {})),
-    numberLiteral: (l, config) => env => new FastCheckType(fastCheckApplyConfig(config)(constant(l), env, {})),
+    boolean: configs => env => new FastCheckType(fastCheckApplyConfig(configs?.conf)(boolean(), env, {})),
+    string: configs => env => new FastCheckType(fastCheckApplyConfig(configs?.conf)(string(), env, {})),
+    number: configs => env => new FastCheckType(fastCheckApplyConfig(configs?.conf)(float(), env, {})),
+    bigint: configs => env => new FastCheckType(fastCheckApplyConfig(configs?.conf)(bigInt(), env, {})),
+    stringLiteral: (l, config) => env => new FastCheckType(fastCheckApplyConfig(config?.conf)(constant(l), env, {})),
+    numberLiteral: (l, config) => env => new FastCheckType(fastCheckApplyConfig(config?.conf)(constant(l), env, {})),
     oneOfLiterals: (l, config) => env =>
-      new FastCheckType(fastCheckApplyConfig(config)(oneof(...l.map(constant)), env, {})),
-    tag: (l, config) => env => new FastCheckType(fastCheckApplyConfig(config)(constant(l), env, {})),
+      new FastCheckType(fastCheckApplyConfig(config?.conf)(oneof(...l.map(constant)), env, {})),
+    tag: (l, config) => env => new FastCheckType(fastCheckApplyConfig(config?.conf)(constant(l), env, {})),
     keysOf: (k, config) => env =>
       new FastCheckType(
-        fastCheckApplyConfig(config)(oneof(...(Object.keys(k) as (keyof typeof k)[]).map(constant)), env, {})
+        fastCheckApplyConfig(config?.conf)(oneof(...(Object.keys(k) as (keyof typeof k)[]).map(constant)), env, {})
       ),
     nullable: (T, config) => env =>
       pipe(
         T(env).arb,
-        arb => new FastCheckType(fastCheckApplyConfig(config)(option(arb).map(fromNullable), env, { arb }))
+        arb => new FastCheckType(fastCheckApplyConfig(config?.conf)(option(arb).map(fromNullable), env, { arb }))
       ),
     optional: (T, config) => env =>
       pipe(
         T(env).arb,
         arb =>
           new FastCheckType(
-            fastCheckApplyConfig(config)(
+            fastCheckApplyConfig(config?.conf)(
               option(arb).map(x => (x === null ? undefined : x)),
               env,
               { arb }
@@ -118,15 +118,15 @@ export const fastCheckPrimitiveInterpreter = memo(
           )
       ),
     mutable: (T, config) => env =>
-      pipe(T(env).arb, arb => new FastCheckType(fastCheckApplyConfig(config)(arb, env, { arb }))),
+      pipe(T(env).arb, arb => new FastCheckType(fastCheckApplyConfig(config?.conf)(arb, env, { arb }))),
     array: (T, config) => env =>
-      pipe(T(env).arb, arb => new FastCheckType(fastCheckApplyConfig(config)(array(arb), env, { arb }))),
+      pipe(T(env).arb, arb => new FastCheckType(fastCheckApplyConfig(config?.conf)(array(arb), env, { arb }))),
     nonEmptyArray: (T, config) => env =>
       pipe(
         T(env).arb,
         arb =>
           new FastCheckType(
-            fastCheckApplyConfig(config)(
+            fastCheckApplyConfig(config?.conf)(
               array(arb).chain(rest => arb.map(h => cons(h, rest))),
               env,
               { arb }
@@ -134,11 +134,11 @@ export const fastCheckPrimitiveInterpreter = memo(
           )
       ),
     uuid: config => env =>
-      pipe(uuid() as Arbitrary<UUID>, arb => new FastCheckType(fastCheckApplyConfig(config)(arb, env, { arb }))),
+      pipe(uuid() as Arbitrary<UUID>, arb => new FastCheckType(fastCheckApplyConfig(config?.conf)(arb, env, { arb }))),
     either: (e, a, config) => env =>
       ((left, right) =>
         new FastCheckType(
-          fastCheckApplyConfig(config)(oneof(left.map(ELeft), right.map(ERight)) as any, env, {
+          fastCheckApplyConfig(config?.conf)(oneof(left.map(ELeft), right.map(ERight)) as any, env, {
             left,
             right
           })
@@ -146,8 +146,8 @@ export const fastCheckPrimitiveInterpreter = memo(
     option: (T, config) => env =>
       pipe(
         T(env).arb,
-        arb => new FastCheckType(fastCheckApplyConfig(config)(oneof(arb.map(some), constant(none)), env, { arb }))
+        arb => new FastCheckType(fastCheckApplyConfig(config?.conf)(oneof(arb.map(some), constant(none)), env, { arb }))
       ),
-    unknownE: (a, config) => env => new FastCheckType(fastCheckApplyConfig(config)(a(env).arb, env, {}))
+    unknownE: (a, config) => env => new FastCheckType(fastCheckApplyConfig(config?.conf)(a(env).arb, env, {}))
   })
 )

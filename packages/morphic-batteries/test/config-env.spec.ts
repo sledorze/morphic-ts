@@ -22,18 +22,18 @@ describe('Morph Config Env', () => {
     })
 
     const Person = summon(F =>
-      F.interface(
-        {
-          name: F.string(),
-          birthdate: F.date({
+      F.interface({
+        name: F.string(),
+        birthdate: F.date({
+          conf: {
             FastCheckURI: (_x, e) => {
               const now = new Date()
               return e.fc.date({ min: now, max: new Date(now.getTime() + MaxAgeMs) })
             }
-          })
-        },
-        'Person'
-      )
+          },
+          name: 'Person'
+        })
+      })
     )
     fc.assert(fc.property(Person.arb, Person.type.is))
   })
@@ -44,18 +44,18 @@ describe('Morph Config Env', () => {
     const { summon } = summonESBSTFor<{ FastCheckURI: FastCheckEnv }>({})
 
     const Person = summon(F =>
-      F.interface(
-        {
-          name: F.string(),
-          birthdate: F.date({
+      F.interface({
+        name: F.string(),
+        birthdate: F.date({
+          conf: {
             FastCheckURI: (_x, e) => {
               const now = new Date()
               return e.fc.date({ min: now, max: new Date(now.getTime() + MaxAgeMs) })
             }
-          })
-        },
-        'Person'
-      )
+          },
+          name: 'Person'
+        })
+      })
     )
     const PersonARB = Person.derive(modelFastCheckInterpreter<{ FastCheckURI: FastCheckEnv }>())({
       FastCheckURI: { fc }
@@ -86,8 +86,10 @@ describe('Can specify envs', () => {
   // MorphA has M<AppEnv, string, string> signature (note the AppEnv environement specified)
   const MorphA = summon(F =>
     F.string({
-      FastCheckURI: (_x, { fastCheck }) => fastCheck.string({ minLength: 1, maxLength: 1 }), // We're using the FastCheckEnv here, that only type checks because summon defines it as Env
-      IoTsURI: (_x, { withMessage }) => withMessage.withMessage(_x, x => `damn! got ${x}`)
+      conf: {
+        FastCheckURI: (_x, { fastCheck }) => fastCheck.string({ minLength: 1, maxLength: 1 }), // We're using the FastCheckEnv here, that only type checks because summon defines it as Env
+        IoTsURI: (_x, { withMessage }) => withMessage.withMessage(_x, x => `damn! got ${x}`)
+      }
     })
   )
 

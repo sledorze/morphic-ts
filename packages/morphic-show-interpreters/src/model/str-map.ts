@@ -36,10 +36,10 @@ export const showStrMapInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraStrMap<ShowURI, Env> => ({
     _F: ShowURI,
     strMap: (codomain, config) => env =>
-      pipe(codomain(env).show, show => new ShowType(showApplyConfig(config)(RgetShow(show), env, { show }))),
+      pipe(codomain(env).show, show => new ShowType(showApplyConfig(config?.conf)(RgetShow(show), env, { show }))),
     record: (domain, codomain, config) => env =>
       ((domainShow, codomainShow) =>
-        new ShowType(showApplyConfig(config)(RgetShow(codomainShow), env, { domainShow, codomainShow })))(
+        new ShowType(showApplyConfig(config?.conf)(RgetShow(codomainShow), env, { domainShow, codomainShow })))(
         domain(env).show,
         codomain(env).show
       )

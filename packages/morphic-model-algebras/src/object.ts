@@ -1,4 +1,4 @@
-import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
+import type { AnyEnv, ConfigsForType, Named } from '@morphic-ts/common/lib/config'
 import type { HKT, Kind, URIS } from '@morphic-ts/common/lib/HKT'
 
 /**
@@ -74,33 +74,34 @@ export interface ModelAlgebraObject<F extends URIS, Env extends AnyEnv> {
   _F: F
   interface: <Props extends AnyProps<Props, Env>>(
     props: Props,
-    name: string,
-    config?: ConfigsForType<
-      Env,
-      Readonly<
-        {
-          [k in keyof Props]: Props[k]['_E']
-        }
-      >,
-      Readonly<
-        {
-          [k in keyof Props]: Props[k]['_A']
-        }
-      >,
-      InterfaceConfig<
-        PropsKind<
-          F,
-          Readonly<
-            {
-              [k in keyof Props]: Props[k]['_E']
-            }
-          >,
-          Readonly<
-            {
-              [k in keyof Props]: Props[k]['_A']
-            }
-          >,
-          Env
+    config?: Named<
+      ConfigsForType<
+        Env,
+        Readonly<
+          {
+            [k in keyof Props]: Props[k]['_E']
+          }
+        >,
+        Readonly<
+          {
+            [k in keyof Props]: Props[k]['_A']
+          }
+        >,
+        InterfaceConfig<
+          PropsKind<
+            F,
+            Readonly<
+              {
+                [k in keyof Props]: Props[k]['_E']
+              }
+            >,
+            Readonly<
+              {
+                [k in keyof Props]: Props[k]['_A']
+              }
+            >,
+            Env
+          >
         >
       >
     >
@@ -120,41 +121,42 @@ export interface ModelAlgebraObject<F extends URIS, Env extends AnyEnv> {
   >
   partial: <Props extends AnyProps<Props, Env>>(
     props: Props,
-    name: string,
-    config?: ConfigsForType<
-      Env,
-      Partial<
-        Readonly<
-          {
-            [k in keyof Props]: Props[k]['_E']
-          }
-        >
-      >,
-      Partial<
-        Readonly<
-          {
-            [k in keyof Props]: Props[k]['_A']
-          }
-        >
-      >,
-      PartialConfig<
-        PropsKind<
-          F,
-          Partial<
-            Readonly<
-              {
-                [k in keyof Props]: Props[k]['_E']
-              }
-            >
-          >,
-          Partial<
-            Readonly<
-              {
-                [k in keyof Props]: Props[k]['_A']
-              }
-            >
-          >,
-          Env
+    config?: Named<
+      ConfigsForType<
+        Env,
+        Partial<
+          Readonly<
+            {
+              [k in keyof Props]: Props[k]['_E']
+            }
+          >
+        >,
+        Partial<
+          Readonly<
+            {
+              [k in keyof Props]: Props[k]['_A']
+            }
+          >
+        >,
+        PartialConfig<
+          PropsKind<
+            F,
+            Partial<
+              Readonly<
+                {
+                  [k in keyof Props]: Props[k]['_E']
+                }
+              >
+            >,
+            Partial<
+              Readonly<
+                {
+                  [k in keyof Props]: Props[k]['_A']
+                }
+              >
+            >,
+            Env
+          >
         >
       >
     >
@@ -197,61 +199,62 @@ export interface ModelAlgebraObject<F extends URIS, Env extends AnyEnv> {
       >,
       Env
     >,
-    name: string,
-    config?: ConfigsForType<
-      Env,
-      Readonly<
-        {
-          [k in keyof Props]: Props[k]['_E']
-        } &
-          Partial<
-            {
-              [k in keyof PartialProps]: PartialProps[k]['_E']
-            }
-          >
-      >,
-      Readonly<
-        {
-          [k in keyof Props]: Props[k]['_A']
-        } &
-          Partial<
-            {
-              [k in keyof PartialProps]: PartialProps[k]['_A']
-            }
-          >
-      >,
-      BothConfig<
-        PropsKind<
-          F,
-          Readonly<
-            {
-              [k in keyof Props]: Props[k]['_E']
-            }
-          >,
-          Readonly<
-            {
-              [k in keyof Props]: Props[k]['_A']
-            }
-          >,
-          Env
-        >,
-        PropsKind<
-          F,
-          Partial<
-            Readonly<
+    config?: Named<
+      ConfigsForType<
+        Env,
+        Readonly<
+          {
+            [k in keyof Props]: Props[k]['_E']
+          } &
+            Partial<
               {
                 [k in keyof PartialProps]: PartialProps[k]['_E']
               }
             >
-          >,
-          Partial<
-            Readonly<
+        >,
+        Readonly<
+          {
+            [k in keyof Props]: Props[k]['_A']
+          } &
+            Partial<
               {
                 [k in keyof PartialProps]: PartialProps[k]['_A']
               }
             >
+        >,
+        BothConfig<
+          PropsKind<
+            F,
+            Readonly<
+              {
+                [k in keyof Props]: Props[k]['_E']
+              }
+            >,
+            Readonly<
+              {
+                [k in keyof Props]: Props[k]['_A']
+              }
+            >,
+            Env
           >,
-          Env
+          PropsKind<
+            F,
+            Partial<
+              Readonly<
+                {
+                  [k in keyof PartialProps]: PartialProps[k]['_E']
+                }
+              >
+            >,
+            Partial<
+              Readonly<
+                {
+                  [k in keyof PartialProps]: PartialProps[k]['_A']
+                }
+              >
+            >,
+            Env
+          >
         >
       >
     >

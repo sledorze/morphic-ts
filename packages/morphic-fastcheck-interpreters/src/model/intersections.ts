@@ -20,10 +20,10 @@ declare module '@morphic-ts/model-algebras/lib/intersections' {
 export const fastCheckIntersectionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraIntersection<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    intersection: (...items) => (name, config) => env => {
+    intersection: (...items) => config => env => {
       const arbs = items.map(getArb => getArb(env).arb)
       return new FastCheckType(
-        fastCheckApplyConfig(config)(
+        fastCheckApplyConfig(config?.conf)(
           tuple(...arbs).map(all => Object.assign({}, ...all)),
           env,
           {

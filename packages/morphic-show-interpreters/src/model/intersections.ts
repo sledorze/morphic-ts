@@ -19,10 +19,10 @@ declare module '@morphic-ts/model-algebras/lib/intersections' {
 export const showIntersectionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraIntersection<ShowURI, Env> => ({
     _F: ShowURI,
-    intersection: (...types) => (name, config) => (env: Env) => {
+    intersection: (...types) => config => (env: Env) => {
       const shows = types.map(getShow => getShow(env).show)
       return new ShowType(
-        showApplyConfig(config)(
+        showApplyConfig(config?.conf)(
           {
             show: a => shows.map(s => s.show(a)).join(' & ')
           },

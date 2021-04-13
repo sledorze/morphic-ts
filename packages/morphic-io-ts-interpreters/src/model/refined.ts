@@ -70,9 +70,23 @@ export const predicate = <A, O>(T: Type<A, O>, predicate: Predicate<A>, name: st
 export const ioTsRefinedInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRefined<IoTsURI, Env> => ({
     _F: IoTsURI,
-    refined: (a, ref, name, config) => env =>
-      pipe(a(env).type, type => new IOTSType(iotsApplyConfig(config)(refinement(type, ref, name), env, { type }))),
-    constrained: (a, pred, name, config) => env =>
-      pipe(a(env).type, type => new IOTSType(iotsApplyConfig(config)(predicate(type, pred, name), env, { type })))
+    refined: (a, ref, config) => env =>
+      pipe(
+        a(env).type,
+        type =>
+          new IOTSType(
+            iotsApplyConfig(config?.conf)(refinement(type, ref, config?.name || `Refined(${type.name})`), env, { type })
+          )
+      ),
+    constrained: (a, pred, config) => env =>
+      pipe(
+        a(env).type,
+        type =>
+          new IOTSType(
+            iotsApplyConfig(config?.conf)(predicate(type, pred, config?.name || `Constrained(${type.name})`), env, {
+              type
+            })
+          )
+      )
   })
 )

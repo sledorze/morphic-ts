@@ -14,7 +14,7 @@ describe('Show', () => {
     interface Test extends Newtype<{ readonly Test: unique symbol }, string> {}
     const isoTest = iso<Test>()
 
-    const { show } = summon(F => F.newtype<Test>('Test')(F.string()))
+    const { show } = summon(F => F.newtype<Test>()(F.string(), { name: 'Test' }))
 
     const testA = isoTest.wrap('abc')
     chai.assert.strictEqual(show.show(testA), '<Test>("abc")')
@@ -27,7 +27,7 @@ describe('Show', () => {
           date: F.date(),
           a: F.string()
         },
-        'Foo'
+        { name: 'Foo' }
       )
     )
 
@@ -44,7 +44,7 @@ describe('Show', () => {
           date: F.date(),
           a: F.string()
         },
-        'Foo'
+        { name: 'Foo' }
       )
     )
 
@@ -55,8 +55,8 @@ describe('Show', () => {
   })
 
   it('can be customized to hide passwords', () => {
-    const Password = summon(F => F.string({ ShowURI: _ => ({ show: _ => '***' }) }))
-    const UserPassword = summon(F => F.interface({ user: F.string(), password: Password(F) }, 'UserPassword'))
+    const Password = summon(F => F.string({ conf: { ShowURI: _ => ({ show: _ => '***' }) } }))
+    const UserPassword = summon(F => F.interface({ user: F.string(), password: Password(F) }, { name: 'UserPassword' }))
 
     const userPassword = UserPassword.build({ user: 'john', password: '42' })
     chai.assert.strictEqual(UserPassword.show.show(userPassword), '{ user: "john", password: *** }')
@@ -71,12 +71,12 @@ describe('Show', () => {
               {
                 date: F.date()
               },
-              'Dates'
+              { name: 'Dates' }
             )
           ),
           a: F.string()
         },
-        'Foo@'
+        { name: 'Foo@' }
       )
     )
 
@@ -108,7 +108,7 @@ describe('Show', () => {
           a: F.string(),
           b: F.number()
         },
-        'Foo'
+        { name: 'Foo' }
       )
     )
 
@@ -134,7 +134,7 @@ describe('Show', () => {
           a: F.string(),
           b: F.number()
         },
-        'Foo'
+        { name: 'Foo' }
       )
     )
 
@@ -162,7 +162,7 @@ describe('Show', () => {
           a: F.string(),
           b: F.number()
         },
-        'Foo'
+        { name: 'Foo' }
       )
     )
 
@@ -178,7 +178,7 @@ describe('Show', () => {
           c: F.string(),
           d: F.number()
         },
-        'Bar'
+        { name: 'Bar' }
       )
     )
 
@@ -189,7 +189,7 @@ describe('Show', () => {
           foo: Foo(F),
           bar: Bar(F)
         },
-        'FooBar'
+        { name: 'FooBar' }
       )
     )
 

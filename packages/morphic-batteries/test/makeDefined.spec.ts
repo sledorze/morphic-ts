@@ -22,7 +22,7 @@ describe('defineFor', () => {
   })
 
   const model = defineFor(ProgramUnionURI)<{ FastCheckURI: FastCheck }>()(F =>
-    F.string({ FastCheckURI: (_, env) => env.fc.string({ minLength: 2, maxLength: 4 }) })
+    F.string({ conf: { FastCheckURI: (_, env) => env.fc.string({ minLength: 2, maxLength: 4 }) } })
   )
 
   it('can be reinterpreted by a summoner', () => {
@@ -40,7 +40,7 @@ describe('define', () => {
   })
 
   const model = define(F =>
-    F.string({ FastCheckURI: (_, env: FastCheck) => env.fc.string({ minLength: 2, maxLength: 4 }) }))
+    F.string({ conf: { FastCheckURI: (_, env: FastCheck) => env.fc.string({ minLength: 2, maxLength: 4 }) } }))
 
   it('can be reinterpreted by a summoner', () => {
     const morph = summon(model)

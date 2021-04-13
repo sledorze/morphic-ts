@@ -11,10 +11,10 @@ import { showApplyConfig } from './../config'
 export const showRecursiveInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRecursive<ShowURI, Env> => ({
     _F: ShowURI,
-    recursive: (a, _name, config) => {
+    recursive: (a, config) => {
       const get = memo(() => a(res))
       const res: ReturnType<typeof a> = env =>
-        new ShowType(showApplyConfig(config)({ show: a => get()(env).show.show(a) }, env, {}))
+        new ShowType(showApplyConfig(config?.conf)({ show: a => get()(env).show.show(a) }, env, {}))
       return res
     }
   })

@@ -22,7 +22,7 @@ describe('Eq', () => {
     interface Test extends Newtype<{ readonly Test: unique symbol }, string> {}
     const isoTest = iso<Test>()
 
-    const { eq } = summon(F => F.newtype<Test>('Test')(F.string()))
+    const { eq } = summon(F => F.newtype<Test>()(F.string(), { name: 'Test' }))
 
     const testA = isoTest.wrap('a')
     const testB = isoTest.wrap('b')
@@ -41,7 +41,7 @@ describe('Eq', () => {
   })
 
   it('recursive compare of circular unknown', () => {
-    const { eq } = summon(F => F.unknown({ EqURI: eq => eq }))
+    const { eq } = summon(F => F.unknown({ conf: { EqURI: eq => eq } }))
 
     const recDataA = {
       a: 'a',
@@ -65,7 +65,7 @@ describe('Eq', () => {
       calls += 1
       return true
     })
-    const morph = summon(F => F.unknown({ EqURI: _eq => compare }))
+    const morph = summon(F => F.unknown({ conf: { EqURI: _eq => compare } }))
 
     const recDataA = {
       a: 'a',
@@ -92,7 +92,7 @@ describe('Eq', () => {
           date: F.date(),
           a: F.string()
         },
-        'Foo'
+        { name: 'Foo' }
       )
     )
 
@@ -109,7 +109,9 @@ describe('Eq', () => {
           date: F.date(),
           a: F.string()
         },
-        'Foo'
+        {
+          name: 'Foo'
+        }
       )
     )
 
@@ -130,12 +132,12 @@ describe('Eq', () => {
               {
                 date: F.date()
               },
-              'HasDate'
+              { name: 'HasDate' }
             )
           ),
           a: F.string()
         },
-        'Foo'
+        { name: 'Foo' }
       )
     )
 
@@ -167,7 +169,7 @@ describe('Eq', () => {
           a: F.nullable(F.string()),
           b: F.number()
         },
-        'Foo'
+        { name: 'Foo' }
       )
     )
 
@@ -199,7 +201,7 @@ describe('Eq', () => {
           a: F.nullable(F.string()),
           b: F.number()
         },
-        'Foo'
+        { name: 'Foo' }
       )
     )
 
@@ -226,7 +228,7 @@ describe('Eq', () => {
           a: F.string(),
           b: F.number()
         },
-        'Foo'
+        { name: 'Foo' }
       )
     )
 
@@ -242,7 +244,7 @@ describe('Eq', () => {
           c: F.string(),
           d: F.number()
         },
-        'Bar'
+        { name: 'Bar' }
       )
     )
 
@@ -253,7 +255,7 @@ describe('Eq', () => {
           foo: Foo(F),
           bar: Bar(F)
         },
-        'FooBar'
+        { name: 'FooBar' }
       )
     )
 
@@ -337,11 +339,11 @@ describe('Eq', () => {
   })
 
   it('union', () => {
-    const A = summon(F => F.interface({ a: F.string(), b: F.number() }, 'A'))
-    const B = summon(F => F.interface({ c: F.string(), d: F.number() }, 'B'))
+    const A = summon(F => F.interface({ a: F.string(), b: F.number() }, { name: 'A' }))
+    const B = summon(F => F.interface({ c: F.string(), d: F.number() }, { name: 'B' }))
 
     const AorB = summon(F =>
-      F.union([A(F), B(F)])([_ => ('a' in _ ? right(_) : left(_)), _ => ('c' in _ ? right(_) : left(_))], 'a')
+      F.union(A(F), B(F))([_ => ('a' in _ ? right(_) : left(_)), _ => ('c' in _ ? right(_) : left(_))])
     )
     const A1 = { a: 'a', b: 1 }
     const A2 = { a: 'a', b: 2 }
@@ -361,18 +363,21 @@ describe('Eq', () => {
           {
             a: F.string()
           },
-          'Foo'
+          { name: 'Foo' }
         ),
         F.interface(
           {
             b: F.date()
           },
-          'Bar'
+          { name: 'Bar' }
         )
-      )('Name', {
-        EqURI: (_c, _e, { equals: [eqA, eqB] }) => ({
-          equals: (a, b) => eqA.equals({ a: a.a }, { a: b.a }) && eqB.equals({ b: a.b }, { b: b.b })
-        })
+      )({
+        name: 'Name',
+        conf: {
+          EqURI: (_c, _e, { equals: [eqA, eqB] }) => ({
+            equals: (a, b) => eqA.equals({ a: a.a }, { a: b.a }) && eqB.equals({ b: a.b }, { b: b.b })
+          })
+        }
       })
     )
 
@@ -388,12 +393,14 @@ describe('Eq', () => {
       F.interface(
         {
           a: F.string({
-            EqURI: _ => ({
-              equals: (a, b) => true
-            })
+            conf: {
+              EqURI: _ => ({
+                equals: (a, b) => true
+              })
+            }
           })
         },
-        'Foo'
+        { name: 'Foo' }
       )
     )
     chai.assert.isTrue(Foo.eq.equals({ a: 'a' }, { a: 'b' }))
@@ -403,14 +410,18 @@ describe('Eq', () => {
       F.interface(
         {
           a: F.string({
-            EqURI: _ => ({
-              equals: (a, b) => true
-            })
+            conf: {
+              EqURI: _ => ({
+                equals: (a, b) => true
+              })
+            }
           })
         },
-        'Foo',
         {
-          EqURI: (c, e, { equals }) => getStructEq({ a: equals.a })
+          name: 'Foo',
+          conf: {
+            EqURI: (c, e, { equals }) => getStructEq({ a: equals.a })
+          }
         }
       )
     )

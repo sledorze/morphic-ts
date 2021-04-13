@@ -125,37 +125,43 @@ declare module '@morphic-ts/model-algebras/lib/primitives' {
 export const ioTsPrimitiveInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraPrimitive<IoTsURI, Env> => ({
     _F: IoTsURI,
-    date: config => env => new IOTSType(iotsApplyConfig(config)(DateFromISOString, env, {})),
-    boolean: config => env => new IOTSType(iotsApplyConfig(config)(t.boolean, env, {})),
-    string: config => env => new IOTSType(iotsApplyConfig(config)(t.string, env, {})),
-    number: config => env => new IOTSType(iotsApplyConfig(config)(t.number, env, {})),
-    bigint: config => env => new IOTSType(iotsApplyConfig(config)(BigIntString, env, {})),
-    stringLiteral: (l, config) => env => new IOTSType(iotsApplyConfig(config)(t.literal(l, l), env, {})),
-    numberLiteral: (l, config) => env => new IOTSType(iotsApplyConfig(config)(t.literal(l, `${l}`), env, {})),
+    date: config => env => new IOTSType(iotsApplyConfig(config?.conf)(DateFromISOString, env, {})),
+    boolean: config => env => new IOTSType(iotsApplyConfig(config?.conf)(t.boolean, env, {})),
+    string: config => env => new IOTSType(iotsApplyConfig(config?.conf)(t.string, env, {})),
+    number: config => env => new IOTSType(iotsApplyConfig(config?.conf)(t.number, env, {})),
+    bigint: config => env => new IOTSType(iotsApplyConfig(config?.conf)(BigIntString, env, {})),
+    stringLiteral: (l, config) => env => new IOTSType(iotsApplyConfig(config?.conf)(t.literal(l, l), env, {})),
+    numberLiteral: (l, config) => env => new IOTSType(iotsApplyConfig(config?.conf)(t.literal(l, `${l}`), env, {})),
     oneOfLiterals: (l, config) => env =>
-      new IOTSType(iotsApplyConfig(config)(t.union(l.map(_ => t.literal(_)) as any), env, {})),
-    // oneOfLiterals: (l, config) => env => new IOTSType(iotsApplyConfig(config)(t.keyof(makeObj(l)), env, {})),
-    tag: (l, config) => env => new IOTSType(iotsApplyConfig(config)(tag(l), env, {})),
+      new IOTSType(iotsApplyConfig(config?.conf)(t.union(l.map(_ => t.literal(_)) as any), env, {})),
+    // oneOfLiterals: (l, config) => env => new IOTSType(iotsApplyConfig(config?.conf)(t.keyof(makeObj(l)), env, {})),
+    tag: (l, config) => env => new IOTSType(iotsApplyConfig(config?.conf)(tag(l), env, {})),
     keysOf: (k, config) => env =>
-      new IOTSType(iotsApplyConfig(config)(t.keyof(k) as t.Type<keyof typeof k, string, unknown>, env, {})),
+      new IOTSType(iotsApplyConfig(config?.conf)(t.keyof(k) as t.Type<keyof typeof k, string, unknown>, env, {})),
     nullable: (T, config) => env =>
-      pipe(T(env).type, type => new IOTSType(iotsApplyConfig(config)(optionFromNullable(type), env, { type }))),
+      pipe(T(env).type, type => new IOTSType(iotsApplyConfig(config?.conf)(optionFromNullable(type), env, { type }))),
     optional: (T, config) => env =>
-      pipe(T(env).type, type => new IOTSType(iotsApplyConfig(config)(t.union([type, t.undefined]), env, { type }))),
+      pipe(
+        T(env).type,
+        type => new IOTSType(iotsApplyConfig(config?.conf)(t.union([type, t.undefined]), env, { type }))
+      ),
     mutable: (T, config) => env =>
-      pipe(T(env).type, type => new IOTSType(iotsApplyConfig(config)(type, env, { type }))),
+      pipe(T(env).type, type => new IOTSType(iotsApplyConfig(config?.conf)(type, env, { type }))),
     array: (T, config) => env =>
-      pipe(T(env).type, type => new IOTSType(iotsApplyConfig(config)(t.readonlyArray(type), env, { type }))),
+      pipe(T(env).type, type => new IOTSType(iotsApplyConfig(config?.conf)(t.readonlyArray(type), env, { type }))),
     nonEmptyArray: (T, config) => env =>
-      pipe(T(env).type, type => new IOTSType(iotsApplyConfig(config)(readonlyNonEmptyArray(type), env, { type }))),
-    uuid: config => env => new IOTSType(iotsApplyConfig(config)(UUID, env, {})),
+      pipe(
+        T(env).type,
+        type => new IOTSType(iotsApplyConfig(config?.conf)(readonlyNonEmptyArray(type), env, { type }))
+      ),
+    uuid: config => env => new IOTSType(iotsApplyConfig(config?.conf)(UUID, env, {})),
     either: (e, a, config) => env =>
-      ((left, right) => new IOTSType(iotsApplyConfig(config)(Teither(left, right), env, { left, right })))(
+      ((left, right) => new IOTSType(iotsApplyConfig(config?.conf)(Teither(left, right), env, { left, right })))(
         e(env).type,
         a(env).type
       ),
     option: (T, config) => env =>
-      pipe(T(env).type, type => new IOTSType(iotsApplyConfig(config)(Toption(type), env, { type }))),
-    unknownE: (a, config) => env => new IOTSType(iotsApplyConfig(config)(a(env).type, env, {}))
+      pipe(T(env).type, type => new IOTSType(iotsApplyConfig(config?.conf)(Toption(type), env, { type }))),
+    unknownE: (a, config) => env => new IOTSType(iotsApplyConfig(config?.conf)(a(env).type, env, {}))
   })
 )

@@ -33,13 +33,13 @@ export const eqNewtypeInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraNewtype<EqURI, Env> => ({
     _F: EqURI,
     newtype: () => (getEq, config) => env =>
-      pipe(coerce(getEq(env).eq), eq => new EqType(eqApplyConfig(config)(eq, env, { eq }))),
-    newtypeIso: (iso, getEq, name, config) => env =>
+      pipe(coerce(getEq(env).eq), eq => new EqType(eqApplyConfig(config?.conf)(eq, env, { eq }))),
+    newtypeIso: (iso, getEq, config) => env =>
       pipe(
         getEq(env).eq,
         eq =>
           new EqType(
-            eqApplyConfig(config)(
+            eqApplyConfig(config?.conf)(
               {
                 equals: (y, x) => eq.equals(iso.reverseGet(y), iso.reverseGet(x))
               },
@@ -48,12 +48,12 @@ export const eqNewtypeInterpreter = memo(
             )
           )
       ),
-    newtypePrism: (prism, getEq, name, config) => env =>
+    newtypePrism: (prism, getEq, config) => env =>
       pipe(
         getEq(env).eq,
         eq =>
           new EqType(
-            eqApplyConfig(config)(
+            eqApplyConfig(config?.conf)(
               {
                 equals: (y, x) => eq.equals(prism.reverseGet(y), prism.reverseGet(x))
               },

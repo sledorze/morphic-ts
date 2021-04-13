@@ -87,35 +87,39 @@ const showUndefinedOf = <A>(s: Show<A>): Show<A | undefined> => ({
 export const showPrimitiveInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraPrimitive<ShowURI, Env> => ({
     _F: ShowURI,
-    date: config => env => new ShowType(showApplyConfig(config)({ show: (date: Date) => date.toISOString() }, env, {})),
-    boolean: config => env => new ShowType(showApplyConfig(config)(showBoolean, env, {})),
-    string: config => env => new ShowType(showApplyConfig(config)(showString, env, {})),
-    number: config => env => new ShowType(showApplyConfig(config)(showNumber, env, {})),
-    bigint: config => env => new ShowType(showApplyConfig(config)({ show: a => JSON.stringify(a) }, env, {})),
-    stringLiteral: (_, config) => env => new ShowType(showApplyConfig(config)(showString, env, {})),
-    numberLiteral: (_, config) => env => new ShowType(showApplyConfig(config)(showNumber, env, {})),
-    oneOfLiterals: (_, config) => env => new ShowType(showApplyConfig(config)(showStringOrNumber, env, {})),
-    tag: (_, config) => env => new ShowType(showApplyConfig(config)(showString, env, {})),
-    keysOf: (_keys, config) => env => new ShowType(showApplyConfig(config)(showString as Show<any>, env, {})),
+    date: config => env =>
+      new ShowType(showApplyConfig(config?.conf)({ show: (date: Date) => date.toISOString() }, env, {})),
+    boolean: config => env => new ShowType(showApplyConfig(config?.conf)(showBoolean, env, {})),
+    string: config => env => new ShowType(showApplyConfig(config?.conf)(showString, env, {})),
+    number: config => env => new ShowType(showApplyConfig(config?.conf)(showNumber, env, {})),
+    bigint: config => env => new ShowType(showApplyConfig(config?.conf)({ show: a => JSON.stringify(a) }, env, {})),
+    stringLiteral: (_, config) => env => new ShowType(showApplyConfig(config?.conf)(showString, env, {})),
+    numberLiteral: (_, config) => env => new ShowType(showApplyConfig(config?.conf)(showNumber, env, {})),
+    oneOfLiterals: (_, config) => env => new ShowType(showApplyConfig(config?.conf)(showStringOrNumber, env, {})),
+    tag: (_, config) => env => new ShowType(showApplyConfig(config?.conf)(showString, env, {})),
+    keysOf: (_keys, config) => env => new ShowType(showApplyConfig(config?.conf)(showString as Show<any>, env, {})),
     nullable: (getShow, config) => env =>
-      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config)(OgetShow(show), env, { show }))),
+      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config?.conf)(OgetShow(show), env, { show }))),
     optional: (getShow, config) => env =>
-      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config)(showUndefinedOf(show), env, { show }))),
+      pipe(
+        getShow(env).show,
+        show => new ShowType(showApplyConfig(config?.conf)(showUndefinedOf(show), env, { show }))
+      ),
     mutable: (getShow, config) => env =>
-      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config)(show, env, { show }))),
+      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config?.conf)(show, env, { show }))),
     array: (getShow, config) => env =>
-      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config)(AgetShow(show), env, { show }))),
+      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config?.conf)(AgetShow(show), env, { show }))),
     nonEmptyArray: (getShow, config) => env =>
-      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config)(NEAgetShow(show), env, { show }))),
-    uuid: config => env => new ShowType(showApplyConfig(config)(showString, env, {})),
+      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config?.conf)(NEAgetShow(show), env, { show }))),
+    uuid: config => env => new ShowType(showApplyConfig(config?.conf)(showString, env, {})),
     either: (e, a, config) => env =>
-      ((left, right) => new ShowType(showApplyConfig(config)(EgetShow(left, right), env, { left, right })))(
+      ((left, right) => new ShowType(showApplyConfig(config?.conf)(EgetShow(left, right), env, { left, right })))(
         e(env).show,
         a(env).show
       ),
     option: (getShow, config) => env =>
-      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config)(OgetShow(show), env, { show }))),
+      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config?.conf)(OgetShow(show), env, { show }))),
     unknownE: (getShow, config) => env =>
-      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config)(show, env, { show })))
+      pipe(getShow(env).show, show => new ShowType(showApplyConfig(config?.conf)(show, env, { show })))
   })
 )

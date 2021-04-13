@@ -39,7 +39,7 @@ describe('a json schema generator', function (this: any) {
         {
           toto: F.number()
         },
-        'Toto'
+        { name: 'Toto' }
       )
     )
 
@@ -63,7 +63,7 @@ describe('a json schema generator', function (this: any) {
         {
           toto: F.number()
         },
-        'Toto'
+        { name: 'Toto' }
       )
     )
 
@@ -82,7 +82,10 @@ describe('a json schema generator', function (this: any) {
 
   it('generate an interface from an intersection', () => {
     const Morph = summon(F =>
-      F.intersection(F.partial({ toto: F.number() }, 'Toto'), F.interface({ tata: F.number() }, 'Tata'))('TotoAndTata')
+      F.intersection(
+        F.partial({ toto: F.number() }, { name: 'Toto' }),
+        F.interface({ tata: F.number() }, { name: 'Tata' })
+      )({ name: 'TotoAndTata' })
     )
 
     const schema = Morph.jsonSchema
@@ -113,7 +116,7 @@ describe('a json schema generator', function (this: any) {
   })
 
   it('generate an interface from both', () => {
-    const Morph = summon(F => F.both({ tata: F.number() }, { toto: F.number() }, 'TotoAndTata'))
+    const Morph = summon(F => F.both({ tata: F.number() }, { toto: F.number() }, { name: 'TotoAndTata' }))
 
     const schema = Morph.jsonSchema
 
@@ -130,7 +133,9 @@ describe('a json schema generator', function (this: any) {
   })
 
   it('generate from a complex type', () => {
-    const Morph = summon(F => F.interface({ arr: F.array(F.interface({ x: F.string() }, 'X')) }, 'Arrs'))
+    const Morph = summon(F =>
+      F.interface({ arr: F.array(F.interface({ x: F.string() }, { name: 'X' })) }, { name: 'Arrs' })
+    )
     const schema = Morph.jsonSchema
 
     const X: JSONSchema = {
@@ -153,7 +158,10 @@ describe('a json schema generator', function (this: any) {
 
   it('encodes an intersection', () => {
     const Morph = summon(F =>
-      F.intersection(F.interface({ a: F.string() }, 'A'), F.interface({ b: F.number() }, 'B'))('AB')
+      F.intersection(
+        F.interface({ a: F.string() }, { name: 'A' }),
+        F.interface({ b: F.number() }, { name: 'B' })
+      )({ name: 'AB' })
     )
 
     const schema = Morph.jsonSchema
@@ -178,7 +186,7 @@ describe('a json schema generator', function (this: any) {
   })
 
   it('works with OptionFromNullable!', () => {
-    const Morph = summon(F => F.interface({ a: F.nullable(F.string()), b: F.string() }, 'AB'))
+    const Morph = summon(F => F.interface({ a: F.nullable(F.string()), b: F.string() }, { name: 'AB' }))
 
     const schema = Morph.jsonSchema
 
@@ -192,7 +200,7 @@ describe('a json schema generator', function (this: any) {
   })
 
   it('does not work with OptionFromNullable in Array!', () => {
-    const Morph = summon(F => F.interface({ as: F.array(F.nullable(F.string())) }, 'AS'))
+    const Morph = summon(F => F.interface({ as: F.array(F.nullable(F.string())) }, { name: 'AS' }))
 
     const schema = () => Morph.jsonSchema
 
@@ -203,7 +211,7 @@ describe('a json schema generator', function (this: any) {
   })
 
   it('works for LiteralType', () => {
-    const Morph = summon(F => F.interface({ type: F.stringLiteral('toto') }, 'Toto'))
+    const Morph = summon(F => F.interface({ type: F.stringLiteral('toto') }, { name: 'Toto' }))
 
     const schema = Morph.jsonSchema
 
@@ -225,7 +233,7 @@ describe('a json schema generator', function (this: any) {
             tutu: null
           })
         },
-        'Toto'
+        { name: 'Toto' }
       )
     )
 
@@ -257,7 +265,7 @@ describe('a json schema generator', function (this: any) {
             // 'TotoTypes'
           )
         },
-        'Toto'
+        { name: 'Toto' }
       )
     )
 
@@ -285,12 +293,12 @@ describe('a json schema generator', function (this: any) {
             F.taggedUnion(
               'type',
               {
-                node: F.interface({ type: F.stringLiteral('node'), a: GTree, b: GTree }, 'Node'),
-                leaf: F.interface({ type: F.stringLiteral('leaf'), v: LeafValue(F) }, 'Leaf')
+                node: F.interface({ type: F.stringLiteral('node'), a: GTree, b: GTree }, { name: 'Node' }),
+                leaf: F.interface({ type: F.stringLiteral('leaf'), v: LeafValue(F) }, { name: 'Leaf' })
               },
-              'Tree'
+              { name: 'Tree' }
             ),
-          'TreeRec'
+          { name: 'TreeRec' }
         )
       )
 

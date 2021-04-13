@@ -12,12 +12,12 @@ import { FastCheckType, FastCheckURI } from '../hkt'
 export const fastCheckRecursiveInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraRecursive<FastCheckURI, Env> => ({
     _F: FastCheckURI,
-    recursive: (f, _name, config) => {
+    recursive: (f, config) => {
       type FA = ReturnType<typeof f>
       const get = memo(() => f(res))
       const res: FA = env =>
         new FastCheckType(
-          fastCheckApplyConfig(config)(
+          fastCheckApplyConfig(config?.conf)(
             constant(null).chain(_ => get()(env).arb),
             env,
             {}

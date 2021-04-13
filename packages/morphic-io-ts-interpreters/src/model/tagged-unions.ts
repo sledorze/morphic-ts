@@ -14,9 +14,13 @@ const coerce = <T>(arr: T[]): [T, T, ...T[]] => arr as any
 export const ioTsTaggedUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraTaggedUnions<IoTsURI, Env> => ({
     _F: IoTsURI,
-    taggedUnion: (_tag, dic, name, config) => env =>
+    taggedUnion: (_tag, dic, config) => env =>
       new IOTSType(
-        iotsApplyConfig(config)(t.union(coerce(collect(dic, (_, getType) => getType(env).type)), name) as any, env, {})
+        iotsApplyConfig(config?.conf)(
+          t.union(coerce(collect(dic, (_, getType) => getType(env).type)), config?.name) as any,
+          env,
+          {}
+        )
       )
   })
 )

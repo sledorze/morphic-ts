@@ -1,4 +1,4 @@
-import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
+import type { AnyEnv, ConfigsForType, Named } from '@morphic-ts/common/lib/config'
 import type { Kind, URIS } from '@morphic-ts/common/lib/HKT'
 
 /**
@@ -40,8 +40,7 @@ export interface ModelAlgebraTaggedUnions<F extends URIS, Env> {
     <Tag extends string, Types extends TaggedTypes<F, any, Env>>(
       tag: Tag,
       types: Types,
-      name: string,
-      config?: ConfigsForType<Env, PropsE<Types>, PropsA<Types>, TaggedUnionConfig<Types>>
+      config?: Named<ConfigsForType<Env, PropsE<Types>, PropsA<Types>, TaggedUnionConfig<Types>>>
     ): Kind<F, Env, PropsE<Types>, PropsA<Types>>
   }
 }

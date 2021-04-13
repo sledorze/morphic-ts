@@ -49,19 +49,19 @@ const showOrUndefined = <A>(s: Show<A>): Show<A | undefined> => ({
 export const showObjectInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraObject<ShowURI, Env> => ({
     _F: ShowURI,
-    interface: (props, _name, config) => env => {
+    interface: (props, config) => env => {
       const shows = projectFieldWithEnv(props as any, env)('show')
-      return new ShowType(showApplyConfig(config)(getStructShow(shows), env, { shows } as any))
+      return new ShowType(showApplyConfig(config?.conf)(getStructShow(shows), env, { shows } as any))
     },
-    partial: (props, _name, config) => env => {
+    partial: (props, config) => env => {
       const shows = mapRecord(projectFieldWithEnv(props as any, env)('show'), showOrUndefined)
-      return new ShowType(showApplyConfig(config)(asPartialShow(getStructShow(shows)), env, { shows } as any))
+      return new ShowType(showApplyConfig(config?.conf)(asPartialShow(getStructShow(shows)), env, { shows } as any))
     },
-    both: (props, pprops, _name, config) => env => {
+    both: (props, pprops, config) => env => {
       const shows = projectFieldWithEnv(props, env)('show')
       const showsPartial = mapRecord(projectFieldWithEnv(pprops, env)('show'), showOrUndefined)
       return new ShowType(
-        showApplyConfig(config)(
+        showApplyConfig(config?.conf)(
           getStructShow({
             ...shows,
             ...showsPartial

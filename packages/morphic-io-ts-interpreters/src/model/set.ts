@@ -26,6 +26,9 @@ export const ioTsSetInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraSet<IoTsURI, Env> => ({
     _F: IoTsURI,
     set: (a, ord, config) => env =>
-      pipe(a(env).type, type => new IOTSType(iotsApplyConfig(config)(readonlySetFromArray(type, ord), env, { type })))
+      pipe(
+        a(env).type,
+        type => new IOTSType(iotsApplyConfig(config?.conf)(readonlySetFromArray(type, ord), env, { type }))
+      )
   })
 )

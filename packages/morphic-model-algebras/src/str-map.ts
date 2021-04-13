@@ -1,4 +1,4 @@
-import type { AnyEnv, ConfigsForType } from '@morphic-ts/common/lib/config'
+import type { AnyEnv, ConfigsForType, Named } from '@morphic-ts/common/lib/config'
 import type { Kind, URIS } from '@morphic-ts/common/lib/HKT'
 
 /**
@@ -33,11 +33,11 @@ export interface ModelAlgebraStrMap<F extends URIS, Env extends AnyEnv> {
   _F: F
   strMap: <L, A>(
     codomain: Kind<F, Env, L, A>,
-    config?: ConfigsForType<Env, Readonly<Record<string, L>>, Readonly<Record<string, A>>, StrMapConfig<L, A>>
+    config?: Named<ConfigsForType<Env, Readonly<Record<string, L>>, Readonly<Record<string, A>>, StrMapConfig<L, A>>>
   ) => Kind<F, Env, Readonly<Record<string, L>>, Readonly<Record<string, A>>>
   record: <LA extends string, LB, A extends string, B>(
     domain: Kind<F, Env, LA, A>,
     codomain: Kind<F, Env, LB, B>,
-    config?: ConfigsForType<Env, Readonly<Record<LA, LB>>, Readonly<Record<A, B>>, RecordConfig<LA, A, LB, B>>
+    config?: Named<ConfigsForType<Env, Readonly<Record<LA, LB>>, Readonly<Record<A, B>>, RecordConfig<LA, A, LB, B>>>
   ) => Kind<F, Env, Readonly<Record<LA, LB>>, Readonly<Record<A, B>>>
 }

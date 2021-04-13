@@ -15,7 +15,7 @@ import { arrayTraverseStateEither } from '../utils'
 export const jsonSchemaUnionInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnions<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    union: <A>(types: Array<(env: Env) => JsonSchema<A>>) => (_guards, _name) => (env: Env) =>
+    union: <A>(...types: Array<(env: Env) => JsonSchema<A>>) => _guards => (env: Env) =>
       new JsonSchema<A>(
         pipe(
           arrayTraverseStateEither(types, j => j(env).schema),

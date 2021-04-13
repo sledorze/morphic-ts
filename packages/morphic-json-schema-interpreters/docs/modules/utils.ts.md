@@ -9,7 +9,9 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [arrayTraverseStateEither (constant)](#arraytraversestateeither-constant)
+- [addNotOptionalNamedSchemaAndRef (function)](#addnotoptionalnamedschemaandref-function)
 - [addSchema (function)](#addschema-function)
+- [getName (function)](#getname-function)
 - [getSchema (function)](#getschema-function)
 - [getSchemaStrict (function)](#getschemastrict-function)
 - [registerSchema (function)](#registerschema-function)
@@ -30,12 +32,37 @@ export const arrayTraverseStateEither: <A, R, E, B>(ta: readonly A[], f: (a: A) 
 
 Added in v0.0.1
 
+# addNotOptionalNamedSchemaAndRef (function)
+
+**Signature**
+
+```ts
+export const addNotOptionalNamedSchemaAndRef = (name: string, schema: JSONSchema) =>
+  pipe(
+    addSchema(name)(schema),
+    SEmap(_ => ...
+```
+
+Added in v0.0.1
+
 # addSchema (function)
 
 **Signature**
 
 ```ts
 export const addSchema = (name: string) => (schema: JSONSchema): JsonSchemaResult<void> => ...
+```
+
+Added in v0.0.1
+
+# getName (function)
+
+**Signature**
+
+```ts
+export const getName = <T>(
+  config: Named<T> | undefined
+): StateEither<NamedSchemas, NonEmptyArray<JsonSchemaError>, string> => ...
 ```
 
 Added in v0.0.1

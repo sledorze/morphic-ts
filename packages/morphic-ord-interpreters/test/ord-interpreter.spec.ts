@@ -1,3 +1,4 @@
+import { modelFastCheckInterpreter } from '@morphic-ts/fastcheck-interpreters/lib/interpreters'
 import * as chai from 'chai'
 import fc from 'fast-check'
 import type { Either } from 'fp-ts/Either'
@@ -6,7 +7,6 @@ import { none, some } from 'fp-ts/Option'
 import { gt, lt, ord, ordNumber } from 'fp-ts/Ord'
 import * as ordering from 'fp-ts/Ordering'
 
-import { modelFastCheckInterpreter } from '../../morphic-fastcheck-interpreters'
 import { summonFor } from './summoner'
 
 const { summon } = summonFor<{}>({})
@@ -107,10 +107,10 @@ describe('Ord', () => {
     const B = summon(F => F.number())
 
     const AorB = summon(F =>
-      F.union([A(F), B(F)])(
-        [_ => (typeof _ === 'string' ? right(_) : left(_)), _ => (typeof _ === 'number' ? right(_) : left(_))],
-        'a'
-      )
+      F.union(
+        A(F),
+        B(F)
+      )([_ => (typeof _ === 'string' ? right(_) : left(_)), _ => (typeof _ === 'number' ? right(_) : left(_))])
     )
     chai.assert.deepStrictEqual(AorB.ord.compare('a', 'a'), 0)
     chai.assert.deepStrictEqual(AorB.ord.compare('a', 'b'), -1)

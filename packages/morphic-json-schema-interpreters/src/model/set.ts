@@ -27,12 +27,12 @@ declare module '@morphic-ts/model-algebras/lib/set' {
 export const jsonSchemaSetInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraSet<JsonSchemaURI, Env> => ({
     _F: JsonSchemaURI,
-    set: (getSchema, _name, config) => env =>
+    set: (getSchema, _ord, config) => env =>
       pipe(
         getSchema(env).schema,
         schema =>
           new JsonSchema(
-            jsonSchemaApplyConfig(config)(pipe(schema, SEchainEitherK(SetFromArrayTypeCtor)), env, { schema })
+            jsonSchemaApplyConfig(config?.conf)(pipe(schema, SEchainEitherK(SetFromArrayTypeCtor)), env, { schema })
           )
       )
   })

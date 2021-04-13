@@ -26,14 +26,12 @@ export interface ModelAlgebraRefined<F extends URIS, Env extends AnyEnv> {
   refined<E, A, B extends A>(
     a: Kind<F, Env, E, A>,
     refinement: Refinement<A, B>,
-    name: string,
-    config?: ConfigsForType<Env, E, B, RefinedConfig<E, A, B>>
+    config?: Named<ConfigsForType<Env, E, B, RefinedConfig<E, A, B>>>
   ): Kind<F, Env, E, B>
   constrained<E, A>(
     a: Kind<F, Env, E, A>,
     predicate: Predicate<A>,
-    name: string,
-    config?: ConfigsForType<Env, E, A, PredicateConfig<E, A>>
+    config?: Named<ConfigsForType<Env, E, A, PredicateConfig<E, A>>>
   ): Kind<F, Env, E, A>
 }
 ```

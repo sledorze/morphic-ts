@@ -26,6 +26,6 @@ export const fastCheckUnknownInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnknown<FastCheckURI, Env> => ({
     _F: FastCheckURI,
     unknown: configs => env =>
-      pipe(anything(), arb => new FastCheckType(fastCheckApplyConfig(configs)(arb, env, { arb })))
+      pipe(anything(), arb => new FastCheckType(fastCheckApplyConfig(configs?.conf)(arb, env, { arb })))
   })
 )

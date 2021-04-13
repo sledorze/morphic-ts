@@ -24,6 +24,6 @@ declare module '@morphic-ts/model-algebras/lib/unknown' {
 export const ioTsUnknownInterpreter = memo(
   <Env extends AnyEnv>(): ModelAlgebraUnknown<IoTsURI, Env> => ({
     _F: IoTsURI,
-    unknown: config => env => pipe(t.unknown, type => new IOTSType(iotsApplyConfig(config)(type, env, { type })))
+    unknown: config => env => pipe(t.unknown, type => new IOTSType(iotsApplyConfig(config?.conf)(type, env, { type })))
   })
 )

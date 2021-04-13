@@ -66,3 +66,11 @@ export const getApplyConfig: <Uri extends URIS_>(
   config?: { [k in Uri]?: GenConfig<ConfigType<E, A>[Uri], R, K> }
 ) => GenConfig<ConfigType<E, A>[Uri], R, K> = uri => config => (a, r, k) =>
   ((config && config[uri] ? config[uri] : <A>(a: A) => a) as any)(a, r[uri], k)
+
+/**
+ *  @since 0.0.1
+ */
+export type Named<A> = {
+  name?: string
+  conf?: A
+}
