@@ -137,6 +137,8 @@ Beware that using this with `taggedUnion` (or `tagged` construct) is very ineffi
 You may use this pattern
 
 ```typescript
+import type { AType, EType } from '@morphic-ts/summoners'
+
 const Car_ = summon(F =>
   F.interface(
     {
