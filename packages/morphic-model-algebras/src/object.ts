@@ -173,30 +173,8 @@ export interface ModelAlgebraObject<F extends URIS, Env extends AnyEnv> {
     >
   >
   both: <Props extends AnyProps<Props, Env>, PartialProps extends AnyProps<PartialProps, Env>>(
-    props: PropsKind<
-      F,
-      {
-        [k in keyof Props]: Props[k]['_E']
-      },
-      {
-        [k in keyof Props]: Props[k]['_A']
-      },
-      Env
-    >,
-    partial: PropsKind<
-      F,
-      Partial<
-        {
-          [k in keyof PartialProps]: PartialProps[k]['_E']
-        }
-      >,
-      Partial<
-        {
-          [k in keyof PartialProps]: PartialProps[k]['_A']
-        }
-      >,
-      Env
-    >,
+    props: Props,
+    partial: PartialProps,
     name: string,
     config?: ConfigsForType<
       Env,

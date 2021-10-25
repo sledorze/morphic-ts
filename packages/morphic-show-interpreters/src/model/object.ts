@@ -58,8 +58,8 @@ export const showObjectInterpreter = memo(
       return new ShowType(showApplyConfig(config)(asPartialShow(getStructShow(shows)), env, { shows } as any))
     },
     both: (props, pprops, _name, config) => env => {
-      const shows = projectFieldWithEnv(props, env)('show')
-      const showsPartial = mapRecord(projectFieldWithEnv(pprops, env)('show'), showOrUndefined)
+      const shows = projectFieldWithEnv(props as any, env)('show')
+      const showsPartial = mapRecord(projectFieldWithEnv(pprops as any, env)('show'), showOrUndefined)
       return new ShowType(
         showApplyConfig(config)(
           getStructShow({

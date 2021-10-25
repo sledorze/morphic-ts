@@ -60,8 +60,8 @@ export const fastCheckObjectInterpreter = memo(
       return new FastCheckType(fastCheckApplyConfig(config)(record(arbs) as any, env, { arbs } as any))
     },
     both: (props, partial, _name, config) => env => {
-      const arbs = projectFieldWithEnv(props, env)('arb')
-      const partialArbs = projectFieldWithEnv(partial, env)('arb')
+      const arbs = projectFieldWithEnv(props as any, env)('arb')
+      const partialArbs = projectFieldWithEnv(partial as any, env)('arb')
       return new FastCheckType(
         fastCheckApplyConfig(config)(
           record(arbs as any).chain(p =>

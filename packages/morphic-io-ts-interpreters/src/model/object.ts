@@ -52,8 +52,8 @@ export const ioTsNonStrictObjectInterpreter = memo(
       return new IOTSType(iotsApplyConfig(config)(t.partial(types, name) as any, env, { types } as any))
     },
     both: (props, partial, name, config) => (env: Env) => {
-      const types = projectFieldWithEnv(props, env)('type')
-      const partialTypes = projectFieldWithEnv(partial, env)('type')
+      const types = projectFieldWithEnv(props as any, env)('type')
+      const partialTypes = projectFieldWithEnv(partial as any, env)('type')
       return new IOTSType(
         iotsApplyConfig(config)(t.intersection([t.interface(types), t.partial(partialTypes)], name) as any, env, {
           types,
@@ -79,8 +79,8 @@ export const ioTsStrictObjectInterpreter = memo(
       return new IOTSType(iotsApplyConfig(config)(t.exact(t.partial(types, name)) as any, env, { types } as any))
     },
     both: (props, partial, name, config?) => (env: Env) => {
-      const types = projectFieldWithEnv(props, env)('type')
-      const typesPartial = projectFieldWithEnv(partial, env)('type')
+      const types = projectFieldWithEnv(props as any, env)('type')
+      const typesPartial = projectFieldWithEnv(partial as any, env)('type')
       return new IOTSType(
         iotsApplyConfig(config)(
           t.exact(t.intersection([t.interface(types), t.partial(typesPartial)], name)) as any,

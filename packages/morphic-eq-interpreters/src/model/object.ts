@@ -62,8 +62,8 @@ export const eqObjectInterpreter = memo(
       return new EqType(eqApplyConfig(config)(asPartialEq(getStructEq(equals)), env, { equals } as any))
     },
     both: (props, pprops, _name, config) => env => {
-      const equalsPartial = mapRecord(projectFieldWithEnv(pprops, env)('eq'), eqOrUndefined)
-      const equals = projectFieldWithEnv(props, env)('eq')
+      const equalsPartial = mapRecord(projectFieldWithEnv(pprops as any, env)('eq'), eqOrUndefined)
+      const equals = projectFieldWithEnv(props as any, env)('eq')
       return new EqType(
         eqApplyConfig(config)(
           getStructEq({
