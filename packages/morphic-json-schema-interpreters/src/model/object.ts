@@ -56,7 +56,7 @@ export const jsonSchemaObjectInterpreter = memo(
       ),
     both: (props, partial, name, config) => env => {
       const nonPartialprops = pipe(
-        arrayTraverseStateEither(toArray(props), ([k, v]) =>
+        arrayTraverseStateEither(toArray(props), ([k, v]: any) =>
           pipe(
             v(env).schema,
             SEmap(schema => tuple(k, schema))
@@ -64,10 +64,10 @@ export const jsonSchemaObjectInterpreter = memo(
         )
       )
       const partialProps = pipe(
-        arrayTraverseStateEither(toArray(partial), ([k, v]) =>
+        arrayTraverseStateEither(toArray(partial), ([k, v]: any) =>
           pipe(
             v(env).schema,
-            SEmap(schema => tuple(k, makeOptional(true)(schema.json)))
+            SEmap((schema: any) => tuple(k, makeOptional(true)(schema.json)))
           )
         )
       )
@@ -75,12 +75,12 @@ export const jsonSchemaObjectInterpreter = memo(
       return new JsonSchema(
         jsonSchemaApplyConfig(config)(
           pipe(
-            nonPartialprops,
+            nonPartialprops as any,
             SEchain(nonPartialprops =>
               pipe(
-                partialProps,
+                partialProps as any,
                 SEchain(partialProps =>
-                  resolveRefJsonSchema(ObjectTypeCtor([...partialProps, ...nonPartialprops]).json)
+                  resolveRefJsonSchema(ObjectTypeCtor([...(partialProps as any), ...(nonPartialprops as any)]).json)
                 )
               )
             ),
